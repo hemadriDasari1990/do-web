@@ -30,7 +30,6 @@ import MuiTab from './MuiTab'
 import MuiTableCell from './MuiTableCell'
 import MuiTableHead from './MuiTableHead'
 import MuiTabs from './MuiTabs'
-import MuiTextField from './MuiTextField'
 import MuiTooltip from './MuiTooltip'
 import MuiTypography from './MuiTypography'
 
@@ -64,7 +63,6 @@ export default {
   MuiTabs,
   MuiButtonBase,
   MuiSvgIcon,
-  MuiTextField,
   MuiListItemSecondaryAction,
   MuiMenu,
   MuiDialog,

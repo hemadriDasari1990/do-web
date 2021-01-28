@@ -1,9 +1,12 @@
 export default {
   badge: {
     color: '#ffffff',
-    backgroundColor: '#0072ff',
+    background: "linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+    backgroundColor: "unset !important",
     fontFamily: 'inherit',
-    // boxShadow:
-    //   '0 14px 28px rgba(145, 148, 170, 0.25), 0 10px 10px rgba(79, 99, 158, 0.22)',
+    border: "2px solid #fff",
+    height: 30,
+    width: 30,
+    borderRadius: "50%"
   },
 }

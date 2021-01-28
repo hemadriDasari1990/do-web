@@ -1,3 +1,5 @@
+import { DEVELOPERS, FEEDBACK } from "../../routes/config";
+
 import Avatar from '@material-ui/core/Avatar';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import Box from '@material-ui/core/Box';
@@ -14,11 +16,14 @@ import TwitterIcon from '@material-ui/icons/Twitter'
 import { Typography } from '@material-ui/core';
 import YouTubeIcon from '@material-ui/icons/YouTube'
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
   root: {
     padding: "80px 0",
-    marginTop: 60
+    marginTop: 60,
+    height: "fit-content",
+    backgroundColor: "#f3f3f3"
   },
   avatarStyle: {
     fontFamily: "'Lusitana', serif;",
@@ -31,7 +36,11 @@ const useStyles = makeStyles({
     listStyle: {
         margin: "0px !important",
         padding: "0px !important",
-        marginTop: "6px !important"
+        marginTop: "6px !important",
+        cursor: "pointer",
+        "&:hover": {
+            backgroundColor: "unset"
+        }
     },
     listIconStyle: {
         paddingLeft: 0,
@@ -43,6 +52,15 @@ const useStyles = makeStyles({
 export default function Footer() {
   const { avatarStyle, root, listStyle, listIconStyle } = useStyles();
   const [value, setValue] = React.useState(0);
+  const history = useHistory();
+  
+  const handleDevelopers = () => {
+    history.push(DEVELOPERS);
+  }
+
+  const handleFeedback = () => {
+    history.push(FEEDBACK);
+  }
 
   return (
     <BottomNavigation
@@ -56,20 +74,23 @@ export default function Footer() {
         <Container>
             <Grid container spacing={2}>
                 <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                        <Box mb={2}>
-                            <Avatar variant="rounded" className={avatarStyle} color="primary">do</Avatar>
-                        </Box>
-                        <Box>
-                            <Typography component="h3" variant="h3">We've helped teams improve in more than <strong>150,000</strong> retrospectives</Typography>
-                        </Box>
+                    <Box mb={2}>
+                        <Avatar variant="rounded" className={avatarStyle} color="primary">do</Avatar>
+                    </Box>
+                    <Box>
+                        <Typography component="h3" variant="h3">We've helped teams improve in more than <strong>150,000</strong> retrospectives</Typography>
+                    </Box>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
                     <Box mt={2} mb={1.5}>
                         <Typography component="h5" variant="h5" color="inherit">Menu</Typography>
                     </Box>
                     <List>
-                        <ListItem className={listStyle}>
+                        <ListItem className={listStyle} onClick={() => handleDevelopers()}>
                             <ListItemText primary={<Typography component="h6" variant="h6" color="inherit">About</Typography>}/>
+                        </ListItem>
+                        <ListItem className={listStyle} onClick={() => handleFeedback()}>
+                            <ListItemText primary={<Typography component="h6" variant="h6" color="inherit">Feedback</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle}>
                             <ListItemText primary={<Typography component="h6" variant="h6" color="inherit">Features</Typography>}/>

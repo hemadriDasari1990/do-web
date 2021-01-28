@@ -1,19 +1,20 @@
 import * as routePath from "./config";
 
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import React from "react";
 
 const Home = React.lazy(() => import("../components/Home"));
-const Create = React.lazy(() => import("../components/Create"));
-// const Footer = React.lazy(() => import("../components/Footer"));
+const PersistentDrawerRight = React.lazy(() => import("../components/Drawer/DrawerRight"));
 const Dashboard = React.lazy(() => import("../components/Dashboard"));
+const Developers = React.lazy(() => import("../components/Footer/Developers"));
+const Feedback = React.lazy(() => import("../components/Feedback"));
 
 const routes = () => {
     return [
         {
             path: routePath.CREATE,
-            component: Create
+            component: PersistentDrawerRight
         },
         {
             path: routePath.ROOT,
@@ -22,28 +23,33 @@ const routes = () => {
         {
             path: routePath.DASHBOARD,
             component: Dashboard
+        },
+        {
+            path: routePath.DEVELOPERS,
+            component: Developers
+        },
+        {
+            path: routePath.FEEDBACK,
+            component: Feedback
         }
     ]
 }
 
 const Routes = () => {
-   
     const renderRoutes = () => {
         return (
             <Switch>
                 {routes().map((route: {[Key: string]: any}, index: number) => (
-                    <Route key={"Key-"+index} component={route.component} path={route.path} />
+                    <Route exact key={"Key-"+index} component={route.component} path={route.path} />
                 ))}
                 <Redirect from="*" to={routePath.ROOT} />
             </Switch>
-          )
-        }
+        )
+    }
         
     return (
         <React.Fragment>
-            <BrowserRouter>
-                {renderRoutes()}
-            </BrowserRouter>
+            {renderRoutes()}
         </React.Fragment>
     )
 }
