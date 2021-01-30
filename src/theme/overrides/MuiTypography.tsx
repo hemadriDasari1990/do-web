@@ -54,7 +54,7 @@ export default {
   },
   body1: {
     fontFamily: 'inherit',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 500,
     letterSpacing: '-0.05px',
   },
@@ -81,11 +81,11 @@ export default {
   },
   overline: {
     fontFamily: 'inherit',
-    borderRadius: 6,
-    textAlign: 'center',
-    marginLeft: 5,
-    display: 'inline-block',
-    fontSize: 15,
-    lineHeight: 2.1,
+    fontSize: ".875rem",
+    fontWeight: 400,
+    letterSpacing: '-0.04px',
+    whiteSpace: 'initial',
+    textTransform: "capitalize",
+    lineHeight: 1.5
   },
 }

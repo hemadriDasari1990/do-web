@@ -3,9 +3,9 @@ import { createFeedback, getFeedbacks } from "../../redux/actions/feedback";
 import { useFeedback, useLoading } from "../../redux/state/feedback"
 
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import Container from '@material-ui/core/Container'
-import Fab from '@material-ui/core/Fab'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import Slide from '@material-ui/core/Slide'
@@ -16,7 +16,8 @@ import { useDispatch } from "react-redux";
 const Loader = React.lazy(() => import("../Loader/components"));
 const FeedbackList = React.lazy(() => import("./list"));
 
-function Feedback() {
+function Feedback(props: any) {
+  const { showFeedbacks } = props;
     const dispatch = useDispatch();
     /* Redux hooks */
     const { feedback } = useFeedback();
@@ -101,22 +102,24 @@ function Feedback() {
 
     return (
       <React.Fragment>
-        <Container>
+        <Container disableGutters>
           <Box mt={3}>
-            <Typography component="h1" variant="h1">Feedback</Typography>
+            <Typography variant="h1">Feedback</Typography>
           </Box>
           <Box mt={3}>
-            <Typography component="p" variant="subtitle2">
+            <Typography variant="body1">
               This page is designed for end users to help us improve the system by
               sharing their user experience. In order to submit any form user has to
               first login to the page using one of the social logins provided.{' '}
             </Typography>
-            <Typography component="p" variant="subtitle2">
-              Users feedback is valuable for Us and we're always thankfull to them :)
-            </Typography>
+            <Box mt={2}>
+              <Typography variant="body2">
+                Users feedback is valuable for Us and we're always thankfull to them :)
+              </Typography>
+            </Box>
           </Box>
           <Box mt={3}>
-            <Typography component="h4" variant="h4">Submit your feedback below</Typography>
+            <Typography variant="h4">Submit your feedback below</Typography>
           </Box>
           <Grid container spacing={2}>
             <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
@@ -139,7 +142,7 @@ function Feedback() {
                   name="description"
                   label="Your Comments"
                   multiline
-                  rowsMax="4"
+                  rowsMax={4}
                   value={description}
                   onChange={handleComment}
                   required
@@ -148,9 +151,11 @@ function Feedback() {
             </Grid>
             <Grid container spacing={2}>
               <Grid item xl={6} lg={6} md={6} sm={8} xs={12}>
-                <Box mt={3} display="flex">
-                  <Typography component="h2" variant="h2">Do you like this Letsdoretro board?</Typography>
-                  <Box ml={4} mt={-1.2}>
+                <Box mt={3} display="flex" justifyContent="space-between">
+                  <Box>
+                    <Typography variant="h4">Do you like this Letsdoretro board?</Typography>
+                  </Box>
+                  <Box mt={-1.2}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -179,26 +184,30 @@ function Feedback() {
                 </Box>
               </Grid>
             </Grid>
-          <Box my={3}>
-            <Fab
-                variant="extended"
-                color="primary"
-                size="small"
-                onClick={() => handleSubmit()}
-                className="mr-10"
-            >
-                Submit
-            </Fab>
-            <Fab
-                variant="extended"
-                color="primary"
-                size="small"
-                onClick={() => handleReset()}
-            >
-                Reset
-            </Fab>
-          </Box>
+          <Box my={3} display="flex">
+            <Box mr={5}>
+              <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={() => handleSubmit()}
+                  className="mr-10"
+              >
+                  Submit
+              </Button>
+            </Box>
             <Box>
+              <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  onClick={() => handleReset()}
+              >
+                  Reset
+              </Button>
+            </Box>
+          </Box>
+            {feedbacks?.length ? <Box>
               <Slide
                 direction="right"
                 in={true}
@@ -208,9 +217,9 @@ function Feedback() {
               >
                 <Typography component="h2" variant="h2">What people say</Typography>
               </Slide>
-            </Box>
+            </Box>: null}
           <Loader showLoader={loading} />
-          {!loading && <FeedbackList feedbacks={feedbacks} />}
+          {!loading && showFeedbacks && <FeedbackList feedbacks={feedbacks} />}
         </Container>
       </React.Fragment>
     )

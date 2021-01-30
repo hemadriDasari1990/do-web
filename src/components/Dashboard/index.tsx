@@ -1,13 +1,14 @@
+import { Container, Grid } from '@material-ui/core';
 import React, { useEffect } from "react";
+import { Theme, makeStyles } from '@material-ui/core/styles';
 
-// import Badge from '@material-ui/core/Badge'
 import Box from '@material-ui/core/Box'
+import Hidden from '@material-ui/core/Hidden'
 // import { DASHBOARD } from "../../routes/config";
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography';
 import converToSeconds from "../../util/converToSeconds";
 import { getBoardDetails } from "../../redux/actions/board";
-import { makeStyles } from '@material-ui/core/styles';
 import { useBoard } from "../../redux/state/board"
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -15,7 +16,7 @@ import { useParams } from "react-router";
 const SectionList = React.lazy(() => import("../Section/list"));
 const Timer = React.lazy(() => import("../common/Timer"));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         minHeight: "90vh"
     },
@@ -23,11 +24,13 @@ const useStyles = makeStyles(() => ({
         backgroundColor: "#dfedff",
         borderRadius: 20,
         width: "fit-content",
-        height: 30
+        marginTop: 'auto',
+        marginBottom: 'auto',
     },
     sectionHeader: {
         fontWeight: "bold",
         padding: "5px 15px 5px 15px",
+        verticalAlign: "middle"
     },
     timerStyle: {
         color: "#8c8e92",
@@ -64,23 +67,42 @@ const Dashboard = () => {
     return (
         <React.Fragment>
             <Box className={root}>
-                <Box my={5} display="flex" justifyContent="space-between">
-                    <Box display="flex">
-                        <Typography component="h1" variant="h1">{board?.title}</Typography> 
-                        {board?.sprint ? <Box ml={3} mt={1} className={titleStyle}>
-                            <Tooltip title={"Sprint " + board?.sprint}>
-                                <Typography color="primary" className={sectionHeader} variant="h5">Sprint {board?.sprint}</Typography>
-                            </Tooltip>
-                        </Box>: null}
-                    </Box>
-                    <Box display="flex" className={timerBoxStyle}>
-                        <Typography className={timerStyle} variant="h3">You have</Typography>
-                        <Timer callQueuedTime={durationSeconds} interval={1000} />
-                        <Typography className={timerStyle} variant="h3">left</Typography>
-                    </Box>
-                <Box>
-            </Box>
-        </Box>
+                <Container>
+                    <Grid container spacing={2}>
+                        <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
+                            <Box display="flex">
+                                <Hidden only={["xs"]}>
+                                    <Typography variant="h1">{board?.title}</Typography> 
+                                </Hidden>
+                                <Hidden only={["xl", "lg", "md", "sm"]}>
+                                    <Typography variant="h4">{board?.title}</Typography> 
+                                </Hidden>
+                                {board?.sprint ? <Box ml={3} className={titleStyle}>
+                                    <Tooltip title={"Sprint " + board?.sprint}>
+                                        <Typography color="primary" className={sectionHeader} variant="h5">Sprint {board?.sprint}</Typography>
+                                    </Tooltip>
+                                </Box>: null}
+                            </Box>
+                        </Grid>
+                        <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+                            <Hidden only={["xs"]}>
+                                <Box display="flex" className={timerBoxStyle}>
+                                    <Typography className={timerStyle} variant="h3">You have</Typography>
+                                    <Timer callQueuedTime={durationSeconds} interval={1000} />
+                                    <Typography className={timerStyle} variant="h3">left</Typography>
+                                </Box>
+                            </Hidden>
+                            <Hidden only={["xl", "lg", "md", "sm"]}>
+                                <Box display="flex" className={timerBoxStyle}>
+                                    <Typography className={timerStyle} variant="h3">You have</Typography>
+                                    <Timer callQueuedTime={durationSeconds} interval={1000} />
+                                    <Typography className={timerStyle} variant="h3">left</Typography>
+                                </Box>
+                            </Hidden>
+                        </Grid>
+                    </Grid>
+                    
+                </Container>
                 <Box>
                     <SectionList />
                 </Box>

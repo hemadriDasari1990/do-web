@@ -1,42 +1,49 @@
 export default {
-  contained: {
-    background: "-webkit-linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
-    // background: "-moz-linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
-    // background: "-o-linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
-    // background: "linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
-    color: '#fff !important',
-    '&:hover': {
-      backgroundColor: '#0072ff',
-      color: '#fff !important',
-    },
-  },
+  // contained: {
+  //   background: "-webkit-linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+  //   // background: "-moz-linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+  //   // background: "-o-linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+  //   // background: "linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+  //   color: '#fff !important',
+  //   '&:hover': {
+  //     backgroundColor: '#0072ff',
+  //     color: '#fff !important',
+  //   },
+  // },
   outlined: {
     // padding: '6px 9px',
-    border: '1px solid #6a6a6a',
+    border: '2px solid #0072ff',
     '&:hover': {
-      // fontWeight: 'bold',
-      // backgroundColor: '#fff !important',
+      border: "2px solid #0072ff",
     },
   },
-  containedPrimary: {
-    width: '100%',
-    height: '30px !important',
-    borderRadius: 5,
-  },
-  outlinedSecondary: {
+  outlinedPrimary: {
+    // padding: '6px 9px',
+    border: "2px solid #0072ff",
     '&:hover': {
-      // fontWeight: 'bold',
-      // backgroundColor: '#fff !important',
+      border: "2px solid #0072ff",
     },
-    border: '1px solid #fff',
-    color: '#fff !important',
   },
+  // containedPrimary: {
+  //   width: '100%',
+  //   height: '30px !important',
+  //   borderRadius: 5,
+  // },
+  // outlinedSecondary: {
+  //   '&:hover': {
+  //     // fontWeight: 'bold',
+  //     // backgroundColor: '#fff !important',
+  //   },
+  //   border: '1px solid #fff',
+  //   color: '#fff !important',
+  // },
   label: {
     fontWeight: 600,
     width: '100%',
     display: 'inherit',
     alignItems: 'inherit',
     justifyContent: 'inherit',
+    textTransform: "capitalize"
   },
   root: {
     letterSpacing: '0.02857em',
@@ -53,10 +60,10 @@ export default {
     padding: '0 24px !important',
     cursor: 'pointer',
     boxSizing: 'border-box',
-    width: 250,
-    height: '45px !important',
+    width: "fit-content",
+    height: 35,
     fontWeight: 500,
-    borderRadius: 28,
+    borderRadius: 6,
     outline: 'none',
     position: 'relative',
     zIndex: 0,

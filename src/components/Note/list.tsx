@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createOrUpdateReaction, deleteNote, getNotesBySectionId, updateNote } from '../../redux/actions';
 import { createStyles, makeStyles, withStyles } from '@material-ui/core/styles';
-import { useLoading, useNote } from "../../redux/state/note"
-import { useReaction, useReactionLoading }  from "../../redux/state/reaction"
 
 import AgreeIcon from '@material-ui/icons/ThumbUpAlt';
 import Badge from '@material-ui/core/Badge'
@@ -17,17 +15,20 @@ import LoveIcon from '@material-ui/icons/Favorite';
 import SaveIcon from '@material-ui/icons/Save';
 import TextField from '@material-ui/core/TextField'
 import { Tooltip } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography'
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from "../../util/formateNumber";
 import getPastTime from "../../util/getPastTime";
+import socket from "../../socket";
 import { useDispatch } from "react-redux";
+
+// import { useLoading, useNote } from "../../redux/state/note";
+// import { useReaction, useReactionLoading } from "../../redux/state/reaction";
+const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 
 const useStyles = makeStyles(() => ({
     cursorStyle: {
         cursor: 'pointer'
-    },
-    textFieldStyle: {
-        height: 300,
     },
     adornmentStyle: {
         marginTop: "0px !important", 
@@ -76,80 +77,71 @@ const NoteList = (props: any) => {
     const dispatch = useDispatch();
     
     /* Redux hooks */
-    const { note } = useNote();
-    const { loading } = useLoading();
-    const { reaction } = useReaction();
-    const { loading: reactionloading } = useReactionLoading();
+    // const { note } = useNote();
+    // const { loading } = useLoading();
+    // const { reaction } = useReaction();
+    // const { loading: reactionloading } = useReactionLoading();
 
     /* Local state */
     const [isSelected, setIsSelected] = useState(false);
     const [selectedNote, setSelectedNote] = useState<{[Key: string]: any}>({});
     const [description, setDescription] = useState("");
     const [notes, setNotes] = useState(noteList || []);
-    const [apiTriggered, setApiTriggered] = useState(false);
-    const [deleteAction, setDeleteAction] = useState(false);
-    const [reactionAction, setReactionAction] = useState(false);
-    const [type, setType] = useState("");
-
+    const [deleteDialog, setOpenDeleteDialog] = useState(false);
+    
     /* React Hooks */
     useEffect(() => {
         dispatch(getNotesBySectionId(sectionId));
+
+        /* Delete note */
+        socket.on("delete-note", (newNote: {[Key:string]: any}) => {
+            filterNotes(newNote?._id);
+            updateTotalNotes(sectionId, "substract");
+        });
+
+        /* Add new note */
+        socket.on("update-note", (newNote: {[Key:string]: any}) => {
+            if(sectionId === newNote?.sectionId){
+                setNotes((currentNotes: Array<{[Key:string]: any}>) => [...currentNotes, newNote]);
+                updateTotalNotes(sectionId, "add");
+                setShowNote(false);
+            }
+        });
+
+        /* Add new reaction */
+        socket.on("new-reaction", (newReaction: {[Key:string]: any}) => {
+            updateTotalReactions(newReaction);
+        });
+        
+        return () => {
+            socket.off("new-reaction");
+            socket.off("new-note");
+            socket.off("delete-note");
+            socket.disconnect();
+        };
     }, []);
     
     /* Handler functions */
-    const deleteNoteById = (noteId: string) => {
-        setDeleteAction(false);
-        dispatch(deleteNote(noteId));
-        setDeleteAction(true);
+    const deleteNoteById = (note: {[Key:string]: any}) => {
+        dispatch(deleteNote(note._id));
+        setSelectedNote(note);
+        setOpenDeleteDialog(true);
     }
 
-    useEffect(() => {
-        if(!loading && deleteAction && note?._id){
-            filterNotes(note?._id);
-            updateTotalNotes(sectionId, "substract");
-            setDeleteAction(false);
-          }
-          if(!loading && deleteAction && !note?._id){
-            setDeleteAction(false);
-          }
-    }, [deleteAction, loading, note]);
-
-    useEffect(() => {
-        if(!loading && apiTriggered && note?._id){
-            setNotes((currentNotes: Array<{[Key:string]: any}>) => [...currentNotes, note]);
-            updateTotalNotes(sectionId, "add");
-            setApiTriggered(false);
-            setShowNote(false);
-          }
-          if(!loading && apiTriggered && !note?._id){
-            setApiTriggered(false);
-          }
-    }, [apiTriggered, loading, note]);
-
-    useEffect(() => {
-        if(!reactionloading && reactionAction && reaction && reaction._id && reaction.type === type){
-            setType("");
-            updateTotalReactions();
-            setReactionAction(false);
-          }
-          if(!reactionloading && reactionAction && reaction && !reaction?._id){
-            setReactionAction(false);
-          }
-    }, [reactionloading, reactionAction, reaction]);
-
-    const updateTotalReactions = () => {
+    const updateTotalReactions = (newReaction: {[Key: string]: any}) => {
         if(!notes){
             return;
         }
         const newNotes: Array<{[Key: string]: any}> = [...notes];
         const noteIndex: number = newNotes.findIndex(
-            newNote => newNote._id === reaction.noteId,
+            newNote => newNote._id === newReaction.noteId,
         )
         const noteData: {[Key: string]: any} = newNotes[noteIndex];
         if(!noteData){
             return;
         }
-        switch(reaction?.type){
+
+        switch(newReaction?.type){
             case "agree":
                 noteData.totalAgreed = parseInt(noteData.totalAgreed) > 0 ? noteData.totalAgreed + 1: 1;
                 break;
@@ -167,13 +159,11 @@ const NoteList = (props: any) => {
     }
 
     const saveNote = () => {
-        setApiTriggered(false);
         dispatch(updateNote({
             description: description,
             sectionId,
             noteId: selectedNote?._id
         }));
-        setApiTriggered(true);
     }
 
     const handleInputFocus = (note: {[Key: string]: any}) => {
@@ -201,17 +191,33 @@ const NoteList = (props: any) => {
     }
 
     const handleReaction = (noteId: string, type: string) => {
-        setType(type);
-        setReactionAction(false);
         dispatch(createOrUpdateReaction({
             noteId,
             type
         }));
-        setReactionAction(true);
+    }
+
+    const handleDelete = () => {
+        setOpenDeleteDialog(false);
+    }
+
+    const handleClose = () => {
+        setOpenDeleteDialog(false);
+    }
+
+    const renderDeleteDialog = () => {
+        return (
+            <Box>
+                <ResponsiveDialog open={deleteDialog} title="Delete Note" pcta="Delete" scta="Cancel" handleSave={handleDelete} handleClose={handleClose}>
+                    <Typography variant="h4"> Are you sure you want to delete {selectedNote?.description}?</Typography>
+                </ResponsiveDialog>
+            </Box>
+        )
     }
 
     return (
         <React.Fragment>
+            {renderDeleteDialog()}
             <Box p={1}>
             {selectedSectionId === sectionId && showNote && <Box mb={2}>
                     <ClickAwayListener onClickAway={handleClickAway}>
@@ -316,7 +322,7 @@ const NoteList = (props: any) => {
                                                 <Box mt={0.5}>
                                                     <Tooltip title="Delete Note">
                                                         <Zoom in={true} timeout={1500}>
-                                                            <IconButton className={iconStyle} size="small" onClick={() => deleteNoteById(note._id)}>
+                                                            <IconButton className={iconStyle} size="small" onClick={() => deleteNoteById(note)}>
                                                                 <DeleteIcon fontSize="small" />
                                                             </IconButton>
                                                         </Zoom>

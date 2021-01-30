@@ -3,8 +3,8 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 import { useBoard, useLoading } from "../../../redux/state/board"
 
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 import { DASHBOARD } from "../../../routes/config";
-import Fab from '@material-ui/core/Fab'
 import TextField from '@material-ui/core/TextField'
 import { createBoard } from "../../../redux/actions/board"
 import { replaceStr } from "../../../util";
@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const Create = () => {
+const Create = (props: any) => {
+    const { handleDrawerClose } = props;
     const { textFieldStyle } = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -39,6 +40,7 @@ const Create = () => {
     /* React Hooks */
     useEffect(() => {
         if(!loading && apiTriggered && board?._id){
+            handleDrawerClose();
             history.push(replaceStr(DASHBOARD, ":boardId", board?._id));
             dispatch(showCreateBoardButton(false));
         }
@@ -156,23 +158,22 @@ const Create = () => {
                 />
             </Box>
             <Box mt={5} display="flex" justifyContent="space-between">
-                <Fab
-                    variant="extended"
+                <Button
+                    variant="contained"
                     color="primary"
                     size="small"
                     onClick={() => handleSubmit()}
-                    className="mr-10"
                 >
                     Submit
-                </Fab>
-                <Fab
-                    variant="extended"
+                </Button>
+                <Button
+                    variant="outlined"
                     color="primary"
                     size="small"
                     onClick={() => handleReset()}
                 >
                     Reset
-                </Fab>
+                </Button>
             </Box>
         </React.Fragment>
     )

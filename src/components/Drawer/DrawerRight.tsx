@@ -6,6 +6,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
+import { Typography } from '@material-ui/core';
 
 const drawerWidth = 400;
 
@@ -21,20 +22,21 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerPaper: {
       width: drawerWidth,
       padding: 20,
+      marginTop: 80,
+      borderRadius: 6,
+      marginRight: 10, 
       boxShadow: '0 3rem 6rem rgba(0, 0, 0, .1)'
     },
     drawerHeader: {
-      display: 'flex',
-      alignItems: 'center',
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
-      justifyContent: 'flex-start',
     },
   }),
 );
 
-export default function PersistentDrawerRight() {
+export default function PersistentDrawerRight(props: any) {
+  const { handleDrawerClose } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -43,8 +45,9 @@ export default function PersistentDrawerRight() {
   //   setOpen(true);
   // };
 
-  const handleDrawerClose = () => {
+  const handleButton = () => {
     setOpen(false);
+    handleDrawerClose();
   };
 
   return (
@@ -58,12 +61,17 @@ export default function PersistentDrawerRight() {
           paper: classes.drawerPaper,
         }}
       >
-        <Box className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+        <Box display="flex" justifyContent="space-between" className={classes.drawerHeader}>
+          <Box mt={1}>
+            <Typography variant="h3" color="primary">Create new retro board</Typography>
+          </Box>
+          <Box>
+            <IconButton onClick={handleButton}>
+              {theme.direction === 'rtl' ? <ChevronLeftIcon color="primary" /> : <ChevronRightIcon color="primary"/>}
+            </IconButton>
+          </Box>
         </Box>
-        <Create />
+        <Create handleDrawerClose={handleDrawerClose} />
       </Drawer>
     </React.Fragment>
   );

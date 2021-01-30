@@ -1,3 +1,5 @@
+import "./socket";
+
 import React, { Suspense } from 'react';
 
 import Box from '@material-ui/core/Box';
@@ -18,7 +20,7 @@ const App = () => {
         <CssBaseline />
           <Header />
           <Toolbar id="back-to-top-anchor" />
-          <Box m={5}>
+          <Box m={1}>
             <Routes />
           </Box>
         <ScrollTop />

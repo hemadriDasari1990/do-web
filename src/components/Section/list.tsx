@@ -19,12 +19,14 @@ import Zoom from '@material-ui/core/Zoom'
 import { deleteSection } from "../../redux/actions/section";
 import { getSectionsByBoard } from "../../redux/actions/section";
 import { makeStyles } from '@material-ui/core/styles';
-// import { replaceStr } from "../../util";
+import socket from "../../socket";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
 const NoteList = React.lazy(() => import("../Note/list"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
+const ResponsiveDialog = React.lazy(() => import("../Dialog"));
+const UpdateSection = React.lazy(() => import("./Update"));
 
 const useStyles = makeStyles(() => ({
     sectionHeader: {
@@ -56,29 +58,43 @@ const SectionList = () => {
     const [action, setAction] = useState(false);
     const [selectedSection, setSelectedSection] = useState<{[Key: string]: any}>({});
     const [sections, setSections] = useState<Array<{[Key: string]: any}>>([]);
-    // const [noOfSections, setNoOfSections] = useState("");
-    // const [apiTriggered, setApiTriggered] = useState(false);
-    // const [showError, setShowError] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [deleteDialog, setOpenDeleteDialog] = useState(false);
+    const [sectionInput, setSectionInput] = useState("");
 
     /* React Hooks */
-
     useEffect(() => {
         setAction(false);
         dispatch(getSectionsByBoard(boardId));
         setAction(true);
+
+            /* Delete section  */
+        socket.on("delete-section", (deletedSection: {[Key:string]: any}) => {
+            if(!deletedSection){
+                return;
+            }
+            if(selectedSection?._id === deletedSection?._id){
+                filterSections(deletedSection?._id)
+            }
+        });
+
+        return () => {
+            socket.off("sections-list");
+            socket.off("delete-section");
+        };
     }, []);
+    
     useEffect(() => {
         if(!loading && action && Array.isArray(section)){
             setSections(section);
-        }
-        if(!loading && action && section?._id){
-            /* This gets triggered when section is successfully deleted */
-            filterSections(section?._id)
+            setAction(false);
         }
     }, [action, section, loading]);
     
     /* Handler functions */
-    const editSection = (sectionId: string) => {
+    const editSection = (section: {[Key: string]: any}) => {
+        setSelectedSection(section);
+        setOpenDialog(true);
     }
 
     const createSection = (section: {[Key: string]: any}) => {
@@ -90,10 +106,9 @@ const SectionList = () => {
         setShowNote(false);
     }
 
-    const handleDeleteSection = (sectionId: string) => {
-        setAction(false);
-        dispatch(deleteSection(sectionId));
-        setAction(true);
+    const handleDeleteSection = (section: {[Key: string]: any}) => {
+        setSelectedSection(section);
+        setOpenDeleteDialog(true);
     }
 
     const updateTotalNotes = (sectionId: string, operation: string) => {
@@ -120,9 +135,47 @@ const SectionList = () => {
         setSections(filteredSections);
     }
 
+    const handleSave = () => {
+        // dispatch(deleteSection(sectionId));
+        console.log(sectionInput);
+        setOpenDialog(false);
+    }
+
+    const handleDelete = () => {
+        dispatch(deleteSection(section?._id));
+        setOpenDeleteDialog(false);
+    }
+
+    const handleClose = () => {
+        setOpenDialog(false);
+        setOpenDeleteDialog(false);
+        // dispatch(deleteSection(sectionId));
+    }
+
+    const renderUpdateDialog = () => {
+        return (
+            <Box>
+                <ResponsiveDialog open={openDialog} title="Update Section" pcta="Update" scta="Cancel" handleSave={handleSave} handleClose={handleClose}>
+                    <UpdateSection value={selectedSection?.title || ""} setSectionInput={setSectionInput} />
+                </ResponsiveDialog>
+            </Box>
+        )
+    }
+
+    const renderDeleteDialog = () => {
+        return (
+            <Box>
+                <ResponsiveDialog open={deleteDialog} title="Delete Section" pcta="Delete" scta="Cancel" handleSave={handleDelete} handleClose={handleClose}>
+                    <Typography variant="h4"> Are you sure you want to delete {selectedSection?.title}?</Typography>
+                </ResponsiveDialog>
+            </Box>
+        )
+    }
 
     return (
         <React.Fragment>
+            {renderDeleteDialog()}
+            {renderUpdateDialog()}
             <List>
                 <Grid container spacing={1}>
                     {Array.isArray(sections) && sections.map((item: {[Key: string]: any}) => (
@@ -131,7 +184,7 @@ const SectionList = () => {
                                 <ListItem>
                                     <ListItemText
                                         primary={<Box className={titleStyle}><Tooltip title={"Total Notes "+item.totalNotes}><Badge color="primary" badgeContent={item.totalNotes} showZero={item.totalNotes > 0 ? false: true}>
-                                        <Typography className={sectionHeader} variant="body1">{item.title}</Typography>
+                                        <Typography className={sectionHeader} variant="body2">{item.title}</Typography>
                                     </Badge></Tooltip></Box>}
                                     />
                                     <ListItemSecondaryAction>
@@ -144,14 +197,14 @@ const SectionList = () => {
                                         </Tooltip>
                                         <Tooltip title="Edit Section">
                                             <Zoom in={true} timeout={1500}>
-                                                <IconButton onClick={() => editSection(item._id)}>
+                                                <IconButton onClick={() => editSection(item)}>
                                                     <EditIcon />
                                                 </IconButton>
                                             </Zoom>
                                         </Tooltip>
                                         <Tooltip title="Delete Section">
                                             <Zoom in={true} timeout={1500}>
-                                                <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteSection(item._id)}>
+                                                <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteSection(item)}>
                                                     <DeleteIcon />
                                                 </IconButton>
                                             </Zoom>

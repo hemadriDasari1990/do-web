@@ -17,21 +17,16 @@ const useStyles = makeStyles({
     width: 100,
     float: "right"
   },
-  contentStyle: {
-    marginLeft: 20,
-    height:"fit-content"
-  },
   actions: {
-    marginLeft: 15,
   },
   boxStyle: {
     backgroundColor: "#ecf4ff",
-    borderRadius: 15,
+    borderRadius: 10,
     width: "fit-content"
   },
   titleStyle: {
-    paddingTop: 6,
-    paddingBottom: 6,
+    paddingTop: 5,
+    paddingBottom: 5,
     paddingLeft: 10,
     paddingRight: 10,
     color: "#0976fe"
@@ -49,7 +44,7 @@ function ProfileCard(props: any) {
       button,
       tagLine
     } = props;
-    const { media, contentStyle, boxStyle, titleStyle, actions } = useStyles();
+    const { media, boxStyle, titleStyle, actions } = useStyles();
 
     const handleButton = (path: string) => {
         // history.push(path)
@@ -63,22 +58,22 @@ function ProfileCard(props: any) {
                     src={path}
                     className={media}
                   />
-                  <CardContent className={contentStyle}>
-                      <Box ml={-1} className={boxStyle}>
-                      <Typography className={titleStyle} gutterBottom variant="h5" component="h5">
-                        {title}
-                      </Typography>
+                  <CardContent>
+                      <Box className={boxStyle}>
+                        <Typography className={titleStyle} gutterBottom variant="body2">
+                          {title}
+                        </Typography>
                       </Box>
-                      <Typography gutterBottom variant="h5" component="h4">
-                      {subTitle}
-                      </Typography>
+                        <Typography gutterBottom variant="h5">
+                        {subTitle}
+                        </Typography>
                       <Box>
-                        <Typography component="h6" variant="h6">
+                        <Typography variant="h6">
                           {tagLine}
                         </Typography>
                       </Box>
                       <Box mt={2}>
-                        <Typography component="h6" variant="h6">
+                        <Typography variant="h6">
                           {content}
                         </Typography>
                       </Box>

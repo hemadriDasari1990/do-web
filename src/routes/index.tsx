@@ -5,17 +5,14 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import React from "react";
 
 const Home = React.lazy(() => import("../components/Home"));
-const PersistentDrawerRight = React.lazy(() => import("../components/Drawer/DrawerRight"));
 const Dashboard = React.lazy(() => import("../components/Dashboard"));
 const Developers = React.lazy(() => import("../components/Footer/Developers"));
 const Feedback = React.lazy(() => import("../components/Feedback"));
+const Careers = React.lazy(() => import("../components/Footer/Careers"));
+const Terms = React.lazy(() => import("../components/Footer/Terms"));
 
 const routes = () => {
     return [
-        {
-            path: routePath.CREATE,
-            component: PersistentDrawerRight
-        },
         {
             path: routePath.ROOT,
             component: Home
@@ -31,6 +28,14 @@ const routes = () => {
         {
             path: routePath.FEEDBACK,
             component: Feedback
+        },
+        {
+            path: routePath.CAREERS,
+            component: Careers
+        },
+        {
+            path: routePath.TERMS,
+            component: Terms
         }
     ]
 }

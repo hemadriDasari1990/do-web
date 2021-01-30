@@ -1,7 +1,7 @@
 export default {
   root: {
     // backgroundColor: '#e4e6eb !important',
-    // color: 'unset',
+    color: '#6d90bd',
     '&:hover': {
       backgroundColor: '#bdc2d266 !important',
     },
