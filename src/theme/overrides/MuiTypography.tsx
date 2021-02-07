@@ -38,6 +38,7 @@ export default {
     fontWeight: 500,
     fontSize: 14,
     letterSpacing: '-0.05px',
+    color: "#071040"
   },
   subtitle1: {
     fontFamily: 'inherit',

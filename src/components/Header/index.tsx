@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Typography, makeStyles } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -14,7 +15,6 @@ import Slide from '@material-ui/core/Slide';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import { makeStyles } from '@material-ui/core';
 import { useShowCreateBoardButton } from '../../redux/state/common';
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
@@ -24,22 +24,21 @@ const useStyles = makeStyles(() => ({
         fontFamily: "'Lusitana', serif;",
         fontSize: 30,
         fontWeight: 900,
-        background: "linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+        backgroundColor: "unset",
+        background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
         cursor: "pointer"
     },
     appBarStyle: {
-        height: 65,
+        height: 60,
         width: "100%",
         backgroundColor: "#fff !important",
+        // background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
         boxShadow: "0 0 1px 1px rgba(29,17,51,.04), 0 0 3px 2px rgba(9,32,77,.12), 0 0 2px -3px rgba(29,17,51,.12)"
-    },
-    pdfStyle: {
-        color: "red"
     }
 }));
 
 const Header = () => {
-    const { avatarStyle, appBarStyle, pdfStyle } = useStyles();
+    const { avatarStyle, appBarStyle } = useStyles();
     const { showCreateBoardButton } = useShowCreateBoardButton();
     const history = useHistory();
     const { boardId } = useParams<{ boardId: string }>();
@@ -70,7 +69,7 @@ const Header = () => {
                     {showCreate && <PersistentDrawerRight handleDrawerClose={handleDrawerClose} />}
                     <Box mt={1} display="flex" justifyContent="space-between">
                         <Box>
-                            <Avatar variant="rounded" className={avatarStyle} onClick={() => refreshDashboard()} color="primary">do</Avatar>
+                            <Avatar variant="rounded"  className={avatarStyle} onClick={() => refreshDashboard()}><Typography color="secondary" variant="h2">do</Typography></Avatar>
                         </Box>
                         {showCreateBoardButton &&  !showCreate && <Box>
                             <Button
@@ -93,8 +92,8 @@ const Header = () => {
                                         mountOnEnter
                                         unmountOnExit
                                     >
-                                        <IconButton>
-                                            <PictureAsPdfIcon className={pdfStyle}/>
+                                        <IconButton color="primary" >
+                                            <PictureAsPdfIcon />
                                         </IconButton>
                                     </Slide>
                                 </Tooltip>
@@ -102,7 +101,7 @@ const Header = () => {
                             <Box>
                                 <Tooltip title="Copy Board URL">
                                     <Zoom in={true} timeout={1500}>
-                                        <IconButton onClick={() => handleCopy()}>
+                                        <IconButton color="primary" onClick={() => handleCopy()}>
                                             <BookmarksIcon />
                                         </IconButton>
                                     </Zoom>
@@ -117,7 +116,7 @@ const Header = () => {
                                         mountOnEnter
                                         unmountOnExit
                                     >
-                                        <IconButton>
+                                        <IconButton color="primary">
                                             <PictureAsPdfIcon />
                                         </IconButton>
                                     </Slide>

@@ -12,6 +12,8 @@ export default {
       borderRadius: 7,
     },
     margin: 5,
+    paddingTop: 0,
+    paddingBottom: 0
   },
   button: {
     margin: 10,

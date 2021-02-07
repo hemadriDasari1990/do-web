@@ -8,8 +8,10 @@ const useStyles = makeStyles(() => ({
     textfieldStyle: {
         "& .MuiFilledInput-root": {
             background: "#fff",
-            borderRadius: 10
-        }
+            borderRadius: 10,
+            border: "2px solid #0072ff",
+            paddingTop: "0px !important"
+        },
     }
 }));
 
@@ -37,6 +39,7 @@ export default function SectionUpdate(props: any) {
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInput(event)}
                 className={textfieldStyle}
                 InputProps={{
+                    disableUnderline: true,
                     style: {
                         minHeight: 90,
                         paddingTop: 40

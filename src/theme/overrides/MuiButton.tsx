@@ -61,7 +61,7 @@ export default {
     cursor: 'pointer',
     boxSizing: 'border-box',
     width: "fit-content",
-    height: 35,
+    minHeight: 35,
     fontWeight: 500,
     borderRadius: 6,
     outline: 'none',

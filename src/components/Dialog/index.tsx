@@ -9,9 +9,9 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-    drawerPaper: {
-        minHeight: "0px !important"
-    }
+  drawerPaper: {
+    minHeight: "0px !important"
+  }
 });
 
 export default function ResponsiveDialog(props: any) {
@@ -35,11 +35,11 @@ export default function ResponsiveDialog(props: any) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={() => handleSave()} variant="contained" color="primary">
-            {pcta}
-          </Button>
           <Button onClick={() => handleClose()} variant="outlined" color="primary" autoFocus>
             {scta}
+          </Button>
+          <Button autoFocus onClick={() => handleSave()} variant="contained" color="primary">
+            {pcta}
           </Button>
         </DialogActions>
       </Dialog>

@@ -13,15 +13,18 @@ import { useBoard } from "../../redux/state/board"
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
+// import { useSection } from "../../redux/state/section"
+
 const SectionList = React.lazy(() => import("../Section/list"));
 const Timer = React.lazy(() => import("../common/Timer"));
+// const NoRecords = React.lazy(() => import("../NoRecords"));
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         minHeight: "90vh"
     },
     titleStyle: {
-        backgroundColor: "#dfedff",
+        backgroundColor: "#f3f8ff",
         borderRadius: 20,
         width: "fit-content",
         marginTop: 'auto',
@@ -47,6 +50,8 @@ const Dashboard = () => {
     const { boardId } = useParams<{ boardId: string }>();
     /* Redux hooks */
     const { board } = useBoard();
+    // const { section } = useSection();
+
     const durationSeconds: number = converToSeconds(board?.duration);
     // const { loading } = useLoading();
 
@@ -72,12 +77,12 @@ const Dashboard = () => {
                         <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
                             <Box display="flex">
                                 <Hidden only={["xs"]}>
-                                    <Typography variant="h1">{board?.title}</Typography> 
+                                    <Typography variant="h2">{board?.title}</Typography> 
                                 </Hidden>
                                 <Hidden only={["xl", "lg", "md", "sm"]}>
                                     <Typography variant="h4">{board?.title}</Typography> 
                                 </Hidden>
-                                {board?.sprint ? <Box ml={3} className={titleStyle}>
+                                {board?.sprint ? <Box mt={1} ml={2} className={titleStyle}>
                                     <Tooltip title={"Sprint " + board?.sprint}>
                                         <Typography color="primary" className={sectionHeader} variant="h5">Sprint {board?.sprint}</Typography>
                                     </Tooltip>
@@ -88,14 +93,14 @@ const Dashboard = () => {
                             <Hidden only={["xs"]}>
                                 <Box display="flex" className={timerBoxStyle}>
                                     <Typography className={timerStyle} variant="h3">You have</Typography>
-                                    <Timer callQueuedTime={durationSeconds} interval={1000} />
+                                        <Timer callQueuedTime={durationSeconds} interval={1000} />
                                     <Typography className={timerStyle} variant="h3">left</Typography>
                                 </Box>
                             </Hidden>
                             <Hidden only={["xl", "lg", "md", "sm"]}>
                                 <Box display="flex" className={timerBoxStyle}>
                                     <Typography className={timerStyle} variant="h3">You have</Typography>
-                                    <Timer callQueuedTime={durationSeconds} interval={1000} />
+                                        <Timer callQueuedTime={durationSeconds} interval={1000} />
                                     <Typography className={timerStyle} variant="h3">left</Typography>
                                 </Box>
                             </Hidden>
