@@ -11,8 +11,8 @@ export const createSection = (payload: {[Key: string]: any}) => {
     return API(CREATE_SECTION, { method: 'POST', data: payload });
 }
 
-export const updateSection = (id: string, payload: {[Key: string]: any}) => {
-    return API(replaceStr(UPDATE_SECTION, "{id}", id), { method: 'PUT', data: payload });
+export const updateSection = (payload: {[Key: string]: any}) => {
+    return API(UPDATE_SECTION, { method: 'PUT', data: payload });
 }
 
 export const deleteSection = (id: string) => {

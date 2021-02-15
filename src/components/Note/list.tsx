@@ -27,7 +27,8 @@ import socket from "../../socket";
 import { useDispatch } from "react-redux";
 
 // import { useLoading, useNote } from "../../redux/state/note";
-// import { useReaction, useReactionLoading } from "../../redux/state/reaction";
+// import { useReaction } from "../../redux/state/reaction";
+
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
 const ReactionView = React.lazy(() => import("./Reaction/view"));
@@ -90,14 +91,15 @@ const useStyles = makeStyles(() => ({
 // )(Badge);
 
 const NoteList = (props: any) => {
-    const { notes, editNote } = props;
+    const { notes, editNote, sectionId } = props;
     const { paperStyle, deleteIconStyle, iconButtonStyle } = useStyles();
     const dispatch = useDispatch();
-    
+
     /* Redux hooks */
     // const { note } = useNote();
     // const { loading } = useLoading();
     // const { reaction } = useReaction();
+
     // const { loading: reactionloading } = useReactionLoading();
 
     /* Local state */
@@ -106,9 +108,10 @@ const NoteList = (props: any) => {
     const [deleteDialog, setOpenDeleteDialog] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const [notesList, setNotesList] = useState(notes);
-    
+    // const [typing, setTyping] = useState("");
+
     /* React Hooks */
-    useEffect(() => {
+    // useEffect(() => {
         // dispatch(getNotesBySectionId(sectionId));
 
         // /* Add new note */
@@ -121,25 +124,34 @@ const NoteList = (props: any) => {
         // });
 
         /* Add new reaction */
-        socket.on("new-reaction", (newReaction: {[Key:string]: any}) => {
+        // socket.on("new-reaction", (newReaction: {[Key:string]: any}) => {
+        //     console.log("noteData", notesList)
+        //     updateTotalReactions(newReaction);
+        // });
+        
+        // return () => {
+        //     socket.off("new-reaction");
+        //     // socket.off("new-note");
+        //     // socket.off("delete-note");
+        //     // socket.disconnect();
+        // };
+    // }, []);
+
+    useEffect(() => {
+       
+    }, []);
+
+    useEffect(() => {
+        setNotesList(notes);
+        socket.on(`new-reaction-${sectionId}`, (newReaction: {[Key:string]: any}) => {
+            console.log("test", 123, selectedNote)
             updateTotalReactions(newReaction);
         });
         
         return () => {
-            socket.off("new-reaction");
-            // socket.off("new-note");
-            // socket.off("delete-note");
-            // socket.disconnect();
+            socket.off(`new-reaction-${sectionId}`);
         };
-    }, []);
-
-    // useEffect(() => {
-    //     console.log("note", note, sectionId)
-    //     if(note?.sectionId === sectionId){
-    //         console.log("notes", notes)
-    //         setNotesList(notes);
-    //     }
-    // }, [notes]);
+    }, [notes]);
     
     /* Handler functions */
     const deleteNoteById = (note: {[Key:string]: any}) => {
@@ -159,15 +171,16 @@ const NoteList = (props: any) => {
         if(!notesList){
             return;
         }
-        const newNotes: Array<{[Key: string]: any}> = [...notesList];
+        const newNotes: Array<{[Key: string]: any}> = [...notes];
         const noteIndex: number = newNotes.findIndex(
-            newNote => newNote._id === newReaction.noteId,
+            (newNote: {[Key: string]: any}) => newNote._id === newReaction.noteId,
         )
         const noteData: {[Key: string]: any} = newNotes[noteIndex];
+
         if(!noteData){
             return;
         }
-
+        // noteData.reactions.push(newReaction);
         switch(newReaction?.type){
             case "plusOne":
                 noteData.totalPlusOne = parseInt(noteData.totalPlusOne) > 0 ? noteData.totalPlusOne + 1: 1;
@@ -187,6 +200,7 @@ const NoteList = (props: any) => {
             default:
                 break;
         }
+
         newNotes[noteIndex] = noteData;
         setNotesList(newNotes);
     }
@@ -238,7 +252,7 @@ const NoteList = (props: any) => {
         return (
             <Box>
                 <ResponsiveDialog open={deleteDialog} title="Delete Note" pcta="Delete" scta="Cancel" handleSave={handleDelete} handleClose={handleClose}>
-                    <Typography variant="h4"> Are you sure you want to delete {selectedNote?.description}?</Typography>
+                    <Typography variant="h4">Are you sure you want to delete {selectedNote?.description}?</Typography>
                 </ResponsiveDialog>
             </Box>
         )

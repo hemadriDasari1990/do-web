@@ -1,8 +1,4 @@
 import {
-    CREATE_BOARD_FAILED,
-    CREATE_BOARD_INTERNAL_SERVER_ERROR,
-    CREATE_BOARD_REQUEST,
-    CREATE_BOARD_SUCCESS,
     DELETE_BOARD_FAILED,
     DELETE_BOARD_INTERNAL_SERVER_ERROR,
     DELETE_BOARD_REQUEST,
@@ -34,29 +30,6 @@ const initialState = {
 
 const board = (state = initialState, action: ReduxAction) => {
     switch(action.type){
-        case CREATE_BOARD_REQUEST:
-            return {
-                ...state,
-                loading: true
-            }
-        case CREATE_BOARD_FAILED:
-            return {
-                ...state,
-                response: action.payload,
-                loading: false
-            }
-        case CREATE_BOARD_SUCCESS:
-            return {
-                ...state,
-                response: action.payload,
-                loading: false
-            }
-        case CREATE_BOARD_INTERNAL_SERVER_ERROR:
-            return {
-                ...state,
-                response: action.payload,
-                loading: false
-            }
         case DELETE_BOARD_REQUEST:
             return {
                 ...state,

@@ -1,8 +1,4 @@
 import {
-    CREATE_BOARD_FAILED,
-    CREATE_BOARD_INTERNAL_SERVER_ERROR,
-    CREATE_BOARD_REQUEST,
-    CREATE_BOARD_SUCCESS,
     DELETE_BOARD_FAILED,
     DELETE_BOARD_INTERNAL_SERVER_ERROR,
     DELETE_BOARD_REQUEST,
@@ -16,7 +12,7 @@ import {
     UPDATE_BOARD_REQUEST,
     UPDATE_BOARD_SUCCESS
 } from "../../actions/board/types";
-import { createBoard, deleteBoard, getBoardDetails, updateBoard } from "../../network/board";
+import { deleteBoard, getBoardDetails, updateBoard } from "../../network/board";
 import { put, takeLatest } from "redux-saga/effects";
 
 function* callGetBoardDetails(action: {[Key: string]: any}) {
@@ -42,32 +38,9 @@ export function* watchGetBoardDetails(){
     yield takeLatest(GET_BOARD_REQUEST, callGetBoardDetails);
 }
 
-function* callCreateBoard(action: {[Key: string]: any}) {
-    try {
-        const result = yield createBoard(action.payload);
-        const { status, data } = result;
-        if(status === 200 && data?._id){
-            yield put({ type: CREATE_BOARD_SUCCESS, payload: data });
-        }
-        if(!result || !data){
-            yield put({ type: CREATE_BOARD_FAILED, payload: data });
-        }
-
-        if(status === 500){
-            yield put({ type: CREATE_BOARD_INTERNAL_SERVER_ERROR, payload: data });
-        }
-    } catch(err){
-        yield put({ type: CREATE_BOARD_FAILED, payload: err || err.message});
-    }
-}
-
-export function* watchCreateBoard(){
-    yield takeLatest(CREATE_BOARD_REQUEST, callCreateBoard);
-}
-
 function* callUpdateBoard(action: {[Key: string]: any}) {
     try {
-        const result = yield updateBoard(action.id, action.payload);
+        const result = yield updateBoard(action.payload);
         const { status, data } = result;
         if(status === 200 && data?._id){
             yield put({ type: UPDATE_BOARD_SUCCESS, payload: data });

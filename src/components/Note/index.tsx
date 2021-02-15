@@ -47,31 +47,41 @@ function Note(props: any) {
     /* React Hooks */
     useEffect(() => {
         /* Delete note */
-        socket.on("delete-note", async (newNote: {[Key:string]: any}) => {
-            console.log("deleted", newNote)
+        socket.on(`delete-note-${sectionId}`, async (newNote: {[Key:string]: any}) => {
             await filterNotes(newNote?._id);
             await updateTotalNotes(sectionId, "substract");
         });
 
         /* Add new note */
-        socket.on("update-note", (newNote: {[Key:string]: any}) => {
+        socket.on(`update-note-${sectionId}`, (newNote: {[Key:string]: any}) => {
             if(sectionId === newNote?.sectionId){
-                setNotes((currentNotes: Array<{[Key:string]: any}>) => [...currentNotes, newNote]);
-                updateTotalNotes(sectionId, "add");
+                const notesList = [...notes];
+                const noteIndex = notesList.findIndex((n: {[Key: string]: any}) => n._id === newNote._id);
+                const noteData = notes[noteIndex];
+                if(noteData){
+                    noteData.description = newNote.description;
+                    notesList[noteIndex] = noteData;
+                    setNotes(notesList);
+                } else {
+                    setNotes((currentNotes: Array<{[Key:string]: any}>) => [...currentNotes, newNote]);
+                    updateTotalNotes(sectionId, "add");
+                }
+                setNote({});
                 setShowNote(false);
             }
         });
         return () => {
-            socket.off("update-note");
-            socket.off("delete-note");
+            socket.off(`update-note-${sectionId}`);
+            socket.off(`delete-note-${sectionId}`);
         };
-    }, []);
+    }, [notes]);
 
     const editNote = (note: {[Key: string]: any}) => {
         if(!note){
             return;
         }
         setShowNote(true);
+        setSelectedSectionId(note.sectionId)
         setNote(note);
     }
 
@@ -93,12 +103,16 @@ function Note(props: any) {
     const handleClickAway = () => {
         setShowNote(false);
     }
-    
+
+    const handleCancel = () => {
+        setShowNote(false);
+    }
+
     return (
         <React.Fragment>
             {selectedSectionId === sectionId && showNote && <Box p={1}>
                 <ClickAwayListener onClickAway={handleClickAway}>
-                    <UpdateNote selectedNote={note} sectionId={sectionId} setShowNote={setShowNote} />
+                    <UpdateNote selectedNote={note} sectionId={sectionId} handleCancel={handleCancel} />
                 </ClickAwayListener>
             </Box>}
             {!showNote && <Grid container>
@@ -111,7 +125,6 @@ function Note(props: any) {
                                     size="small"
                                     fullWidth
                                     classes={{root: buttonStyle}}
-                                    // disabled={!description.trim()} 
                                     onClick={() => createNote(sectionId)}
                                 >
                                     <Typography variant="h5">+ Create Note</Typography>

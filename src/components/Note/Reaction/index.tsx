@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 function ReactionPopover(props: any) {
     const { anchorEl, note, handlePopoverClose, handleReaction } = props;
     const { popover, paper, reactionStyle, disAgreeIconStyle, plusTwoIconStyle, loveIconStyle, plusIconStyle, deserveIconStyle } = useStyles();
+    
     return (
         <React.Fragment>
                 <Popover

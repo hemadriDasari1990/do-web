@@ -40,7 +40,7 @@ export function* watchGetSectionsByBoard(){
 
 function* callUpdateSection(action: {[Key: string]: any}) {
     try {
-        const result = yield updateSection(action.id, action.payload);
+        const result = yield updateSection(action.payload);
         const { status, data } = result;
         if(status === 200 && data?._id){
             yield put({ type: UPDATE_SECTION_SUCCESS, payload: data });

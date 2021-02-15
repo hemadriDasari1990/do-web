@@ -19,10 +19,9 @@ export const createSection = (payload: {[Key: string]: any}) => {
     }
 }
 
-export const updateSection = (sectionId: string, payload: {[Key: string]: any}) => {
+export const updateSection = (payload: {[Key: string]: any}) => {
     return {
         type: UPDATE_SECTION_REQUEST,
-        id: sectionId,
         payload: payload
     }
 }

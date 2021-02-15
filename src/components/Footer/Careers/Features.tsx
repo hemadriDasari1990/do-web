@@ -14,8 +14,16 @@ import Slide from '@material-ui/core/Slide'
 import SwapCallsIcon from '@material-ui/icons/SwapCalls'
 import Typography from '@material-ui/core/Typography'
 import Zoom from '@material-ui/core/Zoom'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  avatarStyle: {
+    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)"
+  },
+});
 
 function Features() {
+  const { avatarStyle } = useStyles();
     return (
       <React.Fragment>
         <Box mb={3}>
@@ -32,7 +40,7 @@ function Features() {
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
               <ListItem alignItems="flex-start" disableGutters>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar className={avatarStyle}>
                     <PublicIcon color="secondary" />
                   </Avatar>
                 </ListItemAvatar>
@@ -58,7 +66,7 @@ function Features() {
               <Zoom in={true} timeout={2000}>
                 <ListItem alignItems="flex-start" disableGutters>
                   <ListItemAvatar>
-                    <Avatar>
+                    <Avatar className={avatarStyle}>
                       <FaceIcon color="secondary" />
                     </Avatar>
                   </ListItemAvatar>
@@ -91,7 +99,7 @@ function Features() {
               >
                 <ListItem alignItems="flex-start" disableGutters>
                   <ListItemAvatar>
-                    <Avatar>
+                    <Avatar className={avatarStyle}>
                       <GPSOffIcon color="secondary" />
                     </Avatar>
                   </ListItemAvatar>
@@ -123,7 +131,7 @@ function Features() {
               >
                 <ListItem alignItems="flex-start" disableGutters>
                   <ListItemAvatar>
-                    <Avatar>
+                    <Avatar className={avatarStyle}>
                       <GroupWorkIcon color="secondary" />
                     </Avatar>
                   </ListItemAvatar>
@@ -152,7 +160,7 @@ function Features() {
               <Zoom in={true} timeout={2000}>
                 <ListItem alignItems="flex-start" disableGutters>
                   <ListItemAvatar>
-                    <Avatar>
+                    <Avatar className={avatarStyle}>
                       <SwapCallsIcon color="secondary" />
                     </Avatar>
                   </ListItemAvatar>
@@ -186,7 +194,7 @@ function Features() {
               >
                 <ListItem alignItems="flex-start" disableGutters>
                   <ListItemAvatar>
-                    <Avatar>
+                    <Avatar className={avatarStyle}>
                       <CodeIcon color="secondary" />
                     </Avatar>
                   </ListItemAvatar>

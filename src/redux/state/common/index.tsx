@@ -5,3 +5,8 @@ export function useShowCreateBoardButton() {
         showCreateBoardButton: state.common.showCreateBoardButton
     }))
 }
+
+export function useAuthenticated() {
+    const token = sessionStorage.getItem("token");
+    return !!token;
+}

@@ -6,17 +6,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-  drawerPaper: {
-    minHeight: "0px !important"
-  }
-});
 
 export default function ResponsiveDialog(props: any) {
-    const { title, children, pcta, scta, open, handleSave, handleClose } = props;
-    const { drawerPaper } = useStyles();
+    const { title, children, pcta, scta, open, handleSave, handleClose, disablePrimaryCTA } = props;
 
   return (
     <React.Fragment>
@@ -24,21 +16,18 @@ export default function ResponsiveDialog(props: any) {
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
-        classes={{
-            paper: drawerPaper,
-        }}
       >
-        <DialogTitle id="responsive-dialog-title"><Typography variant="h3" color="primary">{title}</Typography></DialogTitle>
+        <DialogTitle id="responsive-dialog-title"><Typography variant="h3">{title}</Typography></DialogTitle>
         <DialogContent>
           <DialogContentText>
             {children}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose()} variant="outlined" color="primary" autoFocus>
+          <Button onClick={() => handleClose()} variant="outlined" color="primary">
             {scta}
           </Button>
-          <Button autoFocus onClick={() => handleSave()} variant="contained" color="primary">
+          <Button onClick={() => handleSave()} variant="contained" color="primary" disabled={disablePrimaryCTA}>
             {pcta}
           </Button>
         </DialogActions>

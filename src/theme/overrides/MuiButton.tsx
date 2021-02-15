@@ -43,7 +43,8 @@ export default {
     display: 'inherit',
     alignItems: 'inherit',
     justifyContent: 'inherit',
-    textTransform: "capitalize"
+    textTransform: "capitalize",
+    color: "inherit"
   },
   root: {
     letterSpacing: '0.02857em',

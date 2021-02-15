@@ -40,17 +40,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     reactionStyle: {
         fontSize: 12
+    },
+    boxTextStyle: {
+        padding: "3px 10px 3px 10px"
+    },
+    boxStyle: {
+        backgroundColor: "aliceblue",
+        borderRadius: 6
     }
 }));
 
 function ReactionView(props: any) {
     const { note } = props;
     const { plusTwoIconStyle, disAgreeIconStyle, loveIconStyle, plusIconStyle, deserveIconStyle, reactionStyle } = useStyles();
-
-    const handleReaction = (reaction: string) => {
-        console.log(note, reaction)
-    }
-
+    // const isReactions = note?.totalDisAgreed || note?.totalLove || note?.totalPlusOne || note?.totalPlusTwo || note?.totalDeserve;
+    // console.log("note", note)
+    
     return (
         <React.Fragment>
             <Box display="flex" justifyContent="space-between">
@@ -58,7 +63,7 @@ function ReactionView(props: any) {
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
                             <Tooltip title="I Disagree">
-                                <IconButton className={disAgreeIconStyle} color="secondary" onClick={() => handleReaction("agree")} size="small">
+                                <IconButton className={disAgreeIconStyle} color="secondary" size="small">
                                     <DisAgreeIcon className={reactionStyle} />
                                 </IconButton>
                             </Tooltip>
@@ -72,7 +77,7 @@ function ReactionView(props: any) {
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
                             <Tooltip title="I Love It">
-                                <IconButton className={loveIconStyle} color="secondary" onClick={() => handleReaction("agree")} size="small">
+                                <IconButton className={loveIconStyle} color="secondary" size="small">
                                     <LoveIcon className={reactionStyle} />
                                 </IconButton>
                             </Tooltip>
@@ -86,7 +91,7 @@ function ReactionView(props: any) {
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
                             <Tooltip title="+1">
-                                <IconButton className={plusIconStyle} color="secondary" onClick={() => handleReaction("agree")} size="small">
+                                <IconButton className={plusIconStyle} color="secondary" size="small">
                                     <PlusOneIcon className={reactionStyle} />
                                 </IconButton>
                             </Tooltip>
@@ -100,7 +105,7 @@ function ReactionView(props: any) {
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
                             <Tooltip title="+2">
-                                <IconButton className={plusTwoIconStyle} color="secondary" onClick={() => handleReaction("agree")} size="small">
+                                <IconButton className={plusTwoIconStyle} color="secondary" size="small">
                                     <Plus2Icon className={reactionStyle} />
                                 </IconButton>
                             </Tooltip>
@@ -114,7 +119,7 @@ function ReactionView(props: any) {
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
                             <Tooltip title="Deserve this">
-                                <IconButton className={deserveIconStyle} color="secondary" onClick={() => handleReaction("agree")} size="small">
+                                <IconButton className={deserveIconStyle} color="secondary" size="small">
                                     <DeserveIcon className={reactionStyle} />
                                 </IconButton>
                             </Tooltip>
@@ -125,6 +130,9 @@ function ReactionView(props: any) {
                     </Box>
                 </Box>: null}
             </Box>
+            {/* <Box className={boxStyle}>
+                <Typography className={boxTextStyle} color="primary" variant="h6">No reactions</Typography>
+            </Box> */}
         </React.Fragment>
     )
 }

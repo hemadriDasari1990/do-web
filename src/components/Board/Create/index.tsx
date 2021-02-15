@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import { useBoard, useLoading } from "../../../redux/state/board"
 
+// import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import { DASHBOARD } from "../../../routes/config";
+import Grid from '@material-ui/core/Grid'
+import Hidden from '@material-ui/core/Hidden'
+import ScrumBoard from '../../../assets/board.svg'
 import TextField from '@material-ui/core/TextField'
-import { createBoard } from "../../../redux/actions/board"
-import { replaceStr } from "../../../util";
-import { showCreateBoardButton } from "../../../redux/actions/common"
+import Typography from '@material-ui/core/Typography'
+import Zoom from '@material-ui/core/Zoom'
+import { updateBoard } from "../../../redux/actions/board"
+// import { createBoard } from "../../../redux/actions/board"
+// import { replaceStr } from "../../../util";
+// import { showCreateBoardButton } from "../../../redux/actions/common"
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useParams } from "react-router";
+
+// import { useBoard, useLoading } from "../../../redux/state/board"
+
+// import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) => ({
     textFieldStyle: {
@@ -19,162 +28,152 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const Create = (props: any) => {
-    const { handleDrawerClose } = props;
+const Create = () => {
     const { textFieldStyle } = useStyles();
     const dispatch = useDispatch();
-    const history = useHistory();
     
     /* Redux hooks */
-    const { board } = useBoard();
-    const { loading } = useLoading();
-
+    const { projectId } = useParams<{ projectId: string }>();
+    
     /* Local state */
-    const [title, setTitle] = useState("");
-    const [descrition, setDescrition] = useState("");
-    const [noOfSections, setNoOfSections] = useState("");
-    const [apiTriggered, setApiTriggered] = useState(false);
-    const [sprint, setSprint] = useState("");
-    const [duration, setDuration] = useState("");
+    const [formData, setFormData] = useState<{[Key: string]: any}>({
+        title: "",
+        description: "",
+        noOfSections: 0,
+        sprint: 0,
+        duration: null
+    });
+    const { title, description, noOfSections, sprint, duration } = formData;
 
     /* React Hooks */
-    useEffect(() => {
-        if(!loading && apiTriggered && board?._id){
-            handleDrawerClose();
-            history.push(replaceStr(DASHBOARD, ":boardId", board?._id));
-            dispatch(showCreateBoardButton(false));
-        }
-        if(!loading && apiTriggered && !board?._id){
-            // setShowError(true);
-        }
-    }, [loading, apiTriggered, board])
-
-    useEffect(() => {
-        dispatch(showCreateBoardButton(true));
-    }, []);
     
     /* Handler functions */
-    const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.target.value);
-    }
-
-    const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDescrition(event.target.value);
-    }
-
-    const handleSections = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNoOfSections(event.target.value);
-    }
-
-    const handleSprint = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSprint(event.target.value);
-    }
-
-    const handleDuration = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDuration(event.target.value);
-    }
-
-    const handleSubmit = () => {
-        setApiTriggered(false);
-        dispatch(createBoard({
-            title,
-            descrition,
-            noOfSections: noOfSections ? parseInt(noOfSections): 0,
-            sprint: sprint ? parseInt(sprint): 0,
-            duration
-        }));
-        setApiTriggered(true);
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
     }
 
     const handleReset = () => {
-        setTitle("");
-        setDescrition("");
-        setNoOfSections("");
-        setSprint("");
-        setDuration("");
+        setFormData({
+            title,
+            description,
+            noOfSections: 0,
+            sprint: 0,
+            duration: null
+        });
+    }
+
+    const handleSubmit = (data: {[Key: string]: any}) => {
+        dispatch(updateBoard(data));
     }
 
     return (
         <React.Fragment>
-            <Box>
-                <TextField
-                    name="title"
-                    id="title"
-                    label="Title"
-                    defaultValue="Title about board"
-                    value={title}
-                    onChange={handleTitle}
-                    required
-                    className={textFieldStyle}
-                />
-            </Box>
-            <Box>
-                <TextField
-                    name="description"
-                    id="description"
-                    label="Description"
-                    defaultValue="Description"
-                    value={descrition}
-                    onChange={handleDescription}
-                    required
-                    className={textFieldStyle}
-                />
-            </Box>
-            <Box>
-                <TextField
-                    name="noOfSections"
-                    id="noOfSections"
-                    label="Number Of Sections"
-                    defaultValue="noOfSections"
-                    value={noOfSections}
-                    onChange={handleSections}
-                    required
-                    className={textFieldStyle}
-                />
-            </Box>
-            <Box>
-                <TextField
-                    name="sprint"
-                    id="sprint"
-                    label="Sprint no?"
-                    defaultValue="sprint"
-                    value={sprint}
-                    onChange={handleSprint}
-                    required
-                    className={textFieldStyle}
-                />
-            </Box>
-            <Box>
-                <TextField
-                    name="duration"
-                    id="duration"
-                    label="Duration of Retro?"
-                    defaultValue="duration"
-                    value={duration}
-                    onChange={handleDuration}
-                    placeholder="Enter Duration in HH:MM format"
-                    required
-                    className={textFieldStyle}
-                />
-            </Box>
-            <Box mt={5} display="flex" justifyContent="space-between">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => handleSubmit()}
-                >
-                    Submit
-                </Button>
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    onClick={() => handleReset()}
-                >
-                    Reset
-                </Button>
-            </Box>
+            <Grid container spacing={2}>
+                <Hidden only={["xs"]}>
+                    <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                        <Box mt={5}>
+                            <Zoom in={true} timeout={2000}>
+                                <img src={ScrumBoard} height="300px" width="fit-content"/>
+                            </Zoom>
+                        </Box>
+                    </Grid>
+                </Hidden>
+                <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                    <Box>
+                        <Typography variant="h1">Create New Board</Typography>
+                    </Box>
+                    <Box>
+                        <TextField
+                            name="title"
+                            id="title"
+                            label="Title"
+                            placeholder="Enter title of the board"
+                            value={title}
+                            onChange={handleInput}
+                            required
+                            className={textFieldStyle}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            name="description"
+                            id="description"
+                            label="Description"
+                            placeholder="Enter description of the board"
+                            value={description}
+                            onChange={handleInput}
+                            required
+                            className={textFieldStyle}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            name="noOfSections"
+                            id="noOfSections"
+                            label="Number Of Sections"
+                            placeholder="Enter no of senctions"
+                            value={noOfSections}
+                            onChange={handleInput}
+                            required
+                            className={textFieldStyle}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            name="sprint"
+                            id="sprint"
+                            label="Sprint no?"
+                            placeholder="Enter your sprint number"
+                            value={sprint}
+                            onChange={handleInput}
+                            required
+                            className={textFieldStyle}
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            name="duration"
+                            id="duration"
+                            label="Duration of Retro?"
+                            value={duration}
+                            onChange={handleInput}
+                            placeholder="Enter Duration in HH:MM format"
+                            required
+                            className={textFieldStyle}
+                        />
+                    </Box>
+                    <Box mt={5} display="flex">
+                        <Box mr={5}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() => handleSubmit({
+                                    title,
+                                    description,
+                                    noOfSections: noOfSections ? parseInt(noOfSections): 0,
+                                    sprint: sprint ? parseInt(sprint): 0,
+                                    duration,
+                                    projectId
+                                })}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                        <Box>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                onClick={() => handleReset()}
+                            >
+                                Reset
+                            </Button>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+            
         </React.Fragment>
     )
 }

@@ -1,5 +1,4 @@
 import {
-    CREATE_NOTE_REQUEST,
     DELETE_NOTE_REQUEST,
     GET_NOTES_BY_SECTION_REQUEST,
     UPDATE_NOTE_REQUEST
@@ -9,14 +8,6 @@ export const getNotesBySectionId = (noteId: string) => {
     return {
         type: GET_NOTES_BY_SECTION_REQUEST,
         url: `/note/${noteId}`
-    }
-}
-
-export const createNote = (payload: {[Key: string]: any}) => {
-    return {
-        type: CREATE_NOTE_REQUEST,
-        url: `/note`,
-        payload: payload
     }
 }
 

@@ -1,5 +1,4 @@
 import {
-    CREATE_BOARD_REQUEST,
     DELETE_BOARD_REQUEST,
     GET_BOARD_REQUEST,
     UPDATE_BOARD_REQUEST
@@ -12,18 +11,10 @@ export const getBoardDetails = (boarId: string) => {
     }
 }
 
-export const createBoard = (payload: {[Key: string]: any}) => {
-    return {
-        type: CREATE_BOARD_REQUEST,
-        url: `/board`,
-        payload: payload
-    }
-}
-
-export const updateBoard = (boarId: string, payload: {[Key: string]: any}) => {
+export const updateBoard = (payload: {[Key: string]: any}) => {
     return {
         type: UPDATE_BOARD_REQUEST,
-        url: `/board/${boarId}`,
+        url: `/board`,
         payload: payload
     }
 }

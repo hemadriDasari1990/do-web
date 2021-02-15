@@ -1,6 +1,6 @@
 import { CAREERS, DEVELOPERS, FEEDBACK, TERMS } from "../../routes/config";
 
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
+import SportsVolleyballIcon from '@material-ui/icons/SportsVolleyball';
 import TwitterIcon from '@material-ui/icons/Twitter'
 import { Typography } from '@material-ui/core';
 import YouTubeIcon from '@material-ui/icons/YouTube'
@@ -21,18 +22,17 @@ import { useHistory } from "react-router";
 const useStyles = makeStyles({
   root: {
     padding: "80px 0",
-    marginTop: 60,
     height: "fit-content",
-    backgroundColor: "#f3f3f3"
+    backgroundColor: "#fff"
   },
-  avatarStyle: {
-    fontFamily: "'Lusitana', serif;",
-    fontSize: 30,
-    paddingBottom: 5,
-    fontWeight: 900,
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
-    paddingTop: 5
-    },
+//   avatarStyle: {
+//     fontFamily: "'Lusitana', serif;",
+//     fontSize: 30,
+//     paddingBottom: 5,
+//     fontWeight: 900,
+//     background: "linear-gradient(90deg, #0072ff 0%, #0095ffba 100%)",
+//     paddingTop: 5
+//     },
     listStyle: {
         margin: "0px !important",
         padding: "0px !important",
@@ -46,11 +46,21 @@ const useStyles = makeStyles({
         paddingLeft: 0,
         paddingRight: 0,
         minWidth: 33
+    },
+    logoTextStyle: {
+        color: "#07113f"
+    },
+    logoIconStyle: {
+        padding: 3,
+        borderRadius: "50%",
+        background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+        width: 25,
+        height: 25
     }
 });
 
 export default function Footer() {
-  const { avatarStyle, root, listStyle, listIconStyle } = useStyles();
+  const { root, listStyle, listIconStyle, logoIconStyle } = useStyles();
   const [value, setValue] = React.useState(0);
   const history = useHistory();
   
@@ -82,8 +92,16 @@ export default function Footer() {
         <Container>
             <Grid container spacing={2}>
                 <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                    <Box mb={2}>
+                    {/* <Box mb={2}>
                         <Avatar variant="rounded" className={avatarStyle} color="primary">do</Avatar>
+                    </Box> */}
+                    <Box display="flex">
+                        <Box mt={1} mr={0.5}>
+                            <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
+                        </Box>
+                        <Box mt={1} mr={1}>
+                            <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
+                        </Box>
                     </Box>
                     <Box>
                         <Typography component="h3" variant="h3">We've helped teams improve in more than <strong>150,000</strong> retrospectives</Typography>
@@ -166,6 +184,9 @@ export default function Footer() {
                     </List>
                 </Grid>
             </Grid>
+            <Box mt={3}>
+                <Typography variant="body2">Copyright © 2021 Let'sdoretro Inc. All rights reserved.</Typography>
+            </Box>
         </Container>
     </BottomNavigation>
   );

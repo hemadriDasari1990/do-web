@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function NoteUpdate(props: any) {
-    const { sectionId, selectedNote, setShowNote } = props;
+    const { sectionId, selectedNote, handleCancel } = props;
     const { textfieldStyle } = useStyles();
     const dispatch = useDispatch();
 
@@ -70,7 +70,7 @@ export default function NoteUpdate(props: any) {
                             variant="outlined"
                             color="primary"
                             size="small"
-                            onClick={() => setShowNote(false)}
+                            onClick={() => handleCancel()}
                         >
                             Cancel
                         </Button>

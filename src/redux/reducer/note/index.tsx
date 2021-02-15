@@ -1,8 +1,4 @@
 import {
-    CREATE_NOTE_FAILED,
-    CREATE_NOTE_INTERNAL_SERVER_ERROR,
-    CREATE_NOTE_REQUEST,
-    CREATE_NOTE_SUCCESS,
     DELETE_NOTE_FAILED,
     DELETE_NOTE_INTERNAL_SERVER_ERROR,
     DELETE_NOTE_REQUEST,
@@ -32,29 +28,6 @@ const initialState = {
 
 const note = (state = initialState, action: ReduxAction) => {
     switch(action.type){
-        case CREATE_NOTE_REQUEST:
-            return {
-                ...state,
-                loading: true
-            }
-        case CREATE_NOTE_FAILED:
-            return {
-                ...state,
-                response: action.payload,
-                loading: false
-            }
-        case CREATE_NOTE_SUCCESS:
-            return {
-                ...state,
-                response: action.payload,
-                loading: false
-            }
-        case CREATE_NOTE_INTERNAL_SERVER_ERROR:
-            return {
-                ...state,
-                response: action.payload,
-                loading: false
-            }
         case DELETE_NOTE_REQUEST:
             return {
                 ...state,

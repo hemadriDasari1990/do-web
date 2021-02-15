@@ -6,11 +6,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
-import { Typography } from '@material-ui/core';
 
-const drawerWidth = 400;
-
-const Create = React.lazy(() => import("../Board/Create"));
+const drawerWidth = 300;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,35 +18,27 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerPaper: {
       width: drawerWidth,
-      padding: 20,
-      marginTop: 80,
+      padding: 10,
       borderRadius: 6,
-      marginRight: 10, 
-      boxShadow: '0 3rem 6rem rgba(0, 0, 0, .1)'
+      boxShadow: '0 3rem 6rem rgba(0, 0, 0, .1)',
+      marginTop: 10
     },
     drawerHeader: {
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
+    iconStyle: {
+      backgroundColor: "#eff6ff",
+    },
   }),
 );
 
 export default function PersistentDrawerRight(props: any) {
-  const { handleDrawerClose } = props;
+  const { open, children, handleDrawerClose } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
-  const handleButton = () => {
-    setOpen(false);
-    handleDrawerClose();
-  };
-
+    
   return (
     <React.Fragment>
       <Drawer
@@ -62,16 +51,16 @@ export default function PersistentDrawerRight(props: any) {
         }}
       >
         <Box display="flex" justifyContent="space-between" className={classes.drawerHeader}>
-          <Box mt={1}>
-            <Typography variant="h3" color="primary">Create new retro board</Typography>
-          </Box>
+          <Box></Box>
           <Box>
-            <IconButton onClick={handleButton}>
+            <IconButton size="small" className={classes.iconStyle} onClick={handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronLeftIcon color="primary" /> : <ChevronRightIcon color="primary"/>}
             </IconButton>
           </Box>
         </Box>
-        <Create handleDrawerClose={handleDrawerClose} />
+        <Box>
+          {children}
+        </Box>
       </Drawer>
     </React.Fragment>
   );

@@ -27,6 +27,7 @@ const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const UpdateSection = React.lazy(() => import("./Update"));
+const Loader = React.lazy(() => import("../Loader/components"));
 
 const useStyles = makeStyles(() => ({
     sectionHeader: {
@@ -47,12 +48,11 @@ const useStyles = makeStyles(() => ({
     countTextStyle: {
         top: "50%",
         textAlign: "center",
-        color: "#333",
         fontWeight: 600
     },
     countStyle: {
         borderRadius: 5,
-        border: "1px solid #3333",
+        border: "1px solid #0072ff",
         minWidth: 30,
         height: 30
     }
@@ -103,7 +103,7 @@ const SectionList = () => {
             if(!deletedSection){
                 return;
             }
-            filterSections(deletedSection?._id)
+            filterSections(deletedSection?._id);
         });
         return () => {
             socket.off("delete-section");
@@ -118,13 +118,13 @@ const SectionList = () => {
     }, [action, section, loading]);
     
     /* Handler functions */
-    const editSection = (section: {[Key: string]: any}) => {
-        setSelectedSection(section);
+    const editSection = () => {
+        setOpen(false);
         setOpenDialog(true);
     }
 
-    const handleDeleteSection = (section: {[Key: string]: any}) => {
-        setSelectedSection(section);
+    const handleDeleteSection = () => {
+        setOpen(false);
         setOpenDeleteDialog(true);
     }
 
@@ -164,18 +164,17 @@ const SectionList = () => {
         const sectionData = newSections[sectionIndex];
         sectionData.title = section.title;
         newSections[sectionIndex] = sectionData;
-        if(section?._id === selectedSection?._id){
-            setSections(newSections);
-            setSelectedSection({});
-        }
+        setSections(newSections);
+        setSelectedSection({});
     }
 
     const handleSave = () => {
-        dispatch(updateSection(selectedSection?._id, {
-            title: sectionInput
+        dispatch(updateSection({
+            title: sectionInput,
+            sectionId: selectedSection?._id,
+            projectId: selectedSection?.projectId
         }));
         setOpenDialog(false);
-
     }
 
     const handleDelete = () => {
@@ -215,7 +214,7 @@ const SectionList = () => {
     const renderMenu = (item: {[Key: string]: any}) => {
         return (
           <Menu
-            id="fade-menu"
+            id={item._id}
             open={open}
             onClose={handleMenuClose}
             anchorEl={anchorEl}
@@ -225,7 +224,7 @@ const SectionList = () => {
             getContentAnchorEl={null}
             TransitionComponent={Zoom}
           >
-            <ListItem className={listItemStyle} onClick={() => editSection(item)}>
+            <ListItem button={true} className={listItemStyle} onClick={() => editSection()}>
               <ListItemAvatar style={{ minWidth: 35 }}>
                 <EditIcon />
               </ListItemAvatar>
@@ -234,7 +233,7 @@ const SectionList = () => {
                 secondary="Update title"
               />
             </ListItem>
-            <ListItem className={listItemStyle} onClick={() => handleDeleteSection(item)}>
+            <ListItem button={true} className={listItemStyle} onClick={() => handleDeleteSection()}>
               <ListItemAvatar style={{ minWidth: 35 }}>
                 <DeleteIcon />
               </ListItemAvatar>
@@ -243,21 +242,21 @@ const SectionList = () => {
                 secondary="Once deleted can't be undone"
               />
             </ListItem>
-            
           </Menu>
         )
       }
 
-      const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+      const handleMenu = (event: React.MouseEvent<HTMLButtonElement>, item: {[Key: string]: any}) => {
         setOpen(!open);
         setAnchorEl(event.currentTarget);
+        setSelectedSection(item);
       }
 
       const renderMenuAction = (item: {[Key: string]: any}) => {
         return (
           <>
             <Tooltip title="Update">
-              <IconButton aria-label="settings" onClick={handleMenu}>
+              <IconButton id={item?._id} aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleMenu(event, item)}>
                 <Zoom in={true} timeout={2000}>
                   <MoreHorizIcon />
                 </Zoom>
@@ -270,12 +269,13 @@ const SectionList = () => {
 
     return (
         <React.Fragment>
+            <Loader backdrop={true} enable={loading} />
             {renderDeleteDialog()}
             {renderUpdateDialog()}
             <List>
                 <Grid container spacing={1}>
                     {Array.isArray(sections) && sections.map((item: {[Key: string]: any}) => (
-                        <Grid item key={item._id} xl={3} lg={3} md={6} sm={5} xs={12}>
+                        <Grid item key={item._id} xl={3} lg={3} md={4} sm={6} xs={12}>
                             <Box className={sectionStyle}>
                                 <ListItem>
                                     <ListItemText
@@ -286,7 +286,7 @@ const SectionList = () => {
                                                 </Tooltip>
                                             </Box>
                                             <Box mt={1} className={countStyle}>
-                                                <Typography className={countTextStyle}>{item.totalNotes}</Typography>
+                                                <Typography color="primary" className={countTextStyle}>{item.totalNotes}</Typography>
                                             </Box>
                                         </Box>}
                                     />
@@ -300,7 +300,7 @@ const SectionList = () => {
                         </Grid>
                     ))}
                 </Grid>
-                {!sections?.length && (
+                {!loading && !sections?.length && (
                     <NoRecords message="No Sections found"/>
                 )}
             </List>
