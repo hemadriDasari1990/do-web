@@ -79,7 +79,7 @@ function Features() {
                           variant="body2"
                           color="textPrimary"
                         >
-                          Writenpost is not a "that's just the way it is" kind of
+                          Let's do retro is not a "that's just the way it is" kind of
                           place.
                         </Typography>
                       </React.Fragment>

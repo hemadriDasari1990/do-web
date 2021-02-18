@@ -134,7 +134,7 @@ const Header = () => {
                                     color="primary"
                                     variant="outlined"
                                 >
-                                    Create Organization
+                                    Register
                                 </Button>
                             </Box>}
                             {!authenticated && pathname !== "/login" && <Box>

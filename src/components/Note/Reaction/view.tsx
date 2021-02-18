@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)"
     },
     disAgreeIconStyle: {
-        background: "linear-gradient(50deg, #08AEEA 0%, #2AF598 100%)",
+        background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
     },
     loveIconStyle: {
         background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)"
     },
     deserveIconStyle: {
-        background: "linear-gradient(50deg, #ff8d00 0%, #ffc200ba 100%)"
+        background: "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)"
     },
     reactionStyle: {
         fontSize: 12

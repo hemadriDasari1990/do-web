@@ -1,7 +1,8 @@
 import * as routePath from "./config";
 
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { Theme, makeStyles } from '@material-ui/core/styles'
 
 import Box from "@material-ui/core/Box";
 import { ORGANIZATION_DASHBOARD } from "./config";
@@ -22,7 +23,19 @@ const Login = React.lazy(() => import("../components/Organization/Login"));
 const ProjectDashboard = React.lazy(() => import("../components/Project"));
 const BoardDashboard = React.lazy(() => import("../components/Board"));
 const DepartmentDashboard = React.lazy(() => import("../components/Department"));
-  
+const FAQ = React.lazy(() => import("../components/Footer/Faq"));
+const Privacy = React.lazy(() => import("../components/Footer/Privacy"));
+const Security = React.lazy(() => import("../components/Footer/Security"));
+const Features = React.lazy(() => import("../components/Footer/Features"));
+
+const useStyles = makeStyles((theme: Theme) => ({
+    boxStyle: {
+        [theme.breakpoints.down('xs')]: {
+
+        },
+    }
+  }));
+
 const routes = () => {
     return [
         {
@@ -56,6 +69,22 @@ const routes = () => {
         {
             path: routePath.BOARD_DASHBOARD,
             component: BoardDashboard
+        },
+        {
+            path: routePath.FAQ,
+            component: FAQ
+        },
+        {
+            path: routePath.PRIVACY_POLICY,
+            component: Privacy
+        },
+        {
+            path: routePath.SECURITY,
+            component: Security
+        },
+        {
+            path: routePath.FEATURES,
+            component: Features
         }
     ]
 }
@@ -78,6 +107,7 @@ const protectedRoutes = () => {
 }
 
 const Routes = () => {
+    const { boxStyle } = useStyles();
     const authenticated: boolean = useAuthenticated();
     const history = useHistory();
     const { organizationId } = useLogin();
@@ -90,7 +120,7 @@ const Routes = () => {
 
     const renderRoutes = () => {
         return (
-            <Box>
+            <Box className={boxStyle}>
                 <Switch>
                     {routes().map((route: {[Key: string]: any}, index: number) => (
                         <Route exact key={"Key-"+index} component={route.component} path={route.path} />
@@ -106,9 +136,9 @@ const Routes = () => {
     }
         
     return (
-        <React.Fragment>
+        <Suspense fallback={<></>}>
             {renderRoutes()}
-        </React.Fragment>
+        </Suspense>
     )
 }
 

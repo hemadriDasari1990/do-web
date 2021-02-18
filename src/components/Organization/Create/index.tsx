@@ -5,7 +5,7 @@ import { useOrganization, useOrganizationLoading } from "../../../redux/state/or
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
-import CreateOrganization from '../../../assets/create-organization.svg'
+import CreateOrganization from '../../../assets/create.svg'
 import Grid from '@material-ui/core/Grid'
 import { Hidden } from '@material-ui/core';
 import { LOGIN } from "../../../routes/config";
@@ -112,7 +112,7 @@ const Create = () => {
                 <Grid container spacing={2}>
                     <Hidden only={["xs"]}>
                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                            <Box mt={5}>
+                            <Box mt={5} textAlign="center">
                                 <Zoom in={true} timeout={2000}>
                                     <img src={CreateOrganization} height="300px" width="fit-content"/>
                                 </Zoom>
@@ -181,7 +181,7 @@ const Create = () => {
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmit(event)}
                                     disabled={disableButton()}
                                 >
-                                    Submit
+                                    Register
                                 </Button>
                             </Box>
                             <Box>

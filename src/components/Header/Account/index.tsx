@@ -15,6 +15,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { Typography } from '@material-ui/core'
 import Zoom from '@material-ui/core/Zoom'
 import { makeStyles } from '@material-ui/core/styles';
+import socket from "../../../socket";
 import { useHistory } from 'react-router-dom';
 import { useOrganization } from "../../../redux/state/organization"
 
@@ -44,6 +45,7 @@ const UserAccount = (props: any) => {
     
     const handleLogout = async () => {
         sessionStorage.removeItem("token");
+        socket.off("login-success");
         handleDrawerClose();
         history.push(LOGIN)
     }

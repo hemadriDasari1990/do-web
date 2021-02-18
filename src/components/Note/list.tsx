@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography'
 import { createOrUpdateReaction } from '../../redux/actions';
 import { deleteNote } from '../../redux/actions';
+import getPastTime from '../../util/getPastTime';
 // import Zoom from '@material-ui/core/Zoom'
 // import formateNumber from "../../util/formateNumber";
 // import getPastTime from "../../util/getPastTime";
@@ -144,7 +145,6 @@ const NoteList = (props: any) => {
     useEffect(() => {
         setNotesList(notes);
         socket.on(`new-reaction-${sectionId}`, (newReaction: {[Key:string]: any}) => {
-            console.log("test", 123, selectedNote)
             updateTotalReactions(newReaction);
         });
         
@@ -270,8 +270,13 @@ const NoteList = (props: any) => {
                                     <Typography variant="h6">{note.description}</Typography>
                                 </Box>
                                 <Box pt={2} display="flex" justifyContent="space-between">
-                                    <Box>
-                                        <ReactionView note={note} />
+                                    <Box display="flex">
+                                        <Box>
+                                            <ReactionView note={note} />
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="h6">({getPastTime(note.createdAt)})</Typography>
+                                        </Box>
                                     </Box>
                                     <Box display="flex">
                                         <Tooltip title="Add your reaction">

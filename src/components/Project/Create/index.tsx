@@ -73,7 +73,7 @@ const Create = (props: any) => {
             <ResponsiveDialog open={openDialog} title="Create New Project" pcta="Save" scta="Cancel" handleSave={handleSubmit} handleClose={handleClose} disablePrimaryCTA={disableButton()}>
                 <Grid container spacing={2}>
                     <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                        <Box mt={5}>
+                        <Box mt={5} textAlign="center">
                             <Zoom in={true} timeout={2000}>
                                 <img src={CreateNewProject} height="130px" width="fit-content"/>
                             </Zoom>

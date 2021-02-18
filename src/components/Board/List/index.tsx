@@ -1,4 +1,13 @@
 import React, { useEffect, useState } from "react";
+// import ListItem from '@material-ui/core/ListItem'
+// import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+// import ListItemText from '@material-ui/core/ListItemText'
+// import Menu from '@material-ui/core/Menu'
+// import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+// import Zoom from '@material-ui/core/Zoom'
+// import { getSectionsByBoard } from "../../redux/actions/section";
+import { Theme, makeStyles } from '@material-ui/core/styles';
 import { useBoard, useLoading } from "../../../redux/state/board"
 
 import AddIcon from '@material-ui/icons/Add';
@@ -36,15 +45,6 @@ import { Typography } from '@material-ui/core';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'
-// import ListItem from '@material-ui/core/ListItem'
-// import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-// import ListItemText from '@material-ui/core/ListItemText'
-// import Menu from '@material-ui/core/Menu'
-// import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import Zoom from '@material-ui/core/Zoom'
-// import { getSectionsByBoard } from "../../redux/actions/section";
-import { makeStyles } from '@material-ui/core/styles';
 // import { getSectionsByBoard } from "../../redux/actions/section";
 import { replaceStr } from "../../../util";
 // import { Tooltip, Typography } from '@material-ui/core'
@@ -59,7 +59,7 @@ const NoRecords = React.lazy(() => import("../../NoRecords"));
 const CreateBoard = React.lazy(() => import("../Create"));
 const Loader = React.lazy(() => import("../../Loader/components"));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
     countStyle: {
       borderRadius: 5,
       border: "1px solid #0072ff",
@@ -88,11 +88,18 @@ const useStyles = makeStyles(() => ({
   boxStyle: {
     backgroundColor: "aliceblue",
     borderRadius: 6
+  },
+  buttonStyle: {
+    textAlign: "end",
+    [theme.breakpoints.down('xs')]: {
+        textAlign: "center",
+        width: "100%"
+    },
   }
 }));
 
 const BoardList = () => {
-    const { cursor, countStyle, countTextStyle, avatarBoxStyle, cardStyle, boxTextStyle, boxStyle } = useStyles();
+    const { cursor, countStyle, countTextStyle, avatarBoxStyle, cardStyle, boxTextStyle, boxStyle, buttonStyle } = useStyles();
     // const dispatch = useDispatch();
     const history = useHistory();
     
@@ -150,7 +157,7 @@ const BoardList = () => {
     }
 
     const getRandomColor = () => {
-      let colorValues = ["linear-gradient(50deg, #ea087b 0%, #ff5656 100%)", "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)", "linear-gradient(50deg, #ff8d00 0%, #ffc200ba 100%)", "linear-gradient(50deg, #08AEEA 0%, #2AF598 100%)", "linear-gradient(50deg, rgb(255 224 0) 0%, rgb(255 0 59 / 94%) 100%)", "linear-gradient(90deg, #f8ff00 0%, #3ad59f 100%)"];
+      let colorValues = ["linear-gradient(50deg, #ea087b 0%, #ff5656 100%)", "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)", "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)", "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)", "linear-gradient(50deg, rgb(255 224 0) 0%, rgb(255 0 59 / 94%) 100%)", "linear-gradient(90deg, #f8ff00 0%, #3ad59f 100%)"];
       return colorValues[Math.floor(Math.random() * colorValues.length)];
     }
     
@@ -303,9 +310,16 @@ const BoardList = () => {
         const renderCardActions = (board: {[Key: string]: any}) => {
           return (
             <Box display="flex" justifyContent="space-between">
-              <Box display="flex" className={boxStyle}>
-                <Box className={boxTextStyle}>
-                  <Typography color="primary" variant="body2">{formateNumber(board?.totalSections || 0)}{board?.totalSections == 1 ? " section": " sections"}</Typography>
+              <Box display="flex">
+                <Box display="flex" className={boxStyle} mr={2}>
+                  <Box className={boxTextStyle}>
+                    <Typography color="primary" variant="body2">Sprint {formateNumber(board?.sprint || 0)}</Typography>
+                  </Box>
+                </Box>
+                <Box display="flex" className={boxStyle}>
+                  <Box className={boxTextStyle}>
+                    <Typography color="primary" variant="body2">{formateNumber(board?.totalSections || 0)}{board?.totalSections == 1 ? " section": " sections"}</Typography>
+                  </Box>
                 </Box>
               </Box>
               <Box>
@@ -326,47 +340,49 @@ const BoardList = () => {
     return (
         <React.Fragment>
           <Loader backdrop={true} enable={loading || projectloading} />
-          <Grid container spacing={2}>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <Box mt={4} display="flex" justifyContent="space-between">
-                    <Box display="flex" justifyContent="space-between">
-                        <Hidden only={["xs"]}>
-                            <Typography variant="h1">{project?.title}</Typography> 
-                        </Hidden>
-                        <Hidden only={["xl", "lg", "md", "sm"]}>
-                            <Typography variant="h2">{project?.title}</Typography> 
-                        </Hidden>
-                        <Tooltip title="Total Boards">
-                          <Box ml={2} mt={1} className={countStyle}>
-                            <Typography color="primary" className={countTextStyle}>{totalBoards}</Typography>
-                          </Box>
-                        </Tooltip>
+          <Box py={4}>
+            <Grid container spacing={2}>
+              <Grid item xl={6} lg={6} md={4} sm={8} xs={12}>
+                <Box display="flex">
+                  <Hidden only={["xs"]}>
+                      <Typography variant="h1">{project?.title}</Typography> 
+                  </Hidden>
+                  <Hidden only={["xl", "lg", "md", "sm"]}>
+                      <Typography variant="h2">{project?.title}</Typography> 
+                  </Hidden>
+                  <Tooltip title="Total Boards">
+                    <Box ml={2} mt={1} className={countStyle}>
+                      <Typography color="primary" className={countTextStyle}>{totalBoards}</Typography>
                     </Box>
-                    <Box display="flex">
-                      <Box mr={2}>
-                        <Button
-                            variant="outlined"
-                            color="default"
-                            startIcon={<BackIcon color="primary" />}
-                            onClick={() => handleBack()}
-                          >
-                            <Typography color="primary" variant="body1" >Go Back to Projects</Typography>
-                          </Button>
-                      </Box>
-                      <Box>
-                        {boards?.length ? <Button
-                            variant="outlined"
-                            color="default"
-                            startIcon={<AddIcon color="primary" />}
-                            onClick={() => handleCreateNewBoard()}
-                        >
-                            <Typography color="primary" variant="body1" >Create New Board</Typography>
-                        </Button>: null}
-                      </Box>
-                    </Box>
+                  </Tooltip>
                 </Box>
+              </Grid>
+              <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+                <Box className={buttonStyle}>
+                  <Button
+                    variant="outlined"
+                    color="default"
+                    startIcon={<BackIcon color="primary" />}
+                    onClick={() => handleBack()}
+                  >
+                    <Typography color="primary" variant="body1">Go Back to Projects</Typography>
+                  </Button>
+                </Box>
+                </Grid>
+                <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+                    <Box className={buttonStyle}>
+                      {boards?.length ? <Button
+                          variant="contained"
+                          color="primary"
+                          startIcon={<AddIcon color="secondary" />}
+                          onClick={() => handleCreateNewBoard()}
+                      >
+                          <Typography color="secondary" variant="body1" >Create New Board</Typography>
+                      </Button>: null}
+                    </Box>
+                </Grid>
             </Grid>
-        </Grid>
+          </Box>
             {!loading && !showBoardForm && !boards?.length && (
               <Box>
                   <NoRecords message="No Boards found! Please add"/>

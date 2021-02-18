@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box'
 import Hidden from '@material-ui/core/Hidden'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography';
-import converToSeconds from "../../util/converToSeconds";
+// import converToSeconds from "../../util/converToSeconds";
 import { getBoardDetails } from "../../redux/actions/board";
 import { useBoard } from "../../redux/state/board"
 import { useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ import { useParams } from "react-router";
 // import { useSection } from "../../redux/state/section"
 
 const SectionList = React.lazy(() => import("../Section/list"));
-const Timer = React.lazy(() => import("../common/Timer"));
+// const Timer = React.lazy(() => import("../common/Timer"));
 // const NoRecords = React.lazy(() => import("../NoRecords"));
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -51,7 +51,7 @@ const Dashboard = () => {
     const { board } = useBoard();
     // const { section } = useSection();
 
-    const durationSeconds: number = converToSeconds(board?.duration);
+    // const durationSeconds: number = converToSeconds(board?.duration);
     // const { loading } = useLoading();
 
     /* Local state */
@@ -92,14 +92,14 @@ const Dashboard = () => {
                             <Hidden only={["xs"]}>
                                 <Box display="flex" className={timerBoxStyle}>
                                     <Typography className={timerStyle} variant="h3">You have</Typography>
-                                        <Timer callQueuedTime={durationSeconds} interval={1000} />
+                                        {/* <Timer callQueuedTime={durationSeconds} interval={1000} /> */}
                                     <Typography className={timerStyle} variant="h3">left</Typography>
                                 </Box>
                             </Hidden>
                             <Hidden only={["xl", "lg", "md", "sm"]}>
                                 <Box display="flex" className={timerBoxStyle}>
                                     <Typography className={timerStyle} variant="h3">You have</Typography>
-                                        <Timer callQueuedTime={durationSeconds} interval={1000} />
+                                        {/* <Timer callQueuedTime={durationSeconds} interval={1000} /> */}
                                     <Typography className={timerStyle} variant="h3">left</Typography>
                                 </Box>
                             </Hidden>

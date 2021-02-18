@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+// import { getSectionsByBoard } from "../../redux/actions/section";
+import { Theme, makeStyles } from '@material-ui/core/styles';
 import { useDepartment, useDepartmentLoading } from "../../../redux/state/department"
 import { useOrganization, useOrganizationLoading } from "../../../redux/state/organization"
 
@@ -30,8 +32,6 @@ import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'
 import getRandomColor from "../../../util/getRandomColor";
-// import { getSectionsByBoard } from "../../redux/actions/section";
-import { makeStyles } from '@material-ui/core/styles';
 import { replaceStr } from "../../../util";
 // import { updateDepartment } from "../../../redux/actions/department"
 // import { replaceStr } from "../../../util";
@@ -53,7 +53,7 @@ const UpdateDepartment = React.lazy(() => import("../Update"));
 const Loader = React.lazy(() => import("../../Loader/components"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
     cursor: {
       cursor: "pointer"
     },
@@ -82,21 +82,28 @@ const useStyles = makeStyles(() => ({
   boxStyle: {
     backgroundColor: "aliceblue",
     borderRadius: 6
+  },
+  buttonStyle: {
+    textAlign: "end",
+    [theme.breakpoints.down('xs')]: {
+        textAlign: "center",
+        width: "100%"
+    },
   }
 }));
 
 const DepartmentList = () => {
-    const { cursor, cardStyle, avatarBoxStyle, countStyle, countTextStyle, boxStyle, boxTextStyle } = useStyles();
+    const { cursor, cardStyle, avatarBoxStyle, countStyle, countTextStyle, boxStyle, boxTextStyle, buttonStyle } = useStyles();
     // const dispatch = useDispatch();
     const history = useHistory();
     
     /* Redux hooks */
     const { department } = useDepartment();
-    // const { organizationId } = useLogin();
+    // const { token } = useLogin();
     const { organization, departments: departmentsList, totalDepartments: totalDepartmentsCount } = useOrganization();
     const { loading } = useDepartmentLoading();
     const { loading: organizationloading } = useOrganizationLoading();
-
+    
     /* Redux hooks */
 
     /* Local state */
@@ -111,7 +118,7 @@ const DepartmentList = () => {
     const [selectedDepartment, setSelectedDepartment] = useState<{[Key: string]: any}>({});
     
     /* React Hooks */
-
+  
     const handleCreateNewDepartment = () => {
       setShowDepartmentForm(true);
     }
@@ -121,21 +128,22 @@ const DepartmentList = () => {
         return (
           <Box p={1.7}>
             <Tooltip title="Update">
-              <IconButton color="primary" size="small" aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleButton(event)}>
+              <IconButton color="primary" size="small" aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleButton(event, department)}>
                 <Zoom in={true} timeout={2000}>
                   <MoreHorizIcon />
                 </Zoom>
               </IconButton>
             </Tooltip>
-            {renderMenu(department)}
+            {renderMenu()}
           </Box>
         )
       }
 
-      const handleButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+      const handleButton = (event: React.MouseEvent<HTMLButtonElement>, department: {[Key: string]: any}) => {
         event.stopPropagation();
         setOpen(!open);
         setAnchorEl(event.currentTarget);
+        setSelectedDepartment(department);
       }
 
       const handleClose = () => {
@@ -146,9 +154,8 @@ const DepartmentList = () => {
         setOpenDeleteDialog(false);
       }
 
-      const handleMenuItem = async (event: React.MouseEvent<HTMLDivElement | MouseEvent>, val: string, department: {[Key: string]: any}) => {
+      const handleMenuItem = async (event: React.MouseEvent<HTMLDivElement | MouseEvent>, val: string) => {
         event.stopPropagation();
-        setSelectedDepartment(department);
         switch (val) {
           case 'edit':
             setShowDepartmentForm(true);
@@ -159,6 +166,7 @@ const DepartmentList = () => {
           default:
             break
         }
+        setOpen(false);
       }
       
       const renderDeleteDialog = () => {
@@ -177,14 +185,27 @@ const DepartmentList = () => {
     }
 
       useEffect(() => {
-        if(!loading && department?._id){
-          setShowDepartmentForm(false);
-          setDepartments((currentDepartments: Array<{[Key:string]: any}>) => [department, ...currentDepartments]);
-          setTotalDepartments(totalDepartments + 1);
-        }
         if(!loading && !department?._id){
           // setShowError(true);
         }
+
+        if(!loading && department?._id){
+          const departmentsList = [...departments];
+          const departmentIndex = departmentsList.findIndex((d: {[Key: string]: any}) => d._id === department._id);
+          const departmentData = departments[departmentIndex];
+          if(departmentData){
+              departmentData.title = department.title;
+              departmentData.description = department.description;
+              departmentsList[departmentIndex] = departmentData;
+              setDepartments(departmentsList);
+          } else {
+            setDepartments((currentDepartments: Array<{[Key:string]: any}>) => [...currentDepartments, department]);
+            setTotalDepartments(totalDepartments + 1);
+          }
+          setSelectedDepartment({});
+          setShowDepartmentForm(false);
+      }
+
     }, [loading, department])
 
     useEffect(() => {
@@ -195,7 +216,7 @@ const DepartmentList = () => {
       }
   }, [departmentsList])
 
-      const renderMenu = (department: {[Key: string]: any}) => {
+      const renderMenu = () => {
         return (
           <Menu
             id="fade-menu"
@@ -208,7 +229,7 @@ const DepartmentList = () => {
             getContentAnchorEl={null}
             TransitionComponent={Zoom}
           >
-            <ListItem button={true} onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'edit', department)}>
+            <ListItem button={true} onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'edit')}>
                 <ListItemAvatar style={{ minWidth: 35 }}>
                     <EditIcon />
                 </ListItemAvatar>
@@ -219,7 +240,7 @@ const DepartmentList = () => {
             </ListItem>
             <ListItem
               button={true}
-              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'delete', department)}
+              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'delete')}
             >
               <ListItemAvatar style={{ minWidth: 35 }}>
                 <DeleteOutlineIcon />
@@ -318,42 +339,49 @@ const DepartmentList = () => {
       const renderCreateNewDepartment = () => {
         return (
           <Button
-            variant="outlined"
-            color="default"
-            startIcon={<AddIcon color="primary" />}
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon color="secondary" />}
             onClick={() => handleCreateNewDepartment()}
           >
-            <Typography color="primary" variant="body1" >Create New Department</Typography>
+            <Typography color="secondary" variant="body1">Create New Department</Typography>
           </Button>
         )
+      }
+
+      const handleUpdateForm = () => {
+        setShowDepartmentForm(false);
+        handleClose();
       }
       
     return (
         <React.Fragment>
-          <Loader backdrop={true} enable={loading || organizationloading} />
-          {renderDeleteDialog()}
+        <Loader backdrop={true} enable={loading || organizationloading} />
+        {renderDeleteDialog()}
+        <Box py={4}>
           <Grid container spacing={2}>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <Box mt={5} display="flex" justifyContent="space-between">
-                    <Box display="flex" justifyContent="space-between">
-                        <Hidden only={["xs"]}>
-                            <Typography variant="h1">{organization?.title}</Typography> 
-                        </Hidden>
-                        <Hidden only={["xl", "lg", "md", "sm"]}>
-                            <Typography variant="h2">{organization?.title}</Typography> 
-                        </Hidden>
-                        <Tooltip title="Total Departments">
-                          <Box ml={2} mt={1} className={countStyle}>
-                            <Typography color="primary" className={countTextStyle}>{totalDepartments}</Typography>
-                          </Box>
-                        </Tooltip>
-                    </Box>
-                    {departments?.length ? <Box>
-                      {renderCreateNewDepartment()}
-                    </Box>: null}
-                </Box>
+            <Grid item xl={9} lg={9} md={8} sm={8} xs={12}>
+              <Box display="flex">
+                <Hidden only={["xs"]}>
+                  <Typography variant="h1">{organization?.title}</Typography> 
+                </Hidden>
+                <Hidden only={["xl", "lg", "md", "sm"]}>
+                    <Typography variant="h2">{organization?.title}</Typography> 
+                </Hidden>
+                <Tooltip title="Total Departments">
+                  <Box ml={2} mt={1} className={countStyle}>
+                    <Typography color="primary" className={countTextStyle}>{totalDepartments}</Typography>
+                  </Box>
+                </Tooltip>
+              </Box>
             </Grid>
-        </Grid>
+            <Grid item xl={3} lg={3} md={4} sm={12} xs={12}>
+              {departments?.length ? <Box className={buttonStyle}>
+                {renderCreateNewDepartment()}
+              </Box>: null}
+            </Grid>
+          </Grid>
+        </Box>
         {!loading && (!departments || !departments?.length) && (
           <Box mt={10}>
               <NoRecords message="No Departments found! Please add"/>
@@ -362,7 +390,7 @@ const DepartmentList = () => {
               </Box>
           </Box>
           )}
-          <UpdateDepartment selectedDepartment={selectedDepartment} openDialog={showDepartmentForm} setShowForm={setShowDepartmentForm} />
+          <UpdateDepartment selectedDepartment={selectedDepartment} openDialog={showDepartmentForm} handleUpdateForm={handleUpdateForm} />
           <List>
               <Grid container spacing={2}>
                 {!loading && Array.isArray(departments) ? departments.map((department: {[Key: string]: any}, index: number) => (

@@ -44,7 +44,7 @@ const Login = () => {
     const { uniqueKey, password } = formData;
     const [apiTriggered, setApiTriggered] = useState(false);
     const [showError, setShowError] = useState(false);
-    
+
     /* React Hooks */
     useEffect(() => {
         if(!loading && apiTriggered && token){
@@ -142,7 +142,7 @@ const Login = () => {
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmit(event)}
                                     disabled={disableButton()}
                                 >
-                                    Submit
+                                    Login
                                 </Button>
                             </Box>
                             <Box>

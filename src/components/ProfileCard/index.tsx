@@ -13,9 +13,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
   media: {
-    height: 100,
-    width: 100,
-    float: "right"
+    height: 80,
+    width: 80,
+    float: "right",
   },
   actions: {
   },
@@ -53,11 +53,13 @@ function ProfileCard(props: any) {
         <React.Fragment>
             <Card>
                 <CardActionArea>
-                  <Avatar
-                    alt={title}
-                    src={path}
-                    className={media}
-                  />
+                  <Box pt={1} pr={1}>
+                    <Avatar
+                      alt={title}
+                      src={path}
+                      className={media}
+                    />
+                  </Box>
                   <CardContent>
                       <Box className={boxStyle}>
                         <Typography className={titleStyle} gutterBottom variant="body2">

@@ -11,3 +11,7 @@ export const ORGANIZATION = "/organization";
 export const ORGANIZATION_DASHBOARD = "/organization/:organizationId";
 export const DEPARTMENT_DASHBOARD = "/department/:departmentId";
 export const PROJECT_DASHBOARD = "/projects/:projectId";
+export const FAQ = "/faq";
+export const PRIVACY_POLICY = "/privacy-policy";
+export const SECURITY = "/security";
+export const FEATURES = "/features";

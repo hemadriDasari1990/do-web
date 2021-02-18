@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { Theme, makeStyles } from '@material-ui/core/styles';
 import { Tooltip, Typography } from '@material-ui/core'
 import { deleteSection, updateSection } from "../../redux/actions/section";
 import { useLoading, useSection } from "../../redux/state/section"
 
-// import Badge from '@material-ui/core/Badge'
+import BackIcon from '@material-ui/icons/Reply';
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import Container from '@material-ui/core/Container'
 import DeleteIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid'
+import Hidden from '@material-ui/core/Hidden'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -16,11 +20,14 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { PROJECT_DASHBOARD } from "../../routes/config";
 import Zoom from '@material-ui/core/Zoom'
 import { getSectionsByBoard } from "../../redux/actions/section";
-import { makeStyles } from '@material-ui/core/styles';
+import { replaceStr } from "../../util";
 import socket from "../../socket";
+import { useBoard } from "../../redux/state/board"
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { useParams } from "react-router";
 
 const Note = React.lazy(() => import("../Note"));
@@ -29,7 +36,7 @@ const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const UpdateSection = React.lazy(() => import("./Update"));
 const Loader = React.lazy(() => import("../Loader/components"));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
     sectionHeader: {
         fontWeight: "bold",
         padding: "5px 15px 5px 15px",
@@ -55,17 +62,27 @@ const useStyles = makeStyles(() => ({
         border: "1px solid #0072ff",
         minWidth: 30,
         height: 30
+    },
+    buttonStyle: {
+        textAlign: "end",
+        [theme.breakpoints.down('xs')]: {
+            textAlign: "center",
+            width: "100%"
+        },
     }
 }));
 
 const SectionList = () => {
-    const { sectionHeader, titleStyle, sectionStyle, listItemStyle, countStyle, countTextStyle } = useStyles();
+    const { sectionHeader, titleStyle, sectionStyle, listItemStyle, countStyle, countTextStyle, buttonStyle } = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
     const { boardId } = useParams<{ boardId: string }>();
     
     /* Redux hooks */
     const { section } = useSection();
+    const { totalSections } = useBoard();
     const { loading } = useLoading();
+    const { board } = useBoard();
 
     /* Local state */
     const [action, setAction] = useState(false);
@@ -267,11 +284,61 @@ const SectionList = () => {
         )
       }
 
+      const handleBack = () => {
+        history.push(replaceStr(PROJECT_DASHBOARD, ":projectId", board?.projectId));
+      }
+
     return (
         <React.Fragment>
             <Loader backdrop={true} enable={loading} />
             {renderDeleteDialog()}
             {renderUpdateDialog()}
+            <Container>
+                <Box py={5}>
+                    <Grid container spacing={1}>
+                        <Grid item xl={9} lg={9} md={8} sm={8} xs={12}>
+                            <Box display="flex">
+                                <Hidden only={["xs"]}>
+                                    <Typography variant="h1">{board?.title}</Typography> 
+                                </Hidden>
+                                <Hidden only={["xl", "lg", "md", "sm"]}>
+                                    <Typography variant="h2">{board?.title}</Typography> 
+                                </Hidden>
+                                <Tooltip title="Total Sections">
+                                    <Box ml={2} mt={1} className={countStyle}>
+                                        <Typography color="primary" className={countTextStyle}>{totalSections}</Typography>
+                                    </Box>
+                                </Tooltip>
+                            </Box>
+                        </Grid> 
+                        <Grid item xl={3} lg={3} md={4} sm={4} xs={12}>
+                            <Box mr={2} className={buttonStyle}>
+                                    <Button
+                                        variant="outlined"
+                                        color="default"
+                                        startIcon={<BackIcon color="primary" />}
+                                        onClick={() => handleBack()}
+                                    >
+                                        <Typography color="primary" variant="body1" >Go Back to Boards</Typography>
+                                    </Button>
+                            </Box>
+                        </Grid> 
+                    </Grid>
+                </Box>
+                {/* <Box py={5} display="flex" justifyContent="space-between">
+                    
+                    <Box mr={2}>
+                        <Button
+                            variant="outlined"
+                            color="default"
+                            startIcon={<BackIcon color="primary" />}
+                            onClick={() => handleBack()}
+                        >
+                            <Typography color="primary" variant="body1" >Go Back to Boards</Typography>
+                        </Button>
+                    </Box>
+                </Box> */}
+            </Container>
             <List>
                 <Grid container spacing={1}>
                     {Array.isArray(sections) && sections.map((item: {[Key: string]: any}) => (
@@ -286,7 +353,9 @@ const SectionList = () => {
                                                 </Tooltip>
                                             </Box>
                                             <Box mt={1} className={countStyle}>
-                                                <Typography color="primary" className={countTextStyle}>{item.totalNotes}</Typography>
+                                                <Tooltip title="Total Notes">
+                                                    <Typography color="primary" className={countTextStyle}>{item.totalNotes}</Typography>
+                                                </Tooltip>
                                             </Box>
                                         </Box>}
                                     />

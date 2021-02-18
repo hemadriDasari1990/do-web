@@ -10,9 +10,17 @@ import PersonIcon from '@material-ui/icons/Person';
 import React from 'react'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  avatarStyle: {
+    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)"
+  },
+});
 
 function FeedbackList(props: any) {
     const { feedbacks } = props;
+    const { avatarStyle } = useStyles();
     return (
       <>
         <List>
@@ -29,8 +37,8 @@ function FeedbackList(props: any) {
                     className="b-r-15 cursor mb-10"
                   >
                     <ListItemAvatar>
-                      <Avatar>
-                        <PersonIcon />
+                      <Avatar className={avatarStyle}>
+                        <PersonIcon color="secondary"/>
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText

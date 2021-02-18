@@ -1,5 +1,7 @@
 import { ORGANIZATION_DASHBOARD, PROJECT_DASHBOARD } from '../../../routes/config';
 import React, { useEffect, useState } from "react";
+// import { getSectionsByBoard } from "../../redux/actions/section";
+import { Theme, makeStyles } from '@material-ui/core/styles';
 import { useDepartment, useDepartmentLoading } from "../../../redux/state/department"
 import { useProject, useProjectLoading } from "../../../redux/state/project"
 
@@ -31,8 +33,6 @@ import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'
 import getRandomColor from "../../../util/getRandomColor";
-// import { getSectionsByBoard } from "../../redux/actions/section";
-import { makeStyles } from '@material-ui/core/styles';
 import { replaceStr } from "../../../util";
 // import { updateProject } from "../../../redux/actions/project"
 // import { replaceStr } from "../../../util";
@@ -54,7 +54,7 @@ const CreateProject = React.lazy(() => import("../Create"));
 const Loader = React.lazy(() => import("../../Loader/components"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   cursor: {
     cursor: "pointer"
   },
@@ -83,11 +83,18 @@ const useStyles = makeStyles(() => ({
   boxStyle: {
     backgroundColor: "aliceblue",
     borderRadius: 6
+  },
+  buttonStyle: {
+    textAlign: "end",
+    [theme.breakpoints.down('xs')]: {
+      textAlign: "center",
+      width: "100%"
+    }
   }
 }));
 
 const ProjectList = () => {
-    const { cursor, cardStyle, avatarBoxStyle, countStyle, countTextStyle, boxStyle, boxTextStyle } = useStyles();
+    const { cursor, cardStyle, avatarBoxStyle, countStyle, countTextStyle, boxStyle, boxTextStyle, buttonStyle } = useStyles();
     // const dispatch = useDispatch();
     const history = useHistory();
     
@@ -290,7 +297,7 @@ const ProjectList = () => {
                   <Typography color="primary" variant="body2">{formateNumber(project?.totalBoards || 0)}{project?.totalBoards == 1 ? " board": " boards"}</Typography>
                 </Box>
               </Box>
-          </Box>
+            </Box>
           )
       }
 
@@ -322,47 +329,49 @@ const ProjectList = () => {
         <React.Fragment>
           <Loader backdrop={true} enable={loading || departmentloading} />
           {renderDeleteDialog()}
-          <Grid container spacing={2}>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <Box mt={5} display="flex" justifyContent="space-between">
-                    <Box display="flex" justifyContent="space-between">
-                        <Hidden only={["xs"]}>
-                            <Typography variant="h1">{department?.title}</Typography> 
-                        </Hidden>
-                        <Hidden only={["xl", "lg", "md", "sm"]}>
-                            <Typography variant="h2">{department?.title}</Typography> 
-                        </Hidden>
-                        <Tooltip title="Total Projects">
-                          <Box ml={2} mt={1} className={countStyle}>
-                            <Typography color="primary" className={countTextStyle}>{totalProjects}</Typography>
-                          </Box>
-                        </Tooltip>
-                    </Box>
-                    <Box display="flex">
-                      <Box mr={2}>
-                        <Button
-                            variant="outlined"
-                            color="default"
-                            startIcon={<BackIcon color="primary" />}
-                            onClick={() => handleBack()}
-                          >
-                            <Typography color="primary" variant="body1" >Go Back to Departments</Typography>
-                          </Button>
-                      </Box>
-                      {projects?.length ? <Box>
-                        <Button
-                          variant="outlined"
-                          color="default"
-                          startIcon={<AddIcon color="primary" />}
-                          onClick={() => handleCreateNewProject()}
-                        >
-                          <Typography color="primary" variant="body1" >Create New Project</Typography>
-                        </Button>
-                      </Box>: null}
-                    </Box>
+          <Box py={4}>
+            <Grid container spacing={2}>
+              <Grid item xl={6} lg={6} md={4} sm={8} xs={12}>
+                <Box display="flex">
+                  <Hidden only={["xs"]}>
+                    <Typography variant="h1">{department?.title}</Typography> 
+                </Hidden>
+                <Hidden only={["xl", "lg", "md", "sm"]}>
+                    <Typography variant="h2">{department?.title}</Typography> 
+                </Hidden>
+                <Tooltip title="Total Projects">
+                  <Box ml={2} mt={1} className={countStyle}>
+                    <Typography color="primary" className={countTextStyle}>{totalProjects}</Typography>
+                  </Box>
+                </Tooltip>
                 </Box>
+              </Grid>
+              <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+                <Box className={buttonStyle}>
+                  <Button
+                    variant="outlined"
+                    color="default"
+                    startIcon={<BackIcon color="primary" />}
+                    onClick={() => handleBack()}
+                  >
+                    <Typography color="primary" variant="body1" >Go Back to Departments</Typography>
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+                {projects?.length ? <Box className={buttonStyle}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon color="secondary" />}
+                    onClick={() => handleCreateNewProject()}
+                  >
+                    <Typography color="secondary" variant="body1" >Create New Project</Typography>
+                  </Button>
+                </Box>: null}
+              </Grid>
             </Grid>
-        </Grid>
+          </Box>
         {!loading && (!projects || !projects?.length) && (
           <Box mt={10}>
               <NoRecords message="No Projects found! Please add"/>

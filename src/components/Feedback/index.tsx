@@ -17,7 +17,7 @@ const Loader = React.lazy(() => import("../Loader/components"));
 const FeedbackList = React.lazy(() => import("./list"));
 
 function Feedback(props: any) {
-  const { showFeedbacks } = props;
+    const { showFeedbacks } = props;
     const dispatch = useDispatch();
     /* Redux hooks */
     const { feedback } = useFeedback();
@@ -103,14 +103,13 @@ function Feedback(props: any) {
     return (
       <React.Fragment>
         <Container disableGutters>
-          <Box mt={3}>
+          <Box pt={5}>
             <Typography variant="h1">Feedback</Typography>
           </Box>
           <Box mt={3}>
             <Typography variant="body1">
               This page is designed for end users to help us improve the system by
-              sharing their user experience. In order to submit any form user has to
-              first login to the page using one of the social logins provided.{' '}
+              sharing their user experience.
             </Typography>
             <Box mt={2}>
               <Typography variant="body2">
@@ -219,7 +218,7 @@ function Feedback(props: any) {
               </Slide>
             </Box>: null}
           <Loader showLoader={loading} />
-          {!loading && showFeedbacks && <FeedbackList feedbacks={feedbacks} />}
+          {!loading && feedbacks?.length ? <FeedbackList feedbacks={feedbacks} showFeedbacks={showFeedbacks} />: null}
         </Container>
       </React.Fragment>
     )

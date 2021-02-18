@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Create = (props: any) => {
-    const { openDialog, department, setShowForm, selectedDepartment } = props;
+    const { openDialog, handleUpdateForm, selectedDepartment } = props;
     const { textFieldStyle } = useStyles();
     const { organizationId } = useLogin();
     const dispatch = useDispatch();
@@ -38,7 +38,8 @@ const Create = (props: any) => {
     const [formData, setFormData] = useState<{[Key: string]: any}>({
         title: selectedDepartment.title,
         description: selectedDepartment.description,
-        organizationId
+        organizationId,
+        departmentId: selectedDepartment._id
     });
     const { title, description } = formData;
 
@@ -46,11 +47,11 @@ const Create = (props: any) => {
     }, []);
 
     useEffect(() => {
-        if(department?._id === selectedDepartment?._id){
+        if(selectedDepartment?._id){
             setFormData({ ...formData, title: selectedDepartment.title,
-                description: selectedDepartment.description });
+                description: selectedDepartment.description, departmentId: selectedDepartment._id });
         }
-    }, [department, selectedDepartment]);
+    }, [selectedDepartment]);
     
     /* Handler functions */
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +59,7 @@ const Create = (props: any) => {
     }
 
     const handleClose = () => {
-        setShowForm(false);
+        handleUpdateForm();
     }
 
     const handleSubmit = () => {
@@ -80,7 +81,7 @@ const Create = (props: any) => {
             <ResponsiveDialog open={openDialog} title="Create New Department" pcta="Save" scta="Cancel" handleSave={handleSubmit} handleClose={handleClose} disablePrimaryCTA={disableButton()}>
                 <Grid container spacing={2}>
                     <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                        <Box mt={5}>
+                        <Box mt={5} textAlign="center">
                             <Zoom in={true} timeout={2000}>
                                 <img src={CreateNewDepartment} height="150px" width="fit-content"/>
                             </Zoom>

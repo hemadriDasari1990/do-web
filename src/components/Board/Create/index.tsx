@@ -71,7 +71,7 @@ const Create = () => {
             <Grid container spacing={2}>
                 <Hidden only={["xs"]}>
                     <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                        <Box mt={5}>
+                        <Box mt={5} textAlign="center">
                             <Zoom in={true} timeout={2000}>
                                 <img src={ScrumBoard} height="300px" width="fit-content"/>
                             </Zoom>
