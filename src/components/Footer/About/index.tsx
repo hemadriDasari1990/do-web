@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { Hidden } from '@material-ui/core';
+import Hidden from '@material-ui/core/Hidden';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom';

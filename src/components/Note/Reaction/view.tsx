@@ -9,7 +9,7 @@ import Plus2Icon from '@material-ui/icons/ExposurePlus2';
 import PlusOneIcon from '@material-ui/icons/ExposurePlus1';
 import React from 'react'
 import Tooltip from '@material-ui/core/Tooltip';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom';
 import formateNumber from "../../../util/formateNumber";
 

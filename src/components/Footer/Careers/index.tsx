@@ -1,11 +1,11 @@
-import { Box, Typography } from '@material-ui/core';
-
+import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
-import HintMessage from '../../HintMessage';
 import React from 'react'
+import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 
 const Features = React.lazy(() => import("./Features"));
+const HintMessage = React.lazy(() => import("../../HintMessage"));
 
 function Careers(){
 

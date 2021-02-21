@@ -6,7 +6,7 @@ import { useOrganization, useOrganizationLoading } from "../../redux/state/organ
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import { Container } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import Tooltip from '@material-ui/core/Tooltip'

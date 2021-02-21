@@ -19,7 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Tooltip from '@material-ui/core/Tooltip'
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import { Tooltip, Typography } from '@material-ui/core'
 import { deleteSection, updateSection } from "../../redux/actions/section";
 import { useLoading, useSection } from "../../redux/state/section"
 
@@ -21,6 +20,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { PROJECT_DASHBOARD } from "../../routes/config";
+import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
 import Zoom from '@material-ui/core/Zoom'
 import { getSectionsByBoard } from "../../redux/actions/section";
 import { replaceStr } from "../../util";

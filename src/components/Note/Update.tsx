@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom'
 import { makeStyles } from '@material-ui/core/styles';
 import { updateNote } from '../../redux/actions';

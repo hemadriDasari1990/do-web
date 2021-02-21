@@ -15,7 +15,7 @@ import Menu from '@material-ui/core/Menu'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { PROJECT_DASHBOARD } from '../../../routes/config';
 import React from "react";
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'

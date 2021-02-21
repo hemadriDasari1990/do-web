@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
-// import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
@@ -10,15 +9,9 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Zoom from '@material-ui/core/Zoom'
 import { updateBoard } from "../../../redux/actions/board"
-// import { createBoard } from "../../../redux/actions/board"
-// import { replaceStr } from "../../../util";
-// import { showCreateBoardButton } from "../../../redux/actions/common"
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 
-// import { useBoard, useLoading } from "../../../redux/state/board"
-
-// import { useHistory } from "react-router";
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
 const useStyles = makeStyles((theme: Theme) => ({

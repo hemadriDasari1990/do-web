@@ -1,13 +1,14 @@
-import { Box, Typography } from '@material-ui/core';
 import React, { useEffect } from "react";
 import { Theme, makeStyles } from '@material-ui/core/styles';
 import { useFeedback, useLoading } from "../../redux/state/feedback"
 
+import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '../../assets/home.svg'
 import { ORGANIZATION_DASHBOARD } from "../../routes/config";
 import Slide from '@material-ui/core/Slide';
+import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom';
 import { getFeedbacks } from "../../redux/actions/feedback";
 import { replaceStr } from "../../util";

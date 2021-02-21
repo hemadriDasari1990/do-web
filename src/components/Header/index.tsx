@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
 import SportsVolleyballIcon from '@material-ui/icons/SportsVolleyball';
 import Tooltip from '@material-ui/core/Tooltip';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuthenticated } from "../../redux/state/common";

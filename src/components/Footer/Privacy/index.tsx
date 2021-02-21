@@ -1,4 +1,3 @@
-// const HintMessage = React.lazy(() => import("../../HintMessage"));
 import { ROOT, TERMS } from "../../../routes/config";
 
 import Box from '@material-ui/core/Box';

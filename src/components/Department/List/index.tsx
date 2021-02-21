@@ -15,7 +15,7 @@ import Menu from '@material-ui/core/Menu'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import React from "react";
 import SportsVolleyballIcon from '@material-ui/icons/SportsVolleyball';
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'

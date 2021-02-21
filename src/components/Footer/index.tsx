@@ -16,7 +16,7 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import React from 'react';
 import SportsVolleyballIcon from '@material-ui/icons/SportsVolleyball';
 import TwitterIcon from '@material-ui/icons/Twitter'
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import YouTubeIcon from '@material-ui/icons/YouTube'
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router";

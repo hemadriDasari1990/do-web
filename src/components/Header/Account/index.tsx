@@ -12,7 +12,7 @@ import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
 import SettingsIcon from '@material-ui/icons/Settings';
 import Slide from '@material-ui/core/Slide'
 import Tooltip from '@material-ui/core/Tooltip'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import Zoom from '@material-ui/core/Zoom'
 import { makeStyles } from '@material-ui/core/styles';
 import socket from "../../../socket";
