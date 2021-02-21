@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField'
 import { Tooltip } from '@material-ui/core';
 import Zoom from '@material-ui/core/Zoom'
 import { makeStyles } from '@material-ui/core/styles';
-// import socket from "../../socket";
 import { updateNote } from '../../redux/actions';
 import { useDispatch } from "react-redux";
 

@@ -1,6 +1,5 @@
 import { LOGIN, ORGANIZATION, ROOT } from "../../routes/config";
 import React, { useState } from "react";
-import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -10,26 +9,23 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
 import SportsVolleyballIcon from '@material-ui/icons/SportsVolleyball';
-// import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Typography } from '@material-ui/core';
 import Zoom from '@material-ui/core/Zoom';
+import { makeStyles } from '@material-ui/core/styles';
 import { useAuthenticated } from "../../redux/state/common";
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom'
 import { useOrganization } from "../../redux/state/organization"
 
-// import { useShowCreateBoardButton } from '../../redux/state/common';
-
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
     appBarStyle: {
         height: 60,
         width: "100%",
         backgroundColor: "#fff !important",
-        // background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
     },
     iconStyle: {
         width: 35,
@@ -88,14 +84,17 @@ const Header = () => {
     const handleAccount = () => {
         setOpen(!open);
     }
+    
     return (
         <AppBar className={appBarStyle}>
             {/* <Toolbar variant="dense"> */}
                 <Container>
-                    <PersistentDrawerRight open={open} handleDrawerClose={handleDrawerClose}><UserAccount handleDrawerClose={handleDrawerClose}/></PersistentDrawerRight>
+                    <PersistentDrawerRight open={open} handleDrawerClose={handleDrawerClose}>
+                        <UserAccount handleDrawerClose={handleDrawerClose}/>
+                    </PersistentDrawerRight>
                     <Box mt={1} display="flex" justifyContent="space-between">
                         <Hidden only={["xl", "lg", "md", "sm"]}>
-                            <Box display="flex">
+                            <Box display="flex" className={cursor} onClick={() => refreshDashboard()}>
                                 <Box mt={1} mr={0.5}>
                                     <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
                                 </Box>
@@ -126,7 +125,7 @@ const Header = () => {
                             </Box>
                         </Hidden>
                         <Box display="flex" justifyContent="space-between">
-                            {!authenticated && pathname !== "/organization" && <Box mr={2}>
+                            {!authenticated && pathname !== "/organization" && <Box mt={0.4} mr={2}>
                                 <Button
                                     onClick={() => handleCreateOrganization()}
                                     size="small"
@@ -137,7 +136,7 @@ const Header = () => {
                                     Register
                                 </Button>
                             </Box>}
-                            {!authenticated && pathname !== "/login" && <Box>
+                            {!authenticated && pathname !== "/login" && <Box mt={0.4} mr={2}>
                                 <Button
                                     onClick={() => handleLogin()}
                                     size="small"

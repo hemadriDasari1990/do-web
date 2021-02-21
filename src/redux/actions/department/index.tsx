@@ -14,7 +14,6 @@ export const getDepartmentDetails = (departmentId: string) => {
 export const updateDepartment = (payload: {[Key: string]: any}) => {
     return {
         type: UPDATE_DEPARTMENT_REQUEST,
-        url: `/department`,
         payload: payload
     }
 }
@@ -22,6 +21,6 @@ export const updateDepartment = (payload: {[Key: string]: any}) => {
 export const deleteDepartment = (departmentId: string) => {
     return {
         type: DELETE_DEPARTMENT_REQUEST,
-        url: `/department/${departmentId}`
+        id: departmentId
     }
 }

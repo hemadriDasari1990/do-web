@@ -24,7 +24,7 @@ function FeaturesImage(props: any) {
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <Box textAlign="center">
                     <Zoom in={true} timeout={2000}>
-                        <img src={image} height="200px" width="fit-content"/>
+                        <img src={image} height="180px" width="fit-content"/>
                     </Zoom>
                 </Box>
             </Grid>

@@ -102,7 +102,7 @@ function Feedback(props: any) {
 
     return (
       <React.Fragment>
-        <Container disableGutters>
+        <Container>
           <Box pt={5}>
             <Typography variant="h1">Feedback</Typography>
           </Box>

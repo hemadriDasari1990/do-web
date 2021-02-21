@@ -107,7 +107,7 @@ function ReactionPopover(props: any) {
                             </Box>
                             <Box>
                                 <Zoom in={true} timeout={1500}>
-                                    <Tooltip title="Deserve this" placement="top">
+                                    <Tooltip title="Deserve" placement="top">
                                         <IconButton className={deserveIconStyle} color="secondary" onClick={() => handleReaction("deserve", note)} size="small">
                                             <DeserveIcon className={reactionStyle} />
                                         </IconButton>

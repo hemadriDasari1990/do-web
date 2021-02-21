@@ -14,7 +14,7 @@ import { useLogin } from "../redux/state/login"
 
 const Home = React.lazy(() => import("../components/Home"));
 const Dashboard = React.lazy(() => import("../components/Dashboard"));
-const Developers = React.lazy(() => import("../components/Footer/Developers"));
+const Developers = React.lazy(() => import("../components/Footer/About"));
 const Feedback = React.lazy(() => import("../components/Feedback"));
 const Careers = React.lazy(() => import("../components/Footer/Careers"));
 const Terms = React.lazy(() => import("../components/Footer/Terms"));
@@ -22,7 +22,7 @@ const Organization = React.lazy(() => import("../components/Organization/Create"
 const Login = React.lazy(() => import("../components/Organization/Login"));
 const ProjectDashboard = React.lazy(() => import("../components/Project"));
 const BoardDashboard = React.lazy(() => import("../components/Board"));
-const DepartmentDashboard = React.lazy(() => import("../components/Department"));
+const SectionDashboard = React.lazy(() => import("../components/Section"));
 const FAQ = React.lazy(() => import("../components/Footer/Faq"));
 const Privacy = React.lazy(() => import("../components/Footer/Privacy"));
 const Security = React.lazy(() => import("../components/Footer/Security"));
@@ -51,7 +51,7 @@ const routes = () => {
             component: Login
         },
         {
-            path: routePath.DEVELOPERS,
+            path: routePath.ABOUT,
             component: Developers
         },
         {
@@ -68,7 +68,7 @@ const routes = () => {
         },
         {
             path: routePath.BOARD_DASHBOARD,
-            component: BoardDashboard
+            component: SectionDashboard
         },
         {
             path: routePath.FAQ,
@@ -97,11 +97,11 @@ const protectedRoutes = () => {
         },
         {
             path: routePath.DEPARTMENT_DASHBOARD,
-            component: DepartmentDashboard
+            component: ProjectDashboard
         },
         {
             path: routePath.PROJECT_DASHBOARD,
-            component: ProjectDashboard
+            component: BoardDashboard
         }
     ]
 }
@@ -116,7 +116,7 @@ const Routes = () => {
         if(authenticated){
             history.push(replaceStr(ORGANIZATION_DASHBOARD, ":organizationId", organizationId));
         }
-    }, []);
+    }, [authenticated]);
 
     const renderRoutes = () => {
         return (

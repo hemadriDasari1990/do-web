@@ -22,6 +22,6 @@ export const updateProject = (payload: {[Key: string]: any}) => {
 export const deleteProject = (projectId: string) => {
     return {
         type: DELETE_PROJECT_REQUEST,
-        url: `/project/${projectId}`
+        id: projectId
     }
 }

@@ -11,12 +11,15 @@ import { login } from "../../network/login";
 function* callLogin(action: {[Key: string]: any}) {
     try {
         const result = yield login(action.payload);
-        const { status, data } = result;
+        console.log("result", result)
+        const status = result?.status;
+        const data = result?.data;
         if(status === 200 && data?.token){
             sessionStorage.setItem("token", data?.token);
+            sessionStorage.setItem("refreshToken", data?.refreshToken);
             yield put({ type: LOGIN_SUCCESS, payload: data });
         }
-        if(!result || !data){
+        if(!result || !data || status === 422){
             yield put({ type: LOGIN_FAILED, payload: data });
         }
 

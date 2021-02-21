@@ -1,6 +1,7 @@
 import {
     DELETE_NOTE_REQUEST,
     GET_NOTES_BY_SECTION_REQUEST,
+    MARK_AS_READ_REQUEST,
     UPDATE_NOTE_REQUEST
 } from "./types";
 
@@ -16,6 +17,14 @@ export const updateNote = (payload: {[Key: string]: any}) => {
         type: UPDATE_NOTE_REQUEST,
         url: `/note`,
         payload: payload
+    }
+}
+
+export const markAsRead = (id: string, payload: {[Key: string]: any}) => {
+    return {
+        type: MARK_AS_READ_REQUEST,
+        payload: payload,
+        id
     }
 }
 

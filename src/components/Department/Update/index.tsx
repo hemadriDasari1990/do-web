@@ -4,21 +4,11 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box'
 import CreateNewDepartment from '../../../assets/department.svg'
 import Grid from '@material-ui/core/Grid'
-// import { PROJECT_DASHBOARD } from "../../../routes/config";
 import TextField from '@material-ui/core/TextField'
 import Zoom from '@material-ui/core/Zoom'
 import { updateDepartment } from "../../../redux/actions/department"
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login"
-
-// import { useLoading, useDepartment } from "../../../redux/state/department"
-
-// import { createDepartment } from "../../../redux/actions/department"
-// import { replaceStr } from "../../../util";
-// import { showCreateBoardButton } from "../../../redux/actions/common"
-// import { useDispatch } from "react-redux";
-
-// import { useHistory } from "react-router";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -50,7 +40,7 @@ const Create = (props: any) => {
         if(selectedDepartment?._id){
             setFormData({ ...formData, title: selectedDepartment.title,
                 description: selectedDepartment.description, departmentId: selectedDepartment._id });
-        }
+        } 
     }, [selectedDepartment]);
     
     /* Handler functions */

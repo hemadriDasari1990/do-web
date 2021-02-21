@@ -4,8 +4,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
-  color: #071040 !important;
-  background-color: #f3f3f3 !important;
+  /* color: #5b6886 !important; */
+  /* background-color: #f3f3f3 !important; */
+  scroll-behavior: smooth;
 }
 
 code {

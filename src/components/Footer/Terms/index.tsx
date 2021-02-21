@@ -17,10 +17,10 @@ function Terms(){
 
     return (
       <React.Fragment>
-        <Container fixed disableGutters>
+        <Container fixed>
           <Box py={5} textAlign="center">
             <Zoom in={true} timeout={2000}>
-              <Box mt={5}>
+              <Box>
                 <Typography variant="h1">Let's do retro Terms & Conditions</Typography>
               </Box>
             </Zoom>

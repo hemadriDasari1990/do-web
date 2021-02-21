@@ -12,12 +12,12 @@ import {
     UPDATE_DEPARTMENT_REQUEST,
     UPDATE_DEPARTMENT_SUCCESS
 } from "../../actions/department/types";
-import { deleteDepartment, getDepartmentsByOrganization, updateDepartment } from "../../network/department";
+import { deleteDepartment, getDepartmentDetails, updateDepartment } from "../../network/department";
 import { put, takeLatest } from "redux-saga/effects";
 
-function* callGetDepartmentsByOrganization(action: {[Key: string]: any}) {
+function* callGetDepartmentsDetails(action: {[Key: string]: any}) {
     try {
-        const result = yield getDepartmentsByOrganization(action.id);
+        const result = yield getDepartmentDetails(action.id);
         const { status, data } = result;
         if(status === 200){
             yield put({ type: GET_DEPARTMENT_SUCCESS, payload: data });
@@ -34,8 +34,8 @@ function* callGetDepartmentsByOrganization(action: {[Key: string]: any}) {
     }
 }
 
-export function* watchGetDepartmentsByOrganization(){
-    yield takeLatest(GET_DEPARTMENT_REQUEST, callGetDepartmentsByOrganization);
+export function* watchGetDepartmentDetails(){
+    yield takeLatest(GET_DEPARTMENT_REQUEST, callGetDepartmentsDetails);
 }
 
 function* callUpdateDepartment(action: {[Key: string]: any}) {
@@ -65,7 +65,7 @@ function* callDeleteDepartment(action: {[Key: string]: any}) {
     try {
         const result = yield deleteDepartment(action.id);
         const { status, data } = result;
-        if(status === 200 && data?._id){
+        if(status === 200 && data?.deleted){
             yield put({ type: DELETE_DEPARTMENT_SUCCESS, payload: data });
         }
         if(!result || !data){

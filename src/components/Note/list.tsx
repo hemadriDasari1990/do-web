@@ -1,34 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { deleteNote, markAsRead } from '../../redux/actions';
 
 import Box from '@material-ui/core/Box'
-// import Button from '@material-ui/core/Button'
-// import Zoom from '@material-ui/core/Zoom'
-import DeleteIcon from '@material-ui/icons/DeleteForever';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
+import DoneAllOutlinedIcon from '@material-ui/icons/DoneAllOutlined';
 import EditIcon from '@material-ui/icons/Edit';
-// import DisAgreeIcon from '@material-ui/icons/ThumbDownAlt';
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-// import InputAdornment from '@material-ui/core/InputAdornment';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemText from '@material-ui/core/ListItemText'
+import Menu from '@material-ui/core/Menu'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Paper from '@material-ui/core/Paper'
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import Tooltip from '@material-ui/core/Tooltip';
-// import LoveIcon from '@material-ui/icons/Favorite';
-// import SaveIcon from '@material-ui/icons/Save';
-// import TextField from '@material-ui/core/TextField'
-// import { Tooltip } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
+import Zoom from '@material-ui/core/Zoom'
 import { createOrUpdateReaction } from '../../redux/actions';
-import { deleteNote } from '../../redux/actions';
 import getPastTime from '../../util/getPastTime';
-// import Zoom from '@material-ui/core/Zoom'
-// import formateNumber from "../../util/formateNumber";
-// import getPastTime from "../../util/getPastTime";
 import { makeStyles } from '@material-ui/core/styles';
 import socket from "../../socket";
+import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
-
-// import { useLoading, useNote } from "../../redux/state/note";
-// import { useReaction } from "../../redux/state/reaction";
+import { useNote } from "../../redux/state/note";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -43,7 +40,6 @@ const useStyles = makeStyles(() => ({
         marginRight: 0, 
         top: 12,
         right: 10,
-        // position: "absolute"
     },
     startAdornmentStyle: {
         top: 1,
@@ -73,70 +69,29 @@ const useStyles = makeStyles(() => ({
         borderRadius: 6,
         boxShadow: "0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2)"
     },
-    deleteIconStyle: {
-        color: "#ff0000"
-    },
     iconButtonStyle: {
         borderRadius: 5
     }
 }));
 
-// const StyledBadge = withStyles(() =>
-//   createStyles({
-//     badge: {
-//         height: 20,
-//         width: "fit-content",
-//         borderRadius: 20,
-//     },
-//   }),
-// )(Badge);
-
 const NoteList = (props: any) => {
     const { notes, editNote, sectionId } = props;
-    const { paperStyle, deleteIconStyle, iconButtonStyle } = useStyles();
+    const { paperStyle, iconButtonStyle } = useStyles();
     const dispatch = useDispatch();
-
+    const authenticated = useAuthenticated();
+    
     /* Redux hooks */
-    // const { note } = useNote();
-    // const { loading } = useLoading();
-    // const { reaction } = useReaction();
-
-    // const { loading: reactionloading } = useReactionLoading();
-
+    const { note } = useNote();
+    
     /* Local state */
-    // const [isSelected, setIsSelected] = useState(false);
     const [selectedNote, setSelectedNote] = useState<{[Key: string]: any}>({});
     const [deleteDialog, setOpenDeleteDialog] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+    const [clickAwayAnchorEl, setClickAwayAnchorEl] = React.useState<HTMLElement | null>(null);
     const [notesList, setNotesList] = useState(notes);
-    // const [typing, setTyping] = useState("");
-
+    const [open, setOpen] = React.useState(false);
+    
     /* React Hooks */
-    // useEffect(() => {
-        // dispatch(getNotesBySectionId(sectionId));
-
-        // /* Add new note */
-        // socket.on("update-note", (newNote: {[Key:string]: any}) => {
-        //     if(sectionId === newNote?.sectionId){
-        //         setNotes((currentNotes: Array<{[Key:string]: any}>) => [...currentNotes, newNote]);
-        //         updateTotalNotes(sectionId, "add");
-        //         setShowNote(false);
-        //     }
-        // });
-
-        /* Add new reaction */
-        // socket.on("new-reaction", (newReaction: {[Key:string]: any}) => {
-        //     console.log("noteData", notesList)
-        //     updateTotalReactions(newReaction);
-        // });
-        
-        // return () => {
-        //     socket.off("new-reaction");
-        //     // socket.off("new-note");
-        //     // socket.off("delete-note");
-        //     // socket.disconnect();
-        // };
-    // }, []);
 
     useEffect(() => {
        
@@ -147,21 +102,25 @@ const NoteList = (props: any) => {
         socket.on(`new-reaction-${sectionId}`, (newReaction: {[Key:string]: any}) => {
             updateTotalReactions(newReaction);
         });
-        
         return () => {
             socket.off(`new-reaction-${sectionId}`);
         };
     }, [notes]);
+
+    useEffect(() => {
+        socket.on(`mark-read-${sectionId}`, (updatedNote: {[Key:string]: any}) => {
+            updateNote(updatedNote);
+        });
+        return () => {
+            socket.off(`mark-read-${sectionId}`);
+        };
+    }, [note]);
     
     /* Handler functions */
-    const deleteNoteById = (note: {[Key:string]: any}) => {
-        setSelectedNote(note);
-        setOpenDeleteDialog(true);
-    }
-
-    // const handleReactionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     setAnchorEl(event.currentTarget);
-    //   };
+    // const deleteNoteById = (note: {[Key:string]: any}) => {
+    //     setSelectedNote(note);
+    //     setOpenDeleteDialog(true);
+    // }
   
     const handlePopoverClose = () => {
       setAnchorEl(null);
@@ -176,11 +135,9 @@ const NoteList = (props: any) => {
             (newNote: {[Key: string]: any}) => newNote._id === newReaction.noteId,
         )
         const noteData: {[Key: string]: any} = newNotes[noteIndex];
-
         if(!noteData){
             return;
         }
-        // noteData.reactions.push(newReaction);
         switch(newReaction?.type){
             case "plusOne":
                 noteData.totalPlusOne = parseInt(noteData.totalPlusOne) > 0 ? noteData.totalPlusOne + 1: 1;
@@ -200,32 +157,27 @@ const NoteList = (props: any) => {
             default:
                 break;
         }
-
+        noteData.totalReactions = noteData.totalReactions + 1;
         newNotes[noteIndex] = noteData;
         setNotesList(newNotes);
     }
 
-    // const saveNote = () => {
-    //     dispatch(updateNote({
-    //         description: description,
-    //         sectionId,
-    //         noteId: selectedNote?._id
-    //     }));
-    // }
-
-    // const handleInputFocus = (note: {[Key: string]: any}) => {
-    //     setSelectedNote(note);
-    //     // setIsSelected(true);
-    // }
-
-    // // const handleNote = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // //     setDescription(event.target.value);
-    // // }
-
-    // const handleExistingNote = (event: React.ChangeEvent<HTMLInputElement>, note: {[Key: string]: any}) => {
-    //     setDescription(event.target.value);
-    //     setSelectedNote(note);
-    // }
+    const updateNote = (updatedNote: {[Key: string]: any}) => {
+        if(!updatedNote){
+            return;
+        }
+        const newNotes: Array<{[Key: string]: any}> = [...notesList];
+        const noteIndex: number = newNotes.findIndex(
+            (newNote: {[Key: string]: any}) => newNote._id === updatedNote._id,
+        )
+        const noteData: {[Key: string]: any} = newNotes[noteIndex];
+        if(!noteData){
+            return;
+        }
+        noteData.read = updatedNote.read;
+        newNotes[noteIndex] = noteData;
+        setNotesList(newNotes);
+    }
 
     const handleReaction = (type: string, note: {[Key: string]: any}) => {
         dispatch(createOrUpdateReaction({
@@ -258,9 +210,82 @@ const NoteList = (props: any) => {
         )
     }
 
+    const handleButton = (event: React.MouseEvent<HTMLButtonElement>, note: {[Key: string]: any}) => {
+        event.stopPropagation();
+        setOpen(!open);
+        setClickAwayAnchorEl(event.currentTarget);
+        setSelectedNote(note);
+    }
+
+    const handleMarkRead = (note: {[Key: string]: any}) => {
+        dispatch(markAsRead(note._id, {
+            read: !note.read
+        }));
+    }
+
+    const handleClickAwayClose = () => {
+        setClickAwayAnchorEl(null);
+        setOpen(false);
+    };
+
+    const renderMenu = () => {
+        return (
+        <ClickAwayListener onClickAway={handleClickAwayClose}>
+            <Menu
+                id="note-menu"
+                open={open}
+                onClose={handleClose}
+                anchorEl={clickAwayAnchorEl}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                keepMounted
+                getContentAnchorEl={null}
+                TransitionComponent={Zoom}
+            >
+                <ListItem button={true} onClick={() => handleMenuItem('edit')}>
+                    <ListItemAvatar style={{ minWidth: 35 }}>
+                        <EditIcon />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={<b>Edit Note</b>}
+                        secondary="Update the note"
+                    />
+                </ListItem>
+                {authenticated && <ListItem button={true}
+                onClick={() => handleMenuItem('delete')}
+                >
+                <ListItemAvatar style={{ minWidth: 35 }}>
+                    <DeleteOutlineIcon />
+                </ListItemAvatar>
+                <ListItemText
+                    primary={<b>Delete Note</b>}
+                    secondary="Once deleted can't be done"
+                />
+                </ListItem>}
+            </Menu>
+        </ClickAwayListener>
+          
+        )
+      }
+
+      const handleMenuItem = async (action: string) => {
+        switch(action){
+            case 'edit':
+                editNote(selectedNote);
+                break;
+            case 'delete':
+                setOpenDeleteDialog(true);
+                break;
+            default:
+                break;
+        }
+        setOpen(false);
+      }
+
     return (
         <React.Fragment>
             {renderDeleteDialog()}
+            {renderMenu()}
             <Grid container spacing={0}>
                 {Array.isArray(notesList) && notesList.map((note: {[Key: string]: any}) => (
                     <Grid item key={note._id} xl={12} lg={12} md={12} sm={12} xs={12}>
@@ -274,26 +299,39 @@ const NoteList = (props: any) => {
                                         <Box>
                                             <ReactionView note={note} />
                                         </Box>
-                                        <Box>
-                                            <Typography variant="h6">({getPastTime(note.createdAt)})</Typography>
-                                        </Box>
                                     </Box>
                                     <Box display="flex">
+                                        <Box mt={0.2} mr={0.5} display="flex">
+                                            <Box mt={0.1} mr={0.4}>
+                                                <ScheduleIcon style={{ fontSize: 20, color: "#878787" }} />
+                                            </Box>
+                                            <Box>
+                                                <Typography variant="h6">{getPastTime(note.createdAt)}</Typography>
+                                            </Box>
+                                        </Box>
                                         <Tooltip title="Add your reaction">
-                                            <IconButton className={iconButtonStyle} size="small" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleReactionClick(event, note)}>
+                                            <IconButton className={iconButtonStyle} aria-label="reaction-menu" size="small" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleReactionClick(event, note)}>
                                                 +<InsertEmoticonIcon />
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip title="Edit">
-                                            <IconButton size="small" onClick={() => editNote(note)}>
-                                                <EditIcon />
+                                        {authenticated && <Tooltip title={note.read ? "Mark as unread": "Mark as read"}>
+                                            <IconButton size="small" onClick={() => handleMarkRead(note)}>
+                                                <DoneAllOutlinedIcon color={note.read ? "primary" : "inherit"} />
+                                            </IconButton>
+                                        </Tooltip>}
+                                        <Tooltip title="Action">
+                                            <IconButton size="small" aria-label="note-menu" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleButton(event, note)}>
+                                                <Zoom in={true} timeout={2000}>
+                                                    <MoreHorizIcon />
+                                                </Zoom>
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip title="Delete">
+                                        
+                                        {/* {authenticated && <Tooltip title="Delete">
                                             <IconButton size="small" onClick={() => deleteNoteById(note)}>
                                                 <DeleteIcon className={deleteIconStyle} />
                                             </IconButton>
-                                        </Tooltip>
+                                        </Tooltip>}  */}
                                     </Box>
                                 </Box>
                             </Paper>

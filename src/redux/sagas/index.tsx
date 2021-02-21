@@ -1,9 +1,9 @@
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import { watchCreateOrganization, watchDeleteOrganization, watchGetOrganizationDetails, watchUpdateOrganization } from "./organization";
 import { watchDeleteBoard, watchGetBoardDetails, watchUpdateBoard } from "./board";
-import { watchDeleteDepartment, watchGetDepartmentsByOrganization, watchUpdateDepartment } from "./department";
-import { watchDeleteNote, watchUpdateNote } from "./note";
-import { watchDeleteProject, watchGetProjectsByOrganization, watchUpdateProject } from "./project";
+import { watchDeleteDepartment, watchGetDepartmentDetails, watchUpdateDepartment } from "./department";
+import { watchDeleteNote, watchMarkAsRead, watchUpdateNote } from "./note";
+import { watchDeleteProject, watchGetProjectDetails, watchUpdateProject } from "./project";
 import { watchDeleteSection, watchGetSectionsByBoard, watchUpdateSection } from "./section";
 
 import { fork } from "redux-saga/effects";
@@ -18,12 +18,12 @@ function* rootSaga(){
     yield fork(watchGetOrganizationDetails);
 
     /* Department sagas */
-    yield fork(watchGetDepartmentsByOrganization);
+    yield fork(watchGetDepartmentDetails);
     yield fork(watchDeleteDepartment);
     yield fork(watchUpdateDepartment);
 
     /* Project sagas */
-    yield fork(watchGetProjectsByOrganization);
+    yield fork(watchGetProjectDetails);
     yield fork(watchDeleteProject);
     yield fork(watchUpdateProject);
     
@@ -40,6 +40,7 @@ function* rootSaga(){
     /* Note sagas */
     yield fork(watchDeleteNote);
     yield fork(watchUpdateNote);
+    yield fork(watchMarkAsRead);
 
     /* Feedback sagas */
     yield fork(watchCreateFeedback);

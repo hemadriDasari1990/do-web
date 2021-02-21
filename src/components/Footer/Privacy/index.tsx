@@ -32,7 +32,7 @@ export default function Privacy() {
 
   return (
     <React.Fragment>
-        <Container fixed disableGutters>
+        <Container fixed>
             <Box py={5}>
                 <Box>
                     <Typography variant="h1">
@@ -46,19 +46,19 @@ export default function Privacy() {
                     <Box mt={3}>
                         <Typography variant="body1">
                             For the ease of use we make this notice easy to find, we make it available on our homepage  <Link
-                                                component="button"
-                                                variant="body2"
-                                                onClick={() => handleHome()}
-                                            >
-                                                <Typography variant="body1">&nbsp;Home</Typography>
-                                            </Link> This privacy policy should be read alongside, and in addition to, our Terms and Conditions, which can be found at
-                                            <Link
-                                                component="button"
-                                                variant="body2"
-                                                onClick={() => handleTerms()}
-                                            >
-                                                <Typography variant="body1">&nbsp;Terms of use</Typography>
-                                            </Link>
+                            component="button"
+                            variant="body2"
+                            onClick={() => handleHome()}
+                        >
+                            <Typography variant="body1">&nbsp;Home</Typography>
+                        </Link> This privacy policy should be read alongside, and in addition to, our Terms and Conditions, which can be found at
+                        <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => handleTerms()}
+                        >
+                            <Typography variant="body1">&nbsp;Terms of use</Typography>
+                        </Link>
                         </Typography>
                     </Box>
                     <Box mt={5}>

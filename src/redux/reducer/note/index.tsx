@@ -7,6 +7,10 @@ import {
     GET_NOTES_BY_SECTION_INTERNAL_SERVER_ERROR,
     GET_NOTES_BY_SECTION_REQUEST,
     GET_NOTES_BY_SECTION_SUCCESS,
+    MARK_AS_READ_FAILED,
+    MARK_AS_READ_INTERNAL_SERVER_ERROR,
+    MARK_AS_READ_REQUEST,
+    MARK_AS_READ_SUCCESS,
     UPDATE_NOTE_FAILED,
     UPDATE_NOTE_INTERNAL_SERVER_ERROR,
     UPDATE_NOTE_REQUEST,
@@ -23,7 +27,8 @@ export interface ReduxAction extends Action {
 const initialState = {
     title: "",
     loading: false,
-    response: null
+    response: null,
+    read: false
 }
 
 const note = (state = initialState, action: ReduxAction) => {
@@ -92,6 +97,29 @@ const note = (state = initialState, action: ReduxAction) => {
                 loading: false
             }
         case UPDATE_NOTE_INTERNAL_SERVER_ERROR:
+            return {
+                ...state,
+                response: action.payload,
+                loading: false
+            }
+        case MARK_AS_READ_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case MARK_AS_READ_FAILED:
+            return {
+                ...state,
+                response: action.payload,
+                loading: false
+            }
+        case MARK_AS_READ_SUCCESS:
+            return {
+                ...state,
+                response: action.payload,
+                loading: false
+            }
+        case MARK_AS_READ_INTERNAL_SERVER_ERROR:
             return {
                 ...state,
                 response: action.payload,

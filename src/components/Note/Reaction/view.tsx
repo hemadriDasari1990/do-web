@@ -53,8 +53,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 function ReactionView(props: any) {
     const { note } = props;
     const { plusTwoIconStyle, disAgreeIconStyle, loveIconStyle, plusIconStyle, deserveIconStyle, reactionStyle } = useStyles();
-    // const isReactions = note?.totalDisAgreed || note?.totalLove || note?.totalPlusOne || note?.totalPlusTwo || note?.totalDeserve;
-    // console.log("note", note)
     
     return (
         <React.Fragment>
@@ -62,7 +60,7 @@ function ReactionView(props: any) {
                 {note?.totalDisAgreed ? <Box display="flex">
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
-                            <Tooltip title="I Disagree">
+                            <Tooltip title="Disagree">
                                 <IconButton className={disAgreeIconStyle} color="secondary" size="small">
                                     <DisAgreeIcon className={reactionStyle} />
                                 </IconButton>
@@ -76,7 +74,7 @@ function ReactionView(props: any) {
                 {note?.totalLove ? <Box display="flex">
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
-                            <Tooltip title="I Love It">
+                            <Tooltip title="Love It">
                                 <IconButton className={loveIconStyle} color="secondary" size="small">
                                     <LoveIcon className={reactionStyle} />
                                 </IconButton>
@@ -118,7 +116,7 @@ function ReactionView(props: any) {
                 {note?.totalDeserve ? <Box display="flex">
                     <Box mr={0.5}>
                         <Zoom in={true} timeout={1500}>
-                            <Tooltip title="Deserve this">
+                            <Tooltip title="Deserve">
                                 <IconButton className={deserveIconStyle} color="secondary" size="small">
                                     <DeserveIcon className={reactionStyle} />
                                 </IconButton>
@@ -129,10 +127,10 @@ function ReactionView(props: any) {
                         <Typography variant="h6">{formateNumber(note?.totalDeserve)}</Typography>
                     </Box>
                 </Box>: null}
+                {!note?.totalReactions ? <Box mr={2}>
+                        <Typography variant="h6">No reactions yet</Typography>
+                </Box>: null}
             </Box>
-            {/* <Box className={boxStyle}>
-                <Typography className={boxTextStyle} color="primary" variant="h6">No reactions</Typography>
-            </Box> */}
         </React.Fragment>
     )
 }

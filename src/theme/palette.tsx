@@ -4,10 +4,10 @@ const white = '#FFFFFF'
 
 const palette = {
   default: {
-    contrastText: "#3e3e52",
-    dark: "#3e3e52",
-    main: "#3e3e52",
-    light: "#3e3e52",
+    contrastText: "#5b6886",
+    dark: "#5b6886",
+    main: "#5b6886",
+    light: "#5b6886",
   },
   primary: {
     contrastText: white,

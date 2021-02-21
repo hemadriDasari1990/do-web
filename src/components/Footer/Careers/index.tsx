@@ -11,7 +11,7 @@ function Careers(){
 
     return (
       <React.Fragment>
-        <Container fixed disableGutters>
+        <Container fixed>
           <Box pt={5}>
             <Zoom in={true} timeout={2000}>
               <Typography variant="h1">Careers</Typography>

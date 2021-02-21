@@ -7,7 +7,7 @@ export function useBoard() {
     }))
 }
 
-export function useLoading() {
+export function useBoardLoading() {
     return useSelector((state: {[Key: string]: any}) => ({
         loading: state.board?.loading
     }))

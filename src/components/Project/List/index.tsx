@@ -1,25 +1,11 @@
-import { ORGANIZATION_DASHBOARD, PROJECT_DASHBOARD } from '../../../routes/config';
-import React, { useEffect, useState } from "react";
-// import { getSectionsByBoard } from "../../redux/actions/section";
-import { Theme, makeStyles } from '@material-ui/core/styles';
-import { useDepartment, useDepartmentLoading } from "../../../redux/state/department"
-import { useProject, useProjectLoading } from "../../../redux/state/project"
-
-import AddIcon from '@material-ui/icons/Add';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import BackIcon from '@material-ui/icons/Reply';
 import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-// import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
-// import Divider from '@material-ui/core/Divider'
-// import DeleteIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid'
-import Hidden from '@material-ui/core/Hidden'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -27,34 +13,20 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { PROJECT_DASHBOARD } from '../../../routes/config';
+import React from "react";
 import { Tooltip } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'
 import getRandomColor from "../../../util/getRandomColor";
+import { makeStyles } from '@material-ui/core/styles';
 import { replaceStr } from "../../../util";
-// import { updateProject } from "../../../redux/actions/project"
-// import { replaceStr } from "../../../util";
-// import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { useProjectLoading } from "../../../redux/state/project"
 
-// import { useLogin } from "../../../redux/state/login"
-
-// import { deleteSection, updateSection } from "../../redux/actions/section";
-// import { useLoading, useSection } from "../../redux/state/section"
-
-// import socket from "../../socket";
-// import { useDispatch } from "react-redux";
-// import { useParams } from "react-router";
-
-// const Note = React.lazy(() => import("../Note"));
-const NoRecords = React.lazy(() => import("../../NoRecords"));
-const CreateProject = React.lazy(() => import("../Create"));
-const Loader = React.lazy(() => import("../../Loader/components"));
-const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
-
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   cursor: {
     cursor: "pointer"
   },
@@ -66,17 +38,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 30,
     padding: 2
   },
-  countStyle: {
-    borderRadius: 5,
-    border: "1px solid #0072ff",
-    minWidth: 30,
-    height: 30
-  },
-  countTextStyle: {
-    top: "50%",
-    textAlign: "center",
-    fontWeight: 600
-  },
   boxTextStyle: {
     padding: "3px 10px 3px 10px"
   },
@@ -84,106 +45,55 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "aliceblue",
     borderRadius: 6
   },
-  buttonStyle: {
-    textAlign: "end",
-    [theme.breakpoints.down('xs')]: {
-      textAlign: "center",
-      width: "100%"
-    }
-  }
 }));
 
-const ProjectList = () => {
-    const { cursor, cardStyle, avatarBoxStyle, countStyle, countTextStyle, boxStyle, boxTextStyle, buttonStyle } = useStyles();
-    // const dispatch = useDispatch();
+const ProjectList = (props: any) => {
+  const { projects, handleMenu, setSelectedProject } = props;
+    const { cursor, cardStyle, avatarBoxStyle, boxStyle, boxTextStyle } = useStyles();
     const history = useHistory();
     
     /* Redux hooks */
-    const { project } = useProject();
-    // const { organizationId } = useLogin();
-    const { department, projects: projectsList, totalProjects: totalProjectsCount } = useDepartment();
     const { loading } = useProjectLoading();
-    const { loading: departmentloading } = useDepartmentLoading();
-
-    /* Redux hooks */
 
     /* Local state */
-    const [showProjectForm, setShowProjectForm] = useState(false);
-    const [totalProjects, setTotalProjects] = useState(totalProjectsCount);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const [open, setOpen] = React.useState(false);
     const [showMoreIndex, setShowMoreIndex] = React.useState(0);
     const [showMore, setShowMore] = React.useState(false);
-    const [projects, setProjects] = useState<Array<{[Key: string]: any}>>([]);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    const [selectedProject, setSelectedProject] = useState<{[Key: string]: any}>({});
-
-    /* React Hooks */
-
-    const handleCreateNewProject = () => {
-      setShowProjectForm(true);
-    }
 
     /* Handler functions */
     const renderCardAction = (project: {[Key: string]: any}) => {
         return (
           <Box p={1.7}>
             <Tooltip title="Update">
-              <IconButton color="primary" size="small" aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleButton(event)}>
+              <IconButton color="primary" size="small" aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleButton(event, project)}>
                 <Zoom in={true} timeout={2000}>
                   <MoreHorizIcon />
                 </Zoom>
               </IconButton>
             </Tooltip>
-            {renderMenu(project)}
+            {renderMenu()}
           </Box>
         )
       }
 
-      const handleButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+      const handleButton = (event: React.MouseEvent<HTMLButtonElement>, project: {[Key: string]: any}) => {
         event.stopPropagation();
         setOpen(!open);
         setAnchorEl(event.currentTarget);
+        setSelectedProject(project);
       }
 
       const handleClose = () => {
         setOpen(false);
       }
 
-      const handleMenuItem = async (val: string, project: {[Key: string]: any}) => {
-        setSelectedProject(project);
-        switch (val) {
-          case 'edit':
-            // setOpenEditDialog(true);
-            break;
-          case 'delete':
-            setOpenDeleteDialog(true);
-            break;
-          default:
-            break
-        }
+      const handleMenuItem = (event: React.MouseEvent<HTMLDivElement | MouseEvent>, action: string) => {
+        handleMenu(event, action);
+        setOpen(false);
       }
 
-      useEffect(() => {
-        if(!loading && project?._id){
-          setShowProjectForm(false);
-          setProjects((currentProjects: Array<{[Key:string]: any}>) => [...currentProjects, project]);
-          setTotalProjects(totalProjects + 1);
-        }
-        if(!loading && !project?._id){
-          // setShowError(true);
-        }
-    }, [loading, project])
-
-    useEffect(() => {
-      if(projectsList){
-        setShowProjectForm(false);
-        setProjects(projectsList);
-        setTotalProjects(totalProjectsCount);
-      }
-  }, [projectsList])
-
-      const renderMenu = (project: {[Key: string]: any}) => {
+      const renderMenu = () => {
         return (
           <Menu
             id="fade-menu"
@@ -196,17 +106,17 @@ const ProjectList = () => {
             getContentAnchorEl={null}
             TransitionComponent={Zoom}
           >
-            <ListItem button={true} onClick={() => handleMenuItem('edit', project)}>
+            <ListItem button={true} onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'edit')}>
                 <ListItemAvatar style={{ minWidth: 35 }}>
                     <EditIcon />
                 </ListItemAvatar>
                 <ListItemText
                     primary={<b>Edit Project</b>}
-                    secondary="Update the project"
+                    secondary="Update project"
                 />
             </ListItem>
             <ListItem button={true} 
-              onClick={() => handleMenuItem('delete', project)}
+              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'delete')}
             >
               <ListItemAvatar style={{ minWidth: 35 }}>
                 <DeleteOutlineIcon />
@@ -222,7 +132,7 @@ const ProjectList = () => {
 
       const renderCardTitle = (project: {[Key: string]: any}) => {
         return <Box mt={0.7} className={cursor} onClick={() => handleCard(project)}>
-                <Typography color="initial" variant="h5">{project?.title}</Typography>
+                <Typography variant="h5">{project?.title}</Typography>
             </Box>
       }
 
@@ -250,10 +160,6 @@ const ProjectList = () => {
               {!showMore && message && message?.length > 70
                 ? message.slice(0, 70)
                 : message}
-              {/* {showMore && message && showMoreIndex === index ? message : null}
-              {showMore && message && showMoreIndex !== index
-                ? message.slice(0, 200)
-                : null} */}
               {message.length > 70 ? (
                 <span
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleShowMore(event, index)}
@@ -275,9 +181,7 @@ const ProjectList = () => {
                 <List>
                     <ListItem alignItems="flex-start">
                         <Zoom in={true} timeout={2000}>
-                            <ListItemText
-                                secondary={renderSecondaryText(project?.description, index)}
-                            />
+                            <ListItemText secondary={renderSecondaryText(project?.description, index)} />
                         </Zoom>
                     </ListItem>
                 </List>
@@ -301,93 +205,8 @@ const ProjectList = () => {
           )
       }
 
-      const handleCloseDialog = () => {
-        // setOpenDialog(false);
-        setOpenDeleteDialog(false);
-      }
-
-    const handleDelete = () => {
-      // dispatch(deleteProject(selectedProject?._id));
-      setOpenDeleteDialog(false);
-    }
-
-      const renderDeleteDialog = () => {
-        return (
-          <Box>
-            <ResponsiveDialog open={openDeleteDialog} title="Delete Note" pcta="Delete" scta="Cancel" handleSave={handleDelete} handleClose={handleCloseDialog}>
-              <Typography variant="h4"> Are you sure you want to delete {selectedProject?.title}?</Typography>
-            </ResponsiveDialog>
-          </Box>
-        )
-    }
-
-    const handleBack = () => {
-      history.push(replaceStr(ORGANIZATION_DASHBOARD, ":organizationId", department?.organizationId));
-    }
-      
     return (
         <React.Fragment>
-          <Loader backdrop={true} enable={loading || departmentloading} />
-          {renderDeleteDialog()}
-          <Box py={4}>
-            <Grid container spacing={2}>
-              <Grid item xl={6} lg={6} md={4} sm={8} xs={12}>
-                <Box display="flex">
-                  <Hidden only={["xs"]}>
-                    <Typography variant="h1">{department?.title}</Typography> 
-                </Hidden>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                    <Typography variant="h2">{department?.title}</Typography> 
-                </Hidden>
-                <Tooltip title="Total Projects">
-                  <Box ml={2} mt={1} className={countStyle}>
-                    <Typography color="primary" className={countTextStyle}>{totalProjects}</Typography>
-                  </Box>
-                </Tooltip>
-                </Box>
-              </Grid>
-              <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-                <Box className={buttonStyle}>
-                  <Button
-                    variant="outlined"
-                    color="default"
-                    startIcon={<BackIcon color="primary" />}
-                    onClick={() => handleBack()}
-                  >
-                    <Typography color="primary" variant="body1" >Go Back to Departments</Typography>
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-                {projects?.length ? <Box className={buttonStyle}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<AddIcon color="secondary" />}
-                    onClick={() => handleCreateNewProject()}
-                  >
-                    <Typography color="secondary" variant="body1" >Create New Project</Typography>
-                  </Button>
-                </Box>: null}
-              </Grid>
-            </Grid>
-          </Box>
-        {!loading && (!projects || !projects?.length) && (
-          <Box mt={10}>
-              <NoRecords message="No Projects found! Please add"/>
-              <Box mt={5} textAlign="center">
-                <Button
-                  variant="outlined"
-                  color="default"
-                  startIcon={<AddIcon color="primary" />}
-                  onClick={() => handleCreateNewProject()}
-                >
-                  <Typography color="primary" variant="body1">Create New Project</Typography>
-                </Button>
-              </Box>
-          </Box>
-          )}
-          <CreateProject openDialog={showProjectForm} setShowForm={setShowProjectForm} />
           <List>
               <Grid container spacing={2}>
                 {!loading && Array.isArray(projects) ? projects.map((project: {[Key: string]: any}, index: number) => (

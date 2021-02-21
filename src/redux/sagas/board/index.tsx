@@ -65,7 +65,7 @@ function* callDeleteBoard(action: {[Key: string]: any}) {
     try {
         const result = yield deleteBoard(action.id);
         const { status, data } = result;
-        if(status === 200 && data?._id){
+        if(status === 200 && data?.deleted){
             yield put({ type: DELETE_BOARD_SUCCESS, payload: data });
         }
         if(!result || !data){

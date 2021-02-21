@@ -12,12 +12,12 @@ import {
     UPDATE_PROJECT_REQUEST,
     UPDATE_PROJECT_SUCCESS
 } from "../../actions/project/types";
-import { deleteProject, getProjectsByOrganization, updateProject } from "../../network/project";
+import { deleteProject, getProjectDetails, updateProject } from "../../network/project";
 import { put, takeLatest } from "redux-saga/effects";
 
-function* callGetProjectsByOrganization(action: {[Key: string]: any}) {
+function* callGetProjectDetails(action: {[Key: string]: any}) {
     try {
-        const result = yield getProjectsByOrganization(action.id);
+        const result = yield getProjectDetails(action.id);
         const { status, data } = result;
         if(status === 200){
             yield put({ type: GET_PROJECT_SUCCESS, payload: data });
@@ -34,8 +34,8 @@ function* callGetProjectsByOrganization(action: {[Key: string]: any}) {
     }
 }
 
-export function* watchGetProjectsByOrganization(){
-    yield takeLatest(GET_PROJECT_REQUEST, callGetProjectsByOrganization);
+export function* watchGetProjectDetails(){
+    yield takeLatest(GET_PROJECT_REQUEST, callGetProjectDetails);
 }
 
 function* callUpdateProject(action: {[Key: string]: any}) {
@@ -65,7 +65,7 @@ function* callDeleteProject(action: {[Key: string]: any}) {
     try {
         const result = yield deleteProject(action.id);
         const { status, data } = result;
-        if(status === 200 && data?._id){
+        if(status === 200 && data?.deleted){
             yield put({ type: DELETE_PROJECT_SUCCESS, payload: data });
         }
         if(!result || !data){

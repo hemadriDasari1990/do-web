@@ -9,10 +9,12 @@ import { createBrowserHistory } from 'history'
 import reportWebVitals from './reportWebVitals';
 import store from "./redux/store";
 
+const history = createBrowserHistory();
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router history={createBrowserHistory()}>
+      <Router history={history}>
         <App />
       </Router>
     </Provider>

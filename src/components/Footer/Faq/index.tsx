@@ -2,7 +2,6 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-// import Zoom from '@material-ui/core/Zoom';
 import { makeStyles } from '@material-ui/core/styles';
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
@@ -20,37 +19,8 @@ export default function FAQ() {
   
   return (
     <React.Fragment>
-        <Container fixed disableGutters>
+        <Container fixed>
             <Box pt={5}>
-                {/* <Hidden only={["xs"]}>
-                    <Grid container>
-                        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                            <>
-                                <Zoom in={true} timeout={1500}>
-                                    <Typography className={titleStyle} variant="h1">Hello,</Typography>
-                                </Zoom>
-                                <Zoom in={true} timeout={1500}>
-                                    <Typography className={titleStyle} variant="h1">we are a team of one developer and one QA engineer</Typography>
-                                </Zoom>
-                            </>
-                        </Grid>
-                    </Grid>
-                </Hidden>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                    <Grid container>
-                        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                            <>
-                                <Zoom in={true} timeout={1500}>
-                                    <Typography variant="h2">Hello,</Typography>
-                                </Zoom>
-                                <Zoom in={true} timeout={1500}>
-                                    <Typography variant="h2">we are a team of one developer and one QA engineer</Typography>
-                                </Zoom>
-                            </>
-                        </Grid>
-                    </Grid>
-                </Hidden> */}
-                {/* <BarChartIcon /> */}
                 <Box>
                     <Typography variant="h2">
                         What’s board and how to create one?

@@ -5,18 +5,10 @@ import Button from '@material-ui/core/Button'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grid from '@material-ui/core/Grid'
 import Tooltip from '@material-ui/core/Tooltip';
-// import SaveIcon from '@material-ui/icons/Save';
-// import TextField from '@material-ui/core/TextField'
-// import { Tooltip } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
 import Zoom from '@material-ui/core/Zoom'
 import { makeStyles } from '@material-ui/core/styles';
 import socket from "../../socket";
-
-// import { Theme, makeStyles } from '@material-ui/core/styles'
-
-// import { updateNote } from '../../redux/actions';
-// import { useDispatch } from "react-redux";
 
 const NotesList = React.lazy(() => import("./list"));
 const UpdateNote = React.lazy(() => import("./Update"));

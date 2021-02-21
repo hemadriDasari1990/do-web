@@ -25,6 +25,7 @@ import Zoom from '@material-ui/core/Zoom'
 import { getSectionsByBoard } from "../../redux/actions/section";
 import { replaceStr } from "../../util";
 import socket from "../../socket";
+import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board"
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -83,6 +84,7 @@ const SectionList = () => {
     const { totalSections } = useBoard();
     const { loading } = useLoading();
     const { board } = useBoard();
+    const authenticated = useAuthenticated();
 
     /* Local state */
     const [action, setAction] = useState(false);
@@ -247,7 +249,7 @@ const SectionList = () => {
               </ListItemAvatar>
               <ListItemText
                 primary={<b>Edit Section</b>}
-                secondary="Update title"
+                secondary="Update Section"
               />
             </ListItem>
             <ListItem button={true} className={listItemStyle} onClick={() => handleDeleteSection()}>
@@ -255,7 +257,7 @@ const SectionList = () => {
                 <DeleteIcon />
               </ListItemAvatar>
               <ListItemText
-                primary={<b>Delete Post</b>}
+                primary={<b>Delete Section</b>}
                 secondary="Once deleted can't be undone"
               />
             </ListItem>
@@ -273,7 +275,7 @@ const SectionList = () => {
         return (
           <>
             <Tooltip title="Update">
-              <IconButton id={item?._id} aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleMenu(event, item)}>
+              <IconButton id={item?._id} size="small" aria-label="settings" onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleMenu(event, item)}>
                 <Zoom in={true} timeout={2000}>
                   <MoreHorizIcon />
                 </Zoom>
@@ -311,7 +313,7 @@ const SectionList = () => {
                                 </Tooltip>
                             </Box>
                         </Grid> 
-                        <Grid item xl={3} lg={3} md={4} sm={4} xs={12}>
+                        {authenticated && <Grid item xl={3} lg={3} md={4} sm={4} xs={12}>
                             <Box mr={2} className={buttonStyle}>
                                     <Button
                                         variant="outlined"
@@ -322,22 +324,9 @@ const SectionList = () => {
                                         <Typography color="primary" variant="body1" >Go Back to Boards</Typography>
                                     </Button>
                             </Box>
-                        </Grid> 
+                        </Grid>}
                     </Grid>
                 </Box>
-                {/* <Box py={5} display="flex" justifyContent="space-between">
-                    
-                    <Box mr={2}>
-                        <Button
-                            variant="outlined"
-                            color="default"
-                            startIcon={<BackIcon color="primary" />}
-                            onClick={() => handleBack()}
-                        >
-                            <Typography color="primary" variant="body1" >Go Back to Boards</Typography>
-                        </Button>
-                    </Box>
-                </Box> */}
             </Container>
             <List>
                 <Grid container spacing={1}>
@@ -359,9 +348,9 @@ const SectionList = () => {
                                             </Box>
                                         </Box>}
                                     />
-                                    <ListItemSecondaryAction>
+                                    {authenticated && <ListItemSecondaryAction>
                                         {renderMenuAction(item)}
-                                    </ListItemSecondaryAction>
+                                    </ListItemSecondaryAction>}
                                 </ListItem>
                                 {renderMenu(item)}
                                 <Note noteList={item.notes} sectionId={item._id} updateTotalNotes={updateTotalNotes} />

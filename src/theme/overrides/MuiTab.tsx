@@ -16,7 +16,7 @@ export default {
   },
   /* Styles applied to the root element if the parent [`Tabs`](/api/tabs/) has `textColor="primary"`. */
   textColorPrimary: {
-    color: '#0000008a',
+    color: '#5b6886',
     '&$selected': {
       color: '#0072ff',
     },

@@ -16,8 +16,6 @@ import Zoom from '@material-ui/core/Zoom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router";
 
-// const HintMessage = React.lazy(() => import("../../HintMessage"));
-
 const useStyles = makeStyles({
     titleStyle: {
         fontSize: "3.5rem",
@@ -39,7 +37,7 @@ export default function Security() {
 
   return (
     <React.Fragment>
-        <Container fixed disableGutters>
+        <Container fixed>
             <Box pt={5}>
                 <Box>
                     <Typography variant="h1">

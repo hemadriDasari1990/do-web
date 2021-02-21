@@ -4,7 +4,8 @@
 
 
  /* Login Endpoints */
- export const LOGIN = "/login";
+ export const LOGIN = "/auth/login";
+ export const REFRESH_TOKEN = "/auth/refresh-token"
 
   /* Organization Endpoints */
   export const CREATE_ORGANIZATION = "/organization";
@@ -15,13 +16,13 @@
 /* Department Endpoints */
 export const CREATE_DEPARTMENT = "/department";
 export const DELETE_DEPARTMENT = "/department/{id}";
-export const GET_DEPARTMENTS_BY_ORGANIZATION = "/department/{id}"; 
+export const GET_DEPARTMENT_DETAILS = "/department/{id}"; 
 export const UPDATE_DEPARTMENT ="/department";
  
   /* Project Endpoints */
   export const CREATE_PROJECT = "/project";
   export const DELETE_PROJECT = "/project/{id}";
-  export const GET_PROJECTS_BY_ORGANIZATION = "/project/{id}"; 
+  export const GET_PROJECT_DETAILS = "/project/{id}"; 
   export const UPDATE_PROJECT ="/project";
 
  /* Board Endpoints */
@@ -39,6 +40,7 @@ export const UPDATE_DEPARTMENT ="/department";
  export const DELETE_NOTE = "/note/{id}";
  export const GET_NOTES_BY_SECTION_DETAILS = "/note/{id}"; 
  export const UPDATE_NOTE ="/note";
+ export const MARK_AS_READ = "/note/{id}/mark-read";
 
 /* Feedback Endpoints */
 export const CREATE_FEEDBACK = "/feedback";

@@ -39,9 +39,10 @@ const Create = () => {
         title: '',
         description: '',
         uniqueKey: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
-    const { title, description, uniqueKey, password } = formData;
+    const { title, description, uniqueKey, password, confirmPassword } = formData;
     const [apiTriggered, setApiTriggered] = useState(false);
     const [showError, setShowError] = useState(false);
     
@@ -75,7 +76,8 @@ const Create = () => {
             title: '',
             description: '',
             uniqueKey: '',
-            password: ''
+            password: '',
+            confirmPassword: ''
         });
     }
 
@@ -94,6 +96,12 @@ const Create = () => {
             return true;
         }
         if(password.trim().length < 6){
+            return true;
+        }
+        if(confirmPassword.trim().length < 6){
+            return true;
+        }
+        if(password.trim() !== confirmPassword.trim()){
             return true;
         }
         return false;
@@ -166,6 +174,19 @@ const Create = () => {
                             label="Password"
                             placeholder="Enter password"
                             value={password}
+                            onChange={handleInput}
+                            autoComplete='off'
+                            required
+                            fullWidth
+                            className={textFieldStyle}
+                        />
+                        <TextField
+                            type="password"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            label="Confirm Password"
+                            placeholder="Re Enter password"
+                            value={confirmPassword}
                             onChange={handleInput}
                             autoComplete='off'
                             required

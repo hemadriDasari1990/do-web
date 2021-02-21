@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import Box from '@material-ui/core/Box'
 import { Container } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
-import { getOrganizationDetails } from "../../redux/actions/organization";
+import { makeStyles } from '@material-ui/core/styles';
 import socket from "../../socket";
-import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login"
 
-const DepartmentList = React.lazy(() => import("../Department/List"));
+const Department = React.lazy(() => import("../Department"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         minHeight: "90vh"
     },
@@ -20,17 +18,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Dashboard = () => {
     const { root } = useStyles();
-    const dispatch = useDispatch();
 
     /* React states */
     const [showSuccess, setShowSuccess] = useState(false);
 
     /* Redux hooks */
-    const { organizationId, token } = useLogin();
+    const { token } = useLogin();
 
     /* React Hooks */
     useEffect(() => {
-        dispatch(getOrganizationDetails(organizationId));
     }, []);
 
     useEffect(() => {
@@ -52,7 +48,7 @@ const Dashboard = () => {
             <Box className={root}>
                 <Container>
                     <Box>
-                        <DepartmentList />
+                        <Department />
                     </Box>
                     <DoSnackbar open={showSuccess} handleClose={handleSuccessClose} status="success">
                         <Typography variant="h6" color="secondary">Login successfull</Typography>

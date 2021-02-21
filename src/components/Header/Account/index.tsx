@@ -4,12 +4,12 @@ import Avatar from '@material-ui/core/Avatar'
 import Box from '@material-ui/core/Box'
 import Divider from '@material-ui/core/Divider'
 import { LOGIN } from '../../../routes/config'
-// import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
+import SettingsIcon from '@material-ui/icons/Settings';
 import Slide from '@material-ui/core/Slide'
 import Tooltip from '@material-ui/core/Tooltip'
 import { Typography } from '@material-ui/core'
@@ -34,12 +34,15 @@ const useStyles = makeStyles(() => ({
   },
   cursor: {
     cursor: "pointer"
+  },
+  settingsAvatar: {
+    backgroundColor: "#eff8fe"
   }
 }));
 
 const UserAccount = (props: any) => {
     const { handleDrawerClose } = props;
-    const { avatar, logoutAvatar, logoutIcon, cursor } = useStyles();
+    const { avatar, logoutAvatar, logoutIcon, cursor, settingsAvatar } = useStyles();
     const { title } = useOrganization();
     const history = useHistory();
     
@@ -67,36 +70,66 @@ const UserAccount = (props: any) => {
                 <Typography variant="h3" >{title}</Typography>
             </Box>
             <Divider />
-            <List>
-                <ListItem
-                    alignItems="flex-start"
-                    onClick={() => handleLogout()}
-                    className={cursor}
-                >
-                <ListItemAvatar>
-                    <Slide
-                        direction="right"
-                        in={true}
-                        timeout={1500}
-                        mountOnEnter
-                        unmountOnExit
+            <Box>
+                <List>
+                    <ListItem
+                        alignItems="flex-start"
+                        onClick={() => handleLogout()}
+                        className={cursor}
                     >
-                    <Avatar className={logoutAvatar} variant="square">
-                        <LogoutIcon
-                            className={logoutIcon}
-                            color="primary"
-                        />
-                    </Avatar>
-                    </Slide>
-                </ListItemAvatar>
-                <Tooltip title="Log Out" placement="bottom-start">
-                    <ListItemText
-                        primary="Log Out"
-                        secondary="You'll be logged out"
-                    />
-                </Tooltip>
-                </ListItem>
-            </List>
+                        <ListItemAvatar>
+                            <Slide
+                                direction="right"
+                                in={true}
+                                timeout={1500}
+                                mountOnEnter
+                                unmountOnExit
+                            >
+                            <Avatar className={settingsAvatar} variant="square">
+                                <SettingsIcon
+                                    color="primary"
+                                />
+                            </Avatar>
+                            </Slide>
+                        </ListItemAvatar>
+                        <Tooltip title="Manage Account" placement="bottom-start">
+                            <ListItemText
+                                primary="Manage Account"
+                                secondary="Update Settings or manage account"
+                            />
+                        </Tooltip>
+                    </ListItem>
+                    <Divider />
+                    <ListItem
+                        alignItems="flex-start"
+                        onClick={() => handleLogout()}
+                        className={cursor}
+                    >
+                        <ListItemAvatar>
+                            <Slide
+                                direction="right"
+                                in={true}
+                                timeout={1500}
+                                mountOnEnter
+                                unmountOnExit
+                            >
+                            <Avatar className={logoutAvatar} variant="square">
+                                <LogoutIcon
+                                    className={logoutIcon}
+                                />
+                            </Avatar>
+                            </Slide>
+                        </ListItemAvatar>
+                        <Tooltip title="Log Out" placement="bottom-start">
+                            <ListItemText
+                                primary="Log Out"
+                                secondary="You'll be logged out"
+                            />
+                        </Tooltip>
+                    </ListItem>
+                </List>
+            </Box>
+            <Divider />
       </Suspense>
     )
 }

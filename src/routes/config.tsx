@@ -2,7 +2,7 @@ export const ROOT = "/";
 
 export const CREATE = "/create";
 export const BOARD_DASHBOARD = "/board/:boardId";
-export const DEVELOPERS = "/developers";
+export const ABOUT = "/about-us";
 export const CAREERS = "/careers";
 export const FEEDBACK = "/feedback";
 export const TERMS = "/terms";

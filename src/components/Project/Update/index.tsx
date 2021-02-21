@@ -4,21 +4,11 @@ import { Theme, makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box'
 import CreateNewProject from '../../../assets/create.svg'
 import Grid from '@material-ui/core/Grid'
-// import { PROJECT_DASHBOARD } from "../../../routes/config";
 import TextField from '@material-ui/core/TextField'
 import Zoom from '@material-ui/core/Zoom'
 import { updateProject } from "../../../redux/actions/project"
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
-
-// import { useLoading, useProject } from "../../../redux/state/project"
-
-// import { createProject } from "../../../redux/actions/project"
-// import { replaceStr } from "../../../util";
-// import { showCreateBoardButton } from "../../../redux/actions/common"
-// import { useDispatch } from "react-redux";
-
-// import { useHistory } from "react-router";
+import { useParams } from 'react-router-dom';
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -29,21 +19,29 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Create = (props: any) => {
-    const { openDialog, setShowForm } = props;
+    const { openDialog, handleUpdateForm, selectedProject } = props;
     const { textFieldStyle } = useStyles();
-    const { departmentId } = useParams<{departmentId: string}>();
     const dispatch = useDispatch();
+    const { departmentId } = useParams<{ departmentId: string }>();
     
     /* Local state */
     const [formData, setFormData] = useState<{[Key: string]: any}>({
         title: '',
         description: '',
-        departmentId
+        departmentId,
+        projectId: selectedProject._id
     });
     const { title, description } = formData;
 
     useEffect(() => {
     }, []);
+
+    useEffect(() => {
+        if(selectedProject?._id){
+            setFormData({ ...formData, title: selectedProject.title,
+                description: selectedProject.description, projectId: selectedProject._id });
+        } 
+    }, [selectedProject]);
     
     /* Handler functions */
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +49,7 @@ const Create = (props: any) => {
     }
 
     const handleClose = () => {
-        setShowForm(false);
+        handleUpdateForm();
     }
 
     const handleSubmit = () => {

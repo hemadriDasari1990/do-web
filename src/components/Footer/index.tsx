@@ -1,6 +1,5 @@
-import { CAREERS, DEVELOPERS, FAQ, FEATURES, FEEDBACK, PRIVACY_POLICY, SECURITY, TERMS } from "../../routes/config";
+import { ABOUT, CAREERS, FAQ, FEATURES, FEEDBACK, PRIVACY_POLICY, SECURITY, TERMS } from "../../routes/config";
 
-// import Avatar from '@material-ui/core/Avatar';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -26,7 +25,7 @@ const useStyles = makeStyles({
   root: {
     padding: "80px 0",
     height: "fit-content",
-    backgroundColor: "#fff"
+    backgroundColor: "#010e28"
   },
     listStyle: {
         margin: "0px !important",
@@ -60,7 +59,7 @@ export default function Footer() {
   const history = useHistory();
   
   const handleDevelopers = () => {
-    history.push(DEVELOPERS);
+    history.push(ABOUT);
   }
 
   const handleFeedback = () => {
@@ -112,115 +111,115 @@ export default function Footer() {
                         </Box>
                     </Box>
                     <Box>
-                        <Typography component="h3" variant="h3">We're helping teams to imrove retrospectives</Typography>
+                        <Typography component="h3" color="secondary" variant="h3">Empowering teams to run retrospectives differently</Typography>
                     </Box>
                 </Grid>
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xl={2} lg={2} md={2} sm={6} xs={6}>
                     <Box mt={2} mb={1.5}>
-                        <Typography component="h5" variant="h5" color="inherit">Menu</Typography>
+                        <Typography component="h5" variant="h5" color="secondary">Menu</Typography>
                     </Box>
                     <List>
                         <ListItem className={listStyle} onClick={() => handleDevelopers()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">About</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">About</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle} onClick={() => handleFeedback()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Feedback</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Feedback</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle} onClick={() => handleFeatures()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Features</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Features</Typography>}/>
                         </ListItem>
                     </List>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={6} xs={6}>
                     <Box mt={2} mb={1.5}>
-                        <Typography component="h5" variant="h5" color="inherit">Company</Typography>
+                        <Typography component="h5" variant="h5" color="secondary">Company</Typography>
                     </Box>
                     <List>
                         <ListItem className={listStyle} onClick={() => handleCareers()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Careers</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Careers</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle} onClick={() => handleFAQ()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">FAQ</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">FAQ</Typography>}/>
                         </ListItem>
                     </List>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={6} xs={6}>
                     <Box mt={2} mb={1.5}>
-                        <Typography component="h5" variant="h5" color="inherit">Terms</Typography>
+                        <Typography component="h5" variant="h5" color="secondary">Terms</Typography>
                     </Box>
                     <List>
                         <ListItem className={listStyle} onClick={() => handleTerms()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Terms & Conditions</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Terms & Conditions</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle} onClick={() => handlePrivacy()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Privacy Policy</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Privacy Policy</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle} onClick={() => handleSecurity()}>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Security</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Security</Typography>}/>
                         </ListItem>
                     </List>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={6} xs={6}>
                     <Box mt={2} mb={1.5}>
-                        <Typography component="h5" variant="h5" color="inherit">Follow Us</Typography>
+                        <Typography component="h5" variant="h5" color="secondary">Follow Us</Typography>
                     </Box>
                     <List>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <FacebookIcon color="primary" />
+                                <FacebookIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Facebook</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Facebook</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <TwitterIcon color="primary" />
+                                <TwitterIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Twitter</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Twitter</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <InstagramIcon color="primary" />
+                                <InstagramIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Instagram</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Instagram</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <YouTubeIcon color="primary" />
+                                <YouTubeIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Youtube</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Youtube</Typography>}/>
                         </ListItem>
                     </List>
                 </Grid>
                 <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
                     <Box mt={2} mb={1.5}>
-                        <Typography component="h5" variant="h5" color="inherit">Contact Us</Typography>
+                        <Typography component="h5" variant="h5" color="secondary">Contact Us</Typography>
                     </Box>
                     <List>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <LocationIcon />
+                                <LocationIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">Dubai, United Arab Emirates</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">Dubai, United Arab Emirates</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <PhoneAndroidIcon />
+                                <PhoneAndroidIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit">+971-545678591</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary">+971-545678591</Typography>}/>
                         </ListItem>
                         <ListItem className={listStyle}>
                             <ListItemIcon className={listIconStyle}>
-                                <EmailIcon />
+                                <EmailIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary={<Typography variant="overline" color="inherit" style={{textTransform: "lowercase", width: "fit-content"}}>contact@do.com</Typography>}/>
+                            <ListItemText primary={<Typography variant="overline" color="secondary" style={{textTransform: "lowercase", width: "fit-content"}}>contact@letsdoretro.com</Typography>}/>
                         </ListItem>
                     </List>
                 </Grid>
             </Grid>
             <Box mt={3}>
-                <Typography variant="body2">Copyright © 2021 Let's do retro Inc. All rights reserved.</Typography>
+                <Typography variant="body2">Copyright © 2021 Letsdoretro.com. All rights reserved.</Typography>
             </Box>
         </Container>
     </BottomNavigation>

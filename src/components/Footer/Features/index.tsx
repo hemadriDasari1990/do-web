@@ -34,20 +34,24 @@ export default function Features() {
         <Container fixed disableGutters>
             <Box pt={5}>
                 <Box>
-                    <Typography variant="h1">
-                        An alternative to other retro tools
-                    </Typography>
-                    <Box mt={3}>
-                        <Typography variant="body1">
-                            Let's do retro is a free application. Yes! you heard it right it's absolutely free to use.
-                        </Typography>
-                    </Box>
-                    <Box mt={3}>
-                        <Typography variant="body1">
-                            The biggest difference is that its free, can organize/manage all (departments, projects, boards) under one organization account and express reactions on each note added. 
-                            If you’re evaluating Let's do retro vs other retrospective tools out there, then you’re already doing the right thing by finding a tool that will help you manage all your projects and retro boards in one place and maintain the history of everything. Let's do retro is 100% free.
-                        </Typography>
-                    </Box>
+                    <Grid container spacing={2}>
+                        <Grid item>
+                            <Typography variant="h1">
+                                An alternative to other retro tools
+                            </Typography>
+                            <Box mt={3}>
+                                <Typography variant="body1">
+                                    Let's do retro is a free application. Yes! you heard it right it's absolutely free to use.
+                                </Typography>
+                            </Box>
+                            <Box mt={3}>
+                                <Typography variant="body1">
+                                    The biggest difference is that its free, can organize/manage all (departments, projects, boards) under one organization account and express reactions on each note added. 
+                                    If you’re evaluating Let's do retro vs other retrospective tools out there, then you’re already doing the right thing by finding a tool that will help you manage all your projects and retro boards in one place and maintain the history of everything. Let's do retro is 100% free.
+                                </Typography>
+                            </Box>
+                        </Grid>
+                    </Grid>
                     <Box mt={3}>
                         <Grid container spacing={2}>
                             <FeatureContent direction="right" title="Create an Organization Account" description="Create unlimited departments, projects, boards in one place under your organization account" />
@@ -93,7 +97,7 @@ export default function Features() {
                     <Box mt={3}>
                         <Grid container spacing={2}>
                             <FeatureImage direction="left" image={ReactionsIcon} />
-                            <FeatureContent direction="right" title="Express reactions" description="Let's do retro allows you to express different types of reactions on each note like I disagree, I love it, +1, +2 and Deserve this. With this  make decisions democratically and improve along the way." />
+                            <FeatureContent direction="right" title="Express reactions" description="Let's do retro allows you to express different types of reactions on each note like I disagree, I love it, +1, +2 and Deserve. With this  make decisions democratically and improve along the way." />
                         </Grid>
                     </Box>
                     <Box mt={3}>

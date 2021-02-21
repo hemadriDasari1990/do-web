@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 10,
       borderRadius: 6,
       boxShadow: '0 3rem 6rem rgba(0, 0, 0, .1)',
-      marginTop: 10
     },
     drawerHeader: {
       padding: theme.spacing(0, 1),
