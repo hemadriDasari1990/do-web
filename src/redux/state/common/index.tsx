@@ -7,6 +7,8 @@ export function useShowCreateBoardButton() {
 }
 
 export function useAuthenticated() {
-    const token = sessionStorage.getItem("token");
+    const { token } = useSelector((state: {[Key: string]: any}) => ({
+        token: state.login.response?.token || sessionStorage.getItem("token")
+    }));
     return !!token;
 }

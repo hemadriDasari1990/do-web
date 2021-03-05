@@ -28,6 +28,7 @@ export default {
     fontWeight: 600,
     fontSize: 18,
     letterSpacing: '-0.06px',
+    color: "#09204a"
   },
   h5: {
     fontFamily: '-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Fira Sans,Ubuntu,Oxygen,Oxygen Sans,Cantarell,Droid Sans,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Lucida Grande,Helvetica,Arial,sans-serif',

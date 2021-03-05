@@ -1,37 +1,3 @@
-// import moment from 'moment'
-
-// const CONFIG_NEW: {[Key: string]: any} = {
-//   future: 'in %s',
-//   past: '%s',
-//   s: '1s ago',
-//   ss: '%ss',
-//   m: '1m ago',
-//   mm: '%dm',
-//   h: '1h ago',
-//   hh: '%dh',
-//   d: '1d ago',
-//   dd: '%dd',
-//   M: '1mo ago',
-//   MM: '%dmo',
-//   y: '1y ago',
-//   yy: '%dyr',
-// }
-
-// export default function getPastTime(timestamp: string) {
-//   if (!timestamp) {
-//     return ''
-//   }
-//   moment.updateLocale('en', { relativeTime: CONFIG_NEW })
-//   return moment(timestamp).fromNow()
-// }
-// const periods = {
-//   month: 30 * 24 * 60 * 60 * 1000,
-//   week: 7 * 24 * 60 * 60 * 1000,
-//   day: 24 * 60 * 60 * 1000,
-//   hour: 60 * 60 * 1000,
-//   minute: 60 * 1000
-// };
-
 export default function getPastTime(timestamp: any) {
 
   switch (typeof timestamp) {
@@ -48,9 +14,9 @@ export default function getPastTime(timestamp: any) {
   }
   const time_formats = [
     [60, 'secs', 1], // 60
-    [120, '1 min ago', '1 min from now'], // 60*2
+    [120, '1min ago', '1 min from now'], // 60*2
     [3600, 'mins', 60], // 60*60, 60
-    [7200, '1 hr ago', '1 hr from now'], // 60*60*2
+    [7200, '1hr ago', '1 hr from now'], // 60*60*2
     [86400, 'hrs', 3600], // 60*60*24, 60*60
     [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
     [604800, 'd', 86400], // 60*60*24*7, 60*60*24
@@ -82,7 +48,7 @@ export default function getPastTime(timestamp: any) {
       if (typeof format[2] == 'string')
         return format[list_choice];
       else
-        return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+        return Math.floor(seconds / format[2]) + '' + format[1] + ' ' + token;
     }
   return timestamp;
 }

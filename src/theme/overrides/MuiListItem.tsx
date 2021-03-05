@@ -8,7 +8,7 @@ export default {
     },
     fontFamily: 'inherit',
     '&:hover': {
-      backgroundColor: '#f0f2f5',
+      backgroundColor: '#f6f6f7',
       borderRadius: 7,
     },
     // margin: 5,

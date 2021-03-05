@@ -4,19 +4,18 @@ import { useFeedback, useLoading } from "../../redux/state/feedback"
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+// import { DASHBOARD } from "../../routes/config";
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '../../assets/home.svg'
-import { ORGANIZATION_DASHBOARD } from "../../routes/config";
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom';
 import { getFeedbacks } from "../../redux/actions/feedback";
-import { replaceStr } from "../../util";
 import { showCreateBoardButton } from "../../redux/actions/common"
-import { useAuthenticated } from "../../redux/state/common";
+// import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { useLogin } from "../../redux/state/login"
+
+// import { useHistory } from "react-router";
 
 const FeedbackList = React.lazy(() => import("../Feedback/list"));
 const Features = React.lazy(() => import("../Footer/Features"));
@@ -46,23 +45,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Home = () => {
     const { titleStyle, imageStyle, boxStyle } = useStyles();
     const dispatch = useDispatch();
-    const authenticated: boolean = useAuthenticated();
-    const { organizationId } = useLogin();
-    const history = useHistory();
+    // const authenticated: boolean = useAuthenticated();
+    // const history = useHistory();
     const { feedback } = useFeedback();
     const { loading } = useLoading();
     
     useEffect(() => {
       dispatch(showCreateBoardButton(true));
       dispatch(getFeedbacks());
-      if(authenticated){
-        history.push(replaceStr(ORGANIZATION_DASHBOARD, ":organizationId", organizationId));
-      }
+      // if(authenticated){
+      //   history.push(DASHBOARD);
+      // }
     }, []);
     
     return (
         <React.Fragment>
-        <Box>
           <Container disableGutters>
             <Box py={3}>
               <Grid container spacing={2}>
@@ -111,19 +108,15 @@ const Home = () => {
                   </Slide>
                 </Grid>
             </Box>
-            </Container>
             <Box className={boxStyle} padding={0}>
-              <Container disableGutters>
                 <Box py={3}>
                   <Box textAlign="center">
                     <Typography variant="h1">Let's do retro features</Typography>
                   </Box>
                   <Features />
                 </Box>
-              </Container>
             </Box>
             <Box py={3}>
-              <Container disableGutters>
                 <Box py={3}>
                   <Box textAlign="center">
                     <Typography variant="h1">What people say about us</Typography>
@@ -132,9 +125,8 @@ const Home = () => {
                 <Box>
                   {!loading && feedback?.length ? <FeedbackList feedbacks={feedback} />: null}
                 </Box>
-              </Container>
             </Box>
-          </Box>
+          </Container>
         </React.Fragment>
     )
 }

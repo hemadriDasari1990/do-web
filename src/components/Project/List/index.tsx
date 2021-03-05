@@ -1,3 +1,4 @@
+import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Box from '@material-ui/core/Box'
 import Card from '@material-ui/core/Card'
@@ -20,7 +21,7 @@ import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'
-import getRandomColor from "../../../util/getRandomColor";
+import getRandomBGColor from "../../../util/getRandomColor";
 import { makeStyles } from '@material-ui/core/styles';
 import { replaceStr } from "../../../util";
 import { useHistory } from "react-router";
@@ -114,6 +115,18 @@ const ProjectList = (props: any) => {
                     primary={<b>Edit Project</b>}
                     secondary="Update project"
                 />
+            </ListItem>
+            <ListItem
+              button={true}
+              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'archive')}
+            >
+              <ListItemAvatar style={{ minWidth: 35 }}>
+                <ArchiveOutlinedIcon />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<b>Archive Project</b>}
+                secondary="You've control to make it unarchive any time"
+              />
             </ListItem>
             <ListItem button={true} 
               onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'delete')}
@@ -213,7 +226,7 @@ const ProjectList = (props: any) => {
                   <Grid key={project?._id} item xl={4} lg={4} md={6} sm={6} xs={12}>
                     <Card className={cardStyle}>
                       <CardHeader
-                          avatar={<AssignmentIcon style={{background: getRandomColor()}} className={avatarBoxStyle} color="secondary" />}
+                          avatar={<AssignmentIcon style={{background: getRandomBGColor()}} className={avatarBoxStyle} color="secondary" />}
                           action={renderCardAction(project)}
                           title={renderCardTitle(project)}
                           subheader={renderCardSubTitle(project)}

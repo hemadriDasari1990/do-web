@@ -25,7 +25,10 @@ const useStyles = makeStyles({
   root: {
     padding: "80px 0",
     height: "fit-content",
-    backgroundColor: "#010e28"
+    backgroundColor: "#010e28",
+    width: '100%',
+    // position: 'fixed',
+    bottom: 0,
   },
     listStyle: {
         margin: "0px !important",

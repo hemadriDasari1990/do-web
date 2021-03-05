@@ -8,7 +8,6 @@ import AddIcon from '@material-ui/icons/Add';
 import BackIcon from '@material-ui/icons/Reply';
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import { ORGANIZATION_DASHBOARD } from '../../routes/config';
@@ -178,7 +177,6 @@ const ProjectDashboard = () => {
             {renderDeleteDialog()}
             <Loader backdrop={true} enable={departmentloading} />
             <Box className={root}>
-                <Container>
                     <Box py={2}>
                         <Grid container spacing={2}>
                             <Grid item xl={6} lg={6} md={4} sm={8} xs={12}>
@@ -227,7 +225,6 @@ const ProjectDashboard = () => {
                     <Box>
                         <ProjectList projects={projects} handleMenu={handleMenu} setSelectedProject={setSelectedProject} />
                     </Box>
-                </Container>
             </Box>
         </React.Fragment>
     )

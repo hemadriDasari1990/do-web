@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import Box from '@material-ui/core/Box'
+import Checkbox from '@material-ui/core/Checkbox';
 import CreateNewProject from '../../../assets/create.svg'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import { updateProject } from "../../../redux/actions/project"
 import { useDispatch } from "react-redux";
@@ -28,10 +31,11 @@ const Create = (props: any) => {
     const [formData, setFormData] = useState<{[Key: string]: any}>({
         title: '',
         description: '',
+        isPrivate: false,
         departmentId,
         projectId: selectedProject._id
     });
-    const { title, description } = formData;
+    const { title, description, isPrivate } = formData;
 
     useEffect(() => {
     }, []);
@@ -46,6 +50,10 @@ const Create = (props: any) => {
     /* Handler functions */
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
+    }
+
+    const handlePrivate = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [event.target.name]: !isPrivate });
     }
 
     const handleClose = () => {
@@ -101,6 +109,23 @@ const Create = (props: any) => {
                             fullWidth
                             className={textFieldStyle}
                         />
+                        <Box mt={2}>
+                            <Typography variant="h6">Do you like to mark this project as private?</Typography>
+                        </Box>
+                        <Box>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={isPrivate}
+                                        onChange={handlePrivate}
+                                        value="false"
+                                        color="primary"
+                                        name="isPrivate"
+                                    />
+                                }
+                                label={<Typography variant="h6">Private</Typography>}
+                            />
+                        </Box>
                     </Grid>
                 </Grid>
             </ResponsiveDialog>

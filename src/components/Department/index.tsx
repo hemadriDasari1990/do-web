@@ -6,7 +6,6 @@ import { useOrganization, useOrganizationLoading } from "../../redux/state/organ
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -169,7 +168,6 @@ const DepartmentDashboard = () => {
             {renderDeleteDialog()}
             <Loader backdrop={true} enable={organizationloading} />
             <Box className={root}>
-                <Container disableGutters>
                     <Box py={2}>
                         <Grid container spacing={2}>
                             <Grid item xl={9} lg={9} md={8} sm={8} xs={12}>
@@ -206,7 +204,6 @@ const DepartmentDashboard = () => {
                     <Box>
                       <DepartmentList departments={departments} handleMenu={handleMenu} setSelectedDepartment={setSelectedDepartment} />
                     </Box>
-                </Container>
             </Box>
         </React.Fragment>
     )

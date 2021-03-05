@@ -1,3 +1,4 @@
+import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
 import Box from '@material-ui/core/Box'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -20,7 +21,7 @@ import Typography from '@material-ui/core/Typography';
 import Zoom from '@material-ui/core/Zoom'
 import formateNumber from '../../../util/formateNumber'
 import getCardSubHeaderText from '../../../util/getCardSubHeaderText'
-import getRandomColor from "../../../util/getRandomColor";
+import getRandomBGColor from "../../../util/getRandomColor";
 import { makeStyles } from '@material-ui/core/styles';
 import { replaceStr } from "../../../util";
 import { useDepartmentLoading } from "../../../redux/state/department"
@@ -131,6 +132,18 @@ const DepartmentList = (props: any) => {
                 secondary="Once deleted can't be undone"
               />
             </ListItem>
+            <ListItem
+              button={true}
+              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => handleMenuItem(event, 'archive')}
+            >
+              <ListItemAvatar style={{ minWidth: 35 }}>
+                <ArchiveOutlinedIcon />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<b>Archive Department</b>}
+                secondary="You've control to make it unarchive any time"
+              />
+            </ListItem>
           </Menu>
         )
       }
@@ -225,7 +238,7 @@ const DepartmentList = (props: any) => {
                   <Grid key={department?._id} item xl={4} lg={4} md={6} sm={6} xs={12}>
                     <Card className={cardStyle}>
                       <CardHeader
-                        avatar={<SportsVolleyballIcon style={{background: getRandomColor()}} className={avatarBoxStyle} color="secondary" />}
+                        avatar={<SportsVolleyballIcon style={{background: getRandomBGColor()}} className={avatarBoxStyle} color="secondary" />}
                         action={renderCardAction(department)}
                         title={renderCardTitle(department)}
                         subheader={renderCardSubTitle(department)}

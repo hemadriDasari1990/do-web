@@ -8,7 +8,6 @@ import AddIcon from '@material-ui/icons/Add';
 import BackIcon from '@material-ui/icons/Reply';
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import { Container } from '@material-ui/core';
 import { DEPARTMENT_DASHBOARD } from '../../routes/config';
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
@@ -179,56 +178,54 @@ const BoardDashboard = () => {
             <Loader backdrop={true} enable={projectloading} />
             {renderDeleteDialog()}
             <Box className={root}>
-                <Container>
-                    <Box py={2}>
-                        <Grid container spacing={2}>
-                            <Grid item xl={6} lg={6} md={4} sm={8} xs={12}>
-                                <Box display="flex">
-                                <Hidden only={["xs"]}>
-                                    <Typography variant="h1">{project?.title}</Typography> 
-                                </Hidden>
-                                <Hidden only={["xl", "lg", "md", "sm"]}>
-                                    <Typography variant="h2">{project?.title}</Typography> 
-                                </Hidden>
-                                <Tooltip title="Total Boards">
-                                <Box ml={2} mt={1} className={countStyle}>
-                                    <Typography color="primary" className={countTextStyle}>{totalBoards}</Typography>
-                                </Box>
-                                </Tooltip>
-                                </Box>
-                            </Grid>
-                            <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-                                <Box className={buttonStyle}>
-                                    <Button
-                                        variant="outlined"
-                                        color="default"
-                                        startIcon={<BackIcon color="primary" />}
-                                        onClick={() => handleBack()}
-                                    >
-                                        <Typography color="primary" variant="body1" >Go Back to Projects</Typography>
-                                    </Button>
-                                </Box>
-                            </Grid>
-                            <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-                                <Box className={buttonStyle}>
-                                    {renderCreateNewBoard()}
-                                </Box>
-                            </Grid>
+                <Box py={2}>
+                    <Grid container spacing={2}>
+                        <Grid item xl={6} lg={6} md={4} sm={8} xs={12}>
+                            <Box display="flex">
+                            <Hidden only={["xs"]}>
+                                <Typography variant="h1">{project?.title}</Typography> 
+                            </Hidden>
+                            <Hidden only={["xl", "lg", "md", "sm"]}>
+                                <Typography variant="h2">{project?.title}</Typography> 
+                            </Hidden>
+                            <Tooltip title="Total Boards">
+                            <Box ml={2} mt={1} className={countStyle}>
+                                <Typography color="primary" className={countTextStyle}>{totalBoards}</Typography>
+                            </Box>
+                            </Tooltip>
+                            </Box>
                         </Grid>
+                        <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+                            <Box className={buttonStyle}>
+                                <Button
+                                    variant="outlined"
+                                    color="default"
+                                    startIcon={<BackIcon color="primary" />}
+                                    onClick={() => handleBack()}
+                                >
+                                    <Typography color="primary" variant="body1" >Go Back to Projects</Typography>
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+                            <Box className={buttonStyle}>
+                                {renderCreateNewBoard()}
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </Box>
+                {!loading && (!boards || !boards?.length) && (
+                <Box mt={10}>
+                    <NoRecords message="No Projects found! Please add"/>
+                    <Box mt={5} textAlign="center">
+                        {renderCreateNewBoard()}
                     </Box>
-                    {!loading && (!boards || !boards?.length) && (
-                    <Box mt={10}>
-                        <NoRecords message="No Projects found! Please add"/>
-                        <Box mt={5} textAlign="center">
-                            {renderCreateNewBoard()}
-                        </Box>
-                    </Box>
-                    )}
-                    <UpdateBoard selectedBoard={selectedBoard} openDialog={showBoardForm} handleUpdateForm={handleUpdateForm} />
-                    <Box>
-                        <BoardList boards={boards} handleMenu={handleMenu} setSelectedBoard={setSelectedBoard} />
-                    </Box>
-                </Container>
+                </Box>
+                )}
+                <UpdateBoard selectedBoard={selectedBoard} openDialog={showBoardForm} handleUpdateForm={handleUpdateForm} />
+                <Box>
+                    <BoardList boards={boards} handleMenu={handleMenu} setSelectedBoard={setSelectedBoard} />
+                </Box>
             </Box>
         </React.Fragment>
     )

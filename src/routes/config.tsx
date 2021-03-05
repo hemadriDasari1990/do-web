@@ -1,12 +1,15 @@
 export const ROOT = "/";
 
 export const CREATE = "/create";
+export const DASHBOARD = "/dashboard";
 export const BOARD_DASHBOARD = "/board/:boardId";
 export const ABOUT = "/about-us";
 export const CAREERS = "/careers";
 export const FEEDBACK = "/feedback";
 export const TERMS = "/terms";
 export const LOGIN = "/login";
+export const VERIFY = "/verify/:token";
+export const RESEND = "/resend/:token";
 export const ORGANIZATION = "/organization";
 export const ORGANIZATION_DASHBOARD = "/organization/:organizationId";
 export const DEPARTMENT_DASHBOARD = "/department/:departmentId";
