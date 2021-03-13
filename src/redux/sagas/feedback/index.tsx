@@ -25,9 +25,9 @@ export function* watchCreateFeedback() {
   yield takeLatest(CREATE_FEEDBACK_REQUEST, callCreateFeedback);
 }
 
-function* callGetFeedbacks() {
+function* callGetFeedbacks(action: { [Key: string]: any }) {
   try {
-    const result = yield getFeedbacks();
+    const result = yield getFeedbacks(action?.like);
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_FEEDBACKS_SUCCESS, payload: data });

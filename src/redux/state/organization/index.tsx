@@ -16,3 +16,21 @@ export function useOrganizationLoading() {
     loading: state.organization?.loading,
   }));
 }
+
+export function useOrganizationSummary() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    summary: state.organization.summary,
+  }));
+}
+
+export function useAllSummary() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    summary: state.organization.summary,
+  }));
+}
+
+export function useOrganizations() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    organizations: state.organization?.organizations,
+  }));
+}

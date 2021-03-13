@@ -21,10 +21,15 @@ const useStyles = makeStyles((theme: Theme) =>
       flexShrink: 0,
     },
     drawerPaper: {
+      marginTop: 60,
+      // zIndex: 999,
       width: drawerWidth,
       padding: 10,
       borderRadius: 6,
       boxShadow: "0 3rem 6rem rgba(0, 0, 0, .1)",
+      [theme.breakpoints.down("xs")]: {
+        width: 376,
+      },
     },
     drawerHeader: {
       padding: theme.spacing(0, 1),

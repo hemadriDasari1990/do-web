@@ -51,6 +51,7 @@ API.interceptors.response.use(
       await sessionStorage.removeItem("refreshToken");
       return Promise.reject(error);
     }
+    // window.location.href = "/login/";
     return Promise.reject(error);
   }
 );

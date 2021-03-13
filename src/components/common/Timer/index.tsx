@@ -1,66 +1,108 @@
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-// import Box from '@material-ui/core/Box'
-// // import Tooltip from '@material-ui/core/Tooltip'
-// import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from '@material-ui/core/styles';
-// import moment from "moment";
+import Box from "@material-ui/core/Box";
+// import Tooltip from '@material-ui/core/Tooltip'
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 
-// const useStyles = makeStyles(() => ({
-//     timerTextStyle: {
-//         color: "#0072ff",
-//         top: "50%",
-//         position: "relative",
-//         transform: "translateY(-50%)",
-//         textAlign: "center"
-//     },
-//     boxStyle: {
-//         borderRadius: 5,
-//         backgroundColor: "#f3f8ff",
-//         height: 40,
-//         width: 40,
-//     },
-//     timerStyle: {
-//         color: "#8c8e92",
-//         fontWeight: 500
-//     },
-// }));
+const useStyles = makeStyles(() => ({
+  timerTextStyle: {
+    color: "#0072ff",
+    top: "50%",
+    position: "relative",
+    transform: "translateY(-50%)",
+    textAlign: "center",
+  },
+  boxStyle: {
+    borderRadius: 5,
+    backgroundColor: "#f3f8ff",
+    height: 40,
+    width: 40,
+  },
+}));
 
-// const Timer = ({ callQueuedTime, interval }: {[Key: string]: any}) => {
-// const { timerStyle, boxStyle, timerTextStyle,  } = useStyles();
-//   const [callTime] = useState(() => new Date().getTime() + callQueuedTime);
-//   const [time, setTime] = useState(
-//     moment
-//       .utc(moment(callTime).diff(moment(new Date().getTime())))
-//       .format("mm:ss")
-//   );
-//   useEffect(() => {
-//     const intervalId = setInterval(function() {
-//       setTime(
-//         moment
-//           .utc(moment(callTime).diff(moment(new Date().getTime())))
-//           .format("mm:ss")
-//       );
-//     }, interval);
-//     return () => {
-//       clearInterval(intervalId);
-//     };
-//   }, [callQueuedTime]);
-  
-//   return (
-//       <React.Fragment>
-//         <Box ml={1} className={boxStyle}>
-//             <Typography className={timerTextStyle} variant="h3">{time.split(":")[0]}</Typography>
-//         </Box>
-//         <Box mx={0.5}>
-//             <Typography className={timerStyle} variant="h2">:</Typography>
-//         </Box>
-//         <Box mr={1} className={boxStyle}>
-//             <Typography className={timerTextStyle} variant="h3">{time.split(":")[1]}</Typography>
-//         </Box>
-//       </React.Fragment>
-//   )
-// };
+const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
+  const { boxStyle, timerTextStyle } = useStyles();
+  const sessionStartDateTime: any = new Date(startDateTime).getTime();
+  const [time, setTime] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
-const Timer = 123
+  const dateDiffInDays = () => {
+    // Discard the time and time-zone information.
+    const currentDateTime: any = new Date().getTime();
+    let milisec_diff = null;
+    if (sessionStartDateTime < currentDateTime) {
+      milisec_diff = currentDateTime - sessionStartDateTime;
+    } else {
+      milisec_diff = sessionStartDateTime - currentDateTime;
+    }
+    const dd = Math.floor(milisec_diff / 1000 / 60 / 60 / 24);
+    milisec_diff -= dd * 1000 * 60 * 60 * 24;
+    const hh = Math.floor(milisec_diff / 1000 / 60 / 60);
+    milisec_diff -= hh * 1000 * 60 * 60;
+    const mm = Math.floor(milisec_diff / 1000 / 60);
+    milisec_diff -= mm * 1000 * 60;
+    const ss = Math.floor(milisec_diff / 1000);
+    milisec_diff -= ss * 1000;
+
+    // const date_diff = new Date(milisec_diff);
+    setTime({
+      days: dd,
+      hours: hh,
+      minutes: mm,
+      seconds: ss,
+    });
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dateDiffInDays();
+    }, interval);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  return (
+    <Box display="flex">
+      <Box ml={1} className={boxStyle}>
+        <Typography className={timerTextStyle} variant="h3">
+          {time?.days}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="h3"> &nbsp;days</Typography>
+      </Box>
+      <Box ml={1} className={boxStyle}>
+        <Typography className={timerTextStyle} variant="h3">
+          {time?.hours}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="h3"> &nbsp;hrs</Typography>
+      </Box>
+      <Box ml={1} className={boxStyle}>
+        <Typography className={timerTextStyle} variant="h3">
+          {time?.minutes}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="h3"> &nbsp;mins</Typography>
+      </Box>
+      <Box mr={1} className={boxStyle}>
+        <Typography className={timerTextStyle} variant="h3">
+          {time?.seconds}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="h3"> &nbsp;secs</Typography>
+      </Box>
+    </Box>
+  );
+};
+
 export default Timer;

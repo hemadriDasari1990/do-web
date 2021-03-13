@@ -1,4 +1,8 @@
-import { DASHBOARD, ORGANIZATION } from "../../../routes/config";
+import {
+  DASHBOARD,
+  FORGOT_PASSWORD,
+  ORGANIZATION,
+} from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
@@ -95,25 +99,29 @@ const Login = () => {
     setShowError(false);
   };
 
+  const handleForgotPassword = () => {
+    history.push(FORGOT_PASSWORD);
+  };
+
   return (
     <React.Fragment>
       <Container>
         <Box pt={5}>
-          <Typography variant="h1">Login into Organization</Typography>
+          <Typography variant="h1">Login Here</Typography>
         </Box>
         <Grid container spacing={2}>
           <Hidden only={["xs"]}>
             <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-              <Box my={10}>
+              <Box mb={10} mt={3}>
                 <Zoom in={true} timeout={2000}>
                   <img src={SecureLogin} height="300px" width="fit-content" />
                 </Zoom>
               </Box>
             </Grid>
           </Hidden>
-          <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+          <Grid item xl={6} lg={6} md={6} sm={10} xs={12}>
             <Box mt={3}>
-              <Typography variant="h4">Enter Organization details</Typography>
+              <Typography variant="h4">Enter your credentials</Typography>
             </Box>
             <TextField
               name="email"
@@ -162,6 +170,11 @@ const Login = () => {
                   Reset
                 </Button>
               </Box>
+            </Box>
+            <Box mt={3}>
+              <Link component="button" onClick={handleForgotPassword}>
+                <Typography variant="h5">Forgot password?</Typography>
+              </Link>
             </Box>
             <Hidden only={["xl", "lg", "md", "sm"]}>
               <Box mt={3} display="flex">

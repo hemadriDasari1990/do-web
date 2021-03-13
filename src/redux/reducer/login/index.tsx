@@ -1,4 +1,7 @@
 import {
+  FORGOT_PASSWORD_FAILED,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -6,6 +9,12 @@ import {
   RESEND_TOKEN_FAILED,
   RESEND_TOKEN_REQUEST,
   RESEND_TOKEN_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  VALIDATE_FORGOT_PASSWORD_FAILED,
+  VALIDATE_FORGOT_PASSWORD_REQUEST,
+  VALIDATE_FORGOT_PASSWORD_SUCCESS,
   VERIFY_TOKEN_FAILED,
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
@@ -74,6 +83,60 @@ const login = (state = initialState, action: ReduxAction) => {
         loading: false,
       };
     case VERIFY_TOKEN_SUCCESS:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+
+    case FORGOT_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+
+    case VALIDATE_FORGOT_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case VALIDATE_FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+    case VALIDATE_FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+
+    case RESET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+    case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         response: action.payload,

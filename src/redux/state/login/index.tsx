@@ -38,3 +38,10 @@ export function useResendToken() {
     message: state.login.response?.message,
   }));
 }
+
+export function useForgotPassword() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    errorId: state.login.response?.errorId,
+    response: state.login.response,
+  }));
+}

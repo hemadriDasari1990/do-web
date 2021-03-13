@@ -107,6 +107,16 @@ function Feedback(props: any) {
     setNo(false);
   };
 
+  const disableButton = () => {
+    if (!title || title?.length <= 4) {
+      return true;
+    }
+    if (!description || description?.length <= 10) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <React.Fragment>
       <Container>
@@ -120,8 +130,7 @@ function Feedback(props: any) {
           </Typography>
           <Box mt={2}>
             <Typography variant="body2">
-              Users feedback is valuable for Us and we're always thankfull to
-              them :)
+              Users feedback is valuable for Us and we're always thankfull:)
             </Typography>
           </Box>
         </Box>
@@ -201,6 +210,7 @@ function Feedback(props: any) {
               size="small"
               onClick={() => handleSubmit()}
               className="mr-10"
+              disabled={disableButton()}
             >
               Submit
             </Button>

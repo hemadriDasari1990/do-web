@@ -1,3 +1,4 @@
+import { LOGIN, PRIVACY_POLICY, TERMS } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import {
@@ -7,11 +8,12 @@ import {
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
 import CreateOrganization from "../../../assets/create.svg";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import { LOGIN } from "../../../routes/config";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -46,8 +48,16 @@ const Create = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    isAgreed: false,
   });
-  const { title, description, email, password, confirmPassword } = formData;
+  const {
+    title,
+    description,
+    email,
+    password,
+    confirmPassword,
+    isAgreed,
+  } = formData;
   const [apiTriggered, setApiTriggered] = useState(false);
   const [showError, setShowError] = useState(false);
 
@@ -109,6 +119,9 @@ const Create = () => {
     if (password.trim() !== confirmPassword.trim()) {
       return true;
     }
+    if (!isAgreed) {
+      return true;
+    }
     return false;
   };
 
@@ -116,30 +129,44 @@ const Create = () => {
     setShowError(false);
   };
 
+  const handleAgreed = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [event.target.name]: !isAgreed });
+  };
+
+  const handleTerms = () => {
+    const win: any = window.open(TERMS, "_blank");
+    win.focus();
+  };
+
+  const handlePrivacyStatement = () => {
+    const win: any = window.open(PRIVACY_POLICY, "_blank");
+    win.focus();
+  };
+
   return (
     <React.Fragment>
       <Container>
         <Loader enable={loading} backdrop={true} />
         <Box pt={5}>
-          <Typography variant="h1">Create Organization</Typography>
+          <Typography variant="h1">Create Organization Account</Typography>
         </Box>
         <Grid container spacing={2}>
           <Hidden only={["xs"]}>
             <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-              <Box mt={5} textAlign="center">
+              <Box mt={10} textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <img
                     src={CreateOrganization}
-                    height="300px"
+                    height="200px"
                     width="fit-content"
                   />
                 </Zoom>
               </Box>
             </Grid>
           </Hidden>
-          <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+          <Grid item xl={4} lg={4} md={6} sm={10} xs={12}>
             <Box mt={3}>
-              <Typography variant="h4">Enter Organization details</Typography>
+              <Typography variant="h4">Enter details below</Typography>
             </Box>
             <TextField
               name="title"
@@ -203,6 +230,41 @@ const Create = () => {
               fullWidth
               className={textFieldStyle}
             />
+            <Box mt={1}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isAgreed}
+                    onChange={handleAgreed}
+                    value="false"
+                    color="primary"
+                    name="isAgreed"
+                  />
+                }
+                label={
+                  <Box mt={2}>
+                    <Box display="flex">
+                      <Typography variant="h6">I accept the &nbsp;</Typography>
+                      <Link component="button" onClick={handleTerms}>
+                        <Typography variant="h5">
+                          Letsdoretro Terms of Service
+                        </Typography>
+                      </Link>
+                    </Box>
+                    <Box display="flex">
+                      <Typography variant="h6">
+                        and have read the &nbsp;{" "}
+                      </Typography>
+                      <Link component="button" onClick={handlePrivacyStatement}>
+                        <Typography variant="h5">
+                          Letsdoretro Privacy Statement
+                        </Typography>
+                      </Link>
+                    </Box>
+                  </Box>
+                }
+              />
+            </Box>
             <Box mt={5} display="flex">
               <Box mr={2}>
                 <Button
@@ -228,7 +290,7 @@ const Create = () => {
                 </Button>
               </Box>
             </Box>
-            <Box mt={3} display="flex">
+            <Box my={3} display="flex">
               <Box mr={1}>
                 <Typography variant="h4">Already have an account?</Typography>
               </Box>

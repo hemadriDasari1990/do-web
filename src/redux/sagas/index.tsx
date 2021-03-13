@@ -2,12 +2,16 @@ import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
   watchCreateOrganization,
   watchDeleteOrganization,
+  watchGetAllSummary,
   watchGetOrganizationDetails,
+  watchGetOrganizationSummary,
+  watchGetOrganizations,
   watchUpdateOrganization,
 } from "./organization";
 import {
   watchDeleteBoard,
   watchGetBoardDetails,
+  watchStartOrCompleteBoard,
   watchUpdateBoard,
 } from "./board";
 import {
@@ -26,17 +30,35 @@ import {
   watchGetSectionsByBoard,
   watchUpdateSection,
 } from "./section";
-import { watchLogin, watchResendToken, watchVerifyToken } from "./login";
+import {
+  watchForgotPassword,
+  watchLogin,
+  watchResendToken,
+  watchResetPassword,
+  watchValidateForgotPassword,
+  watchVerifyToken,
+} from "./login";
 
 import { fork } from "redux-saga/effects";
 import { watchreateOrUpdateReaction } from "./reaction";
 
 function* rootSaga() {
+  /* Login sagas */
+  yield fork(watchLogin);
+  yield fork(watchResendToken);
+  yield fork(watchVerifyToken);
+  yield fork(watchResetPassword);
+  yield fork(watchValidateForgotPassword);
+  yield fork(watchForgotPassword);
+
   /* Organization sagas */
   yield fork(watchCreateOrganization);
   yield fork(watchUpdateOrganization);
   yield fork(watchDeleteOrganization);
   yield fork(watchGetOrganizationDetails);
+  yield fork(watchGetOrganizationSummary);
+  yield fork(watchGetOrganizations);
+  yield fork(watchGetAllSummary);
 
   /* Department sagas */
   yield fork(watchGetDepartmentDetails);
@@ -52,6 +74,7 @@ function* rootSaga() {
   yield fork(watchUpdateBoard);
   yield fork(watchDeleteBoard);
   yield fork(watchGetBoardDetails);
+  yield fork(watchStartOrCompleteBoard);
 
   /* Section sagas */
   yield fork(watchGetSectionsByBoard);
@@ -69,11 +92,6 @@ function* rootSaga() {
 
   /* Reaction sagas */
   yield fork(watchreateOrUpdateReaction);
-
-  /* Login sagas */
-  yield fork(watchLogin);
-  yield fork(watchResendToken);
-  yield fork(watchVerifyToken);
 }
 
 export default rootSaga;

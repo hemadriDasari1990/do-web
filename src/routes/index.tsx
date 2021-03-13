@@ -30,6 +30,12 @@ const Features = React.lazy(() => import("../components/Footer/Features"));
 const VerifyAccount = React.lazy(
   () => import("../components/Organization/VerifyAccount")
 );
+const ForgotPassword = React.lazy(
+  () => import("../components/Organization/ForgotPassword")
+);
+const ResetPassword = React.lazy(
+  () => import("../components/Organization/ResetPassword")
+);
 
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
@@ -51,6 +57,10 @@ const routes = () => {
     {
       path: routePath.LOGIN,
       component: Login,
+    },
+    {
+      path: routePath.FORGOT_PASSWORD,
+      component: ForgotPassword,
     },
     {
       path: routePath.ABOUT,
@@ -91,6 +101,10 @@ const routes = () => {
     {
       path: routePath.VERIFY,
       component: VerifyAccount,
+    },
+    {
+      path: routePath.RESET_PASSWORD,
+      component: ResetPassword,
     },
   ];
 };

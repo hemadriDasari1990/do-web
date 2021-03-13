@@ -5,9 +5,18 @@ import {
   DELETE_ORGANIZATION_FAILED,
   DELETE_ORGANIZATION_REQUEST,
   DELETE_ORGANIZATION_SUCCESS,
+  GET_ALL_SUMMARY_FAILED,
+  GET_ALL_SUMMARY_REQUEST,
+  GET_ALL_SUMMARY_SUCCESS,
+  GET_ORGANIZATIONS_FAILED,
+  GET_ORGANIZATIONS_REQUEST,
+  GET_ORGANIZATIONS_SUCCESS,
   GET_ORGANIZATION_FAILED,
   GET_ORGANIZATION_REQUEST,
   GET_ORGANIZATION_SUCCESS,
+  GET_ORGANIZATION_SUMMARY_FAILED,
+  GET_ORGANIZATION_SUMMARY_REQUEST,
+  GET_ORGANIZATION_SUMMARY_SUCCESS,
   UPDATE_ORGANIZATION_FAILED,
   UPDATE_ORGANIZATION_REQUEST,
   UPDATE_ORGANIZATION_SUCCESS,
@@ -15,7 +24,10 @@ import {
 import {
   createOrganization,
   deleteOrganization,
+  getAllSummary,
   getOrganizationDetails,
+  getOrganizationSummary,
+  getOrganizations,
   updateOrganization,
 } from "../../network/organization";
 import { put, takeLatest } from "redux-saga/effects";
@@ -34,6 +46,28 @@ function* callGetOrganizationDetails(action: { [Key: string]: any }) {
 
 export function* watchGetOrganizationDetails() {
   yield takeLatest(GET_ORGANIZATION_REQUEST, callGetOrganizationDetails);
+}
+
+function* callGetOrganizationSummary(action: { [Key: string]: any }) {
+  try {
+    const result = yield getOrganizationSummary(action.id);
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_ORGANIZATION_SUMMARY_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: GET_ORGANIZATION_SUMMARY_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchGetOrganizationSummary() {
+  yield takeLatest(
+    GET_ORGANIZATION_SUMMARY_REQUEST,
+    callGetOrganizationSummary
+  );
 }
 
 function* callCreateOrganization(action: { [Key: string]: any }) {
@@ -91,4 +125,39 @@ function* callDeleteOrganization(action: { [Key: string]: any }) {
 
 export function* watchDeleteOrganization() {
   yield takeLatest(DELETE_ORGANIZATION_REQUEST, callDeleteOrganization);
+}
+
+function* callGetAllSummary() {
+  try {
+    const result = yield getAllSummary();
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_ALL_SUMMARY_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({ type: GET_ALL_SUMMARY_FAILED, payload: err.response.data });
+  }
+}
+
+export function* watchGetAllSummary() {
+  yield takeLatest(GET_ALL_SUMMARY_REQUEST, callGetAllSummary);
+}
+
+function* callGetOrganizations() {
+  try {
+    const result = yield getOrganizations();
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_ORGANIZATIONS_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: GET_ORGANIZATIONS_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchGetOrganizations() {
+  yield takeLatest(GET_ORGANIZATIONS_REQUEST, callGetOrganizations);
 }

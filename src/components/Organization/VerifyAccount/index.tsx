@@ -12,6 +12,8 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import VerifiedIcon from "../../../assets/verified.svg";
+import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 // import { replaceStr } from "../../../util";
 import { useDispatch } from "react-redux";
@@ -44,7 +46,7 @@ const VerifyAccount = () => {
 
   /* React Hooks */
   useEffect(() => {
-    if (!loading && !response?.errorId) {
+    if (!loading && response && !response?.errorId) {
       setShowSnackbar(true);
       //   history.push(LOGIN);
     }
@@ -52,7 +54,6 @@ const VerifyAccount = () => {
       setShowSnackbar(true);
     }
     if (!loading && response?.errorId === ALREADY_VERIFIED) {
-      setShowSnackbar(true);
       setShowSnackbar(true);
       //   history.push(LOGIN);
     }
@@ -98,6 +99,13 @@ const VerifyAccount = () => {
             {response?.message}
           </Typography>
         </DoSnackbar>
+        {!loading && (
+          <Box mt={8} textAlign="center">
+            <Zoom in={true} timeout={2000}>
+              <img src={VerifiedIcon} height="200px" width="fit-content" />
+            </Zoom>
+          </Box>
+        )}
         <Box className={boxStyle}>
           {!loading && (
             <Box>
