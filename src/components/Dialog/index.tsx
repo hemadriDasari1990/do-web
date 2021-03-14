@@ -15,14 +15,14 @@ const useStyles = makeStyles(() => ({
     maxWidth: props.maxWidth || 700,
     overflowY: "unset",
   }),
-  closeIconStyle: {
+  closeIconStyle: (props: any) => ({
     position: "absolute",
-    left: "95%",
-    top: "-4%",
+    left: props.maxWidth ? "95%" : "97%",
+    top: props.maxWidth ? "-4%" : "-6%",
     background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
     color: "#fff",
     borderRadius: "50%",
-  },
+  }),
 }));
 
 export default function ResponsiveDialog(props: any) {
@@ -35,6 +35,7 @@ export default function ResponsiveDialog(props: any) {
     handleClose,
     disablePrimaryCTA,
     maxWidth,
+    hideButton = false,
   } = props;
   const { paperStyle, closeIconStyle } = useStyles({ maxWidth });
   return (
@@ -56,14 +57,16 @@ export default function ResponsiveDialog(props: any) {
           <IconButton onClick={() => handleClose()} className={closeIconStyle}>
             <CloseOutlinedIcon />
           </IconButton>
-          <Button
-            onClick={() => handleSave()}
-            variant="contained"
-            color="primary"
-            disabled={disablePrimaryCTA}
-          >
-            {pcta}
-          </Button>
+          {!hideButton && (
+            <Button
+              onClick={() => handleSave()}
+              variant="contained"
+              color="primary"
+              disabled={disablePrimaryCTA}
+            >
+              {pcta}
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </React.Fragment>

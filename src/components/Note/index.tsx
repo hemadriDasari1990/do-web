@@ -1,3 +1,8 @@
+import {
+  Droppable,
+  DroppableProvided,
+  DroppableStateSnapshot,
+} from "react-beautiful-dnd";
 import React, { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
@@ -14,7 +19,6 @@ import { useBoard } from "../../redux/state/board";
 
 const NotesList = React.lazy(() => import("./list"));
 const UpdateNote = React.lazy(() => import("./Update"));
-const NoRecords = React.lazy(() => import("../NoRecords"));
 
 const useStyles = makeStyles(() => ({
   buttonStyle: {
@@ -43,6 +47,13 @@ function Note(props: any) {
   const [selectedSectionId, setSelectedSectionId] = useState("");
 
   /* React Hooks */
+
+  useEffect(() => {
+    if (notes !== noteList) {
+      setNotes(noteList);
+    }
+  }, [noteList]);
+
   useEffect(() => {
     /* Delete note */
     socket.on(
@@ -67,8 +78,8 @@ function Note(props: any) {
           setNotes(notesList);
         } else {
           setNotes((currentNotes: Array<{ [Key: string]: any }>) => [
-            ...currentNotes,
             newNote,
+            ...currentNotes,
           ]);
           updateTotalNotes(sectionId, "add");
         }
@@ -148,14 +159,28 @@ function Note(props: any) {
           </Grid>
         </Grid>
       )}
-      {!notes?.length && !showNote && (
-        <Box my={1}>
-          <NoRecords message="No notes found" />
-        </Box>
-      )}
-      <Box>
-        <NotesList notes={notes} sectionId={sectionId} editNote={editNote} />
-      </Box>
+
+      <Droppable
+        droppableId={sectionId}
+        type="NOTE"
+        // ignoreContainerClipping={false} // undefined or false
+        // isDropDisabled={isDropDisabled}
+        // isCombineEnabled={false} //always false
+      >
+        {(
+          dropProvided: DroppableProvided,
+          dropSnapshot: DroppableStateSnapshot
+        ) => (
+          <Box>
+            <NotesList
+              notes={notes}
+              editNote={editNote}
+              dropProvided={dropProvided}
+              showNote={showNote}
+            />
+          </Box>
+        )}
+      </Droppable>
     </React.Fragment>
   );
 }

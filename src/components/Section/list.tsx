@@ -1,6 +1,17 @@
+import {
+  DragDropContext,
+  Draggable,
+  DraggableLocation,
+  DraggableProvided,
+  DraggableStateSnapshot,
+  DropResult,
+  Droppable,
+  DroppableProvided,
+} from "react-beautiful-dnd";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { deleteSection, updateSection } from "../../redux/actions/section";
+import { reorder, replaceStr } from "../../util";
 import { useLoading, useSection } from "../../redux/state/section";
 
 import Box from "@material-ui/core/Box";
@@ -25,7 +36,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { getSectionsByBoard } from "../../redux/actions/section";
-import { replaceStr } from "../../util";
 import socket from "../../socket";
 import { startOrCompleteBoard } from "../../redux/actions/board";
 import { useAuthenticated } from "../../redux/state/common";
@@ -50,6 +60,10 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   titleStyle: {
     width: "fit-content",
   },
+  sectionGridStyle: {
+    border: "2px solid #0072ff",
+    borderRadius: 6,
+  },
   sectionStyle: {
     backgroundColor: "#d8d8d833",
     borderRadius: 10,
@@ -58,21 +72,21 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     cursor: "pointer",
   },
   startSessionIconStyle: {
-    backgroundColor: "#dbfdde",
     borderRadius: "50%",
-    color: "#2abf2a",
+    color: "#0fe220",
   },
   buttonOutlinedStartStyle: {
-    border: "2px solid #dbfddd",
+    backgroundColor: "#dbfdde",
+    border: "unset",
     "&.MuiButton-outlined:hover": {
-      border: "2px solid #dbfddd",
+      backgroundColor: "#dbfdde",
+      border: "unset",
     },
   },
   startSessionTextStyle: {
-    color: "#2abf2a",
+    color: "#0fe220",
   },
   stopSessionIconStyle: {
-    backgroundColor: "#ffd2d2",
     borderRadius: "50%",
     color: "#ff0000",
     padding: 3,
@@ -80,9 +94,11 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     width: 20,
   },
   buttonOutlinedStopStyle: {
-    border: "1px solid #ffd2d2",
+    backgroundColor: "#ffd2d2",
+    border: "unset",
     "&.MuiButton-outlined:hover": {
-      border: "1px solid #ffd2d2",
+      backgroundColor: "#ffd2d2",
+      border: "unset",
     },
   },
   stopSessionTextStyle: {
@@ -113,6 +129,7 @@ const SectionList = () => {
     stopSessionTextStyle,
     boxStyle,
     boxTextStyle,
+    sectionGridStyle,
   } = useLocalStyles();
   const {
     countStyle,
@@ -149,6 +166,9 @@ const SectionList = () => {
     setAction(false);
     dispatch(getSectionsByBoard(boardId));
     setAction(true);
+    // return () => {
+    //   socket.off("move-note-to-section");
+    // };
   }, []);
 
   useEffect(() => {
@@ -307,6 +327,7 @@ const SectionList = () => {
           scta="Cancel"
           handleSave={handleDelete}
           handleClose={handleClose}
+          maxWidth={440}
         >
           <Typography variant="h4">
             {" "}
@@ -450,6 +471,135 @@ const SectionList = () => {
     );
   };
 
+  const reorderNotesList = (
+    source: DraggableLocation,
+    destination: DraggableLocation
+  ) => {
+    /* Clone original sections */
+    const newSections: Array<{ [Key: string]: any }> = [...sections];
+    /* Find source section index */
+    const currentIndex: number = sections.findIndex(
+      (newSection: { [Key: string]: any }) =>
+        newSection?._id === source.droppableId
+    );
+    /* Find destination section index */
+    const nextIndex: number = sections.findIndex(
+      (newSection: { [Key: string]: any }) =>
+        newSection?._id === destination.droppableId
+    );
+    /* Find source notes */
+    const current: Array<{ [Key: string]: any }> =
+      sections[currentIndex]?.notes;
+    /* Find destination notes */
+    const next: Array<{ [Key: string]: any }> = sections[nextIndex]?.notes;
+    /* Find target note */
+    const target: { [Key: string]: any } = current[source.index];
+
+    // moving to same list
+    if (source.droppableId === destination.droppableId) {
+      // console.log("test current", current, currentIndex, sections);
+      // console.log("test next", next);
+      // console.log("test target", target);
+      const reordered: Array<{ [Key: string]: any }> = reorder(
+        current,
+        source.index,
+        destination.index
+      );
+      // console.log("reordered 1", current);
+      // console.log("reordered 2", reordered);
+      const section: { [Key: string]: any } = { ...newSections[currentIndex] };
+      section.notes = reordered;
+      newSections[currentIndex] = section;
+      return newSections;
+    }
+
+    // moving to different list
+
+    // remove from original
+    if (current) {
+      current.splice(source.index, 1);
+    }
+
+    // insert into next
+    if (target) {
+      next.splice(destination.index, 0, target);
+    }
+    const sourceSection: { [Key: string]: any } = sections[currentIndex];
+    sourceSection.notes = current;
+    newSections[currentIndex] = sourceSection;
+
+    const destinationSection: { [Key: string]: any } = sections[nextIndex];
+    destinationSection.notes = next;
+    newSections[nextIndex] = destinationSection;
+
+    return newSections;
+  };
+
+  const onDragEnd = (result: DropResult) => {
+    // result.draggableId is noteId
+    // droppableId
+
+    // if (result.combine) {
+    //   if (result.type === "COLUMN") {
+    //     const shallow: Array<{ [Key: string]: any }> = [...sections];
+    //     shallow.splice(result.source.index, 1);
+    //     setSections(shallow);
+    //     return;
+    //   }
+
+    //   const section: Quote[] = sections[result.source.index];
+    //   const withQuoteRemoved: Quote[] = [...column];
+    //   withQuoteRemoved.splice(result.source.index, 1);
+    //   const columns: QuoteMap = {
+    //     ...this.state.columns,
+    //     [result.source.droppableId]: withQuoteRemoved,
+    //   };
+    //   this.setState({ columns });
+    //   return;
+    // }
+
+    // dropped nowhere
+    if (!result.destination) {
+      return;
+    }
+
+    const source: DraggableLocation = result.source;
+    const destination: DraggableLocation = result.destination;
+
+    // did not move anywhere - can bail early
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
+
+    // reordering column
+    if (result.type === "COLUMN") {
+      const newSections: Array<{ [Key: string]: any }> = reorder(
+        sections,
+        source.index,
+        destination.index
+      );
+      setSections(newSections);
+      return;
+    }
+
+    if (result.type === "NOTE") {
+      socket.emit("move-note-to-section", {
+        noteId: result.draggableId,
+        sourceSectionId: source.droppableId,
+        destinationSectionId: destination.droppableId,
+      });
+      // socket.on("move-note-to-section", (updated: any) => {
+      //   const newSections = reorderNotesList(source, destination);
+      //   setSections(newSections);
+      // });
+      const newSections = reorderNotesList(source, destination);
+      setSections(newSections);
+    }
+  };
+
   return (
     <React.Fragment>
       {/* <Loader backdrop={true} enable={loading} /> */}
@@ -569,60 +719,118 @@ const SectionList = () => {
           </Box>
         </Grid>
       </Grid>
-      <List>
-        <Grid container spacing={1}>
-          {Array.isArray(sections) &&
-            sections.map((item: { [Key: string]: any }) => (
-              <Grid item key={item._id} xl={3} lg={3} md={4} sm={6} xs={12}>
-                <Box className={sectionStyle}>
-                  <ListItem disableGutters>
-                    <ListItemText
-                      primary={
-                        <Box
-                          display="flex"
-                          justifyContent="space-between"
-                          className={titleStyle}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <List>
+          <Droppable
+            droppableId="board"
+            type="COLUMN"
+            direction="horizontal"
+            // ignoreContainerClipping={Boolean(containerHeight)}
+            // isCombineEnabled={false}
+          >
+            {(droppableProvided: DroppableProvided) => (
+              <div
+                ref={droppableProvided.innerRef}
+                {...droppableProvided.droppableProps}
+              >
+                <Grid container spacing={1}>
+                  {Array.isArray(sections) &&
+                    sections.map(
+                      (item: { [Key: string]: any }, index: number) => (
+                        <Draggable
+                          key={item._id}
+                          draggableId={item._id}
+                          index={index}
                         >
-                          <Box>
-                            <Tooltip title={item.title}>
-                              <Typography
-                                className={sectionHeader}
-                                variant="h3"
+                          {(
+                            draggableProvided: DraggableProvided,
+                            draggableSnapshot: DraggableStateSnapshot
+                          ) => (
+                            <Grid
+                              item
+                              // key={item._id}
+                              xl={3}
+                              lg={3}
+                              md={4}
+                              sm={6}
+                              xs={12}
+                            >
+                              <div
+                                ref={draggableProvided.innerRef}
+                                {...draggableProvided.draggableProps}
+                                {...draggableProvided.dragHandleProps}
+                                // style={getItemStyle(
+                                //   provided.draggableStyle,
+                                //   snapshot.isDragging
+                                // )}
+                                className={`${sectionStyle} ${
+                                  draggableSnapshot.isDragging
+                                    ? sectionGridStyle
+                                    : ""
+                                }`}
+                                data-isDragging={
+                                  draggableSnapshot.isDragging &&
+                                  !draggableSnapshot.isDropAnimating
+                                }
                               >
-                                {item.title}
-                              </Typography>
-                            </Tooltip>
-                          </Box>
-                          <Box className={countStyle}>
-                            <Tooltip title="Total Notes">
-                              <Typography
-                                color="primary"
-                                className={countTextStyle}
-                              >
-                                {item.totalNotes}
-                              </Typography>
-                            </Tooltip>
-                          </Box>
-                        </Box>
-                      }
-                    />
-                    {authenticated && (
-                      <ListItemSecondaryAction>
-                        {renderMenuAction(item)}
-                      </ListItemSecondaryAction>
+                                <ListItem disableGutters>
+                                  <ListItemText
+                                    primary={
+                                      <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        className={`${titleStyle}`}
+                                      >
+                                        <Box>
+                                          <Tooltip title={item.title}>
+                                            <Typography
+                                              className={sectionHeader}
+                                              variant="h3"
+                                            >
+                                              {item.title}
+                                            </Typography>
+                                          </Tooltip>
+                                        </Box>
+                                        <Box className={countStyle}>
+                                          <Tooltip title="Total Notes">
+                                            <Typography
+                                              color="primary"
+                                              className={countTextStyle}
+                                            >
+                                              {item.totalNotes}
+                                            </Typography>
+                                          </Tooltip>
+                                        </Box>
+                                      </Box>
+                                    }
+                                  />
+                                  {authenticated && (
+                                    <ListItemSecondaryAction>
+                                      {renderMenuAction(item)}
+                                    </ListItemSecondaryAction>
+                                  )}
+                                </ListItem>
+                                {renderMenu(item)}
+
+                                <Note
+                                  key={item._id}
+                                  noteList={item.notes}
+                                  sectionId={item._id}
+                                  updateTotalNotes={updateTotalNotes}
+                                />
+                              </div>
+                            </Grid>
+                          )}
+                        </Draggable>
+                      )
                     )}
-                  </ListItem>
-                  {renderMenu(item)}
-                  <Note
-                    noteList={item.notes}
-                    sectionId={item._id}
-                    updateTotalNotes={updateTotalNotes}
-                  />
-                </Box>
-              </Grid>
-            ))}
-        </Grid>
-      </List>
+                </Grid>
+                {droppableProvided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </List>
+      </DragDropContext>
       {!loading && !sections?.length && (
         <NoRecords message="No Sections found" />
       )}

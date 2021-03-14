@@ -54,6 +54,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "#f7fafd",
     borderRadius: 6,
   },
+  plusTwoIconStyle: {
+    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
+  },
+  disAgreeIconStyle: {
+    background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
+  },
+  loveIconStyle: {
+    background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
+  },
+  plusIconStyle: {
+    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
+  },
+  deserveIconStyle: {
+    background: "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)",
+  },
+  reactionStyle: {
+    fontSize: 12,
+  },
 }));
 
 export default useStyles;

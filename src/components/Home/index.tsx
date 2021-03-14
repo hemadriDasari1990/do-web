@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 // import { DASHBOARD } from "../../routes/config";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import ScrumBoard from "../../assets/board.svg";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +23,7 @@ const CreateAccount = React.lazy(() => import("./create"));
 const CreateAccountGrid = React.lazy(() => import("./createAccountGrid"));
 const Summary = React.lazy(() => import("./summary"));
 const OrganizationList = React.lazy(() => import("./organizations"));
+const AdContainer = React.lazy(() => import("./adContainer"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   titleStyle: {
@@ -66,6 +68,9 @@ const Home = () => {
   return (
     <React.Fragment>
       <Container disableGutters>
+        <Hidden only={["xs"]}>
+          <AdContainer />
+        </Hidden>
         <Box py={3}>
           <Grid container spacing={2}>
             <Slide
@@ -78,29 +83,30 @@ const Home = () => {
               <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
                 <Box>
                   <Typography className={titleStyle} variant="h1">
-                    Hello! Let's do retro
+                    Let's do retro
                   </Typography>
                 </Box>
                 <Box>
                   <Typography className={titleStyle} variant="h1">
-                    With our application
+                    Helps teams to run
                   </Typography>
                 </Box>
                 <Box mb={2}>
                   <Typography className={titleStyle} variant="h1">
-                    Differently
+                    Retrospective's differently
                   </Typography>
                 </Box>
                 <Box>
                   <Typography variant="body1">
-                    The versatile retrospective tool for agile teams,
-                    collaborate with your team{" "}
+                    It's 100% free and fun! The versatile retrospective tool for
+                    agile teams, collaborate with your team{" "}
                   </Typography>
                 </Box>
                 <Box mb={5}>
                   <Typography variant="body1">
                     and get better in what you do with a modern, powerful and
-                    beautiful application.
+                    beautiful application. The fun part is expressing emotions
+                    as reactions on notes.
                   </Typography>
                 </Box>
                 <Box>
@@ -138,7 +144,7 @@ const Home = () => {
           </Box>
         </Box> */}
         <Box py={5}>
-          <OrganizationList />
+          <Summary />
         </Box>
         {!loading && feedback?.length ? (
           <Box py={5}>
@@ -153,8 +159,11 @@ const Home = () => {
           </Box>
         ) : null}
       </Container>
+
       <Box py={5} className={boxGridStyle}>
-        <Summary />
+        <Container>
+          <OrganizationList />
+        </Container>
       </Box>
       <Box py={5}>
         <CreateAccountGrid />

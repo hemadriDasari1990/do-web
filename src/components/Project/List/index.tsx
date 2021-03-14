@@ -250,9 +250,9 @@ const ProjectList = (props: any) => {
                 <Grid
                   key={project?._id}
                   item
-                  xl={4}
-                  lg={4}
-                  md={6}
+                  xl={3}
+                  lg={3}
+                  md={4}
                   sm={6}
                   xs={12}
                 >

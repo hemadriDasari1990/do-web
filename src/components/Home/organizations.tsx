@@ -16,6 +16,7 @@ import { getOrganizations } from "../../redux/actions/organization";
 import getRandomBGColor from "../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
+import { useOrganizationSummary } from "../../redux/state/organization";
 
 const Loader = React.lazy(() => import("../Loader/components"));
 
@@ -61,13 +62,16 @@ const useStyles = makeStyles(() => ({
   },
   gridListTileStyle: {
     width: "300px !important",
-    height: "unset !important",
-    background: "#f9f9f9",
+    height: "400px !important",
+    overflowY: "scroll",
+    scrollBehavior: "smooth",
+    background: "#fff",
     marginRight: 10,
     borderRadius: 6,
   },
   iconButtonStyle: {
     background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    borderRadius: 6,
   },
   iconButtonGridStyle: {
     marginTop: "auto",
@@ -104,13 +108,14 @@ const Organizations = () => {
     gridListTileStyle,
     iconButtonStyle,
     mainBoxStyle,
-    leftButtonStyle,
-    rightButtonStyle,
+    // leftButtonStyle,
+    // rightButtonStyle,
   } = useStyles();
   const dispatch = useDispatch();
   const { organizations } = useOrganizations();
   const { loading } = useOrganizationLoading();
   const ref = useRef<HTMLDivElement>(null);
+  const { summary } = useOrganizationSummary();
 
   useEffect(() => {
     dispatch(getOrganizations());
@@ -130,15 +135,21 @@ const Organizations = () => {
       <Loader enable={loading} />
       <Box textAlign="center" pb={8}>
         <Typography variant="h1" className={titleStyle}>
-          Organizations using Letsdoretro.com
+          Join over {summary?.organizationsCount} teams worldwide that are using
+          Letsdoretro to run retrospectives differently
         </Typography>
       </Box>
       <Box minHeight={430} maxHeight={430}>
         <Box className={mainBoxStyle}>
-          <Box display="flex" justifyContent="space-between">
-            <Box className={leftButtonStyle}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            style={{ float: "right" }}
+          >
+            <Box mr={5}>
               <Tooltip title="Left">
                 <IconButton
+                  size="small"
                   className={iconButtonStyle}
                   onClick={() => handleScroll(-500)}
                 >
@@ -146,9 +157,10 @@ const Organizations = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box className={rightButtonStyle}>
+            <Box>
               <Tooltip title="Right">
                 <IconButton
+                  size="small"
                   className={iconButtonStyle}
                   onClick={() => handleScroll(500)}
                 >

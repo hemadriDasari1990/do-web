@@ -12,43 +12,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import formateNumber from "../../../util/formateNumber";
+import useStyles from "../../styles";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  popover: {
-    // pointerEvents: 'none',
-  },
-  paper: {
-    width: "fit-content",
-    borderRadius: 6,
-    padding: theme.spacing(0.5),
-    boxShadow: "unset",
-  },
-  plusTwoIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
-  },
-  disAgreeIconStyle: {
-    background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
-  },
-  loveIconStyle: {
-    background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
-  },
-  plusIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
-  },
-  deserveIconStyle: {
-    background: "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)",
-  },
-  reactionStyle: {
-    fontSize: 12,
-  },
-  boxTextStyle: {
-    padding: "3px 10px 3px 10px",
-  },
-  boxStyle: {
-    backgroundColor: "#f7fafd",
-    borderRadius: 6,
-  },
-}));
+const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
 function ReactionView(props: any) {
   const { note } = props;
@@ -60,6 +26,7 @@ function ReactionView(props: any) {
     deserveIconStyle,
     reactionStyle,
   } = useStyles();
+  const {} = useLocalStyles();
 
   return (
     <React.Fragment>

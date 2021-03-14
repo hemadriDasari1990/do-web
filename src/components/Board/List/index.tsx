@@ -351,7 +351,7 @@ const BoardList = (props: any) => {
         <Grid container spacing={2}>
           {!loading && Array.isArray(boards)
             ? boards.map((b: { [Key: string]: any }, index: number) => (
-                <Grid key={b?._id} item xl={4} lg={4} md={6} sm={6} xs={12}>
+                <Grid key={b?._id} item xl={3} lg={3} md={4} sm={6} xs={12}>
                   <Card className={cardStyle}>
                     <CardHeader
                       avatar={

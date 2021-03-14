@@ -5,7 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import updateSection from "../../assets/update.svg";
+import updateSection from "../../assets/section.svg";
 
 const useStyles = makeStyles(() => ({
   textfieldStyle: {

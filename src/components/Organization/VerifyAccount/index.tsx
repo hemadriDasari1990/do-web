@@ -156,7 +156,7 @@ const VerifyAccount = () => {
                   variant="contained"
                 >
                   <Typography variant="h6" color="secondary">
-                    Create Organization Account
+                    Get started
                   </Typography>
                 </Button>
               </Box>

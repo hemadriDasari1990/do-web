@@ -8,7 +8,6 @@ import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
-    height: 45,
     "& .MuiButton-label": {
       justifyContent: "center",
     },
@@ -36,7 +35,7 @@ const CreateAccount = () => {
           size="small"
           onClick={() => handleCreateOrganization()}
         >
-          Create Organization Account
+          Get started
         </Button>
       </Tooltip>
     </React.Fragment>

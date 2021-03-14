@@ -1,3 +1,8 @@
+import {
+  Draggable,
+  DraggableProvided,
+  DraggableStateSnapshot,
+} from "react-beautiful-dnd";
 import React, { useEffect, useState } from "react";
 import { deleteNote, markAsRead } from "../../redux/actions";
 
@@ -26,11 +31,14 @@ import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
-import { useNote } from "../../redux/state/note";
+
+// import { useNote } from "../../redux/state/note";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
 const ReactionView = React.lazy(() => import("./Reaction/view"));
+const NoRecords = React.lazy(() => import("../NoRecords"));
+const NoteDetails = React.lazy(() => import("./Details"));
 
 const useStyles = makeStyles(() => ({
   cursorStyle: {
@@ -49,11 +57,6 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#dfedff",
     height: 20,
     marginTop: "8px !important",
-  },
-  pastTimeStyle: {
-    color: "#0072ff",
-    padding: 10,
-    fontWeight: 600,
   },
   textfieldStyle: {
     "& .MuiFilledInput-root": {
@@ -74,18 +77,35 @@ const useStyles = makeStyles(() => ({
   iconButtonStyle: {
     borderRadius: 5,
   },
+  hightlightNoteStyle: {
+    border: "2px solid #0072ff",
+  },
+  pastTimeStyle: {
+    verticalAlign: "middle",
+    lineHeight: 1,
+  },
+  timeIconStyle: {
+    fontSize: 20,
+    color: "#5b6a86",
+  },
 }));
 
 const NoteList = (props: any) => {
-  const { notes, editNote, sectionId } = props;
-  const { paperStyle, iconButtonStyle } = useStyles();
+  const { notes, editNote, dropProvided, showNote } = props;
+  const {
+    paperStyle,
+    iconButtonStyle,
+    hightlightNoteStyle,
+    pastTimeStyle,
+    timeIconStyle,
+  } = useStyles();
   const dispatch = useDispatch();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const enableActions = !board?.isLocked || authenticated;
 
   /* Redux hooks */
-  const { note } = useNote();
+  // const { note } = useNote();
 
   /* Local state */
   const [selectedNote, setSelectedNote] = useState<{ [Key: string]: any }>({});
@@ -97,35 +117,37 @@ const NoteList = (props: any) => {
   ] = React.useState<HTMLElement | null>(null);
   const [notesList, setNotesList] = useState(notes);
   const [open, setOpen] = React.useState(false);
+  const [showDialog, setShowDialog] = React.useState(false);
 
   /* React Hooks */
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     setNotesList(notes);
+  }, [notes]);
+
+  useEffect(() => {
     socket.on(
-      `new-reaction-${sectionId}`,
+      `new-reaction-${selectedNote?._id}`,
       (newReaction: { [Key: string]: any }) => {
         updateTotalReactions(newReaction);
       }
     );
     return () => {
-      socket.off(`new-reaction-${sectionId}`);
+      socket.off(`new-reaction-${selectedNote?._id}`);
     };
-  }, [notes]);
+  }, [selectedNote]);
 
   useEffect(() => {
     socket.on(
-      `mark-read-${sectionId}`,
+      `mark-read-${selectedNote?._id}`,
       (updatedNote: { [Key: string]: any }) => {
         updateNote(updatedNote);
       }
     );
     return () => {
-      socket.off(`mark-read-${sectionId}`);
+      socket.off(`mark-read-${selectedNote?._id}`);
     };
-  }, [note]);
+  }, [selectedNote]);
 
   /* Handler functions */
   // const deleteNoteById = (note: {[Key:string]: any}) => {
@@ -175,6 +197,7 @@ const NoteList = (props: any) => {
       default:
         break;
     }
+    noteData.reactions = [newReaction, ...noteData.reactions];
     noteData.totalReactions = noteData.totalReactions + 1;
     newNotes[noteIndex] = noteData;
     setNotesList(newNotes);
@@ -198,6 +221,7 @@ const NoteList = (props: any) => {
   };
 
   const handleReaction = (type: string, note: { [Key: string]: any }) => {
+    setSelectedNote(note);
     dispatch(
       createOrUpdateReaction({
         noteId: note._id,
@@ -219,6 +243,7 @@ const NoteList = (props: any) => {
     event: React.MouseEvent<HTMLButtonElement>,
     note: { [Key: string]: any }
   ) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
     setSelectedNote(note);
   };
@@ -230,9 +255,9 @@ const NoteList = (props: any) => {
           open={deleteDialog}
           title="Delete Note"
           pcta="Delete"
-          scta="Cancel"
           handleSave={handleDelete}
           handleClose={handleClose}
+          maxWidth={440}
         >
           <Typography variant="h4">
             Are you sure you want to delete {selectedNote?.description}?
@@ -240,6 +265,26 @@ const NoteList = (props: any) => {
         </ResponsiveDialog>
       </Box>
     );
+  };
+
+  const renderNoteViewDialog = () => {
+    return (
+      <Box>
+        <ResponsiveDialog
+          open={showDialog}
+          title={<Box display="flex">{renderPastTime(selectedNote)}</Box>}
+          hideButton={true}
+          handleClose={handleViewClose}
+          // maxWidth={440}
+        >
+          <NoteDetails note={selectedNote} />
+        </ResponsiveDialog>
+      </Box>
+    );
+  };
+
+  const handleViewClose = () => {
+    setShowDialog(false);
   };
 
   const handleButton = (
@@ -252,7 +297,12 @@ const NoteList = (props: any) => {
     setSelectedNote(note);
   };
 
-  const handleMarkRead = (note: { [Key: string]: any }) => {
+  const handleMarkRead = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    note: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
+    setSelectedNote(note);
     dispatch(
       markAsRead(note._id, {
         read: !note.read,
@@ -318,107 +368,186 @@ const NoteList = (props: any) => {
     setOpen(false);
   };
 
+  const handleNote = (
+    event: React.MouseEvent<HTMLDivElement>,
+    note: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
+    setShowDialog(true);
+    setSelectedNote(note);
+  };
+
+  const renderPastTime = (note: { [Key: string]: any }) => {
+    return (
+      <Box mt={0.3} mr={0.5} display="flex" className={pastTimeStyle}>
+        <Box mr={0.4}>
+          <ScheduleIcon className={timeIconStyle} />
+        </Box>
+        <Box>
+          <Typography variant="body2">{getPastTime(note.createdAt)}</Typography>
+        </Box>
+      </Box>
+    );
+  };
   return (
     <React.Fragment>
       {renderDeleteDialog()}
+      {renderNoteViewDialog()}
       {renderMenu()}
-      <Grid container spacing={0}>
-        {Array.isArray(notesList) &&
-          notesList.map((note: { [Key: string]: any }) => (
-            <Grid item key={note._id} xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Box p={1}>
-                <Paper className={paperStyle}>
-                  <Box style={{ minHeight: 40 }}>
-                    <Typography variant="h6">{note.description}</Typography>
-                  </Box>
-                  <Box pt={2} display="flex" justifyContent="space-between">
-                    <Box display="flex">
-                      <Box>
-                        <ReactionView note={note} />
-                      </Box>
-                    </Box>
-                    <Box display="flex">
-                      <Box mt={0.2} mr={0.5} display="flex">
-                        <Box mt={0.1} mr={0.4}>
-                          <ScheduleIcon
-                            style={{ fontSize: 20, color: "#878787" }}
-                          />
-                        </Box>
-                        <Box>
-                          <Typography variant="h6">
-                            {getPastTime(note.createdAt)}
-                          </Typography>
-                        </Box>
-                      </Box>
-                      {enableActions && (
-                        <Tooltip title="Add your reaction">
-                          <IconButton
-                            className={iconButtonStyle}
-                            aria-label="reaction-menu"
-                            size="small"
-                            onClick={(
-                              event: React.MouseEvent<HTMLButtonElement>
-                            ) => handleReactionClick(event, note)}
-                          >
-                            +<InsertEmoticonIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                      {authenticated && (
-                        <Tooltip
-                          title={note.read ? "Mark as unread" : "Mark as read"}
+      <div ref={dropProvided?.innerRef}>
+        <Grid container spacing={0}>
+          {Array.isArray(notesList) && notesList?.length
+            ? notesList.map((note: { [Key: string]: any }, index: number) => (
+                <Draggable key={note._id} draggableId={note._id} index={index}>
+                  {(
+                    dragProvided: DraggableProvided,
+                    dragSnapshot: DraggableStateSnapshot
+                  ) => (
+                    <Grid
+                      item
+                      key={note._id}
+                      xl={12}
+                      lg={12}
+                      md={12}
+                      sm={12}
+                      xs={12}
+                    >
+                      <div
+                        // isDragging={dragSnapshot.isDragging}
+                        data-isGroupedOver={Boolean(
+                          dragSnapshot.combineTargetFor
+                        )}
+                        // isClone={isClone}
+                        ref={dragProvided.innerRef}
+                        {...dragProvided.draggableProps}
+                        {...dragProvided.dragHandleProps}
+                        // style={getStyle(provided, style)}
+                        // data-isDragging
+                        data-isDragging={dragSnapshot.isDragging}
+                        data-testid={note._id}
+                        data-index={index}
+                      >
+                        <Box
+                          p={1}
+                          onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                            handleNote(event, note)
+                          }
                         >
-                          <IconButton
-                            size="small"
-                            onClick={() => handleMarkRead(note)}
+                          <Paper
+                            className={`${paperStyle} ${
+                              dragSnapshot.isDragging ? hightlightNoteStyle : ""
+                            }`}
                           >
-                            <DoneAllOutlinedIcon
-                              color={note.read ? "primary" : "inherit"}
-                            />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                      {!authenticated && (
-                        <Tooltip title={note.read ? "Read" : "Not read yet"}>
-                          <DoneAllOutlinedIcon
-                            color={note.read ? "primary" : "inherit"}
+                            <Box style={{ minHeight: 40 }}>
+                              <Typography variant="h6">
+                                {note.description}
+                              </Typography>
+                            </Box>
+                            <Box
+                              pt={2}
+                              display="flex"
+                              justifyContent="space-between"
+                            >
+                              <Box display="flex">
+                                <Box>
+                                  <ReactionView note={note} />
+                                </Box>
+                              </Box>
+                              <Box display="flex">
+                                {renderPastTime(note)}
+                                {enableActions && (
+                                  <Tooltip title="Add your reaction">
+                                    <IconButton
+                                      className={iconButtonStyle}
+                                      aria-label="reaction-menu"
+                                      size="small"
+                                      onClick={(
+                                        event: React.MouseEvent<
+                                          HTMLButtonElement
+                                        >
+                                      ) => handleReactionClick(event, note)}
+                                    >
+                                      +<InsertEmoticonIcon />
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
+                                {authenticated && (
+                                  <Tooltip
+                                    title={
+                                      note.read
+                                        ? "Mark as unread"
+                                        : "Mark as read"
+                                    }
+                                  >
+                                    <IconButton
+                                      size="small"
+                                      aria-label="note-menu"
+                                      onClick={(
+                                        event: React.MouseEvent<
+                                          HTMLButtonElement
+                                        >
+                                      ) => handleMarkRead(event, note)}
+                                    >
+                                      <Zoom in={true} timeout={2000}>
+                                        <DoneAllOutlinedIcon
+                                          color={
+                                            note.read ? "primary" : "inherit"
+                                          }
+                                        />
+                                      </Zoom>
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
+                                {!authenticated && (
+                                  <Tooltip
+                                    title={note.read ? "Read" : "Not read yet"}
+                                  >
+                                    <DoneAllOutlinedIcon
+                                      color={note.read ? "primary" : "inherit"}
+                                    />
+                                  </Tooltip>
+                                )}
+                                {enableActions && (
+                                  <Tooltip title="Action">
+                                    <IconButton
+                                      size="small"
+                                      aria-label="note-menu"
+                                      onClick={(
+                                        event: React.MouseEvent<
+                                          HTMLButtonElement
+                                        >
+                                      ) => handleButton(event, note)}
+                                    >
+                                      <Zoom in={true} timeout={2000}>
+                                        <MoreHorizIcon />
+                                      </Zoom>
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
+                              </Box>
+                            </Box>
+                          </Paper>
+                          <ReactionPopover
+                            handleReaction={handleReaction}
+                            anchorEl={anchorEl}
+                            note={selectedNote}
+                            handlePopoverClose={handlePopoverClose}
                           />
-                        </Tooltip>
-                      )}
-                      {enableActions && (
-                        <Tooltip title="Action">
-                          <IconButton
-                            size="small"
-                            aria-label="note-menu"
-                            onClick={(
-                              event: React.MouseEvent<HTMLButtonElement>
-                            ) => handleButton(event, note)}
-                          >
-                            <Zoom in={true} timeout={2000}>
-                              <MoreHorizIcon />
-                            </Zoom>
-                          </IconButton>
-                        </Tooltip>
-                      )}
-
-                      {/* {authenticated && <Tooltip title="Delete">
-                                            <IconButton size="small" onClick={() => deleteNoteById(note)}>
-                                                <DeleteIcon className={deleteIconStyle} />
-                                            </IconButton>
-                                        </Tooltip>}  */}
-                    </Box>
-                  </Box>
-                </Paper>
-                <ReactionPopover
-                  handleReaction={handleReaction}
-                  anchorEl={anchorEl}
-                  note={selectedNote}
-                  handlePopoverClose={handlePopoverClose}
-                />
-              </Box>
-            </Grid>
-          ))}
-      </Grid>
+                        </Box>
+                      </div>
+                    </Grid>
+                  )}
+                </Draggable>
+              ))
+            : null}
+        </Grid>
+        {!notesList?.length && !showNote && (
+          <Box py={2}>
+            <NoRecords message="No notes found" />
+          </Box>
+        )}
+        {dropProvided?.placeholder}
+      </div>
     </React.Fragment>
   );
 };

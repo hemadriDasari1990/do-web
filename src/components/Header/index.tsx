@@ -3,6 +3,7 @@ import * as routePath from "../../routes/config";
 import { DASHBOARD, LOGIN, ORGANIZATION, ROOT } from "../../routes/config";
 import React, { useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useHistory, useLocation } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -17,8 +18,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { useAuthenticated } from "../../redux/state/common";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useOrganization } from "../../redux/state/organization";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
@@ -82,6 +81,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       // padding: theme.spacing(1),
     },
   },
+  showNothing: {
+    display: "none",
+  },
 }));
 
 const protectedRoutes = () => {
@@ -118,6 +120,7 @@ const Header = () => {
     logoIconStyle,
     content,
     toolbar,
+    showNothing,
   } = useStyles({ authenticated });
   // const { showCreateBoardButton } = useShowCreateBoardButton();
   const history = useHistory();
@@ -153,142 +156,148 @@ const Header = () => {
   };
 
   return (
-    <Box className={root}>
-      <AppBar className={appBarStyle}>
-        {/* <Toolbar variant="dense"> */}
-        <Box mt={1} display="flex" justifyContent="space-between">
-          <Hidden only={["xl", "lg", "md", "sm"]}>
-            <Box
-              display="flex"
-              className={cursor}
-              onClick={() => refreshDashboard()}
-            >
-              <Box mt={1} mr={0.5}>
-                <SportsVolleyballIcon
-                  className={logoIconStyle}
-                  color="secondary"
-                />
-              </Box>
-              <Box mt={1} mr={1}>
-                <SportsVolleyballIcon
-                  className={logoIconStyle}
-                  color="secondary"
-                />
-              </Box>
-            </Box>
-          </Hidden>
-          {(!authenticated || pathname?.includes("/board")) && (
-            <Hidden only={["xs"]}>
+    <Box
+      className={`${root} ${
+        authenticated && pathname?.includes("/board") ? showNothing : ""
+      }`}
+    >
+      {(authenticated && !pathname?.includes("/board")) || !authenticated ? (
+        <AppBar className={appBarStyle}>
+          {/* <Toolbar variant="dense"> */}
+          <Box mt={1} display="flex" justifyContent="space-between">
+            <Hidden only={["xl", "lg", "md", "sm"]}>
               <Box
                 display="flex"
                 className={cursor}
                 onClick={() => refreshDashboard()}
               >
-                <Box mr={1} display="flex">
-                  <Typography variant="h1" className={logoTextStyle}>
-                    let
-                  </Typography>
-                  <Typography variant="h1" color="primary">
-                    '
-                  </Typography>
-                  <Typography variant="h1" className={logoTextStyle}>
-                    s
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="h1" className={logoTextStyle}>
-                    d
-                  </Typography>
+                <Box mt={1} mr={0.5}>
+                  <SportsVolleyballIcon
+                    className={logoIconStyle}
+                    color="secondary"
+                  />
                 </Box>
                 <Box mt={1} mr={1}>
-                  <SportsVolleyballIcon className={logoIconStyle} />
-                </Box>
-                <Box>
-                  <Typography variant="h1" className={logoTextStyle}>
-                    {" "}
-                    retr
-                  </Typography>
-                </Box>
-                <Box mt={1}>
-                  <SportsVolleyballIcon className={logoIconStyle} />
+                  <SportsVolleyballIcon
+                    className={logoIconStyle}
+                    color="secondary"
+                  />
                 </Box>
               </Box>
             </Hidden>
-          )}
-          <Box display="flex" justifyContent="space-between">
-            {!authenticated && pathname !== "/login" && (
-              <Box mt={0.4} mr={2}>
-                <Button
-                  onClick={() => handleLogin()}
-                  size="small"
-                  aria-label="add"
-                  color="primary"
-                  variant="outlined"
+            {(!authenticated || pathname?.includes("/board")) && (
+              <Hidden only={["xs"]}>
+                <Box
+                  display="flex"
+                  className={cursor}
+                  onClick={() => refreshDashboard()}
                 >
-                  Login
-                </Button>
-              </Box>
+                  <Box mr={1} display="flex">
+                    <Typography variant="h1" className={logoTextStyle}>
+                      let
+                    </Typography>
+                    <Typography variant="h1" color="primary">
+                      '
+                    </Typography>
+                    <Typography variant="h1" className={logoTextStyle}>
+                      s
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="h1" className={logoTextStyle}>
+                      d
+                    </Typography>
+                  </Box>
+                  <Box mt={1} mr={1}>
+                    <SportsVolleyballIcon className={logoIconStyle} />
+                  </Box>
+                  <Box>
+                    <Typography variant="h1" className={logoTextStyle}>
+                      {" "}
+                      retr
+                    </Typography>
+                  </Box>
+                  <Box mt={1}>
+                    <SportsVolleyballIcon className={logoIconStyle} />
+                  </Box>
+                </Box>
+              </Hidden>
             )}
-            {!authenticated && pathname !== "/organization" && (
-              <Box mt={0.4} mr={2}>
-                <Button
-                  onClick={() => handleCreateOrganization()}
-                  size="small"
-                  aria-label="add"
-                  color="primary"
-                  variant="contained"
-                >
-                  <Typography variant="h6" color="secondary">
-                    Register
-                  </Typography>
-                </Button>
-              </Box>
-            )}
-          </Box>
-          {authenticated && (
-            <Box
-              className={boxStyle}
-              display="flex"
-              justifyContent="space-between"
-            >
+            <Box display="flex" justifyContent="space-between">
+              {!authenticated && pathname !== "/login" && (
+                <Box mt={0.4} mr={2}>
+                  <Button
+                    onClick={() => handleLogin()}
+                    size="small"
+                    aria-label="add"
+                    color="primary"
+                    variant="outlined"
+                  >
+                    Login
+                  </Button>
+                </Box>
+              )}
+              {!authenticated && pathname !== "/organization" && (
+                <Box mt={0.4} mr={2}>
+                  <Button
+                    onClick={() => handleCreateOrganization()}
+                    size="small"
+                    aria-label="add"
+                    color="primary"
+                    variant="contained"
+                  >
+                    <Typography variant="h6" color="secondary">
+                      Register
+                    </Typography>
+                  </Button>
+                </Box>
+              )}
+            </Box>
+            {authenticated && (
               <Box
-                className={cursor}
-                onClick={() => handleAccount()}
-                mt={0.5}
+                className={boxStyle}
                 display="flex"
                 justifyContent="space-between"
               >
-                <Box>
-                  <Tooltip title={title}>
-                    <Zoom in={true} timeout={1500}>
-                      <Avatar classes={{ root: iconStyle }}>
-                        <Typography variant="h4" color="secondary">
-                          {title ? title.substring(0, 1) : ""}
-                        </Typography>
-                      </Avatar>
-                    </Zoom>
-                  </Tooltip>
-                </Box>
-                <Hidden only={["xs"]}>
-                  <Box ml={1} mt={1}>
-                    <Typography
-                      color="primary"
-                      className={avatarTitleStyle}
-                      variant="h5"
-                    >
-                      {title || "..."}
-                    </Typography>
+                <Box
+                  className={cursor}
+                  onClick={() => handleAccount()}
+                  mt={0.5}
+                  display="flex"
+                  justifyContent="space-between"
+                >
+                  <Box>
+                    <Tooltip title={title}>
+                      <Zoom in={true} timeout={1500}>
+                        <Avatar classes={{ root: iconStyle }}>
+                          <Typography variant="h4" color="secondary">
+                            {title ? title.substring(0, 1) : ""}
+                          </Typography>
+                        </Avatar>
+                      </Zoom>
+                    </Tooltip>
                   </Box>
-                </Hidden>
-                <Box ml={1} mt={0.7}>
-                  <ArrowDropDownIcon color="primary" />
+                  <Hidden only={["xs"]}>
+                    <Box ml={1} mt={1}>
+                      <Typography
+                        color="primary"
+                        className={avatarTitleStyle}
+                        variant="h5"
+                      >
+                        {title || "..."}
+                      </Typography>
+                    </Box>
+                  </Hidden>
+                  <Box ml={1} mt={0.7}>
+                    <ArrowDropDownIcon color="primary" />
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          )}
-        </Box>
-        {/* </Toolbar> */}
-      </AppBar>
+            )}
+          </Box>
+          {/* </Toolbar> */}
+        </AppBar>
+      ) : null}
       <Box className={toolbar} />
       {!pathname.includes("/board") && authenticated && (
         <Hidden only={["xs"]}>

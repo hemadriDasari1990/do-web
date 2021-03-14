@@ -181,6 +181,7 @@ const DepartmentDashboard = () => {
           scta="Cancel"
           handleSave={handleDelete}
           handleClose={handleClose}
+          maxWidth={440}
         >
           <Typography variant="h4">
             {" "}
