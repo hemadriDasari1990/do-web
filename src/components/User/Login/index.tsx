@@ -1,0 +1,204 @@
+import { DASHBOARD, FORGOT_PASSWORD, USER } from "../../../routes/config";
+import React, { useEffect, useState } from "react";
+import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useLoading, useLogin } from "../../../redux/state/login";
+
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Hidden from "@material-ui/core/Hidden";
+import Link from "@material-ui/core/Link";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { emailRegex } from "../../../util/regex";
+import { login } from "../../../redux/actions/login";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+
+const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
+
+const useStyles = makeStyles((theme: Theme) => ({
+  textFieldStyle: {
+    width: "100% !important",
+    marginTop: theme.spacing(3),
+  },
+  boxStyle: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 3,
+    padding: "25px 40px",
+    boxShadow: "rgb(0 0 0 / 10%) 0 0 10px",
+    [theme.breakpoints.down("xs")]: {
+      boxShadow: "unset",
+    },
+  },
+}));
+
+const Login = () => {
+  const { textFieldStyle, boxStyle } = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  /* Redux hooks */
+  const { token, message } = useLogin();
+  const { loading } = useLoading();
+
+  /* Local state */
+  const [formData, setFormData] = useState<{ [Key: string]: any }>({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
+  const [apiTriggered, setApiTriggered] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  /* React Hooks */
+  useEffect(() => {
+    if (!loading && apiTriggered && token) {
+      history.push(DASHBOARD);
+      setApiTriggered(false);
+    }
+    if (!loading && apiTriggered && !token) {
+      setShowError(true);
+      setApiTriggered(false);
+    }
+  }, [loading, apiTriggered, token]);
+
+  /* Handler functions */
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setApiTriggered(false);
+    dispatch(login(formData));
+    setApiTriggered(true);
+  };
+
+  const handleReset = () => {
+    setFormData({
+      uniqueKey: "",
+      password: "",
+    });
+  };
+
+  const handleCreateUser = () => {
+    history.push(USER);
+  };
+
+  const disableButton = () => {
+    if (!email.trim().length || !emailRegex.test(email)) {
+      return true;
+    }
+    if (password.trim().length < 6) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleClose = () => {
+    setShowError(false);
+  };
+
+  const handleForgotPassword = () => {
+    history.push(FORGOT_PASSWORD);
+  };
+
+  return (
+    <React.Fragment>
+      <Box maxWidth={400} m="auto" className={boxStyle}>
+        <Box pt={5}>
+          <Typography variant="h1">Log in to Letsdoretro</Typography>
+        </Box>
+        <Box mt={3}>
+          <Typography variant="h4">Enter your credentials</Typography>
+        </Box>
+        <TextField
+          name="email"
+          id="email"
+          label="User Email Address"
+          placeholder="Enter User Email Address"
+          value={email}
+          onChange={handleInput}
+          autoComplete="off"
+          required
+          className={textFieldStyle}
+        />
+        <TextField
+          type="password"
+          name="password"
+          id="password"
+          label="Password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={handleInput}
+          autoComplete="off"
+          required
+          className={textFieldStyle}
+        />
+        <Box mt={5} display="flex">
+          <Box mr={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                handleSubmit(event)
+              }
+              disabled={disableButton()}
+            >
+              Login
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={() => handleReset()}
+            >
+              Reset
+            </Button>
+          </Box>
+        </Box>
+        <Box mt={3}>
+          <Link component="button" onClick={handleForgotPassword}>
+            <Typography variant="h5">Forgot password?</Typography>
+          </Link>
+        </Box>
+        <Hidden only={["xl", "lg", "md", "sm"]}>
+          <Box mt={3} display="flex">
+            <Box mr={1}>
+              <Typography variant="h5">Don't have an account?</Typography>
+            </Box>
+            <Box>
+              <Link component="button" onClick={handleCreateUser}>
+                <Typography variant="h5">Create User</Typography>
+              </Link>
+            </Box>
+          </Box>
+        </Hidden>
+        <Hidden only={["xs"]}>
+          <Box mt={3} display="flex">
+            <Box mr={1}>
+              <Typography variant="h4">Don't have an account?</Typography>
+            </Box>
+            <Box>
+              <Link component="button" onClick={handleCreateUser}>
+                <Typography variant="h4" color="primary">
+                  Create User
+                </Typography>
+              </Link>
+            </Box>
+          </Box>
+        </Hidden>
+        <DoSnackbar open={showError} handleClose={handleClose} status="error">
+          <Typography variant="h6" color="secondary">
+            {message}
+          </Typography>
+        </DoSnackbar>
+      </Box>
+    </React.Fragment>
+  );
+};
+
+export default Login;

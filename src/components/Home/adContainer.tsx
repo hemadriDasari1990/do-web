@@ -10,10 +10,10 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
-import { ORGANIZATION } from "../../routes/config";
 import ScrumBoard from "../../assets/board.svg";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
+import { USER } from "../../routes/config";
 import Zoom from "@material-ui/core/Zoom";
 import { useHistory } from "react-router";
 
@@ -50,7 +50,7 @@ const AdContainer = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleGetStarted = () => {
     sessionStorage.setItem("add", "close");
-    history.push(ORGANIZATION);
+    history.push(USER);
   };
 
   useEffect(() => {

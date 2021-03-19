@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import WelcomeImage from "../../../assets/online-discussion.svg";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import { useOrganization } from "../../../redux/state/organization";
+import { useUser } from "../../../redux/state/user";
 
 const useStyles = makeStyles(() => ({
   boxStyle: {
@@ -20,7 +20,7 @@ const Banner = () => {
   const { boxStyle } = useStyles();
 
   /* Redux hooks */
-  const { organization } = useOrganization();
+  const { user } = useUser();
 
   return (
     <React.Fragment>
@@ -30,13 +30,11 @@ const Banner = () => {
             <Box mt={4}>
               <Box>
                 <Typography variant="h2" color="primary">
-                  Hello, {organization?.title}!
+                  Hello, {user?.name}!
                 </Typography>
               </Box>
               <Box mt={1}>
-                <Typography variant="body2">
-                  {organization?.description}
-                </Typography>
+                <Typography variant="body2">{user?.description}</Typography>
               </Box>
             </Box>
           </Grid>

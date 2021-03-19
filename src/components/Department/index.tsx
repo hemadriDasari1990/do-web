@@ -1,8 +1,5 @@
 import React, { Suspense, useEffect, useState } from "react";
-import {
-  useDepartment,
-  useDepartmentLoading,
-} from "../../redux/state/department";
+import { useUser, useUserLoading } from "../../redux/state/user";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
@@ -15,11 +12,11 @@ import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceO
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteDepartment } from "../../redux/actions/department";
-import { getOrganizationDetails } from "../../redux/actions/organization";
+import { getUserDetails } from "../../redux/actions/user";
+import { useDepartment } from "../../redux/state/department";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
-import { useOrganization } from "../../redux/state/organization";
 import useStyles from "../styles";
 
 const DepartmentList = React.lazy(() => import("./List"));
@@ -27,6 +24,7 @@ const NoRecords = React.lazy(() => import("../NoRecords"));
 const UpdateDepartment = React.lazy(() => import("./Update"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const Loader = React.lazy(() => import("../Loader/components"));
+const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const DepartmentDashboard = () => {
   const {
@@ -37,17 +35,17 @@ const DepartmentDashboard = () => {
     iconBackStyle,
   } = useStyles();
   const dispatch = useDispatch();
-  const { organizationId } = useLogin();
+  const { userId } = useLogin();
   const history = useHistory();
 
   /* Redux shared states */
   const { department } = useDepartment();
   const {
-    organization,
+    user,
     departments: departmentsList,
     totalDepartments: totalDepartmentsCount,
-  } = useOrganization();
-  const { loading } = useDepartmentLoading();
+  } = useUser();
+  const { loading } = useUserLoading();
 
   /* React states */
   const [departments, setDepartments] = useState<Array<{ [Key: string]: any }>>(
@@ -61,16 +59,16 @@ const DepartmentDashboard = () => {
   const [totalDepartments, setTotalDepartments] = useState(
     totalDepartmentsCount
   );
-  // const [open, setOpen] = React.useState(false);
+  const [openError, setOpenError] = useState(false);
 
   /* React Hooks */
   useEffect(() => {
-    dispatch(getOrganizationDetails(organizationId));
+    dispatch(getUserDetails(userId));
   }, []);
 
   useEffect(() => {
-    if (!loading && !department?._id) {
-      // setShowError(true);
+    if (!openError && !loading && department?.errorId) {
+      setOpenError(true);
     }
 
     if (!loading && department?.deleted) {
@@ -79,6 +77,7 @@ const DepartmentDashboard = () => {
       );
       setDepartments(departmentsList);
       setSelectedDepartment({});
+      setTotalDepartments(departmentsList?.length);
       handleClose();
     }
 
@@ -147,6 +146,7 @@ const DepartmentDashboard = () => {
   };
 
   const handleCreateNewDepartment = () => {
+    setSelectedDepartment({});
     setShowDepartmentForm(true);
   };
 
@@ -201,9 +201,28 @@ const DepartmentDashboard = () => {
     history.push(DASHBOARD);
   };
 
+  const handleSnackbarClose = () => {
+    setOpenError(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={openError}
+        status="error"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {department?.message}
+        </Typography>
+      </DoSnackbar>
+    );
+  };
+
   return (
     <Suspense fallback={<div></div>}>
       {renderDeleteDialog()}
+      {renderSnackbar()}
       <Loader enable={loading} />
       <Box className={root}>
         <Box py={2}>
@@ -211,10 +230,10 @@ const DepartmentDashboard = () => {
             <Grid item xl={8} lg={8} md={6} sm={6} xs={12}>
               <Box display="flex">
                 <Hidden only={["xs"]}>
-                  <Typography variant="h1">{organization?.title}</Typography>
+                  <Typography variant="h1">{user?.name}</Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <Typography variant="h4">{organization?.title}</Typography>
+                  <Typography variant="h4">{user?.name}</Typography>
                 </Hidden>
                 <Tooltip title="Total Departments">
                   <Box ml={2} className={countStyle}>
@@ -226,7 +245,12 @@ const DepartmentDashboard = () => {
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={6} xs={12}>
-              <Box display="flex" justifyContent="space-between">
+              <Box
+                display="flex"
+                justifyContent={
+                  !departments?.length ? "flex-end" : "space-around"
+                }
+              >
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}

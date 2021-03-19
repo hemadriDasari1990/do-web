@@ -28,7 +28,6 @@ const project = (state = initialState, action: ReduxAction) => {
   switch (action.type) {
     case DELETE_PROJECT_REQUEST:
       return {
-        ...state,
         loading: true,
       };
     case DELETE_PROJECT_FAILED:
@@ -45,7 +44,6 @@ const project = (state = initialState, action: ReduxAction) => {
       };
     case GET_PROJECT_REQUEST:
       return {
-        ...state,
         loading: true,
       };
     case GET_PROJECT_FAILED:
@@ -62,7 +60,6 @@ const project = (state = initialState, action: ReduxAction) => {
       };
     case UPDATE_PROJECT_REQUEST:
       return {
-        ...state,
         loading: true,
       };
     case UPDATE_PROJECT_FAILED:

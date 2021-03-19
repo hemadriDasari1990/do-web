@@ -35,21 +35,18 @@ const DepartmentList = (props: any) => {
     avatarBoxStyle,
     boxStyle,
     boxTextStyle,
+    descriptionStyle,
   } = useStyles();
   const history = useHistory();
 
   /* Redux hooks */
   const { loading } = useDepartmentLoading();
 
-  /* Redux hooks */
-
   /* Local state */
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [open, setOpen] = React.useState(false);
   const [showMoreIndex, setShowMoreIndex] = React.useState(0);
   const [showMore, setShowMore] = React.useState(false);
-
-  /* React Hooks */
 
   /* Handler functions */
   const renderCardAction = (department: { [Key: string]: any }) => {
@@ -222,7 +219,7 @@ const DepartmentList = (props: any) => {
     index: number
   ) => {
     return (
-      <Box minHeight={50}>
+      <Box minHeight={50} className={descriptionStyle}>
         <List>
           <ListItem alignItems="flex-start">
             <Zoom in={true} timeout={2000}>
@@ -298,6 +295,34 @@ const DepartmentList = (props: any) => {
                         </Box>
                       </CardContent>
                     </Card>
+                    {/* <Box className={boxMainStyle}>
+                      <Box className={boxTopGridStyle}></Box>
+                      <Box className={boxGridStyle}>
+                        <Box className={iconBoxStyle}>
+                          <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                          >
+                            <SportsVolleyballIcon
+                              style={{ background: getRandomBGColor() }}
+                              className={avatarBoxStyle}
+                              color="secondary"
+                            />
+                          </Box>
+                        </Box>
+                        <Box>
+                          {renderCardTitle(department)}
+
+                          <Typography component="p">
+                            {renderCardSubTitle(department)}
+                          </Typography>
+                          <Typography component="p">
+                            {renderCardContent(department, index)}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box> */}
                   </Grid>
                 )
               )

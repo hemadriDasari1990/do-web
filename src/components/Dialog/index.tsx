@@ -30,14 +30,24 @@ export default function ResponsiveDialog(props: any) {
     title,
     children,
     pcta,
+    scta,
     open,
     handleSave,
+    handleSecondarySubmit,
     handleClose,
     disablePrimaryCTA,
+    disableSecondaryCTA,
     maxWidth,
     hideButton = false,
   } = props;
   const { paperStyle, closeIconStyle } = useStyles({ maxWidth });
+
+  const handleSecondary = () => {
+    if (typeof handleSecondarySubmit === "function") {
+      handleSecondarySubmit();
+    }
+  };
+
   return (
     <React.Fragment>
       <Dialog
@@ -57,6 +67,16 @@ export default function ResponsiveDialog(props: any) {
           <IconButton onClick={() => handleClose()} className={closeIconStyle}>
             <CloseOutlinedIcon />
           </IconButton>
+          {scta && (
+            <Button
+              onClick={() => handleSecondary()}
+              variant="outlined"
+              color="primary"
+              disabled={disableSecondaryCTA}
+            >
+              {scta}
+            </Button>
+          )}
           {!hideButton && (
             <Button
               onClick={() => handleSave()}

@@ -23,7 +23,7 @@ export const updateBoard = (payload: { [Key: string]: any }) => {
 export const deleteBoard = (boarId: string) => {
   return {
     type: DELETE_BOARD_REQUEST,
-    url: `/board/${boarId}`,
+    id: boarId,
   };
 };
 

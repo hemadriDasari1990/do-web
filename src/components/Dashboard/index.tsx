@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import {
-  getOrganizationDetails,
-  getOrganizationSummary,
-} from "../../redux/actions/organization";
+import { getUserDetails, getUserSummary } from "../../redux/actions/user";
 
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
@@ -14,20 +11,22 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import FiberNewOutlinedIcon from "@material-ui/icons/FiberNewOutlined";
 import Grid from "@material-ui/core/Grid";
+import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 import Hidden from "@material-ui/core/Hidden";
-import { ORGANIZATION_DASHBOARD } from "../../routes/config";
+import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import PollOutlinedIcon from "@material-ui/icons/PollOutlined";
 import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
 import SecurityOutlinedIcon from "@material-ui/icons/SecurityOutlined";
 // import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import Typography from "@material-ui/core/Typography";
+import { USER_DASHBOARD } from "../../routes/config";
 import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import { replaceStr } from "../../util";
 import socket from "../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
-import { useOrganizationSummary } from "../../redux/state/organization";
+import { useUserSummary } from "../../redux/state/user";
 
 const Banner = React.lazy(() => import("../common/Banner"));
 const InfoCard = React.lazy(() => import("../common/InfoCard"));
@@ -54,12 +53,12 @@ const Dashboard = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   /* Redux hooks */
-  const { token, organizationId } = useLogin();
-  const { summary } = useOrganizationSummary();
+  const { token, userId } = useLogin();
+  const { summary } = useUserSummary();
 
   useEffect(() => {
-    dispatch(getOrganizationDetails(organizationId));
-    dispatch(getOrganizationSummary(organizationId));
+    dispatch(getUserDetails(userId));
+    dispatch(getUserSummary(userId));
   }, []);
 
   useEffect(() => {
@@ -77,9 +76,7 @@ const Dashboard = () => {
   };
 
   const viewDepartments = () => {
-    history.push(
-      replaceStr(ORGANIZATION_DASHBOARD, ":organizationId", organizationId)
-    );
+    history.push(replaceStr(USER_DASHBOARD, ":userId", userId));
   };
 
   return (
@@ -119,6 +116,28 @@ const Dashboard = () => {
       </Box>
       <Box mt={2} className={bannerStyle}>
         <Banner />
+      </Box>
+
+      <Box my={5} className={summaryGridStyle}>
+        <Box mb={5}>
+          <Typography variant="h2">Teams & Members</Typography>
+        </Box>
+        <Grid container spacing={1}>
+          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+            <InfoCard
+              icon={GroupOutlinedIcon}
+              title="Total Teams"
+              value={summary?.totalTeams}
+            />
+          </Grid>
+          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+            <InfoCard
+              icon={PersonOutlinedIcon}
+              title="Total Members"
+              value={summary?.totalMembers}
+            />
+          </Grid>
+        </Grid>
       </Box>
       <Box my={5} className={summaryGridStyle}>
         <Box mb={5}>

@@ -31,8 +31,7 @@ import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
-
-// import { useNote } from "../../redux/state/note";
+import { useLogin } from "../../redux/state/login";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -88,6 +87,9 @@ const useStyles = makeStyles(() => ({
     fontSize: 20,
     color: "#5b6a86",
   },
+  svgIconStyle: {
+    fontSize: "1.2rem",
+  },
 }));
 
 const NoteList = (props: any) => {
@@ -98,10 +100,12 @@ const NoteList = (props: any) => {
     hightlightNoteStyle,
     pastTimeStyle,
     timeIconStyle,
+    svgIconStyle,
   } = useStyles();
   const dispatch = useDispatch();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
+  const { userId } = useLogin();
   const enableActions = !board?.isLocked || authenticated;
 
   /* Redux hooks */
@@ -128,8 +132,8 @@ const NoteList = (props: any) => {
   useEffect(() => {
     socket.on(
       `new-reaction-${selectedNote?._id}`,
-      (newReaction: { [Key: string]: any }) => {
-        updateTotalReactions(newReaction);
+      (data: { [Key: string]: any }) => {
+        updateTotalReactions(data);
       }
     );
     return () => {
@@ -160,7 +164,7 @@ const NoteList = (props: any) => {
   };
 
   const updateTotalReactions = (newReaction: { [Key: string]: any }) => {
-    if (!notesList) {
+    if (!notesList || !newReaction) {
       return;
     }
     const newNotes: Array<{ [Key: string]: any }> = [...notes];
@@ -171,34 +175,148 @@ const NoteList = (props: any) => {
     if (!noteData) {
       return;
     }
-    switch (newReaction?.type) {
-      case "plusOne":
-        noteData.totalPlusOne =
-          parseInt(noteData.totalPlusOne) > 0 ? noteData.totalPlusOne + 1 : 1;
-        break;
-      case "plusTwo":
-        noteData.totalPlusTwo =
-          parseInt(noteData.totalPlusTwo) > 0 ? noteData.totalPlusTwo + 1 : 1;
-        break;
-      case "disagree":
-        noteData.totalDisAgreed =
-          parseInt(noteData.totalDisAgreed) > 0
-            ? noteData.totalDisAgreed + 1
-            : 1;
-        break;
-      case "love":
-        noteData.totalLove =
-          parseInt(noteData.totalLove) > 0 ? noteData.totalLove + 1 : 1;
-        break;
-      case "deserve":
-        noteData.totalDeserve =
-          parseInt(noteData.totalDeserve) > 0 ? noteData.totalDeserve + 1 : 1;
-        break;
-      default:
-        break;
+    if (newReaction?.removed) {
+      switch (newReaction?.type) {
+        case "plusOne":
+          noteData.totalPlusOne =
+            parseInt(noteData.totalPlusOne) > 0 ? noteData.totalPlusOne - 1 : 0;
+          break;
+        case "plusTwo":
+          noteData.totalPlusTwo =
+            parseInt(noteData.totalPlusTwo) > 0 ? noteData.totalPlusTwo - 1 : 0;
+          break;
+        case "disagree":
+          noteData.totalDisAgreed =
+            parseInt(noteData.totalDisAgreed) > 0
+              ? noteData.totalDisAgreed - 1
+              : 1;
+          break;
+        case "love":
+          noteData.totalLove =
+            parseInt(noteData.totalLove) > 0 ? noteData.totalLove - 1 : 0;
+          break;
+        case "deserve":
+          noteData.totalDeserve =
+            parseInt(noteData.totalDeserve) > 0 ? noteData.totalDeserve - 1 : 0;
+          break;
+        default:
+          break;
+      }
+      noteData.reactions = noteData.reactions?.filter(
+        (reaction: { [Key: string]: any }) => reaction?._id !== newReaction?._id
+      );
+      noteData.totalReactions = noteData.totalReactions - 1;
+    } else {
+      const oldReaction = noteData.reactions?.find(
+        (reaction: { [Key: string]: any }) => reaction?._id === newReaction?._id
+      );
+      if (oldReaction) {
+        switch (oldReaction?.type) {
+          case "plusOne":
+            noteData.totalPlusOne =
+              parseInt(noteData.totalPlusOne) > 0
+                ? noteData.totalPlusOne - 1
+                : 0;
+            break;
+          case "plusTwo":
+            noteData.totalPlusTwo =
+              parseInt(noteData.totalPlusTwo) > 0
+                ? noteData.totalPlusTwo - 1
+                : 0;
+            break;
+          case "disagree":
+            noteData.totalDisAgreed =
+              parseInt(noteData.totalDisAgreed) > 0
+                ? noteData.totalDisAgreed - 1
+                : 1;
+            break;
+          case "love":
+            noteData.totalLove =
+              parseInt(noteData.totalLove) > 0 ? noteData.totalLove - 1 : 0;
+            break;
+          case "deserve":
+            noteData.totalDeserve =
+              parseInt(noteData.totalDeserve) > 0
+                ? noteData.totalDeserve - 1
+                : 0;
+            break;
+          default:
+            break;
+        }
+        switch (newReaction?.type) {
+          case "plusOne":
+            noteData.totalPlusOne =
+              parseInt(noteData.totalPlusOne) > 0
+                ? noteData.totalPlusOne + 1
+                : 1;
+            break;
+          case "plusTwo":
+            noteData.totalPlusTwo =
+              parseInt(noteData.totalPlusTwo) > 0
+                ? noteData.totalPlusTwo + 1
+                : 1;
+            break;
+          case "disagree":
+            noteData.totalDisAgreed =
+              parseInt(noteData.totalDisAgreed) > 0
+                ? noteData.totalDisAgreed + 1
+                : 1;
+            break;
+          case "love":
+            noteData.totalLove =
+              parseInt(noteData.totalLove) > 0 ? noteData.totalLove + 1 : 1;
+            break;
+          case "deserve":
+            noteData.totalDeserve =
+              parseInt(noteData.totalDeserve) > 0
+                ? noteData.totalDeserve + 1
+                : 1;
+            break;
+          default:
+            break;
+        }
+        const reactionIndex = noteData.reactions?.findIndex(
+          (reaction: { [Key: string]: any }) =>
+            reaction?._id === newReaction?._id
+        );
+        noteData.reactions[reactionIndex] = newReaction;
+      } else {
+        switch (newReaction?.type) {
+          case "plusOne":
+            noteData.totalPlusOne =
+              parseInt(noteData.totalPlusOne) > 0
+                ? noteData.totalPlusOne + 1
+                : 1;
+            break;
+          case "plusTwo":
+            noteData.totalPlusTwo =
+              parseInt(noteData.totalPlusTwo) > 0
+                ? noteData.totalPlusTwo + 1
+                : 1;
+            break;
+          case "disagree":
+            noteData.totalDisAgreed =
+              parseInt(noteData.totalDisAgreed) > 0
+                ? noteData.totalDisAgreed + 1
+                : 1;
+            break;
+          case "love":
+            noteData.totalLove =
+              parseInt(noteData.totalLove) > 0 ? noteData.totalLove + 1 : 1;
+            break;
+          case "deserve":
+            noteData.totalDeserve =
+              parseInt(noteData.totalDeserve) > 0
+                ? noteData.totalDeserve + 1
+                : 1;
+            break;
+          default:
+            break;
+        }
+        noteData.reactions = [newReaction, ...noteData.reactions];
+        noteData.totalReactions = noteData.totalReactions + 1;
+      }
     }
-    noteData.reactions = [newReaction, ...noteData.reactions];
-    noteData.totalReactions = noteData.totalReactions + 1;
     newNotes[noteIndex] = noteData;
     setNotesList(newNotes);
   };
@@ -220,12 +338,18 @@ const NoteList = (props: any) => {
     setNotesList(newNotes);
   };
 
-  const handleReaction = (type: string, note: { [Key: string]: any }) => {
+  const handleReaction = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    type: string,
+    note: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
     setSelectedNote(note);
     dispatch(
       createOrUpdateReaction({
         noteId: note._id,
         type,
+        reactedBy: userId,
       })
     );
   };
@@ -275,7 +399,6 @@ const NoteList = (props: any) => {
           title={<Box display="flex">{renderPastTime(selectedNote)}</Box>}
           hideButton={true}
           handleClose={handleViewClose}
-          // maxWidth={440}
         >
           <NoteDetails note={selectedNote} />
         </ResponsiveDialog>
@@ -379,16 +502,19 @@ const NoteList = (props: any) => {
 
   const renderPastTime = (note: { [Key: string]: any }) => {
     return (
-      <Box mt={0.3} mr={0.5} display="flex" className={pastTimeStyle}>
+      <Box mt={0.4} mr={0.5} display="flex" className={pastTimeStyle}>
         <Box mr={0.4}>
           <ScheduleIcon className={timeIconStyle} />
         </Box>
         <Box>
-          <Typography variant="body2">{getPastTime(note.createdAt)}</Typography>
+          <Typography variant="body2">
+            {getPastTime(note?.createdAt)}
+          </Typography>
         </Box>
       </Box>
     );
   };
+
   return (
     <React.Fragment>
       {renderDeleteDialog()}
@@ -467,10 +593,27 @@ const NoteList = (props: any) => {
                                         >
                                       ) => handleReactionClick(event, note)}
                                     >
-                                      +<InsertEmoticonIcon />
+                                      +
+                                      <InsertEmoticonIcon
+                                        className={svgIconStyle}
+                                      />
                                     </IconButton>
                                   </Tooltip>
                                 )}
+                                {/* {enableActions && (
+                                  <Tooltip title="Add Comment">
+                                    <IconButton
+                                      size="small"
+                                      aria-label="note-menu"
+                                    >
+                                      <Zoom in={true} timeout={2000}>
+                                        <ChatOutlinedIcon
+                                          className={svgIconStyle}
+                                        />
+                                      </Zoom>
+                                    </IconButton>
+                                  </Tooltip>
+                                )} */}
                                 {authenticated && (
                                   <Tooltip
                                     title={
@@ -493,6 +636,7 @@ const NoteList = (props: any) => {
                                           color={
                                             note.read ? "primary" : "inherit"
                                           }
+                                          className={svgIconStyle}
                                         />
                                       </Zoom>
                                     </IconButton>
@@ -504,6 +648,7 @@ const NoteList = (props: any) => {
                                   >
                                     <DoneAllOutlinedIcon
                                       color={note.read ? "primary" : "inherit"}
+                                      className={svgIconStyle}
                                     />
                                   </Tooltip>
                                 )}
@@ -519,7 +664,9 @@ const NoteList = (props: any) => {
                                       ) => handleButton(event, note)}
                                     >
                                       <Zoom in={true} timeout={2000}>
-                                        <MoreHorizIcon />
+                                        <MoreHorizIcon
+                                          className={svgIconStyle}
+                                        />
                                       </Zoom>
                                     </IconButton>
                                   </Tooltip>

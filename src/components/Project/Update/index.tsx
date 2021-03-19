@@ -47,6 +47,9 @@ const Create = (props: any) => {
         projectId: selectedProject._id,
       });
     }
+    if (!selectedProject?._id) {
+      setFormData({});
+    }
   }, [selectedProject]);
 
   /* Handler functions */
@@ -63,14 +66,14 @@ const Create = (props: any) => {
   };
 
   const handleSubmit = () => {
-    dispatch(updateProject(formData));
+    dispatch(updateProject({ ...formData, departmentId }));
   };
 
   const disableButton = () => {
-    if (!title.trim().length) {
+    if (!title?.trim()?.length) {
       return true;
     }
-    if (!description.trim().length) {
+    if (!description?.trim()?.length) {
       return true;
     }
     return false;

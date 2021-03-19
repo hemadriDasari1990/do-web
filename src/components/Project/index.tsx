@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useProject, useProjectLoading } from "../../redux/state/project";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
@@ -9,14 +8,16 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
-import { ORGANIZATION_DASHBOARD } from "../../routes/config";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import { USER_DASHBOARD } from "../../routes/config";
 import { deleteProject } from "../../redux/actions/project";
 import { getDepartmentDetails } from "../../redux/actions/department";
 import { replaceStr } from "../../util";
 import { useDepartment } from "../../redux/state/department";
+import { useDepartmentLoading } from "../../redux/state/department";
 import { useDispatch } from "react-redux";
+import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
 
 const ProjectList = React.lazy(() => import("./List"));
@@ -24,6 +25,7 @@ const NoRecords = React.lazy(() => import("../NoRecords"));
 const CreateProject = React.lazy(() => import("./Update"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const Loader = React.lazy(() => import("../Loader/components"));
+const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const ProjectDashboard = () => {
   const {
@@ -42,7 +44,7 @@ const ProjectDashboard = () => {
     projects: projectsList,
     totalProjects: totalProjectsCount,
   } = useDepartment();
-  const { loading } = useProjectLoading();
+  const { loading } = useDepartmentLoading();
 
   /* React local states */
   const [showProjectForm, setShowProjectForm] = useState(false);
@@ -52,6 +54,7 @@ const ProjectDashboard = () => {
   const [selectedProject, setSelectedProject] = useState<{
     [Key: string]: any;
   }>({});
+  const [openError, setOpenError] = useState(false);
 
   /* React Hooks */
   useEffect(() => {
@@ -67,14 +70,14 @@ const ProjectDashboard = () => {
   }, [projectsList]);
 
   useEffect(() => {
-    if (!loading && !project?._id) {
-      // setShowError(true);
+    if (!openError && !loading && project?.errorId) {
+      setOpenError(true);
     }
-
     if (!loading && project?.deleted) {
       const projectsList = projects.filter(
         (d: { [Key: string]: any }) => d._id !== selectedProject._id
       );
+      setTotalProjects(projectsList?.length);
       setProjects(projectsList);
       setSelectedProject({});
       handleCloseDeleteDialog();
@@ -110,17 +113,12 @@ const ProjectDashboard = () => {
   };
 
   const handleCreateNewProject = () => {
+    setSelectedProject({});
     setShowProjectForm(true);
   };
 
   const handleBack = () => {
-    history.push(
-      replaceStr(
-        ORGANIZATION_DASHBOARD,
-        ":organizationId",
-        department?.organizationId
-      )
-    );
+    history.push(replaceStr(USER_DASHBOARD, ":userId", department?.userId));
   };
 
   const handleMenu = async (
@@ -202,9 +200,28 @@ const ProjectDashboard = () => {
     setOpenDeleteDialog(false);
   };
 
+  const handleSnackbarClose = () => {
+    setOpenError(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={openError}
+        status="error"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {project?.message}
+        </Typography>
+      </DoSnackbar>
+    );
+  };
+
   return (
     <React.Fragment>
       {renderDeleteDialog()}
+      {renderSnackbar()}
       <Loader enable={loading} />
       <Box className={root}>
         <Box py={2}>
@@ -234,7 +251,10 @@ const ProjectDashboard = () => {
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-              <Box display="flex" justifyContent="space-between">
+              <Box
+                display="flex"
+                justifyContent={!projects?.length ? "flex-end" : "space-around"}
+              >
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}

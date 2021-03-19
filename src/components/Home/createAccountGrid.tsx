@@ -35,7 +35,7 @@ const CreateAccountGrid = () => {
         </Typography>
       </Box>
       <Box>
-        <CreateAccount />
+        <CreateAccount title="Get Started" />
       </Box>
     </Box>
   );

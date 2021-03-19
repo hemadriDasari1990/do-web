@@ -11,7 +11,7 @@ import {
 export const login = (payload: { [Key: string]: any }) => {
   return {
     type: LOGIN_REQUEST,
-    url: `/organization`,
+    url: `/user`,
     payload: payload,
   };
 };

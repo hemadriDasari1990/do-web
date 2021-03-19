@@ -10,6 +10,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
   media: {
@@ -17,7 +18,6 @@ const useStyles = makeStyles({
     width: 80,
     float: "right",
   },
-  actions: {},
   actionAreaStyle: {
     // background: "#f4f5f7",
   },
@@ -34,11 +34,13 @@ function ProfileCard(props: any) {
     button,
     tagLine,
   } = props;
-  const { media, actions, actionAreaStyle } = useStyles();
+  const { media, actionAreaStyle } = useStyles();
+  const history = useHistory();
 
   const handleButton = (path: string) => {
-    // history.push(path)
+    history.push(path);
   };
+
   return (
     <React.Fragment>
       <Card>
@@ -64,7 +66,7 @@ function ProfileCard(props: any) {
           </CardContent>
         </CardActionArea>
         {button && (
-          <CardActions className={actions}>
+          <CardActions>
             <Box>
               <Typography component="h6" variant="h6">
                 Social Profiles

@@ -3,7 +3,6 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import CreateNewDepartment from "../../../assets/department.svg";
-// import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
 import { updateDepartment } from "../../../redux/actions/department";
@@ -21,14 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Create = (props: any) => {
   const { openDialog, handleUpdateForm, selectedDepartment } = props;
   const { textFieldStyle } = useStyles();
-  const { organizationId } = useLogin();
+  const { userId } = useLogin();
   const dispatch = useDispatch();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     title: selectedDepartment.title,
     description: selectedDepartment.description,
-    organizationId,
     departmentId: selectedDepartment._id,
   });
   const { title, description } = formData;
@@ -44,6 +42,9 @@ const Create = (props: any) => {
         departmentId: selectedDepartment._id,
       });
     }
+    if (!selectedDepartment?._id) {
+      setFormData({});
+    }
   }, [selectedDepartment]);
 
   /* Handler functions */
@@ -56,7 +57,7 @@ const Create = (props: any) => {
   };
 
   const handleSubmit = () => {
-    dispatch(updateDepartment(formData));
+    dispatch(updateDepartment({ ...formData, userId }));
   };
 
   const disableButton = () => {

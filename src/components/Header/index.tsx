@@ -1,6 +1,6 @@
 import * as routePath from "../../routes/config";
 
-import { DASHBOARD, LOGIN, ORGANIZATION, ROOT } from "../../routes/config";
+import { DASHBOARD, LOGIN, ROOT, USER } from "../../routes/config";
 import React, { useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";
@@ -18,7 +18,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { useAuthenticated } from "../../redux/state/common";
-import { useOrganization } from "../../redux/state/organization";
+import { useUser } from "../../redux/state/user";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
@@ -27,6 +27,9 @@ const Dashboard = React.lazy(() => import("../Dashboard"));
 const ProjectDashboard = React.lazy(() => import("../Project"));
 const BoardDashboard = React.lazy(() => import("../Board"));
 const DepartmentDashboard = React.lazy(() => import("../Department"));
+const Team = React.lazy(() => import("../Team"));
+const Members = React.lazy(() => import("../Members/Members"));
+const Notifications = React.lazy(() => import("../Notifications"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     paddingLeft: !props.authenticated ? 10 : 10,
     paddingRight: !props.authenticated ? 0 : 10,
-    background: "#fff !important",
+    background: !props.authenticated ? "#fff !important" : "none",
     [theme.breakpoints.up("md")]: {
       width: props.authenticated ? `calc(100% - 80px)` : "100%",
     },
@@ -70,17 +73,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 25,
   },
   toolbar: theme.mixins.toolbar,
-  content: {
+  content: (props: any) => ({
     flexGrow: 1,
     backgroundColor: "#f6f6f7",
     padding: theme.spacing(2),
     minHeight: "90vh",
-    paddingTop: 90,
+    paddingTop: !props.authenticated ? 90 : 55,
     [theme.breakpoints.down("xs")]: {
       paddingTop: 60,
       // padding: theme.spacing(1),
     },
-  },
+  }),
   showNothing: {
     display: "none",
   },
@@ -93,7 +96,7 @@ const protectedRoutes = () => {
       component: Dashboard,
     },
     {
-      path: routePath.ORGANIZATION_DASHBOARD,
+      path: routePath.USER_DASHBOARD,
       component: DepartmentDashboard,
     },
     {
@@ -103,6 +106,18 @@ const protectedRoutes = () => {
     {
       path: routePath.PROJECT_DASHBOARD,
       component: BoardDashboard,
+    },
+    {
+      path: routePath.TEAM,
+      component: Team,
+    },
+    {
+      path: routePath.MEMBERS_LIST,
+      component: Members,
+    },
+    {
+      path: routePath.NOTIFICATIONS,
+      component: Notifications,
     },
   ];
 };
@@ -126,7 +141,7 @@ const Header = () => {
   const history = useHistory();
   const location = useLocation();
   const pathname: string = location.pathname;
-  const { title } = useOrganization();
+  const { name } = useUser();
 
   /* Local state */
   const [open, setOpen] = useState(false);
@@ -139,8 +154,8 @@ const Header = () => {
     history.push(ROOT);
   };
 
-  const handleCreateOrganization = () => {
-    history.push(ORGANIZATION);
+  const handleCreateUser = () => {
+    history.push(USER);
   };
 
   const handleLogin = () => {
@@ -237,10 +252,10 @@ const Header = () => {
                   </Button>
                 </Box>
               )}
-              {!authenticated && pathname !== "/organization" && (
+              {!authenticated && pathname !== "/signup" && (
                 <Box mt={0.4} mr={2}>
                   <Button
-                    onClick={() => handleCreateOrganization()}
+                    onClick={() => handleCreateUser()}
                     size="small"
                     aria-label="add"
                     color="primary"
@@ -267,11 +282,11 @@ const Header = () => {
                   justifyContent="space-between"
                 >
                   <Box>
-                    <Tooltip title={title}>
+                    <Tooltip title={name}>
                       <Zoom in={true} timeout={1500}>
                         <Avatar classes={{ root: iconStyle }}>
                           <Typography variant="h4" color="secondary">
-                            {title ? title.substring(0, 1) : ""}
+                            {name ? name.substring(0, 1) : ""}
                           </Typography>
                         </Avatar>
                       </Zoom>
@@ -284,7 +299,7 @@ const Header = () => {
                         className={avatarTitleStyle}
                         variant="h5"
                       >
-                        {title || "..."}
+                        {name || "..."}
                       </Typography>
                     </Box>
                   </Hidden>

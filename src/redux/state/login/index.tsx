@@ -15,7 +15,7 @@ export function useLogin() {
   return {
     token,
     success,
-    organizationId: descodedData?._id,
+    userId: descodedData?._id,
     message,
   };
 }

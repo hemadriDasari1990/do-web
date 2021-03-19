@@ -9,7 +9,6 @@ import locationImage from "../../../assets/location.svg";
 import { makeStyles } from "@material-ui/core/styles";
 
 const ProfileCard = React.lazy(() => import("../../ProfileCard"));
-// const CreateAccount = React.lazy(() => import("../../Home/create"));
 const CreateAccountGrid = React.lazy(
   () => import("../../Home/createAccountGrid")
 );
@@ -62,8 +61,7 @@ export default function Developers() {
               </Grid>
             </Grid>
           </Hidden>
-
-          <Box my={3}>
+          <Box mt={5}>
             <Typography variant="h2">Contributors</Typography>
           </Box>
           <Box>

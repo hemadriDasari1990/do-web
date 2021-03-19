@@ -1,13 +1,16 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import Button from "@material-ui/core/Button";
-import { ORGANIZATION } from "../../routes/config";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
+import { USER } from "../../routes/config";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
+    height: 40,
+    width: 190,
     "& .MuiButton-label": {
       justifyContent: "center",
     },
@@ -17,25 +20,26 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const CreateAccount = () => {
+const CreateAccount = (props: any) => {
   const { buttonStyle } = useStyles();
   const history = useHistory();
-
-  const handleCreateOrganization = () => {
-    history.push(ORGANIZATION);
+  const { title } = props;
+  const handleCreateUser = () => {
+    history.push(USER);
   };
 
   return (
     <React.Fragment>
-      <Tooltip title="Create Your Organization Account">
+      <Tooltip title="Create Your User Account">
         <Button
           className={buttonStyle}
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => handleCreateOrganization()}
+          onClick={() => handleCreateUser()}
+          endIcon={<ArrowForwardOutlinedIcon color="secondary" />}
         >
-          Get started
+          {title}
         </Button>
       </Tooltip>
     </React.Fragment>

@@ -8,6 +8,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import ScrumBoard from "../../assets/board.svg";
+import ScrumBoardSkeleton from "../../assets/scrum-real-board.png";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -22,8 +23,9 @@ const FeedbackList = React.lazy(() => import("../Feedback/list"));
 const CreateAccount = React.lazy(() => import("./create"));
 const CreateAccountGrid = React.lazy(() => import("./createAccountGrid"));
 const Summary = React.lazy(() => import("./summary"));
-const OrganizationList = React.lazy(() => import("./organizations"));
+const UserList = React.lazy(() => import("./users"));
 const AdContainer = React.lazy(() => import("./adContainer"));
+const Features = React.lazy(() => import("../Footer/Features"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   titleStyle: {
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   imageStyle: {
     height: 300,
     [theme.breakpoints.down("xs")]: {
-      height: 250,
+      height: 230,
       textAlign: "center",
       marginLeft: 0,
     },
@@ -47,10 +49,28 @@ const useStyles = makeStyles((theme: Theme) => ({
   boxGridStyle: {
     backgroundColor: "#f5f6f8",
   },
+  skeletonImageStyle: {
+    maxWidth: "100%",
+    height: "auto",
+    display: "block",
+  },
+  titleSecondaryStyle: {
+    fontSize: "2.5rem",
+    lineHeight: 1.143,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 30,
+    },
+  },
 }));
 
 const Home = () => {
-  const { titleStyle, imageStyle, boxGridStyle } = useStyles();
+  const {
+    titleStyle,
+    imageStyle,
+    boxGridStyle,
+    skeletonImageStyle,
+    titleSecondaryStyle,
+  } = useStyles();
   const dispatch = useDispatch();
   // const authenticated: boolean = useAuthenticated();
   // const history = useHistory();
@@ -67,7 +87,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Container disableGutters>
+      <Container>
         <Hidden only={["xs"]}>
           <AdContainer />
         </Hidden>
@@ -110,7 +130,7 @@ const Home = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <CreateAccount />
+                  <CreateAccount title="Get Started" />
                 </Box>
               </Grid>
             </Slide>
@@ -135,14 +155,42 @@ const Home = () => {
             </Slide>
           </Grid>
         </Box>
-        {/* <Box className={boxStyle} padding={0}>
-          <Box py={3}>
-            <Box textAlign="center">
-              <Typography variant="h1">Let's do retro features</Typography>
+        <Grid container spacing={2}>
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+            <Box py={7} textAlign="center">
+              <Box>
+                <Typography variant="h1" className={titleSecondaryStyle}>
+                  It’s more than work. It’s a way of working together.
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="h3">
+                  Start with a Letsdoretro board, lists, and cards. Customize
+                  and expand with more features as your teamwork grows. Manage
+                  projects, organize tasks, and build team spirit—all in one
+                  place.
+                </Typography>
+              </Box>
+              <Box mt={3}>
+                <CreateAccount title="Signup Now" />
+              </Box>
+              <Box p={5}>
+                <Zoom in={true} timeout={2000}>
+                  <img
+                    src={ScrumBoardSkeleton}
+                    className={skeletonImageStyle}
+                    height="1334"
+                    width="1902"
+                  />
+                </Zoom>
+              </Box>
             </Box>
-            <Features />
-          </Box>
-        </Box> */}
+          </Grid>
+        </Grid>
+
+        <Box py={3}>
+          <Features />
+        </Box>
         <Box py={5}>
           <Summary />
         </Box>
@@ -150,7 +198,9 @@ const Home = () => {
           <Box py={5}>
             <Box py={5}>
               <Box textAlign="center">
-                <Typography variant="h1">What people say about us</Typography>
+                <Typography variant="h1" className={titleSecondaryStyle}>
+                  What people say about us
+                </Typography>
               </Box>
             </Box>
             <Box>
@@ -162,7 +212,7 @@ const Home = () => {
 
       <Box py={5} className={boxGridStyle}>
         <Container>
-          <OrganizationList />
+          <UserList />
         </Container>
       </Box>
       <Box py={5}>

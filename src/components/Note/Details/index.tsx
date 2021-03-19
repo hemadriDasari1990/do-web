@@ -12,10 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import SubtitlesIcon from "@material-ui/icons/Subtitles";
 import Typography from "@material-ui/core/Typography";
-// import formateNumber from "../../../util/formateNumber";
 import { makeStyles } from "@material-ui/core/styles";
-
-// import textingImage from "../../../../assets/notifications/texting.svg";
 
 const useStyles = makeStyles(() => ({
   defaultTab: {
@@ -43,7 +40,6 @@ const NoteDetails = (props: any) => {
   const goBack = () => {
     setPage(1);
   };
-  console.log("note", note);
   return (
     <Suspense fallback={<div />}>
       <Box>

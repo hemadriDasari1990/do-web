@@ -51,6 +51,7 @@ const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const UpdateSection = React.lazy(() => import("./Update"));
 // const Loader = React.lazy(() => import("../Loader/components"));
 const Timer = React.lazy(() => import("../common/Timer"));
+const SectionSkeleton = React.lazy(() => import("../common/skeletons/section"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   sectionHeader: {
@@ -112,6 +113,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   boxTextStyle: {
     padding: "3px 15px 3px 15px",
     color: "#0072ff",
+    fontWeight: 500,
   },
 }));
 
@@ -156,6 +158,7 @@ const SectionList = () => {
   const [sections, setSections] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
+  const [endSessionDialog, setEndSessionDialog] = useState(false);
   const [sectionInput, setSectionInput] = useState("");
   const [open, setOpen] = useState(false);
   const [boardDetails, setBoardDetails] = useState(board);
@@ -294,8 +297,17 @@ const SectionList = () => {
   };
 
   const handleClose = () => {
-    setOpenDialog(false);
-    setOpenDeleteDialog(false);
+    if (openDialog) {
+      setOpenDialog(false);
+    }
+
+    if (deleteDialog) {
+      setOpenDeleteDialog(false);
+    }
+
+    if (endSessionDialog) {
+      setEndSessionDialog(false);
+    }
   };
 
   const renderUpdateDialog = () => {
@@ -317,6 +329,34 @@ const SectionList = () => {
     );
   };
 
+  const handleEndSession = () => {
+    dispatch(
+      startOrCompleteBoard("stop", {
+        id: boardDetails?._id,
+        completedAt: Date.now(),
+      })
+    );
+    handleClose();
+  };
+
+  const renderEndSessionDialog = () => {
+    return (
+      <ResponsiveDialog
+        open={endSessionDialog}
+        title="End Session"
+        pcta="End Session"
+        scta="Cancel"
+        handleSave={handleEndSession}
+        handleClose={handleClose}
+        maxWidth={440}
+      >
+        <Typography variant="h4">
+          Are you sure you want to end the session?
+        </Typography>
+      </ResponsiveDialog>
+    );
+  };
+
   const renderDeleteDialog = () => {
     return (
       <Box>
@@ -330,7 +370,6 @@ const SectionList = () => {
           maxWidth={440}
         >
           <Typography variant="h4">
-            {" "}
             Are you sure you want to delete {selectedSection?.title}?
           </Typography>
         </ResponsiveDialog>
@@ -430,12 +469,7 @@ const SectionList = () => {
   };
 
   const handleStopSession = () => {
-    dispatch(
-      startOrCompleteBoard("stop", {
-        id: boardDetails?._id,
-        completedAt: Date.now(),
-      })
-    );
+    setEndSessionDialog(true);
   };
 
   const dateDiffInDays = () => {
@@ -536,28 +570,6 @@ const SectionList = () => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    // result.draggableId is noteId
-    // droppableId
-
-    // if (result.combine) {
-    //   if (result.type === "COLUMN") {
-    //     const shallow: Array<{ [Key: string]: any }> = [...sections];
-    //     shallow.splice(result.source.index, 1);
-    //     setSections(shallow);
-    //     return;
-    //   }
-
-    //   const section: Quote[] = sections[result.source.index];
-    //   const withQuoteRemoved: Quote[] = [...column];
-    //   withQuoteRemoved.splice(result.source.index, 1);
-    //   const columns: QuoteMap = {
-    //     ...this.state.columns,
-    //     [result.source.droppableId]: withQuoteRemoved,
-    //   };
-    //   this.setState({ columns });
-    //   return;
-    // }
-
     // dropped nowhere
     if (!result.destination) {
       return;
@@ -591,10 +603,6 @@ const SectionList = () => {
         sourceSectionId: source.droppableId,
         destinationSectionId: destination.droppableId,
       });
-      // socket.on("move-note-to-section", (updated: any) => {
-      //   const newSections = reorderNotesList(source, destination);
-      //   setSections(newSections);
-      // });
       const newSections = reorderNotesList(source, destination);
       setSections(newSections);
     }
@@ -602,9 +610,10 @@ const SectionList = () => {
 
   return (
     <React.Fragment>
-      {/* <Loader backdrop={true} enable={loading} /> */}
+      {/* <Loader enable={loading} /> */}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
+      {renderEndSessionDialog()}
       <Grid container spacing={2}>
         <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
           <Box display="flex">
@@ -624,7 +633,14 @@ const SectionList = () => {
           </Box>
         </Grid>
         <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
-          <Box display="flex" justifyContent="space-between">
+          <Box
+            display="flex"
+            justifyContent={
+              !boardDetails?.startedAt || !boardDetails?.completedAt
+                ? "flex-end"
+                : "space-between"
+            }
+          >
             {boardDetails?.startedAt && !boardDetails?.completedAt ? (
               <Box>
                 <Timer
@@ -663,7 +679,7 @@ const SectionList = () => {
               {authenticated &&
               boardDetails?.startedAt &&
               !boardDetails.completedAt ? (
-                <Box mr={2} className={buttonStyle}>
+                <Box mx={2} className={buttonStyle}>
                   <Button
                     variant="outlined"
                     color="default"
@@ -719,118 +735,136 @@ const SectionList = () => {
           </Box>
         </Grid>
       </Grid>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <List>
-          <Droppable
-            droppableId="board"
-            type="COLUMN"
-            direction="horizontal"
-            // ignoreContainerClipping={Boolean(containerHeight)}
-            // isCombineEnabled={false}
-          >
-            {(droppableProvided: DroppableProvided) => (
-              <div
-                ref={droppableProvided.innerRef}
-                {...droppableProvided.droppableProps}
-              >
-                <Grid container spacing={1}>
-                  {Array.isArray(sections) &&
-                    sections.map(
-                      (item: { [Key: string]: any }, index: number) => (
-                        <Draggable
-                          key={item._id}
-                          draggableId={item._id}
-                          index={index}
-                        >
-                          {(
-                            draggableProvided: DraggableProvided,
-                            draggableSnapshot: DraggableStateSnapshot
-                          ) => (
-                            <Grid
-                              item
-                              // key={item._id}
-                              xl={3}
-                              lg={3}
-                              md={4}
-                              sm={6}
-                              xs={12}
-                            >
-                              <div
-                                ref={draggableProvided.innerRef}
-                                {...draggableProvided.draggableProps}
-                                {...draggableProvided.dragHandleProps}
-                                // style={getItemStyle(
-                                //   provided.draggableStyle,
-                                //   snapshot.isDragging
-                                // )}
-                                className={`${sectionStyle} ${
-                                  draggableSnapshot.isDragging
-                                    ? sectionGridStyle
-                                    : ""
-                                }`}
-                                data-isDragging={
-                                  draggableSnapshot.isDragging &&
-                                  !draggableSnapshot.isDropAnimating
-                                }
+      {loading ? (
+        <Grid container spacing={2}>
+          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+            <SectionSkeleton />
+          </Grid>
+          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+            <SectionSkeleton />
+          </Grid>
+          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+            <SectionSkeleton />
+          </Grid>
+          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
+            <SectionSkeleton />
+          </Grid>
+        </Grid>
+      ) : null}
+      {!loading && (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <List>
+            <Droppable
+              droppableId="board"
+              type="COLUMN"
+              direction="horizontal"
+              // ignoreContainerClipping={Boolean(containerHeight)}
+              // isCombineEnabled={false}
+            >
+              {(droppableProvided: DroppableProvided) => (
+                <div
+                  ref={droppableProvided.innerRef}
+                  {...droppableProvided.droppableProps}
+                >
+                  <Grid container spacing={1}>
+                    {Array.isArray(sections) &&
+                      sections.map(
+                        (item: { [Key: string]: any }, index: number) => (
+                          <Draggable
+                            key={item._id}
+                            draggableId={item._id}
+                            index={index}
+                          >
+                            {(
+                              draggableProvided: DraggableProvided,
+                              draggableSnapshot: DraggableStateSnapshot
+                            ) => (
+                              <Grid
+                                item
+                                // key={item._id}
+                                xl={3}
+                                lg={3}
+                                md={4}
+                                sm={6}
+                                xs={12}
                               >
-                                <ListItem disableGutters>
-                                  <ListItemText
-                                    primary={
-                                      <Box
-                                        display="flex"
-                                        justifyContent="space-between"
-                                        className={`${titleStyle}`}
-                                      >
-                                        <Box>
-                                          <Tooltip title={item.title}>
-                                            <Typography
-                                              className={sectionHeader}
-                                              variant="h3"
-                                            >
-                                              {item.title}
-                                            </Typography>
-                                          </Tooltip>
+                                <div
+                                  ref={draggableProvided.innerRef}
+                                  {...draggableProvided.draggableProps}
+                                  {...draggableProvided.dragHandleProps}
+                                  // style={getItemStyle(
+                                  //   provided.draggableStyle,
+                                  //   snapshot.isDragging
+                                  // )}
+                                  className={`${sectionStyle} ${
+                                    draggableSnapshot.isDragging
+                                      ? sectionGridStyle
+                                      : ""
+                                  }`}
+                                  data-isDragging={
+                                    draggableSnapshot.isDragging &&
+                                    !draggableSnapshot.isDropAnimating
+                                  }
+                                >
+                                  <ListItem disableGutters>
+                                    <ListItemText
+                                      primary={
+                                        <Box
+                                          display="flex"
+                                          justifyContent="space-between"
+                                          className={`${titleStyle}`}
+                                        >
+                                          <Box>
+                                            <Tooltip title={item.title}>
+                                              <Typography
+                                                className={sectionHeader}
+                                                variant="h3"
+                                              >
+                                                {item.title}
+                                              </Typography>
+                                            </Tooltip>
+                                          </Box>
+                                          <Box className={countStyle}>
+                                            <Tooltip title="Total Notes">
+                                              <Typography
+                                                color="primary"
+                                                className={countTextStyle}
+                                              >
+                                                {item.totalNotes}
+                                              </Typography>
+                                            </Tooltip>
+                                          </Box>
                                         </Box>
-                                        <Box className={countStyle}>
-                                          <Tooltip title="Total Notes">
-                                            <Typography
-                                              color="primary"
-                                              className={countTextStyle}
-                                            >
-                                              {item.totalNotes}
-                                            </Typography>
-                                          </Tooltip>
-                                        </Box>
-                                      </Box>
-                                    }
-                                  />
-                                  {authenticated && (
-                                    <ListItemSecondaryAction>
-                                      {renderMenuAction(item)}
-                                    </ListItemSecondaryAction>
-                                  )}
-                                </ListItem>
-                                {renderMenu(item)}
+                                      }
+                                    />
+                                    {authenticated && (
+                                      <ListItemSecondaryAction>
+                                        {renderMenuAction(item)}
+                                      </ListItemSecondaryAction>
+                                    )}
+                                  </ListItem>
+                                  {renderMenu(item)}
 
-                                <Note
-                                  key={item._id}
-                                  noteList={item.notes}
-                                  sectionId={item._id}
-                                  updateTotalNotes={updateTotalNotes}
-                                />
-                              </div>
-                            </Grid>
-                          )}
-                        </Draggable>
-                      )
-                    )}
-                </Grid>
-                {droppableProvided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </List>
-      </DragDropContext>
+                                  <Note
+                                    key={item._id}
+                                    noteList={item.notes}
+                                    sectionId={item._id}
+                                    updateTotalNotes={updateTotalNotes}
+                                  />
+                                </div>
+                              </Grid>
+                            )}
+                          </Draggable>
+                        )
+                      )}
+                  </Grid>
+                  {droppableProvided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </List>
+        </DragDropContext>
+      )}
       {!loading && !sections?.length && (
         <NoRecords message="No Sections found" />
       )}

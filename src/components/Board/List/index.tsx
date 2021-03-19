@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import { BOARD_DASHBOARD } from "../../../routes/config";
-import BookmarksOutlinedIcon from "@material-ui/icons/BookmarksOutlined";
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -12,11 +11,12 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LockOutlinedIcon from "@material-ui/icons/EnhancedEncryptionOutlined";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -97,6 +97,15 @@ const BoardList = (props: any) => {
   const renderCardAction = (board: { [Key: string]: any }) => {
     return (
       <Box display="flex">
+        {board?.status === "draft" && (
+          <Box mt={0.2}>
+            <Tooltip title="Completed">
+              <Typography variant="h6" color="primary">
+                Draft
+              </Typography>
+            </Tooltip>
+          </Box>
+        )}
         {board?.status === "pending" && (
           <Box mt={0.2}>
             <Tooltip title="Completed">
@@ -288,6 +297,9 @@ const BoardList = (props: any) => {
   };
 
   const handleCard = (board: { [Key: string]: any }) => {
+    if (board?.status === "draft") {
+      return;
+    }
     history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
   };
 
@@ -314,30 +326,32 @@ const BoardList = (props: any) => {
         <Box display="flex">
           {board?.isLocked && (
             <Box mr={1} mt={0.2}>
-              <Tooltip title="Board is locked">
+              <Tooltip title="Locked for others">
                 <LockOutlinedIcon color="primary" />
               </Tooltip>
             </Box>
           )}
-          <Box>
-            <Tooltip
-              title={
-                selectedBoard?._id === board?._id && clipboardText
-                  ? clipboardText
-                  : "Copy board URL"
-              }
-            >
-              <Zoom in={true} timeout={1500}>
-                <IconButton
-                  size="small"
-                  color="primary"
-                  onClick={() => handleCopy(board)}
-                >
-                  <BookmarksOutlinedIcon />
-                </IconButton>
-              </Zoom>
-            </Tooltip>
-          </Box>
+          {board?.status !== "draft" && (
+            <Box>
+              <Tooltip
+                title={
+                  selectedBoard?._id === board?._id && clipboardText
+                    ? clipboardText
+                    : "Copy board URL"
+                }
+              >
+                <Zoom in={true} timeout={1500}>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={() => handleCopy(board)}
+                  >
+                    <LinkOutlinedIcon />
+                  </IconButton>
+                </Zoom>
+              </Tooltip>
+            </Box>
+          )}
         </Box>
       </Box>
     );

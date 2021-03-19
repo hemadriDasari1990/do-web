@@ -26,6 +26,7 @@ const useStyles = makeStyles(() => ({
   },
   tabStyle: {
     textTransform: "capitalize",
+    fontWeight: 600,
   },
 }));
 
@@ -77,7 +78,7 @@ const DoTabs = (props: any) => {
           <Tab
             onClick={() => handleChange(0, "reactions")}
             value={0}
-            label="Reactions"
+            label={`Reactions (${note?.totalReactions})`}
             aria-label="reactions"
             className={tabStyle}
           />

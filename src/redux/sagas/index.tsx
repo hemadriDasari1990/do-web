@@ -1,13 +1,20 @@
+import {
+  watchAddOrRemoveMemberFromTeam,
+  watchDeleteTeam,
+  watchGetTeamDetails,
+  watchGetTeams,
+  watchUpdateTeam,
+} from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
-  watchCreateOrganization,
-  watchDeleteOrganization,
+  watchCreateUser,
+  watchDeleteUser,
   watchGetAllSummary,
-  watchGetOrganizationDetails,
-  watchGetOrganizationSummary,
-  watchGetOrganizations,
-  watchUpdateOrganization,
-} from "./organization";
+  watchGetUserDetails,
+  watchGetUserSummary,
+  watchGetUsers,
+  watchUpdateUser,
+} from "./user";
 import {
   watchDeleteBoard,
   watchGetBoardDetails,
@@ -19,6 +26,12 @@ import {
   watchGetDepartmentDetails,
   watchUpdateDepartment,
 } from "./department";
+import {
+  watchDeleteMember,
+  watchGetMemberDetails,
+  watchGetMembersByUser,
+  watchUpdateMember,
+} from "./member";
 import { watchDeleteNote, watchMarkAsRead, watchUpdateNote } from "./note";
 import {
   watchDeleteProject,
@@ -51,13 +64,13 @@ function* rootSaga() {
   yield fork(watchValidateForgotPassword);
   yield fork(watchForgotPassword);
 
-  /* Organization sagas */
-  yield fork(watchCreateOrganization);
-  yield fork(watchUpdateOrganization);
-  yield fork(watchDeleteOrganization);
-  yield fork(watchGetOrganizationDetails);
-  yield fork(watchGetOrganizationSummary);
-  yield fork(watchGetOrganizations);
+  /* User sagas */
+  yield fork(watchCreateUser);
+  yield fork(watchUpdateUser);
+  yield fork(watchDeleteUser);
+  yield fork(watchGetUserDetails);
+  yield fork(watchGetUserSummary);
+  yield fork(watchGetUsers);
   yield fork(watchGetAllSummary);
 
   /* Department sagas */
@@ -69,6 +82,19 @@ function* rootSaga() {
   yield fork(watchGetProjectDetails);
   yield fork(watchDeleteProject);
   yield fork(watchUpdateProject);
+
+  /* Team sagas */
+  yield fork(watchGetTeamDetails);
+  yield fork(watchDeleteTeam);
+  yield fork(watchUpdateTeam);
+  yield fork(watchAddOrRemoveMemberFromTeam);
+  yield fork(watchGetTeams);
+
+  /* Member sagas */
+  yield fork(watchGetMemberDetails);
+  yield fork(watchDeleteMember);
+  yield fork(watchUpdateMember);
+  yield fork(watchGetMembersByUser);
 
   /* Board sagas */
   yield fork(watchUpdateBoard);

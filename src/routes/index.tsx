@@ -18,23 +18,21 @@ const Developers = React.lazy(() => import("../components/Footer/About"));
 const Feedback = React.lazy(() => import("../components/Feedback"));
 const Careers = React.lazy(() => import("../components/Footer/Careers"));
 const Terms = React.lazy(() => import("../components/Footer/Terms"));
-const Organization = React.lazy(
-  () => import("../components/Organization/Create")
-);
-const Login = React.lazy(() => import("../components/Organization/Login"));
+const User = React.lazy(() => import("../components/User/Create"));
+const Login = React.lazy(() => import("../components/User/Login"));
 const SectionDashboard = React.lazy(() => import("../components/Section"));
 const FAQ = React.lazy(() => import("../components/Footer/Faq"));
 const Privacy = React.lazy(() => import("../components/Footer/Privacy"));
 const Security = React.lazy(() => import("../components/Footer/Security"));
 const Features = React.lazy(() => import("../components/Footer/Features"));
 const VerifyAccount = React.lazy(
-  () => import("../components/Organization/VerifyAccount")
+  () => import("../components/User/VerifyAccount")
 );
 const ForgotPassword = React.lazy(
-  () => import("../components/Organization/ForgotPassword")
+  () => import("../components/User/ForgotPassword")
 );
 const ResetPassword = React.lazy(
-  () => import("../components/Organization/ResetPassword")
+  () => import("../components/User/ResetPassword")
 );
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -51,8 +49,8 @@ const routes = () => {
       component: Home,
     },
     {
-      path: routePath.ORGANIZATION,
-      component: Organization,
+      path: routePath.USER,
+      component: User,
     },
     {
       path: routePath.LOGIN,
@@ -113,7 +111,7 @@ const Routes = () => {
   const authenticated: boolean = useAuthenticated();
   const history = useHistory();
   const { boxStyle } = useStyles({ authenticated });
-  // const { organizationId } = useLogin();
+  // const { userId } = useLogin();
 
   useEffect(() => {
     if (authenticated) {

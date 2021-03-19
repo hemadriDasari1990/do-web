@@ -11,20 +11,35 @@ export const FORGOT_PASSWORD = "/auth/forgot-password";
 export const VALIDATE_FORGOT_PASSWORD = "/auth/validate-forgot-password";
 export const RESET_PASSWORD = "/auth/reset-password";
 
-/* Organization Endpoints */
-export const CREATE_ORGANIZATION = "/organization";
-export const DELETE_ORGANIZATION = "/organization/{id}";
-export const GET_ORGANIZATION_DETAILS = "/organization/{id}";
-export const UPDATE_ORGANIZATION = "/organization";
-export const GET_ORGANIZATION_SUMMARY = "/organization/{id}/summary";
-export const GET_ALL_SUMMARY = "/organization/summary";
-export const GET_ORGANIZATIONS = "/organization/";
+/* User Endpoints */
+export const CREATE_USER = "/user";
+export const DELETE_USER = "/user/{id}";
+export const GET_USER_DETAILS = "/user/{id}";
+export const UPDATE_USER = "/user";
+export const GET_USER_SUMMARY = "/user/{id}/summary";
+export const GET_ALL_SUMMARY = "/user/summary";
+export const GET_USERS = "/user/";
 
 /* Department Endpoints */
 export const CREATE_DEPARTMENT = "/department";
 export const DELETE_DEPARTMENT = "/department/{id}";
 export const GET_DEPARTMENT_DETAILS = "/department/{id}";
 export const UPDATE_DEPARTMENT = "/department";
+
+/* Team Endpoints */
+export const CREATE_TEAM = "/team";
+export const DELETE_TEAM = "/team/{id}";
+export const GET_TEAM_DETAILS = "/team/{id}";
+export const UPDATE_TEAM = "/team";
+export const ADD_OR_REMOVE_TEAM_MEMBER = "/team/{id}/member";
+export const GET_TEAMS = "/team?userId={id}";
+
+/* Member Endpoints */
+export const CREATE_MEMBER = "/member";
+export const DELETE_MEMBER = "/member/{id}";
+export const GET_MEMBERS_BY_USER = "/member?userId={id}";
+export const GET_MEMBER_DETAILS = "/member/{id}";
+export const UPDATE_MEMBER = "/member";
 
 /* Project Endpoints */
 export const CREATE_PROJECT = "/project";

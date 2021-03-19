@@ -37,3 +37,20 @@ export const reorder = (list: any[], startIndex: number, endIndex: number) => {
   result.splice(endIndex, 0, removed);
   return result;
 };
+
+export function toTitleCase(str: string) {
+  return str.replace(
+    /\w\$*/g,
+    (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+  );
+}
+
+const elipseName = (input: string, inputLength: number) => {
+  if (!input) {
+    return;
+  }
+  if (input.length > inputLength) {
+    return input.substring(0, inputLength) + "...";
+  }
+  return input;
+};

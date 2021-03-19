@@ -12,6 +12,7 @@ import {
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import Grid from "@material-ui/core/Grid";
@@ -349,8 +350,9 @@ export default function Footer() {
             </List>
           </Grid>
         </Grid>
-        <Box mt={3}>
-          <Typography variant="body2">
+        <Divider color="secondary" />
+        <Box p={3}>
+          <Typography variant="body1">
             Copyright © 2021 Letsdoretro.com. All rights reserved.
           </Typography>
         </Box>

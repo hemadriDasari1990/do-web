@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import {
-  useOrganizationLoading,
-  useOrganizationSummary,
-} from "../../redux/state/organization";
+import { useUserLoading, useUserSummary } from "../../redux/state/user";
 
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import ApartmentOutlinedIcon from "@material-ui/icons/ApartmentOutlined";
@@ -11,7 +8,7 @@ import Box from "@material-ui/core/Box";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
-import { getAllSummary } from "../../redux/actions/organization";
+import { getAllSummary } from "../../redux/actions/user";
 import { useDispatch } from "react-redux";
 
 const Loader = React.lazy(() => import("../Loader/components"));
@@ -21,15 +18,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "3.5rem",
   },
   iconStyle: {
-    fontSize: 80,
+    fontSize: 50,
   },
 }));
 
 const Summary = () => {
   const { titleStyle, iconStyle } = useStyles();
   const dispatch = useDispatch();
-  const { summary } = useOrganizationSummary();
-  const { loading } = useOrganizationLoading();
+  const { summary } = useUserSummary();
+  const { loading } = useUserLoading();
 
   useEffect(() => {
     dispatch(getAllSummary());
@@ -52,13 +49,11 @@ const Summary = () => {
               </Box>
               <Box>
                 <Typography variant="h1" className={titleStyle}>
-                  {summary?.organizationsCount}
+                  {summary?.usersCount}
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="h5">
-                  Organizations powered worldwide
-                </Typography>
+                <Typography variant="h5">Users powered worldwide</Typography>
               </Box>
             </Box>
           </Grid>

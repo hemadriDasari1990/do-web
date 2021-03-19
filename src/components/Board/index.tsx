@@ -24,6 +24,7 @@ const Loader = React.lazy(() => import("../Loader/components"));
 const BoardList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const UpdateBoard = React.lazy(() => import("./Update"));
+const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const BoardDashboard = () => {
   const {
@@ -53,6 +54,7 @@ const BoardDashboard = () => {
   );
   const [showBoardForm, setShowBoardForm] = useState(false);
   const [totalBoards, setTotalBoards] = useState(totalBoardsCount);
+  const [openError, setOpenError] = useState(false);
 
   /* React Hooks */
   useEffect(() => {
@@ -68,8 +70,8 @@ const BoardDashboard = () => {
   }, [boardsList]);
 
   useEffect(() => {
-    if (!loading && !project?._id) {
-      // setShowError(true);
+    if (!openError && !loading && board?.errorId) {
+      setOpenError(true);
     }
 
     if (!loading && board?.deleted) {
@@ -77,6 +79,7 @@ const BoardDashboard = () => {
         (b: { [Key: string]: any }) => b._id !== selectedBoard._id
       );
       setBoards(boardsList);
+      setTotalBoards(boardsList?.length);
       setSelectedBoard({});
       handleCloseDeleteDialog();
     }
@@ -199,10 +202,29 @@ const BoardDashboard = () => {
     );
   };
 
+  const handleSnackbarClose = () => {
+    setOpenError(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={openError}
+        status="error"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {board?.message}
+        </Typography>
+      </DoSnackbar>
+    );
+  };
+
   return (
     <React.Fragment>
       <Loader enable={loading || projectLoading} />
       {renderDeleteDialog()}
+      {renderSnackbar()}
       <Box className={root}>
         <Box>
           <Grid container spacing={2}>
@@ -231,7 +253,10 @@ const BoardDashboard = () => {
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={8} sm={12} xs={12}>
-              <Box display="flex" justifyContent="space-between">
+              <Box
+                display="flex"
+                justifyContent={!boards?.length ? "flex-end" : "space-around"}
+              >
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}

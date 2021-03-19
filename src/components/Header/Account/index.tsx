@@ -17,7 +17,7 @@ import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../../socket";
 import { useHistory } from "react-router-dom";
-import { useOrganization } from "../../../redux/state/organization";
+import { useUser } from "../../../redux/state/user";
 
 const useStyles = makeStyles(() => ({
   avatar: {
@@ -49,7 +49,7 @@ const UserAccount = (props: any) => {
     cursor,
     settingsAvatar,
   } = useStyles();
-  const { title } = useOrganization();
+  const { name } = useUser();
   const history = useHistory();
 
   const handleLogout = async () => {
@@ -64,15 +64,15 @@ const UserAccount = (props: any) => {
     <Suspense fallback={<div></div>}>
       <Box>
         <Zoom in={true} timeout={2000}>
-          <Avatar alt={title} className={avatar} color="primary">
+          <Avatar alt={name} className={avatar} color="primary">
             <Typography variant="caption" color="secondary">
-              {title ? title.substring(0, 1) : ""}
+              {name ? name.substring(0, 1) : ""}
             </Typography>
           </Avatar>
         </Zoom>
       </Box>
       <Box my={3} textAlign="center">
-        <Typography variant="h3">{title}</Typography>
+        <Typography variant="h3">{name}</Typography>
       </Box>
       <Divider />
       <Box>

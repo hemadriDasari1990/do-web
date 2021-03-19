@@ -7,7 +7,25 @@ const Summary = (props: any) => {
   const { note } = props;
   return (
     <Suspense fallback={<div />}>
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
+          <SummaryField title="Total Reactions" value={note.totalReactions} />
+        </Grid>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
+          <SummaryField title="Pluse one" value={note?.totalPlusOne} />
+        </Grid>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
+          <SummaryField title="Pluse two" value={note?.totalPlusTwo} />
+        </Grid>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
+          <SummaryField title="Love" value={note?.totalLove} />
+        </Grid>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
+          <SummaryField title="Deserve" value={note?.totalDeserve} />
+        </Grid>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
+          <SummaryField title="Disagreed" value={note?.totalDisAgreed} />
+        </Grid>
         <Grid item xl={2} lg={2} md={2} sm={6} xs={12}>
           <SummaryField
             title="Status"

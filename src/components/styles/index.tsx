@@ -72,6 +72,48 @@ const useStyles = makeStyles((theme: Theme) => ({
   reactionStyle: {
     fontSize: 12,
   },
+  boxTopGridStyle: {
+    height: 100,
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+  },
+  boxGridStyle: {
+    padding: "2rem 1rem",
+    position: "relative",
+  },
+  iconBoxStyle: {
+    backgroundColor: "rgb(255, 255, 255)",
+    backgroundImage:
+      "url(https://images.ctfassets.net/rz1oowkt5gyp/6BxNFw17kxuj7w8JU9vpQC/3d75f49…/Tour-TemplateIcon-Trello-SVG.svg)",
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain",
+    border: "3px solid rgb(255, 255, 255)",
+    borderRadius: "0.5rem",
+    height: "3rem",
+    left: "1rem",
+    position: "absolute",
+    top: "-1.5rem",
+    width: "3rem",
+  },
+  boxMainStyle: {
+    borderRadius: "0.5rem",
+    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
+    color: "inherit",
+    display: "block",
+    height: "100%",
+    overflow: "hidden",
+    textAlign: "left",
+    textDecoration: "none",
+  },
+  boxTitleStyle: {
+    fontSize: "1.5rem",
+    lineHeight: "1.33333",
+  },
+  descriptionStyle: {
+    fontSize: "1rem",
+    margin: "0.5rem 0px 0px",
+  },
 }));
 
 export default useStyles;

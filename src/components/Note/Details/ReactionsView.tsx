@@ -18,10 +18,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-// import getCreatedDate from "../../../util/getCreatedDate";
 import getPastTime from "../../../util/getPastTime";
-// import getRandomBGColor from "../../../util/getRandomColor";
-// import formateNumber from "../../../util/formateNumber";
 import { makeStyles } from "@material-ui/core/styles";
 import useStyles from "../../styles";
 
@@ -111,13 +108,21 @@ const ReactionsView = (props: any) => {
                     overlap="circle"
                     badgeContent={getReactionIcon(reaction.type)}
                   >
-                    <Avatar className={avatarStyle} />
+                    <Avatar className={`${avatarStyle}`} color="primary">
+                      {reaction?.reactedBy?.name ? (
+                        <Typography variant="h5">
+                          {reaction?.reactedBy?.name.substring(0, 1)}
+                        </Typography>
+                      ) : null}
+                    </Avatar>
                   </Badge>
                 </ListItemIcon>
                 <ListItemText
                   primary={
                     <React.Fragment>
-                      <Typography variant="h5">Team Member</Typography>
+                      <Typography variant="h5">
+                        {reaction?.reactedBy?.name || "Team Member"}
+                      </Typography>
                     </React.Fragment>
                   }
                   secondary={
