@@ -64,9 +64,9 @@ const Create = (props: any) => {
     if (!title || !title.trim().length) {
       return true;
     }
-    if (!description || !description.trim().length) {
-      return true;
-    }
+    // if (!description || !description.trim().length) {
+    //   return true;
+    // }
     return false;
   };
 
@@ -107,7 +107,6 @@ const Create = (props: any) => {
           placeholder="Enter description about department"
           value={description}
           onChange={handleInput}
-          required
           fullWidth
           className={textFieldStyle}
         />

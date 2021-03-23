@@ -35,7 +35,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="Disagree">
+                <Tooltip arrow title="Disagree">
                   <IconButton
                     className={disAgreeIconStyle}
                     color="secondary"
@@ -57,7 +57,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="Love It">
+                <Tooltip arrow title="Love It">
                   <IconButton
                     className={loveIconStyle}
                     color="secondary"
@@ -79,7 +79,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="+1">
+                <Tooltip arrow title="+1">
                   <IconButton
                     className={plusIconStyle}
                     color="secondary"
@@ -101,7 +101,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="+2">
+                <Tooltip arrow title="+2">
                   <IconButton
                     className={plusTwoIconStyle}
                     color="secondary"
@@ -123,7 +123,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="Deserve">
+                <Tooltip arrow title="Deserve">
                   <IconButton
                     className={deserveIconStyle}
                     color="secondary"

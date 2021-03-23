@@ -1,39 +1,39 @@
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { PROJECT_DASHBOARD } from "../../../routes/config";
-import React from "react";
+import React, { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
-import getRandomBGColor from "../../../util/getRandomColor";
 import { replaceStr } from "../../../util";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
+import AvatarGroupList from "../../common/AvatarGroupList";
+import SummaryField from "../../common/SummaryField";
+import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
+import ListSkeleton from "../../common/skeletons/list";
 
 const ProjectList = (props: any) => {
   const { projects, handleMenu, setSelectedProject } = props;
   const {
     cursor,
-    cardStyle,
     avatarBoxStyle,
-    boxStyle,
-    boxTextStyle,
+    boxMainStyle,
+    boxGridStyle,
+    boxTopGridStyle,
+    iconBoxStyle,
   } = useStyles();
   const history = useHistory();
 
@@ -49,8 +49,9 @@ const ProjectList = (props: any) => {
   /* Handler functions */
   const renderCardAction = (project: { [Key: string]: any }) => {
     return (
-      <Box p={1.7}>
-        <Tooltip title="Update">
+      <Box display="flex" mt={1}>
+        <Box mt={0.5}>{getCardSubHeaderText(project.updatedAt)}</Box>
+        <Tooltip arrow title="Update">
           <IconButton
             color="primary"
             size="small"
@@ -118,20 +119,6 @@ const ProjectList = (props: any) => {
             secondary="Update project"
           />
         </ListItem>
-        {/* <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "archive")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <ArchiveOutlinedIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Archive Project</b>}
-            secondary="You've control to make it unarchive any time"
-          />
-        </ListItem> */}
         <ListItem
           button={true}
           onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
@@ -153,15 +140,9 @@ const ProjectList = (props: any) => {
   const renderCardTitle = (project: { [Key: string]: any }) => {
     return (
       <Box mt={0.7} className={cursor} onClick={() => handleCard(project)}>
-        <Typography variant="h5">{project?.title}</Typography>
-      </Box>
-    );
-  };
-
-  const renderCardSubTitle = (project: { [Key: string]: any }) => {
-    return (
-      <Box mt={0.2} display="flex">
-        {getCardSubHeaderText(project?.updatedAt)}
+        <Typography variant="h3" color="primary">
+          {project?.title}
+        </Typography>
       </Box>
     );
   };
@@ -208,15 +189,32 @@ const ProjectList = (props: any) => {
   ) => {
     return (
       <Box minHeight={50}>
-        <List>
-          <ListItem alignItems="flex-start">
-            <Zoom in={true} timeout={2000}>
-              <ListItemText
-                secondary={renderSecondaryText(project?.description, index)}
+        <Box my={2} display="flex">
+          <Box mr={2}>
+            <SubjectOutlinedIcon />
+          </Box>
+          <Zoom in={true} timeout={2000}>
+            <Typography>
+              {renderSecondaryText(project?.description, index)}
+            </Typography>
+          </Zoom>
+        </Box>
+        <Box my={2} display="flex" justifyContent="space-between">
+          <SummaryField
+            title="Boards"
+            value={
+              <AvatarGroupList
+                dataList={project?.boards}
+                keyName="title"
+                noDataMessage="No Boards"
               />
-            </Zoom>
-          </ListItem>
-        </List>
+            }
+          />
+          <SummaryField
+            title="Total Boards"
+            value={formateNumber(project?.totalBoards || 0)}
+          />
+        </Box>
       </Box>
     );
   };
@@ -225,63 +223,45 @@ const ProjectList = (props: any) => {
     history.push(replaceStr(PROJECT_DASHBOARD, ":projectId", project?._id));
   };
 
-  const renderCardActions = (project: { [Key: string]: any }) => {
-    return (
-      <Box display="flex" justifyContent="space-between">
-        <Box display="flex" className={boxStyle}>
-          <Box className={boxTextStyle}>
-            <Typography color="primary" variant="body2">
-              {formateNumber(project?.totalBoards || 0)}
-              {project?.totalBoards == 1 ? " board" : " boards"}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
-
   return (
-    <React.Fragment>
-      <List>
-        <Grid container spacing={2}>
-          {!loading && Array.isArray(projects)
-            ? projects.map((project: { [Key: string]: any }, index: number) => (
-                <Grid
-                  key={project?._id}
-                  item
-                  xl={3}
-                  lg={3}
-                  md={4}
-                  sm={6}
-                  xs={12}
-                >
-                  <Card className={cardStyle}>
-                    <CardHeader
-                      avatar={
+    <Suspense fallback={<ListSkeleton />}>
+      {loading && <ListSkeleton />}
+      <Grid container spacing={2}>
+        {!loading && Array.isArray(projects)
+          ? projects.map((project: { [Key: string]: any }, index: number) => (
+              <Grid key={project?._id} item xl={3} lg={3} md={4} sm={6} xs={12}>
+                <Box className={boxMainStyle}>
+                  <Box className={`${boxTopGridStyle}`}></Box>
+                  <Box className={boxGridStyle}>
+                    <Box className={iconBoxStyle}>
+                      <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        p={0.5}
+                      >
                         <AssignmentIcon
-                          style={{ background: getRandomBGColor() }}
                           className={avatarBoxStyle}
                           color="secondary"
                         />
-                      }
-                      action={renderCardAction(project)}
-                      title={renderCardTitle(project)}
-                      subheader={renderCardSubTitle(project)}
-                      style={{ padding: "10px 0px 0px 15px" }}
-                    />
-                    <CardContent>
-                      {renderCardContent(project, index)}
-                      <Box ml={2} mb={1}>
-                        {renderCardActions(project)}
                       </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))
-            : null}
-        </Grid>
-      </List>
-    </React.Fragment>
+                    </Box>
+                    <Box display="flex" justifyContent="space-between">
+                      {renderCardTitle(project)}
+                      {renderCardAction(project)}
+                    </Box>
+                    <Box>
+                      <Typography component="p">
+                        {renderCardContent(project, index)}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+            ))
+          : null}
+      </Grid>
+    </Suspense>
   );
 };
 

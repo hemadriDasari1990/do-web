@@ -45,7 +45,7 @@ export function toTitleCase(str: string) {
   );
 }
 
-const elipseName = (input: string, inputLength: number) => {
+export const elipseName = (input: string, inputLength: number) => {
   if (!input) {
     return;
   }

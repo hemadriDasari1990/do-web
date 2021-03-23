@@ -4,6 +4,7 @@ import {
   GET_TEAMS,
   GET_TEAM_DETAILS,
   UPDATE_TEAM,
+  SEND_INVITE_TO_TEAMS,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
@@ -33,4 +34,8 @@ export const addOrRemoveMemberFromTeam = (
     method: "PUT",
     data: payload,
   });
+};
+
+export const sendInvitationToTeams = (payload: { [Key: string]: any }) => {
+  return API(SEND_INVITE_TO_TEAMS, { method: "POST", data: payload });
 };

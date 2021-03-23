@@ -1,6 +1,5 @@
 import board from "./board";
 import { combineReducers } from "redux";
-import common from "./common";
 import department from "./department";
 import feedback from "./feedback";
 import login from "./login";
@@ -17,7 +16,6 @@ const appReducer: any = combineReducers({
   section: section,
   note: note,
   feedback: feedback,
-  common: common,
   reaction: reaction,
   user: user,
   project: project,

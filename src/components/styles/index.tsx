@@ -9,23 +9,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   countStyle: {
     borderRadius: 5,
-    border: "1px solid #0072ff",
+    border: "1px solid #1e1e58",
     minWidth: 30,
     height: 30,
     [theme.breakpoints.down("xl")]: {
-      marginTop: 6,
+      marginTop: 14,
     },
     [theme.breakpoints.down("lg")]: {
-      marginTop: 6,
+      marginTop: 14,
     },
     [theme.breakpoints.down("md")]: {
-      marginTop: 6,
+      marginTop: 14,
     },
     [theme.breakpoints.down("sm")]: {
-      marginTop: 6,
+      marginTop: 14,
     },
     [theme.breakpoints.down("xs")]: {
-      marginTop: 6,
+      marginTop: 14,
     },
   },
   countTextStyle: {
@@ -46,6 +46,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 5,
     fontSize: 30,
     padding: 2,
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
   },
   boxTextStyle: {
     padding: "3px 10px 3px 10px",
@@ -54,11 +56,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "#f7fafd",
     borderRadius: 6,
   },
-  plusTwoIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
-  },
   disAgreeIconStyle: {
     background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
+  },
+  plusTwoIconStyle: {
+    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
   },
   loveIconStyle: {
     background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
@@ -83,14 +85,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   iconBoxStyle: {
     backgroundColor: "rgb(255, 255, 255)",
-    backgroundImage:
-      "url(https://images.ctfassets.net/rz1oowkt5gyp/6BxNFw17kxuj7w8JU9vpQC/3d75f49…/Tour-TemplateIcon-Trello-SVG.svg)",
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     border: "3px solid rgb(255, 255, 255)",
     borderRadius: "0.5rem",
-    height: "3rem",
     left: "1rem",
     position: "absolute",
     top: "-1.5rem",
@@ -113,6 +112,39 @@ const useStyles = makeStyles((theme: Theme) => ({
   descriptionStyle: {
     fontSize: "1rem",
     margin: "0.5rem 0px 0px",
+  },
+  logoIconStyle: {
+    padding: 3,
+    borderRadius: "50%",
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    width: 25,
+    height: 25,
+  },
+  n30: {
+    backgroundColor: "#EBECF0",
+  },
+  captionTextStyle: {
+    borderRadius: 3,
+    fontSize: ".8rem",
+    fontWeight: 600,
+    textTransform: "uppercase",
+    padding: "5px 5px",
+    lineHeight: 1,
+    whiteSpace: "nowrap",
+    verticalAlign: "middle",
+  },
+  sideNoteStyle: {
+    padding: 30,
+  },
+  sideNoteTitleStyle: {
+    fontWeight: 600,
+  },
+  logoTextStyle: {
+    fontSize: 32,
+  },
+  primaryAvatarStyle: {
+    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
   },
 }));
 

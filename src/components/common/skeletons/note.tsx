@@ -4,33 +4,22 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { makeStyles } from "@material-ui/core/styles";
 import useStyles from "../../styles";
-
-const useLocalStyles = makeStyles((theme) => ({
-  card: {
-    margin: theme.spacing(2),
-  },
-  media: {
-    height: 70,
-    borderRadius: 6,
-    background:
-      "linear-gradient(90deg, #e7eaec, rgb(230 235 239), transparent)",
-  },
-}));
+import useSkeletonStyle from "./styles";
 
 export default function NoteSkeleton() {
-  const classes = useLocalStyles();
   const {
     plusTwoIconStyle,
     disAgreeIconStyle,
     loveIconStyle,
     deserveIconStyle,
   } = useStyles();
+  const { contentStyle } = useSkeletonStyle();
+
   return (
     <Card>
       <CardContent>
-        <Skeleton animation="wave" variant="rect" className={classes.media} />
+        <Skeleton animation="wave" variant="rect" className={contentStyle} />
       </CardContent>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box display="flex" justifyContent="space-between">

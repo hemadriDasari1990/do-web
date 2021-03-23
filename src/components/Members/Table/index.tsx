@@ -147,7 +147,7 @@ const DoTable = (props: TableProps) => {
                 >
                   <Button color="primary" onClick={() => handleViewItem(td)}>
                     <Box display="flex">
-                      <Tooltip title={`View ${td?.name}`}>
+                      <Tooltip arrow title={`View ${td?.name}`}>
                         <Typography variant="h5">{td.name} </Typography>
                       </Tooltip>
                       {td.isAuthor && (
@@ -236,20 +236,22 @@ const DoTable = (props: TableProps) => {
                       max={4}
                       classes={{ avatar: `${avatarStyle} ${avatarGroupStyle}` }}
                     >
-                      {td?.teams?.map((team: { [Key: string]: any }) => (
-                        <Avatar
-                          key={team._id}
-                          alt={team?.team?.name}
-                          className={avatarStyle}
-                          style={{ background: getRandomBGColor() }}
-                        >
-                          <Tooltip title={team?.team?.name}>
-                            <Typography variant="h5">
-                              {team?.team?.name?.substring(0, 1) || ""}
-                            </Typography>
-                          </Tooltip>
-                        </Avatar>
-                      ))}
+                      {td?.teams?.map(
+                        (team: { [Key: string]: any }, index: number) => (
+                          <Avatar
+                            key={team._id}
+                            alt={team?.team?.name}
+                            className={avatarStyle}
+                            style={{ background: getRandomBGColor(index) }}
+                          >
+                            <Tooltip arrow title={team?.team?.name}>
+                              <Typography variant="h6" color="secondary">
+                                {team?.team?.name?.substring(0, 1) || ""}
+                              </Typography>
+                            </Tooltip>
+                          </Avatar>
+                        )
+                      )}
                     </AvatarGroup>
                   ) : (
                     "No Team"
@@ -264,7 +266,7 @@ const DoTable = (props: TableProps) => {
                   // padding="none"
                   colSpan={1}
                 >
-                  <Tooltip title={`View Team ${td?.name}`}>
+                  <Tooltip arrow title={`View Team ${td?.name}`}>
                     <IconButton
                       size="small"
                       className={iconButtonStyle}
@@ -287,7 +289,7 @@ const DoTable = (props: TableProps) => {
                   padding="checkbox"
                   colSpan={1}
                 >
-                  <Tooltip title={`View Team ${td?.name}`}>
+                  <Tooltip arrow title={`View Team ${td?.name}`}>
                     <IconButton
                       size="small"
                       className={iconButtonStyle}

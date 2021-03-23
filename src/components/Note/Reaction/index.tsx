@@ -12,8 +12,9 @@ import Popover from "@material-ui/core/Popover";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
+import useStyles from "../../styles";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useLocalStyles = makeStyles((theme: Theme) => ({
   popover: {
     // pointerEvents: 'none',
   },
@@ -23,21 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0.5),
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
-  disAgreeIconStyle: {
-    background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
-  },
-  plusTwoIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
-  },
-  loveIconStyle: {
-    background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
-  },
-  plusIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
-  },
-  deserveIconStyle: {
-    background: "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)",
-  },
+
   reactionStyle: {
     fontSize: 14,
   },
@@ -45,10 +32,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function ReactionPopover(props: any) {
   const { anchorEl, note, handlePopoverClose, handleReaction } = props;
+  const { popover, paper, reactionStyle } = useLocalStyles();
   const {
-    popover,
-    paper,
-    reactionStyle,
     disAgreeIconStyle,
     plusTwoIconStyle,
     loveIconStyle,
@@ -80,7 +65,7 @@ function ReactionPopover(props: any) {
           <Box display="flex" justifyContent="space-between">
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="I Disagree" placement="top">
+                <Tooltip arrow title="I Disagree" placement="top">
                   <IconButton
                     className={disAgreeIconStyle}
                     color="secondary"
@@ -96,7 +81,7 @@ function ReactionPopover(props: any) {
             </Box>
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="I Love it" placement="top">
+                <Tooltip arrow title="I Love it" placement="top">
                   <IconButton
                     className={loveIconStyle}
                     color="secondary"
@@ -112,7 +97,7 @@ function ReactionPopover(props: any) {
             </Box>
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="+1" placement="top">
+                <Tooltip arrow title="+1" placement="top">
                   <IconButton
                     className={plusIconStyle}
                     color="secondary"
@@ -128,7 +113,7 @@ function ReactionPopover(props: any) {
             </Box>
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="+2" placement="top">
+                <Tooltip arrow title="+2" placement="top">
                   <IconButton
                     className={plusTwoIconStyle}
                     color="secondary"
@@ -144,7 +129,7 @@ function ReactionPopover(props: any) {
             </Box>
             <Box>
               <Zoom in={true} timeout={1500}>
-                <Tooltip title="Deserve" placement="top">
+                <Tooltip arrow title="Deserve" placement="top">
                   <IconButton
                     className={deserveIconStyle}
                     color="secondary"

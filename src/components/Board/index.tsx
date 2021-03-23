@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
+import { useProjectLoading } from "../../redux/state/project";
+
 import { useHistory, useParams } from "react-router";
-import { useProject, useProjectLoading } from "../../redux/state/project";
+import { useProject } from "../../redux/state/project";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
@@ -18,9 +20,15 @@ import { getProjectDetails } from "../../redux/actions/project";
 import { replaceStr } from "../../util";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
+import ListSkeleton from "../common/skeletons/list";
+// import SortOutlinedIcon from "@material-ui/icons/SortOutlined";
+import { sendInvitationToTeams } from "../../redux/actions/team";
+import formateNumber from "../../util/formateNumber";
+import { PER_PAGE } from "../../util/constants";
+import { useTeam, useTeamLoading } from "../../redux/state/team";
+import Caption from "../common/Caption";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
-const Loader = React.lazy(() => import("../Loader/components"));
 const BoardList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const UpdateBoard = React.lazy(() => import("./Update"));
@@ -45,6 +53,13 @@ const BoardDashboard = () => {
   const { loading: projectLoading } = useProjectLoading();
   const { board } = useBoard();
   const history = useHistory();
+  const { inviteBoardResponse, inviteSent } = useTeam();
+  const { loading: teamLoading } = useTeamLoading();
+
+  /**
+   * Utility function to paginate
+   */
+  // const observer: any = useRef();
 
   /* React states */
   const [boards, setBoards] = useState<Array<{ [Key: string]: any }>>([]);
@@ -55,19 +70,46 @@ const BoardDashboard = () => {
   const [showBoardForm, setShowBoardForm] = useState(false);
   const [totalBoards, setTotalBoards] = useState(totalBoardsCount);
   const [openError, setOpenError] = useState(false);
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [apiCalled, setApiCalled] = useState(false);
 
   /* React Hooks */
   useEffect(() => {
-    dispatch(getProjectDetails(projectId));
+    initProject();
   }, []);
 
+  const initProject = () => {
+    setApiCalled(false);
+    dispatch(getProjectDetails(projectId, limit, offset));
+    setApiCalled(true);
+  };
+
+  // const lastBoard = useCallback((node) => {
+  //   if (projectLoading) return;
+  //   if (observer.current) observer.current.disconnect();
+  //   observer.current = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting) {
+  //         initProject();
+  //       }
+  //     },
+  //     { threshold: 1 }
+  //   );
+
+  //   if (node) observer.current.observe(node);
+  // }, []);
+
   useEffect(() => {
-    if (boardsList) {
+    if (!projectLoading && apiCalled && boardsList) {
       setShowBoardForm(false);
       setBoards(boardsList);
+      setLimit(limit + PER_PAGE);
+      setOffset(limit);
       setTotalBoards(totalBoardsCount);
+      setApiCalled(false);
     }
-  }, [boardsList]);
+  }, [boardsList, apiCalled, projectLoading]);
 
   useEffect(() => {
     if (!openError && !loading && board?.errorId) {
@@ -82,6 +124,7 @@ const BoardDashboard = () => {
       setTotalBoards(boardsList?.length);
       setSelectedBoard({});
       handleCloseDeleteDialog();
+      setOpenDeleteDialog(false);
     }
 
     if (!loading && board?._id) {
@@ -97,8 +140,8 @@ const BoardDashboard = () => {
         setBoards(boardsList);
       } else {
         setBoards((currentBoards: Array<{ [Key: string]: any }>) => [
-          ...currentBoards,
           board,
+          ...currentBoards,
         ]);
         setTotalBoards(totalBoards + 1);
       }
@@ -107,12 +150,29 @@ const BoardDashboard = () => {
     }
   }, [loading, board]);
 
+  useEffect(() => {
+    if (!teamLoading && inviteSent && inviteBoardResponse) {
+      const boardsList = [...boards];
+      const boardIndex = boardsList.findIndex(
+        (b: { [Key: string]: any }) => b._id === inviteBoardResponse._id
+      );
+      const boardData = boards[boardIndex];
+      if (boardData) {
+        boardData.inviteSent = inviteBoardResponse.inviteSent;
+        boardData.inviteCount = inviteBoardResponse.inviteCount;
+        boardsList[boardIndex] = boardData;
+        setBoards(boardsList);
+      }
+      setSelectedBoard({});
+    }
+  }, [teamLoading, inviteBoardResponse, inviteSent]);
+
   /* Handler functions */
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
   };
 
-  const handleMenu = async (
+  const handleMenu = (
     event: React.MouseEvent<HTMLDivElement | MouseEvent>,
     val: string
   ) => {
@@ -123,6 +183,16 @@ const BoardDashboard = () => {
       case "delete":
         setOpenDeleteDialog(true);
         break;
+      case "invite":
+        dispatch(
+          sendInvitationToTeams({
+            teamIds: selectedBoard?.teams?.map(
+              (team: { [Key: string]: any }) => team?._id
+            ),
+            boardId: selectedBoard?._id,
+          })
+        );
+        break;
       default:
         break;
     }
@@ -130,7 +200,6 @@ const BoardDashboard = () => {
 
   const handleDelete = () => {
     dispatch(deleteBoard(selectedBoard._id));
-    setOpenDeleteDialog(false);
   };
 
   const renderDeleteDialog = () => {
@@ -144,6 +213,7 @@ const BoardDashboard = () => {
           handleSave={handleDelete}
           handleClose={handleClose}
           maxWidth={440}
+          loading={loading}
         >
           <Typography variant="h4">
             {" "}
@@ -220,9 +290,10 @@ const BoardDashboard = () => {
     );
   };
 
+  // const handleSort = () => {};
+
   return (
-    <React.Fragment>
-      <Loader enable={loading || projectLoading} />
+    <Suspense fallback={<ListSkeleton />}>
       {renderDeleteDialog()}
       {renderSnackbar()}
       <Box className={root}>
@@ -243,13 +314,16 @@ const BoardDashboard = () => {
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">{project?.title}</Typography>
                 </Hidden>
-                <Tooltip title="Total Boards">
+                <Tooltip arrow title="Total Boards">
                   <Box ml={2} className={countStyle}>
                     <Typography color="primary" className={countTextStyle}>
-                      {totalBoards}
+                      {formateNumber(totalBoards) || 0}
                     </Typography>
                   </Box>
                 </Tooltip>
+                <Box ml={1} mt={2.2}>
+                  <Caption title="Boards" />
+                </Box>
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={8} sm={12} xs={12}>
@@ -265,6 +339,7 @@ const BoardDashboard = () => {
                     <KeyboardBackspaceOutlinedIcon color="primary" />
                   </IconButton>
                 </Hidden>
+
                 <Hidden only={["xs", "sm"]}>
                   <Box className={buttonStyle}>
                     <Button
@@ -281,9 +356,19 @@ const BoardDashboard = () => {
                     </Button>
                   </Box>
                 </Hidden>
+
                 {boards?.length ? (
                   <Box className={buttonStyle}>{renderCreateNewBoard()}</Box>
                 ) : null}
+                {/* <Hidden only={["xs", "sm"]}>
+                  <IconButton
+                    size="small"
+                    className={iconBackStyle}
+                    onClick={() => handleSort()}
+                  >
+                    <SortOutlinedIcon color="primary" />
+                  </IconButton>
+                </Hidden> */}
               </Box>
             </Grid>
             {/* {boards?.length ? (
@@ -293,7 +378,7 @@ const BoardDashboard = () => {
             ) : null} */}
           </Grid>
         </Box>
-        {!loading && (!boards || !boards?.length) && (
+        {!projectLoading && (!boards || !boards?.length) && (
           <Box mt={10}>
             <NoRecords message="No Boards found! Please add" />
             <Box mt={5} textAlign="center">
@@ -306,16 +391,18 @@ const BoardDashboard = () => {
           openDialog={showBoardForm}
           handleUpdateForm={handleUpdateForm}
         />
+
         <Box>
           <BoardList
             boards={boards}
             handleMenu={handleMenu}
             setSelectedBoard={setSelectedBoard}
             selectedBoard={selectedBoard}
+            // lastBoard={lastBoard}
           />
         </Box>
       </Box>
-    </React.Fragment>
+    </Suspense>
   );
 };
 

@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   timerTextStyle: {
-    color: "#0072ff",
+    color: "#1e1e58",
     top: "50%",
     position: "relative",
     transform: "translateY(-50%)",
@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
   },
   boxStyle: {
     borderRadius: 5,
-    backgroundColor: "#f3f8ff",
+    backgroundColor: "#1f1f581c",
     height: 40,
     width: 40,
   },
@@ -68,7 +68,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
   }, []);
 
   return (
-    <Box display="flex">
+    <Box display="flex" mr={2}>
       <Box ml={1} className={boxStyle}>
         <Typography className={timerTextStyle} variant="h3">
           {time?.days}
@@ -78,7 +78,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
         <Typography variant="h3"> &nbsp;days</Typography>
       </Box>
       <Box ml={1} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h3">
+        <Typography className={timerTextStyle} variant="h4">
           {time?.hours}
         </Typography>
       </Box>
@@ -86,15 +86,15 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
         <Typography variant="h3"> &nbsp;hrs</Typography>
       </Box>
       <Box ml={1} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h3">
+        <Typography className={timerTextStyle} variant="h4">
           {time?.minutes}
         </Typography>
       </Box>
       <Box>
         <Typography variant="h3"> &nbsp;mins</Typography>
       </Box>
-      <Box mr={1} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h3">
+      <Box mr={0.3} className={boxStyle}>
+        <Typography className={timerTextStyle} variant="h4">
           {time?.seconds}
         </Typography>
       </Box>

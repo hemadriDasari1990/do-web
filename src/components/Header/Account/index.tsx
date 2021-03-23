@@ -18,13 +18,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../../socket";
 import { useHistory } from "react-router-dom";
 import { useUser } from "../../../redux/state/user";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/actions/login";
 
 const useStyles = makeStyles(() => ({
   avatar: {
     width: 110,
     height: 110,
     margin: "auto",
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
   },
   logoutAvatar: {
     backgroundColor: "#ffe1e1",
@@ -51,8 +54,10 @@ const UserAccount = (props: any) => {
   } = useStyles();
   const { name } = useUser();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
+    dispatch(logout());
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("refreshToken");
     socket.off("login-success");
@@ -95,7 +100,7 @@ const UserAccount = (props: any) => {
                 </Avatar>
               </Slide>
             </ListItemAvatar>
-            <Tooltip title="Manage Account" placement="bottom-start">
+            <Tooltip arrow title="Manage Account" placement="bottom-start">
               <ListItemText
                 primary="Manage Account"
                 secondary="Update Settings or manage account"
@@ -121,7 +126,7 @@ const UserAccount = (props: any) => {
                 </Avatar>
               </Slide>
             </ListItemAvatar>
-            <Tooltip title="Log Out" placement="bottom-start">
+            <Tooltip arrow title="Log Out" placement="bottom-start">
               <ListItemText
                 primary="Log Out"
                 secondary="You'll be logged out"

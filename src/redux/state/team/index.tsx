@@ -7,6 +7,8 @@ export function useTeam() {
     totalMembers: state.team.response?.totalMembers,
     teams: state.team.teams,
     totalTeams: state.team.totalTeams,
+    inviteBoardResponse: state.team.response?.board,
+    inviteSent: state.team.response?.inviteSent,
   }));
 }
 

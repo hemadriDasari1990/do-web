@@ -8,7 +8,7 @@ import {
   Droppable,
   DroppableProvided,
 } from "react-beautiful-dnd";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { deleteSection, updateSection } from "../../redux/actions/section";
 import { reorder, replaceStr } from "../../util";
@@ -44,14 +44,15 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useParams } from "react-router";
 import useStyles from "../styles";
+import { getMembers } from "../../util/member";
+import SectionsListSkeleton from "../common/skeletons/sectionsList";
 
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const UpdateSection = React.lazy(() => import("./Update"));
-// const Loader = React.lazy(() => import("../Loader/components"));
+const AvatarGroupList = React.lazy(() => import("../common/AvatarGroupList"));
 const Timer = React.lazy(() => import("../common/Timer"));
-const SectionSkeleton = React.lazy(() => import("../common/skeletons/section"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   sectionHeader: {
@@ -62,12 +63,12 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     width: "fit-content",
   },
   sectionGridStyle: {
-    border: "2px solid #0072ff",
+    border: "2px solid #1e1e58",
     borderRadius: 6,
   },
   sectionStyle: {
     backgroundColor: "#d8d8d833",
-    borderRadius: 10,
+    borderRadius: 6,
   },
   listItemStyle: {
     cursor: "pointer",
@@ -86,6 +87,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
   startSessionTextStyle: {
     color: "#0fe220",
+    fontWeight: 600,
   },
   stopSessionIconStyle: {
     borderRadius: "50%",
@@ -104,15 +106,16 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
   stopSessionTextStyle: {
     color: "#ff0000",
+    fontWeight: 600,
   },
   boxStyle: {
     width: "fit-content",
     borderRadius: 6,
-    backgroundColor: "#f2f8ff",
+    backgroundColor: "#e9e9ec",
   },
   boxTextStyle: {
     padding: "3px 15px 3px 15px",
-    color: "#0072ff",
+    color: "#1e1e58",
     fontWeight: 500,
   },
 }));
@@ -436,7 +439,7 @@ const SectionList = () => {
   const renderMenuAction = (item: { [Key: string]: any }) => {
     return (
       <>
-        <Tooltip title="Update">
+        <Tooltip arrow title="Update">
           <IconButton
             id={item?._id}
             size="small"
@@ -609,7 +612,7 @@ const SectionList = () => {
   };
 
   return (
-    <React.Fragment>
+    <Suspense fallback={<SectionsListSkeleton />}>
       {/* <Loader enable={loading} /> */}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
@@ -617,19 +620,26 @@ const SectionList = () => {
       <Grid container spacing={2}>
         <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
           <Box display="flex">
-            <Hidden only={["xs"]}>
-              <Typography variant="h1">{boardDetails?.title}</Typography>
-            </Hidden>
-            <Hidden only={["xl", "lg", "md", "sm"]}>
+            <Box mt={1.4}>
               <Typography variant="h2">{boardDetails?.title}</Typography>
-            </Hidden>
-            <Tooltip title="Total Sections">
+            </Box>
+            <Tooltip arrow title="Total Sections">
               <Box ml={2} className={countStyle}>
                 <Typography color="primary" className={countTextStyle}>
                   {totalSections}
                 </Typography>
               </Box>
             </Tooltip>
+            {boardDetails?.teams?.length ? (
+              <Box ml={2} mt={1.8}>
+                <AvatarGroupList dataList={boardDetails?.teams} />
+              </Box>
+            ) : null}
+            {boardDetails?.teams?.length ? (
+              <Box ml={2} mt={1.8}>
+                <AvatarGroupList dataList={getMembers(boardDetails?.teams)} />
+              </Box>
+            ) : null}
           </Box>
         </Grid>
         <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
@@ -667,10 +677,7 @@ const SectionList = () => {
                     }
                     onClick={() => handleStartSession()}
                   >
-                    <Typography
-                      className={startSessionTextStyle}
-                      variant="subtitle1"
-                    >
+                    <Typography className={startSessionTextStyle} variant="h6">
                       Start Session
                     </Typography>
                   </Button>
@@ -694,7 +701,7 @@ const SectionList = () => {
                   >
                     <Typography
                       color="primary"
-                      variant="subtitle1"
+                      variant="h6"
                       className={stopSessionTextStyle}
                     >
                       End Session
@@ -735,22 +742,7 @@ const SectionList = () => {
           </Box>
         </Grid>
       </Grid>
-      {loading ? (
-        <Grid container spacing={2}>
-          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-            <SectionSkeleton />
-          </Grid>
-          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-            <SectionSkeleton />
-          </Grid>
-          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-            <SectionSkeleton />
-          </Grid>
-          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-            <SectionSkeleton />
-          </Grid>
-        </Grid>
-      ) : null}
+      {loading ? <SectionsListSkeleton /> : null}
       {!loading && (
         <DragDropContext onDragEnd={onDragEnd}>
           <List>
@@ -815,7 +807,7 @@ const SectionList = () => {
                                           className={`${titleStyle}`}
                                         >
                                           <Box>
-                                            <Tooltip title={item.title}>
+                                            <Tooltip arrow title={item.title}>
                                               <Typography
                                                 className={sectionHeader}
                                                 variant="h3"
@@ -825,7 +817,7 @@ const SectionList = () => {
                                             </Tooltip>
                                           </Box>
                                           <Box className={countStyle}>
-                                            <Tooltip title="Total Notes">
+                                            <Tooltip arrow title="Total Notes">
                                               <Typography
                                                 color="primary"
                                                 className={countTextStyle}
@@ -868,7 +860,7 @@ const SectionList = () => {
       {!loading && !sections?.length && (
         <NoRecords message="No Sections found" />
       )}
-    </React.Fragment>
+    </Suspense>
   );
 };
 

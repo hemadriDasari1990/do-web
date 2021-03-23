@@ -44,7 +44,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     justifyContent: "center" /* Centering y-axis */,
     alignItems: "center",
-    // background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    // background: "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
   },
   avatarTextStyle: {
@@ -68,7 +68,8 @@ const useStyles = makeStyles(() => ({
     borderRadius: 6,
   },
   iconButtonStyle: {
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
     borderRadius: 6,
   },
   iconButtonGridStyle: {
@@ -156,7 +157,7 @@ const Users = () => {
                           <Box
                             className={imageBoxGridStyle}
                             style={{
-                              background: getRandomBGColor(),
+                              background: getRandomBGColor(index),
                             }}
                           >
                             <Avatar
@@ -166,6 +167,7 @@ const Users = () => {
                               <Typography
                                 variant="h1"
                                 className={avatarTextStyle}
+                                color="secondary"
                               >
                                 {user?.name ? user?.name.substring(0, 1) : ""}
                               </Typography>
@@ -203,7 +205,7 @@ const Users = () => {
           // py={5}
         >
           <Box mr={5}>
-            <Tooltip title="Left">
+            <Tooltip arrow title="Left">
               <IconButton
                 size="small"
                 className={iconButtonStyle}
@@ -214,7 +216,7 @@ const Users = () => {
             </Tooltip>
           </Box>
           <Box>
-            <Tooltip title="Right">
+            <Tooltip arrow title="Right">
               <IconButton
                 size="small"
                 className={iconButtonStyle}

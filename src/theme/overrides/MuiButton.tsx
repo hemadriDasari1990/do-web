@@ -4,17 +4,21 @@ export default {
   },
   outlined: {
     // padding: '6px 9px',
-    border: "2px solid #0072ff",
+    border: "2px solid #1e1e58",
     "&:hover": {
-      border: "2px solid #0072ff",
+      border: "2px solid #1e1e58",
     },
   },
   outlinedPrimary: {
     // padding: '6px 9px',
-    border: "2px solid #0072ff",
+    border: "2px solid #1e1e58",
     "&:hover": {
-      border: "2px solid #0072ff",
+      border: "2px solid #1e1e58",
     },
+  },
+  containedPrimary: {
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
   },
   // containedPrimary: {
   //   width: '100%',

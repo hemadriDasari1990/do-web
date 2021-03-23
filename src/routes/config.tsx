@@ -24,3 +24,4 @@ export const PRIVACY_POLICY = "/privacy-policy";
 export const SECURITY = "/security";
 export const FEATURES = "/features";
 export const TEAM = "/team";
+export const RETROSPECTIVE = "/retrospective";

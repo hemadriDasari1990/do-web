@@ -1,7 +1,6 @@
-import { DASHBOARD, MEMBERS_LIST } from "../../../routes/config";
+import { MEMBERS_LIST } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -269,7 +268,7 @@ const TeamDashboard = () => {
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">{user?.name}</Typography>
                 </Hidden>
-                <Tooltip title="Total Teams">
+                <Tooltip arrow title="Total Teams">
                   <Box ml={2} className={countStyle}>
                     <Typography color="primary" className={countTextStyle}>
                       {totalTeams || 0}

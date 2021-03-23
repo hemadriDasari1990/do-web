@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from "react";
 
-import Box from "@material-ui/core/Box";
+// import Grow from "@material-ui/core/Grow";
 import Members from "../../Members";
 import PeopleOutlinedIcon from "@material-ui/icons/PeopleOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
@@ -59,48 +59,44 @@ const DoTabs = (props: any) => {
   const { tabStyle } = useStyles();
 
   const [value, setValue] = useState(0);
-  const [type, setType] = useState("");
 
-  const handleChange = async (index: number, type: string) => {
-    setValue(index);
-    setType(type);
+  const handleChange = (newValue: number) => {
+    setValue(newValue);
   };
-  console.log(type);
-
+  console.log("value", value);
   return (
     <Suspense fallback={<div />}>
-      <Box>
-        <Tabs
-          textColor="primary"
-          value={value}
+      <Tabs
+        textColor="primary"
+        value={value}
+        aria-label="teams"
+        indicatorColor="primary"
+        onChange={(event: React.ChangeEvent<{}>, newValue: number) =>
+          handleChange(newValue)
+        }
+        // centered
+      >
+        <Tab
+          value={0}
+          label={`Teams`}
           aria-label="teams"
-          indicatorColor="primary"
-          // centered
-        >
-          <Tab
-            onClick={() => handleChange(0, "teams")}
-            value={0}
-            label={`Teams`}
-            aria-label="teams"
-            className={tabStyle}
-            icon={<PeopleOutlinedIcon />}
-          />
-          <Tab
-            onClick={() => handleChange(1, "members")}
-            value={1}
-            label={`Members`}
-            aria-label="members"
-            className={tabStyle}
-            icon={<PersonOutlineOutlinedIcon />}
-          />
-        </Tabs>
-        <TabPanel value={value} index={0}>
-          <TeamDashboard />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Members />
-        </TabPanel>
-      </Box>
+          className={tabStyle}
+          icon={<PeopleOutlinedIcon />}
+        />
+        <Tab
+          value={1}
+          label={`Members`}
+          aria-label="members"
+          className={tabStyle}
+          icon={<PersonOutlineOutlinedIcon />}
+        />
+      </Tabs>
+      <TabPanel value={value} index={0}>
+        <TeamDashboard />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Members />
+      </TabPanel>
     </Suspense>
   );
 };

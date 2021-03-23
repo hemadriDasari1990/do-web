@@ -18,6 +18,8 @@ import {
   VERIFY_TOKEN_FAILED,
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
+  LOGOUT_FAILED,
+  LOGOUT_SUCCESS,
 } from "../../actions/login/types";
 
 import { Action } from "redux";
@@ -144,7 +146,17 @@ const login = (state = initialState, action: ReduxAction) => {
       };
 
     case LOGOUT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LOGOUT_SUCCESS:
       return initialState;
+    case LOGOUT_FAILED:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

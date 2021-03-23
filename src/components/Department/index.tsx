@@ -18,12 +18,14 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import useStyles from "../styles";
+import ListSkeleton from "../common/skeletons/list";
+import formateNumber from "../../util/formateNumber";
+import Caption from "../common/Caption";
 
 const DepartmentList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const UpdateDepartment = React.lazy(() => import("./Update"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
-const Loader = React.lazy(() => import("../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const DepartmentDashboard = () => {
@@ -220,28 +222,30 @@ const DepartmentDashboard = () => {
   };
 
   return (
-    <Suspense fallback={<div></div>}>
+    <Suspense fallback={<ListSkeleton />}>
       {renderDeleteDialog()}
       {renderSnackbar()}
-      <Loader enable={loading} />
       <Box className={root}>
         <Box py={2}>
           <Grid container spacing={2}>
             <Grid item xl={8} lg={8} md={6} sm={6} xs={12}>
-              <Box display="flex">
+              <Box display="flex" style={{ verticalAlign: "middle" }}>
                 <Hidden only={["xs"]}>
                   <Typography variant="h1">{user?.name}</Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">{user?.name}</Typography>
                 </Hidden>
-                <Tooltip title="Total Departments">
+                <Tooltip arrow title="Total Departments">
                   <Box ml={2} className={countStyle}>
                     <Typography color="primary" className={countTextStyle}>
-                      {totalDepartments}
+                      {formateNumber(totalDepartments) || 0}
                     </Typography>
                   </Box>
                 </Tooltip>
+                <Box ml={1} mt={2.2}>
+                  <Caption title="Departments" />
+                </Box>
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={6} xs={12}>

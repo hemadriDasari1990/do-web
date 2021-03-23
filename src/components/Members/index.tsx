@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { DASHBOARD } from "../../routes/config";
@@ -12,9 +11,7 @@ import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteMember } from "../../redux/actions/member";
-import { getMemberDetails } from "../../redux/actions/member";
 import { getMembersByUser } from "../../redux/actions/member";
-import { replaceStr } from "../../util";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
@@ -241,7 +238,7 @@ const MemberDashboard = () => {
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">{user?.name}</Typography>
                 </Hidden>
-                <Tooltip title="Total Members">
+                <Tooltip arrow title="Total Members">
                   <Box ml={2} className={countStyle}>
                     <Typography color="primary" className={countTextStyle}>
                       {totalMembers || 0}

@@ -1,22 +1,26 @@
-const fontFamily = "Amaranth, Open Sans, Arial, sans-serif";
-
+const fontFamily =
+  "Charlie Display,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif";
+const textPrimary = "#42526E";
+const textSecondary = "#253858";
 export default {
   gutterBottom: {
     marginBottom: 8,
   },
-  textPrimary: "#031b4e",
-  textSecondary: "#5b6886",
+  textPrimary: textPrimary,
+  textSecondary: textSecondary,
   h1: {
     fontFamily: fontFamily,
     fontWeight: 500,
-    fontSize: 32,
+    fontSize: "2.75rem",
     letterSpacing: "0.76px",
+    color: textSecondary,
   },
   h2: {
     fontFamily: fontFamily,
     fontWeight: 500,
     fontSize: 26,
     letterSpacing: "-0.24px",
+    color: textSecondary,
   },
   h3: {
     fontFamily: fontFamily,
@@ -24,45 +28,50 @@ export default {
     fontSize: 20,
     letterSpacing: "-0.06px",
     lineHeight: 1.8,
+    color: textPrimary,
   },
   h4: {
     fontFamily: fontFamily,
     fontWeight: 500,
     fontSize: 18,
     letterSpacing: "-0.06px",
-    color: "#09204a",
+    color: textPrimary,
   },
   h5: {
     fontFamily: fontFamily,
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: 16,
     letterSpacing: "-0.05px",
+    color: textSecondary,
+    // marginBottom: 24,
   },
   h6: {
     fontFamily: fontFamily,
     fontWeight: 500,
     fontSize: 14,
     letterSpacing: "-0.05px",
-    color: "#5b6886",
+    color: textSecondary,
   },
   subtitle1: {
     fontFamily: fontFamily,
     fontSize: 14,
     letterSpacing: "-0.05px",
-    fontWeight: 600,
+    fontWeight: 400,
+    color: textPrimary,
   },
   subtitle2: {
     fontFamily: fontFamily,
     fontWeight: 400,
     fontSize: 12,
     letterSpacing: "-0.05px",
+    color: textPrimary,
   },
   body1: {
     fontFamily: fontFamily,
     fontSize: 18,
     fontWeight: 500,
     letterSpacing: "-0.05px",
-    color: "#5b6987",
+    color: textPrimary,
   },
   body2: {
     fontFamily: fontFamily,
@@ -70,7 +79,7 @@ export default {
     fontWeight: 500,
     letterSpacing: "-0.04px",
     whiteSpace: "initial",
-    color: "#5b6987",
+    color: textPrimary,
   },
   button: {
     fontFamily: fontFamily,
@@ -85,6 +94,7 @@ export default {
     position: "relative",
     top: -1.5,
     verticalAlign: "middle",
+    color: textPrimary,
   },
   overline: {
     fontFamily: fontFamily,
@@ -94,5 +104,6 @@ export default {
     whiteSpace: "initial",
     textTransform: "capitalize",
     lineHeight: 1.5,
+    color: textPrimary,
   },
 };

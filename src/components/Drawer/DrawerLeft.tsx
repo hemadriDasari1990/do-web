@@ -12,7 +12,6 @@ import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 import NotificationsOutlinedIcon from "@material-ui/icons/NotificationsOutlined";
 import React from "react";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
-import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import { logout } from "../../redux/actions/login";
@@ -20,24 +19,25 @@ import socket from "../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useUser } from "../../redux/state/user";
+import DoLogoIcon from "../common/DoLogoIcon";
 
 const drawerWidth = 70;
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useLocalStyles = makeStyles((theme: Theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
-    background: "#070742",
+    background: "#1e1e58",
     borderRadius: 6,
-    margin: "5px 0px 5px 5px",
+    margin: 5,
   },
   logoIconStyle: {
     padding: 3,
     borderRadius: "50%",
-    backgroundColor: "#0072ff",
+    backgroundColor: "#1e1e58",
     width: 25,
     height: 25,
   },
@@ -63,7 +63,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 6,
     padding: 8,
     "&:hover": {
-      background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+      background:
+        "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
       borderRadius: 6,
       padding: 8,
     },
@@ -74,22 +75,16 @@ export default function PersistentDrawerLeft() {
   const {
     drawer,
     drawerPaper,
-    logoIconStyle,
     avatarStyle,
     iconStyle,
-    cursor,
     iconButtonStyle,
-  } = useStyles();
+  } = useLocalStyles();
   const { name } = useUser();
   const history = useHistory();
   const dispatch = useDispatch();
 
   const handleDashboard = () => {
     history.push(DASHBOARD);
-  };
-
-  const refreshDashboard = () => {
-    handleDashboard();
   };
 
   const handleLogout = async () => {
@@ -119,23 +114,10 @@ export default function PersistentDrawerLeft() {
         anchor="left"
       >
         {/* <Box className={toolbar} flexDirection="column"/> */}
-        <Box
-          my={2}
-          display="flex"
-          justifyContent="center"
-          className={cursor}
-          onClick={() => refreshDashboard()}
-        >
-          <Box mt={1} mr={0.5}>
-            <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
-          </Box>
-          <Box mt={1}>
-            <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
-          </Box>
-        </Box>
+        <DoLogoIcon display="flex" justifyContent="center" my={2} />
         <Box textAlign="center">
           <Box mb={2}>
-            <Tooltip title="Dashbaord" placement="right">
+            <Tooltip arrow title="Dashbaord" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
                   size="medium"
@@ -151,7 +133,7 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box mb={2}>
-            <Tooltip title="Notifications" placement="right">
+            <Tooltip arrow title="Notifications" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
                   size="medium"
@@ -169,7 +151,7 @@ export default function PersistentDrawerLeft() {
         </Box>
         <Box mt="auto" textAlign="center">
           <Box mb={2}>
-            <Tooltip title="Manage Teams" placement="right">
+            <Tooltip arrow title="Manage Teams" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
                   size="medium"
@@ -185,7 +167,7 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box mb={2}>
-            <Tooltip title="Manage Account" placement="right">
+            <Tooltip arrow title="Manage Account" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton size="medium" classes={{ root: iconButtonStyle }}>
                   <SettingsOutlinedIcon
@@ -197,7 +179,7 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box mb={2}>
-            <Tooltip title="Help" placement="right">
+            <Tooltip arrow title="Help" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton size="medium" classes={{ root: iconButtonStyle }}>
                   <HelpOutlineOutlinedIcon
@@ -209,7 +191,7 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box mb={2}>
-            <Tooltip title="Logout" placement="right">
+            <Tooltip arrow title="Logout" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
                   size="medium"
@@ -222,7 +204,7 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box>
-            <Tooltip title={name} placement="right">
+            <Tooltip arrow title={name} placement="right">
               <Zoom in={true} timeout={1500}>
                 <IconButton>
                   <Avatar classes={{ root: avatarStyle }}>

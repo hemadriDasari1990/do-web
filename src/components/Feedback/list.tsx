@@ -15,7 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   avatarStyle: {
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
   },
 });
 
@@ -54,11 +55,11 @@ function FeedbackList(props: any) {
                   />
                   <ListItemSecondaryAction>
                     {feedback.like ? (
-                      <Tooltip title="Likes the tool">
+                      <Tooltip arrow title="Likes the tool">
                         <LikeIcon color="primary" />
                       </Tooltip>
                     ) : (
-                      <Tooltip title="DisLike the tool">
+                      <Tooltip arrow title="DisLike the tool">
                         <DisLikeIcon color="primary" />
                       </Tooltip>
                     )}

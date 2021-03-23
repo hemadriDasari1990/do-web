@@ -13,9 +13,9 @@ import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { getFeedbacks } from "../../redux/actions/feedback";
-import { showCreateBoardButton } from "../../redux/actions/common";
 // import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
+import Wave from "../../assets/wave.svg";
 
 // import { useHistory } from "react-router";
 
@@ -25,7 +25,6 @@ const CreateAccountGrid = React.lazy(() => import("./createAccountGrid"));
 const Summary = React.lazy(() => import("./summary"));
 const UserList = React.lazy(() => import("./users"));
 const AdContainer = React.lazy(() => import("./adContainer"));
-const Features = React.lazy(() => import("../Footer/Features"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   titleStyle: {
@@ -78,7 +77,6 @@ const Home = () => {
   const { loading } = useLoading();
 
   useEffect(() => {
-    dispatch(showCreateBoardButton(true));
     dispatch(getFeedbacks(true));
     // if(authenticated){
     //   history.push(DASHBOARD);
@@ -188,9 +186,6 @@ const Home = () => {
           </Grid>
         </Grid>
 
-        <Box py={3}>
-          <Features />
-        </Box>
         <Box py={5}>
           <Summary />
         </Box>
@@ -209,14 +204,16 @@ const Home = () => {
           </Box>
         ) : null}
       </Container>
-
+      <Box mb={-0.9}>
+        <img src={Wave} />
+      </Box>
       <Box py={5} className={boxGridStyle}>
+        <CreateAccountGrid />
+      </Box>
+      <Box py={5}>
         <Container>
           <UserList />
         </Container>
-      </Box>
-      <Box py={5}>
-        <CreateAccountGrid />
       </Box>
     </React.Fragment>
   );

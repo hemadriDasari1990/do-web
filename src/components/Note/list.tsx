@@ -32,6 +32,7 @@ import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
+// import getRandomBGColor from "../../util/getRandomColor";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -60,7 +61,7 @@ const useStyles = makeStyles(() => ({
   textfieldStyle: {
     "& .MuiFilledInput-root": {
       background: "#fff",
-      borderRadius: 10,
+      borderRadius: 6,
     },
   },
   iconStyle: {
@@ -77,7 +78,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: 5,
   },
   hightlightNoteStyle: {
-    border: "2px solid #0072ff",
+    border: "2px solid #1e1e58",
   },
   pastTimeStyle: {
     verticalAlign: "middle",
@@ -444,7 +445,7 @@ const NoteList = (props: any) => {
         <Menu
           id="note-menu"
           open={open}
-          onClose={handleClose}
+          onClose={handleClickAwayClose}
           anchorEl={clickAwayAnchorEl}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}
@@ -515,6 +516,8 @@ const NoteList = (props: any) => {
     );
   };
 
+  console.log("handleClickAwayClose", open);
+
   return (
     <React.Fragment>
       {renderDeleteDialog()}
@@ -563,6 +566,11 @@ const NoteList = (props: any) => {
                             className={`${paperStyle} ${
                               dragSnapshot.isDragging ? hightlightNoteStyle : ""
                             }`}
+                            // style={{
+                            //   borderBottom: `2px solid ${getRandomBGColor()}`,
+                            //   borderImage: getRandomBGColor(),
+                            //   borderImageSlice: 1,
+                            // }}
                           >
                             <Box style={{ minHeight: 40 }}>
                               <Typography variant="h6">
@@ -582,7 +590,7 @@ const NoteList = (props: any) => {
                               <Box display="flex">
                                 {renderPastTime(note)}
                                 {enableActions && (
-                                  <Tooltip title="Add your reaction">
+                                  <Tooltip arrow title="Add your reaction">
                                     <IconButton
                                       className={iconButtonStyle}
                                       aria-label="reaction-menu"
@@ -601,7 +609,7 @@ const NoteList = (props: any) => {
                                   </Tooltip>
                                 )}
                                 {/* {enableActions && (
-                                  <Tooltip title="Add Comment">
+                                  <Tooltip arrow title="Add Comment">
                                     <IconButton
                                       size="small"
                                       aria-label="note-menu"
@@ -616,6 +624,7 @@ const NoteList = (props: any) => {
                                 )} */}
                                 {authenticated && (
                                   <Tooltip
+                                    arrow
                                     title={
                                       note.read
                                         ? "Mark as unread"
@@ -644,6 +653,7 @@ const NoteList = (props: any) => {
                                 )}
                                 {!authenticated && (
                                   <Tooltip
+                                    arrow
                                     title={note.read ? "Read" : "Not read yet"}
                                   >
                                     <DoneAllOutlinedIcon
@@ -653,7 +663,7 @@ const NoteList = (props: any) => {
                                   </Tooltip>
                                 )}
                                 {enableActions && (
-                                  <Tooltip title="Action">
+                                  <Tooltip arrow title="Action">
                                     <IconButton
                                       size="small"
                                       aria-label="note-menu"

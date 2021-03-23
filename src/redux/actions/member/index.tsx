@@ -3,6 +3,7 @@ import {
   GET_MEMBERS_BY_USER_REQUEST,
   GET_MEMBER_REQUEST,
   UPDATE_MEMBER_REQUEST,
+  SEND_INVITATION_REQUEST,
 } from "./types";
 
 export const getMemberDetails = (memberId: string) => {
@@ -29,6 +30,13 @@ export const updateMember = (payload: { [Key: string]: any }) => {
 export const deleteMember = (memberId: string) => {
   return {
     type: DELETE_MEMBER_REQUEST,
+    id: memberId,
+  };
+};
+
+export const sendInvitations = (memberId: string) => {
+  return {
+    type: SEND_INVITATION_REQUEST,
     id: memberId,
   };
 };

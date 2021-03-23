@@ -4,6 +4,7 @@ import {
   watchGetTeamDetails,
   watchGetTeams,
   watchUpdateTeam,
+  watchSendInvitationToTeams,
 } from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
@@ -50,6 +51,7 @@ import {
   watchResetPassword,
   watchValidateForgotPassword,
   watchVerifyToken,
+  watchLogout,
 } from "./login";
 
 import { fork } from "redux-saga/effects";
@@ -63,6 +65,7 @@ function* rootSaga() {
   yield fork(watchResetPassword);
   yield fork(watchValidateForgotPassword);
   yield fork(watchForgotPassword);
+  yield fork(watchLogout);
 
   /* User sagas */
   yield fork(watchCreateUser);
@@ -89,6 +92,7 @@ function* rootSaga() {
   yield fork(watchUpdateTeam);
   yield fork(watchAddOrRemoveMemberFromTeam);
   yield fork(watchGetTeams);
+  yield fork(watchSendInvitationToTeams);
 
   /* Member sagas */
   yield fork(watchGetMemberDetails);

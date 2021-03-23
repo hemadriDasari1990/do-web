@@ -1,37 +1,37 @@
-import React, { useState } from 'react';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 
 const Feedback = React.lazy(() => import("../Feedback"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    transform: 'translateZ(0px)',
+    transform: "translateZ(0px)",
     flexGrow: 1,
   },
   exampleWrapper: {
-    position: 'relative',
+    position: "relative",
     marginTop: theme.spacing(3),
     height: 380,
   },
   speedDial: {
-    position: 'absolute',
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
+    position: "absolute",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
   speedDialAction: {
-    // backgroundImage: 'linear-gradient(90deg, #0072ff 0%, #0095ffba 100%);'
-  }
+    // backgroundImage: 'linear-gradient(90deg, #1e1e58 0%, #0095ffba 100%);'
+  },
 }));
 
 function SpeedDials() {
   const { root, exampleWrapper, speedDial, speedDialAction } = useStyles();
-  
+
   /* Local States */
   const [open, setOpen] = useState(false);
 
@@ -48,10 +48,10 @@ function SpeedDials() {
   };
 
   const renderPopper = () => (
-    <Paper style={{width: "fit-content"}}>
+    <Paper style={{ width: "fit-content" }}>
       <Feedback showFeedbacks={false} />
     </Paper>
-  )
+  );
 
   return (
     <Box className={root}>

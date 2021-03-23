@@ -9,9 +9,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   boxStyle: {
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: 6,
     height: 100,
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    boxShadow: "#e3e3e633 0px 7px 29px 0px",
   },
   summaryGridStyle: {
     minHeight: 300,
@@ -21,8 +21,8 @@ const useStyles = makeStyles(() => ({
     height: 60,
     width: 60,
     margin: "auto auto auto 5px",
-    borderRadius: 10,
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    borderRadius: 6,
+    boxShadow: "#e3e3e633 0px 7px 29px 0px",
   },
   iconStyle: {
     position: "relative",

@@ -2,3 +2,5 @@ export const NOT_FOUND = "NOT_FOUND";
 export const ALREADY_VERIFIED = "ALREADY_VERIFIED";
 export const TOKEN_EXPIRED = "TOKEN_EXPIRED";
 export const INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+
+export const PER_PAGE = 10;

@@ -13,8 +13,8 @@ const useStyles = makeStyles(() => ({
   textfieldStyle: {
     "& .MuiFilledInput-root": {
       background: "#fff",
-      borderRadius: 10,
-      border: "2px solid #0072ff",
+      borderRadius: 6,
+      border: "2px solid #1e1e58",
       paddingTop: "0px !important",
     },
   },
@@ -67,7 +67,7 @@ export default function NoteUpdate(props: any) {
       </Box>
       <Box display="flex" justifyContent="space-between">
         <Box>
-          <Tooltip title="Save Note">
+          <Tooltip arrow title="Save Note">
             <Zoom in={true} timeout={1500}>
               <Button
                 variant="outlined"
@@ -81,7 +81,7 @@ export default function NoteUpdate(props: any) {
           </Tooltip>
         </Box>
         <Box>
-          <Tooltip title="Save Note">
+          <Tooltip arrow title="Save Note">
             <Zoom in={true} timeout={1500}>
               <Button
                 variant="contained"

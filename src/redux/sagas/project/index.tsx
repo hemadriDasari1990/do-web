@@ -18,7 +18,11 @@ import { put, takeLatest } from "redux-saga/effects";
 
 function* callGetProjectDetails(action: { [Key: string]: any }) {
   try {
-    const result = yield getProjectDetails(action.id);
+    const result = yield getProjectDetails(
+      action.id,
+      action.limit,
+      action.offset
+    );
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_PROJECT_SUCCESS, payload: data });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useHistory, useParams } from "react-router";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
@@ -19,12 +19,14 @@ import { useDepartmentLoading } from "../../redux/state/department";
 import { useDispatch } from "react-redux";
 import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
+import ListSkeleton from "../common/skeletons/list";
+import formateNumber from "../../util/formateNumber";
+import Caption from "../common/Caption";
 
 const ProjectList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const CreateProject = React.lazy(() => import("./Update"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
-const Loader = React.lazy(() => import("../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const ProjectDashboard = () => {
@@ -45,9 +47,10 @@ const ProjectDashboard = () => {
     totalProjects: totalProjectsCount,
   } = useDepartment();
   const { loading } = useDepartmentLoading();
-
+  console.log("projectsList", projectsList);
   /* React local states */
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const [apiCalled, setApiCalled] = useState(false);
   const [totalProjects, setTotalProjects] = useState(totalProjectsCount);
   const [projects, setProjects] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -58,16 +61,22 @@ const ProjectDashboard = () => {
 
   /* React Hooks */
   useEffect(() => {
+    setApiCalled(false);
     dispatch(getDepartmentDetails(departmentId));
+    setApiCalled(true);
   }, []);
 
   useEffect(() => {
-    if (projectsList) {
+    if (!loading && apiCalled && projectsList) {
       setShowProjectForm(false);
       setProjects(projectsList);
       setTotalProjects(totalProjectsCount);
+      setApiCalled(false);
     }
-  }, [projectsList]);
+    if (!loading && !projectsList?.length) {
+      setProjects(projectsList);
+    }
+  }, [apiCalled, projectsList, loading]);
 
   useEffect(() => {
     if (!openError && !loading && project?.errorId) {
@@ -219,10 +228,9 @@ const ProjectDashboard = () => {
   };
 
   return (
-    <React.Fragment>
+    <Suspense fallback={<ListSkeleton />}>
       {renderDeleteDialog()}
       {renderSnackbar()}
-      <Loader enable={loading} />
       <Box className={root}>
         <Box py={2}>
           <Grid container spacing={2}>
@@ -241,13 +249,16 @@ const ProjectDashboard = () => {
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">{department?.title}</Typography>
                 </Hidden>
-                <Tooltip title="Total Projects">
+                <Tooltip arrow title="Total Projects">
                   <Box ml={2} className={countStyle}>
                     <Typography color="primary" className={countTextStyle}>
-                      {totalProjects}
+                      {formateNumber(totalProjects) || 0}
                     </Typography>
                   </Box>
                 </Tooltip>
+                <Box ml={1} mt={2.2}>
+                  <Caption title="Projects" />
+                </Box>
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
@@ -307,7 +318,7 @@ const ProjectDashboard = () => {
           />
         </Box>
       </Box>
-    </React.Fragment>
+    </Suspense>
   );
 };
 

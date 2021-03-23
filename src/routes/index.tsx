@@ -34,11 +34,14 @@ const ForgotPassword = React.lazy(
 const ResetPassword = React.lazy(
   () => import("../components/User/ResetPassword")
 );
-
+const Retrospective = React.lazy(
+  () => import("../components/Footer/Retrospective")
+);
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
     [theme.breakpoints.down("xs")]: {},
-    minHeight: !props.authenticated ? "90vh" : "",
+    // padding: "20px 0px",
+    // minHeight: !props.authenticated ? "90vh" : "",
   }),
 }));
 
@@ -103,6 +106,10 @@ const routes = () => {
     {
       path: routePath.RESET_PASSWORD,
       component: ResetPassword,
+    },
+    {
+      path: routePath.RETROSPECTIVE,
+      component: Retrospective,
     },
   ];
 };

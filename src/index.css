@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  font-family: Amaranth, Open Sans, Arial, sans-serif;
+  font-family: Charlie Display, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+  ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* min-height: 100%; */
@@ -8,12 +9,17 @@ body {
   /* background-color: #f3f3f3 !important; */
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-code {
-  font-family: Amaranth, Open Sans, Arial, sans-serif;
+  line-height: 1;
 }
 
 .cursor {
   cursor: "pointer"
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }

@@ -16,17 +16,17 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   iconStyle: {
-    fill: "#0072ff",
+    fill: "#1e1e58",
   },
   sortIconStyle: {
-    fill: "#0072ff",
+    fill: "#1e1e58",
     marginLeft: 20,
     height: 15,
     width: 15,
   },
   tableColumnStyle: {},
   rowStyle: {
-    borderRadius: 10,
+    borderRadius: 6,
   },
 }));
 
@@ -91,7 +91,7 @@ const DoTableHeader = (props: TableHeader) => {
           component="th"
           scope="row"
         >
-          <Tooltip title="Team Members">
+          <Tooltip arrow title="Team Members">
             <Typography variant="h5">Members</Typography>
           </Tooltip>
         </TableCell>
@@ -101,7 +101,7 @@ const DoTableHeader = (props: TableHeader) => {
           component="th"
           scope="row"
         >
-          <Tooltip title="Actions">
+          <Tooltip arrow title="Actions">
             <Typography variant="h5">Actions</Typography>
           </Tooltip>
         </TableCell>
@@ -112,7 +112,7 @@ const DoTableHeader = (props: TableHeader) => {
           scope="row"
           padding="checkbox"
         >
-          <Tooltip title="Refresh Teams">
+          <Tooltip arrow title="Refresh Teams">
             <IconButton onClick={() => handleRefresh()}>
               <RefreshOutlinedIcon className={iconStyle} />
             </IconButton>

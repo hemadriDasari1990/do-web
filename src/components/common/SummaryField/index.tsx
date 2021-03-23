@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -18,18 +18,22 @@ const SummaryField = (props: any) => {
   const { title, value } = props;
   const { titleStyle, valueStyle } = useStyles();
   return (
-    <Suspense fallback={<div />}>
+    <Box flexDirection="column">
       <Box>
         <Typography className={titleStyle} variant="body2">
           {title}
         </Typography>
       </Box>
       <Box>
-        <Typography className={valueStyle} variant="h5">
-          {value}
-        </Typography>
+        {typeof value == "object" ? (
+          value
+        ) : (
+          <Typography className={valueStyle} variant="h6">
+            {value}
+          </Typography>
+        )}
       </Box>
-    </Suspense>
+    </Box>
   );
 };
 

@@ -79,7 +79,7 @@ const ReactionsView = (props: any) => {
 
     return (
       <Zoom in={true} timeout={1500}>
-        <Tooltip title={type}>
+        <Tooltip arrow title={type}>
           <IconButton className={iconStyle} color="secondary" size="small">
             <SvgIcon component={ReactionIcon} className={reactionStyle} />
           </IconButton>

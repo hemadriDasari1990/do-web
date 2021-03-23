@@ -27,6 +27,8 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useUserSummary } from "../../redux/state/user";
+import PlayArrowOutlinedIcon from "@material-ui/icons/PlayArrowOutlined";
+import UpdateBoard from "./Update";
 
 const Banner = React.lazy(() => import("../common/Banner"));
 const InfoCard = React.lazy(() => import("../common/InfoCard"));
@@ -51,6 +53,10 @@ const Dashboard = () => {
 
   /* React states */
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showBoardForm, setShowBoardForm] = useState(false);
+  const [departments, setDepartments] = useState<Array<{ [Key: string]: any }>>(
+    []
+  );
 
   /* Redux hooks */
   const { token, userId } = useLogin();
@@ -59,7 +65,12 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getUserDetails(userId));
     dispatch(getUserSummary(userId));
+    socket.emit(`get-departments`, userId);
   }, []);
+
+  const handleUpdateForm = () => {
+    setShowBoardForm(false);
+  };
 
   useEffect(() => {
     socket.on("login-success", () => {
@@ -70,6 +81,18 @@ const Dashboard = () => {
     };
   }, [token]);
 
+  useEffect(() => {
+    socket.on(
+      "get-departments",
+      (departments: Array<{ [Key: string]: any }>) => {
+        setDepartments(departments);
+      }
+    );
+    return () => {
+      socket.off("get-departments");
+    };
+  }, [userId]);
+
   /* Handler functions */
   const handleSuccessClose = () => {
     setShowSuccess(false);
@@ -77,6 +100,10 @@ const Dashboard = () => {
 
   const viewDepartments = () => {
     history.push(replaceStr(USER_DASHBOARD, ":userId", userId));
+  };
+
+  const handleStartRetro = () => {
+    setShowBoardForm(true);
   };
 
   return (
@@ -99,16 +126,30 @@ const Dashboard = () => {
             <Typography variant="h2">Dashboard</Typography>
           </Hidden>
         </Box>
-        <Box>
-          <Button
-            variant="outlined"
-            onClick={() => viewDepartments()}
-            startIcon={<ViewModuleIcon color="primary" />}
-          >
-            <Typography variant="h6" color="primary">
-              View Departments
-            </Typography>
-          </Button>
+        <Box display="flex">
+          <Box mr={3}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleStartRetro()}
+              startIcon={<PlayArrowOutlinedIcon color="secondary" />}
+            >
+              <Typography variant="h6" color="secondary">
+                Start Retro
+              </Typography>
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              variant="outlined"
+              onClick={() => viewDepartments()}
+              startIcon={<ViewModuleIcon color="primary" />}
+            >
+              <Typography variant="h6" color="primary">
+                View Departments
+              </Typography>
+            </Button>
+          </Box>
         </Box>
         {/* <Box>
                     <Typography variant="h6">Account Created On 28 March 2020</Typography> 
@@ -122,7 +163,7 @@ const Dashboard = () => {
         <Box mb={5}>
           <Typography variant="h2">Teams & Members</Typography>
         </Box>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
             <InfoCard
               icon={GroupOutlinedIcon}
@@ -143,7 +184,7 @@ const Dashboard = () => {
         <Box mb={5}>
           <Typography variant="h2">Departments Summary</Typography>
         </Box>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
             <InfoCard
               icon={PollOutlinedIcon}
@@ -171,7 +212,7 @@ const Dashboard = () => {
         <Box mb={5}>
           <Typography variant="h2">Projects Summary</Typography>
         </Box>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
             <InfoCard
               icon={AccountTreeOutlinedIcon}
@@ -244,6 +285,13 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Box>
+      <UpdateBoard
+        title="Create Board"
+        openDialog={showBoardForm}
+        handleUpdateForm={handleUpdateForm}
+        hideSaveAsDraft={true}
+        departments={departments}
+      />
     </React.Fragment>
   );
 };

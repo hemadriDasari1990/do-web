@@ -26,13 +26,13 @@ const Summary = (props: any) => {
         <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
           <SummaryField title="Disagreed" value={note?.totalDisAgreed} />
         </Grid>
-        <Grid item xl={2} lg={2} md={2} sm={6} xs={12}>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
           <SummaryField
             title="Status"
             value={note?.read ? "Read" : "Not read"}
           />
         </Grid>
-        <Grid item xl={5} lg={5} md={5} sm={6} xs={12}>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
           <SummaryField
             title="Craeted At"
             value={
@@ -46,7 +46,7 @@ const Summary = (props: any) => {
             }
           />
         </Grid>
-        <Grid item xl={5} lg={5} md={5} sm={6} xs={12}>
+        <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
           <SummaryField
             title="Updated At"
             value={

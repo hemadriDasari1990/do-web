@@ -4,6 +4,7 @@ import {
   GET_TEAMS_REQUEST,
   GET_TEAM_REQUEST,
   UPDATE_TEAM_REQUEST,
+  SEND_INVITE_TO_TEAMS_REQUEST,
 } from "./types";
 
 export const getTeamDetails = (teamId: string) => {
@@ -42,5 +43,12 @@ export const addOrRemoveMemberFromTeam = (
     type: ADD_OR_REMOVE_TEAM_MEMBER_REQUEST,
     payload: payload,
     id: teamId,
+  };
+};
+
+export const sendInvitationToTeams = (payload: { [Key: string]: any }) => {
+  return {
+    type: SEND_INVITE_TO_TEAMS_REQUEST,
+    payload: payload,
   };
 };

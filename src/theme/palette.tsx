@@ -1,6 +1,6 @@
-import { colors } from '@material-ui/core'
+import { colors } from "@material-ui/core";
 
-const white = '#FFFFFF'
+const white = "#FFFFFF";
 
 const palette = {
   default: {
@@ -11,9 +11,9 @@ const palette = {
   },
   primary: {
     contrastText: white,
-    dark: '#0072ff',
-    main: '#0072ff',
-    light: '#0072ff',
+    dark: "#1e1e58",
+    main: "#1e1e58",
+    light: "#1e1e58",
   },
   secondary: {
     contrastText: white,
@@ -46,10 +46,10 @@ const palette = {
     light: colors.red[400],
   },
   background: {
-    default: '#fff',
+    default: "#fff",
     paper: white,
   },
-  divider: colors.grey[200]
-}
+  divider: colors.grey[200],
+};
 
 export default palette;

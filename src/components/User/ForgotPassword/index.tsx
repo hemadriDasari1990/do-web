@@ -106,7 +106,7 @@ const ForgotPassword = () => {
           </Box>
           <Box width={350} ml="auto" mr="auto">
             <Box mt={2}>
-              <Typography variant="h1">Reset your password</Typography>
+              <Typography variant="h2">Reset your password</Typography>
             </Box>
             <Box mt={2}>
               <Typography variant="h5">

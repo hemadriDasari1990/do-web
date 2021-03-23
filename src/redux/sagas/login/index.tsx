@@ -17,6 +17,9 @@ import {
   VERIFY_TOKEN_FAILED,
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED,
+  LOGOUT_REQUEST,
 } from "../../actions/login/types";
 import {
   forgotPassword,
@@ -25,6 +28,7 @@ import {
   resetPassword,
   validateForgotPassword,
   verifyToken,
+  logout,
 } from "../../network/login";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -45,6 +49,25 @@ function* callLogin(action: { [Key: string]: any }) {
 
 export function* watchLogin() {
   yield takeLatest(LOGIN_REQUEST, callLogin);
+}
+
+function* callLogout() {
+  try {
+    const result = yield logout();
+    const status = result?.status;
+    const data = result?.data;
+    if (status === 200 && data?.token) {
+      sessionStorage.setItem("token", data?.token);
+      sessionStorage.setItem("refreshToken", data?.refreshToken);
+      yield put({ type: LOGOUT_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({ type: LOGOUT_FAILED, payload: err.response.data });
+  }
+}
+
+export function* watchLogout() {
+  yield takeLatest(LOGOUT_REQUEST, callLogout);
 }
 
 function* callVerifyToken(action: { [Key: string]: any }) {

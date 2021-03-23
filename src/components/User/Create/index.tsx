@@ -14,6 +14,7 @@ import { createUser } from "../../../redux/actions/user";
 import { emailRegex } from "../../../util/regex";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import DoLogo from "../../common/DoLogo";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 const Loader = React.lazy(() => import("../../Loader/components"));
@@ -105,9 +106,7 @@ const Create = () => {
     if (!name.trim().length) {
       return true;
     }
-    if (!description.trim().length) {
-      return true;
-    }
+
     if (!email.trim().length || !emailRegex.test(email)) {
       return true;
     }
@@ -147,9 +146,12 @@ const Create = () => {
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
+      <Box my={5}>
+        <DoLogo justifyContent="center" />
+      </Box>
       <Box maxWidth={400} m="auto" className={boxStyle}>
-        <Box pt={5} textAlign="center">
-          <Typography variant="h1">Signup for your account</Typography>
+        <Box textAlign="center">
+          <Typography variant="h3">Signup for your account</Typography>
         </Box>
         <TextField
           name="name"
@@ -166,12 +168,11 @@ const Create = () => {
         <TextField
           name="description"
           id="description"
-          label="Description"
-          placeholder="Enter description about user"
+          label="Description (Optional)"
+          placeholder="Enter description about account"
           value={description}
           onChange={handleInput}
           autoComplete="off"
-          required
           fullWidth
           className={textFieldStyle}
         />
@@ -213,38 +214,41 @@ const Create = () => {
           fullWidth
           className={textFieldStyle}
         />
-        <Box mt={1}>
+        <Box mt={1} mb={2}>
           <FormControlLabel
+            labelPlacement="end"
             control={
-              <Checkbox
-                checked={isAgreed}
-                onChange={handleAgreed}
-                value="false"
-                color="primary"
-                name="isAgreed"
-              />
+              <Box mt={-0.3}>
+                <Checkbox
+                  checked={isAgreed}
+                  onChange={handleAgreed}
+                  value="false"
+                  color="primary"
+                  name="isAgreed"
+                />
+              </Box>
             }
             label={
-              <Box mt={2}>
-                <Box display="flex">
-                  <Typography variant="h6">I accept the &nbsp;</Typography>
+              <Box mt={2.5}>
+                <p style={{ fontSize: 12, fontWeight: 400 }}>
+                  I accept the &nbsp;
                   <Link component="button" onClick={handleTerms}>
-                    <Typography variant="h5">Terms of Service</Typography>
+                    <Typography variant="subtitle2">
+                      Terms of Service &nbsp;
+                    </Typography>
                   </Link>
-                </Box>
-                <Box display="flex">
-                  <Typography variant="h6">
-                    and have read the &nbsp;{" "}
-                  </Typography>
+                  and have read the &nbsp;
                   <Link component="button" onClick={handlePrivacyStatement}>
-                    <Typography variant="h5">Privacy Statement</Typography>
+                    <Typography variant="subtitle2">
+                      Privacy Statement
+                    </Typography>
                   </Link>
-                </Box>
+                </p>
               </Box>
             }
           />
         </Box>
-        <Box mt={5} display="flex">
+        <Box display="flex">
           <Box mr={2}>
             <Button
               variant="contained"
@@ -271,18 +275,19 @@ const Create = () => {
         </Box>
         <Box my={3} display="flex">
           <Box mr={1}>
-            <Typography variant="h4">Already have an account?</Typography>
+            <Typography variant="subtitle2">
+              Already have an account?
+            </Typography>
           </Box>
-          <Box>
+          <Box mt={-0.3}>
             <Link component="button" onClick={handleLogin}>
-              <Typography variant="h4" color="primary">
+              <Typography variant="subtitle2" color="primary">
                 Login
               </Typography>
             </Link>
           </Box>
         </Box>
       </Box>
-
       <DoSnackbar
         open={showError}
         handleClose={handleClose}

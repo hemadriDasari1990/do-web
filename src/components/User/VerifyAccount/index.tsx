@@ -23,10 +23,11 @@ const Loader = React.lazy(() => import("../../Loader/components"));
 
 const useStyles = makeStyles(() => ({
   boxStyle: {
-    position: "fixed",
+    position: "relative",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    // height: 800,
   },
 }));
 
@@ -99,7 +100,7 @@ const VerifyAccount = () => {
           </Typography>
         </DoSnackbar>
         {!loading && (
-          <Box mt={8} textAlign="center">
+          <Box my={10} textAlign="center">
             <Zoom in={true} timeout={2000}>
               <img src={VerifiedIcon} height="200px" width="fit-content" />
             </Zoom>
@@ -107,13 +108,13 @@ const VerifyAccount = () => {
         )}
         <Box className={boxStyle}>
           {!loading && (
-            <Box>
+            <Box textAlign="center">
               <Typography variant="h1">{response?.message} </Typography>
             </Box>
           )}
           {response?.errorId === TOKEN_EXPIRED ||
             (response?.errorId === NOT_FOUND && (
-              <Box className={boxStyle}>
+              <Box className={boxStyle} textAlign="center">
                 <Typography variant="h1">{response?.message} </Typography>
               </Box>
             ))}

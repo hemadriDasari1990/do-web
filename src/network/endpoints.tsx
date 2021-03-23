@@ -4,6 +4,7 @@
 
 /* Login Endpoints */
 export const LOGIN = "/auth/login";
+export const LOGOUT = "/auth/logout";
 export const REFRESH_TOKEN = "/auth/refresh-token";
 export const VERIFY_TOKEN = "/auth/verify-token";
 export const RESEND_TOKEN = "/auth/resend-token";
@@ -33,6 +34,7 @@ export const GET_TEAM_DETAILS = "/team/{id}";
 export const UPDATE_TEAM = "/team";
 export const ADD_OR_REMOVE_TEAM_MEMBER = "/team/{id}/member";
 export const GET_TEAMS = "/team?userId={id}";
+export const SEND_INVITE_TO_TEAMS = "/team/invitation";
 
 /* Member Endpoints */
 export const CREATE_MEMBER = "/member";

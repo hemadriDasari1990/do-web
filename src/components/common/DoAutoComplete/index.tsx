@@ -63,7 +63,10 @@ export default function DoAutoComplete(props: any) {
           const filtered = filter(options, params);
           if (isFreeSolo) {
             if (params?.inputValue !== "") {
-              filtered.push(params?.inputValue);
+              filtered.push({
+                inputValue: params.inputValue,
+                title: `${params.inputValue}`,
+              });
             }
             return filtered;
           }

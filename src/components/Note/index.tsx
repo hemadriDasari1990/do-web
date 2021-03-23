@@ -22,6 +22,7 @@ const UpdateNote = React.lazy(() => import("./Update"));
 
 const useStyles = makeStyles(() => ({
   buttonStyle: {
+    background: "#fff",
     height: 45,
     boxShadow:
       "0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2)",
@@ -142,7 +143,7 @@ function Note(props: any) {
         <Grid container>
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Box p={1}>
-              <Tooltip title="Create Note">
+              <Tooltip arrow title="Create Note">
                 <Zoom in={true} timeout={1500}>
                   <Button
                     variant="contained"

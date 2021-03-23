@@ -139,7 +139,7 @@ const DoTable = (props: TableProps) => {
                 key={td?._id}
                 classes={{ root: rowStyle }}
               >
-                <Tooltip title={`View ${td?._id}`}>
+                <Tooltip arrow title={`View ${td?._id}`}>
                   <TableCell
                     align="left"
                     component="td"
@@ -228,10 +228,10 @@ const DoTable = (props: TableProps) => {
                             <Avatar
                               alt={member?.member?.name}
                               className={avatarStyle}
-                              style={{ background: getRandomBGColor() }}
+                              style={{ background: getRandomBGColor(index) }}
                             >
-                              <Tooltip title={member?.member?.name}>
-                                <Typography variant="h5">
+                              <Tooltip arrow title={member?.member?.name}>
+                                <Typography variant="h6" color="secondary">
                                   {member?.member?.name?.substring(0, 1) || ""}
                                 </Typography>
                               </Tooltip>
@@ -255,7 +255,7 @@ const DoTable = (props: TableProps) => {
                 >
                   <Box display="flex">
                     <Box>
-                      <Tooltip title={`View Team ${td?.name}`}>
+                      <Tooltip arrow title={`View Team ${td?.name}`}>
                         <IconButton
                           size="small"
                           className={iconButtonStyle}
@@ -270,7 +270,7 @@ const DoTable = (props: TableProps) => {
                       </Tooltip>
                     </Box>
                     <Box>
-                      <Tooltip title={`Add Member`}>
+                      <Tooltip arrow title={`Add Member`}>
                         <IconButton
                           size="small"
                           className={iconButtonStyle}
@@ -295,7 +295,7 @@ const DoTable = (props: TableProps) => {
                   padding="checkbox"
                   colSpan={1}
                 >
-                  <Tooltip title={`View Team ${td?.name}`}>
+                  <Tooltip arrow title={`View Team ${td?.name}`}>
                     <IconButton
                       size="small"
                       className={iconButtonStyle}

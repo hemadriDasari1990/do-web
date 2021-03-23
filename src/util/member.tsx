@@ -32,3 +32,33 @@ export const headerColumns: Array<HeaderColumn> = [
     key: "updatedAt",
   },
 ];
+
+export const getMembers = (teams: Array<{ [Key: string]: any }>) => {
+  const members: Array<{ [Key: string]: any }> = [];
+  teams.map((team: { [Key: string]: any }) => {
+    team.members.map((member: { [Key: string]: any }) => {
+      members.push(member?.member);
+    });
+  });
+  return members.filter(
+    (elem: { [Key: string]: any }, index: number, self) =>
+      self.findIndex((t: { [Key: string]: any }) => {
+        return t.name === elem.name;
+      }) === index
+  );
+};
+
+export const getMemberIds = (teams: Array<{ [Key: string]: any }>) => {
+  const members: Array<{ [Key: string]: any }> = [];
+  teams.map((team: { [Key: string]: any }) => {
+    team.members.map((member: { [Key: string]: any }) => {
+      members.push(member?.member?._id);
+    });
+  });
+  return members.filter(
+    (elem: { [Key: string]: any }, index: number, self) =>
+      self.findIndex((t: { [Key: string]: any }) => {
+        return t.name === elem.name;
+      }) === index
+  );
+};

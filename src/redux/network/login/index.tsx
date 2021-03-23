@@ -5,12 +5,17 @@ import {
   RESET_PASSWORD,
   VALIDATE_FORGOT_PASSWORD,
   VERIFY_TOKEN,
+  LOGOUT,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
 
 export const login = async (payload: { [Key: string]: any }) => {
   return await API(LOGIN, { method: "POST", data: payload });
+};
+
+export const logout = async () => {
+  return await API(LOGOUT, { method: "POST", data: {} });
 };
 
 export const verifyToken = async (payload: { [Key: string]: any }) => {

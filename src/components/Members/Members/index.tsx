@@ -31,12 +31,14 @@ import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import useMainStyles from "../../styles";
+import useTableStyles from "../../styles/table";
 
 const Loader = React.lazy(() => import("../../Loader/components"));
 const NoRecords = React.lazy(() => import("../../NoRecords"));
 const Members = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const { searchRootStyle, searchIconStyle, inputStyle } = useStyles();
+  const { authorBoxStyle, authorStyle } = useTableStyles();
   const { iconBackStyle, buttonStyle } = useMainStyles();
   const { userId } = useLogin();
   const dispatch = useDispatch();
@@ -192,8 +194,8 @@ const Members = () => {
                   <Grid
                     key={member._id}
                     item
-                    xl={4}
-                    lg={4}
+                    xl={3}
+                    lg={3}
                     md={4}
                     xs={12}
                     sm={12}
@@ -205,19 +207,38 @@ const Members = () => {
                     >
                       <ListItemAvatar>
                         <Zoom in={true} timeout={2000}>
-                          <Avatar style={{ background: getRandomBGColor() }}>
-                            <Typography variant="h5">
+                          <Avatar
+                            style={{ background: getRandomBGColor(index) }}
+                          >
+                            <Typography variant="h5" color="secondary">
                               {member?.name ? member?.name.substring(0, 1) : ""}
                             </Typography>
                           </Avatar>
                         </Zoom>
                       </ListItemAvatar>
-                      <Tooltip title={member.name} placement="bottom-start">
+                      <Tooltip
+                        arrow
+                        title={member.name}
+                        placement="bottom-start"
+                      >
                         <ListItemText
                           primary={
-                            <Typography variant="h5" color="primary">
-                              {member?.name || "--"}
-                            </Typography>
+                            <Box display="flex">
+                              <Typography variant="h5" color="primary">
+                                {member?.name || "--"}
+                              </Typography>
+                              {member.isAuthor && (
+                                <Box ml={1} className={authorBoxStyle}>
+                                  <Typography
+                                    variant="h6"
+                                    className={authorStyle}
+                                    color="secondary"
+                                  >
+                                    Author
+                                  </Typography>
+                                </Box>
+                              )}
+                            </Box>
                           }
                           secondary={
                             <React.Fragment>
@@ -234,6 +255,7 @@ const Members = () => {
                       </Tooltip>
                       <ListItemSecondaryAction className="r-5">
                         <Tooltip
+                          arrow
                           title={
                             checkIfMemberAdded(member.teams)
                               ? "Remove Member"

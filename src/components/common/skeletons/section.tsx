@@ -5,26 +5,10 @@ import CardHeader from "@material-ui/core/CardHeader";
 import NoteSkeleton from "./note";
 import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import useStyles from "./styles";
 
 const useLocalStyles = makeStyles(() => ({
-  cardHeaderStyle: {},
-  cardStyle: {
-    boxShadow: "0 3rem 6rem rgba(0, 0, 0, .1)",
-  },
-  lineStyle: {
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
-    marginBottom: 6,
-  },
-  countTextStyle: {
-    textAlign: "center",
-  },
-  countStyle: {
-    backgroundColor: "unset",
-    border: "2px solid  #0072ff",
-    borderRadius: 6,
-  },
   createNoteStyle: {
     height: 40,
     borderRadius: 6,
@@ -33,14 +17,8 @@ const useLocalStyles = makeStyles(() => ({
   },
 }));
 export default function SectionSkeleton() {
-  const {
-    cardHeaderStyle,
-    cardStyle,
-    lineStyle,
-    countTextStyle,
-    countStyle,
-    createNoteStyle,
-  } = useLocalStyles();
+  const { createNoteStyle } = useLocalStyles();
+  const { cardHeaderStyle, cardStyle, lineStyle, contentColor } = useStyles();
 
   return (
     <Card className={cardStyle}>
@@ -53,12 +31,8 @@ export default function SectionSkeleton() {
               variant="rect"
               width={40}
               height={40}
-              className={countStyle}
-            >
-              <Typography color="primary" className={countTextStyle}>
-                0
-              </Typography>
-            </Skeleton>
+              className={contentColor}
+            />
           </React.Fragment>
         }
         title={

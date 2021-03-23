@@ -5,7 +5,6 @@ import { useLoading, useLogin } from "../../../redux/state/login";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -13,6 +12,7 @@ import { emailRegex } from "../../../util/regex";
 import { login } from "../../../redux/actions/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import DoLogo from "../../common/DoLogo";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: {
     backgroundColor: "#FFFFFF",
     borderRadius: 3,
+    // marginTop: "10%",
     padding: "25px 40px",
     boxShadow: "rgb(0 0 0 / 10%) 0 0 10px",
     [theme.breakpoints.down("xs")]: {
@@ -105,18 +106,18 @@ const Login = () => {
 
   return (
     <React.Fragment>
+      <Box my={5}>
+        <DoLogo justifyContent="center" />
+      </Box>
       <Box maxWidth={400} m="auto" className={boxStyle}>
-        <Box pt={5}>
-          <Typography variant="h1">Log in to Letsdoretro</Typography>
-        </Box>
-        <Box mt={3}>
-          <Typography variant="h4">Enter your credentials</Typography>
+        <Box textAlign="center">
+          <Typography variant="h3">Log in to Letsdoretro</Typography>
         </Box>
         <TextField
           name="email"
           id="email"
-          label="User Email Address"
-          placeholder="Enter User Email Address"
+          label="Email Address"
+          placeholder="Enter Email Address"
           value={email}
           onChange={handleInput}
           autoComplete="off"
@@ -135,7 +136,7 @@ const Login = () => {
           required
           className={textFieldStyle}
         />
-        <Box mt={5} display="flex">
+        <Box mt={3} display="flex">
           <Box mr={2}>
             <Button
               variant="contained"
@@ -160,37 +161,31 @@ const Login = () => {
             </Button>
           </Box>
         </Box>
-        <Box mt={3}>
-          <Link component="button" onClick={handleForgotPassword}>
-            <Typography variant="h5">Forgot password?</Typography>
-          </Link>
-        </Box>
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <Box mt={3} display="flex">
-            <Box mr={1}>
-              <Typography variant="h5">Don't have an account?</Typography>
-            </Box>
-            <Box>
-              <Link component="button" onClick={handleCreateUser}>
-                <Typography variant="h5">Create User</Typography>
-              </Link>
-            </Box>
-          </Box>
-        </Hidden>
-        <Hidden only={["xs"]}>
-          <Box mt={3} display="flex">
-            <Box mr={1}>
-              <Typography variant="h4">Don't have an account?</Typography>
-            </Box>
-            <Box>
-              <Link component="button" onClick={handleCreateUser}>
-                <Typography variant="h4" color="primary">
-                  Create User
+        <Box mt={3} display="flex">
+          <Box>
+            <Typography variant="subtitle2">
+              If you forgot your password in all the excitment of signing up,
+              you can{" "}
+              <Link component="button" onClick={handleForgotPassword}>
+                <Typography variant="subtitle2" color="primary">
+                  reset your password
                 </Typography>
               </Link>
-            </Box>
+            </Typography>
           </Box>
-        </Hidden>
+        </Box>
+        <Box mt={3} display="flex">
+          <Box>
+            <Typography variant="subtitle2">
+              Can't login?&nbsp;
+              <Link component="button" onClick={handleCreateUser}>
+                <Typography variant="subtitle2" color="primary">
+                  Sign up for an account
+                </Typography>
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
         <DoSnackbar open={showError} handleClose={handleClose} status="error">
           <Typography variant="h6" color="secondary">
             {message}

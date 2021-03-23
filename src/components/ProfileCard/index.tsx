@@ -1,40 +1,26 @@
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import FacebookIcon from "@material-ui/icons/Facebook";
+// import FacebookIcon from "@material-ui/icons/Facebook";
 import IconButton from "@material-ui/core/IconButton";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
+// import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
-  media: {
-    height: 80,
-    width: 80,
-    float: "right",
+  subTitleStyle: {
+    textTransform: "uppercase",
+    fontSize: ".75rem",
   },
-  actionAreaStyle: {
-    // background: "#f4f5f7",
+  imageStyle: {
+    marginBottom: 12,
+    verticalAlign: "bottom",
   },
 });
 
 function ProfileCard(props: any) {
-  const {
-    path,
-    title,
-    subTitle,
-    fbPath,
-    linkedinPath,
-    content,
-    button,
-    tagLine,
-  } = props;
-  const { media, actionAreaStyle } = useStyles();
+  const { path, title, subTitle, fbPath, linkedinPath, button } = props;
+  const { subTitleStyle, imageStyle } = useStyles();
   const history = useHistory();
 
   const handleButton = (path: string) => {
@@ -43,50 +29,57 @@ function ProfileCard(props: any) {
 
   return (
     <React.Fragment>
-      <Card>
-        <CardActionArea className={actionAreaStyle}>
-          <Box pt={1} pr={1}>
-            <Avatar alt={title} src={path} className={media} />
-          </Box>
-          <CardContent>
-            <Box>
-              <Typography gutterBottom variant="h2" color="primary">
-                {title}
-              </Typography>
-            </Box>
-            <Typography gutterBottom variant="h5">
-              {subTitle}
-            </Typography>
-            <Box>
-              <Typography variant="body2">{tagLine}</Typography>
-            </Box>
-            <Box mt={2}>
-              <Typography variant="h6">{content}</Typography>
-            </Box>
-          </CardContent>
-        </CardActionArea>
+      <Box>
+        <img
+          src={path}
+          height="100%"
+          width="300px"
+          className={imageStyle}
+          loading="lazy"
+        />
+      </Box>
+      <Box mt={3}>
+        <Box>
+          <Typography gutterBottom variant="h2">
+            {title}
+          </Typography>
+        </Box>
+        <Typography gutterBottom variant="h5" className={subTitleStyle}>
+          {subTitle}
+        </Typography>
+        {/* <Box>
+          <Typography variant="body2">{tagLine}</Typography>
+        </Box>
+        <Box mt={2}>
+          <Typography variant="h6">{content}</Typography>
+        </Box> */}
+      </Box>
+      <Box>
         {button && (
-          <CardActions>
-            <Box>
-              <Typography component="h6" variant="h6">
-                Social Profiles
-              </Typography>
-            </Box>
-            <Box>
+          <Box display="flex">
+            {/* <Typography component="h6" variant="h6">
+              Social Profiles
+            </Typography> */}
+            <Box mt={-0.5} ml={5}>
               {fbPath && (
-                <IconButton onClick={() => handleButton(fbPath)}>
-                  <FacebookIcon color="primary" />
-                </IconButton>
-              )}
-              {linkedinPath && (
-                <IconButton onClick={() => handleButton(linkedinPath)}>
-                  <LinkedInIcon color="primary" />
+                <IconButton size="small" onClick={() => handleButton(fbPath)}>
+                  {/* <FacebookIcon color="primary" /> */}
                 </IconButton>
               )}
             </Box>
-          </CardActions>
+            <Box mt={-0.5} ml={2}>
+              {linkedinPath && (
+                <IconButton
+                  size="small"
+                  onClick={() => handleButton(linkedinPath)}
+                >
+                  {/* <LinkedInIcon color="primary" /> */}
+                </IconButton>
+              )}
+            </Box>
+          </Box>
         )}
-      </Card>
+      </Box>
     </React.Fragment>
   );
 }

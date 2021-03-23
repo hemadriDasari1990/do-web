@@ -1,7 +1,7 @@
 import * as routePath from "../../routes/config";
 
-import { DASHBOARD, LOGIN, ROOT, USER } from "../../routes/config";
-import React, { useState } from "react";
+import { LOGIN, USER } from "../../routes/config";
+import React, { useState, useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -12,13 +12,16 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import PrivateRoute from "../../routes/PrvateRoute";
-import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import { Switch } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { useAuthenticated } from "../../redux/state/common";
 import { useUser } from "../../redux/state/user";
+// import { Container } from "@material-ui/core";
+import useStyles from "../styles";
+import DoLogo from "../common/DoLogo";
+import DoLogoIcon from "../common/DoLogo";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
@@ -31,18 +34,31 @@ const Team = React.lazy(() => import("../Team"));
 const Members = React.lazy(() => import("../Members/Members"));
 const Notifications = React.lazy(() => import("../Notifications"));
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useLocalStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
   },
-  appBarStyle: (props: any) => ({
+  appBarStyle: () => ({
     height: 60,
     width: "100%",
-    paddingLeft: !props.authenticated ? 10 : 10,
-    paddingRight: !props.authenticated ? 0 : 10,
-    background: !props.authenticated ? "#fff !important" : "none",
+    paddingLeft: 10,
+    paddingRight: 0,
+    background: "#fff !important",
     [theme.breakpoints.up("md")]: {
-      width: props.authenticated ? `calc(100% - 80px)` : "100%",
+      width: "100%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      background: "#fff !important",
+    },
+  }),
+  appBarAuthenticatedStyle: () => ({
+    height: 60,
+    width: "100%",
+    paddingLeft: 10,
+    paddingRight: 10,
+    background: "none",
+    [theme.breakpoints.up("md")]: {
+      width: `calc(100% - 80px)`,
     },
     [theme.breakpoints.down("xs")]: {
       background: "#fff !important",
@@ -51,26 +67,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   iconStyle: {
     width: 35,
     height: 35,
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
   },
   avatarTitleStyle: {
     color: "#334357",
   },
-  cursor: {
-    cursor: "pointer",
-  },
   boxStyle: {
-    borderRadius: 10,
-  },
-  logoTextStyle: {
-    color: "#07113f",
-  },
-  logoIconStyle: {
-    padding: 3,
-    borderRadius: "50%",
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
-    width: 25,
-    height: 25,
+    borderRadius: 6,
   },
   toolbar: theme.mixins.toolbar,
   content: (props: any) => ({
@@ -123,36 +127,36 @@ const protectedRoutes = () => {
 };
 
 const Header = () => {
-  const authenticated = useAuthenticated();
+  const userAuthenticated = useAuthenticated();
+  const history = useHistory();
+  const location = useLocation();
+  const pathname = location.pathname as string;
+  const { name } = useUser();
+
+  /* Local state */
+  const [open, setOpen] = useState(false);
+  const [authenticated, setAuthenticated] = useState(userAuthenticated);
+  const showLogo =
+    !authenticated &&
+    ((pathname?.toLowerCase() !== "/login" &&
+      pathname?.toLowerCase() !== "/signup") ||
+      pathname?.includes("/board"));
   const {
     root,
     appBarStyle,
     iconStyle,
     avatarTitleStyle,
-    cursor,
     boxStyle,
-    logoTextStyle,
-    logoIconStyle,
     content,
     toolbar,
     showNothing,
-  } = useStyles({ authenticated });
-  // const { showCreateBoardButton } = useShowCreateBoardButton();
-  const history = useHistory();
-  const location = useLocation();
-  const pathname: string = location.pathname;
-  const { name } = useUser();
+    appBarAuthenticatedStyle,
+  } = useLocalStyles({ authenticated });
+  const { cursor } = useStyles();
 
-  /* Local state */
-  const [open, setOpen] = useState(false);
-
-  const refreshDashboard = () => {
-    if (authenticated) {
-      history.push(DASHBOARD);
-      return;
-    }
-    history.push(ROOT);
-  };
+  useEffect(() => {
+    setAuthenticated(userAuthenticated);
+  }, [userAuthenticated]);
 
   const handleCreateUser = () => {
     history.push(USER);
@@ -176,70 +180,32 @@ const Header = () => {
         authenticated && pathname?.includes("/board") ? showNothing : ""
       }`}
     >
-      {(authenticated && !pathname?.includes("/board")) || !authenticated ? (
-        <AppBar className={appBarStyle}>
+      {(authenticated &&
+        !pathname?.includes("/board") &&
+        pathname !== "/login" &&
+        pathname !== "/signup") ||
+      !authenticated ? (
+        <AppBar
+          className={`${
+            authenticated ? appBarAuthenticatedStyle : appBarStyle
+          }`}
+        >
+          {/* <Container> */}
           {/* <Toolbar variant="dense"> */}
           <Box mt={1} display="flex" justifyContent="space-between">
             <Hidden only={["xl", "lg", "md", "sm"]}>
-              <Box
-                display="flex"
-                className={cursor}
-                onClick={() => refreshDashboard()}
-              >
-                <Box mt={1} mr={0.5}>
-                  <SportsVolleyballIcon
-                    className={logoIconStyle}
-                    color="secondary"
-                  />
-                </Box>
-                <Box mt={1} mr={1}>
-                  <SportsVolleyballIcon
-                    className={logoIconStyle}
-                    color="secondary"
-                  />
-                </Box>
-              </Box>
+              <DoLogoIcon />
             </Hidden>
-            {(!authenticated || pathname?.includes("/board")) && (
+            {showLogo && (
               <Hidden only={["xs"]}>
-                <Box
-                  display="flex"
-                  className={cursor}
-                  onClick={() => refreshDashboard()}
-                >
-                  <Box mr={1} display="flex">
-                    <Typography variant="h1" className={logoTextStyle}>
-                      let
-                    </Typography>
-                    <Typography variant="h1" color="primary">
-                      '
-                    </Typography>
-                    <Typography variant="h1" className={logoTextStyle}>
-                      s
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="h1" className={logoTextStyle}>
-                      d
-                    </Typography>
-                  </Box>
-                  <Box mt={1} mr={1}>
-                    <SportsVolleyballIcon className={logoIconStyle} />
-                  </Box>
-                  <Box>
-                    <Typography variant="h1" className={logoTextStyle}>
-                      {" "}
-                      retr
-                    </Typography>
-                  </Box>
-                  <Box mt={1}>
-                    <SportsVolleyballIcon className={logoIconStyle} />
-                  </Box>
-                </Box>
+                {" "}
+                <DoLogo />
               </Hidden>
             )}
-            <Box display="flex" justifyContent="space-between">
-              {!authenticated && pathname !== "/login" && (
+            {!authenticated &&
+            pathname !== "/login" &&
+            pathname !== "/signup" ? (
+              <Box display="flex" justifyContent="space-between">
                 <Box mt={0.4} mr={2}>
                   <Button
                     onClick={() => handleLogin()}
@@ -251,8 +217,6 @@ const Header = () => {
                     Login
                   </Button>
                 </Box>
-              )}
-              {!authenticated && pathname !== "/signup" && (
                 <Box mt={0.4} mr={2}>
                   <Button
                     onClick={() => handleCreateUser()}
@@ -262,12 +226,14 @@ const Header = () => {
                     variant="contained"
                   >
                     <Typography variant="h6" color="secondary">
-                      Register
+                      Sign up
                     </Typography>
                   </Button>
                 </Box>
-              )}
-            </Box>
+              </Box>
+            ) : (
+              <Box></Box>
+            )}
             {authenticated && (
               <Box
                 className={boxStyle}
@@ -282,7 +248,7 @@ const Header = () => {
                   justifyContent="space-between"
                 >
                   <Box>
-                    <Tooltip title={name}>
+                    <Tooltip arrow title={name}>
                       <Zoom in={true} timeout={1500}>
                         <Avatar classes={{ root: iconStyle }}>
                           <Typography variant="h4" color="secondary">
@@ -311,6 +277,7 @@ const Header = () => {
             )}
           </Box>
           {/* </Toolbar> */}
+          {/* </Container> */}
         </AppBar>
       ) : null}
       <Box className={toolbar} />

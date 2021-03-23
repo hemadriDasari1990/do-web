@@ -55,11 +55,12 @@ const useStyles = makeStyles(() => ({
     height: 30,
   },
   avatarGroupStyle: {
-    background: getRandomBGColor(),
-    fontSize: "1rem",
+    background: getRandomBGColor(1),
+    fontSize: "0.8rem",
+    fontWeight: 600,
   },
   authorBoxStyle: {
-    backgroundColor: "#0072ff",
+    backgroundColor: "#1e1e58",
     borderRadius: 6,
   },
   authorStyle: {

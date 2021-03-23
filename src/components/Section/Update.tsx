@@ -11,8 +11,8 @@ const useStyles = makeStyles(() => ({
   textfieldStyle: {
     "& .MuiFilledInput-root": {
       background: "#fff",
-      borderRadius: 10,
-      border: "2px solid #0072ff",
+      borderRadius: 6,
+      border: "2px solid #1e1e58",
       paddingTop: "0px !important",
     },
   },

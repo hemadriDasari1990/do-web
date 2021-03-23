@@ -1,41 +1,40 @@
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
 import { DEPARTMENT_DASHBOARD } from "../../../routes/config";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React from "react";
+import React, { Suspense } from "react";
 import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import formateNumber from "../../../util/formateNumber";
+// import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
-import getRandomBGColor from "../../../util/getRandomColor";
 import { replaceStr } from "../../../util";
 import { useDepartmentLoading } from "../../../redux/state/department";
 import { useHistory } from "react-router";
 import useStyles from "../../styles";
+import AvatarGroupList from "../../common/AvatarGroupList";
+import SummaryField from "../../common/SummaryField";
+import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
+import ListSkeleton from "../../common/skeletons/list";
 
 const DepartmentList = (props: any) => {
   const { departments, handleMenu, setSelectedDepartment } = props;
   const {
     cursor,
-    cardStyle,
     avatarBoxStyle,
-    boxStyle,
-    boxTextStyle,
-    descriptionStyle,
+    boxMainStyle,
+    boxGridStyle,
+    boxTopGridStyle,
+    iconBoxStyle,
   } = useStyles();
   const history = useHistory();
 
@@ -51,10 +50,10 @@ const DepartmentList = (props: any) => {
   /* Handler functions */
   const renderCardAction = (department: { [Key: string]: any }) => {
     return (
-      <Box p={1.7}>
-        <Tooltip title="Update">
+      <Box display="flex" mt={1}>
+        <Box mt={0.5}>{getCardSubHeaderText(department.updatedAt)}</Box>
+        <Tooltip arrow title="Action">
           <IconButton
-            color="primary"
             size="small"
             aria-label="settings"
             onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
@@ -161,15 +160,9 @@ const DepartmentList = (props: any) => {
           handleCard(event, department)
         }
       >
-        <Typography variant="h5">{department?.title}</Typography>
-      </Box>
-    );
-  };
-
-  const renderCardSubTitle = (department: { [Key: string]: any }) => {
-    return (
-      <Box mt={0.2} display="flex">
-        {getCardSubHeaderText(department?.updatedAt)}
+        <Typography variant="h3" color="primary">
+          {department?.title}
+        </Typography>
       </Box>
     );
   };
@@ -219,16 +212,33 @@ const DepartmentList = (props: any) => {
     index: number
   ) => {
     return (
-      <Box minHeight={50} className={descriptionStyle}>
-        <List>
-          <ListItem alignItems="flex-start">
-            <Zoom in={true} timeout={2000}>
-              <ListItemText
-                secondary={renderSecondaryText(department?.description, index)}
+      <Box minHeight={50}>
+        <Box my={2} display="flex">
+          <Box mr={2}>
+            <SubjectOutlinedIcon />
+          </Box>
+          <Zoom in={true} timeout={2000}>
+            <Typography>
+              {renderSecondaryText(department?.description, index)}
+            </Typography>
+          </Zoom>
+        </Box>
+        <Box my={2} display="flex" justifyContent="space-between">
+          <SummaryField
+            title="Projects"
+            value={
+              <AvatarGroupList
+                dataList={department?.projects}
+                keyName="title"
+                noDataMessage="No Projects"
               />
-            </Zoom>
-          </ListItem>
-        </List>
+            }
+          />
+          <SummaryField
+            title="Total Projects"
+            value={department?.totalProjects || 0}
+          />
+        </Box>
       </Box>
     );
   };
@@ -243,93 +253,59 @@ const DepartmentList = (props: any) => {
     );
   };
 
-  const renderCardActions = (department: { [Key: string]: any }) => {
-    return (
-      <Box display="flex" justifyContent="space-between">
-        <Box display="flex" className={boxStyle}>
-          <Box className={boxTextStyle}>
-            <Typography color="primary" variant="body2">
-              {formateNumber(department?.totalProjects || 0)}
-              {department?.totalProjects == 1 ? " project" : " projects"}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
-
   return (
-    <React.Fragment>
-      <List>
-        <Grid container spacing={2}>
-          {!loading && Array.isArray(departments)
-            ? departments.map(
-                (department: { [Key: string]: any }, index: number) => (
-                  <Grid
-                    key={department?._id}
-                    item
-                    xl={3}
-                    lg={3}
-                    md={4}
-                    sm={6}
-                    xs={12}
-                  >
-                    <Card className={cardStyle}>
-                      <CardHeader
-                        avatar={
+    <Suspense fallback={<ListSkeleton />}>
+      {loading && <ListSkeleton />}
+      <Grid container spacing={2}>
+        {!loading && Array.isArray(departments)
+          ? departments.map(
+              (department: { [Key: string]: any }, index: number) => (
+                <Grid
+                  key={department?._id}
+                  item
+                  xl={3}
+                  lg={3}
+                  md={4}
+                  sm={6}
+                  xs={12}
+                >
+                  <Box className={boxMainStyle}>
+                    <Box
+                      className={`${boxTopGridStyle}`}
+                      // style={{ background: getRandomBGColor() }}
+                    ></Box>
+                    <Box className={boxGridStyle}>
+                      <Box className={iconBoxStyle}>
+                        <Box
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          p={0.5}
+                        >
                           <SportsVolleyballIcon
-                            style={{ background: getRandomBGColor() }}
+                            // style={{ background: getRandomBGColor() }}
                             className={avatarBoxStyle}
                             color="secondary"
                           />
-                        }
-                        action={renderCardAction(department)}
-                        title={renderCardTitle(department)}
-                        subheader={renderCardSubTitle(department)}
-                        style={{ padding: "10px 0px 0px 15px" }}
-                      />
-                      <CardContent>
-                        {renderCardContent(department, index)}
-                        <Box ml={2} mb={1}>
-                          {renderCardActions(department)}
-                        </Box>
-                      </CardContent>
-                    </Card>
-                    {/* <Box className={boxMainStyle}>
-                      <Box className={boxTopGridStyle}></Box>
-                      <Box className={boxGridStyle}>
-                        <Box className={iconBoxStyle}>
-                          <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                          >
-                            <SportsVolleyballIcon
-                              style={{ background: getRandomBGColor() }}
-                              className={avatarBoxStyle}
-                              color="secondary"
-                            />
-                          </Box>
-                        </Box>
-                        <Box>
-                          {renderCardTitle(department)}
-
-                          <Typography component="p">
-                            {renderCardSubTitle(department)}
-                          </Typography>
-                          <Typography component="p">
-                            {renderCardContent(department, index)}
-                          </Typography>
                         </Box>
                       </Box>
-                    </Box> */}
-                  </Grid>
-                )
+                      <Box display="flex" justifyContent="space-between">
+                        {renderCardTitle(department)}
+                        {renderCardAction(department)}
+                      </Box>
+                      <Box>
+                        <Typography component="p">
+                          {renderCardContent(department, index)}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Grid>
               )
-            : null}
-        </Grid>
-      </List>
-    </React.Fragment>
+            )
+          : null}
+      </Grid>
+    </Suspense>
   );
 };
 

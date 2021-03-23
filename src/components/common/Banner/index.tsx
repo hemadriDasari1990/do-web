@@ -11,8 +11,8 @@ import { useUser } from "../../../redux/state/user";
 const useStyles = makeStyles(() => ({
   boxStyle: {
     backgroundColor: "#fff",
-    borderRadius: 10,
-    boxShadow: "rgb(100 100 111 / 20%) 0px 7px 29px 0px",
+    borderRadius: 6,
+    boxShadow: "#e3e3e633 0px 7px 29px 0px",
   },
 }));
 

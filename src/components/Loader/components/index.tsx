@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Loader = (props: any) => {
   const { backdropStyle, loaderStyle } = useStyles();
-  const { backdrop, enable } = props;
+  const { backdrop, enable, showInline } = props;
 
   if (enable && backdrop) {
     return (
@@ -33,6 +33,13 @@ const Loader = (props: any) => {
           <CircularProgress />
         </Box>
       </Backdrop>
+    );
+  }
+  if (enable && !backdrop && showInline) {
+    return (
+      <Box>
+        <CircularProgress size={20} disableShrink variant="indeterminate" />
+      </Box>
     );
   }
 

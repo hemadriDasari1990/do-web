@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "absolute",
     left: "96%",
     top: "-10%",
-    background: "linear-gradient(90deg, #0072ff 0%, #0095ffd9 100%)",
+    background:
+      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
     color: "#fff",
     borderRadius: "50%",
   },
