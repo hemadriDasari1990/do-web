@@ -47,7 +47,7 @@ const ProjectDashboard = () => {
     totalProjects: totalProjectsCount,
   } = useDepartment();
   const { loading } = useDepartmentLoading();
-  console.log("projectsList", projectsList);
+
   /* React local states */
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [apiCalled, setApiCalled] = useState(false);

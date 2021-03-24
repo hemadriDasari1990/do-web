@@ -5,9 +5,6 @@ import {
   GET_BOARD_FAILED,
   GET_BOARD_REQUEST,
   GET_BOARD_SUCCESS,
-  START_OR_COMPLETE_BOARD_FAILED,
-  START_OR_COMPLETE_BOARD_REQUEST,
-  START_OR_COMPLETE_BOARD_SUCCESS,
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
@@ -78,23 +75,6 @@ const board = (state = initialState, action: ReduxAction) => {
         loading: false,
       };
     case UPDATE_BOARD_SUCCESS:
-      return {
-        ...state,
-        response: action.payload,
-        loading: false,
-      };
-    case START_OR_COMPLETE_BOARD_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case START_OR_COMPLETE_BOARD_FAILED:
-      return {
-        ...state,
-        response: action.payload,
-        loading: false,
-      };
-    case START_OR_COMPLETE_BOARD_SUCCESS:
       return {
         ...state,
         response: action.payload,

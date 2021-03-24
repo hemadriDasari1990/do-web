@@ -63,7 +63,7 @@ const DoTabs = (props: any) => {
   const handleChange = (newValue: number) => {
     setValue(newValue);
   };
-  console.log("value", value);
+
   return (
     <Suspense fallback={<div />}>
       <Tabs

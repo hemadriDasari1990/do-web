@@ -10,10 +10,10 @@ import {
 } from "react-beautiful-dnd";
 import React, { Suspense, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { deleteSection, updateSection } from "../../redux/actions/section";
+// import { deleteSection } from "../../redux/actions/section";
 import { reorder, replaceStr } from "../../util";
 import { useLoading, useSection } from "../../redux/state/section";
-
+import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
@@ -37,7 +37,6 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { getSectionsByBoard } from "../../redux/actions/section";
 import socket from "../../socket";
-import { startOrCompleteBoard } from "../../redux/actions/board";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
@@ -46,6 +45,7 @@ import { useParams } from "react-router";
 import useStyles from "../styles";
 import { getMembers } from "../../util/member";
 import SectionsListSkeleton from "../common/skeletons/sectionsList";
+import { useLogin } from "../../redux/state/login";
 
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -148,16 +148,15 @@ const SectionList = () => {
 
   /* Redux hooks */
   const { section } = useSection();
-  const { totalSections } = useBoard();
+  const { totalSections: totalSectionCount } = useBoard();
   const { loading } = useLoading();
   const { board } = useBoard();
   const authenticated = useAuthenticated();
+  const { userId } = useLogin();
 
   /* Local state */
   const [action, setAction] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<{
-    [Key: string]: any;
-  }>({});
+  const [selectedSection, setSelectedSection] = useState<any>(null);
   const [sections, setSections] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
@@ -166,6 +165,7 @@ const SectionList = () => {
   const [open, setOpen] = useState(false);
   const [boardDetails, setBoardDetails] = useState(board);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [totalSections, setTotalSections] = useState(totalSectionCount);
 
   /* React Hooks */
   useEffect(() => {
@@ -178,16 +178,29 @@ const SectionList = () => {
   }, []);
 
   useEffect(() => {
-    if (board?.startedAt) {
-      const currentBoard = { ...boardDetails };
-      currentBoard.startedAt = board.startedAt;
-      setBoardDetails(currentBoard);
-    }
-    if (board?.startedAt && board?.completedAt) {
-      const currentBoard = { ...boardDetails };
-      currentBoard.completedAt = board.completedAt;
-      setBoardDetails(currentBoard);
-    }
+    /* Start session */
+    socket.on(
+      `start-session-response`,
+      (updatedBoard: { [Key: string]: any }) => {
+        if (!updatedBoard) {
+          return;
+        }
+        setBoardDetails(updatedBoard);
+      }
+    );
+    /* End session */
+    socket.on(
+      `end-session-response`,
+      (updatedBoard: { [Key: string]: any }) => {
+        if (!updatedBoard) {
+          return;
+        }
+        setBoardDetails(updatedBoard);
+      }
+    );
+  }, [boardDetails]);
+
+  useEffect(() => {
     if (!board?.startedAt && !board?.completedAt) {
       setBoardDetails(board);
     }
@@ -196,34 +209,48 @@ const SectionList = () => {
 
   useEffect(() => {
     /* Update Section Title */
-    socket.on("update-section", (updatedSection: { [Key: string]: any }) => {
-      if (!updatedSection) {
-        return;
+    socket.on(
+      `update-section-response`,
+      (updatedSection: { [Key: string]: any }) => {
+        if (!updatedSection) {
+          return;
+        }
+
+        filterLatestSections(updatedSection);
       }
-      filterLatestSections(updatedSection);
-    });
+    );
+    /* Delete section  */
+    socket.on(
+      `delete-section-response`,
+      (deletedSection: { [Key: string]: any }) => {
+        if (!deletedSection?.deleted) {
+          return;
+        }
+        filterSections(deletedSection);
+      }
+    );
+    /* Delete section  */
+    socket.on(
+      `create-section-response`,
+      (newSection: { [Key: string]: any }) => {
+        if (!newSection?._id) {
+          return;
+        }
+        updateSections(newSection);
+      }
+    );
     return () => {
-      socket.off("update-section");
+      socket.off("update-section-response");
+      socket.off("create-section-response");
+      socket.off("delete-section-response");
     };
   }, [sections]);
-
-  useEffect(() => {
-    /* Delete section  */
-    socket.on("delete-section", (deletedSection: { [Key: string]: any }) => {
-      if (!deletedSection) {
-        return;
-      }
-      filterSections(deletedSection?._id);
-    });
-    return () => {
-      socket.off("delete-section");
-    };
-  }, [selectedSection, sections]);
 
   useEffect(() => {
     if (!loading && action && Array.isArray(section)) {
       setSections(section);
       setAction(false);
+      setTotalSections(totalSectionCount);
     }
   }, [action, section, loading]);
 
@@ -247,29 +274,39 @@ const SectionList = () => {
       (newSection) => newSection._id === sectionId
     );
     const sectionData: { [Key: string]: any } = newSections[sectionIndex];
+    if (!sectionData) {
+      return;
+    }
     sectionData.totalNotes =
       operation === "add"
-        ? sectionData.totalNotes + 1
-        : sectionData.totalNotes - 1;
+        ? sectionData?.totalNotes + 1
+        : sectionData?.totalNotes - 1;
     newSections[sectionIndex] = sectionData;
     setSections(newSections);
   };
 
-  const filterSections = (sectionId: string) => {
-    if (!sections) {
+  const filterSections = (deletedSection: { [Key: string]: any }) => {
+    if (!deletedSection || !sections?.length) {
       return;
     }
-    if (sectionId === selectedSection?._id) {
-      const filteredSections: Array<{ [Key: string]: any }> = sections.filter(
-        (item) => item._id !== sectionId
-      );
-      setSections(filteredSections);
-      setSelectedSection({});
+
+    const filteredSections: Array<{ [Key: string]: any }> = sections.filter(
+      (item) => item._id !== deletedSection?._id
+    );
+    setSections(filteredSections);
+    setSelectedSection(null);
+  };
+
+  const updateSections = (newSection: { [Key: string]: any }) => {
+    if (!newSection) {
+      return;
     }
+    setSections([...sections, newSection]);
+    setTotalSections(totalSections + 1);
   };
 
   const filterLatestSections = (section: { [Key: string]: any }) => {
-    if (!section) {
+    if (!selectedSection) {
       return;
     }
     const newSections: Array<{ [Key: string]: any }> = [...sections];
@@ -277,26 +314,41 @@ const SectionList = () => {
       (s: { [Key: string]: any }) => s._id === section._id
     );
     const sectionData = newSections[sectionIndex];
+    if (!sectionData) {
+      return;
+    }
     sectionData.title = section.title;
     newSections[sectionIndex] = sectionData;
     setSections(newSections);
-    setSelectedSection({});
+    setSelectedSection(null);
   };
 
-  const handleSave = () => {
-    dispatch(
-      updateSection({
-        title: sectionInput,
-        sectionId: selectedSection?._id,
-        projectId: selectedSection?.projectId,
-      })
-    );
+  const handleUpdate = () => {
+    socket.emit("update-section", {
+      title: sectionInput,
+      sectionId: selectedSection?._id,
+      boardId: selectedSection?.boardId,
+      userId,
+    });
+    setOpenDialog(false);
+  };
+
+  const handleCreate = () => {
+    socket.emit("create-section", {
+      title: sectionInput,
+      boardId: boardId,
+      userId,
+    });
     setOpenDialog(false);
   };
 
   const handleDelete = () => {
-    dispatch(deleteSection(selectedSection?._id));
+    socket.emit("delete-section", selectedSection?._id);
     setOpenDeleteDialog(false);
+  };
+
+  const handleCreateNewSection = () => {
+    setOpenDialog(true);
   };
 
   const handleClose = () => {
@@ -317,10 +369,10 @@ const SectionList = () => {
     return (
       <ResponsiveDialog
         open={openDialog}
-        title="Update Section"
-        pcta="Update"
+        title={selectedSection?._id ? "Update Section" : "Create section"}
+        pcta={selectedSection?._id ? "Update" : "Create"}
         scta="Cancel"
-        handleSave={handleSave}
+        handleSave={selectedSection?._id ? handleUpdate : handleCreate}
         handleClose={handleClose}
         maxWidth={440}
       >
@@ -333,12 +385,11 @@ const SectionList = () => {
   };
 
   const handleEndSession = () => {
-    dispatch(
-      startOrCompleteBoard("stop", {
-        id: boardDetails?._id,
-        completedAt: Date.now(),
-      })
-    );
+    socket.emit("end-session", {
+      action: "end",
+      id: boardDetails?._id,
+      completedAt: Date.now(),
+    });
     handleClose();
   };
 
@@ -431,9 +482,9 @@ const SectionList = () => {
     event: React.MouseEvent<HTMLButtonElement>,
     item: { [Key: string]: any }
   ) => {
+    setSelectedSection(item);
     setOpen(!open);
     setAnchorEl(event.currentTarget);
-    setSelectedSection(item);
   };
 
   const renderMenuAction = (item: { [Key: string]: any }) => {
@@ -463,12 +514,11 @@ const SectionList = () => {
   };
 
   const handleStartSession = () => {
-    dispatch(
-      startOrCompleteBoard("start", {
-        id: boardDetails?._id,
-        startedAt: Date.now(),
-      })
-    );
+    socket.emit("start-session", {
+      action: "start",
+      id: boardDetails?._id,
+      startedAt: Date.now(),
+    });
   };
 
   const handleStopSession = () => {
@@ -620,23 +670,23 @@ const SectionList = () => {
       <Grid container spacing={2}>
         <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
           <Box display="flex">
-            <Box mt={1.4}>
+            <Box>
               <Typography variant="h2">{boardDetails?.title}</Typography>
             </Box>
             <Tooltip arrow title="Total Sections">
-              <Box ml={2} className={countStyle}>
+              <Box ml={2} className={countStyle} style={{ marginTop: 5 }}>
                 <Typography color="primary" className={countTextStyle}>
                   {totalSections}
                 </Typography>
               </Box>
             </Tooltip>
             {boardDetails?.teams?.length ? (
-              <Box ml={2} mt={1.8}>
+              <Box ml={2} mt={0.5}>
                 <AvatarGroupList dataList={boardDetails?.teams} />
               </Box>
             ) : null}
             {boardDetails?.teams?.length ? (
-              <Box ml={2} mt={1.8}>
+              <Box ml={2} mt={0.5}>
                 <AvatarGroupList dataList={getMembers(boardDetails?.teams)} />
               </Box>
             ) : null}
@@ -739,6 +789,33 @@ const SectionList = () => {
                 </Hidden>
               </Box>
             ) : null}
+            {authenticated ? (
+              <Box mr={2}>
+                <Hidden only={["xl", "lg", "md", "sm"]}>
+                  <IconButton
+                    size="small"
+                    className={iconBackStyle}
+                    onClick={() => handleBack()}
+                  >
+                    <AddOutlinedIcon color="primary" />
+                  </IconButton>
+                </Hidden>
+                <Hidden only={["xs"]}>
+                  <Box className={buttonStyle}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<AddOutlinedIcon color="secondary" />}
+                      onClick={() => handleCreateNewSection()}
+                    >
+                      <Typography color="secondary" variant="subtitle1">
+                        Create New Section
+                      </Typography>
+                    </Button>
+                  </Box>
+                </Hidden>
+              </Box>
+            ) : null}
           </Box>
         </Grid>
       </Grid>
@@ -816,13 +893,16 @@ const SectionList = () => {
                                               </Typography>
                                             </Tooltip>
                                           </Box>
-                                          <Box className={countStyle}>
+                                          <Box
+                                            className={countStyle}
+                                            style={{ marginTop: 9 }}
+                                          >
                                             <Tooltip arrow title="Total Notes">
                                               <Typography
                                                 color="primary"
                                                 className={countTextStyle}
                                               >
-                                                {item.totalNotes}
+                                                {item.totalNotes || 0}
                                               </Typography>
                                             </Tooltip>
                                           </Box>

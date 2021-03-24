@@ -81,7 +81,6 @@ const Update = (props: any) => {
   /* React Hooks */
   useEffect(() => {
     if (selectedBoard && selectedBoard._id) {
-      console.log("isSystemName", selectedBoard);
       setFormData({
         ...formData,
         title: selectedBoard.title,

@@ -56,7 +56,6 @@ const DoTableHeader = (props: TableHeader) => {
   const handleRefresh = () => {
     refreshData();
   };
-  console.log("selectedKey", order, selectedKey);
   return (
     <TableHead>
       <TableRow className={rowStyle}>

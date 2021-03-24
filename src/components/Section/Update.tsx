@@ -42,21 +42,15 @@ export default function SectionUpdate(props: any) {
       </Hidden>
       <Box mb={1}>
         <TextField
-          variant="filled"
           fullWidth
+          label="Title"
+          placeholder="Enter new section title"
           multiline
           value={section}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             handleInput(event)
           }
           className={textfieldStyle}
-          InputProps={{
-            disableUnderline: true,
-            style: {
-              minHeight: 90,
-              paddingTop: 40,
-            },
-          }}
         />
       </Box>
     </React.Fragment>

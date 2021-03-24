@@ -6,8 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import { updateNote } from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import socket from "../../socket";
 
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
@@ -23,7 +22,6 @@ const useStyles = makeStyles(() => ({
 export default function NoteUpdate(props: any) {
   const { sectionId, selectedNote, handleCancel } = props;
   const { textfieldStyle } = useStyles();
-  const dispatch = useDispatch();
 
   /* Local states */
   const [description, setDescription] = useState(
@@ -36,13 +34,19 @@ export default function NoteUpdate(props: any) {
   };
 
   const saveNote = () => {
-    dispatch(
-      updateNote({
+    if (selectedNote?._id) {
+      socket.emit("update-note", {
         description: description,
         sectionId,
         noteId: selectedNote?._id,
-      })
-    );
+      });
+      return;
+    }
+
+    socket.emit("create-note", {
+      description: description,
+      sectionId,
+    });
   };
 
   return (

@@ -43,12 +43,11 @@ function Note(props: any) {
 
   /* Local states */
   const [notes, setNotes] = useState(noteList || []);
-  const [note, setNote] = useState<{ [Key: string]: any }>({});
+  const [note, setNote] = useState<any>(null);
   const [showNote, setShowNote] = useState(false);
-  const [selectedSectionId, setSelectedSectionId] = useState("");
+  const [selectedSectionId, setSelectedSectionId] = useState<any>(null);
 
   /* React Hooks */
-
   useEffect(() => {
     if (notes !== noteList) {
       setNotes(noteList);
@@ -58,41 +57,75 @@ function Note(props: any) {
   useEffect(() => {
     /* Delete note */
     socket.on(
-      `delete-note-${sectionId}`,
-      async (newNote: { [Key: string]: any }) => {
-        await filterNotes(newNote?._id);
-        await updateTotalNotes(sectionId, "substract");
+      `delete-note-response-${note?._id}`,
+      async (deleteNote: { [Key: string]: any }) => {
+        await filterNotes(deleteNote?._id);
+        await updateTotalNotes(selectedSectionId, "substract");
       }
     );
 
-    /* Add new note */
-    socket.on(`update-note-${sectionId}`, (newNote: { [Key: string]: any }) => {
-      if (sectionId === newNote?.sectionId) {
-        const notesList = [...notes];
-        const noteIndex = notesList.findIndex(
-          (n: { [Key: string]: any }) => n._id === newNote._id
-        );
-        const noteData = notes[noteIndex];
-        if (noteData) {
-          noteData.description = newNote.description;
-          notesList[noteIndex] = noteData;
-          setNotes(notesList);
-        } else {
-          setNotes((currentNotes: Array<{ [Key: string]: any }>) => [
-            newNote,
-            ...currentNotes,
-          ]);
-          updateTotalNotes(sectionId, "add");
-        }
-        setNote({});
-        setShowNote(false);
+    /* Update note */
+    socket.on(
+      `update-note-response-${note?._id}`,
+      (newNote: { [Key: string]: any }) => {
+        updateNotes(newNote);
       }
-    });
+    );
+
     return () => {
-      socket.off(`update-note-${sectionId}`);
-      socket.off(`delete-note-${sectionId}`);
+      socket.off(`update-note-response-${note?._id}`);
+      socket.off(`delete-note-response-${note?._id}`);
     };
-  }, [notes]);
+  }, [notes, note]);
+
+  useEffect(() => {
+    /* Add new note */
+    socket.on(
+      `create-note-response-${sectionId}`,
+      (newNote: { [Key: string]: any }) => {
+        addNotes(newNote);
+      }
+    );
+
+    return () => {
+      socket.off(`create-note-response-${sectionId}`);
+    };
+  }, [notes, sectionId]);
+
+  const updateNotes = (newNote: { [Key: string]: any }) => {
+    if (sectionId !== newNote?.sectionId) {
+      return;
+    }
+    const notesList = [...notes];
+    const noteIndex = notesList.findIndex(
+      (n: { [Key: string]: any }) => n._id === newNote._id
+    );
+    const noteData = notes[noteIndex];
+    if (noteData) {
+      noteData.description = newNote.description;
+      notesList[noteIndex] = noteData;
+      setNotes(notesList);
+    } else {
+      setNotes((currentNotes: Array<{ [Key: string]: any }>) => [
+        newNote,
+        ...currentNotes,
+      ]);
+    }
+    setNote(null);
+    setShowNote(false);
+  };
+
+  const addNotes = (newNote: { [Key: string]: any }) => {
+    if (!newNote) {
+      return;
+    }
+    if (sectionId === newNote?.sectionId) {
+      setNotes([...notes, newNote]);
+      updateTotalNotes(sectionId, "add");
+    }
+    setShowNote(false);
+    setSelectedSectionId(null);
+  };
 
   const editNote = (note: { [Key: string]: any }) => {
     if (!note) {
@@ -103,19 +136,28 @@ function Note(props: any) {
     setNote(note);
   };
 
+  const deleteNote = (note: { [Key: string]: any }) => {
+    if (!note) {
+      return;
+    }
+    setSelectedSectionId(note.sectionId);
+    setNote(note);
+  };
+
   const filterNotes = (noteId: string) => {
-    if (!notes) {
+    if (!noteId || !notes?.length) {
       return;
     }
     const filteredNotes: Array<{ [Key: string]: any }> = notes.filter(
       (item: { [Key: string]: any }) => item._id !== noteId
     );
     setNotes(filteredNotes);
+    setNote(null);
   };
 
-  const createNote = (sectionId: string) => {
+  const createNote = (currentSectionId: string) => {
     setShowNote(true);
-    setSelectedSectionId(sectionId);
+    setSelectedSectionId(currentSectionId);
   };
 
   const handleClickAway = () => {
@@ -128,9 +170,9 @@ function Note(props: any) {
 
   return (
     <React.Fragment>
-      {selectedSectionId === sectionId && showNote && (
+      {selectedSectionId === sectionId && showNote ? (
         <Box p={1}>
-          <ClickAwayListener onClickAway={handleClickAway}>
+          <ClickAwayListener onClickAway={() => handleClickAway()}>
             <UpdateNote
               selectedNote={note}
               sectionId={sectionId}
@@ -138,7 +180,7 @@ function Note(props: any) {
             />
           </ClickAwayListener>
         </Box>
-      )}
+      ) : null}
       {!showNote && enableActions && (
         <Grid container>
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
@@ -178,6 +220,7 @@ function Note(props: any) {
               editNote={editNote}
               dropProvided={dropProvided}
               showNote={showNote}
+              deleteNote={deleteNote}
             />
           </Box>
         )}

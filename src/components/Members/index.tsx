@@ -214,7 +214,6 @@ const MemberDashboard = () => {
       </DoSnackbar>
     );
   };
-  console.log("members", members);
   return (
     <React.Fragment>
       {renderDeleteDialog()}

@@ -4,7 +4,6 @@ import {
   DraggableStateSnapshot,
 } from "react-beautiful-dnd";
 import React, { useEffect, useState } from "react";
-import { deleteNote, markAsRead } from "../../redux/actions";
 
 import Box from "@material-ui/core/Box";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -24,15 +23,12 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import { createOrUpdateReaction } from "../../redux/actions";
 import getPastTime from "../../util/getPastTime";
 import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
-import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
-// import getRandomBGColor from "../../util/getRandomColor";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -94,7 +90,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NoteList = (props: any) => {
-  const { notes, editNote, dropProvided, showNote } = props;
+  const { notes, editNote, dropProvided, showNote, deleteNote } = props;
   const {
     paperStyle,
     iconButtonStyle,
@@ -103,7 +99,6 @@ const NoteList = (props: any) => {
     timeIconStyle,
     svgIconStyle,
   } = useStyles();
-  const dispatch = useDispatch();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const { userId } = useLogin();
@@ -132,25 +127,25 @@ const NoteList = (props: any) => {
 
   useEffect(() => {
     socket.on(
-      `new-reaction-${selectedNote?._id}`,
+      `add-reaction-response-${selectedNote?._id}`,
       (data: { [Key: string]: any }) => {
         updateTotalReactions(data);
       }
     );
     return () => {
-      socket.off(`new-reaction-${selectedNote?._id}`);
+      socket.off(`add-reaction-response-${selectedNote?._id}`);
     };
   }, [selectedNote]);
 
   useEffect(() => {
     socket.on(
-      `mark-read-${selectedNote?._id}`,
+      `mark-note-read-response-${selectedNote?._id}`,
       (updatedNote: { [Key: string]: any }) => {
         updateNote(updatedNote);
       }
     );
     return () => {
-      socket.off(`mark-read-${selectedNote?._id}`);
+      socket.off(`mark-note-read-response-${selectedNote?._id}`);
     };
   }, [selectedNote]);
 
@@ -346,17 +341,16 @@ const NoteList = (props: any) => {
   ) => {
     event.stopPropagation();
     setSelectedNote(note);
-    dispatch(
-      createOrUpdateReaction({
-        noteId: note._id,
-        type,
-        reactedBy: userId,
-      })
-    );
+    socket.emit("add-reaction", {
+      noteId: note._id,
+      type,
+      reactedBy: userId,
+    });
+    setAnchorEl(null);
   };
 
   const handleDelete = () => {
-    dispatch(deleteNote(selectedNote._id));
+    socket.emit("delete-note", selectedNote._id);
     setOpenDeleteDialog(false);
   };
 
@@ -427,11 +421,14 @@ const NoteList = (props: any) => {
   ) => {
     event.stopPropagation();
     setSelectedNote(note);
-    dispatch(
-      markAsRead(note._id, {
-        read: !note.read,
-      })
-    );
+    socket.emit("mark-note-read", {
+      id: note._id,
+      read: !note.read,
+    });
+  };
+
+  const handleMarkReadOnly = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
   };
 
   const handleClickAwayClose = () => {
@@ -484,6 +481,7 @@ const NoteList = (props: any) => {
         editNote(selectedNote);
         break;
       case "delete":
+        deleteNote(selectedNote);
         setOpenDeleteDialog(true);
         break;
       default:
@@ -515,8 +513,6 @@ const NoteList = (props: any) => {
       </Box>
     );
   };
-
-  console.log("handleClickAwayClose", open);
 
   return (
     <React.Fragment>
@@ -642,9 +638,11 @@ const NoteList = (props: any) => {
                                     >
                                       <Zoom in={true} timeout={2000}>
                                         <DoneAllOutlinedIcon
-                                          color={
-                                            note.read ? "primary" : "inherit"
-                                          }
+                                          style={{
+                                            color: note.read
+                                              ? "#0072ff"
+                                              : "inherit",
+                                          }}
                                           className={svgIconStyle}
                                         />
                                       </Zoom>
@@ -656,10 +654,23 @@ const NoteList = (props: any) => {
                                     arrow
                                     title={note.read ? "Read" : "Not read yet"}
                                   >
-                                    <DoneAllOutlinedIcon
-                                      color={note.read ? "primary" : "inherit"}
-                                      className={svgIconStyle}
-                                    />
+                                    <IconButton
+                                      size="small"
+                                      onClick={(
+                                        event: React.MouseEvent<
+                                          HTMLButtonElement
+                                        >
+                                      ) => handleMarkReadOnly(event)}
+                                    >
+                                      <DoneAllOutlinedIcon
+                                        style={{
+                                          color: note.read
+                                            ? "#0072ff"
+                                            : "inherit",
+                                        }}
+                                        className={svgIconStyle}
+                                      />
+                                    </IconButton>
                                   </Tooltip>
                                 )}
                                 {enableActions && (

@@ -19,7 +19,6 @@ import {
 import {
   watchDeleteBoard,
   watchGetBoardDetails,
-  watchStartOrCompleteBoard,
   watchUpdateBoard,
 } from "./board";
 import {
@@ -33,17 +32,12 @@ import {
   watchGetMembersByUser,
   watchUpdateMember,
 } from "./member";
-import { watchDeleteNote, watchMarkAsRead, watchUpdateNote } from "./note";
 import {
   watchDeleteProject,
   watchGetProjectDetails,
   watchUpdateProject,
 } from "./project";
-import {
-  watchDeleteSection,
-  watchGetSectionsByBoard,
-  watchUpdateSection,
-} from "./section";
+import { watchGetSectionsByBoard } from "./section";
 import {
   watchForgotPassword,
   watchLogin,
@@ -55,7 +49,6 @@ import {
 } from "./login";
 
 import { fork } from "redux-saga/effects";
-import { watchreateOrUpdateReaction } from "./reaction";
 
 function* rootSaga() {
   /* Login sagas */
@@ -104,24 +97,13 @@ function* rootSaga() {
   yield fork(watchUpdateBoard);
   yield fork(watchDeleteBoard);
   yield fork(watchGetBoardDetails);
-  yield fork(watchStartOrCompleteBoard);
 
   /* Section sagas */
   yield fork(watchGetSectionsByBoard);
-  yield fork(watchDeleteSection);
-  yield fork(watchUpdateSection);
-
-  /* Note sagas */
-  yield fork(watchDeleteNote);
-  yield fork(watchUpdateNote);
-  yield fork(watchMarkAsRead);
 
   /* Feedback sagas */
   yield fork(watchCreateFeedback);
   yield fork(watchGetFeedbacks);
-
-  /* Reaction sagas */
-  yield fork(watchreateOrUpdateReaction);
 }
 
 export default rootSaga;

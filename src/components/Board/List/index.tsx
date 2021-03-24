@@ -205,7 +205,9 @@ const BoardList = (props: any) => {
                 secondary="Once deleted can't be done"
               />
             </ListItem>
-            {selectedIndex === index && teamMembersLength > 0 ? (
+            {selectedIndex === index &&
+            teamMembersLength > 0 &&
+            board?.status !== "completed" ? (
               <ListItem
                 button={true}
                 onClick={(

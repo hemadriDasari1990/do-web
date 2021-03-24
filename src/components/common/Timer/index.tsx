@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   timerTextStyle: {
-    color: "#1e1e58",
+    color: "#0072ff",
     top: "50%",
     position: "relative",
     transform: "translateY(-50%)",
@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
   },
   boxStyle: {
     borderRadius: 5,
-    backgroundColor: "#1f1f581c",
+    backgroundColor: "#f7f8f9",
     height: 40,
     width: 40,
   },
