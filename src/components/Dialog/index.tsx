@@ -25,6 +25,9 @@ const useStyles = makeStyles(() => ({
     color: "#fff",
     borderRadius: "50%",
   }),
+  contentStyle: {
+    overflowX: "hidden",
+  },
 }));
 
 export default function ResponsiveDialog(props: any) {
@@ -44,7 +47,7 @@ export default function ResponsiveDialog(props: any) {
     hideSecondary,
     loading,
   } = props;
-  const { paperStyle, closeIconStyle } = useStyles({ maxWidth });
+  const { paperStyle, closeIconStyle, contentStyle } = useStyles({ maxWidth });
 
   const handleSecondary = () => {
     if (typeof handleSecondarySubmit === "function") {
@@ -64,7 +67,7 @@ export default function ResponsiveDialog(props: any) {
         <DialogTitle id="responsive-dialog-title">
           <Typography variant="h3">{title}</Typography>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent className={contentStyle}>
           <Loader enable={loading} />
           <DialogContentText>{children}</DialogContentText>
         </DialogContent>

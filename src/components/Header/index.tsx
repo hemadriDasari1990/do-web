@@ -177,17 +177,21 @@ const Header = () => {
   return (
     <Box
       className={`${root} ${
-        authenticated && pathname?.includes("/board") ? showNothing : ""
+        pathname?.includes("/board") && (authenticated || !authenticated)
+          ? showNothing
+          : ""
       }`}
     >
       {(authenticated &&
         !pathname?.includes("/board") &&
         pathname !== "/login" &&
         pathname !== "/signup") ||
-      !authenticated ? (
+      (!authenticated && !pathname?.includes("/board")) ? (
         <AppBar
           className={`${
-            authenticated ? appBarAuthenticatedStyle : appBarStyle
+            authenticated || pathname?.includes("/board")
+              ? appBarAuthenticatedStyle
+              : appBarStyle
           }`}
         >
           {/* <Container> */}

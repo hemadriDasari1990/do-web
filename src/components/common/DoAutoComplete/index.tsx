@@ -65,7 +65,7 @@ export default function DoAutoComplete(props: any) {
             if (params?.inputValue !== "") {
               filtered.push({
                 inputValue: params.inputValue,
-                title: `${params.inputValue}`,
+                title: `Add - ${params.inputValue}`,
               });
             }
             return filtered;

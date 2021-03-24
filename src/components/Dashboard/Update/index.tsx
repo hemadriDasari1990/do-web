@@ -210,7 +210,7 @@ const Update = (props: any) => {
             textInputLabel="Select your Department"
             textInputPlaceholder="Select or enter & add new department"
             optionKey="title"
-            options={departments}
+            options={departments || []}
             onInputChange={(e: any, data: { [Key: string]: any }) =>
               handleDepartment(data)
             }
@@ -234,7 +234,7 @@ const Update = (props: any) => {
                 textInputLabel="Select your Project"
                 textInputPlaceholder="Select or enter & add new project"
                 optionKey="title"
-                options={projects}
+                options={projects || []}
                 onInputChange={(e: any, data: { [Key: string]: any }) =>
                   handleProject(data)
                 }

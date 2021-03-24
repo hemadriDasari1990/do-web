@@ -365,6 +365,10 @@ const SectionList = () => {
     }
   };
 
+  const handleSecondarySubmit = () => {
+    setOpenDialog(false);
+  };
+
   const renderUpdateDialog = () => {
     return (
       <ResponsiveDialog
@@ -375,6 +379,7 @@ const SectionList = () => {
         handleSave={selectedSection?._id ? handleUpdate : handleCreate}
         handleClose={handleClose}
         maxWidth={440}
+        handleSecondarySubmit={handleSecondarySubmit}
       >
         <UpdateSection
           value={selectedSection?.title || ""}
