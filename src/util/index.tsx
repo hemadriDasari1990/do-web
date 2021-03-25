@@ -54,3 +54,24 @@ export const elipseName = (input: string, inputLength: number) => {
   }
   return input;
 };
+
+export const getStickyColor = (index: number) => {
+  let colorValues = [
+    "#fcfbca",
+    "#fccaca",
+    "#cae9fc",
+    "#fccade",
+    "#dbfdde",
+    "#F5C6B1",
+    "#fcfbca",
+    "#fccaca",
+    "#cae9fc",
+    "#fccade",
+    "#dbfdde",
+    "#F5C6B1",
+  ];
+  if (index > colorValues?.length) {
+    return colorValues[1];
+  }
+  return colorValues[index];
+};

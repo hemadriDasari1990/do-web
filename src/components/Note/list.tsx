@@ -29,6 +29,7 @@ import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useLogin } from "../../redux/state/login";
+import { getStickyColor } from "../../util";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -82,7 +83,7 @@ const useStyles = makeStyles(() => ({
   },
   timeIconStyle: {
     fontSize: 20,
-    color: "#5b6a86",
+    color: "#42526E",
   },
   svgIconStyle: {
     fontSize: "1.2rem",
@@ -90,7 +91,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NoteList = (props: any) => {
-  const { notes, editNote, dropProvided, showNote, deleteNote } = props;
+  const {
+    notes,
+    editNote,
+    dropProvided,
+    showNote,
+    deleteNote,
+    sectionIndex,
+  } = props;
   const {
     paperStyle,
     iconButtonStyle,
@@ -391,7 +399,7 @@ const NoteList = (props: any) => {
       <Box>
         <ResponsiveDialog
           open={showDialog}
-          title={<Box display="flex">{renderPastTime(selectedNote)}</Box>}
+          title="Note Details"
           hideButton={true}
           handleClose={handleViewClose}
         >
@@ -523,7 +531,12 @@ const NoteList = (props: any) => {
         <Grid container spacing={0}>
           {Array.isArray(notesList) && notesList?.length
             ? notesList.map((note: { [Key: string]: any }, index: number) => (
-                <Draggable key={note._id} draggableId={note._id} index={index}>
+                <Draggable
+                  key={note._id}
+                  draggableId={note._id}
+                  index={index}
+                  isDragDisabled={!userId}
+                >
                   {(
                     dragProvided: DraggableProvided,
                     dragSnapshot: DraggableStateSnapshot
@@ -562,6 +575,7 @@ const NoteList = (props: any) => {
                             className={`${paperStyle} ${
                               dragSnapshot.isDragging ? hightlightNoteStyle : ""
                             }`}
+                            style={{ background: getStickyColor(sectionIndex) }}
                             // style={{
                             //   borderBottom: `2px solid ${getRandomBGColor()}`,
                             //   borderImage: getRandomBGColor(),

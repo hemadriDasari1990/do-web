@@ -7,6 +7,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../socket";
+import { useLogin } from "../../redux/state/login";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
@@ -22,15 +26,18 @@ const useStyles = makeStyles(() => ({
 export default function NoteUpdate(props: any) {
   const { sectionId, selectedNote, handleCancel } = props;
   const { textfieldStyle } = useStyles();
+  const { userId } = useLogin();
 
   /* Local states */
-  const [description, setDescription] = useState(
-    selectedNote?.description || ""
-  );
+  const [formData, setFormData] = useState<{ [Key: string]: any }>({
+    description: selectedNote?.description || "",
+    isAnnonymous: selectedNote?.isAnnonymous || false,
+  });
+  const { description, isAnnonymous } = formData;
 
   /* Handler functions */
   const handleNote = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const saveNote = () => {
@@ -39,6 +46,9 @@ export default function NoteUpdate(props: any) {
         description: description,
         sectionId,
         noteId: selectedNote?._id,
+        isAnnonymous: isAnnonymous ? isAnnonymous : selectedNote?.isAnnonymous,
+        createdById: selectedNote?.createdById,
+        ...(!isAnnonymous ? { updatedById: userId } : {}),
       });
       return;
     }
@@ -46,7 +56,15 @@ export default function NoteUpdate(props: any) {
     socket.emit("create-note", {
       description: description,
       sectionId,
+      isAnnonymous: isAnnonymous,
+      ...(!isAnnonymous
+        ? { createdById: userId, updatedById: userId }
+        : { createdById: null, updatedById: null }),
     });
+  };
+
+  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
   };
 
   return (
@@ -55,6 +73,7 @@ export default function NoteUpdate(props: any) {
         <TextField
           variant="filled"
           size="medium"
+          name="description"
           fullWidth
           multiline
           onChange={handleNote}
@@ -70,6 +89,21 @@ export default function NoteUpdate(props: any) {
         />
       </Box>
       <Box display="flex" justifyContent="space-between">
+        <Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isAnnonymous}
+                onChange={handleIsAnnonymous}
+                value="false"
+                color="primary"
+                name="isAnnonymous"
+                // disabled={selectedBoard?._id && isDefaultBoard}
+              />
+            }
+            label={<Typography variant="h6">Post as annonymous</Typography>}
+          />
+        </Box>
         <Box>
           <Tooltip arrow title="Save Note">
             <Zoom in={true} timeout={1500}>

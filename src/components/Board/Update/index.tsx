@@ -10,7 +10,6 @@ import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login";
-import { useParams } from "react-router";
 import { useTeam } from "../../../redux/state/team";
 import { Typography } from "@material-ui/core";
 import { TEAM } from "../../../routes/config";
@@ -20,6 +19,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { useProject } from "../../../redux/state/project";
 import { useBoardLoading } from "../../../redux/state/board";
+import Slide from "@material-ui/core/Slide";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -52,7 +52,6 @@ const Update = (props: any) => {
   const history = useHistory();
 
   /* Redux hooks */
-  const { projectId } = useParams<{ projectId: string }>();
   const { userId } = useLogin();
   const { teams: teamsList } = useTeam();
   const { totalBoards } = useProject();
@@ -125,7 +124,6 @@ const Update = (props: any) => {
       updateBoard({
         description,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        projectId,
         status: status || "pending",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
         title,
@@ -140,7 +138,6 @@ const Update = (props: any) => {
       updateBoard({
         description,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        projectId,
         status: "draft",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
         isSystemName,
@@ -226,18 +223,26 @@ const Update = (props: any) => {
           </Box>
         </Hidden>
         {!isSystemName && (
-          <Box>
-            <TextField
-              name="title"
-              id="title"
-              label="Title"
-              placeholder="Enter title of the board"
-              value={title}
-              onChange={handleInput}
-              required
-              className={textFieldStyle}
-            />
-          </Box>
+          <Slide
+            direction="left"
+            in={true}
+            timeout={1500}
+            mountOnEnter
+            unmountOnExit
+          >
+            <Box>
+              <TextField
+                name="title"
+                id="title"
+                label="Title"
+                placeholder="Enter title of the board"
+                value={title}
+                onChange={handleInput}
+                required
+                className={textFieldStyle}
+              />
+            </Box>
+          </Slide>
         )}
         <Box mt={1} mb={-3}>
           <FormControlLabel

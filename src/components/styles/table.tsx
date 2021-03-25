@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import getRandomBGColor from "../../util/getRandomColor";
-
 const useStyles = makeStyles(() => ({
   iconStyle: {
     fill: "#738794",
@@ -55,9 +53,10 @@ const useStyles = makeStyles(() => ({
     height: 30,
   },
   avatarGroupStyle: {
-    background: getRandomBGColor(1),
+    background: "#1f1f581a",
     fontSize: "0.8rem",
     fontWeight: 600,
+    color: "#1f1f58",
   },
   authorBoxStyle: {
     backgroundColor: "#1e1e58",

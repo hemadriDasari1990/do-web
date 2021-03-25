@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useUserLoading, useUserSummary } from "../../redux/state/user";
 
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
@@ -10,20 +9,12 @@ import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import { getAllSummary } from "../../redux/actions/user";
 import { useDispatch } from "react-redux";
+import useStyles from "../styles";
 
 const Loader = React.lazy(() => import("../Loader/components"));
 
-const useStyles = makeStyles((theme: Theme) => ({
-  titleStyle: {
-    fontSize: "3.5rem",
-  },
-  iconStyle: {
-    fontSize: 50,
-  },
-}));
-
 const Summary = () => {
-  const { titleStyle, iconStyle } = useStyles();
+  const { titleSecondaryStyle, iconStyle } = useStyles();
   const dispatch = useDispatch();
   const { summary } = useUserSummary();
   const { loading } = useUserLoading();
@@ -36,7 +27,7 @@ const Summary = () => {
     <Box p={5} minHeight={380}>
       <Loader enable={loading} />
       <Box textAlign="center" pb={5}>
-        <Typography variant="h1" className={titleStyle}>
+        <Typography variant="h1" className={titleSecondaryStyle}>
           Built for global scale
         </Typography>
       </Box>
@@ -48,7 +39,7 @@ const Summary = () => {
                 <ApartmentOutlinedIcon color="primary" className={iconStyle} />
               </Box>
               <Box>
-                <Typography variant="h1" className={titleStyle}>
+                <Typography variant="h1" className={titleSecondaryStyle}>
                   {summary?.usersCount}
                 </Typography>
               </Box>
@@ -66,7 +57,7 @@ const Summary = () => {
                 />
               </Box>
               <Box>
-                <Typography variant="h1" className={titleStyle}>
+                <Typography variant="h1" className={titleSecondaryStyle}>
                   {summary?.projectsCount}
                 </Typography>
               </Box>
@@ -81,7 +72,7 @@ const Summary = () => {
                 <DashboardOutlinedIcon color="primary" className={iconStyle} />
               </Box>
               <Box>
-                <Typography variant="h1" className={titleStyle}>
+                <Typography variant="h1" className={titleSecondaryStyle}>
                   {summary?.boardsCount}
                 </Typography>
               </Box>

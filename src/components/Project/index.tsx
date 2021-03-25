@@ -22,6 +22,7 @@ import useStyles from "../styles";
 import ListSkeleton from "../common/skeletons/list";
 import formateNumber from "../../util/formateNumber";
 import Caption from "../common/Caption";
+import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
 
 const ProjectList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -104,10 +105,9 @@ const ProjectDashboard = () => {
         projectsList[projectIndex] = projectData;
         setProjects(projectsList);
       } else {
-        setProjects((currentProjects: Array<{ [Key: string]: any }>) => [
-          ...currentProjects,
-          project,
-        ]);
+        setProjects((currentProjects: Array<{ [Key: string]: any }>) =>
+          currentProjects?.length ? [currentProjects, project] : [project]
+        );
         setTotalProjects(totalProjects + 1);
       }
       setSelectedProject({});
@@ -242,29 +242,34 @@ const ProjectDashboard = () => {
               sm={12}
               xs={12}
             >
-              <Box display="flex">
-                <Hidden only={["xs"]}>
-                  <Typography variant="h1">{department?.title}</Typography>
-                </Hidden>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <Typography variant="h4">{department?.title}</Typography>
-                </Hidden>
-                <Tooltip arrow title="Total Projects">
-                  <Box ml={2} className={countStyle}>
-                    <Typography color="primary" className={countTextStyle}>
-                      {formateNumber(totalProjects) || 0}
-                    </Typography>
+              {loading ? (
+                <TitleWithCountSkeleton />
+              ) : (
+                <Box display="flex">
+                  <Hidden only={["xs"]}>
+                    <Typography variant="h2">{department?.title}</Typography>
+                  </Hidden>
+                  <Hidden only={["xl", "lg", "md", "sm"]}>
+                    <Typography variant="h4">{department?.title}</Typography>
+                  </Hidden>
+                  <Tooltip arrow title="Total Projects">
+                    <Box ml={2} className={countStyle}>
+                      <Typography color="primary" className={countTextStyle}>
+                        {formateNumber(totalProjects) || 0}
+                      </Typography>
+                    </Box>
+                  </Tooltip>
+                  <Box ml={1} mt={2.2}>
+                    <Caption title="Projects" />
                   </Box>
-                </Tooltip>
-                <Box ml={1} mt={2.2}>
-                  <Caption title="Projects" />
                 </Box>
-              </Box>
+              )}
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
               <Box
                 display="flex"
                 justifyContent={!projects?.length ? "flex-end" : "space-around"}
+                mt={1.2}
               >
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton

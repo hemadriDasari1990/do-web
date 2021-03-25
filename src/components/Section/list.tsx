@@ -38,7 +38,7 @@ import Zoom from "@material-ui/core/Zoom";
 import { getSectionsByBoard } from "../../redux/actions/section";
 import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
-import { useBoard } from "../../redux/state/board";
+import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useParams } from "react-router";
@@ -150,6 +150,7 @@ const SectionList = () => {
   const { section } = useSection();
   const { totalSections: totalSectionCount } = useBoard();
   const { loading } = useLoading();
+  const { loading: boardLoading } = useBoardLoading();
   const { board } = useBoard();
   const authenticated = useAuthenticated();
   const { userId } = useLogin();
@@ -166,6 +167,7 @@ const SectionList = () => {
   const [boardDetails, setBoardDetails] = useState(board);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [totalSections, setTotalSections] = useState(totalSectionCount);
+  const [startSession, setStartSession] = useState(false);
 
   /* React Hooks */
   useEffect(() => {
@@ -186,6 +188,7 @@ const SectionList = () => {
           return;
         }
         setBoardDetails(updatedBoard);
+        setStartSession(true);
       }
     );
     /* End session */
@@ -676,21 +679,21 @@ const SectionList = () => {
         <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
           <Box display="flex">
             <Box>
-              <Typography variant="h2">{boardDetails?.title}</Typography>
+              <Typography variant="h3">{boardDetails?.title}</Typography>
             </Box>
-            <Tooltip arrow title="Total Sections">
+            <Tooltip arrow title="Total Sections" placement="right">
               <Box ml={2} className={countStyle} style={{ marginTop: 5 }}>
                 <Typography color="primary" className={countTextStyle}>
-                  {totalSections}
+                  {totalSections || 0}
                 </Typography>
               </Box>
             </Tooltip>
-            {boardDetails?.teams?.length ? (
+            {!boardLoading && boardDetails?.teams?.length ? (
               <Box ml={2} mt={0.5}>
                 <AvatarGroupList dataList={boardDetails?.teams} />
               </Box>
             ) : null}
-            {boardDetails?.teams?.length ? (
+            {!boardLoading && boardDetails?.teams?.length ? (
               <Box ml={2} mt={0.5}>
                 <AvatarGroupList dataList={getMembers(boardDetails?.teams)} />
               </Box>
@@ -706,7 +709,9 @@ const SectionList = () => {
                 : "space-between"
             }
           >
-            {boardDetails?.startedAt && !boardDetails?.completedAt ? (
+            {!boardLoading &&
+            boardDetails?.startedAt &&
+            !boardDetails?.completedAt ? (
               <Box>
                 <Timer
                   startDateTime={boardDetails?.startedAt}
@@ -714,11 +719,16 @@ const SectionList = () => {
                 />
               </Box>
             ) : null}
-            {boardDetails?.startedAt && boardDetails?.completedAt ? (
+            {!boardLoading &&
+            boardDetails?.startedAt &&
+            boardDetails?.completedAt ? (
               <Box>{dateDiffInDays()}</Box>
             ) : null}
             <Box>
-              {authenticated && boardDetails && !boardDetails.startedAt ? (
+              {!boardLoading &&
+              authenticated &&
+              boardDetails &&
+              !boardDetails.startedAt ? (
                 <Box mr={2} className={buttonStyle}>
                   <Button
                     variant="outlined"
@@ -738,7 +748,8 @@ const SectionList = () => {
                   </Button>
                 </Box>
               ) : null}
-              {authenticated &&
+              {!boardLoading &&
+              authenticated &&
               boardDetails?.startedAt &&
               !boardDetails.completedAt ? (
                 <Box mx={2} className={buttonStyle}>
@@ -765,7 +776,7 @@ const SectionList = () => {
                 </Box>
               ) : null}
             </Box>
-            {authenticated ? (
+            {!boardLoading && authenticated ? (
               <Box mr={2}>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <IconButton
@@ -794,7 +805,7 @@ const SectionList = () => {
                 </Hidden>
               </Box>
             ) : null}
-            {authenticated ? (
+            {!boardLoading && authenticated ? (
               <Box mr={2}>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <IconButton
@@ -848,6 +859,7 @@ const SectionList = () => {
                             key={item._id}
                             draggableId={item._id}
                             index={index}
+                            isDragDisabled={!userId}
                           >
                             {(
                               draggableProvided: DraggableProvided,
@@ -889,20 +901,22 @@ const SectionList = () => {
                                           className={`${titleStyle}`}
                                         >
                                           <Box>
-                                            <Tooltip arrow title={item.title}>
-                                              <Typography
-                                                className={sectionHeader}
-                                                variant="h3"
-                                              >
-                                                {item.title}
-                                              </Typography>
-                                            </Tooltip>
+                                            <Typography
+                                              className={sectionHeader}
+                                              variant="h3"
+                                            >
+                                              {item.title}
+                                            </Typography>
                                           </Box>
                                           <Box
                                             className={countStyle}
                                             style={{ marginTop: 9 }}
                                           >
-                                            <Tooltip arrow title="Total Notes">
+                                            <Tooltip
+                                              arrow
+                                              title="Total Notes"
+                                              placement="right"
+                                            >
                                               <Typography
                                                 color="primary"
                                                 className={countTextStyle}
@@ -921,8 +935,9 @@ const SectionList = () => {
                                     )}
                                   </ListItem>
                                   {renderMenu(item)}
-
                                   <Note
+                                    sectionIndex={index}
+                                    startSession={startSession}
                                     key={item._id}
                                     noteList={item.notes}
                                     sectionId={item._id}

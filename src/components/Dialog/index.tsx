@@ -46,6 +46,7 @@ export default function ResponsiveDialog(props: any) {
     hideButton = false,
     hideSecondary,
     loading,
+    hideClose = false,
   } = props;
   const { paperStyle, closeIconStyle, contentStyle } = useStyles({ maxWidth });
 
@@ -72,9 +73,14 @@ export default function ResponsiveDialog(props: any) {
           <DialogContentText>{children}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <IconButton onClick={() => handleClose()} className={closeIconStyle}>
-            <CloseOutlinedIcon />
-          </IconButton>
+          {!hideClose && (
+            <IconButton
+              onClick={() => handleClose()}
+              className={closeIconStyle}
+            >
+              <CloseOutlinedIcon />
+            </IconButton>
+          )}
           {!hideSecondary && scta && (
             <Button
               onClick={() => handleSecondary()}

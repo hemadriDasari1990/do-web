@@ -146,6 +146,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   primaryAvatarStyle: {
     background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
   },
+  titleStyle: {
+    fontSize: "3.5rem",
+    lineHeight: 1.143,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 30,
+    },
+  },
+  titleSecondaryStyle: {
+    fontSize: "2.5rem",
+    lineHeight: 1.143,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 30,
+    },
+  },
+  iconStyle: {
+    fontSize: 50,
+  },
 }));
 
 export default useStyles;

@@ -16,8 +16,8 @@ const useStyles = makeStyles(() => ({
   boxStyle: {
     borderRadius: 5,
     backgroundColor: "#f7f8f9",
-    height: 40,
-    width: 40,
+    height: 35,
+    width: 35,
   },
 }));
 
@@ -75,7 +75,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
         </Typography>
       </Box>
       <Box>
-        <Typography variant="h3"> &nbsp;days</Typography>
+        <Typography variant="h4"> &nbsp;days</Typography>
       </Box>
       <Box ml={1} className={boxStyle}>
         <Typography className={timerTextStyle} variant="h4">
@@ -83,7 +83,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
         </Typography>
       </Box>
       <Box>
-        <Typography variant="h3"> &nbsp;hrs</Typography>
+        <Typography variant="h4"> &nbsp;hrs</Typography>
       </Box>
       <Box ml={1} className={boxStyle}>
         <Typography className={timerTextStyle} variant="h4">
@@ -91,7 +91,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
         </Typography>
       </Box>
       <Box>
-        <Typography variant="h3"> &nbsp;mins</Typography>
+        <Typography variant="h4"> &nbsp;mins</Typography>
       </Box>
       <Box mr={0.3} className={boxStyle}>
         <Typography className={timerTextStyle} variant="h4">
@@ -99,7 +99,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
         </Typography>
       </Box>
       <Box>
-        <Typography variant="h3"> &nbsp;secs</Typography>
+        <Typography variant="h4"> &nbsp;secs</Typography>
       </Box>
     </Box>
   );

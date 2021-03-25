@@ -16,6 +16,7 @@ import { getFeedbacks } from "../../redux/actions/feedback";
 // import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import Wave from "../../assets/wave.svg";
+import useStyles from "../styles";
 
 // import { useHistory } from "react-router";
 
@@ -26,14 +27,7 @@ const Summary = React.lazy(() => import("./summary"));
 const UserList = React.lazy(() => import("./users"));
 const AdContainer = React.lazy(() => import("./adContainer"));
 
-const useStyles = makeStyles((theme: Theme) => ({
-  titleStyle: {
-    fontSize: "3.5rem",
-    lineHeight: 1.143,
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 30,
-    },
-  },
+const useLocalStyles = makeStyles((theme: Theme) => ({
   imageStyle: {
     height: 300,
     [theme.breakpoints.down("xs")]: {
@@ -53,23 +47,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "auto",
     display: "block",
   },
-  titleSecondaryStyle: {
-    fontSize: "2.5rem",
-    lineHeight: 1.143,
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 30,
-    },
-  },
 }));
 
 const Home = () => {
-  const {
-    titleStyle,
-    imageStyle,
-    boxGridStyle,
-    skeletonImageStyle,
-    titleSecondaryStyle,
-  } = useStyles();
+  const { imageStyle, boxGridStyle, skeletonImageStyle } = useLocalStyles();
+  const { titleStyle, titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
   // const authenticated: boolean = useAuthenticated();
   // const history = useHistory();
@@ -116,15 +98,15 @@ const Home = () => {
                 </Box>
                 <Box>
                   <Typography variant="body1">
-                    It's 100% free and fun! The versatile retrospective tool for
-                    agile teams, collaborate with your team{" "}
+                    Provide a safe space to discuss what worked and what didn't.{" "}
                   </Typography>
                 </Box>
                 <Box mb={5}>
                   <Typography variant="body1">
-                    and get better in what you do with a modern, powerful and
-                    beautiful application. The fun part is expressing emotions
-                    as reactions on notes.
+                    Identify how to improve teamwork by reflecting on what
+                    worked, what didn’t, and why. We recommend running a
+                    Retrospective with your team every couple of weeks or at the
+                    end of a project milestone.
                   </Typography>
                 </Box>
                 <Box>
@@ -158,15 +140,15 @@ const Home = () => {
             <Box py={7} textAlign="center">
               <Box>
                 <Typography variant="h1" className={titleSecondaryStyle}>
-                  It’s more than work. It’s a way of working together.
+                  It's fun and a way of discussing what worked and what didn't.
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="h3">
                   Start with a Letsdoretro board, lists, and cards. Customize
                   and expand with more features as your teamwork grows. Manage
-                  projects, organize tasks, and build team spirit—all in one
-                  place.
+                  departments, projects, organize boards, and build team
+                  spirit—all in one place.
                 </Typography>
               </Box>
               <Box mt={3}>

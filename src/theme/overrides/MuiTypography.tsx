@@ -1,7 +1,7 @@
 const fontFamily =
   "Charlie Display,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif";
-const textPrimary = "#42526E";
-const textSecondary = "#253858";
+const textPrimary = "#253858";
+const textSecondary = "#42526E";
 export default {
   gutterBottom: {
     marginBottom: 8,
@@ -20,6 +20,7 @@ export default {
     fontWeight: 500,
     fontSize: 26,
     letterSpacing: "-0.24px",
+    lineHeight: 1.8,
     color: textSecondary,
   },
   h3: {
@@ -35,6 +36,7 @@ export default {
     fontWeight: 500,
     fontSize: 18,
     letterSpacing: "-0.06px",
+    lineHeight: 1.8,
     color: textPrimary,
   },
   h5: {
@@ -79,7 +81,7 @@ export default {
     fontWeight: 500,
     letterSpacing: "-0.04px",
     whiteSpace: "initial",
-    color: textPrimary,
+    color: textSecondary,
   },
   button: {
     fontFamily: fontFamily,

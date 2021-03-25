@@ -67,6 +67,10 @@ export default function SectionSkeleton() {
         <NoteSkeleton />
         <NoteSkeleton />
         <NoteSkeleton />
+        <NoteSkeleton />
+        <NoteSkeleton />
+        <NoteSkeleton />
+        <NoteSkeleton />
       </CardContent>
     </Card>
   );

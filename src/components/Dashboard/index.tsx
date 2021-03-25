@@ -15,11 +15,9 @@ import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 import Hidden from "@material-ui/core/Hidden";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import PollOutlinedIcon from "@material-ui/icons/PollOutlined";
-import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
-import SecurityOutlinedIcon from "@material-ui/icons/SecurityOutlined";
 // import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import Typography from "@material-ui/core/Typography";
-import { USER_DASHBOARD } from "../../routes/config";
+import { USER_DASHBOARD, BOARD_DASHBOARD } from "../../routes/config";
 import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import { replaceStr } from "../../util";
 import socket from "../../socket";
@@ -29,6 +27,7 @@ import { useLogin } from "../../redux/state/login";
 import { useUserSummary } from "../../redux/state/user";
 import PlayArrowOutlinedIcon from "@material-ui/icons/PlayArrowOutlined";
 import UpdateBoard from "./Update";
+import { useBoard, useBoardLoading } from "../../redux/state/board";
 
 const Banner = React.lazy(() => import("../common/Banner"));
 const InfoCard = React.lazy(() => import("../common/InfoCard"));
@@ -50,6 +49,8 @@ const Dashboard = () => {
   const { summaryGridStyle, bannerStyle } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { loading } = useBoardLoading();
+  const { board } = useBoard();
 
   /* React states */
   const [showSuccess, setShowSuccess] = useState(false);
@@ -67,6 +68,13 @@ const Dashboard = () => {
     dispatch(getUserSummary(userId));
     socket.emit(`get-departments`, userId);
   }, []);
+
+  useEffect(() => {
+    if (!loading && board?._id && showBoardForm) {
+      handleUpdateForm();
+      history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
+    }
+  }, [loading, board]);
 
   const handleUpdateForm = () => {
     setShowBoardForm(false);
@@ -232,20 +240,6 @@ const Dashboard = () => {
               icon={ArchiveOutlinedIcon}
               title="InActive Projects"
               value={summary?.totalInActiveProjects}
-            />
-          </Grid>
-          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-            <InfoCard
-              icon={PublicOutlinedIcon}
-              title="Public Projects"
-              value={summary?.totalPublicProjects}
-            />
-          </Grid>
-          <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
-            <InfoCard
-              icon={SecurityOutlinedIcon}
-              title="Private Projects"
-              value={summary?.totalPrivateProjects}
             />
           </Grid>
         </Grid>

@@ -93,10 +93,12 @@ const AdContainer = () => {
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  <Typography variant="h5">
-                    Sign up and get started with Letsdoretro today. A world of
-                    productive teamwork awaits!
-                  </Typography>
+                  <Box mt={-1}>
+                    <Typography variant="h5" style={{ lineHeight: 1.2 }}>
+                      Sign up and get started with Letsdoretro today. A world of
+                      productive teamwork awaits!
+                    </Typography>
+                  </Box>
                 </DialogContentText>
                 <Box>
                   <Button
@@ -117,7 +119,7 @@ const AdContainer = () => {
                 //   className={imageStyle}
                 sizes="(max-width: 767px) 100vw, 571.421875px"
                 width="280px"
-                height="250px"
+                height="228px"
               />
             </Zoom>
           </Box>

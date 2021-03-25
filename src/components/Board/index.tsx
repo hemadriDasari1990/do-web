@@ -27,6 +27,7 @@ import formateNumber from "../../util/formateNumber";
 import { PER_PAGE } from "../../util/constants";
 import { useTeam, useTeamLoading } from "../../redux/state/team";
 import Caption from "../common/Caption";
+import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const BoardList = React.lazy(() => import("./List"));
@@ -64,9 +65,7 @@ const BoardDashboard = () => {
   /* React states */
   const [boards, setBoards] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [selectedBoard, setSelectedBoard] = useState<{ [Key: string]: any }>(
-    {}
-  );
+  const [selectedBoard, setSelectedBoard] = useState<any>(null);
   const [showBoardForm, setShowBoardForm] = useState(false);
   const [totalBoards, setTotalBoards] = useState(totalBoardsCount);
   const [openError, setOpenError] = useState(false);
@@ -122,7 +121,7 @@ const BoardDashboard = () => {
       );
       setBoards(boardsList);
       setTotalBoards(boardsList?.length);
-      setSelectedBoard({});
+      setSelectedBoard(null);
       handleCloseDeleteDialog();
       setOpenDeleteDialog(false);
     }
@@ -163,7 +162,7 @@ const BoardDashboard = () => {
         boardsList[boardIndex] = boardData;
         setBoards(boardsList);
       }
-      setSelectedBoard({});
+      setSelectedBoard(null);
     }
   }, [teamLoading, inviteBoardResponse, inviteSent]);
 
@@ -230,7 +229,7 @@ const BoardDashboard = () => {
   };
 
   const handleCreateNewBoard = () => {
-    setSelectedBoard({});
+    setSelectedBoard(null);
     setShowBoardForm(true);
   };
 
@@ -297,7 +296,7 @@ const BoardDashboard = () => {
       {renderDeleteDialog()}
       {renderSnackbar()}
       <Box className={root}>
-        <Box>
+        <Box py={2}>
           <Grid container spacing={2}>
             <Grid
               item
@@ -307,29 +306,34 @@ const BoardDashboard = () => {
               sm={12}
               xs={12}
             >
-              <Box display="flex">
-                <Hidden only={["xs"]}>
-                  <Typography variant="h1">{project?.title}</Typography>
-                </Hidden>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <Typography variant="h4">{project?.title}</Typography>
-                </Hidden>
-                <Tooltip arrow title="Total Boards">
-                  <Box ml={2} className={countStyle}>
-                    <Typography color="primary" className={countTextStyle}>
-                      {formateNumber(totalBoards) || 0}
-                    </Typography>
+              {projectLoading ? (
+                <TitleWithCountSkeleton />
+              ) : (
+                <Box display="flex">
+                  <Hidden only={["xs"]}>
+                    <Typography variant="h2">{project?.title}</Typography>
+                  </Hidden>
+                  <Hidden only={["xl", "lg", "md", "sm"]}>
+                    <Typography variant="h4">{project?.title}</Typography>
+                  </Hidden>
+                  <Tooltip arrow title="Total Boards">
+                    <Box ml={2} className={countStyle}>
+                      <Typography color="primary" className={countTextStyle}>
+                        {formateNumber(totalBoards) || 0}
+                      </Typography>
+                    </Box>
+                  </Tooltip>
+                  <Box ml={1} mt={2.2}>
+                    <Caption title="Boards" />
                   </Box>
-                </Tooltip>
-                <Box ml={1} mt={2.2}>
-                  <Caption title="Boards" />
                 </Box>
-              </Box>
+              )}
             </Grid>
             <Grid item xl={4} lg={4} md={8} sm={12} xs={12}>
               <Box
                 display="flex"
                 justifyContent={!boards?.length ? "flex-end" : "space-around"}
+                mt={1.2}
               >
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton

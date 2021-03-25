@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     width: 60,
     margin: "auto auto auto 5px",
     borderRadius: 6,
-    boxShadow: "#e3e3e633 0px 7px 29px 0px",
+    boxShadow: "#10101024 0px 7px 29px 0px",
   },
   iconStyle: {
     position: "relative",
@@ -63,9 +63,9 @@ const InfoCard = (props: any) => {
             />
           </Box>
         </Box>
-        <Box ml={2} mt={1}>
+        <Box ml={2}>
           <Box>
-            <Typography className={titleStyle} variant="h4">
+            <Typography className={titleStyle} variant="h5">
               {title}
             </Typography>
           </Box>

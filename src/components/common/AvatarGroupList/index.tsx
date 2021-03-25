@@ -39,7 +39,7 @@ const AvatarGroupList = (props: any) => {
           ))}
         </AvatarGroup>
       ) : (
-        <Typography variant="h6">{noDataMessage || "No data"}</Typography>
+        noDataMessage && <Typography variant="h6">{noDataMessage}</Typography>
       )}
     </>
   );

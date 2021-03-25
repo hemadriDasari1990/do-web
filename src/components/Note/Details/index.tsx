@@ -13,6 +13,9 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import SubtitlesIcon from "@material-ui/icons/Subtitles";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import getPastTime from "../../../util/getPastTime";
+import PersonIcon from "@material-ui/icons/Person";
+import Loader from "../../Loader/components";
 
 const useStyles = makeStyles(() => ({
   defaultTab: {
@@ -40,8 +43,9 @@ const NoteDetails = (props: any) => {
   const goBack = () => {
     setPage(1);
   };
+
   return (
-    <Suspense fallback={<div />}>
+    <Suspense fallback={<Loader enable={true} backdrop={true} />}>
       <Box>
         <List disablePadding>
           <ListItem alignItems="flex-start" disableGutters>
@@ -58,6 +62,48 @@ const NoteDetails = (props: any) => {
                 <React.Fragment>
                   <Typography component="span" variant="body2">
                     in section #{note?.section?.title}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <ListItem alignItems="flex-start" disableGutters>
+            <ListItemIcon>
+              <PersonIcon className={listIconStyle} />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <React.Fragment>
+                  <Typography variant="h6">
+                    Created By {note?.createdBy?.name || "Team Member"}
+                  </Typography>
+                </React.Fragment>
+              }
+              secondary={
+                <React.Fragment>
+                  <Typography component="span" variant="subtitle2">
+                    {getPastTime(note?.createdAt)}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <ListItem alignItems="flex-start" disableGutters>
+            <ListItemIcon>
+              <PersonIcon className={listIconStyle} />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <React.Fragment>
+                  <Typography variant="h6">
+                    Last Updated By {note?.updatedBy?.name || "Team Member"}
+                  </Typography>
+                </React.Fragment>
+              }
+              secondary={
+                <React.Fragment>
+                  <Typography component="span" variant="subtitle2">
+                    {getPastTime(note?.updatedAt)}
                   </Typography>
                 </React.Fragment>
               }

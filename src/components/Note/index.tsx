@@ -16,9 +16,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
+import UpdateNote from "./Update";
 
 const NotesList = React.lazy(() => import("./list"));
-const UpdateNote = React.lazy(() => import("./Update"));
 
 const useStyles = makeStyles(() => ({
   buttonStyle: {
@@ -35,11 +35,22 @@ const useStyles = makeStyles(() => ({
 }));
 
 function Note(props: any) {
-  const { sectionId, noteList, updateTotalNotes } = props;
+  const {
+    sectionId,
+    noteList,
+    updateTotalNotes,
+    startSession,
+    sectionIndex,
+  } = props;
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
-  const enableActions = !board?.isLocked || authenticated;
+  const enableActions =
+    (authenticated && startSession) ||
+    (!board?.isLocked &&
+      board?.status !== "completed" &&
+      board?.status !== "draft" &&
+      board?.status !== "pending");
 
   /* Local states */
   const [notes, setNotes] = useState(noteList || []);
@@ -103,6 +114,9 @@ function Note(props: any) {
     const noteData = notes[noteIndex];
     if (noteData) {
       noteData.description = newNote.description;
+      noteData.updatedBy = newNote.updatedBy;
+      noteData.updatedById = newNote.updatedById;
+      noteData.isAnnonymous = newNote.isAnnonymous;
       notesList[noteIndex] = noteData;
       setNotes(notesList);
     } else {
@@ -221,6 +235,7 @@ function Note(props: any) {
               dropProvided={dropProvided}
               showNote={showNote}
               deleteNote={deleteNote}
+              sectionIndex={sectionIndex}
             />
           </Box>
         )}

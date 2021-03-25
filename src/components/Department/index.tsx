@@ -21,6 +21,7 @@ import useStyles from "../styles";
 import ListSkeleton from "../common/skeletons/list";
 import formateNumber from "../../util/formateNumber";
 import Caption from "../common/Caption";
+import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
 
 const DepartmentList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -229,24 +230,28 @@ const DepartmentDashboard = () => {
         <Box py={2}>
           <Grid container spacing={2}>
             <Grid item xl={8} lg={8} md={6} sm={6} xs={12}>
-              <Box display="flex" style={{ verticalAlign: "middle" }}>
-                <Hidden only={["xs"]}>
-                  <Typography variant="h1">{user?.name}</Typography>
-                </Hidden>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <Typography variant="h4">{user?.name}</Typography>
-                </Hidden>
-                <Tooltip arrow title="Total Departments">
-                  <Box ml={2} className={countStyle}>
-                    <Typography color="primary" className={countTextStyle}>
-                      {formateNumber(totalDepartments) || 0}
-                    </Typography>
+              {loading ? (
+                <TitleWithCountSkeleton />
+              ) : (
+                <Box display="flex" style={{ verticalAlign: "middle" }}>
+                  <Hidden only={["xs"]}>
+                    <Typography variant="h2">{user?.name}</Typography>
+                  </Hidden>
+                  <Hidden only={["xl", "lg", "md", "sm"]}>
+                    <Typography variant="h4">{user?.name}</Typography>
+                  </Hidden>
+                  <Tooltip arrow title="Total Departments">
+                    <Box ml={2} className={countStyle}>
+                      <Typography color="primary" className={countTextStyle}>
+                        {formateNumber(totalDepartments) || 0}
+                      </Typography>
+                    </Box>
+                  </Tooltip>
+                  <Box ml={1} mt={2.2}>
+                    <Caption title="Departments" />
                   </Box>
-                </Tooltip>
-                <Box ml={1} mt={2.2}>
-                  <Caption title="Departments" />
                 </Box>
-              </Box>
+              )}
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={6} xs={12}>
               <Box
@@ -254,6 +259,7 @@ const DepartmentDashboard = () => {
                 justifyContent={
                   !departments?.length ? "flex-end" : "space-around"
                 }
+                mt={1.2}
               >
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton

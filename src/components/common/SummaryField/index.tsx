@@ -25,7 +25,7 @@ const SummaryField = (props: any) => {
         </Typography>
       </Box>
       <Box>
-        {typeof value == "object" ? (
+        {typeof value !== "string" ? (
           value
         ) : (
           <Typography className={valueStyle} variant="h6">

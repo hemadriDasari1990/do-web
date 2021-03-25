@@ -263,7 +263,7 @@ const TeamDashboard = () => {
             >
               <Box display="flex">
                 <Hidden only={["xs"]}>
-                  <Typography variant="h1">{user?.name}</Typography>
+                  <Typography variant="h2">{user?.name}</Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">{user?.name}</Typography>

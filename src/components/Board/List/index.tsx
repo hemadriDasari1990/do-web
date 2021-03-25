@@ -33,6 +33,7 @@ import { useProjectLoading } from "../../../redux/state/project";
 import ListSkeleton from "../../common/skeletons/list";
 import { useTeamLoading } from "../../../redux/state/team";
 import Loader from "../../Loader/components";
+import Status from "../../common/Status";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
@@ -328,25 +329,13 @@ const BoardList = (props: any) => {
           />
         </Box>
         <Box my={2} display="flex" justifyContent="space-between">
-          {board?.status === "draft" && (
-            <SummaryField title="Status" value={"Draft"} />
-          )}
-          {board?.status === "pending" && (
-            <SummaryField title="Status" value={"New"} />
-          )}
-          {board?.status === "inprogress" && (
-            <SummaryField title="Status" value={"Inprogress"} />
-          )}
-          {board?.status === "completed" && (
-            <SummaryField title="Status" value={"Completed"} />
-          )}
+          <SummaryField
+            title="Status"
+            value={<Status value={board?.status} />}
+          />
           <SummaryField
             title="Total sections"
             value={formateNumber(board?.totalSections || 0)}
-          />
-          <SummaryField
-            title="Invite sent"
-            value={board?.inviteSent ? "Yes" : "No"}
           />
           <SummaryField
             title="Invite sent"
@@ -370,6 +359,7 @@ const BoardList = (props: any) => {
             <Box>
               <Tooltip
                 arrow
+                placement="right"
                 title={
                   selectedBoard?._id === board?._id && clipboardText
                     ? clipboardText
