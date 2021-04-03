@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   countStyle: {
     borderRadius: 5,
-    border: "1px solid #1e1e58",
+    border: "1px solid #172b4d",
     minWidth: 30,
     height: 30,
     [theme.breakpoints.down("xl")]: {
@@ -46,8 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 5,
     fontSize: 30,
     padding: 2,
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
   },
   boxTextStyle: {
     padding: "3px 10px 3px 10px",
@@ -56,17 +55,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "#f7fafd",
     borderRadius: 6,
   },
-  disAgreeIconStyle: {
+  minusOneIconStyle: {
     background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
   },
   plusTwoIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
+    background: "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
   },
   loveIconStyle: {
     background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
   },
   plusIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
+    background: "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
   },
   deserveIconStyle: {
     background: "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)",
@@ -76,8 +75,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   boxTopGridStyle: {
     height: 100,
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
   },
   boxGridStyle: {
     padding: "2rem 1rem",
@@ -96,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "3rem",
   },
   boxMainStyle: {
-    borderRadius: "0.5rem",
+    borderRadius: 6,
     boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
     color: "inherit",
     display: "block",
@@ -104,6 +102,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     textAlign: "left",
     textDecoration: "none",
+    paddingTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   boxTitleStyle: {
     fontSize: "1.5rem",
@@ -116,16 +117,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   logoIconStyle: {
     padding: 3,
     borderRadius: "50%",
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
     width: 25,
     height: 25,
   },
   n30: {
     backgroundColor: "#EBECF0",
   },
+  n40: {
+    backgroundColor: "#fdf3fa",
+  },
   captionTextStyle: {
-    borderRadius: 3,
+    borderRadius: 6,
     fontSize: ".8rem",
     fontWeight: 600,
     textTransform: "uppercase",
@@ -133,6 +136,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     lineHeight: 1,
     whiteSpace: "nowrap",
     verticalAlign: "middle",
+    color: "#f307b5",
   },
   sideNoteStyle: {
     padding: 30,
@@ -144,7 +148,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 32,
   },
   primaryAvatarStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0095ffba 100%)",
+    background: "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
   },
   titleStyle: {
     fontSize: "3.5rem",
@@ -155,7 +159,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   titleSecondaryStyle: {
     fontSize: "2.5rem",
-    lineHeight: 1.143,
+    lineHeight: 1.843,
     [theme.breakpoints.down("xs")]: {
       fontSize: 30,
     },

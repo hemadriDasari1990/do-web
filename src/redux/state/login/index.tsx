@@ -2,17 +2,19 @@ import { parseJwt } from "../../../util";
 import { useSelector } from "react-redux";
 
 export function useLogin() {
-  const { token, success, message } = useSelector(
+  const { token, success, message, accountType } = useSelector(
     (state: { [Key: string]: any }) => ({
       token: state.login.response?.token
         ? state.login.response?.token
         : sessionStorage.getItem("token"),
       success: state.login.response?.success,
       message: state.login.response?.message,
+      accountType: state.login.response?.accountType,
     })
   );
   const descodedData: { [Key: string]: any } = parseJwt(token);
   return {
+    accountType: accountType || descodedData?.accountType,
     token,
     success,
     userId: descodedData?._id,

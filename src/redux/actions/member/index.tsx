@@ -13,10 +13,18 @@ export const getMemberDetails = (memberId: string) => {
   };
 };
 
-export const getMembersByUser = (userId: string) => {
+export const getMembersByUser = (
+  userId: string,
+  queryString: string,
+  page: number,
+  size: number
+) => {
   return {
     type: GET_MEMBERS_BY_USER_REQUEST,
     id: userId,
+    queryString,
+    page,
+    size,
   };
 };
 

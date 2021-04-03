@@ -1,8 +1,8 @@
 export default {
   // root: {},
-  indicator: {
-    // backgroundColor: "#1e1e58",
-  },
+  // indicator: {
+  //   backgroundColor: "#172b4d",
+  // },
   /* Styles applied to the root element if the parent [`Tabs`](/api/tabs/) has `textColor="primary"`. */
   // textColorPrimary: {
   //   color: "#5b6886",

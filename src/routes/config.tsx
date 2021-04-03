@@ -1,7 +1,8 @@
 export const ROOT = "/";
 
 export const CREATE = "/create";
-export const DASHBOARD = "/dashboard";
+export const COMMERCIAL_DASHBOARD = "/dashboard/commercial";
+export const INDIVIDUAL_DASHBOARD = "/dashboard/individual";
 export const BOARD_DASHBOARD = "/board/:boardId";
 export const MEMBERS_LIST = "/:teamId/members";
 export const ABOUT = "/about-us";

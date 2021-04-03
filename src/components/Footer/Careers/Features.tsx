@@ -18,8 +18,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   avatarStyle: {
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
   },
 });
 

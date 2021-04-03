@@ -1,33 +1,33 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
-import { useProjectLoading } from "../../redux/state/project";
-
 import { useHistory, useParams } from "react-router";
-import { useProject } from "../../redux/state/project";
+import { useTeam, useTeamLoading } from "../../redux/state/team";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import Caption from "../common/Caption";
 import { DEPARTMENT_DASHBOARD } from "../../routes/config";
+import DoPagination from "../common/Pagination";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import ListSkeleton from "../common/skeletons/list";
+import { PER_PAGE } from "../../util/constants";
+import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteBoard } from "../../redux/actions/board";
+import formateNumber from "../../util/formateNumber";
 import { getProjectDetails } from "../../redux/actions/project";
 import { replaceStr } from "../../util";
-import { useDispatch } from "react-redux";
-import useStyles from "../styles";
-import ListSkeleton from "../common/skeletons/list";
 // import SortOutlinedIcon from "@material-ui/icons/SortOutlined";
 import { sendInvitationToTeams } from "../../redux/actions/team";
-import formateNumber from "../../util/formateNumber";
-import { PER_PAGE } from "../../util/constants";
-import { useTeam, useTeamLoading } from "../../redux/state/team";
-import Caption from "../common/Caption";
-import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
+import { useDispatch } from "react-redux";
+import { useProject } from "../../redux/state/project";
+import { useProjectLoading } from "../../redux/state/project";
+import useStyles from "../styles";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const BoardList = React.lazy(() => import("./List"));
@@ -289,7 +289,9 @@ const BoardDashboard = () => {
     );
   };
 
-  // const handleSort = () => {};
+  const handlePage = (page: number) => {
+    console.log("page", page);
+  };
 
   return (
     <Suspense fallback={<ListSkeleton />}>
@@ -330,11 +332,7 @@ const BoardDashboard = () => {
               )}
             </Grid>
             <Grid item xl={4} lg={4} md={8} sm={12} xs={12}>
-              <Box
-                display="flex"
-                justifyContent={!boards?.length ? "flex-end" : "space-around"}
-                mt={1.2}
-              >
+              <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}
@@ -345,7 +343,7 @@ const BoardDashboard = () => {
                 </Hidden>
 
                 <Hidden only={["xs", "sm"]}>
-                  <Box className={buttonStyle}>
+                  <Box className={buttonStyle} mr={2}>
                     <Button
                       variant="outlined"
                       color="default"
@@ -394,6 +392,7 @@ const BoardDashboard = () => {
           selectedBoard={selectedBoard}
           openDialog={showBoardForm}
           handleUpdateForm={handleUpdateForm}
+          totalBoards={totalBoards}
         />
 
         <Box>
@@ -404,6 +403,10 @@ const BoardDashboard = () => {
             selectedBoard={selectedBoard}
             // lastBoard={lastBoard}
           />
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Box></Box>
+          <DoPagination handlePage={handlePage} pageCount={PER_PAGE} />
         </Box>
       </Box>
     </Suspense>

@@ -34,7 +34,7 @@ import { put, takeLatest } from "redux-saga/effects";
 
 function* callGetUserDetails(action: { [Key: string]: any }) {
   try {
-    const result = yield getUserDetails(action.id);
+    const result = yield getUserDetails(action.id, action.accountType);
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_USER_SUCCESS, payload: data });

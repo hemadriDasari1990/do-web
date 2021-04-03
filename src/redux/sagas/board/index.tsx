@@ -8,8 +8,16 @@ import {
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
+  GET_BOARDS_SUCCESS,
+  GET_BOARDS_REQUEST,
+  GET_BOARDS_FAILED,
 } from "../../actions/board/types";
-import { deleteBoard, getBoardDetails, updateBoard } from "../../network/board";
+import {
+  deleteBoard,
+  getBoardDetails,
+  updateBoard,
+  getBoards,
+} from "../../network/board";
 import { put, takeLatest } from "redux-saga/effects";
 
 function* callGetBoardDetails(action: { [Key: string]: any }) {
@@ -26,6 +34,28 @@ function* callGetBoardDetails(action: { [Key: string]: any }) {
 
 export function* watchGetBoardDetails() {
   yield takeLatest(GET_BOARD_REQUEST, callGetBoardDetails);
+}
+
+function* callGetBoards(action: { [Key: string]: any }) {
+  try {
+    const result = yield getBoards(
+      action.id,
+      action.accountType,
+      action.queryString,
+      action.page,
+      action.size
+    );
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_BOARDS_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({ type: GET_BOARDS_FAILED, payload: err.response.data });
+  }
+}
+
+export function* watchGetBoards() {
+  yield takeLatest(GET_BOARDS_REQUEST, callGetBoards);
 }
 
 function* callUpdateBoard(action: { [Key: string]: any }) {

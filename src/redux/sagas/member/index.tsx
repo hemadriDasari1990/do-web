@@ -38,7 +38,12 @@ export function* watchGetMemberDetails() {
 
 function* callGetMembersByUser(action: { [Key: string]: any }) {
   try {
-    const result = yield getMembersByUser(action.id);
+    const result = yield getMembersByUser(
+      action.id,
+      action.queryString,
+      action.page,
+      action.size
+    );
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_MEMBERS_BY_USER_SUCCESS, payload: data });

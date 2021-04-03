@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
-import DisAgreeIcon from "@material-ui/icons/ThumbDownAlt";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
@@ -40,7 +40,7 @@ const ReactionsView = (props: any) => {
   const { customBadge, avatarStyle } = useLocalStyles();
   const {
     plusTwoIconStyle,
-    disAgreeIconStyle,
+    minusOneIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
@@ -57,9 +57,9 @@ const ReactionsView = (props: any) => {
         iconStyle = loveIconStyle;
         ReactionIcon = LoveIcon;
         break;
-      case "disagree":
-        iconStyle = disAgreeIconStyle;
-        ReactionIcon = DisAgreeIcon;
+      case "minusOne":
+        iconStyle = minusOneIconStyle;
+        ReactionIcon = MinusOneIcon;
         break;
       case "plusOne":
         iconStyle = plusIconStyle;

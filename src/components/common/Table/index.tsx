@@ -255,7 +255,7 @@ const DoTable = (props: TableProps) => {
                 >
                   <Box display="flex">
                     <Box>
-                      <Tooltip arrow title={`View Team ${td?.name}`}>
+                      <Tooltip arrow title={`Actions`} placement="left">
                         <IconButton
                           size="small"
                           className={iconButtonStyle}
@@ -270,7 +270,7 @@ const DoTable = (props: TableProps) => {
                       </Tooltip>
                     </Box>
                     <Box>
-                      <Tooltip arrow title={`Add Member`}>
+                      <Tooltip arrow title={`Add Member`} placement="right">
                         <IconButton
                           size="small"
                           className={iconButtonStyle}

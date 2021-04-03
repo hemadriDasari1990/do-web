@@ -1,17 +1,21 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import Caption from "../common/Caption";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import ListSkeleton from "../common/skeletons/list";
+import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { USER_DASHBOARD } from "../../routes/config";
 import { deleteProject } from "../../redux/actions/project";
+import formateNumber from "../../util/formateNumber";
 import { getDepartmentDetails } from "../../redux/actions/department";
 import { replaceStr } from "../../util";
 import { useDepartment } from "../../redux/state/department";
@@ -19,10 +23,6 @@ import { useDepartmentLoading } from "../../redux/state/department";
 import { useDispatch } from "react-redux";
 import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
-import ListSkeleton from "../common/skeletons/list";
-import formateNumber from "../../util/formateNumber";
-import Caption from "../common/Caption";
-import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
 
 const ProjectList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -266,11 +266,7 @@ const ProjectDashboard = () => {
               )}
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-              <Box
-                display="flex"
-                justifyContent={!projects?.length ? "flex-end" : "space-around"}
-                mt={1.2}
-              >
+              <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}
@@ -280,7 +276,7 @@ const ProjectDashboard = () => {
                   </IconButton>
                 </Hidden>
                 <Hidden only={["xs", "sm"]}>
-                  <Box className={buttonStyle}>
+                  <Box className={buttonStyle} mr={2}>
                     <Button
                       variant="outlined"
                       color="default"

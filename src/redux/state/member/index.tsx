@@ -4,7 +4,7 @@ export function useMember() {
   return useSelector((state: { [Key: string]: any }) => ({
     member: state.member.response,
     members: state.member?.members,
-    totalMembers: state.member.response?.totalMembers,
+    totalMembers: state.member?.totalMembers,
   }));
 }
 

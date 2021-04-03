@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { deleteMember, getMembersByUser } from "../../redux/actions/member";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { DASHBOARD } from "../../routes/config";
+import { COMMERCIAL_DASHBOARD } from "../../routes/config";
+import DoSearch from "../common/search";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,8 +12,6 @@ import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceO
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import { deleteMember } from "../../redux/actions/member";
-import { getMembersByUser } from "../../redux/actions/member";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
@@ -38,31 +38,44 @@ const MemberDashboard = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { member } = useMember();
-  const { members: membersList } = useMember();
+  const { members: membersList, totalMembers: totalMembersCount } = useMember();
   const { loading } = useMemberLoading();
+  const { user } = useUser();
   const { userId } = useLogin();
-  const { user, totalMembers: totalMembersCount } = useUser();
 
   /* React local states */
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [totalMembers, setTotalMembers] = useState(totalMembersCount);
   const [members, setMembers] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [selectedMember, setSelectedMember] = useState<{
-    [Key: string]: any;
-  }>({});
+  const [selectedMember, setSelectedMember] = useState<any>(null);
   const [openError, setOpenError] = useState(false);
+  const [queryString, setQueryString] = useState("");
 
   /* React Hooks */
   useEffect(() => {
-    dispatch(getMembersByUser(userId));
+    loadMembers();
   }, []);
+
+  const loadMembers = () => {
+    dispatch(getMembersByUser(userId, queryString, 0, 15));
+  };
+
+  useEffect(() => {
+    const usersTimer = setTimeout(async () => {
+      await loadMembers();
+    }, 300);
+
+    return () => {
+      clearTimeout(usersTimer);
+    };
+  }, [queryString]);
 
   useEffect(() => {
     if (membersList) {
       setShowMemberForm(false);
       setMembers(membersList);
-      setTotalMembers(totalMembersCount);
+      setTotalMembers(membersList?.length);
     }
   }, [membersList]);
 
@@ -76,7 +89,7 @@ const MemberDashboard = () => {
       );
       setTotalMembers(membersList?.length);
       setMembers(membersList);
-      setSelectedMember({});
+      setSelectedMember(null);
       handleCloseDeleteDialog();
     }
 
@@ -98,7 +111,7 @@ const MemberDashboard = () => {
         ]);
         setTotalMembers(totalMembers + 1);
       }
-      setSelectedMember({});
+      setSelectedMember(null);
       setShowMemberForm(false);
     }
   }, [loading, member]);
@@ -110,12 +123,12 @@ const MemberDashboard = () => {
   };
 
   const handleCreateNewMember = () => {
-    setSelectedMember({});
+    setSelectedMember(null);
     setShowMemberForm(true);
   };
 
   const handleBack = () => {
-    history.push(DASHBOARD);
+    history.push(COMMERCIAL_DASHBOARD);
   };
 
   const handleMenu = async (
@@ -214,6 +227,11 @@ const MemberDashboard = () => {
       </DoSnackbar>
     );
   };
+
+  const handleSearch = (value: string) => {
+    setQueryString(value);
+  };
+
   return (
     <React.Fragment>
       {renderDeleteDialog()}
@@ -222,14 +240,7 @@ const MemberDashboard = () => {
       <Box className={root}>
         <Box py={2}>
           <Grid container spacing={2}>
-            <Grid
-              item
-              xl={members?.length ? 8 : 8}
-              lg={members?.length ? 8 : 8}
-              md={members?.length ? 6 : 6}
-              sm={12}
-              xs={12}
-            >
+            <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
                 <Hidden only={["xs"]}>
                   <Typography variant="h1">{user?.name}</Typography>
@@ -246,11 +257,16 @@ const MemberDashboard = () => {
                 </Tooltip>
               </Box>
             </Grid>
-            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-              <Box
-                display="flex"
-                justifyContent={!members?.length ? "flex-end" : "space-around"}
-              >
+            <Grid item xl={3} lg={3} md={3} xs={12} sm={6}>
+              <Box mt={1.2}>
+                <DoSearch
+                  placeHolder="Search boards by its title"
+                  handleSearch={handleSearch}
+                />
+              </Box>
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}
@@ -276,7 +292,9 @@ const MemberDashboard = () => {
                   </Box>
                 </Hidden>
                 {members?.length ? (
-                  <Box className={buttonStyle}>{renderCreateNewMember()}</Box>
+                  <Box ml={2} className={buttonStyle}>
+                    {renderCreateNewMember()}
+                  </Box>
                 ) : null}
               </Box>
             </Grid>

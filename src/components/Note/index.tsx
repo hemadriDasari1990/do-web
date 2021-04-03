@@ -3,7 +3,7 @@ import {
   DroppableProvided,
   DroppableStateSnapshot,
 } from "react-beautiful-dnd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,12 +11,12 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import UpdateNote from "./Update";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
-import UpdateNote from "./Update";
 
 const NotesList = React.lazy(() => import("./list"));
 
@@ -41,6 +41,9 @@ function Note(props: any) {
     updateTotalNotes,
     startSession,
     sectionIndex,
+    removeDeletedNote,
+    updateNote,
+    addNotes,
   } = props;
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
@@ -70,8 +73,10 @@ function Note(props: any) {
     socket.on(
       `delete-note-response-${note?._id}`,
       async (deleteNote: { [Key: string]: any }) => {
-        await filterNotes(deleteNote?._id);
+        console.log("note", note);
+        await removeDeletedNote(deleteNote?._id, selectedSectionId);
         await updateTotalNotes(selectedSectionId, "substract");
+        setNote(null);
       }
     );
 
@@ -79,7 +84,10 @@ function Note(props: any) {
     socket.on(
       `update-note-response-${note?._id}`,
       (newNote: { [Key: string]: any }) => {
-        updateNotes(newNote);
+        console.log("response", 234);
+        setNote(null);
+        setShowNote(false);
+        updateNote(newNote, selectedSectionId);
       }
     );
 
@@ -92,54 +100,19 @@ function Note(props: any) {
   useEffect(() => {
     /* Add new note */
     socket.on(
-      `create-note-response-${sectionId}`,
+      `create-note-response-${selectedSectionId}`,
       (newNote: { [Key: string]: any }) => {
-        addNotes(newNote);
+        console.log("response", 123);
+        addNotes(newNote, selectedSectionId);
+        setShowNote(false);
+        setSelectedSectionId(null);
       }
     );
 
     return () => {
-      socket.off(`create-note-response-${sectionId}`);
+      socket.off(`create-note-response-${selectedSectionId}`);
     };
-  }, [notes, sectionId]);
-
-  const updateNotes = (newNote: { [Key: string]: any }) => {
-    if (sectionId !== newNote?.sectionId) {
-      return;
-    }
-    const notesList = [...notes];
-    const noteIndex = notesList.findIndex(
-      (n: { [Key: string]: any }) => n._id === newNote._id
-    );
-    const noteData = notes[noteIndex];
-    if (noteData) {
-      noteData.description = newNote.description;
-      noteData.updatedBy = newNote.updatedBy;
-      noteData.updatedById = newNote.updatedById;
-      noteData.isAnnonymous = newNote.isAnnonymous;
-      notesList[noteIndex] = noteData;
-      setNotes(notesList);
-    } else {
-      setNotes((currentNotes: Array<{ [Key: string]: any }>) => [
-        newNote,
-        ...currentNotes,
-      ]);
-    }
-    setNote(null);
-    setShowNote(false);
-  };
-
-  const addNotes = (newNote: { [Key: string]: any }) => {
-    if (!newNote) {
-      return;
-    }
-    if (sectionId === newNote?.sectionId) {
-      setNotes([...notes, newNote]);
-      updateTotalNotes(sectionId, "add");
-    }
-    setShowNote(false);
-    setSelectedSectionId(null);
-  };
+  }, [notes, selectedSectionId]);
 
   const editNote = (note: { [Key: string]: any }) => {
     if (!note) {
@@ -158,17 +131,6 @@ function Note(props: any) {
     setNote(note);
   };
 
-  const filterNotes = (noteId: string) => {
-    if (!noteId || !notes?.length) {
-      return;
-    }
-    const filteredNotes: Array<{ [Key: string]: any }> = notes.filter(
-      (item: { [Key: string]: any }) => item._id !== noteId
-    );
-    setNotes(filteredNotes);
-    setNote(null);
-  };
-
   const createNote = (currentSectionId: string) => {
     setShowNote(true);
     setSelectedSectionId(currentSectionId);
@@ -182,41 +144,49 @@ function Note(props: any) {
     setShowNote(false);
   };
 
+  const renderUpdateNote = useCallback(() => {
+    return (
+      <Box p={1}>
+        <ClickAwayListener onClickAway={() => handleClickAway()}>
+          <UpdateNote
+            selectedNote={note}
+            sectionId={sectionId}
+            handleCancel={handleCancel}
+            notes={notes}
+          />
+        </ClickAwayListener>
+      </Box>
+    );
+  }, [selectedSectionId, sectionId, showNote]);
+
+  const renderCreateNoteButton = useCallback(() => {
+    return (
+      <Grid container>
+        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+          <Box p={1}>
+            <Tooltip arrow title="Create Note">
+              <Zoom in={true} timeout={1500}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  fullWidth
+                  classes={{ root: buttonStyle }}
+                  onClick={() => createNote(sectionId)}
+                >
+                  <Typography variant="h5">+ Create Note</Typography>
+                </Button>
+              </Zoom>
+            </Tooltip>
+          </Box>
+        </Grid>
+      </Grid>
+    );
+  }, [showNote, enableActions]);
+
   return (
     <React.Fragment>
-      {selectedSectionId === sectionId && showNote ? (
-        <Box p={1}>
-          <ClickAwayListener onClickAway={() => handleClickAway()}>
-            <UpdateNote
-              selectedNote={note}
-              sectionId={sectionId}
-              handleCancel={handleCancel}
-            />
-          </ClickAwayListener>
-        </Box>
-      ) : null}
-      {!showNote && enableActions && (
-        <Grid container>
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-            <Box p={1}>
-              <Tooltip arrow title="Create Note">
-                <Zoom in={true} timeout={1500}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    fullWidth
-                    classes={{ root: buttonStyle }}
-                    onClick={() => createNote(sectionId)}
-                  >
-                    <Typography variant="h5">+ Create Note</Typography>
-                  </Button>
-                </Zoom>
-              </Tooltip>
-            </Box>
-          </Grid>
-        </Grid>
-      )}
-
+      {showNote ? <>{renderUpdateNote()}</> : null}
+      {!showNote && enableActions && <>{renderCreateNoteButton()}</>}
       <Droppable
         droppableId={sectionId}
         type="NOTE"
@@ -228,7 +198,7 @@ function Note(props: any) {
           dropProvided: DroppableProvided,
           dropSnapshot: DroppableStateSnapshot
         ) => (
-          <Box>
+          <div ref={dropProvided.innerRef}>
             <NotesList
               notes={notes}
               editNote={editNote}
@@ -237,7 +207,7 @@ function Note(props: any) {
               deleteNote={deleteNote}
               sectionIndex={sectionIndex}
             />
-          </Box>
+          </div>
         )}
       </Droppable>
     </React.Fragment>

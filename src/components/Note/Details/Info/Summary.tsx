@@ -24,7 +24,7 @@ const Summary = (props: any) => {
           <SummaryField title="Deserve" value={note?.totalDeserve} />
         </Grid>
         <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
-          <SummaryField title="Disagreed" value={note?.totalDisAgreed} />
+          <SummaryField title="Minus One" value={note?.totalMinusOne} />
         </Grid>
         <Grid item xl={4} lg={4} md={5} sm={6} xs={12}>
           <SummaryField

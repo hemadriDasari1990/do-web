@@ -20,6 +20,7 @@ import {
   watchDeleteBoard,
   watchGetBoardDetails,
   watchUpdateBoard,
+  watchGetBoards,
 } from "./board";
 import {
   watchDeleteDepartment,
@@ -97,6 +98,7 @@ function* rootSaga() {
   yield fork(watchUpdateBoard);
   yield fork(watchDeleteBoard);
   yield fork(watchGetBoardDetails);
+  yield fork(watchGetBoards);
 
   /* Section sagas */
   yield fork(watchGetSectionsByBoard);

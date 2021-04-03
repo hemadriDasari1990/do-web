@@ -30,6 +30,8 @@ const GroupList = (props: any) => {
   /* Local state */
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [open, setOpen] = React.useState(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
   const handleTableMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -51,6 +53,20 @@ const GroupList = (props: any) => {
   ) => {
     handleMenu(event, action);
     setOpen(false);
+  };
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 15));
+    setPage(0);
   };
 
   const renderMenu = () => {
@@ -118,7 +134,7 @@ const GroupList = (props: any) => {
 
   const refreshData = (queryString?: string) => {
     console.log(queryString);
-    dispatch(getMembersByUser(userId));
+    dispatch(getMembersByUser(userId, "", page, rowsPerPage));
   };
 
   return (
@@ -132,6 +148,10 @@ const GroupList = (props: any) => {
           refreshData={refreshData}
           viewItem={viewMember}
           handleMenu={handleTableMenu}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          page={page}
+          rowsPerPage={rowsPerPage}
         />
       </Box>
     </React.Fragment>

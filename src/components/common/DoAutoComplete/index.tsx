@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 500,
+      // width: 500,
       "& > * + *": {
         marginTop: theme.spacing(3),
       },

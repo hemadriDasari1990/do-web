@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../../styles";
 import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
-import { DASHBOARD, ROOT } from "../../../routes/config";
+import { COMMERCIAL_DASHBOARD, ROOT } from "../../../routes/config";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const DoLogo = (props: any) => {
 
   const refreshDashboard = () => {
     if (authenticated) {
-      history.push(DASHBOARD);
+      history.push(COMMERCIAL_DASHBOARD);
       return;
     }
     history.push(ROOT);

@@ -5,10 +5,12 @@ import { Route, Switch } from "react-router-dom";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
-import { DASHBOARD } from "./config";
+import { COMMERCIAL_DASHBOARD, INDIVIDUAL_DASHBOARD } from "./config";
 // import { replaceStr } from "../util";
 import { useAuthenticated } from "../redux/state/common";
 import { useHistory } from "react-router";
+import { useLogin } from "../redux/state/login";
+import { COMMERCIAL, INDIVIDUAL } from "../util/constants";
 
 // import { useLogin } from "../redux/state/login"
 
@@ -118,13 +120,16 @@ const Routes = () => {
   const authenticated: boolean = useAuthenticated();
   const history = useHistory();
   const { boxStyle } = useStyles({ authenticated });
-  // const { userId } = useLogin();
+  const { accountType } = useLogin();
 
   useEffect(() => {
-    if (authenticated) {
-      history.push(DASHBOARD);
+    if (authenticated && accountType == COMMERCIAL) {
+      history.push(COMMERCIAL_DASHBOARD);
     }
-  }, [authenticated]);
+    if (authenticated && accountType == INDIVIDUAL) {
+      history.push(INDIVIDUAL_DASHBOARD);
+    }
+  }, [authenticated, accountType]);
 
   const renderRoutes = () => {
     return (
@@ -139,7 +144,14 @@ const Routes = () => {
             />
           ))}
         </Switch>
-        {/* <Redirect from="*" to={routePath.ROOT} /> */}
+        {/* <Redirect
+          from="*"
+          to={
+            accountType == COMMERCIAL
+              ? COMMERCIAL_DASHBOARD
+              : INDIVIDUAL_DASHBOARD
+          }
+        /> */}
       </Box>
     );
   };

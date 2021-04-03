@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#fff",
     borderRadius: 6,
     height: 100,
-    boxShadow: "#e3e3e633 0px 7px 29px 0px",
+    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
   },
   summaryGridStyle: {
     minHeight: 300,

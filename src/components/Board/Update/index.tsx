@@ -13,13 +13,13 @@ import { useLogin } from "../../../redux/state/login";
 import { useTeam } from "../../../redux/state/team";
 import { Typography } from "@material-ui/core";
 import { TEAM } from "../../../routes/config";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import Link from "@material-ui/core/Link";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { useProject } from "../../../redux/state/project";
 import { useBoardLoading } from "../../../redux/state/board";
 import Slide from "@material-ui/core/Slide";
+import { COMMERCIAL } from "../../../util/constants";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(3),
   },
   dropdownInputStyle: {
-    width: "75%",
     marginTop: theme.spacing(3),
     [theme.breakpoints.down("xs")]: {
       width: "53%",
@@ -46,15 +45,16 @@ const Update = (props: any) => {
     selectedBoard,
     title: boardTitle,
     hideSaveAsDraft,
+    totalBoards,
   } = props;
   const { textFieldStyle, dropdownInputStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { projectId } = useParams<{ projectId: string }>();
 
   /* Redux hooks */
-  const { userId } = useLogin();
+  const { userId, accountType } = useLogin();
   const { teams: teamsList } = useTeam();
-  const { totalBoards } = useProject();
   const { loading } = useBoardLoading();
 
   /* Local state */
@@ -129,6 +129,8 @@ const Update = (props: any) => {
         title,
         isSystemName,
         isDefaultBoard,
+        ...(accountType === COMMERCIAL ? { projectId } : { userId }),
+        accountType,
       })
     );
   };
@@ -143,6 +145,8 @@ const Update = (props: any) => {
         isSystemName,
         title,
         isDefaultBoard,
+        ...(accountType === COMMERCIAL ? { projectId } : { userId }),
+        accountType,
       })
     );
   };

@@ -20,7 +20,7 @@ export default function FAQ() {
   return (
     <React.Fragment>
       <Container fixed>
-        <Box pt={5}>
+        <Box py={5}>
           <Box>
             <Typography variant="h2">
               What’s board and how to create one?
@@ -34,10 +34,10 @@ export default function FAQ() {
             <Box pt={2}>
               <HintMessage message="The URL is not publicly available, and we don't index it on search engines as well. Please be careful with who you share the URL with. If you are dealing with sensitive data, please use private (team) boards, or be sure to delete the public board after you finish your meeting." />
             </Box>
-            <Box mt={2}>
+            <Box my={2}>
               <Typography component="p" variant="body2">
                 Here are all the steps you'll need to go through to create a
-                board.
+                board if you are a commercial user.
               </Typography>
             </Box>
             <Box>
@@ -50,7 +50,7 @@ export default function FAQ() {
                   "Set your Password (Do remember this password and do not share with unauthorized persons)",
                   "Click on Register",
                 ]}
-                header="1. Create an User account for free"
+                header="Create an User account for free"
               />
               <FAQList
                 list={[
@@ -59,7 +59,7 @@ export default function FAQ() {
                   "Provide Password",
                   "Click on Signin",
                 ]}
-                header="2. Login with User Account (Unique key and password are required to login)"
+                header="Login with User Account (Unique key and password are required to login)"
               />
               <FAQList
                 list={[
@@ -68,7 +68,7 @@ export default function FAQ() {
                   "Provide description",
                   "Click on Submit",
                 ]}
-                header="3. Create Department"
+                header="Create Department"
               />
               <FAQList
                 list={[
@@ -77,7 +77,7 @@ export default function FAQ() {
                   "Provide description",
                   "Click on Submit",
                 ]}
-                header="4. Create Project"
+                header="Create Project"
               />
               <FAQList
                 list={[
@@ -88,44 +88,35 @@ export default function FAQ() {
                   "Provide your sprint number",
                   "Enter the duration in HH:MM format. This will be used to indicate the duration of the retro event.",
                 ]}
-                header="5. Create Board"
+                header="Create Board"
               />
             </Box>
-            <Box py={3}>
-              <Typography variant="h2">
-                How to update deafult section title?
-              </Typography>
+            <Box pt={3}>
               <FAQList
                 list={[
                   "Click on each section menu icon and edit",
                   "Provide new section title and save",
                 ]}
-                header="1. Update Section Title"
+                header="How to update deafult section title?"
               />
             </Box>
-            <Box py={3}>
-              <Typography variant="h2">
-                How to Add a note under each section?
-              </Typography>
+            <Box pt={3}>
               <FAQList
                 list={[
                   "Click on + Create Note button",
                   "Enter the details in note",
                   "Click on Save",
                 ]}
-                header="1. Add a note"
+                header="How to Add a note under each section?"
               />
             </Box>
-            <Box py={3}>
-              <Typography variant="h2">
-                How to Add a reaction to note?
-              </Typography>
+            <Box pt={3}>
               <FAQList
                 list={[
                   "Click on smiley icon displayed on each note",
-                  `click on your preferred reaction like "I disagree, I love it, +1, +2, Deserves medal" on popover displayed`,
+                  `click on your preferred reaction like "-1, I love it, +1, +2, Deserves medal" on popover displayed`,
                 ]}
-                header="1. Add a reaction"
+                header="How to Add a reaction to note?"
               />
             </Box>
           </Box>

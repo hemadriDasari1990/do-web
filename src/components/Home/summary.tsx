@@ -25,7 +25,7 @@ const Summary = () => {
 
   return (
     <Box p={5} minHeight={380}>
-      <Loader enable={loading} />
+      <Loader enable={loading} backdrop={true} />
       <Box textAlign="center" pb={5}>
         <Typography variant="h1" className={titleSecondaryStyle}>
           Built for global scale

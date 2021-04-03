@@ -7,6 +7,7 @@ import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import PeopleOutlinedIcon from "@material-ui/icons/PeopleOutlined";
 // import PublicIcon from "@material-ui/icons/Public";
 import React from "react";
 import Slide from "@material-ui/core/Slide";
@@ -14,12 +15,10 @@ import SwapCallsIcon from "@material-ui/icons/SwapCalls";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import PeopleOutlinedIcon from "@material-ui/icons/PeopleOutlined";
 
 const useStyles = makeStyles({
   avatarStyle: {
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
   },
 });
 

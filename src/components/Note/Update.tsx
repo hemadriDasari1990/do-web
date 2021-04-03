@@ -2,29 +2,29 @@ import React, { useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
+import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import socket from "../../socket";
 import { useLogin } from "../../redux/state/login";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
     "& .MuiFilledInput-root": {
       background: "#fff",
       borderRadius: 6,
-      border: "2px solid #1e1e58",
+      border: "2px solid #172b4d",
       paddingTop: "0px !important",
     },
   },
 }));
 
 export default function NoteUpdate(props: any) {
-  const { sectionId, selectedNote, handleCancel } = props;
+  const { sectionId, selectedNote, handleCancel, notes } = props;
   const { textfieldStyle } = useStyles();
   const { userId } = useLogin();
 
@@ -57,6 +57,7 @@ export default function NoteUpdate(props: any) {
       description: description,
       sectionId,
       isAnnonymous: isAnnonymous,
+      position: notes?.length + 1,
       ...(!isAnnonymous
         ? { createdById: userId, updatedById: userId }
         : { createdById: null, updatedById: null }),

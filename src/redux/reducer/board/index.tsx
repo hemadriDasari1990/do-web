@@ -8,6 +8,9 @@ import {
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
+  GET_BOARDS_FAILED,
+  GET_BOARDS_REQUEST,
+  GET_BOARDS_SUCCESS,
 } from "../../actions/board/types";
 
 import { Action } from "redux";
@@ -25,6 +28,8 @@ const initialState = {
   response: null,
   startedAt: null,
   completedAt: null,
+  boards: [],
+  totalBoards: 0,
 };
 
 const board = (state = initialState, action: ReduxAction) => {
@@ -78,6 +83,24 @@ const board = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         response: action.payload,
+        loading: false,
+      };
+    case GET_BOARDS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_BOARDS_FAILED:
+      return {
+        ...state,
+        boards: action.payload,
+        loading: false,
+      };
+    case GET_BOARDS_SUCCESS:
+      return {
+        ...state,
+        boards: action.payload?.data,
+        totalBoards: action.payload?.total[0]?.count,
         loading: false,
       };
     default:

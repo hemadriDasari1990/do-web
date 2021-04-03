@@ -4,7 +4,7 @@ import { useFeedback, useLoading } from "../../redux/state/feedback";
 
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-// import { DASHBOARD } from "../../routes/config";
+// import { COMMERCIAL_DASHBOARD } from "../../routes/config";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import ScrumBoard from "../../assets/board.svg";
@@ -61,7 +61,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getFeedbacks(true));
     // if(authenticated){
-    //   history.push(DASHBOARD);
+    //   history.push(COMMERCIAL_DASHBOARD);
     // }
   }, []);
 
@@ -144,7 +144,7 @@ const Home = () => {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="h3">
+                <Typography variant="body1">
                   Start with a Letsdoretro board, lists, and cards. Customize
                   and expand with more features as your teamwork grows. Manage
                   departments, projects, organize boards, and build team
@@ -154,7 +154,7 @@ const Home = () => {
               <Box mt={3}>
                 <CreateAccount title="Signup Now" />
               </Box>
-              <Box p={5}>
+              <Box>
                 <Zoom in={true} timeout={2000}>
                   <img
                     src={ScrumBoardSkeleton}
@@ -168,7 +168,7 @@ const Home = () => {
           </Grid>
         </Grid>
 
-        <Box py={5}>
+        <Box>
           <Summary />
         </Box>
         {!loading && feedback?.length ? (

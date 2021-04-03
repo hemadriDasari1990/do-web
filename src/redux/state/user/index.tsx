@@ -12,6 +12,8 @@ export function useUser() {
     totalTeams: state.user.response?.totalTeams,
     members: state.user.response?.members,
     totalMembers: state.user.response?.totalMembers,
+    boards: state.user.response?.boards,
+    totalBoards: state.user.response?.totalBoards,
   }));
 }
 

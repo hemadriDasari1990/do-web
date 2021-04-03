@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => ({
     color: "#1a4198",
   },
   tableContainerStyle: {
-    maxHeight: 770,
+    maxHeight: 830,
   },
   tableBodyStyle: {
     background: "#fff",
@@ -59,7 +59,7 @@ const useStyles = makeStyles(() => ({
     color: "#1f1f58",
   },
   authorBoxStyle: {
-    backgroundColor: "#1e1e58",
+    backgroundColor: "#172b4d",
     borderRadius: 6,
   },
   authorStyle: {

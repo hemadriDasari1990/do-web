@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#f6f6f7",
     color: "#606770",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,

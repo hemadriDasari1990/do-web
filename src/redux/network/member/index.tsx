@@ -12,8 +12,18 @@ export const getMemberDetails = (id: string) => {
   return API(replaceStr(GET_MEMBER_DETAILS, "{id}", id), { method: "GET" });
 };
 
-export const getMembersByUser = (id: string) => {
-  return API(replaceStr(GET_MEMBERS_BY_USER, "{id}", id), { method: "GET" });
+export const getMembersByUser = (
+  id: string,
+  queryString: string,
+  page: number,
+  size: number
+) => {
+  const url: string = `${replaceStr(
+    GET_MEMBERS_BY_USER,
+    "{id}",
+    id
+  )}&queryString=${queryString}&page=${page}&size=${size}`;
+  return API(url, { method: "GET" });
 };
 
 export const updateMember = (payload: { [Key: string]: any }) => {

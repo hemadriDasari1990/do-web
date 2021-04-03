@@ -1,27 +1,23 @@
 import * as routePath from "../../routes/config";
 
 import { LOGIN, USER } from "../../routes/config";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import { Container } from "@material-ui/core";
+import { DRAWER_WIDTH } from "../../util/constants";
+import DoLogo from "../common/DoLogo";
+import DoLogoIcon from "../common/DoLogo";
 import Hidden from "@material-ui/core/Hidden";
 import PrivateRoute from "../../routes/PrvateRoute";
 import { Switch } from "react-router-dom";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import Zoom from "@material-ui/core/Zoom";
+import UserAvatar from "./Account/userAvatar";
 import { useAuthenticated } from "../../redux/state/common";
-import { useUser } from "../../redux/state/user";
-// import { Container } from "@material-ui/core";
-import useStyles from "../styles";
-import DoLogo from "../common/DoLogo";
-import DoLogoIcon from "../common/DoLogo";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
@@ -33,6 +29,7 @@ const DepartmentDashboard = React.lazy(() => import("../Department"));
 const Team = React.lazy(() => import("../Team"));
 const Members = React.lazy(() => import("../Members/Members"));
 const Notifications = React.lazy(() => import("../Notifications"));
+const IndividualDashboard = React.lazy(() => import("../IndividualDashboard"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -54,34 +51,23 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   appBarAuthenticatedStyle: () => ({
     height: 60,
     width: "100%",
-    paddingLeft: 10,
+    // paddingLeft: 10,
     paddingRight: 10,
     background: "none",
     [theme.breakpoints.up("md")]: {
-      width: `calc(100% - 80px)`,
+      width: `calc(100% - ${DRAWER_WIDTH}px)`,
     },
     [theme.breakpoints.down("xs")]: {
       background: "#fff !important",
     },
   }),
-  iconStyle: {
-    width: 35,
-    height: 35,
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
-  },
-  avatarTitleStyle: {
-    color: "#334357",
-  },
-  boxStyle: {
-    borderRadius: 6,
-  },
   toolbar: theme.mixins.toolbar,
   content: (props: any) => ({
     flexGrow: 1,
-    backgroundColor: "#f6f6f7",
-    padding: theme.spacing(2),
-    minHeight: "90vh",
+    // backgroundColor: "#f6f6f7",
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    // minHeight: "90vh",
     paddingTop: !props.authenticated ? 90 : 55,
     [theme.breakpoints.down("xs")]: {
       paddingTop: 60,
@@ -96,8 +82,12 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 const protectedRoutes = () => {
   return [
     {
-      path: routePath.DASHBOARD,
+      path: routePath.COMMERCIAL_DASHBOARD,
       component: Dashboard,
+    },
+    {
+      path: routePath.INDIVIDUAL_DASHBOARD,
+      component: IndividualDashboard,
     },
     {
       path: routePath.USER_DASHBOARD,
@@ -131,7 +121,7 @@ const Header = () => {
   const history = useHistory();
   const location = useLocation();
   const pathname = location.pathname as string;
-  const { name } = useUser();
+  // const { name } = useUser();
 
   /* Local state */
   const [open, setOpen] = useState(false);
@@ -144,15 +134,11 @@ const Header = () => {
   const {
     root,
     appBarStyle,
-    iconStyle,
-    avatarTitleStyle,
-    boxStyle,
     content,
     toolbar,
     showNothing,
     appBarAuthenticatedStyle,
   } = useLocalStyles({ authenticated });
-  const { cursor } = useStyles();
 
   useEffect(() => {
     setAuthenticated(userAuthenticated);
@@ -174,6 +160,53 @@ const Header = () => {
     setOpen(!open);
   };
 
+  const renderAppbar = () => {
+    return (
+      <Box mt={1} display="flex" justifyContent="space-between">
+        <Hidden only={["xl", "lg", "md", "sm"]}>
+          <DoLogoIcon />
+        </Hidden>
+        {showLogo && (
+          <Hidden only={["xs"]}>
+            {" "}
+            <DoLogo />
+          </Hidden>
+        )}
+        {!authenticated && pathname !== "/login" && pathname !== "/signup" ? (
+          <Box display="flex" justifyContent="space-between">
+            <Box mt={0.4} mr={2}>
+              <Button
+                onClick={() => handleLogin()}
+                size="small"
+                aria-label="add"
+                color="primary"
+                variant="outlined"
+              >
+                Login
+              </Button>
+            </Box>
+            <Box mt={0.4} mr={2}>
+              <Button
+                onClick={() => handleCreateUser()}
+                size="small"
+                aria-label="add"
+                color="primary"
+                variant="contained"
+              >
+                <Typography variant="h6" color="secondary">
+                  Sign up
+                </Typography>
+              </Button>
+            </Box>
+          </Box>
+        ) : (
+          <Box></Box>
+        )}
+        {authenticated && <UserAvatar handleAccount={handleAccount} />}
+      </Box>
+    );
+  };
+
   return (
     <Box
       className={`${root} ${
@@ -182,11 +215,9 @@ const Header = () => {
           : ""
       }`}
     >
-      {(authenticated &&
-        !pathname?.includes("/board") &&
-        pathname !== "/login" &&
-        pathname !== "/signup") ||
-      (!authenticated && !pathname?.includes("/board")) ? (
+      {!pathname?.includes("/board") &&
+      pathname !== "/login" &&
+      pathname !== "/signup" ? (
         <AppBar
           className={`${
             authenticated || pathname?.includes("/board")
@@ -194,94 +225,11 @@ const Header = () => {
               : appBarStyle
           }`}
         >
-          {/* <Container> */}
-          {/* <Toolbar variant="dense"> */}
-          <Box mt={1} display="flex" justifyContent="space-between">
-            <Hidden only={["xl", "lg", "md", "sm"]}>
-              <DoLogoIcon />
-            </Hidden>
-            {showLogo && (
-              <Hidden only={["xs"]}>
-                {" "}
-                <DoLogo />
-              </Hidden>
-            )}
-            {!authenticated &&
-            pathname !== "/login" &&
-            pathname !== "/signup" ? (
-              <Box display="flex" justifyContent="space-between">
-                <Box mt={0.4} mr={2}>
-                  <Button
-                    onClick={() => handleLogin()}
-                    size="small"
-                    aria-label="add"
-                    color="primary"
-                    variant="outlined"
-                  >
-                    Login
-                  </Button>
-                </Box>
-                <Box mt={0.4} mr={2}>
-                  <Button
-                    onClick={() => handleCreateUser()}
-                    size="small"
-                    aria-label="add"
-                    color="primary"
-                    variant="contained"
-                  >
-                    <Typography variant="h6" color="secondary">
-                      Sign up
-                    </Typography>
-                  </Button>
-                </Box>
-              </Box>
-            ) : (
-              <Box></Box>
-            )}
-            {authenticated && (
-              <Box
-                className={boxStyle}
-                display="flex"
-                justifyContent="space-between"
-              >
-                <Box
-                  className={cursor}
-                  onClick={() => handleAccount()}
-                  mt={0.5}
-                  display="flex"
-                  justifyContent="space-between"
-                >
-                  <Box>
-                    <Tooltip arrow title={name}>
-                      <Zoom in={true} timeout={1500}>
-                        <Avatar classes={{ root: iconStyle }}>
-                          <Typography variant="h4" color="secondary">
-                            {name ? name.substring(0, 1) : ""}
-                          </Typography>
-                        </Avatar>
-                      </Zoom>
-                    </Tooltip>
-                  </Box>
-                  <Hidden only={["xs"]}>
-                    <Box ml={1} mt={1}>
-                      <Typography
-                        color="primary"
-                        className={avatarTitleStyle}
-                        variant="h5"
-                      >
-                        {name || "..."}
-                      </Typography>
-                    </Box>
-                  </Hidden>
-                  <Box ml={1} mt={0.7}>
-                    <ArrowDropDownIcon color="primary" />
-                  </Box>
-                </Box>
-              </Box>
-            )}
-          </Box>
-          {/* </Toolbar> */}
-          {/* </Container> */}
+          {!authenticated ? (
+            <Container>{renderAppbar()}</Container>
+          ) : (
+            renderAppbar()
+          )}
         </AppBar>
       ) : null}
       <Box className={toolbar} />

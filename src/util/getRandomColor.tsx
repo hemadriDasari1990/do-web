@@ -1,7 +1,7 @@
 const getRandomBGColor = (index: number) => {
   let colorValues = [
     "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
-    "linear-gradient(50deg, #1e1e58 0%, #0095ffba 100%)",
+    "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
     "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)",
     "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
     "linear-gradient(50deg, rgb(255 224 0) 0%, rgb(255 0 59 / 94%) 100%)",
@@ -13,7 +13,7 @@ const getRandomBGColor = (index: number) => {
 export const getRandomColor = () => {
   let colorValues = [
     "#ff0100",
-    "#1e1e58",
+    "#172b4d",
     "#ffa600",
     "#00ff21",
     "#ff0080",

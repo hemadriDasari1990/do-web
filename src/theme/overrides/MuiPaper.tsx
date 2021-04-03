@@ -1,9 +1,8 @@
 export default {
   root: {},
   elevation1: {
-    borderTopLeftRadius: 10,
-    boxShadow: "none",
-    // boxShadow: '0px 0px 1px 1px rgb(219, 226, 243)'
+    borderRadius: 6,
+    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
   },
   elevation4: {
     boxShadow: "none",

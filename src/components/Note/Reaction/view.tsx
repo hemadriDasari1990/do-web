@@ -2,7 +2,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
-import DisAgreeIcon from "@material-ui/icons/ThumbDownAlt";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
 import Plus2Icon from "@material-ui/icons/ExposurePlus2";
@@ -20,7 +20,7 @@ function ReactionView(props: any) {
   const { note } = props;
   const {
     plusTwoIconStyle,
-    disAgreeIconStyle,
+    minusOneIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
@@ -31,24 +31,24 @@ function ReactionView(props: any) {
   return (
     <React.Fragment>
       <Box display="flex" justifyContent="space-between">
-        {note?.totalDisAgreed ? (
+        {note?.totalMinusOne ? (
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="Disagree">
+                <Tooltip arrow title="minusOne">
                   <IconButton
-                    className={disAgreeIconStyle}
+                    className={minusOneIconStyle}
                     color="secondary"
                     size="small"
                   >
-                    <DisAgreeIcon className={reactionStyle} />
+                    <MinusOneIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
             </Box>
             <Box mr={1}>
               <Typography variant="h6">
-                {formateNumber(note?.totalDisAgreed)}
+                {formateNumber(note?.totalMinusOne)}
               </Typography>
             </Box>
           </Box>

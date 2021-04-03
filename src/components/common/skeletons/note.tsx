@@ -4,13 +4,13 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import useStyles from "../../styles";
 import useSkeletonStyle from "./styles";
+import useStyles from "../../styles";
 
 export default function NoteSkeleton() {
   const {
     plusTwoIconStyle,
-    disAgreeIconStyle,
+    minusOneIconStyle,
     loveIconStyle,
     deserveIconStyle,
   } = useStyles();
@@ -30,7 +30,7 @@ export default function NoteSkeleton() {
               width={20}
               height={20}
               style={{ borderRadius: "50%" }}
-              className={disAgreeIconStyle}
+              className={minusOneIconStyle}
             />
           </Box>
           <Box mr={1}>

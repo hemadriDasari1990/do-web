@@ -15,6 +15,8 @@ import { emailRegex } from "../../../util/regex";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import DoLogo from "../../common/DoLogo";
+import DoAutoComplete from "../../common/DoAutoComplete";
+import { accountTypes } from "../../../util/constants";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 const Loader = React.lazy(() => import("../../Loader/components"));
@@ -46,19 +48,19 @@ const Create = () => {
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     name: "",
-    description: "",
     email: "",
     password: "",
     confirmPassword: "",
     isAgreed: false,
+    accountType: "",
   });
   const {
     name,
-    description,
     email,
     password,
     confirmPassword,
     isAgreed,
+    accountType,
   } = formData;
   const [apiTriggered, setApiTriggered] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -95,6 +97,7 @@ const Create = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      accountType: "",
     });
   };
 
@@ -117,6 +120,9 @@ const Create = () => {
       return true;
     }
     if (password.trim() !== confirmPassword.trim()) {
+      return true;
+    }
+    if (!accountType) {
       return true;
     }
     if (!isAgreed) {
@@ -143,6 +149,10 @@ const Create = () => {
     win.focus();
   };
 
+  const handleAccountType = (data: { [Key: string]: any }) => {
+    setFormData({ ...formData, accountType: data?.value });
+  };
+
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
@@ -162,17 +172,6 @@ const Create = () => {
           onChange={handleInput}
           autoComplete="off"
           required
-          fullWidth
-          className={textFieldStyle}
-        />
-        <TextField
-          name="description"
-          id="description"
-          label="Description (Optional)"
-          placeholder="Enter description about account"
-          value={description}
-          onChange={handleInput}
-          autoComplete="off"
           fullWidth
           className={textFieldStyle}
         />
@@ -214,6 +213,20 @@ const Create = () => {
           fullWidth
           className={textFieldStyle}
         />
+        <Box mt={1.5}>
+          <DoAutoComplete
+            // defaultValue={accountTypes[0]}
+            textInputLabel="Select your account type"
+            textInputPlaceholder="Individual/Commercial"
+            optionKey="label"
+            options={accountTypes}
+            onInputChange={(e: any, data: Array<{ [Key: string]: any }>) =>
+              handleAccountType(data)
+            }
+            // customClass={dropdownInputStyle}
+          />
+        </Box>
+
         <Box mt={1} mb={2}>
           <FormControlLabel
             labelPlacement="end"

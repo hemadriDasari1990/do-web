@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import termsIcon from "../../../assets/terms.svg";
+import UnderlineText from "../../common/UnderlineText";
 
 const FAQList = React.lazy(() => import("../Faq/list"));
 
@@ -15,7 +16,7 @@ function Terms() {
 
   return (
     <React.Fragment>
-      <Container fixed>
+      <Container>
         <Box py={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
             <Box>
@@ -30,9 +31,7 @@ function Terms() {
         </Box>
         <Box>
           <Box mb={2}>
-            <Typography variant="h1">
-              Let's do retro Basic Terms of Use & End User License Agreement
-            </Typography>
+            <UnderlineText title="Let's do retro Basic Terms of Use & End User License Agreement" />
           </Box>
           <Typography variant="body1">
             Welcome to Let's do retro. By using Let's do retro, you are agreeing
@@ -46,7 +45,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">General</Typography>
+          <UnderlineText title="General" />
           <FAQList
             list={[
               "The content and information of the pages of this website. And functionality of let's do retro is subject to change without notice. Your use of any product, service, information or materials on this website is entirely at your own risk, for which the site owner shall not be liable.",
@@ -54,7 +53,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Use Of The Service</Typography>
+          <UnderlineText title="Use Of The Service" />
           <FAQList
             list={[
               "It shall be your own responsibility to ensure that any products, services or information available through this site meet your specific requirements and make sense to use. Otherwise you need to avoid this.",
@@ -66,7 +65,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Changes In The Service</Typography>
+          <UnderlineText title="Changes In The Service" />
           <FAQList
             list={[
               "Let's do retro shall have the right to update and change any part of the Service from time to time. If the changes or updates made require changes in your hardware, software and/or data connections, Let's do retro shall notify you of such requirements (e.g. browser updates) one (1) month prior to the implementation of the necessary changes. You are solely responsible for all costs related to the changes of hardware, software and/or data connections. Any modifications or development work requested by you shall always be separately agreed upon with Let's do retro. Such services shall be invoiced on time and material basis.",
@@ -74,7 +73,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Availability</Typography>
+          <UnderlineText title="Availability" />
           <FAQList
             list={[
               "Let's do retro shall use reasonable endeavours to provide the Service on a continuous basis. The expected availability of the Service is 99.0 % or even more over a monthly period.",
@@ -83,7 +82,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Your responsibilities</Typography>
+          <UnderlineText title="Your responsibilities" />
           <FAQList
             list={[
               "You shall be responsible for maintaining the secrecy and security of the Users’ IDs and passwords. You are fully responsible for all activities, transactions and other operations which are made through the Service by using the User and Main User IDs and passwords.",
@@ -92,7 +91,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Customer Data</Typography>
+          <UnderlineText title="Customer Data" />
           <FAQList
             list={[
               `You shall own all rights, title and interest in and to all of the Customer Data and shall have sole responsibility for the legality, reliability, integrity, accuracy and quality of the Customer Data. Let's do retro acknowledges and agrees that the Customer Data and all data processed in relation to the provision of the Service may be your Confidential Information (as defined below), and Let's do retro shall store such data only to the extent necessary for the provision of the Service and shall not use such data for any other purpose.`,
@@ -105,7 +104,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Customer Data</Typography>
+          <UnderlineText title="Customer Data" />
           <FAQList
             list={[
               `For the purposes of this Agreement, "Confidential Information" shall mean all confidential information disclosed by a party ("Disclosing Party") to the other party ("Receiving Party"), whether orally or in writing.`,
@@ -119,7 +118,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Limitation of liability</Typography>
+          <UnderlineText title="Limitation of liability" />
           <FAQList
             list={[
               `The Service is provided ”as is” without any warranties of any kind. You acknowledge and agree that any use of the Service is at your sole risk and liability. To the maximum extent permitted by applicable law, Let's do retro expressly disclaims any and all representations and warranties, either express or implied, including, without limitation, any implied warranties of merchantability, fitness for a particular purpose and non-infringement, with respect to the Service.`,
@@ -130,7 +129,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Terms And Termination</Typography>
+          <UnderlineText title="Terms And Termination" />
           <FAQList
             list={[
               `This Agreement will be effective as of the date upon which you accept these terms or start using the Service.`,
@@ -141,7 +140,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <Typography variant="h1">Modification Of Terms</Typography>
+          <UnderlineText title="Modification Of Terms" />
           <FAQList
             list={[
               `Let's do retro reserves the right to modify the terms and conditions included in this Agreement or relating to the Service and any such modifications shall become effective upon posting a new version of the terms and conditions. It is on your responsibility to review the terms and conditions applicable to the Service and continued use of the Service after the changes have become effective constitute your consent to the changes.`,
@@ -149,7 +148,7 @@ function Terms() {
           />
         </Box>
         <Box my={3}>
-          <Typography variant="h1">Modification Of Terms</Typography>
+          <UnderlineText title="Modification Of Terms" />
           <FAQList
             list={[
               `Dispute Resolution. Any dispute, controversy or claim arising out of or relating to this contract, or the breach, termination or validity thereof shall be finally settled by arbitration in accordance with the Rules Danish Institute of Arbitration by one (1) arbitrator. The arbitration shall take place in Copenhagen, Denmark. The award of the arbitration shall be final and binding on both Parties. The arbitration shall be conducted in the English language.`,

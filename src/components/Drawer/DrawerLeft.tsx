@@ -1,12 +1,21 @@
-import { DASHBOARD, LOGIN, NOTIFICATIONS, TEAM } from "../../routes/config";
+import {
+  COMMERCIAL_DASHBOARD,
+  INDIVIDUAL_DASHBOARD,
+  LOGIN,
+  NOTIFICATIONS,
+  TEAM,
+} from "../../routes/config";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
+import { DRAWER_WIDTH } from "../../util/constants";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
+import DoLogoIcon from "../common/DoLogoIcon";
 import Drawer from "@material-ui/core/Drawer";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
+import { INDIVIDUAL } from "../../util/constants";
 import IconButton from "@material-ui/core/IconButton";
 import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 import NotificationsOutlinedIcon from "@material-ui/icons/NotificationsOutlined";
@@ -18,26 +27,22 @@ import { logout } from "../../redux/actions/login";
 import socket from "../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { useLogin } from "../../redux/state/login";
 import { useUser } from "../../redux/state/user";
-import DoLogoIcon from "../common/DoLogoIcon";
-
-const drawerWidth = 70;
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   drawer: {
-    width: drawerWidth,
+    width: DRAWER_WIDTH,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
-    background: "#1e1e58",
-    borderRadius: 6,
-    margin: 5,
+    width: DRAWER_WIDTH,
+    background: "#1f1f58",
   },
   logoIconStyle: {
     padding: 3,
     borderRadius: "50%",
-    backgroundColor: "#1e1e58",
+    backgroundColor: "#172b4d",
     width: 25,
     height: 25,
   },
@@ -63,8 +68,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     borderRadius: 6,
     padding: 8,
     "&:hover": {
-      background:
-        "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+      background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
       borderRadius: 6,
       padding: 8,
     },
@@ -82,9 +86,14 @@ export default function PersistentDrawerLeft() {
   const { name } = useUser();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { accountType } = useLogin();
 
   const handleDashboard = () => {
-    history.push(DASHBOARD);
+    if (accountType === INDIVIDUAL) {
+      history.push(INDIVIDUAL_DASHBOARD);
+    } else {
+      history.push(COMMERCIAL_DASHBOARD);
+    }
   };
 
   const handleLogout = async () => {

@@ -5,15 +5,17 @@ import {
   FEATURES,
   FEEDBACK,
   PRIVACY_POLICY,
+  RETROSPECTIVE,
   SECURITY,
   TERMS,
-  RETROSPECTIVE,
 } from "../../routes/config";
+import { useHistory, useLocation } from "react-router";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
+import DoLogoIcon from "../common/DoLogoIcon";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import Grid from "@material-ui/core/Grid";
@@ -29,9 +31,6 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory, useLocation } from "react-router";
-import Wave from "../../assets/wave.svg";
-import DoLogoIcon from "../common/DoLogoIcon";
 
 const BottomIllustrations = React.lazy(() => import("./BottomIllustrations"));
 
@@ -39,7 +38,7 @@ const useLocalStyles = makeStyles({
   root: {
     // marginTop: -7,
     height: "fit-content",
-    backgroundColor: "#F4F5F7",
+    backgroundColor: "#171e30",
     width: "100%",
     // position: 'fixed',
     bottom: 0,
@@ -114,11 +113,6 @@ export default function Footer() {
       {(pathname === "/signup" || pathname === "/login") && (
         <BottomIllustrations />
       )}
-      {pathname !== "/signup" && pathname !== "/login" && (
-        <Box mb={-0.9}>
-          <img src={Wave} />
-        </Box>
-      )}
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
@@ -134,7 +128,7 @@ export default function Footer() {
                 <DoLogoIcon />
               </Box>
               <Box>
-                <Typography component="h3" variant="h3">
+                <Typography component="h3" variant="h3" color="secondary">
                   Empowering teams to run retrospectives differently
                 </Typography>
               </Box>
@@ -143,7 +137,11 @@ export default function Footer() {
           <Grid container spacing={2}>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
               <Box mt={2} mb={1.5}>
-                <Typography variant="h4" className={titleStyle}>
+                <Typography
+                  variant="h4"
+                  className={titleStyle}
+                  color="secondary"
+                >
                   Menu
                 </Typography>
               </Box>
@@ -153,7 +151,11 @@ export default function Footer() {
                   onClick={() => handleDevelopers()}
                 >
                   <ListItemText
-                    primary={<Typography variant="overline">About</Typography>}
+                    primary={
+                      <Typography variant="overline" color="secondary">
+                        About
+                      </Typography>
+                    }
                   />
                 </ListItem>
                 <ListItem
@@ -162,7 +164,9 @@ export default function Footer() {
                 >
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Feedback</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Feedback
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -172,7 +176,9 @@ export default function Footer() {
                 >
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Features</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Features
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -182,7 +188,9 @@ export default function Footer() {
                 >
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Retrospective</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Retrospective
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -190,7 +198,11 @@ export default function Footer() {
             </Grid>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
               <Box mt={2} mb={1.5}>
-                <Typography variant="h4" className={titleStyle}>
+                <Typography
+                  variant="h4"
+                  className={titleStyle}
+                  color="secondary"
+                >
                   Company
                 </Typography>
               </Box>
@@ -198,20 +210,30 @@ export default function Footer() {
                 <ListItem className={listStyle} onClick={() => handleCareers()}>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Careers</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Careers
+                      </Typography>
                     }
                   />
                 </ListItem>
                 <ListItem className={listStyle} onClick={() => handleFAQ()}>
                   <ListItemText
-                    primary={<Typography variant="overline">FAQ</Typography>}
+                    primary={
+                      <Typography variant="overline" color="secondary">
+                        FAQ
+                      </Typography>
+                    }
                   />
                 </ListItem>
               </List>
             </Grid>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
               <Box mt={2} mb={1.5}>
-                <Typography variant="h4" className={titleStyle}>
+                <Typography
+                  variant="h4"
+                  className={titleStyle}
+                  color="secondary"
+                >
                   Terms
                 </Typography>
               </Box>
@@ -219,7 +241,7 @@ export default function Footer() {
                 <ListItem className={listStyle} onClick={() => handleTerms()}>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">
+                      <Typography variant="overline" color="secondary">
                         Terms & Conditions
                       </Typography>
                     }
@@ -228,7 +250,9 @@ export default function Footer() {
                 <ListItem className={listStyle} onClick={() => handlePrivacy()}>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Privacy Policy</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Privacy Policy
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -238,7 +262,9 @@ export default function Footer() {
                 >
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Security</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Security
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -246,48 +272,60 @@ export default function Footer() {
             </Grid>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
               <Box mt={2} mb={1.5}>
-                <Typography variant="h4" className={titleStyle}>
+                <Typography
+                  variant="h4"
+                  className={titleStyle}
+                  color="secondary"
+                >
                   Follow Us
                 </Typography>
               </Box>
               <List>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <FacebookIcon color="primary" />
+                    <FacebookIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Facebook</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Facebook
+                      </Typography>
                     }
                   />
                 </ListItem>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <TwitterIcon color="primary" />
+                    <TwitterIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Twitter</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Twitter
+                      </Typography>
                     }
                   />
                 </ListItem>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <InstagramIcon color="primary" />
+                    <InstagramIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Instagram</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Instagram
+                      </Typography>
                     }
                   />
                 </ListItem>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <YouTubeIcon color="primary" />
+                    <YouTubeIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">Youtube</Typography>
+                      <Typography variant="overline" color="secondary">
+                        Youtube
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -295,18 +333,22 @@ export default function Footer() {
             </Grid>
             <Grid item xl={3} lg={3} md={3} sm={4} xs={12}>
               <Box mt={2} mb={1.5}>
-                <Typography variant="h4" className={titleStyle}>
+                <Typography
+                  variant="h4"
+                  className={titleStyle}
+                  color="secondary"
+                >
                   Contact Us
                 </Typography>
               </Box>
               <List>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <LocationIcon color="primary" />
+                    <LocationIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">
+                      <Typography variant="overline" color="secondary">
                         Dubai, United Arab Emirates
                       </Typography>
                     }
@@ -314,22 +356,25 @@ export default function Footer() {
                 </ListItem>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <PhoneAndroidIcon color="primary" />
+                    <PhoneAndroidIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Typography variant="overline">+971-545678591</Typography>
+                      <Typography variant="overline" color="secondary">
+                        +971-545678591
+                      </Typography>
                     }
                   />
                 </ListItem>
                 <ListItem className={listStyle}>
                   <ListItemIcon className={listIconStyle}>
-                    <EmailIcon color="primary" />
+                    <EmailIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
                     primary={
                       <Typography
                         variant="overline"
+                        color="secondary"
                         style={{
                           textTransform: "lowercase",
                           width: "fit-content",
@@ -344,8 +389,8 @@ export default function Footer() {
             </Grid>
           </Grid>
           <Divider />
-          <Box p={3}>
-            <Typography variant="body1">
+          <Box py={3}>
+            <Typography variant="body2" color="secondary">
               Copyright © 2021 Letsdoretro.com. All rights reserved.
             </Typography>
           </Box>

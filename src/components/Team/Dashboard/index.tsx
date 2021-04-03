@@ -1,4 +1,3 @@
-import { MEMBERS_LIST } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
@@ -8,6 +7,7 @@ import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import { MEMBERS_LIST } from "../../../routes/config";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteTeam } from "../../../redux/actions/team";
@@ -39,13 +39,13 @@ const TeamDashboard = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { team, teams: teamsList } = useTeam();
-  const { user, totalTeams: totalTeamsCount } = useUser();
+  const { user } = useUser();
   const { loading } = useDepartmentLoading();
   const { userId } = useLogin();
 
   /* React local states */
   const [showTeamForm, setShowTeamForm] = useState(false);
-  const [totalTeams, setTotalTeams] = useState(totalTeamsCount);
+  const [totalTeams, setTotalTeams] = useState(0);
   const [teams, setTeams] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -63,7 +63,7 @@ const TeamDashboard = () => {
     if (teamsList) {
       setShowTeamForm(false);
       setTeams(teamsList);
-      setTotalTeams(totalTeamsCount);
+      setTotalTeams(teamsList?.length);
     }
   }, [teamsList]);
 
@@ -278,10 +278,7 @@ const TeamDashboard = () => {
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-              <Box
-                display="flex"
-                justifyContent={!teams?.length ? "flex-end" : "space-around"}
-              >
+              <Box display="flex" justifyContent={"flex-end"}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}
@@ -307,7 +304,9 @@ const TeamDashboard = () => {
                   </Box>
                 </Hidden>
                 {teams?.length ? (
-                  <Box className={buttonStyle}>{renderCreateNewTeam()}</Box>
+                  <Box ml={2} className={buttonStyle}>
+                    {renderCreateNewTeam()}
+                  </Box>
                 ) : null}
               </Box>
             </Grid>

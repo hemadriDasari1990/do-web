@@ -6,11 +6,11 @@ import useStyles from "../../styles";
 
 const Caption = (props: any) => {
   const { title } = props;
-  const { n30, captionTextStyle } = useStyles();
+  const { n40, captionTextStyle } = useStyles();
 
   return (
     <Box>
-      <Typography className={`${captionTextStyle} ${n30}`}>
+      <Typography className={`${captionTextStyle} ${n40}`}>
         {title?.toUpperCase()}
       </Typography>
     </Box>

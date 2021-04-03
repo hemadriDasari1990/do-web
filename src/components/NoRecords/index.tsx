@@ -5,15 +5,14 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 
 function NoRecords(props: any) {
-  const { message } = props;
+  const { message, hideImage } = props;
   return (
     <Box style={{ textAlign: "center" }}>
-      <Zoom in={true} timeout={2000}>
-        <img src={Empty} height="200px" width="fit-content" />
-      </Zoom>
-      <Box mt={3}>
-        <Typography variant="h4">"Hey!"</Typography>
-      </Box>
+      {!hideImage && (
+        <Zoom in={true} timeout={2000}>
+          <img src={Empty} height="200px" width="fit-content" />
+        </Zoom>
+      )}
       <Box mt={3}>
         <Typography variant="h4">{message}</Typography>
       </Box>

@@ -7,7 +7,7 @@ export default {
   title: {
     fontFamily: "inherit",
     fontSize: 15,
-    color: "#1e1e58",
+    color: "#172b4d",
     fontWeight: 500,
   },
   subheader: {

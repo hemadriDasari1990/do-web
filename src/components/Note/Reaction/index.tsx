@@ -3,7 +3,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
-import DisAgreeIcon from "@material-ui/icons/ThumbDownAlt";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
 import Plus2Icon from "@material-ui/icons/ExposurePlus2";
@@ -22,9 +22,8 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     width: "fit-content",
     borderRadius: 6,
     padding: theme.spacing(0.5),
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
-
   reactionStyle: {
     fontSize: 14,
   },
@@ -34,7 +33,7 @@ function ReactionPopover(props: any) {
   const { anchorEl, note, handlePopoverClose, handleReaction } = props;
   const { popover, paper, reactionStyle } = useLocalStyles();
   const {
-    disAgreeIconStyle,
+    minusOneIconStyle,
     plusTwoIconStyle,
     loveIconStyle,
     plusIconStyle,
@@ -43,38 +42,38 @@ function ReactionPopover(props: any) {
 
   return (
     <React.Fragment>
-      <Popover
-        id="mouse-over-popover"
-        className={popover}
-        classes={{
-          paper: paper,
-        }}
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        key={note._id}
-      >
-        <ClickAwayListener onClickAway={handlePopoverClose}>
+      <ClickAwayListener onClickAway={handlePopoverClose}>
+        <Popover
+          id="mouse-over-popover"
+          className={popover}
+          classes={{
+            paper: paper,
+          }}
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          key={note._id}
+        >
           <Box display="flex" justifyContent="space-between">
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="I Disagree" placement="top">
+                <Tooltip arrow title="-1" placement="top">
                   <IconButton
-                    className={disAgreeIconStyle}
+                    className={minusOneIconStyle}
                     color="secondary"
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleReaction(event, "disagree", note)
+                      handleReaction(event, "minusOne", note)
                     }
                     size="small"
                   >
-                    <DisAgreeIcon className={reactionStyle} />
+                    <MinusOneIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
@@ -144,8 +143,8 @@ function ReactionPopover(props: any) {
               </Zoom>
             </Box>
           </Box>
-        </ClickAwayListener>
-      </Popover>
+        </Popover>
+      </ClickAwayListener>
     </React.Fragment>
   );
 }

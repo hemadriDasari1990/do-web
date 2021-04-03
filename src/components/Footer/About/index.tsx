@@ -165,24 +165,6 @@ export default function About() {
                   />
                   {/* </Zoom> */}
                 </Grid>
-                <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
-                  {/* <Zoom in={true} timeout={2000}> */}
-                  <ProfileCardSecondary
-                    path="https://media-exp1.licdn.com/dms/image/C5103AQErndFCozlkYA/profile-displayphoto-shrink_800_800/0/1516337167165?e=1617235200&v=beta&t=dY_-K-1CqvA2c2SXDLkihMvWYVtxyBizYa8Xi_crVcg"
-                    title="Sreesha Venkita Krishnan"
-                    subTitle="Senior Testing professional"
-                    fbPath={"https://www.facebook.com/rajesh.pemmasani"}
-                    linkedinPath={
-                      "https://www.linkedin.com/in/rajesh-pemmasani-56673170/"
-                    }
-                    button={true}
-                    buttonName="Facebook"
-                    buttonOneName="Linekdin"
-                    tagLine="Senior QA Engineer at Mashreq Bank, Dubai"
-                    content={``}
-                  />
-                  {/* </Zoom> */}
-                </Grid>
               </Grid>
             </Box>
           </Box>
@@ -247,29 +229,29 @@ export default function About() {
             <Box>
               <UnderlineText title="Our Work Locations (1)" />
             </Box>
+            <Box my={2}>
+              <Typography variant="h3" component="p" className={addressStyle}>
+                Dubai
+              </Typography>
+              <Typography variant="h6" component="p" className={addressStyle}>
+                +971 545678591
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                component="p"
+                className={addressStyle}
+              >
+                405, 4th Floor
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                component="p"
+                className={addressStyle}
+              >
+                Tulip Hotel Apartments
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-        <Box mb={2}>
-          <Typography variant="h3" component="p" className={addressStyle}>
-            Dubai
-          </Typography>
-          <Typography variant="h6" component="p" className={addressStyle}>
-            +971 545678591
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            component="p"
-            className={addressStyle}
-          >
-            405, 4th Floor
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            component="p"
-            className={addressStyle}
-          >
-            Tulip Hotel Apartments
-          </Typography>
         </Box>
       </Container>
       <Box mb={-0.9}>

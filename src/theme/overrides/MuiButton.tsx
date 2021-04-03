@@ -1,24 +1,23 @@
 export default {
   contained: {
-    boxShadow: "0 5px 30px rgb(0 0 0 / 30%)",
+    // boxShadow: "0 5px 30px rgb(0 0 0 / 30%)",
   },
   outlined: {
-    // padding: '6px 9px',
-    border: "2px solid #1e1e58",
+    color: "#172b4d",
+    border: "2px solid #172b4d",
     "&:hover": {
-      border: "2px solid #1e1e58",
+      border: "2px solid #172b4d",
     },
   },
   outlinedPrimary: {
-    // padding: '6px 9px',
-    border: "2px solid #1e1e58",
+    color: "#172b4d",
+    border: "2px solid #172b4d",
     "&:hover": {
-      border: "2px solid #1e1e58",
+      border: "2px solid #172b4d",
     },
   },
   containedPrimary: {
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
   },
   // containedPrimary: {
   //   width: '100%',
@@ -58,7 +57,7 @@ export default {
     cursor: "pointer",
     boxSizing: "border-box",
     width: "fit-content",
-    minHeight: 35,
+    minHeight: 38,
     fontWeight: 500,
     borderRadius: 6,
     outline: "none",

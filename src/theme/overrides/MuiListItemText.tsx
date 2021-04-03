@@ -11,7 +11,7 @@ export default {
     fontSize: ".8375rem",
     fontWeight: 500,
     wordWrap: "break-word",
-    color: "#1e1e58",
+    color: "#172b4d",
   },
   secondary: {
     fontSize: ".75rem",

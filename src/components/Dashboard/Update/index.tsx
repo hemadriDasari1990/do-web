@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import Hidden from "@material-ui/core/Hidden";
-import ScrumBoard from "../../../assets/board.svg";
 import TextField from "@material-ui/core/TextField";
-import Zoom from "@material-ui/core/Zoom";
 import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login";
 import { useTeam } from "../../../redux/state/team";
 import { Typography } from "@material-ui/core";
-import { TEAM } from "../../../routes/config";
-import { useHistory } from "react-router";
-import Link from "@material-ui/core/Link";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { useBoardLoading } from "../../../redux/state/board";
 import socket from "../../../socket";
-import Slide from "@material-ui/core/Slide";
+import PlayArrowOutlinedIcon from "@material-ui/icons/PlayArrowOutlined";
+import Loader from "../../Loader/components";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
-const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 const DoAutoComplete = React.lazy(() => import("../../common/DoAutoComplete"));
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,7 +27,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(3),
   },
   dropdownInputStyle: {
-    width: "75%",
     marginTop: theme.spacing(3),
     [theme.breakpoints.down("xs")]: {
       width: "53%",
@@ -39,17 +34,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Update = (props: any) => {
-  const {
-    openDialog,
-    handleUpdateForm,
-    selectedBoard,
-    title: boardTitle,
-    hideSaveAsDraft,
-  } = props;
+const Update = () => {
   const { textFieldStyle, dropdownInputStyle } = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
 
   /* Redux hooks */
   const { userId } = useLogin();
@@ -75,7 +62,6 @@ const Update = (props: any) => {
   const {
     description,
     noOfSections,
-    status,
     teams,
     title,
     isSystemName,
@@ -107,22 +93,7 @@ const Update = (props: any) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleClose = () => {
-    handleUpdateForm();
-    setFormData({
-      description,
-      noOfSections: 0,
-      status: "",
-      teams: [],
-      title: "",
-      isSystemName: false,
-      isDefaultBoard: false,
-      departmentId: "",
-      project: "",
-    });
-  };
-
-  const handleSubmit = () => {
+  const handleStartRetro = () => {
     dispatch(
       updateBoard({
         description,
@@ -150,31 +121,8 @@ const Update = (props: any) => {
     return false;
   };
 
-  const disableSecondaryButton = () => {
-    if (selectedBoard?._id) {
-      return true;
-    }
-
-    if (!isSystemName && !title?.trim().length) {
-      return true;
-    }
-
-    if (!isDefaultBoard && (!noOfSections || noOfSections === 0)) {
-      return true;
-    }
-
-    if (status && status === "draft") {
-      return true;
-    }
-    return false;
-  };
-
   const handleTeams = (data: Array<{ [Key: string]: any }>) => {
     setFormData({ ...formData, teams: data });
-  };
-
-  const handleViewTeams = () => {
-    history.push(TEAM);
   };
 
   const handleGenerateSystemName = (
@@ -198,30 +146,51 @@ const Update = (props: any) => {
     setFormData({ ...formData, project: data });
   };
 
+  const renderProject = useCallback(() => {
+    return (
+      <Box>
+        <DoAutoComplete
+          defaultValue={null}
+          multiple={false}
+          textInputLabel="Select your Project"
+          textInputPlaceholder="Select or add new project"
+          optionKey="title"
+          options={projects || []}
+          onInputChange={(e: any, data: { [Key: string]: any }) =>
+            handleProject(data)
+          }
+          customClass={dropdownInputStyle}
+          isFreeSolo
+        />
+      </Box>
+    );
+  }, [departmentId]);
+
+  const renderTitle = useCallback(() => {
+    return (
+      <Box>
+        <TextField
+          name="title"
+          id="title"
+          label="Title"
+          placeholder="Enter title of the board"
+          value={title}
+          onChange={handleInput}
+          required
+          className={textFieldStyle}
+        />
+      </Box>
+    );
+  }, [project, isSystemName]);
+
   return (
     <React.Fragment>
-      <ResponsiveDialog
-        open={openDialog}
-        title={boardTitle || "Create or Update Board"}
-        pcta="Save"
-        scta="Save as draft"
-        handleSave={handleSubmit}
-        handleClose={handleClose}
-        disablePrimaryCTA={disableButton()}
-        disableSecondaryCTA={disableSecondaryButton()}
-        hideSecondary={hideSaveAsDraft}
-        maxWidth={440}
-        loading={loading}
-      >
-        {/* <Loader backdrop={true} enable={loading} /> */}
-        <Hidden only={["xs"]}>
-          <Box mt={5} textAlign="center">
-            <Zoom in={true} timeout={2000}>
-              <img src={ScrumBoard} height="200px" width="fit-content" />
-            </Zoom>
-          </Box>
-        </Hidden>
-        <Box>
+      <Loader enable={loading} />
+      <Box>
+        <Typography variant="h2">Start Retro</Typography>
+      </Box>
+      <Grid container spacing={2}>
+        <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
           <DoAutoComplete
             defaultValue={null}
             multiple={false}
@@ -234,177 +203,137 @@ const Update = (props: any) => {
             }
             customClass={dropdownInputStyle}
             isFreeSolo
-            // disabled={selectedBoard?._id}
           />
-        </Box>
-        {departmentId && (
-          <Slide
-            direction="left"
-            in={true}
-            timeout={1500}
-            mountOnEnter
-            unmountOnExit
-          >
-            <Box>
-              <DoAutoComplete
-                defaultValue={null}
-                multiple={false}
-                textInputLabel="Select your Project"
-                textInputPlaceholder="Select or add new project"
-                optionKey="title"
-                options={projects || []}
-                onInputChange={(e: any, data: { [Key: string]: any }) =>
-                  handleProject(data)
+        </Grid>
+        <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
+          {departmentId && renderProject()}
+        </Grid>
+        <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
+          {project?._id && !isSystemName && renderTitle()}
+          {project?._id && (
+            <Box mt={1} mb={-3}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isSystemName}
+                    onChange={handleGenerateSystemName}
+                    value="false"
+                    color="primary"
+                    name="isSystemName"
+                  />
                 }
-                customClass={dropdownInputStyle}
-                isFreeSolo
-                // disabled={selectedBoard?._id}
+                label={<Typography variant="h6">Auto generate name</Typography>}
               />
             </Box>
-          </Slide>
-        )}
-
-        {project?._id && !isSystemName && (
-          <Slide
-            direction="left"
-            in={true}
-            timeout={1500}
-            mountOnEnter
-            unmountOnExit
-          >
+          )}
+          {project?._id && isSystemName && (
+            <Box mt={3}>
+              <HintMessage
+                message={`System will generate name Retro ${
+                  project?.boards?.length ? project?.boards?.length + 1 : 1
+                }`}
+              />
+            </Box>
+          )}
+        </Grid>
+        <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
+          {(title || isSystemName) && (
+            <>
+              {!isDefaultBoard && (
+                <Box>
+                  <TextField
+                    name="noOfSections"
+                    id="noOfSections"
+                    label="Number Of Sections"
+                    placeholder="Enter no of senctions"
+                    value={noOfSections}
+                    onChange={handleInput}
+                    required
+                    className={textFieldStyle}
+                  />
+                </Box>
+              )}
+              {noOfSections ? (
+                <Box mt={3}>
+                  <HintMessage message="Please note System will generate default sections with name 'Section title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
+                </Box>
+              ) : null}
+              {!noOfSections ? (
+                <Box mt={1} mb={-3}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isDefaultBoard}
+                        onChange={handleDefaultRetroBoard}
+                        value="false"
+                        color="primary"
+                        name="isDefaultBoard"
+                      />
+                    }
+                    label={
+                      <Typography variant="h6">Create default Board</Typography>
+                    }
+                  />
+                </Box>
+              ) : null}
+              {isDefaultBoard && (
+                <Box mt={3}>
+                  <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and Action Items." />
+                </Box>
+              )}
+            </>
+          )}
+        </Grid>
+        <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
+          {isDefaultBoard || noOfSections ? (
             <Box>
               <TextField
-                name="title"
-                id="title"
-                label="Title"
-                placeholder="Enter title of the board"
-                value={title}
+                name="description"
+                id="description"
+                label="Description"
+                placeholder="Enter description about this board"
+                value={description}
                 onChange={handleInput}
-                required
                 className={textFieldStyle}
               />
             </Box>
-          </Slide>
-        )}
-        {project?._id && (
-          <Box mt={1} mb={-3}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isSystemName}
-                  onChange={handleGenerateSystemName}
-                  value="false"
-                  color="primary"
-                  name="isSystemName"
-                />
-              }
-              label={<Typography variant="h6">Auto generate name</Typography>}
-            />
-          </Box>
-        )}
-        {project?._id && isSystemName && (
-          <Box mt={3}>
-            <HintMessage
-              message={`System will generate name Retro ${
-                project?.boards?.length ? project?.boards?.length + 1 : 1
-              }`}
-            />
-          </Box>
-        )}
-        {(title || isSystemName) && (
-          <>
-            {!isDefaultBoard && (
-              <Box>
-                <TextField
-                  name="noOfSections"
-                  id="noOfSections"
-                  label="Number Of Sections"
-                  placeholder="Enter no of senctions"
-                  value={noOfSections}
-                  onChange={handleInput}
-                  required
-                  className={textFieldStyle}
-                />
-              </Box>
-            )}
-            {noOfSections ? (
-              <Box mt={3}>
-                <HintMessage message="Please note System will generate default sections with name 'Section title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
-              </Box>
-            ) : null}
-            {!noOfSections ? (
-              <Box mt={1} mb={-3}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={isDefaultBoard}
-                      onChange={handleDefaultRetroBoard}
-                      value="false"
-                      color="primary"
-                      name="isDefaultBoard"
-                    />
-                  }
-                  label={
-                    <Typography variant="h6">Create default Board</Typography>
-                  }
-                />
-              </Box>
-            ) : null}
-            {isDefaultBoard && (
-              <Box mt={3}>
-                <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and Action Items." />
-              </Box>
-            )}
-          </>
-        )}
-        {isDefaultBoard ||
-          (noOfSections ? (
-            <>
-              <Box>
-                <TextField
-                  name="description"
-                  id="description"
-                  label="Description"
-                  placeholder="Enter description about this board"
-                  value={description}
-                  onChange={handleInput}
-                  className={textFieldStyle}
-                />
-              </Box>
-              <Box>
-                <DoAutoComplete
-                  defaultValue={teams}
-                  multiple={true}
-                  textInputLabel="Select your Team/Teams"
-                  textInputPlaceholder="Select multiple teams"
-                  optionKey="name"
-                  options={teamsList}
-                  onInputChange={(
-                    e: any,
-                    data: Array<{ [Key: string]: any }>
-                  ) => handleTeams(data)}
-                  customClass={dropdownInputStyle}
-                  disabled={selectedBoard?._id}
-                />
-              </Box>
-            </>
-          ) : null)}
-
-        <Box mt={3}>
-          <Typography variant="h5">
-            If you want to create a team please{" "}
-            <Link
-              component="button"
-              variant="body2"
-              onClick={() => handleViewTeams()}
-            >
-              <Typography variant="h5" color="primary">
-                &nbsp;Click here
-              </Typography>
-            </Link>
-          </Typography>
+          ) : null}
+        </Grid>
+        <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
+          {isDefaultBoard || noOfSections ? (
+            <Box>
+              <DoAutoComplete
+                defaultValue={teams}
+                multiple={true}
+                textInputLabel="Select your Team/Teams"
+                textInputPlaceholder="Select multiple teams"
+                optionKey="name"
+                options={teamsList}
+                onInputChange={(e: any, data: Array<{ [Key: string]: any }>) =>
+                  handleTeams(data)
+                }
+                customClass={dropdownInputStyle}
+              />
+            </Box>
+          ) : null}
+        </Grid>
+      </Grid>
+      <Box display="flex" justifyContent="space-between">
+        <Box></Box>
+        <Box mr={3}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleStartRetro()}
+            startIcon={<PlayArrowOutlinedIcon color="secondary" />}
+            disabled={disableButton()}
+          >
+            <Typography variant="h6" color="secondary">
+              Start Retro
+            </Typography>
+          </Button>
         </Box>
-      </ResponsiveDialog>
+      </Box>
     </React.Fragment>
   );
 };

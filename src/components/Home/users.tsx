@@ -14,14 +14,12 @@ import getRandomBGColor from "../../util/getRandomColor";
 import { getUsers } from "../../redux/actions/user";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
+import useStyles from "../styles";
 import { useUserSummary } from "../../redux/state/user";
 
 const Loader = React.lazy(() => import("../Loader/components"));
 
-const useStyles = makeStyles(() => ({
-  titleStyle: {
-    // fontSize: "3.5rem",
-  },
+const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     fontSize: 80,
   },
@@ -44,7 +42,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     justifyContent: "center" /* Centering y-axis */,
     alignItems: "center",
-    // background: "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    // background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
   },
   avatarTextStyle: {
@@ -68,8 +66,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: 6,
   },
   iconButtonStyle: {
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
     borderRadius: 6,
   },
   iconButtonGridStyle: {
@@ -98,7 +95,6 @@ const useStyles = makeStyles(() => ({
 
 const Users = () => {
   const {
-    titleStyle,
     imageBoxStyle,
     imageBoxGridStyle,
     avatarTextStyle,
@@ -107,9 +103,8 @@ const Users = () => {
     gridListTileStyle,
     iconButtonStyle,
     mainBoxStyle,
-    // leftButtonStyle,
-    // rightButtonStyle,
-  } = useStyles();
+  } = useLocalStyles();
+  const { titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
   const { users } = useUsers();
   const { loading } = useUserLoading();
@@ -133,9 +128,9 @@ const Users = () => {
     <Box>
       <Loader enable={loading} />
       <Box textAlign="center" pb={8}>
-        <Typography variant="h1" className={titleStyle}>
-          Join over {summary?.usersCount} teams worldwide that are using
-          Letsdoretro to run retrospectives differently
+        <Typography variant="h1" className={titleSecondaryStyle}>
+          Here from our {summary?.usersCount} customers about their experience
+          on letsdoretro.
         </Typography>
       </Box>
       <Box minHeight={430} maxHeight={430}>
@@ -176,7 +171,10 @@ const Users = () => {
                         </Box>
                         <Box textAlign="center">
                           <Box mt={3} mb={2}>
-                            <Typography variant="h2" className={titleStyle}>
+                            <Typography
+                              variant="h2"
+                              className={titleSecondaryStyle}
+                            >
                               {user?.name}
                             </Typography>
                           </Box>

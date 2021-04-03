@@ -17,9 +17,9 @@ export const parseJwt = (token: string) => {
   if (!token) {
     return;
   }
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
     atob(base64)
       .split("")
       .map((c: string) => {
@@ -57,21 +57,32 @@ export const elipseName = (input: string, inputLength: number) => {
 
 export const getStickyColor = (index: number) => {
   let colorValues = [
-    "#fcfbca",
-    "#fccaca",
-    "#cae9fc",
-    "#fccade",
-    "#dbfdde",
-    "#F5C6B1",
-    "#fcfbca",
-    "#fccaca",
-    "#cae9fc",
-    "#fccade",
-    "#dbfdde",
-    "#F5C6B1",
+    "#f5cd0b",
+    "#0079bf",
+    "deeppink",
+    "#0072ff",
+    "orange",
+    "#ff13f8",
+    "#00bf78",
+    "#0b94f5",
+    "#f5cd0b",
+    "#0079bf",
+    "deepping",
+    "#0072ff",
+    "orange",
+    "#ff13f8",
+    "#00bf78",
+    "#0b94f5",
   ];
   if (index > colorValues?.length) {
     return colorValues[1];
   }
   return colorValues[index];
 };
+
+export function formatNumberWithCommas(num: number) {
+  if (!num) {
+    return;
+  }
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}

@@ -1,39 +1,50 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
+import AvatarGroupList from "../../common/AvatarGroupList";
 import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
-import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { Divider } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
+import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
+// import Link from "@material-ui/core/Link";
+// import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import LockOutlinedIcon from "@material-ui/icons/EnhancedEncryptionOutlined";
+import ListSkeleton from "../../common/skeletons/list";
+import Loader from "../../Loader/components";
+// import LockOutlinedIcon from "@material-ui/icons/EnhancedEncryptionOutlined";
 import Menu from "@material-ui/core/Menu";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
+import Status from "../../common/Status";
+import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+// import Status from "../../common/Status";
+import { formatNumberWithCommas } from "../../../util";
 import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
+// import SummaryField from "../../common/SummaryField";
+import { getMembers } from "../../../util/member";
 import { replaceStr } from "../../../util";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useHistory } from "react-router";
-import useStyles from "../../styles";
-import AvatarGroupList from "../../common/AvatarGroupList";
-import SummaryField from "../../common/SummaryField";
-import { getMembers } from "../../../util/member";
-import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
 import { useProjectLoading } from "../../../redux/state/project";
-import ListSkeleton from "../../common/skeletons/list";
+import useStyles from "../../styles";
 import { useTeamLoading } from "../../../redux/state/team";
-import Loader from "../../Loader/components";
-import Status from "../../common/Status";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
@@ -61,17 +72,7 @@ const BoardList = (props: any) => {
   } = props;
   const {} = useLocalStyles();
   const { loading: projectLoading } = useProjectLoading();
-  const {
-    cursor,
-    // cardStyle,
-    avatarBoxStyle,
-    // boxStyle,
-    // boxTextStyle,
-    boxMainStyle,
-    boxGridStyle,
-    boxTopGridStyle,
-    iconBoxStyle,
-  } = useStyles();
+  const { cursor, avatarBoxStyle, boxMainStyle } = useStyles();
   const history = useHistory();
 
   /* Redux hooks */
@@ -85,9 +86,14 @@ const BoardList = (props: any) => {
   const [showMore, setShowMore] = React.useState(false);
   const [clipboardText, setClipboardText] = React.useState("Copy board URL");
   const [selectedIndex, setSelectedIndex] = useState<any>(null);
+
   /* React Hooks */
-  useEffect(() => {}, []);
-  const handleCopy = (board: { [Key: string]: any }) => {
+
+  const handleCopy = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    board: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
     if (!board) {
       return;
     }
@@ -106,9 +112,14 @@ const BoardList = (props: any) => {
   /* Handler functions */
   const renderCardAction = (board: { [Key: string]: any }, index: number) => {
     return (
-      <Box display="flex" mt={1}>
-        <Box mt={0.5}>{getCardSubHeaderText(board.updatedAt)}</Box>
-        <Box ml={1} mt={0.5}>
+      <Box display="flex">
+        <Box mt={0.4}>
+          <Typography variant="h6">
+            {formatNumberWithCommas(board?.views) || 0}{" "}
+            {board?.views === 1 ? "View" : "Views"}
+          </Typography>
+        </Box>
+        <Box ml={1} mt={0.4}>
           <Loader
             enable={selectedIndex === index && sendInviteLoading}
             showInline
@@ -126,7 +137,7 @@ const BoardList = (props: any) => {
                 }
               >
                 <Zoom in={true} timeout={2000}>
-                  <MoreHorizIcon />
+                  <MoreVertOutlinedIcon />
                 </Zoom>
               </IconButton>
             </Tooltip>
@@ -158,98 +169,89 @@ const BoardList = (props: any) => {
     event: React.MouseEvent<HTMLDivElement | MouseEvent>,
     action: string
   ) => {
+    event.stopPropagation();
     handleMenu(event, action);
+    setOpen(false);
+  };
+
+  const handleClickAwayClose = () => {
+    setAnchorEl(null);
     setOpen(false);
   };
 
   const renderMenu = (board: { [Key: string]: any }, index: number) => {
     const teamMembersLength: number = getMembers(board?.teams)?.length;
     return (
-      <>
-        {selectedIndex === index && (
-          <Menu
-            id={"key-" + index}
-            open={open}
-            onClose={handleClose}
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
-            keepMounted
-            getContentAnchorEl={null}
-            TransitionComponent={Zoom}
-          >
-            <ListItem
-              button={true}
-              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-                handleMenuItem(event, "edit")
-              }
+      <ClickAwayListener onClickAway={handleClickAwayClose}>
+        <>
+          {selectedIndex === index && (
+            <Menu
+              id={"key-" + index}
+              open={open}
+              onClose={handleClose}
+              anchorEl={anchorEl}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              keepMounted
+              getContentAnchorEl={null}
+              TransitionComponent={Zoom}
             >
-              <ListItemAvatar style={{ minWidth: 35 }}>
-                <EditIcon />
-              </ListItemAvatar>
-              <ListItemText
-                primary={<b>Edit Board</b>}
-                secondary="Update the board"
-              />
-            </ListItem>
-            <ListItem
-              button={true}
-              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-                handleMenuItem(event, "delete")
-              }
-            >
-              <ListItemAvatar style={{ minWidth: 35 }}>
-                <DeleteOutlineIcon />
-              </ListItemAvatar>
-              <ListItemText
-                primary={<b>Delete Board</b>}
-                secondary="Once deleted can't be done"
-              />
-            </ListItem>
-            {selectedIndex === index &&
-            teamMembersLength > 0 &&
-            board?.status !== "completed" ? (
               <ListItem
                 button={true}
                 onClick={(
                   event: React.MouseEvent<HTMLDivElement | MouseEvent>
-                ) => handleMenuItem(event, "invite")}
+                ) => handleMenuItem(event, "edit")}
               >
                 <ListItemAvatar style={{ minWidth: 35 }}>
-                  <InsertInvitationOutlinedIcon />
+                  <EditIcon />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={
-                    <b>
-                      {!board?.inviteSent ? "Send Invite" : "Resend Invite"}
-                    </b>
-                  }
-                  secondary={`Invite will be sent to ${formateNumber(
-                    teamMembersLength
-                  )} ${teamMembersLength > 1 ? "members" : "member"}`}
+                  primary={<b>Edit Board</b>}
+                  secondary="Update the board"
                 />
               </ListItem>
-            ) : null}
-          </Menu>
-        )}
-      </>
-    );
-  };
-
-  const renderCardTitle = (board: { [Key: string]: any }) => {
-    return (
-      <Box display="flex">
-        <Box
-          mt={0.7}
-          mr={2}
-          className={cursor}
-          onClick={() => handleCard(board)}
-        >
-          <Typography variant="h3" color="primary">
-            {board?.title}
-          </Typography>
-        </Box>
-      </Box>
+              <ListItem
+                button={true}
+                onClick={(
+                  event: React.MouseEvent<HTMLDivElement | MouseEvent>
+                ) => handleMenuItem(event, "delete")}
+              >
+                <ListItemAvatar style={{ minWidth: 35 }}>
+                  <DeleteOutlineIcon />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={<b>Delete Board</b>}
+                  secondary="Once deleted can't be done"
+                />
+              </ListItem>
+              {selectedIndex === index &&
+              teamMembersLength > 0 &&
+              board?.status !== "completed" ? (
+                <ListItem
+                  button={true}
+                  onClick={(
+                    event: React.MouseEvent<HTMLDivElement | MouseEvent>
+                  ) => handleMenuItem(event, "invite")}
+                >
+                  <ListItemAvatar style={{ minWidth: 35 }}>
+                    <InsertInvitationOutlinedIcon />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <b>
+                        {!board?.inviteSent ? "Send Invite" : "Resend Invite"}
+                      </b>
+                    }
+                    secondary={`Invite will be sent to ${formateNumber(
+                      teamMembersLength
+                    )} ${teamMembersLength > 1 ? "members" : "member"}`}
+                  />
+                </ListItem>
+              ) : null}
+            </Menu>
+          )}
+        </>
+      </ClickAwayListener>
     );
   };
 
@@ -266,14 +268,10 @@ const BoardList = (props: any) => {
     return (
       <Box display="flex">
         <Typography component="p" variant="body2">
-          {!showMore && message && message.length > 70
+          {!showMore && message && message?.length > 70
             ? message.slice(0, 70)
             : message}
-          {/* {showMore && message && showMoreIndex === index ? message : null}
-              {showMore && message && showMoreIndex !== index
-                ? message.slice(0, 200)
-                : null} */}
-          {message.length > 70 ? (
+          {message?.length > 70 ? (
             <span
               onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                 handleShowMore(event, index)
@@ -287,6 +285,59 @@ const BoardList = (props: any) => {
           ) : null}
         </Typography>
       </Box>
+    );
+  };
+
+  const renderCardActions = (board: { [Key: string]: any }, index: number) => {
+    return (
+      <>
+        <Box>
+          <Status value={board?.status} />
+        </Box>
+        <AvatarGroupList
+          dataList={getMembers(board?.teams)}
+          noDataMessage="No Members"
+        />
+        <Box display="flex">
+          <Box mr={2}>
+            {board?.status !== "draft" && (
+              <Tooltip
+                arrow
+                title={
+                  selectedBoard?._id === board?._id && clipboardText
+                    ? clipboardText
+                    : "Copy board URL"
+                }
+              >
+                <Zoom in={true} timeout={1500}>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                      handleCopy(event, board)
+                    }
+                  >
+                    <FileCopyOutlinedIcon />
+                  </IconButton>
+                </Zoom>
+              </Tooltip>
+            )}
+          </Box>
+          <Box mt={0.5}>
+            <Tooltip title="View Board" arrow>
+              <IconButton
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                  viewBoard(event, board)
+                }
+                size="small"
+              >
+                {" "}
+                <ArrowForwardOutlinedIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
+      </>
     );
   };
 
@@ -304,90 +355,30 @@ const BoardList = (props: any) => {
             </Typography>
           </Zoom>
         </Box>
-        <Box my={2} display="flex" justifyContent="space-between">
-          <SummaryField
-            title="Teams"
-            value={
-              <AvatarGroupList
-                dataList={board?.teams}
-                noDataMessage="No Teams"
-              />
-            }
-          />
-          <SummaryField
-            title="Members"
-            value={
-              <AvatarGroupList
-                dataList={getMembers(board?.teams)}
-                noDataMessage="No Members"
-              />
-            }
-          />
-          <SummaryField
-            title="Sprint"
-            value={formateNumber(board?.sprint || 0)}
-          />
-        </Box>
-        <Box my={2} display="flex" justifyContent="space-between">
-          <SummaryField
-            title="Status"
-            value={<Status value={board?.status} />}
-          />
-          <SummaryField
-            title="Total sections"
-            value={formateNumber(board?.totalSections || 0)}
-          />
-          <SummaryField
-            title="Invite sent"
-            value={` ${formateNumber(board?.inviteCount)} ${
-              board?.inviteCount === 1 ? "time" : "times"
-            }`}
-          />
-        </Box>
-        <Box mt={2} display="flex">
-          <Box mt={0.3}>
-            <Typography variant="subtitle1">Actions</Typography>
-          </Box>
-          {board?.isLocked && (
-            <Box mx={1} mt={0.2}>
-              <Tooltip arrow title="Locked for others">
-                <LockOutlinedIcon color="primary" />
-              </Tooltip>
-            </Box>
-          )}
-          {board?.status !== "draft" && (
-            <Box>
-              <Tooltip
-                arrow
-                placement="right"
-                title={
-                  selectedBoard?._id === board?._id && clipboardText
-                    ? clipboardText
-                    : "Copy board URL"
-                }
-              >
-                <Zoom in={true} timeout={1500}>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={() => handleCopy(board)}
-                  >
-                    <LinkOutlinedIcon />
-                  </IconButton>
-                </Zoom>
-              </Tooltip>
-            </Box>
-          )}
-        </Box>
       </Box>
     );
   };
 
-  const handleCard = (board: { [Key: string]: any }) => {
+  const handleCard = (
+    event: React.MouseEvent<HTMLDivElement>,
+    board: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
     if (board?.status === "draft") {
       return;
     }
-    history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
+    return history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
+  };
+
+  const viewBoard = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    board: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
+    if (board?.status === "draft") {
+      return;
+    }
+    return history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
   };
 
   return (
@@ -406,37 +397,32 @@ const BoardList = (props: any) => {
                 xs={12}
                 ref={lastBoard}
               >
-                <Box className={boxMainStyle}>
-                  <Box
-                    className={`${boxTopGridStyle}`}
-                    // style={{ background: getRandomBGColor() }}
-                  ></Box>
-                  <Box className={boxGridStyle}>
-                    <Box className={iconBoxStyle}>
-                      <Box
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        p={0.5}
-                      >
-                        <DashboardIcon
-                          // style={{ background: getRandomBGColor() }}
-                          className={avatarBoxStyle}
-                          color="secondary"
-                        />
-                      </Box>
-                    </Box>
-                    <Box display="flex" justifyContent="space-between">
-                      {renderCardTitle(b)}
-                      {renderCardAction(b, index)}
-                    </Box>
-                    <Box>
-                      <Typography component="p">
-                        {renderCardContent(b, index)}
-                      </Typography>
-                    </Box>
+                <Card
+                  className={`${boxMainStyle} ${cursor}`}
+                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                    handleCard(event, b)
+                  }
+                >
+                  <CardHeader
+                    avatar={
+                      <DashboardIcon
+                        // style={{ background: getRandomBGColor() }}
+                        className={avatarBoxStyle}
+                        color="secondary"
+                      />
+                    }
+                    action={renderCardAction(b, index)}
+                    title={b?.title}
+                    subheader={getCardSubHeaderText(b.updatedAt)}
+                  />
+                  <CardContent>{renderCardContent(b, index)}</CardContent>
+                  <Box my={1}>
+                    <Divider />
                   </Box>
-                </Box>
+                  <CardActions style={{ justifyContent: "space-between" }}>
+                    {renderCardActions(b, index)}
+                  </CardActions>
+                </Card>
               </Grid>
             ))
           : null}

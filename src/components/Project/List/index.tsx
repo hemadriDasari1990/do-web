@@ -1,16 +1,27 @@
+import React, { Suspense } from "react";
+
+import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import AvatarGroupList from "../../common/AvatarGroupList";
 import Box from "@material-ui/core/Box";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import Divider from "@material-ui/core/Divider";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import ListSkeleton from "../../common/skeletons/list";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { PROJECT_DASHBOARD } from "../../../routes/config";
-import React, { Suspense } from "react";
+import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -20,21 +31,10 @@ import { replaceStr } from "../../../util";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
-import AvatarGroupList from "../../common/AvatarGroupList";
-import SummaryField from "../../common/SummaryField";
-import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
-import ListSkeleton from "../../common/skeletons/list";
 
 const ProjectList = (props: any) => {
   const { projects, handleMenu, setSelectedProject } = props;
-  const {
-    cursor,
-    avatarBoxStyle,
-    boxMainStyle,
-    boxGridStyle,
-    boxTopGridStyle,
-    iconBoxStyle,
-  } = useStyles();
+  const { cursor, avatarBoxStyle, boxMainStyle } = useStyles();
   const history = useHistory();
 
   /* Redux hooks */
@@ -92,58 +92,55 @@ const ProjectList = (props: any) => {
     setOpen(false);
   };
 
-  const renderMenu = () => {
-    return (
-      <Menu
-        id="fade-menu"
-        open={open}
-        onClose={handleClose}
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        keepMounted
-        getContentAnchorEl={null}
-        TransitionComponent={Zoom}
-      >
-        <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "edit")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <EditIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Edit Project</b>}
-            secondary="Update project"
-          />
-        </ListItem>
-        <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "delete")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <DeleteOutlineIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Delete Project</b>}
-            secondary="Once deleted can't be done"
-          />
-        </ListItem>
-      </Menu>
-    );
+  const handleClickAwayClose = () => {
+    setAnchorEl(null);
+    setOpen(false);
   };
 
-  const renderCardTitle = (project: { [Key: string]: any }) => {
+  const renderMenu = () => {
     return (
-      <Box mt={0.7} className={cursor} onClick={() => handleCard(project)}>
-        <Typography variant="h3" color="primary">
-          {project?.title}
-        </Typography>
-      </Box>
+      <ClickAwayListener onClickAway={handleClickAwayClose}>
+        <Menu
+          id="fade-menu"
+          open={open}
+          onClose={handleClose}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          keepMounted
+          getContentAnchorEl={null}
+          TransitionComponent={Zoom}
+        >
+          <ListItem
+            button={true}
+            onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+              handleMenuItem(event, "edit")
+            }
+          >
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <EditIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Edit Project</b>}
+              secondary="Update project"
+            />
+          </ListItem>
+          <ListItem
+            button={true}
+            onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+              handleMenuItem(event, "delete")
+            }
+          >
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <DeleteOutlineIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Delete Project</b>}
+              secondary="Once deleted can't be done"
+            />
+          </ListItem>
+        </Menu>
+      </ClickAwayListener>
     );
   };
 
@@ -183,6 +180,61 @@ const ProjectList = (props: any) => {
     );
   };
 
+  const handleCard = (
+    event: React.MouseEvent<HTMLDivElement>,
+    project: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
+    return history.push(
+      replaceStr(PROJECT_DASHBOARD, ":projectId", project?._id)
+    );
+  };
+
+  const viewProject = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    project: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
+    return history.push(
+      replaceStr(PROJECT_DASHBOARD, ":projectId", project?._id)
+    );
+  };
+
+  const renderCardActions = (
+    project: { [Key: string]: any },
+    index: number
+  ) => {
+    return (
+      <>
+        <AvatarGroupList
+          dataList={project?.boards}
+          keyName="title"
+          noDataMessage="No Boards"
+        />
+        <Box display="flex">
+          <Box mt={0.5}>
+            <Typography variant="h6">
+              {formateNumber(project?.totalBoards) || 0} Boards
+            </Typography>
+          </Box>
+          <Box ml={4} mt={0.5}>
+            <Tooltip title="View Project" arrow>
+              <IconButton
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                  viewProject(event, project)
+                }
+                size="small"
+              >
+                {" "}
+                <ArrowForwardOutlinedIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
+      </>
+    );
+  };
+
   const renderCardContent = (
     project: { [Key: string]: any },
     index: number
@@ -193,34 +245,15 @@ const ProjectList = (props: any) => {
           <Box mr={2}>
             <SubjectOutlinedIcon />
           </Box>
+
           <Zoom in={true} timeout={2000}>
             <Typography>
-              {renderSecondaryText(project?.description, index)}
+              {renderSecondaryText(project.description, index)}
             </Typography>
           </Zoom>
         </Box>
-        <Box my={2} display="flex" justifyContent="space-between">
-          <SummaryField
-            title="Boards"
-            value={
-              <AvatarGroupList
-                dataList={project?.boards}
-                keyName="title"
-                noDataMessage="No Boards"
-              />
-            }
-          />
-          <SummaryField
-            title="Total Boards"
-            value={formateNumber(project?.totalBoards || 0)}
-          />
-        </Box>
       </Box>
     );
-  };
-
-  const handleCard = (project: { [Key: string]: any }) => {
-    history.push(replaceStr(PROJECT_DASHBOARD, ":projectId", project?._id));
   };
 
   return (
@@ -230,7 +263,34 @@ const ProjectList = (props: any) => {
         {!loading && Array.isArray(projects)
           ? projects.map((project: { [Key: string]: any }, index: number) => (
               <Grid key={project?._id} item xl={3} lg={3} md={4} sm={6} xs={12}>
-                <Box className={boxMainStyle}>
+                <Card
+                  className={`${boxMainStyle} ${cursor}`}
+                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                    handleCard(event, project)
+                  }
+                >
+                  <CardHeader
+                    avatar={
+                      <AssignmentIcon
+                        // style={{ background: getRandomBGColor() }}
+                        className={avatarBoxStyle}
+                        color="secondary"
+                      />
+                    }
+                    action={renderCardAction(project)}
+                    title={project?.title}
+                    subheader={getCardSubHeaderText(project.updatedAt)}
+                  />
+                  <CardContent>{renderCardContent(project, index)}</CardContent>
+                  <Box my={1}>
+                    <Divider />
+                  </Box>
+                  <CardActions style={{ justifyContent: "space-between" }}>
+                    {renderCardActions(project, index)}
+                  </CardActions>
+                </Card>
+
+                {/* <Box className={boxMainStyle}>
                   <Box className={`${boxTopGridStyle}`}></Box>
                   <Box className={boxGridStyle}>
                     <Box className={iconBoxStyle}>
@@ -256,7 +316,7 @@ const ProjectList = (props: any) => {
                       </Typography>
                     </Box>
                   </Box>
-                </Box>
+                </Box> */}
               </Grid>
             ))
           : null}

@@ -85,82 +85,84 @@ const VerifyAccount = () => {
   return (
     <React.Fragment>
       <Container>
-        <Loader enable={loading} />
-        <DoSnackbar
-          open={showSnackbar}
-          handleClose={handleClose}
-          status={
-            response?.errorId && response?.errorId !== ALREADY_VERIFIED
-              ? "error"
-              : "success"
-          }
-        >
-          <Typography variant="h6" color="secondary">
-            {response?.message}
-          </Typography>
-        </DoSnackbar>
-        {!loading && (
-          <Box my={10} textAlign="center">
-            <Zoom in={true} timeout={2000}>
-              <img src={VerifiedIcon} height="200px" width="fit-content" />
-            </Zoom>
-          </Box>
-        )}
-        <Box className={boxStyle}>
+        <Box minHeight="90vh">
+          <Loader enable={loading} />
+          <DoSnackbar
+            open={showSnackbar}
+            handleClose={handleClose}
+            status={
+              response?.errorId && response?.errorId !== ALREADY_VERIFIED
+                ? "error"
+                : "success"
+            }
+          >
+            <Typography variant="h6" color="secondary">
+              {response?.message}
+            </Typography>
+          </DoSnackbar>
           {!loading && (
-            <Box textAlign="center">
-              <Typography variant="h1">{response?.message} </Typography>
+            <Box my={10} textAlign="center">
+              <Zoom in={true} timeout={2000}>
+                <img src={VerifiedIcon} height="200px" width="fit-content" />
+              </Zoom>
             </Box>
           )}
-          {response?.errorId === TOKEN_EXPIRED ||
-            (response?.errorId === NOT_FOUND && (
-              <Box className={boxStyle} textAlign="center">
+          <Box className={boxStyle}>
+            {!loading && (
+              <Box textAlign="center">
                 <Typography variant="h1">{response?.message} </Typography>
               </Box>
-            ))}
-          <Box textAlign="center" mt={3}>
-            {(response?.errorId === ALREADY_VERIFIED || !response?.errorId) &&
-              !loading && (
+            )}
+            {response?.errorId === TOKEN_EXPIRED ||
+              (response?.errorId === NOT_FOUND && (
+                <Box className={boxStyle} textAlign="center">
+                  <Typography variant="h1">{response?.message} </Typography>
+                </Box>
+              ))}
+            <Box textAlign="center" mt={3}>
+              {(response?.errorId === ALREADY_VERIFIED || !response?.errorId) &&
+                !loading && (
+                  <Box mt={0.4} mr={2}>
+                    <Button
+                      onClick={() => handleLogin()}
+                      size="small"
+                      aria-label="add"
+                      color="primary"
+                      variant="outlined"
+                    >
+                      Login Now
+                    </Button>
+                  </Box>
+                )}
+              {!loading && response?.errorId === TOKEN_EXPIRED && (
                 <Box mt={0.4} mr={2}>
                   <Button
-                    onClick={() => handleLogin()}
+                    onClick={() => handleResend()}
                     size="small"
                     aria-label="add"
                     color="primary"
                     variant="outlined"
                   >
-                    Login Now
+                    Resend Token
                   </Button>
                 </Box>
               )}
-            {!loading && response?.errorId === TOKEN_EXPIRED && (
-              <Box mt={0.4} mr={2}>
-                <Button
-                  onClick={() => handleResend()}
-                  size="small"
-                  aria-label="add"
-                  color="primary"
-                  variant="outlined"
-                >
-                  Resend Token
-                </Button>
-              </Box>
-            )}
-            {response?.errorId === NOT_FOUND && !loading && (
-              <Box mt={0.4} mr={2}>
-                <Button
-                  onClick={() => handleCreateUser()}
-                  size="small"
-                  aria-label="add"
-                  color="primary"
-                  variant="contained"
-                >
-                  <Typography variant="h6" color="secondary">
-                    Get started
-                  </Typography>
-                </Button>
-              </Box>
-            )}
+              {response?.errorId === NOT_FOUND && !loading && (
+                <Box mt={0.4} mr={2}>
+                  <Button
+                    onClick={() => handleCreateUser()}
+                    size="small"
+                    aria-label="add"
+                    color="primary"
+                    variant="contained"
+                  >
+                    <Typography variant="h6" color="secondary">
+                      Get started
+                    </Typography>
+                  </Button>
+                </Box>
+              )}
+            </Box>
           </Box>
         </Box>
       </Container>

@@ -1,41 +1,41 @@
+import React, { Suspense } from "react";
+
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
+import AvatarGroupList from "../../common/AvatarGroupList";
 import Box from "@material-ui/core/Box";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { DEPARTMENT_DASHBOARD } from "../../../routes/config";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import Divider from "@material-ui/core/Divider";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import ListSkeleton from "../../common/skeletons/list";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React, { Suspense } from "react";
 import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
+import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-// import formateNumber from "../../../util/formateNumber";
+import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { replaceStr } from "../../../util";
 import { useDepartmentLoading } from "../../../redux/state/department";
 import { useHistory } from "react-router";
 import useStyles from "../../styles";
-import AvatarGroupList from "../../common/AvatarGroupList";
-import SummaryField from "../../common/SummaryField";
-import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
-import ListSkeleton from "../../common/skeletons/list";
 
 const DepartmentList = (props: any) => {
   const { departments, handleMenu, setSelectedDepartment } = props;
-  const {
-    cursor,
-    avatarBoxStyle,
-    boxMainStyle,
-    boxGridStyle,
-    boxTopGridStyle,
-    iconBoxStyle,
-  } = useStyles();
+  const { cursor, avatarBoxStyle, boxMainStyle } = useStyles();
   const history = useHistory();
 
   /* Redux hooks */
@@ -92,78 +92,69 @@ const DepartmentList = (props: any) => {
     setOpen(false);
   };
 
-  const renderMenu = () => {
-    return (
-      <Menu
-        id="fade-menu"
-        open={open}
-        onClose={handleClose}
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        keepMounted
-        getContentAnchorEl={null}
-        TransitionComponent={Zoom}
-      >
-        <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "edit")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <EditIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Edit Department</b>}
-            secondary="Update the department"
-          />
-        </ListItem>
-        <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "delete")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <DeleteOutlineIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Delete Department</b>}
-            secondary="Once deleted can't be undone"
-          />
-        </ListItem>
-        <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "archive")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <ArchiveOutlinedIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Archive Department</b>}
-            secondary="You've control to make it unarchive any time"
-          />
-        </ListItem>
-      </Menu>
-    );
+  const handleClickAwayClose = () => {
+    setAnchorEl(null);
+    setOpen(false);
   };
 
-  const renderCardTitle = (department: { [Key: string]: any }) => {
+  const renderMenu = () => {
     return (
-      <Box
-        mt={0.7}
-        className={cursor}
-        onClick={(event: React.MouseEvent<HTMLElement | MouseEvent>) =>
-          handleCard(event, department)
-        }
-      >
-        <Typography variant="h3" color="primary">
-          {department?.title}
-        </Typography>
-      </Box>
+      <ClickAwayListener onClickAway={handleClickAwayClose}>
+        <Menu
+          id="fade-menu"
+          open={open}
+          onClose={handleClose}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          keepMounted
+          getContentAnchorEl={null}
+          TransitionComponent={Zoom}
+        >
+          <ListItem
+            button={true}
+            onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+              handleMenuItem(event, "edit")
+            }
+          >
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <EditIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Edit Department</b>}
+              secondary="Update the department"
+            />
+          </ListItem>
+          <ListItem
+            button={true}
+            onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+              handleMenuItem(event, "delete")
+            }
+          >
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <DeleteOutlineIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Delete Department</b>}
+              secondary="Once deleted can't be undone"
+            />
+          </ListItem>
+          <ListItem
+            button={true}
+            onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+              handleMenuItem(event, "archive")
+            }
+          >
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <ArchiveOutlinedIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Archive Department</b>}
+              secondary="You've control to make it unarchive any time"
+            />
+          </ListItem>
+        </Menu>
+      </ClickAwayListener>
     );
   };
 
@@ -223,22 +214,6 @@ const DepartmentList = (props: any) => {
             </Typography>
           </Zoom>
         </Box>
-        <Box my={2} display="flex" justifyContent="space-between">
-          <SummaryField
-            title="Projects"
-            value={
-              <AvatarGroupList
-                dataList={department?.projects}
-                keyName="title"
-                noDataMessage="No Projects"
-              />
-            }
-          />
-          <SummaryField
-            title="Total Projects"
-            value={department?.totalProjects || 0}
-          />
-        </Box>
       </Box>
     );
   };
@@ -250,6 +225,51 @@ const DepartmentList = (props: any) => {
     event.stopPropagation();
     history.push(
       replaceStr(DEPARTMENT_DASHBOARD, ":departmentId", department?._id)
+    );
+  };
+
+  const viewDepartment = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    department: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
+    history.push(
+      replaceStr(DEPARTMENT_DASHBOARD, ":departmentId", department?._id)
+    );
+  };
+
+  const renderCardActions = (
+    department: { [Key: string]: any },
+    index: number
+  ) => {
+    return (
+      <>
+        <AvatarGroupList
+          dataList={department?.projects}
+          keyName="title"
+          noDataMessage="No Projects"
+        />
+        <Box display="flex">
+          <Box mt={0.5}>
+            <Typography variant="h6">
+              {formateNumber(department?.totalProjects) || 0} Projects
+            </Typography>
+          </Box>
+          <Box ml={4} mt={0.5}>
+            <Tooltip title="View Department" arrow>
+              <IconButton
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                  viewDepartment(event, department)
+                }
+                size="small"
+              >
+                {" "}
+                <ArrowForwardOutlinedIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
+      </>
     );
   };
 
@@ -269,37 +289,34 @@ const DepartmentList = (props: any) => {
                   sm={6}
                   xs={12}
                 >
-                  <Box className={boxMainStyle}>
-                    <Box
-                      className={`${boxTopGridStyle}`}
-                      // style={{ background: getRandomBGColor() }}
-                    ></Box>
-                    <Box className={boxGridStyle}>
-                      <Box className={iconBoxStyle}>
-                        <Box
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          p={0.5}
-                        >
-                          <SportsVolleyballIcon
-                            // style={{ background: getRandomBGColor() }}
-                            className={avatarBoxStyle}
-                            color="secondary"
-                          />
-                        </Box>
-                      </Box>
-                      <Box display="flex" justifyContent="space-between">
-                        {renderCardTitle(department)}
-                        {renderCardAction(department)}
-                      </Box>
-                      <Box>
-                        <Typography component="p">
-                          {renderCardContent(department, index)}
-                        </Typography>
-                      </Box>
+                  <Card
+                    className={`${boxMainStyle} ${cursor}`}
+                    onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                      handleCard(event, department)
+                    }
+                  >
+                    <CardHeader
+                      avatar={
+                        <SportsVolleyballIcon
+                          // style={{ background: getRandomBGColor() }}
+                          className={avatarBoxStyle}
+                          color="secondary"
+                        />
+                      }
+                      action={renderCardAction(department)}
+                      title={department?.title}
+                      subheader={getCardSubHeaderText(department.updatedAt)}
+                    />
+                    <CardContent>
+                      {renderCardContent(department, index)}
+                    </CardContent>
+                    <Box my={1}>
+                      <Divider />
                     </Box>
-                  </Box>
+                    <CardActions style={{ justifyContent: "space-between" }}>
+                      {renderCardActions(department, index)}
+                    </CardActions>
+                  </Card>
                 </Grid>
               )
             )

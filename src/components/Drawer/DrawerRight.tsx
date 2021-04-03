@@ -1,3 +1,4 @@
+import { Divider, Typography } from "@material-ui/core";
 import {
   Theme,
   createStyles,
@@ -7,12 +8,13 @@ import {
 
 import Box from "@material-ui/core/Box";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+// import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
 
-const drawerWidth = 300;
+const drawerWidth = 339;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,12 +34,13 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     drawerHeader: {
-      padding: theme.spacing(0, 1),
+      // padding: theme.spacing(0, 1),
+      margin: "6px 10px",
       // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
+      // ...theme.mixins.toolbar,
     },
-    iconStyle: {
-      backgroundColor: "#eff6ff",
+    headerStyle: {
+      color: "inherit",
     },
   })
 );
@@ -60,24 +63,27 @@ export default function PersistentDrawerRight(props: any) {
       >
         <Box
           display="flex"
-          justifyContent="space-between"
+          // justifyContent="space-between"
           className={classes.drawerHeader}
         >
-          <Box></Box>
-          <Box>
+          <Box ml="auto" className={classes.headerStyle}>
+            <Typography variant="h5">Menu</Typography>
+          </Box>
+          <Box ml="auto">
             <IconButton
               size="small"
-              className={classes.iconStyle}
+              // className={classes.iconStyle}
               onClick={handleDrawerClose}
             >
               {theme.direction === "rtl" ? (
                 <ChevronLeftIcon color="primary" />
               ) : (
-                <ChevronRightIcon color="primary" />
+                <CloseOutlinedIcon color="primary" fontSize="small" />
               )}
             </IconButton>
           </Box>
         </Box>
+        <Divider />
         <Box>{children}</Box>
       </Drawer>
     </React.Fragment>

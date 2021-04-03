@@ -18,7 +18,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import Zoom from "@material-ui/core/Zoom";
 import { addOrRemoveMemberFromTeam } from "../../../redux/actions/team";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getMembersByUser } from "../../../redux/actions/member";
@@ -32,6 +31,8 @@ import Hidden from "@material-ui/core/Hidden";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import useMainStyles from "../../styles";
 import useTableStyles from "../../styles/table";
+import DoPagination from "../../common/Pagination";
+import { ADD_MEMBERS_PER_PAGE } from "../../../util/constants";
 
 const Loader = React.lazy(() => import("../../Loader/components"));
 const NoRecords = React.lazy(() => import("../../NoRecords"));
@@ -54,10 +55,27 @@ const Members = () => {
   const [apiTriggered, setApiTriggered] = useState(false);
   const { team } = useTeam();
   const { loading } = useTeamLoading();
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
-    dispatch(getMembersByUser(userId));
+    loadMembers(page);
   }, []);
+
+  const loadMembers = (pageNo: number) => {
+    dispatch(
+      getMembersByUser(userId, queryString, pageNo, ADD_MEMBERS_PER_PAGE)
+    );
+  };
+
+  useEffect(() => {
+    const usersTimer = setTimeout(async () => {
+      await loadMembers(page);
+    }, 300);
+
+    return () => {
+      clearTimeout(usersTimer);
+    };
+  }, [queryString]);
 
   useEffect(() => {
     if (membersList) {
@@ -72,7 +90,7 @@ const Members = () => {
       const oldMembers = [...members];
       const oldMember: { [Key: string]: any } = oldMembers[selectedMemberIndex];
       const teams = oldMember.teams.filter(
-        (m: { [Key: string]: any }) => m.team?._id !== teamId
+        (m: { [Key: string]: any }) => m.teamId !== teamId
       );
       oldMember.teams = teams;
       oldMembers[selectedMemberIndex] = oldMember;
@@ -83,7 +101,9 @@ const Members = () => {
     if (!loading && team?._id && apiTriggered) {
       const oldMembers: Array<{ [Key: string]: any }> = [...members];
       const oldMember: { [Key: string]: any } = oldMembers[selectedMemberIndex];
-      oldMember?.teams?.push(team);
+      if (oldMember) {
+        oldMember.teams = [...oldMember.teams, team];
+      }
       setMembers(oldMembers);
       setSelectedMemberIndex(0);
       setApiTriggered(false);
@@ -123,13 +143,18 @@ const Members = () => {
       return;
     }
     const teamFound: any = teams.find(
-      (t: { [Key: string]: any }) => t?.team?._id === teamId
+      (t: { [Key: string]: any }) => t?.teamId === teamId
     );
     return teamFound;
   };
 
   const handleBack = () => {
     history.goBack();
+  };
+
+  const handlePage = (page: number) => {
+    setPage(page);
+    loadMembers(page);
   };
 
   return (
@@ -206,15 +231,11 @@ const Members = () => {
                       className="b-r-15 mt-10 w-us"
                     >
                       <ListItemAvatar>
-                        <Zoom in={true} timeout={2000}>
-                          <Avatar
-                            style={{ background: getRandomBGColor(index) }}
-                          >
-                            <Typography variant="h5" color="secondary">
-                              {member?.name ? member?.name.substring(0, 1) : ""}
-                            </Typography>
-                          </Avatar>
-                        </Zoom>
+                        <Avatar style={{ background: getRandomBGColor(index) }}>
+                          <Typography variant="h5" color="secondary">
+                            {member?.name ? member?.name.substring(0, 1) : ""}
+                          </Typography>
+                        </Avatar>
                       </ListItemAvatar>
                       <Tooltip
                         arrow
@@ -261,7 +282,7 @@ const Members = () => {
                               ? "Remove Member"
                               : `Add Member`
                           }
-                          placement="right-end"
+                          placement="left"
                         >
                           <IconButton
                             size="small"
@@ -270,13 +291,11 @@ const Members = () => {
                             }
                             color={renderAddMemberColor(member.teams)}
                           >
-                            <Zoom in={true} timeout={2000}>
-                              {checkIfMemberAdded(member.teams) ? (
-                                <PersonIcon />
-                              ) : (
-                                <PersonAddOutlinedIcon />
-                              )}
-                            </Zoom>
+                            {checkIfMemberAdded(member.teams) ? (
+                              <PersonIcon />
+                            ) : (
+                              <PersonAddOutlinedIcon />
+                            )}
                           </IconButton>
                         </Tooltip>
                       </ListItemSecondaryAction>
@@ -292,7 +311,14 @@ const Members = () => {
           </Box>
         ) : null}
       </List>
-
+      <Box display="flex" justifyContent="space-between">
+        <Box></Box>
+        <DoPagination
+          handlePage={handlePage}
+          totalCount={totalMembers}
+          pageCount={ADD_MEMBERS_PER_PAGE}
+        />
+      </Box>
       {loading && <Loader />}
     </Box>
   );

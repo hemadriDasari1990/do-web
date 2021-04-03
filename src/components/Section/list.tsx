@@ -3,17 +3,17 @@ import {
   Draggable,
   DraggableLocation,
   DraggableProvided,
-  DraggableStateSnapshot,
   DropResult,
   Droppable,
   DroppableProvided,
 } from "react-beautiful-dnd";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-// import { deleteSection } from "../../redux/actions/section";
-import { reorder, replaceStr } from "../../util";
+import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
+
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
+import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
@@ -22,31 +22,35 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
-import List from "@material-ui/core/List";
+import { List } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import { PROJECT_DASHBOARD } from "../../routes/config";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import SectionsListSkeleton from "../common/skeletons/sectionsList";
+import Slide from "@material-ui/core/Slide";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import UserAvatar from "../Header/Account/userAvatar";
 import Zoom from "@material-ui/core/Zoom";
+import { getMembers } from "../../util/member";
 import { getSectionsByBoard } from "../../redux/actions/section";
+// import { deleteSection } from "../../redux/actions/section";
+import { reorder } from "../../util";
 import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
-import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import useStyles from "../styles";
-import { getMembers } from "../../util/member";
-import SectionsListSkeleton from "../common/skeletons/sectionsList";
-import { useLogin } from "../../redux/state/login";
 
+const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
+const UserAccount = React.lazy(() => import("../Header/Account"));
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -57,13 +61,12 @@ const Timer = React.lazy(() => import("../common/Timer"));
 const useLocalStyles = makeStyles((theme: Theme) => ({
   sectionHeader: {
     padding: "5px 15px 5px 15px",
-    color: "#071040",
   },
   titleStyle: {
     width: "fit-content",
   },
   sectionGridStyle: {
-    border: "2px solid #1e1e58",
+    border: "2px solid #172b4d",
     borderRadius: 6,
   },
   sectionStyle: {
@@ -111,11 +114,11 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   boxStyle: {
     width: "fit-content",
     borderRadius: 6,
-    backgroundColor: "#e9e9ec",
+    backgroundColor: "#0072ff14",
   },
   boxTextStyle: {
-    padding: "3px 15px 3px 15px",
-    color: "#1e1e58",
+    padding: "5px 15px 5px 15px",
+    color: "#0072ff",
     fontWeight: 500,
   },
 }));
@@ -134,7 +137,7 @@ const SectionList = () => {
     stopSessionTextStyle,
     boxStyle,
     boxTextStyle,
-    sectionGridStyle,
+    // sectionGridStyle,
   } = useLocalStyles();
   const {
     countStyle,
@@ -160,9 +163,9 @@ const SectionList = () => {
   const [selectedSection, setSelectedSection] = useState<any>(null);
   const [sections, setSections] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openAccount, setOpenAccount] = useState(false);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
   const [endSessionDialog, setEndSessionDialog] = useState(false);
-  const [sectionInput, setSectionInput] = useState("");
   const [open, setOpen] = useState(false);
   const [boardDetails, setBoardDetails] = useState(board);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -218,7 +221,6 @@ const SectionList = () => {
         if (!updatedSection) {
           return;
         }
-
         filterLatestSections(updatedSection);
       }
     );
@@ -259,13 +261,16 @@ const SectionList = () => {
 
   /* Handler functions */
   const editSection = () => {
-    setOpen(false);
     setOpenDialog(true);
   };
 
   const handleDeleteSection = () => {
     setOpen(false);
     setOpenDeleteDialog(true);
+  };
+
+  const handleAccount = () => {
+    setOpenAccount(!openAccount);
   };
 
   const updateTotalNotes = (sectionId: string, operation: string) => {
@@ -283,7 +288,9 @@ const SectionList = () => {
     sectionData.totalNotes =
       operation === "add"
         ? sectionData?.totalNotes + 1
-        : sectionData?.totalNotes - 1;
+        : sectionData?.totalNotes >= 1
+        ? sectionData?.totalNotes - 1
+        : 0;
     newSections[sectionIndex] = sectionData;
     setSections(newSections);
   };
@@ -297,6 +304,7 @@ const SectionList = () => {
       (item) => item._id !== deletedSection?._id
     );
     setSections(filteredSections);
+    setTotalSections(totalSections - 1);
     setSelectedSection(null);
   };
 
@@ -326,25 +334,6 @@ const SectionList = () => {
     setSelectedSection(null);
   };
 
-  const handleUpdate = () => {
-    socket.emit("update-section", {
-      title: sectionInput,
-      sectionId: selectedSection?._id,
-      boardId: selectedSection?.boardId,
-      userId,
-    });
-    setOpenDialog(false);
-  };
-
-  const handleCreate = () => {
-    socket.emit("create-section", {
-      title: sectionInput,
-      boardId: boardId,
-      userId,
-    });
-    setOpenDialog(false);
-  };
-
   const handleDelete = () => {
     socket.emit("delete-section", selectedSection?._id);
     setOpenDeleteDialog(false);
@@ -368,27 +357,13 @@ const SectionList = () => {
     }
   };
 
-  const handleSecondarySubmit = () => {
-    setOpenDialog(false);
-  };
-
   const renderUpdateDialog = () => {
     return (
-      <ResponsiveDialog
-        open={openDialog}
-        title={selectedSection?._id ? "Update Section" : "Create section"}
-        pcta={selectedSection?._id ? "Update" : "Create"}
-        scta="Cancel"
-        handleSave={selectedSection?._id ? handleUpdate : handleCreate}
+      <UpdateSection
+        selectedSection={selectedSection}
+        openDialog={openDialog}
         handleClose={handleClose}
-        maxWidth={440}
-        handleSecondarySubmit={handleSecondarySubmit}
-      >
-        <UpdateSection
-          value={selectedSection?.title || ""}
-          setSectionInput={setSectionInput}
-        />
-      </ResponsiveDialog>
+      />
     );
   };
 
@@ -419,25 +394,24 @@ const SectionList = () => {
     );
   };
 
-  const renderDeleteDialog = () => {
+  const renderDeleteDialog = useCallback(() => {
     return (
       <Box>
         <ResponsiveDialog
           open={deleteDialog}
           title="Delete Section"
           pcta="Delete"
-          scta="Cancel"
           handleSave={handleDelete}
           handleClose={handleClose}
           maxWidth={440}
         >
-          <Typography variant="h4">
+          <Typography variant="h5">
             Are you sure you want to delete {selectedSection?.title}?
           </Typography>
         </ResponsiveDialog>
       </Box>
     );
-  };
+  }, [deleteDialog]);
 
   const handleMenuClose = () => {
     setOpen(false);
@@ -518,7 +492,7 @@ const SectionList = () => {
   };
 
   const handleBack = () => {
-    history.push(replaceStr(PROJECT_DASHBOARD, ":projectId", board?.projectId));
+    history.goBack();
   };
 
   const handleStartSession = () => {
@@ -566,6 +540,90 @@ const SectionList = () => {
     );
   };
 
+  const removeDeletedNote = (noteId: string, selectedSectionId: string) => {
+    if (!noteId || !sections?.length || !selectedSectionId) {
+      return;
+    }
+    /* Clone original sections */
+    const newSections: Array<{ [Key: string]: any }> = [...sections];
+    /* Find source section index */
+    const currentSectionIndex: number = sections.findIndex(
+      (newSection: { [Key: string]: any }) =>
+        newSection?._id === selectedSectionId
+    );
+    /* Find source notes */
+    const currentSectionNotes: Array<{ [Key: string]: any }> =
+      sections[currentSectionIndex]?.notes;
+
+    const filteredNotes: Array<{
+      [Key: string]: any;
+    }> = currentSectionNotes.filter(
+      (item: { [Key: string]: any }) => item._id !== noteId
+    );
+    newSections[currentSectionIndex].notes = filteredNotes;
+    setSections(newSections);
+  };
+
+  const updateNote = (
+    newNote: { [Key: string]: any },
+    selectedSectionId: string
+  ) => {
+    if (selectedSectionId !== newNote?.sectionId) {
+      return;
+    }
+    /* Clone original sections */
+    const newSections: Array<{ [Key: string]: any }> = [...sections];
+    /* Find source section index */
+    const currentSectionIndex: number = sections.findIndex(
+      (newSection: { [Key: string]: any }) =>
+        newSection?._id === selectedSectionId
+    );
+    /* Find source notes */
+    const currentSectionNotes: Array<{ [Key: string]: any }> =
+      sections[currentSectionIndex]?.notes;
+
+    const notesList = [...currentSectionNotes];
+    const noteIndex = notesList.findIndex(
+      (n: { [Key: string]: any }) => n._id === newNote._id
+    );
+    const noteData = currentSectionNotes[noteIndex];
+    if (noteData) {
+      noteData.description = newNote.description;
+      noteData.updatedBy = newNote.updatedBy;
+      noteData.updatedById = newNote.updatedById;
+      noteData.isAnnonymous = newNote.isAnnonymous;
+      notesList[noteIndex] = noteData;
+      newSections[currentSectionIndex].notes = notesList;
+    } else {
+      newSections[currentSectionIndex].notes = [...notesList, newNote];
+    }
+    setSections(newSections);
+  };
+
+  const addNotes = (
+    newNote: { [Key: string]: any },
+    selectedSectionId: string
+  ) => {
+    if (!newNote || selectedSectionId !== newNote?.sectionId) {
+      return;
+    }
+    /* Clone original sections */
+    const newSections: Array<{ [Key: string]: any }> = [...sections];
+    /* Find source section index */
+    const currentSectionIndex: number = sections.findIndex(
+      (newSection: { [Key: string]: any }) =>
+        newSection?._id === selectedSectionId
+    );
+    /* Find source notes */
+    const currentSectionNotes: Array<{ [Key: string]: any }> =
+      sections[currentSectionIndex]?.notes;
+
+    const notesList = [...currentSectionNotes];
+    newSections[currentSectionIndex].notes = [...notesList, newNote];
+    updateTotalNotes(selectedSectionId, "add");
+    setSections(newSections);
+  };
+
   const reorderNotesList = (
     source: DraggableLocation,
     destination: DraggableLocation
@@ -573,60 +631,58 @@ const SectionList = () => {
     /* Clone original sections */
     const newSections: Array<{ [Key: string]: any }> = [...sections];
     /* Find source section index */
-    const currentIndex: number = sections.findIndex(
+    const currentSectionIndex: number = sections.findIndex(
+      (newSection: { [Key: string]: any }) =>
+        newSection?._id === source.droppableId
+    );
+    /* Find source notes */
+    const currentSectionNotes: Array<{ [Key: string]: any }> =
+      sections[currentSectionIndex]?.notes;
+    /* Reorder notes */
+    const reorderedNotes = reorder(
+      currentSectionNotes,
+      source.index,
+      destination.index
+    );
+    newSections[currentSectionIndex].notes = reorderedNotes;
+    return newSections;
+  };
+
+  const moveNotesBetweenSections = (
+    source: DraggableLocation,
+    destination: DraggableLocation
+  ) => {
+    /* Clone original sections */
+    const newSections: Array<{ [Key: string]: any }> = [...sections];
+    /* Find source section index */
+    const sourceSectionIndex: number = sections.findIndex(
       (newSection: { [Key: string]: any }) =>
         newSection?._id === source.droppableId
     );
     /* Find destination section index */
-    const nextIndex: number = sections.findIndex(
+    const destinationSectionIndex: number = sections.findIndex(
       (newSection: { [Key: string]: any }) =>
         newSection?._id === destination.droppableId
     );
-    /* Find source notes */
-    const current: Array<{ [Key: string]: any }> =
-      sections[currentIndex]?.notes;
-    /* Find destination notes */
-    const next: Array<{ [Key: string]: any }> = sections[nextIndex]?.notes;
-    /* Find target note */
-    const target: { [Key: string]: any } = current[source.index];
+    /* Find current section */
+    const sourceSection: { [Key: string]: any } = sections[sourceSectionIndex];
+    const destinationSection: { [Key: string]: any } =
+      sections[destinationSectionIndex];
+    const sourceNote = sourceSection.notes[source.index];
 
-    // moving to same list
-    if (source.droppableId === destination.droppableId) {
-      // console.log("test current", current, currentIndex, sections);
-      // console.log("test next", next);
-      // console.log("test target", target);
-      const reordered: Array<{ [Key: string]: any }> = reorder(
-        current,
-        source.index,
-        destination.index
-      );
-      // console.log("reordered 1", current);
-      // console.log("reordered 2", reordered);
-      const section: { [Key: string]: any } = { ...newSections[currentIndex] };
-      section.notes = reordered;
-      newSections[currentIndex] = section;
-      return newSections;
-    }
+    // 1. Remove note from source section
+    sourceSection.notes.splice(source.index, 1);
+    /* Decrease notes count */
+    sourceSection.totalNotes =
+      sourceSection.totalNotes >= 1 ? sourceSection.totalNotes - 1 : 0;
 
-    // moving to different list
+    // 2. insert note into destination section
+    destinationSection.notes.splice(destination.index, 0, sourceNote);
+    /* Increase notes count */
+    destinationSection.totalNotes = destinationSection.totalNotes + 1;
 
-    // remove from original
-    if (current) {
-      current.splice(source.index, 1);
-    }
-
-    // insert into next
-    if (target) {
-      next.splice(destination.index, 0, target);
-    }
-    const sourceSection: { [Key: string]: any } = sections[currentIndex];
-    sourceSection.notes = current;
-    newSections[currentIndex] = sourceSection;
-
-    const destinationSection: { [Key: string]: any } = sections[nextIndex];
-    destinationSection.notes = next;
-    newSections[nextIndex] = destinationSection;
-
+    newSections[sourceSectionIndex] = sourceSection;
+    newSections[destinationSectionIndex] = destinationSection;
     return newSections;
   };
 
@@ -648,200 +704,276 @@ const SectionList = () => {
     }
 
     // reordering column
-    if (result.type === "COLUMN") {
+    if (result.type === "SECTION") {
+      // if the list is scrolled it looks like there is some strangeness going on
+      // with react-window. It looks to be scrolling back to scroll: 0
+      // I should log an issue with the project
       const newSections: Array<{ [Key: string]: any }> = reorder(
         sections,
         source.index,
         destination.index
       );
+      setSections([...newSections]);
+      return;
+    }
+
+    // reordering in same list
+    console.log("result", result);
+    if (
+      result.type === "NOTE" &&
+      source.droppableId === destination.droppableId
+    ) {
+      console.log("source", source, destination);
+      // socket.emit("update-note-position", )
+      const newSections = reorderNotesList(source, destination);
+      console.log("result", newSections);
       setSections(newSections);
       return;
     }
 
-    if (result.type === "NOTE") {
-      socket.emit("move-note-to-section", {
-        noteId: result.draggableId,
-        sourceSectionId: source.droppableId,
-        destinationSectionId: destination.droppableId,
-      });
-      const newSections = reorderNotesList(source, destination);
-      setSections(newSections);
-    }
+    // moving notes between sections
+    socket.emit("move-note-to-section", {
+      noteId: result.draggableId,
+      sourceSectionId: source.droppableId,
+      destinationSectionId: destination.droppableId,
+    });
+    const newSections = moveNotesBetweenSections(source, destination);
+    setSections(newSections);
   };
 
+  const renderStartSession = useCallback(() => {
+    return (
+      <Box mr={2} className={buttonStyle}>
+        <Button
+          variant="outlined"
+          color="default"
+          className={buttonOutlinedStartStyle}
+          startIcon={
+            <PlayArrowIcon color="primary" className={startSessionIconStyle} />
+          }
+          onClick={() => handleStartSession()}
+        >
+          <Typography className={startSessionTextStyle} variant="h6">
+            Start Session
+          </Typography>
+        </Button>
+      </Box>
+    );
+  }, [boardLoading, authenticated, boardDetails]);
+
+  const renderEndSession = useCallback(() => {
+    return (
+      <Box mx={2} className={buttonStyle}>
+        <Button
+          variant="outlined"
+          color="default"
+          className={buttonOutlinedStopStyle}
+          startIcon={
+            <PauseIcon color="primary" className={stopSessionIconStyle} />
+          }
+          onClick={() => handleStopSession()}
+        >
+          <Typography
+            color="primary"
+            variant="h6"
+            className={stopSessionTextStyle}
+          >
+            End Session
+          </Typography>
+        </Button>
+      </Box>
+    );
+  }, [boardLoading, authenticated, boardDetails]);
+
+  const renderTimer = useCallback(() => {
+    return <Timer startDateTime={boardDetails?.startedAt} interval={1000} />;
+  }, [boardLoading, boardDetails]);
+
+  const renderDiffInDays = useCallback(() => {
+    return <Box>{dateDiffInDays()}</Box>;
+  }, [boardLoading, boardDetails]);
+
+  const renderCreateNewSection = useCallback(() => {
+    return (
+      <Box mr={2}>
+        <Hidden only={["xl", "lg", "md", "sm"]}>
+          <IconButton
+            size="small"
+            className={iconBackStyle}
+            onClick={() => handleBack()}
+          >
+            <AddOutlinedIcon color="primary" />
+          </IconButton>
+        </Hidden>
+        <Hidden only={["xs"]}>
+          <Box className={buttonStyle}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AddOutlinedIcon color="secondary" />}
+              onClick={() => handleCreateNewSection()}
+            >
+              <Typography color="secondary" variant="subtitle1">
+                Create New Section
+              </Typography>
+            </Button>
+          </Box>
+        </Hidden>
+      </Box>
+    );
+  }, [boardLoading, authenticated]);
+
+  const renderGoBackToBoards = useCallback(() => {
+    return (
+      <Box mr={2}>
+        <Hidden only={["xl", "lg", "md", "sm"]}>
+          <IconButton
+            size="small"
+            className={iconBackStyle}
+            onClick={() => handleBack()}
+          >
+            <KeyboardBackspaceOutlinedIcon color="primary" />
+          </IconButton>
+        </Hidden>
+        <Hidden only={["xs"]}>
+          <Box className={buttonStyle}>
+            <Button
+              variant="outlined"
+              color="default"
+              startIcon={<KeyboardBackspaceOutlinedIcon color="primary" />}
+              onClick={() => handleBack()}
+            >
+              <Typography color="primary" variant="subtitle1">
+                Go Back to Boards
+              </Typography>
+            </Button>
+          </Box>
+        </Hidden>
+      </Box>
+    );
+  }, [boardLoading, authenticated]);
+
+  const handleDrawerClose = () => {
+    setOpenAccount(false);
+  };
+
+  const onDragStart = () => {
+    // Add a little vibration if the browser supports it.
+    // Add's a nice little physical feedback
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate(100);
+    }
+  };
   return (
-    <Suspense fallback={<SectionsListSkeleton />}>
+    <Suspense fallback={<div />}>
       {/* <Loader enable={loading} /> */}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
       {renderEndSessionDialog()}
-      <Grid container spacing={2}>
-        <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
-          <Box display="flex">
-            <Box>
-              <Typography variant="h3">{boardDetails?.title}</Typography>
-            </Box>
-            <Tooltip arrow title="Total Sections" placement="right">
-              <Box ml={2} className={countStyle} style={{ marginTop: 5 }}>
-                <Typography color="primary" className={countTextStyle}>
-                  {totalSections || 0}
-                </Typography>
-              </Box>
-            </Tooltip>
-            {!boardLoading && boardDetails?.teams?.length ? (
-              <Box ml={2} mt={0.5}>
-                <AvatarGroupList dataList={boardDetails?.teams} />
-              </Box>
-            ) : null}
-            {!boardLoading && boardDetails?.teams?.length ? (
-              <Box ml={2} mt={0.5}>
-                <AvatarGroupList dataList={getMembers(boardDetails?.teams)} />
-              </Box>
-            ) : null}
-          </Box>
-        </Grid>
-        <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
-          <Box
-            display="flex"
-            justifyContent={
-              !boardDetails?.startedAt || !boardDetails?.completedAt
-                ? "flex-end"
-                : "space-between"
-            }
+      {loading ? (
+        <BoardHeaderSkeleton />
+      ) : (
+        <Grid container spacing={2}>
+          <Slide
+            direction="right"
+            in={true}
+            timeout={1500}
+            mountOnEnter
+            unmountOnExit
           >
-            {!boardLoading &&
-            boardDetails?.startedAt &&
-            !boardDetails?.completedAt ? (
-              <Box>
-                <Timer
-                  startDateTime={boardDetails?.startedAt}
-                  interval={1000}
-                />
-              </Box>
-            ) : null}
-            {!boardLoading &&
-            boardDetails?.startedAt &&
-            boardDetails?.completedAt ? (
-              <Box>{dateDiffInDays()}</Box>
-            ) : null}
-            <Box>
-              {!boardLoading &&
-              authenticated &&
-              boardDetails &&
-              !boardDetails.startedAt ? (
-                <Box mr={2} className={buttonStyle}>
-                  <Button
-                    variant="outlined"
-                    color="default"
-                    className={buttonOutlinedStartStyle}
-                    startIcon={
-                      <PlayArrowIcon
-                        color="primary"
-                        className={startSessionIconStyle}
-                      />
-                    }
-                    onClick={() => handleStartSession()}
-                  >
-                    <Typography className={startSessionTextStyle} variant="h6">
-                      Start Session
-                    </Typography>
-                  </Button>
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+              <Box display="flex">
+                <Box>
+                  <Typography variant="h3" style={{ color: "#071040" }}>
+                    {boardDetails?.title}
+                  </Typography>
                 </Box>
-              ) : null}
-              {!boardLoading &&
-              authenticated &&
-              boardDetails?.startedAt &&
-              !boardDetails.completedAt ? (
-                <Box mx={2} className={buttonStyle}>
-                  <Button
-                    variant="outlined"
-                    color="default"
-                    className={buttonOutlinedStopStyle}
-                    startIcon={
-                      <PauseIcon
-                        color="primary"
-                        className={stopSessionIconStyle}
-                      />
-                    }
-                    onClick={() => handleStopSession()}
-                  >
-                    <Typography
-                      color="primary"
-                      variant="h6"
-                      className={stopSessionTextStyle}
-                    >
-                      End Session
+                <Tooltip arrow title="Total Sections" placement="right">
+                  <Box ml={2} className={countStyle} style={{ marginTop: 5 }}>
+                    <Typography color="primary" className={countTextStyle}>
+                      {totalSections || 0}
                     </Typography>
-                  </Button>
+                  </Box>
+                </Tooltip>
+                {!boardLoading && boardDetails?.teams?.length ? (
+                  <Box ml={2} mt={0.5}>
+                    <AvatarGroupList dataList={boardDetails?.teams} />
+                  </Box>
+                ) : null}
+                {!boardLoading && boardDetails?.teams?.length ? (
+                  <Box ml={2} mt={0.5}>
+                    <AvatarGroupList
+                      dataList={getMembers(boardDetails?.teams)}
+                    />
+                  </Box>
+                ) : null}
+              </Box>
+            </Grid>
+          </Slide>
+          <Slide
+            direction="left"
+            in={true}
+            timeout={1500}
+            mountOnEnter
+            unmountOnExit
+          >
+            <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
+              <Box display="flex" justifyContent="flex-end">
+                {!boardLoading &&
+                boardDetails?.startedAt &&
+                !boardDetails?.completedAt ? (
+                  <Box>{renderTimer()}</Box>
+                ) : null}
+                {!boardLoading &&
+                boardDetails?.startedAt &&
+                boardDetails?.completedAt ? (
+                  <Box mt={0.3} mr={2}>
+                    {renderDiffInDays()}
+                  </Box>
+                ) : null}
+                <Box>
+                  {!boardLoading &&
+                  authenticated &&
+                  boardDetails &&
+                  !boardDetails.startedAt ? (
+                    <>{renderStartSession()}</>
+                  ) : null}
+                  {!boardLoading &&
+                  authenticated &&
+                  boardDetails?.startedAt &&
+                  !boardDetails.completedAt ? (
+                    <>{renderEndSession()}</>
+                  ) : null}
                 </Box>
-              ) : null}
-            </Box>
-            {!boardLoading && authenticated ? (
-              <Box mr={2}>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <IconButton
-                    size="small"
-                    className={iconBackStyle}
-                    onClick={() => handleBack()}
-                  >
-                    <KeyboardBackspaceOutlinedIcon color="primary" />
-                  </IconButton>
-                </Hidden>
-                <Hidden only={["xs"]}>
-                  <Box className={buttonStyle}>
-                    <Button
-                      variant="outlined"
-                      color="default"
-                      startIcon={
-                        <KeyboardBackspaceOutlinedIcon color="primary" />
-                      }
-                      onClick={() => handleBack()}
-                    >
-                      <Typography color="primary" variant="subtitle1">
-                        Go Back to Boards
-                      </Typography>
-                    </Button>
+                {!boardLoading && authenticated ? (
+                  <>{renderGoBackToBoards()}</>
+                ) : null}
+                {!boardLoading && authenticated ? (
+                  <>{renderCreateNewSection()}</>
+                ) : null}
+                {authenticated && (
+                  <Box mt={-0.5}>
+                    <UserAvatar handleAccount={handleAccount} />
                   </Box>
-                </Hidden>
+                )}
+                <PersistentDrawerRight
+                  open={openAccount}
+                  handleDrawerClose={handleDrawerClose}
+                >
+                  <UserAccount handleDrawerClose={handleDrawerClose} />
+                </PersistentDrawerRight>
               </Box>
-            ) : null}
-            {!boardLoading && authenticated ? (
-              <Box mr={2}>
-                <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <IconButton
-                    size="small"
-                    className={iconBackStyle}
-                    onClick={() => handleBack()}
-                  >
-                    <AddOutlinedIcon color="primary" />
-                  </IconButton>
-                </Hidden>
-                <Hidden only={["xs"]}>
-                  <Box className={buttonStyle}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<AddOutlinedIcon color="secondary" />}
-                      onClick={() => handleCreateNewSection()}
-                    >
-                      <Typography color="secondary" variant="subtitle1">
-                        Create New Section
-                      </Typography>
-                    </Button>
-                  </Box>
-                </Hidden>
-              </Box>
-            ) : null}
-          </Box>
+            </Grid>
+          </Slide>
         </Grid>
-      </Grid>
+      )}
       {loading ? <SectionsListSkeleton /> : null}
       {!loading && (
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
           <List>
             <Droppable
-              droppableId="board"
-              type="COLUMN"
+              droppableId="section"
+              type="SECTION"
               direction="horizontal"
               // ignoreContainerClipping={Boolean(containerHeight)}
               // isCombineEnabled={false}
@@ -862,8 +994,8 @@ const SectionList = () => {
                             isDragDisabled={!userId}
                           >
                             {(
-                              draggableProvided: DraggableProvided,
-                              draggableSnapshot: DraggableStateSnapshot
+                              draggableProvided: DraggableProvided
+                              // draggableSnapshot: DraggableStateSnapshot
                             ) => (
                               <Grid
                                 item
@@ -873,26 +1005,27 @@ const SectionList = () => {
                                 md={4}
                                 sm={6}
                                 xs={12}
+                                ref={draggableProvided.innerRef}
+                                {...draggableProvided.draggableProps}
                               >
                                 <div
-                                  ref={draggableProvided.innerRef}
-                                  {...draggableProvided.draggableProps}
-                                  {...draggableProvided.dragHandleProps}
+                                  // ref={draggableProvided.innerRef}
+                                  // {...draggableProvided.draggableProps}
+                                  // {...draggableProvided.dragHandleProps}
                                   // style={getItemStyle(
                                   //   provided.draggableStyle,
                                   //   snapshot.isDragging
                                   // )}
-                                  className={`${sectionStyle} ${
-                                    draggableSnapshot.isDragging
-                                      ? sectionGridStyle
-                                      : ""
-                                  }`}
-                                  data-isDragging={
-                                    draggableSnapshot.isDragging &&
-                                    !draggableSnapshot.isDropAnimating
-                                  }
+                                  className={`${sectionStyle}`}
+                                  // data-isDragging={
+                                  //   draggableSnapshot.isDragging &&
+                                  //   !draggableSnapshot.isDropAnimating
+                                  // }
                                 >
-                                  <ListItem disableGutters>
+                                  <ListItem
+                                    disableGutters
+                                    {...draggableProvided.dragHandleProps}
+                                  >
                                     <ListItemText
                                       primary={
                                         <Box
@@ -942,6 +1075,9 @@ const SectionList = () => {
                                     noteList={item.notes}
                                     sectionId={item._id}
                                     updateTotalNotes={updateTotalNotes}
+                                    removeDeletedNote={removeDeletedNote}
+                                    updateNote={updateNote}
+                                    addNotes={addNotes}
                                   />
                                 </div>
                               </Grid>
@@ -949,8 +1085,8 @@ const SectionList = () => {
                           </Draggable>
                         )
                       )}
+                    {droppableProvided.placeholder}
                   </Grid>
-                  {droppableProvided.placeholder}
                 </div>
               )}
             </Droppable>

@@ -7,6 +7,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
+import UnderlineText from "../../common/UnderlineText";
 
 const FAQList = React.lazy(() => import("../Faq/list"));
 
@@ -34,7 +35,7 @@ export default function Privacy() {
       <Container fixed>
         <Box py={5}>
           <Box>
-            <Typography variant="h1">Let'doretro Privacy policy</Typography>
+            <Typography variant="h1">let'sdoretro Privacy policy</Typography>
             <Box mt={3}>
               <Typography component="p" variant="body1">
                 Thank you for visiting/using Let's do retro. In order to protect
@@ -67,7 +68,7 @@ export default function Privacy() {
               </Typography>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Scope of this Privacy policy</Typography>
+              <UnderlineText title="Scope of this Privacy policy" />
               <FAQList
                 list={[
                   `This privacy policy applies only to the actions of Let's do retro and users with respect to this Website. It does not extend to any websites that can be accessed from this Website including, but not limited to, any links we may provide to social media websites. For purposes of the applicable Data Protection Laws, Let's do retro ApS is the “data controller”.`,
@@ -76,7 +77,7 @@ export default function Privacy() {
               />
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">What we collect</Typography>
+              <UnderlineText title="What we collect" />
               <Box mt={2}>
                 <Typography variant="body1">
                   We may collect the following Data, which includes personal
@@ -93,7 +94,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">How we collect Data</Typography>
+              <UnderlineText title="How we collect Data" />
               <Box mt={2}>
                 <Typography variant="body1">
                   We collect Data in the following ways. Data is given to us by
@@ -102,9 +103,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">
-                Data that is given to us by you
-              </Typography>
+              <UnderlineText title="Data that is given to us by you" />
               <Box mt={2}>
                 <Typography variant="body1">
                   Letsdoretro App will collect your Data in a number of ways,
@@ -120,9 +119,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">
-                Data that is collected automatically
-              </Typography>
+              <UnderlineText title="Data that is collected automatically" />
               <Box mt={2}>
                 <Typography variant="body1">
                   To the extent that you access the Website, we will collect
@@ -138,7 +135,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Our use of Data</Typography>
+              <UnderlineText title="Our use of Data" />
               <Box mt={2}>
                 <Typography variant="body1">
                   Any or all of the above Data may be required by us from time
@@ -157,7 +154,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Who we share Data with</Typography>
+              <UnderlineText title="Who we share Data with" />
               <Box mt={2}>
                 <FAQList
                   list={[
@@ -172,7 +169,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Keeping Data secure</Typography>
+              <UnderlineText title="Keeping Data secure" />
               <Box mt={2}>
                 <Typography variant="body1">
                   We will use technical and organisational measures to safeguard
@@ -188,7 +185,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Data retention</Typography>
+              <UnderlineText title="Data retention" />
               <Box mt={2}>
                 <Typography variant="body1">
                   Unless a longer retention period is required or permitted by
@@ -201,7 +198,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Your rights</Typography>
+              <UnderlineText title="Your rights" />
               <Box mt={2}>
                 <Typography variant="body1">
                   You have the following rights in relation to your Data
@@ -220,7 +217,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">Links to other websites</Typography>
+              <UnderlineText title="Links to other websites" />
               <Box mt={2}>
                 <Typography variant="body1">
                   This Website may, from time to time, provide links to other
@@ -233,7 +230,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">General</Typography>
+              <UnderlineText title="General" />
               <Box mt={2}>
                 <Typography variant="body1">
                   You may not transfer any of your rights under this privacy
@@ -269,9 +266,7 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <Typography variant="h2">
-                Changes to this privacy policy
-              </Typography>
+              <UnderlineText title="Changes to this privacy policy" />
               <Box mt={2}>
                 <Typography variant="body1">
                   Let's do retro App reserves the right to change this privacy

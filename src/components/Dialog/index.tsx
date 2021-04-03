@@ -6,10 +6,10 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
+import Loader from "../Loader/components";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Loader from "../Loader/components";
 
 const useStyles = makeStyles(() => ({
   paperStyle: (props: any) => ({
@@ -20,8 +20,7 @@ const useStyles = makeStyles(() => ({
     position: "absolute",
     left: props.maxWidth ? "95%" : "97%",
     top: props.maxWidth ? "-4%" : "-6%",
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
     color: "#fff",
     borderRadius: "50%",
   }),
@@ -66,7 +65,7 @@ export default function ResponsiveDialog(props: any) {
         classes={{ paper: paperStyle }}
       >
         <DialogTitle id="responsive-dialog-title">
-          <Typography variant="h3">{title}</Typography>
+          <Typography variant="h2">{title}</Typography>
         </DialogTitle>
         <DialogContent className={contentStyle}>
           <Loader enable={loading} />

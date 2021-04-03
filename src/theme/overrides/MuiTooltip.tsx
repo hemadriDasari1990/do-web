@@ -3,7 +3,7 @@ export default {
     color: "#1f1f58",
     // rippleBackgroundColor: '#eaecf3',
     backgroundColor: "#1f1f581a",
-    //   "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    //   "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
     whiteSpace: "pre-line !important",
     fontSize: 13,
     padding: "10px 15px 10px 15px",

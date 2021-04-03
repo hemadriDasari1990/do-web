@@ -6,8 +6,7 @@ const useStyles = makeStyles(() => ({
     boxShadow: "0 3rem 6rem rgba(0, 0, 0, .1)",
   },
   lineStyle: {
-    background:
-      "linear-gradient(270deg, rgb(82, 67, 170), rgb(237, 80, 180)) no-repeat",
+    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
     marginBottom: 6,
   },
   countTextStyle: {
@@ -15,7 +14,7 @@ const useStyles = makeStyles(() => ({
   },
   countStyle: {
     backgroundColor: "unset",
-    border: "2px solid  #1e1e58",
+    border: "2px solid  #172b4d",
     borderRadius: 6,
   },
   contentStyle: {

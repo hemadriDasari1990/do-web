@@ -91,7 +91,8 @@ const member = (state = initialState, action: ReduxAction) => {
     case GET_MEMBERS_BY_USER_SUCCESS:
       return {
         ...state,
-        members: action.payload,
+        members: action.payload?.data,
+        totalMembers: action.payload?.total[0]?.count,
         loading: false,
       };
     default:

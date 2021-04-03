@@ -1,4 +1,9 @@
-import { DASHBOARD, FORGOT_PASSWORD, USER } from "../../../routes/config";
+import {
+  COMMERCIAL_DASHBOARD,
+  INDIVIDUAL_DASHBOARD,
+  FORGOT_PASSWORD,
+  USER,
+} from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
@@ -13,6 +18,7 @@ import { login } from "../../../redux/actions/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import DoLogo from "../../common/DoLogo";
+import { COMMERCIAL, INDIVIDUAL } from "../../../util/constants";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 
@@ -39,7 +45,7 @@ const Login = () => {
   const history = useHistory();
 
   /* Redux hooks */
-  const { token, message } = useLogin();
+  const { token, message, accountType } = useLogin();
   const { loading } = useLoading();
 
   /* Local state */
@@ -53,8 +59,12 @@ const Login = () => {
 
   /* React Hooks */
   useEffect(() => {
-    if (!loading && apiTriggered && token) {
-      history.push(DASHBOARD);
+    if (!loading && apiTriggered && token && accountType == COMMERCIAL) {
+      history.push(COMMERCIAL_DASHBOARD);
+      setApiTriggered(false);
+    }
+    if (!loading && apiTriggered && token && accountType == INDIVIDUAL) {
+      history.push(INDIVIDUAL_DASHBOARD);
       setApiTriggered(false);
     }
     if (!loading && apiTriggered && !token) {

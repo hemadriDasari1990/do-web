@@ -8,10 +8,11 @@ import {
   UPDATE_USER_REQUEST,
 } from "./types";
 
-export const getUserDetails = (userId: string) => {
+export const getUserDetails = (userId: string, accountType: string) => {
   return {
     type: GET_USER_REQUEST,
     id: userId,
+    accountType,
   };
 };
 

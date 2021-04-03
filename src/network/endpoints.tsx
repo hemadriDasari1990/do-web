@@ -53,6 +53,7 @@ export const UPDATE_PROJECT = "/project";
 export const DELETE_BOARD = "/board/{id}";
 export const GET_BOARD_DETAILS = "/board/{id}";
 export const UPDATE_BOARD = "/board";
+export const GET_BOARDS = "/board";
 
 /* Section Endpoints */
 export const GET_SECTIONS_BY_BOARD = "/section/{id}";

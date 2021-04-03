@@ -3,7 +3,7 @@ export default {
   wrapper: {
     flexDirection: "row",
   },
-  // /* Styles applied to the root element if both `icon` and `label` are provided. */
+  // // /* Styles applied to the root element if both `icon` and `label` are provided. */
   labelIcon: {
     minHeight: 40,
     paddingTop: 9,
@@ -18,7 +18,7 @@ export default {
   // textColorPrimary: {
   //   color: "#5b6886",
   //   "&$selected": {
-  //     color: "#1e1e58",
+  //     color: "#172b4d",
   //   },
   //   "&$disabled": {
   //     color: "#3333",

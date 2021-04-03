@@ -16,6 +16,7 @@ import MuiFab from "./MuiFab";
 import MuiGrid from "./MuiGrid";
 import MuiIconButton from "./MuiIconButton";
 import MuiInputBase from "./MuiInputBase";
+import MuiLink from "./MuiLink";
 import MuiList from "./MuiList";
 import MuiListItem from "./MuiListItem";
 import MuiListItemIcon from "./MuiListItemIcon";
@@ -23,6 +24,7 @@ import MuiListItemSecondaryAction from "./MuiListItemSecondaryAction";
 import MuiListItemText from "./MuiListItemText";
 import MuiMenu from "./MuiMenu";
 import MuiPaper from "./MuiPaper";
+import MuiSkeleton from "./MuiSkeleton";
 import MuiStepLabel from "./MuiStepLabel";
 import MuiStepper from "./MuiStepper";
 import MuiSvgIcon from "./MuiSvgIcon";
@@ -32,7 +34,6 @@ import MuiTableHead from "./MuiTableHead";
 import MuiTabs from "./MuiTabs";
 import MuiTooltip from "./MuiTooltip";
 import MuiTypography from "./MuiTypography";
-import MuiLink from "./MuiLink";
 
 export default {
   MuiButton,
@@ -70,4 +71,5 @@ export default {
   MuiStepper,
   MuiStepLabel,
   MuiLink,
+  MuiSkeleton,
 };

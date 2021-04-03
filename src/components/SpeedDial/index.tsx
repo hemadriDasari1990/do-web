@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     right: theme.spacing(2),
   },
   speedDialAction: {
-    // backgroundImage: 'linear-gradient(90deg, #1e1e58 0%, #0095ffba 100%);'
+    // backgroundImage: 'linear-gradient(90deg, #172b4d 0%, #0095ffba 100%);'
   },
 }));
 

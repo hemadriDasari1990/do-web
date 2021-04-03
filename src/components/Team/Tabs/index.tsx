@@ -39,8 +39,8 @@ function TabPanel(props: any) {
       component="subtitle1"
       role="tabpanel"
       hidden={value !== index}
-      id={`scrollable-prevent-tabpanel-${index}`}
-      aria-labelledby={`scrollable-prevent-tab-${index}`}
+      id={`users-tabpanel-${index}`}
+      aria-labelledby={`users-tab-${index}`}
       {...other}
     >
       {value === index && <>{children}</>}
@@ -64,6 +64,13 @@ const DoTabs = (props: any) => {
     setValue(newValue);
   };
 
+  const a11yProps = (index: any) => {
+    return {
+      id: `users-tab-${index}`,
+      "aria-controls": `users-tabpanel-${index}`,
+    };
+  };
+
   return (
     <Suspense fallback={<div />}>
       <Tabs
@@ -74,7 +81,6 @@ const DoTabs = (props: any) => {
         onChange={(event: React.ChangeEvent<{}>, newValue: number) =>
           handleChange(newValue)
         }
-        // centered
       >
         <Tab
           value={0}
@@ -82,6 +88,7 @@ const DoTabs = (props: any) => {
           aria-label="teams"
           className={tabStyle}
           icon={<PeopleOutlinedIcon />}
+          {...a11yProps(0)}
         />
         <Tab
           value={1}
@@ -89,6 +96,7 @@ const DoTabs = (props: any) => {
           aria-label="members"
           className={tabStyle}
           icon={<PersonOutlineOutlinedIcon />}
+          {...a11yProps(1)}
         />
       </Tabs>
       <TabPanel value={value} index={0}>

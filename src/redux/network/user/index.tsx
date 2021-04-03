@@ -11,10 +11,13 @@ import {
 import API from "../../../network";
 import { replaceStr } from "../../../util";
 
-export const getUserDetails = (id: string) => {
-  return API(replaceStr(GET_USER_DETAILS, "{id}", id), {
-    method: "GET",
-  });
+export const getUserDetails = (id: string, accountType: string) => {
+  return API(
+    replaceStr(GET_USER_DETAILS, "{id}", id + `?accountType=${accountType}`),
+    {
+      method: "GET",
+    }
+  );
 };
 
 export const createUser = (payload: { [Key: string]: any }) => {

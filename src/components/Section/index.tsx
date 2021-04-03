@@ -5,7 +5,7 @@ import { getBoardDetails } from "../../redux/actions/board";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import BoardSkeleton from "../common/skeletons/board";
+// import BoardSkeleton from "../common/skeletons/board";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import Typography from "@material-ui/core/Typography";
 import { useLogin } from "../../redux/state/login";
@@ -117,7 +117,7 @@ export default function Section() {
   };
 
   return (
-    <Suspense fallback={<BoardSkeleton />}>
+    <Suspense fallback={<div />}>
       {renderDialog()}
       <Box className={boxStyle}>
         <SectionList />
