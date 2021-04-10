@@ -1,8 +1,7 @@
+import BoardHeaderSkeleton from "./boardHeader";
+import Grid from "@material-ui/core/Grid";
 import React from "react";
 import SectionSkeleton from "./section";
-import Grid from "@material-ui/core/Grid";
-import BoardHeaderSkeleton from "./boardHeader";
-
 export default function BoardSkeleton() {
   return (
     <>

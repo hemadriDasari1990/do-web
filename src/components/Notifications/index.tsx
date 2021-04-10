@@ -5,7 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import notifications from "../../assets/notifications.svg";
-
 const useStyles = makeStyles(() => ({
   centerBoxStyle: {
     left: "50%",

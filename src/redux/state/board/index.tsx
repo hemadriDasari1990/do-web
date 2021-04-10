@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 export function useBoard() {
   return useSelector((state: { [Key: string]: any }) => ({
     board: state.board.response,
+    boards: state.board.boards,
+    totalBoards: state.board.totalBoards,
     totalSections: state.board.response?.totalSections,
-    totalBoards: state.board?.totalBoards,
   }));
 }
 

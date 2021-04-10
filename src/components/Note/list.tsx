@@ -561,7 +561,7 @@ const NoteList = (props: any) => {
             <Zoom in={true} timeout={2000}>
               <DoneAllOutlinedIcon
                 style={{
-                  color: note.read ? "#172b4d" : "inherit",
+                  color: note.read ? "#0072ff" : "inherit",
                 }}
                 className={svgIconStyle}
               />
@@ -585,7 +585,7 @@ const NoteList = (props: any) => {
           >
             <DoneAllOutlinedIcon
               style={{
-                color: note.read ? "#172b4d" : "inherit",
+                color: note.read ? "#0072ff" : "inherit",
               }}
               className={svgIconStyle}
             />

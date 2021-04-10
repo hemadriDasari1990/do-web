@@ -2,15 +2,15 @@ import {
   DELETE_BOARD_FAILED,
   DELETE_BOARD_REQUEST,
   DELETE_BOARD_SUCCESS,
+  GET_BOARDS_FAILED,
+  GET_BOARDS_REQUEST,
+  GET_BOARDS_SUCCESS,
   GET_BOARD_FAILED,
   GET_BOARD_REQUEST,
   GET_BOARD_SUCCESS,
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
-  GET_BOARDS_FAILED,
-  GET_BOARDS_REQUEST,
-  GET_BOARDS_SUCCESS,
 } from "../../actions/board/types";
 
 import { Action } from "redux";
@@ -37,7 +37,6 @@ const board = (state = initialState, action: ReduxAction) => {
     case DELETE_BOARD_REQUEST:
       return {
         ...state,
-        loading: true,
       };
     case DELETE_BOARD_FAILED:
       return {
@@ -71,7 +70,6 @@ const board = (state = initialState, action: ReduxAction) => {
     case UPDATE_BOARD_REQUEST:
       return {
         ...state,
-        loading: true,
       };
     case UPDATE_BOARD_FAILED:
       return {

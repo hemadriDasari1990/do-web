@@ -18,7 +18,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   avatarStyle: {
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
   },
 });
 
@@ -42,13 +42,23 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Key Contributors"
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="secondary"
+                    >
+                      Key Contributors
+                    </Typography>
+                  </React.Fragment>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
                       component="span"
                       variant="body2"
-                      color="textPrimary"
+                      color="secondary"
                     >
                       2 members
                     </Typography>
@@ -67,13 +77,23 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Curiosity"
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="secondary"
+                    >
+                      Curiosity
+                    </Typography>
+                  </React.Fragment>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
                       component="span"
                       variant="body2"
-                      color="textPrimary"
+                      color="secondary"
                     >
                       Let's do retro is not a "that's just the way it is" kind
                       of place.
@@ -100,13 +120,23 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="No Jerks"
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="secondary"
+                    >
+                      No Jerks
+                    </Typography>
+                  </React.Fragment>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
                       component="span"
                       variant="body2"
-                      color="textPrimary"
+                      color="secondary"
                     >
                       This is not just a platitude. We can't overstate how
                       serious we are about this.
@@ -132,13 +162,23 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Inclusion"
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="secondary"
+                    >
+                      Inclusion
+                    </Typography>
+                  </React.Fragment>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
                       component="span"
                       variant="body2"
-                      color="textPrimary"
+                      color="secondary"
                     >
                       We need a diverse team to serve a diverse global
                       community. We encourage applicants of all genders, ages,
@@ -161,13 +201,23 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Flexibility"
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="secondary"
+                    >
+                      Flexibility
+                    </Typography>
+                  </React.Fragment>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
                       component="span"
                       variant="body2"
-                      color="textPrimary"
+                      color="secondary"
                     >
                       Work from anywhere with flexible PTO and generous parental
                       leave policies.
@@ -195,13 +245,23 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Open Source"
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="secondary"
+                    >
+                      Open Source
+                    </Typography>
+                  </React.Fragment>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
                       component="span"
                       variant="body2"
-                      color="textPrimary"
+                      color="secondary"
                     >
                       We have a strong preference for using, publishing, and
                       contributing back to open source software.

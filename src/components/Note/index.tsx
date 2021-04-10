@@ -48,9 +48,11 @@ function Note(props: any) {
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
+
   const enableActions =
     (authenticated && startSession) ||
-    (!board?.isLocked &&
+    (board?.status === "inprogress" &&
+      !board?.isLocked &&
       board?.status !== "completed" &&
       board?.status !== "draft" &&
       board?.status !== "pending");
@@ -84,7 +86,6 @@ function Note(props: any) {
     socket.on(
       `update-note-response-${note?._id}`,
       (newNote: { [Key: string]: any }) => {
-        console.log("response", 234);
         setNote(null);
         setShowNote(false);
         updateNote(newNote, selectedSectionId);
@@ -102,7 +103,6 @@ function Note(props: any) {
     socket.on(
       `create-note-response-${selectedSectionId}`,
       (newNote: { [Key: string]: any }) => {
-        console.log("response", 123);
         addNotes(newNote, selectedSectionId);
         setShowNote(false);
         setSelectedSectionId(null);

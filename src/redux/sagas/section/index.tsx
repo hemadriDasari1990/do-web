@@ -3,8 +3,9 @@ import {
   GET_SECTIONS_BY_BOARD_REQUEST,
   GET_SECTIONS_BY_BOARD_SUCCESS,
 } from "../../actions/section/types";
-import { getSectionsByBoard } from "../../network/section";
 import { put, takeLatest } from "redux-saga/effects";
+
+import { getSectionsByBoard } from "../../network/section";
 
 function* callGetSectionsByBoard(action: { [Key: string]: any }) {
   try {

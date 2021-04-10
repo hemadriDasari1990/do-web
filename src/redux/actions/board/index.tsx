@@ -1,8 +1,8 @@
 import {
   DELETE_BOARD_REQUEST,
+  GET_BOARDS_REQUEST,
   GET_BOARD_REQUEST,
   UPDATE_BOARD_REQUEST,
-  GET_BOARDS_REQUEST,
 } from "./types";
 
 export const getBoardDetails = (boarId: string) => {
@@ -13,19 +13,17 @@ export const getBoardDetails = (boarId: string) => {
 };
 
 export const getBoards = (
-  id: string,
-  accountType: string,
+  projectId: string,
   queryString: string,
   page: number,
   size: number
 ) => {
   return {
     type: GET_BOARDS_REQUEST,
-    id: id,
+    id: projectId,
     queryString,
     page,
     size,
-    accountType,
   };
 };
 

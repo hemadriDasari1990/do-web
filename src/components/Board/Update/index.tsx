@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
-import Hidden from "@material-ui/core/Hidden";
-import ScrumBoard from "../../../assets/board.svg";
-import TextField from "@material-ui/core/TextField";
-import Zoom from "@material-ui/core/Zoom";
-import { getTeams } from "../../../redux/actions/team";
-import { updateBoard } from "../../../redux/actions/board";
-import { useDispatch } from "react-redux";
-import { useLogin } from "../../../redux/state/login";
-import { useTeam } from "../../../redux/state/team";
-import { Typography } from "@material-ui/core";
-import { TEAM } from "../../../routes/config";
-import { useHistory, useParams } from "react-router";
-import Link from "@material-ui/core/Link";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Hidden from "@material-ui/core/Hidden";
+import Link from "@material-ui/core/Link";
+import ScrumBoard from "../../../assets/board.svg";
+import { TEAM } from "../../../routes/config";
+import TextField from "@material-ui/core/TextField";
+import { Typography } from "@material-ui/core";
+import Zoom from "@material-ui/core/Zoom";
+import socket from "../../../socket";
+import { updateBoard } from "../../../redux/actions/board";
 import { useBoardLoading } from "../../../redux/state/board";
-import Slide from "@material-ui/core/Slide";
-import { COMMERCIAL } from "../../../util/constants";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { useLogin } from "../../../redux/state/login";
+import { useProject } from "../../../redux/state/project";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -44,51 +42,38 @@ const Update = (props: any) => {
     handleUpdateForm,
     selectedBoard,
     title: boardTitle,
-    hideSaveAsDraft,
     totalBoards,
   } = props;
   const { textFieldStyle, dropdownInputStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { projectId } = useParams<{ projectId: string }>();
-
+  const { project } = useProject();
+  console.log("selectedBoard", selectedBoard);
   /* Redux hooks */
   const { userId, accountType } = useLogin();
-  const { teams: teamsList } = useTeam();
   const { loading } = useBoardLoading();
 
   /* Local state */
+  const [teamsList, setTeamsList] = useState<Array<{ [Key: string]: any }>>([]);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
-    title: "",
     description: "",
     noOfSections: 0,
     status: "",
     teams: [],
-    isSystemName: false,
     isDefaultBoard: false,
   });
-  const {
-    description,
-    noOfSections,
-    status,
-    teams,
-    title,
-    isSystemName,
-    isDefaultBoard,
-  } = formData;
+  const { description, noOfSections, status, teams, isDefaultBoard } = formData;
 
   /* React Hooks */
   useEffect(() => {
     if (selectedBoard && selectedBoard._id) {
       setFormData({
         ...formData,
-        title: selectedBoard.title,
         description: selectedBoard.description,
         boardId: selectedBoard._id,
         status: selectedBoard.status,
         noOfSections: selectedBoard.totalSections,
         teams: selectedBoard.teams,
-        isSystemName: selectedBoard.isSystemName,
         isDefaultBoard: selectedBoard.isDefaultBoard,
       });
     }
@@ -98,8 +83,17 @@ const Update = (props: any) => {
   }, [selectedBoard]);
 
   useEffect(() => {
-    dispatch(getTeams(userId));
+    socket.emit("get-teams", userId);
   }, []);
+
+  useEffect(() => {
+    socket.on("get-teams-response", (teams: Array<{ [Key: string]: any }>) => {
+      setTeamsList(teams);
+    });
+    return () => {
+      socket.off("get-teams-response");
+    };
+  }, [userId, teamsList]);
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,13 +102,15 @@ const Update = (props: any) => {
 
   const handleClose = () => {
     handleUpdateForm();
+    resetFormData();
+  };
+
+  const resetFormData = () => {
     setFormData({
-      description,
+      description: "",
       noOfSections: 0,
       status: "",
       teams: [],
-      title: "",
-      isSystemName: false,
       isDefaultBoard: false,
     });
   };
@@ -126,59 +122,21 @@ const Update = (props: any) => {
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
         status: status || "pending",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
-        title,
-        isSystemName,
         isDefaultBoard,
-        ...(accountType === COMMERCIAL ? { projectId } : { userId }),
+        projectId: project?._id,
         accountType,
+        title: "Retro " + (totalBoards + 1),
+        boardId: selectedBoard?._id,
       })
     );
-  };
-
-  const handleSecondarySubmit = () => {
-    dispatch(
-      updateBoard({
-        description,
-        noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        status: "draft",
-        teams: teams?.map((team: { [Key: string]: any }) => team._id),
-        isSystemName,
-        title,
-        isDefaultBoard,
-        ...(accountType === COMMERCIAL ? { projectId } : { userId }),
-        accountType,
-      })
-    );
+    resetFormData();
   };
 
   const disableButton = () => {
-    if (!isSystemName && !title?.trim().length) {
-      return true;
-    }
-
     if (!isDefaultBoard && (!noOfSections || noOfSections === 0)) {
       return true;
     }
 
-    return false;
-  };
-
-  const disableSecondaryButton = () => {
-    if (selectedBoard?._id) {
-      return true;
-    }
-
-    if (!isSystemName && !title?.trim().length) {
-      return true;
-    }
-
-    if (!isDefaultBoard && (!noOfSections || noOfSections === 0)) {
-      return true;
-    }
-
-    if (status && status === "draft") {
-      return true;
-    }
     return false;
   };
 
@@ -188,12 +146,6 @@ const Update = (props: any) => {
 
   const handleViewTeams = () => {
     history.push(TEAM);
-  };
-
-  const handleGenerateSystemName = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData({ ...formData, isSystemName: !isSystemName });
   };
 
   const handleDefaultRetroBoard = (
@@ -208,13 +160,9 @@ const Update = (props: any) => {
         open={openDialog}
         title={boardTitle || "Create or Update Board"}
         pcta="Save"
-        scta="Save as draft"
         handleSave={handleSubmit}
-        handleSecondarySubmit={handleSecondarySubmit}
         handleClose={handleClose}
         disablePrimaryCTA={disableButton()}
-        disableSecondaryCTA={disableSecondaryButton()}
-        hideSecondary={hideSaveAsDraft}
         maxWidth={440}
         loading={loading}
       >
@@ -226,56 +174,17 @@ const Update = (props: any) => {
             </Zoom>
           </Box>
         </Hidden>
-        {!isSystemName && (
-          <Slide
-            direction="left"
-            in={true}
-            timeout={1500}
-            mountOnEnter
-            unmountOnExit
-          >
-            <Box>
-              <TextField
-                name="title"
-                id="title"
-                label="Title"
-                placeholder="Enter title of the board"
-                value={title}
-                onChange={handleInput}
-                required
-                className={textFieldStyle}
-              />
-            </Box>
-          </Slide>
-        )}
-        <Box mt={1} mb={-3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isSystemName}
-                onChange={handleGenerateSystemName}
-                value="false"
-                color="primary"
-                name="isSystemName"
-                disabled={selectedBoard?._id && isSystemName}
-              />
+        <Box mt={3}>
+          <HintMessage
+            message={
+              selectedBoard?._id
+                ? `System generated name ${selectedBoard?.title}`
+                : `System will generate name Retro ${
+                    totalBoards ? totalBoards + 1 : 1
+                  }`
             }
-            label={<Typography variant="h6">Auto generate name</Typography>}
           />
         </Box>
-        {isSystemName && (
-          <Box mt={3}>
-            <HintMessage
-              message={
-                selectedBoard?._id
-                  ? `System generated name Retro ${totalBoards + 1}`
-                  : `System will generate name Retro ${
-                      totalBoards ? totalBoards + 1 : 1
-                    }`
-              }
-            />
-          </Box>
-        )}
         {!isDefaultBoard && (
           <Box>
             <TextField
@@ -291,11 +200,11 @@ const Update = (props: any) => {
             />
           </Box>
         )}
-        {!isDefaultBoard && (
+        {!isDefaultBoard && noOfSections ? (
           <Box mt={3}>
             <HintMessage message="Please note System will generate default sections with name 'Section title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
-        )}
+        ) : null}
         <Box mt={1} mb={-3}>
           <FormControlLabel
             control={
@@ -313,7 +222,7 @@ const Update = (props: any) => {
         </Box>
         {!selectedBoard?._id && isDefaultBoard && (
           <Box mt={3}>
-            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and Action Items." />
+            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings and Recognitions." />
           </Box>
         )}
         <Box>
@@ -335,7 +244,7 @@ const Update = (props: any) => {
             textInputPlaceholder="Select multiple teams"
             optionKey="name"
             options={teamsList}
-            onInputChange={(e: any, data: Array<{ [Key: string]: any }>) =>
+            onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
               handleTeams(data)
             }
             customClass={dropdownInputStyle}
@@ -343,20 +252,22 @@ const Update = (props: any) => {
           />
         </Box>
 
-        <Box mt={3}>
-          <Typography variant="h5">
-            If you want to create a team please{" "}
-            <Link
-              component="button"
-              variant="body2"
-              onClick={() => handleViewTeams()}
-            >
-              <Typography variant="h5" color="primary">
-                &nbsp;Click here
-              </Typography>
-            </Link>
-          </Typography>
-        </Box>
+        {!selectedBoard && (
+          <Box mt={3}>
+            <Typography variant="h5">
+              If you want to create a team please{" "}
+              <Link
+                component="button"
+                variant="body2"
+                onClick={() => handleViewTeams()}
+              >
+                <Typography variant="h5" color="primary">
+                  &nbsp;Click here
+                </Typography>
+              </Link>
+            </Typography>
+          </Box>
+        )}
       </ResponsiveDialog>
     </React.Fragment>
   );

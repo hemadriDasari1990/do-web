@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useMemberLoading } from "../../../redux/state/member";
-
 const GroupList = (props: any) => {
   const { members, handleMenu, setSelectedMember } = props;
   const history = useHistory();
@@ -134,7 +133,7 @@ const GroupList = (props: any) => {
 
   const refreshData = (queryString?: string) => {
     console.log(queryString);
-    dispatch(getMembersByUser(userId, "", page, rowsPerPage));
+    dispatch(getMembersByUser(userId, "", "", page, rowsPerPage));
   };
 
   return (

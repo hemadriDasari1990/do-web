@@ -2,38 +2,39 @@ import {
   DELETE_PROJECT_FAILED,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
-  GET_PROJECT_FAILED,
-  GET_PROJECT_REQUEST,
-  GET_PROJECT_SUCCESS,
+  GET_PROJECTS_FAILED,
+  GET_PROJECTS_REQUEST,
+  GET_PROJECTS_SUCCESS,
   UPDATE_PROJECT_FAILED,
   UPDATE_PROJECT_REQUEST,
   UPDATE_PROJECT_SUCCESS,
 } from "../../actions/project/types";
 import {
   deleteProject,
-  getProjectDetails,
+  getProjects,
   updateProject,
 } from "../../network/project";
 import { put, takeLatest } from "redux-saga/effects";
 
-function* callGetProjectDetails(action: { [Key: string]: any }) {
+function* callGetProjects(action: { [Key: string]: any }) {
   try {
-    const result = yield getProjectDetails(
-      action.id,
-      action.limit,
-      action.offset
+    const result = yield getProjects(
+      action.userId,
+      action.queryString,
+      action.page,
+      action.size
     );
     const { status, data } = result;
     if (status === 200) {
-      yield put({ type: GET_PROJECT_SUCCESS, payload: data });
+      yield put({ type: GET_PROJECTS_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_PROJECT_FAILED, payload: err.response.data });
+    yield put({ type: GET_PROJECTS_FAILED, payload: err.response.data });
   }
 }
 
-export function* watchGetProjectDetails() {
-  yield takeLatest(GET_PROJECT_REQUEST, callGetProjectDetails);
+export function* watchGetProjects() {
+  yield takeLatest(GET_PROJECTS_REQUEST, callGetProjects);
 }
 
 function* callUpdateProject(action: { [Key: string]: any }) {

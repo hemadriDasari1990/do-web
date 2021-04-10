@@ -3,14 +3,15 @@ import {
   watchDeleteTeam,
   watchGetTeamDetails,
   watchGetTeams,
-  watchUpdateTeam,
   watchSendInvitationToTeams,
+  watchUpdateTeam,
 } from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
   watchCreateUser,
   watchDeleteUser,
   watchGetAllSummary,
+  watchGetBoardsByUser,
   watchGetUserDetails,
   watchGetUserSummary,
   watchGetUsers,
@@ -19,14 +20,9 @@ import {
 import {
   watchDeleteBoard,
   watchGetBoardDetails,
-  watchUpdateBoard,
   watchGetBoards,
+  watchUpdateBoard,
 } from "./board";
-import {
-  watchDeleteDepartment,
-  watchGetDepartmentDetails,
-  watchUpdateDepartment,
-} from "./department";
 import {
   watchDeleteMember,
   watchGetMemberDetails,
@@ -35,21 +31,22 @@ import {
 } from "./member";
 import {
   watchDeleteProject,
-  watchGetProjectDetails,
+  watchGetProjects,
   watchUpdateProject,
 } from "./project";
-import { watchGetSectionsByBoard } from "./section";
 import {
   watchForgotPassword,
   watchLogin,
+  watchLogout,
   watchResendToken,
   watchResetPassword,
   watchValidateForgotPassword,
   watchVerifyToken,
-  watchLogout,
 } from "./login";
+import { watchGetReactions, watchGetReactionsSummaryByBoard } from "./reaction";
 
 import { fork } from "redux-saga/effects";
+import { watchGetSectionsByBoard } from "./section";
 
 function* rootSaga() {
   /* Login sagas */
@@ -69,14 +66,10 @@ function* rootSaga() {
   yield fork(watchGetUserSummary);
   yield fork(watchGetUsers);
   yield fork(watchGetAllSummary);
-
-  /* Department sagas */
-  yield fork(watchGetDepartmentDetails);
-  yield fork(watchDeleteDepartment);
-  yield fork(watchUpdateDepartment);
+  yield fork(watchGetBoardsByUser);
 
   /* Project sagas */
-  yield fork(watchGetProjectDetails);
+  yield fork(watchGetProjects);
   yield fork(watchDeleteProject);
   yield fork(watchUpdateProject);
 
@@ -102,6 +95,10 @@ function* rootSaga() {
 
   /* Section sagas */
   yield fork(watchGetSectionsByBoard);
+
+  /* Reaction sagas */
+  yield fork(watchGetReactionsSummaryByBoard);
+  yield fork(watchGetReactions);
 
   /* Feedback sagas */
   yield fork(watchCreateFeedback);

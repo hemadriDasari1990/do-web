@@ -1,8 +1,9 @@
 import { Data, HeaderColumn, TableHeader } from "./types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import ArrowUp from "@material-ui/icons/ArrowUpwardOutlined";
 import IconButton from "@material-ui/core/IconButton";
+import React from "react";
 import RefreshOutlinedIcon from "@material-ui/icons/RefreshOutlined";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";

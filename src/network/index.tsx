@@ -31,27 +31,39 @@ API.interceptors.response.use(
     //"UNAUTHORIZED"
     const originalRequest = error.config;
     const refreshToken = sessionStorage.getItem("refreshToken");
+
     if (refreshToken && error?.response?.status === 401) {
-      const res = await API_WITHOUT_INTERCEPTOR(REFRESH_TOKEN, {
-        method: "POST",
-        data: { refreshToken: refreshToken },
-      });
-      if (res.status === 200) {
+      try {
+        const res = await API_WITHOUT_INTERCEPTOR(REFRESH_TOKEN, {
+          method: "POST",
+          data: { refreshToken: refreshToken },
+        });
+
+        if (res.status === 200) {
+          await sessionStorage.removeItem("refreshToken");
+          await sessionStorage.setItem("token", res.data.token);
+          API.defaults.headers["Authorization"] = res.data.token;
+          originalRequest.headers["Authorization"] = res.data.token;
+          return API(originalRequest);
+        }
+      } catch (err) {
+        await sessionStorage.removeItem("token");
         await sessionStorage.removeItem("refreshToken");
-        await sessionStorage.setItem("token", res.data.token);
-        API.defaults.headers["Authorization"] = res.data.token;
-        originalRequest.headers["Authorization"] = res.data.token;
-        return API(originalRequest);
+        window.location.href = "/login/";
+        return Promise.reject(error);
       }
-      // window.location.href = '/login/';
+    } else {
+      // await sessionStorage.removeItem("token");
+      // await sessionStorage.removeItem("refreshToken");
+      // window.location.href = "/login/";
       // return Promise.reject(error);
     }
     if (!refreshToken && error?.response?.status === 401) {
       await sessionStorage.removeItem("token");
       await sessionStorage.removeItem("refreshToken");
+      window.location.href = "/login/";
       return Promise.reject(error);
     }
-    // window.location.href = "/login/";
     return Promise.reject(error);
   }
 );

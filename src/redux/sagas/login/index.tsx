@@ -5,6 +5,9 @@ import {
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
   RESEND_TOKEN_FAILED,
   RESEND_TOKEN_REQUEST,
   RESEND_TOKEN_SUCCESS,
@@ -17,18 +20,15 @@ import {
   VERIFY_TOKEN_FAILED,
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILED,
-  LOGOUT_REQUEST,
 } from "../../actions/login/types";
 import {
   forgotPassword,
   login,
+  logout,
   resendToken,
   resetPassword,
   validateForgotPassword,
   verifyToken,
-  logout,
 } from "../../network/login";
 import { put, takeLatest } from "redux-saga/effects";
 

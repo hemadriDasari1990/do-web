@@ -3,7 +3,6 @@ import Container from "@material-ui/core/Container";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const FAQList = React.lazy(() => import("./list"));
 

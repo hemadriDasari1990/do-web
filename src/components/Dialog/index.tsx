@@ -18,11 +18,11 @@ const useStyles = makeStyles(() => ({
   }),
   closeIconStyle: (props: any) => ({
     position: "absolute",
-    left: props.maxWidth ? "95%" : "97%",
-    top: props.maxWidth ? "-4%" : "-6%",
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
-    color: "#fff",
-    borderRadius: "50%",
+    left: "86%",
+    top: "5%",
+    // background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    // color: "#fff",
+    // borderRadius: "50%",
   }),
   contentStyle: {
     overflowX: "hidden",
@@ -46,6 +46,7 @@ export default function ResponsiveDialog(props: any) {
     hideSecondary,
     loading,
     hideClose = false,
+    primaryButtonStyle,
   } = props;
   const { paperStyle, closeIconStyle, contentStyle } = useStyles({ maxWidth });
 
@@ -96,6 +97,7 @@ export default function ResponsiveDialog(props: any) {
               variant="contained"
               color="primary"
               disabled={disablePrimaryCTA}
+              className={primaryButtonStyle}
             >
               {pcta}
             </Button>

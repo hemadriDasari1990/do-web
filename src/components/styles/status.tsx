@@ -2,13 +2,13 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStatusStyles = makeStyles(() => ({
   draftTextStyle: {
-    color: "#1f1f58",
+    color: "#0153cc",
   },
   pendingTextStyle: {
     color: "#0153cc",
   },
   inProgressTextStyle: {
-    color: "#ff8e00",
+    color: "#ff5e04",
   },
   completedTextStyle: {
     color: "#1cbf39",
@@ -20,7 +20,7 @@ const useStatusStyles = makeStyles(() => ({
     backgroundColor: "#0052cc14",
   },
   inProgressStyle: {
-    backgroundColor: "#f7971c1a",
+    backgroundColor: "#e9651138",
   },
   completedStyle: {
     backgroundColor: "#16cc0014",

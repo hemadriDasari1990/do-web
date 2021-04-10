@@ -4,6 +4,7 @@ import {
   FAQ,
   FEATURES,
   FEEDBACK,
+  GET_STARTED,
   PRIVACY_POLICY,
   RETROSPECTIVE,
   SECURITY,
@@ -14,6 +15,7 @@ import { useHistory, useLocation } from "react-router";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import CreateAccount from "../Home/create";
 import Divider from "@material-ui/core/Divider";
 import DoLogoIcon from "../common/DoLogoIcon";
 import EmailIcon from "@material-ui/icons/Email";
@@ -38,7 +40,7 @@ const useLocalStyles = makeStyles({
   root: {
     // marginTop: -7,
     height: "fit-content",
-    backgroundColor: "#171e30",
+    backgroundColor: "#242F3E",
     width: "100%",
     // position: 'fixed',
     bottom: 0,
@@ -62,6 +64,7 @@ const useLocalStyles = makeStyles({
   },
   titleStyle: {
     fontWeight: 700,
+    color: "#eaeded",
   },
 });
 
@@ -108,9 +111,13 @@ export default function Footer() {
     history.push(RETROSPECTIVE);
   };
 
+  const handleGetStarted = () => {
+    history.push(GET_STARTED);
+  };
+
   return (
     <Box>
-      {(pathname === "/signup" || pathname === "/login") && (
+      {(pathname.includes("/signup") || pathname.includes("/login")) && (
         <BottomIllustrations />
       )}
       <BottomNavigation
@@ -123,7 +130,7 @@ export default function Footer() {
       >
         <Container>
           <Grid container spacing={2}>
-            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3}>
                 <DoLogoIcon />
               </Box>
@@ -133,12 +140,17 @@ export default function Footer() {
                 </Typography>
               </Box>
             </Grid>
+            <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+              <Box mt={3} display="flex" justifyContent="flex-end">
+                <CreateAccount title="Create an Account" hideArrow={true} />
+              </Box>
+            </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
-              <Box mt={2} mb={1.5}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   className={titleStyle}
                   color="secondary"
                 >
@@ -151,7 +163,7 @@ export default function Footer() {
                   onClick={() => handleDevelopers()}
                 >
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         About
                       </Typography>
@@ -163,7 +175,7 @@ export default function Footer() {
                   onClick={() => handleFeedback()}
                 >
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Feedback
                       </Typography>
@@ -175,9 +187,34 @@ export default function Footer() {
                   onClick={() => handleFeatures()}
                 >
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Features
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
+                <Typography
+                  variant="h3"
+                  className={titleStyle}
+                  color="secondary"
+                >
+                  Resources
+                </Typography>
+              </Box>
+              <List>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleGetStarted()}
+                >
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        Getting Started
                       </Typography>
                     }
                   />
@@ -187,19 +224,31 @@ export default function Footer() {
                   onClick={() => handleRetrospective()}
                 >
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Retrospective
                       </Typography>
                     }
                   />
                 </ListItem>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleRetrospective()}
+                >
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        What's New
+                      </Typography>
+                    }
+                  />
+                </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
-              <Box mt={2} mb={1.5}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   className={titleStyle}
                   color="secondary"
                 >
@@ -209,7 +258,7 @@ export default function Footer() {
               <List>
                 <ListItem className={listStyle} onClick={() => handleCareers()}>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Careers
                       </Typography>
@@ -218,7 +267,7 @@ export default function Footer() {
                 </ListItem>
                 <ListItem className={listStyle} onClick={() => handleFAQ()}>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         FAQ
                       </Typography>
@@ -227,10 +276,10 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
-              <Box mt={2} mb={1.5}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   className={titleStyle}
                   color="secondary"
                 >
@@ -240,7 +289,7 @@ export default function Footer() {
               <List>
                 <ListItem className={listStyle} onClick={() => handleTerms()}>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Terms & Conditions
                       </Typography>
@@ -249,7 +298,7 @@ export default function Footer() {
                 </ListItem>
                 <ListItem className={listStyle} onClick={() => handlePrivacy()}>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Privacy Policy
                       </Typography>
@@ -261,7 +310,7 @@ export default function Footer() {
                   onClick={() => handleSecurity()}
                 >
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Security
                       </Typography>
@@ -270,10 +319,10 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={2} sm={4} xs={6}>
-              <Box mt={2} mb={1.5}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   className={titleStyle}
                   color="secondary"
                 >
@@ -286,7 +335,7 @@ export default function Footer() {
                     <FacebookIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Facebook
                       </Typography>
@@ -298,7 +347,7 @@ export default function Footer() {
                     <TwitterIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Twitter
                       </Typography>
@@ -310,7 +359,7 @@ export default function Footer() {
                     <InstagramIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Instagram
                       </Typography>
@@ -322,7 +371,7 @@ export default function Footer() {
                     <YouTubeIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Youtube
                       </Typography>
@@ -331,10 +380,10 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={3} lg={3} md={3} sm={4} xs={12}>
-              <Box mt={2} mb={1.5}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   className={titleStyle}
                   color="secondary"
                 >
@@ -347,7 +396,7 @@ export default function Footer() {
                     <LocationIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         Dubai, United Arab Emirates
                       </Typography>
@@ -359,7 +408,7 @@ export default function Footer() {
                     <PhoneAndroidIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography variant="overline" color="secondary">
                         +971-545678591
                       </Typography>
@@ -371,7 +420,7 @@ export default function Footer() {
                     <EmailIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary={
+                    secondary={
                       <Typography
                         variant="overline"
                         color="secondary"

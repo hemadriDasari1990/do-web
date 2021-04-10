@@ -1,8 +1,9 @@
 export const ROOT = "/";
 
 export const CREATE = "/create";
-export const COMMERCIAL_DASHBOARD = "/dashboard/commercial";
-export const INDIVIDUAL_DASHBOARD = "/dashboard/individual";
+export const GET_STARTED = "getting-started";
+export const DASHBOARD = "/dashboard";
+export const BOARDS = "/boards";
 export const BOARD_DASHBOARD = "/board/:boardId";
 export const MEMBERS_LIST = "/:teamId/members";
 export const ABOUT = "/about-us";
@@ -17,9 +18,8 @@ export const RESET_PASSWORD = "/reset-password/:token";
 export const RESEND = "/resend/:token";
 export const USER = "/signup";
 export const USER_DASHBOARD = "/user/:userId";
-export const DEPARTMENT_DASHBOARD = "/department/:departmentId";
 export const TEAM_DASHBOARD = "/team/:teamId";
-export const PROJECT_DASHBOARD = "/projects/:projectId";
+export const PROJECTS = "/projects";
 export const FAQ = "/faq";
 export const PRIVACY_POLICY = "/privacy-policy";
 export const SECURITY = "/security";

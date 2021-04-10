@@ -1,9 +1,10 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
+import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
+import DoPagination from "../../common/Pagination";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
@@ -11,15 +12,21 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import LoveIcon from "@material-ui/icons/Favorite";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import NoRecords from "../../NoRecords";
 import Plus2Icon from "@material-ui/icons/ExposurePlus2";
 import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
+import { REACTIONS_PER_PAGE } from "../../../util/constants";
+import React from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import getPastTime from "../../../util/getPastTime";
+import { getReactions } from "../../../redux/actions/reaction";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { useReactions } from "../../../redux/state/reaction";
 import useStyles from "../../styles";
 
 const useLocalStyles = makeStyles(() => ({
@@ -36,7 +43,7 @@ const useLocalStyles = makeStyles(() => ({
 }));
 
 const ReactionsView = (props: any) => {
-  const { reactions } = props;
+  const { note } = props;
   const { customBadge, avatarStyle } = useLocalStyles();
   const {
     plusTwoIconStyle,
@@ -47,7 +54,10 @@ const ReactionsView = (props: any) => {
     reactionStyle,
   } = useStyles();
 
-  const [newReactions, setNewReactions] = useState(reactions);
+  const dispatch = useDispatch();
+  const { reactions, totalReactions } = useReactions();
+  const [newReactions, setNewReactions] = useState([]);
+  const [page, setPage] = useState<number>(0);
 
   const getReactionIcon = (type: string) => {
     let iconStyle = "";
@@ -91,6 +101,19 @@ const ReactionsView = (props: any) => {
   useEffect(() => {
     setNewReactions(reactions);
   }, [reactions]);
+
+  useEffect(() => {
+    loadReactions(page);
+  }, []);
+
+  const loadReactions = (pageNo: number) => {
+    dispatch(getReactions(note?._id, pageNo, REACTIONS_PER_PAGE));
+  };
+
+  const handlePage = (page: number) => {
+    setPage(page);
+    loadReactions(page);
+  };
 
   return (
     <Suspense fallback={<div />}>
@@ -138,6 +161,14 @@ const ReactionsView = (props: any) => {
           ))}
         </Grid>
       </List>
+      <Box mt={2} display="flex" justifyContent="center">
+        <DoPagination
+          type="modal"
+          handlePage={handlePage}
+          totalCount={totalReactions}
+          pageCount={REACTIONS_PER_PAGE}
+        />
+      </Box>
     </Suspense>
   );
 };

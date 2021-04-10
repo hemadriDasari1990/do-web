@@ -1,33 +1,35 @@
 import { Data, Order, TableProps } from "./types";
-import React, { useEffect, useState } from "react";
 import {
   TableCell,
   TableContainer,
   TableRow,
   Typography,
 } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import Header from "./header";
 import IconButton from "@material-ui/core/IconButton";
+import Link from "@material-ui/core/Link";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
-import NoRecords from "../../NoRecords";
+import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
+import React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
+import TableFooter from "@material-ui/core/TableFooter";
+import TablePagination from "@material-ui/core/TablePagination";
+import TablePaginationActions from "../../common/TablePaginationActions";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import getRandomBGColor from "../../../util/getRandomColor";
-// import Typography from "@material-ui/core/Typography";
-// import { elipseName } from "../../../util";
 import useStyles from "../../styles/table";
+import { useTeam } from "../../../redux/state/team";
 
-const DoTable = (props: TableProps) => {
+const DoTable = (props: TableProps & any) => {
   const {
     data,
     headerColumns,
@@ -36,6 +38,10 @@ const DoTable = (props: TableProps) => {
     viewItem,
     handleMenu,
     handleAddMember,
+    handleChangeRowsPerPage,
+    handleChangePage,
+    rowsPerPage,
+    page,
   } = props;
   const {
     tableCellStyle,
@@ -47,6 +53,7 @@ const DoTable = (props: TableProps) => {
     avatarStyle,
     avatarGroupStyle,
   } = useStyles();
+  const { totalTeams } = useTeam();
 
   /* States */
   const [order, setOrder] = useState<Order>("asc");
@@ -126,7 +133,7 @@ const DoTable = (props: TableProps) => {
               !updatedData.length) && (
               <TableRow>
                 <TableCell align="center" colSpan={9}>
-                  <NoRecords />
+                  No records found
                 </TableCell>
               </TableRow>
             )}
@@ -139,7 +146,7 @@ const DoTable = (props: TableProps) => {
                 key={td?._id}
                 classes={{ root: rowStyle }}
               >
-                <Tooltip arrow title={`View ${td?._id}`}>
+                <Tooltip arrow title={`View ${td?.name}`}>
                   <TableCell
                     align="left"
                     component="td"
@@ -147,10 +154,15 @@ const DoTable = (props: TableProps) => {
                     padding="none"
                     colSpan={1}
                     size="small"
+                    style={{ paddingLeft: 20 }}
                   >
-                    <Button color="primary" onClick={() => handleViewItem(td)}>
+                    <Link
+                      component="button"
+                      variant="body2"
+                      onClick={() => handleViewItem(td)}
+                    >
                       {td.name}
-                    </Button>
+                    </Link>
                   </TableCell>
                 </Tooltip>
 
@@ -310,6 +322,24 @@ const DoTable = (props: TableProps) => {
               </TableRow>
             ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[15, 25, 35, { label: "All", value: -1 }]}
+              colSpan={9}
+              count={totalTeams || 0}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: { "aria-label": "rows per page" },
+                native: true,
+              }}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

@@ -1,9 +1,7 @@
-import React from "react";
-
 import Box from "@material-ui/core/Box";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStatusStyles from "../../styles/status";
-
 const Status = (props: any) => {
   const { value } = props;
   const {

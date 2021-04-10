@@ -1,14 +1,14 @@
 import {
   DELETE_BOARD,
+  GET_BOARDS,
   GET_BOARD_DETAILS,
   UPDATE_BOARD,
-  GET_BOARDS,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
 import { replaceStr } from "../../../util";
 
-export const getBoardDetails = (id: string) => {
+export const getBoardDetails = (id: string): Generator<any> => {
   return API(replaceStr(GET_BOARD_DETAILS, "{id}", id), { method: "GET" });
 };
 
@@ -21,12 +21,11 @@ export const deleteBoard = (id: string) => {
 };
 
 export const getBoards = (
-  id: string,
-  accountType: string,
+  projectId: string,
   queryString: string,
   page: number,
   size: number
 ) => {
-  const url: string = `${GET_BOARDS}?id=${id}&accountType=${accountType}&queryString=${queryString}&page=${page}&size=${size}`;
+  const url: string = `${GET_BOARDS}?projectId=${projectId}&queryString=${queryString}&page=${page}&size=${size}`;
   return API(url, { method: "GET" });
 };

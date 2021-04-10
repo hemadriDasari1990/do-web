@@ -40,6 +40,7 @@ function* callGetMembersByUser(action: { [Key: string]: any }) {
   try {
     const result = yield getMembersByUser(
       action.id,
+      action.status,
       action.queryString,
       action.page,
       action.size
@@ -49,7 +50,10 @@ function* callGetMembersByUser(action: { [Key: string]: any }) {
       yield put({ type: GET_MEMBERS_BY_USER_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_MEMBERS_BY_USER_FAILED, payload: err.response.data });
+    yield put({
+      type: GET_MEMBERS_BY_USER_FAILED,
+      payload: err.response.data,
+    });
   }
 }
 

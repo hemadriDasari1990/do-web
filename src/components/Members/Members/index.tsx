@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useMember } from "../../../redux/state/member";
 import { useTeam, useTeamLoading } from "../../../redux/state/team";
 
+import { ADD_MEMBERS_PER_PAGE } from "../../../util/constants";
 import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import DoPagination from "../../common/Pagination";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
+import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -14,28 +18,27 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import PersonIcon from "@material-ui/icons/Person";
+import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { addOrRemoveMemberFromTeam } from "../../../redux/actions/team";
+import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getMembersByUser } from "../../../redux/actions/member";
 import getRandomBGColor from "../../../util/getRandomColor";
+import useDebounce from "../../common/useDebounce";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login";
-import useStyles from "../../styles/search";
-import { useUser } from "../../../redux/state/user";
-import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
-import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import useMainStyles from "../../styles";
+import { useMember } from "../../../redux/state/member";
+import useStyles from "../../styles/search";
 import useTableStyles from "../../styles/table";
-import DoPagination from "../../common/Pagination";
-import { ADD_MEMBERS_PER_PAGE } from "../../../util/constants";
 
 const Loader = React.lazy(() => import("../../Loader/components"));
 const NoRecords = React.lazy(() => import("../../NoRecords"));
+
 const Members = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const { searchRootStyle, searchIconStyle, inputStyle } = useStyles();
@@ -44,9 +47,7 @@ const Members = () => {
   const { userId } = useLogin();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { members: membersList } = useMember();
-  const { totalMembers: totalMembersCount } = useUser();
-
+  const { members: membersList, totalMembers: totalMembersCount } = useMember();
   const [members, setMembers] = useState<Array<{ [Key: string]: any }>>([]);
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [totalMembers, setTotalMembers] = useState(totalMembersCount);
@@ -56,26 +57,23 @@ const Members = () => {
   const { team } = useTeam();
   const { loading } = useTeamLoading();
   const [page, setPage] = useState<number>(0);
+  const debouncedValue = useDebounce(queryString, 500);
 
-  useEffect(() => {
-    loadMembers(page);
-  }, []);
-
-  const loadMembers = (pageNo: number) => {
+  const loadMembers = (pageNo: number, searchValue: string) => {
     dispatch(
-      getMembersByUser(userId, queryString, pageNo, ADD_MEMBERS_PER_PAGE)
+      getMembersByUser(
+        userId,
+        "active",
+        searchValue,
+        pageNo,
+        ADD_MEMBERS_PER_PAGE
+      )
     );
   };
 
   useEffect(() => {
-    const usersTimer = setTimeout(async () => {
-      await loadMembers(page);
-    }, 300);
-
-    return () => {
-      clearTimeout(usersTimer);
-    };
-  }, [queryString]);
+    loadMembers(page, debouncedValue);
+  }, [debouncedValue]);
 
   useEffect(() => {
     if (membersList) {
@@ -154,7 +152,7 @@ const Members = () => {
 
   const handlePage = (page: number) => {
     setPage(page);
-    loadMembers(page);
+    loadMembers(page, "");
   };
 
   return (
@@ -162,7 +160,9 @@ const Members = () => {
       <Box my={5}>
         <Grid container spacing={2}>
           <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
-            <Typography variant="h2">Members ({totalMembers})</Typography>
+            <Typography variant="h2">
+              Active Members ({formateNumber(totalMembers) || 0})
+            </Typography>
           </Grid>
           <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
             <label className={searchRootStyle}>

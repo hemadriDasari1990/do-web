@@ -1,12 +1,11 @@
-import React from "react";
-
-import Typography from "@material-ui/core/Typography";
-import getRandomBGColor from "../../../util/getRandomColor";
-import useStyles from "../../styles/table";
 import Avatar from "@material-ui/core/Avatar";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import getRandomBGColor from "../../../util/getRandomColor";
+import useStyles from "../../styles/table";
 
 const AvatarGroupList = (props: any) => {
   const { dataList, keyName, noDataMessage } = props;

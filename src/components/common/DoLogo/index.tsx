@@ -1,14 +1,15 @@
+import { DASHBOARD, ROOT } from "../../../routes/config";
+
 import Box from "@material-ui/core/Box";
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import useStyles from "../../styles";
 import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
-import { COMMERCIAL_DASHBOARD, ROOT } from "../../../routes/config";
+import Typography from "@material-ui/core/Typography";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
+import useStyles from "../../styles";
 
 const DoLogo = (props: any) => {
-  const { ...boxProps } = props;
+  const { color, ...boxProps } = props;
   const { logoTextStyle, logoIconStyle, cursor } = useStyles();
 
   /* Redux hooks */
@@ -17,7 +18,7 @@ const DoLogo = (props: any) => {
 
   const refreshDashboard = () => {
     if (authenticated) {
-      history.push(COMMERCIAL_DASHBOARD);
+      history.push(DASHBOARD);
       return;
     }
     history.push(ROOT);
@@ -30,32 +31,30 @@ const DoLogo = (props: any) => {
       onClick={() => refreshDashboard()}
       {...boxProps}
     >
-      <Box mr={1} display="flex">
-        <Typography variant="h1" className={logoTextStyle}>
-          let
-        </Typography>
-        <Typography variant="h1" color="primary" className={logoTextStyle}>
-          '
-        </Typography>
-        <Typography variant="h1" className={logoTextStyle}>
-          s
+      <Box mr={1}>
+        <Typography color={color} className={logoTextStyle}>
+          let's
         </Typography>
       </Box>
       <Box>
-        <Typography variant="h1" className={logoTextStyle}>
+        <Typography color={color} className={logoTextStyle}>
           d
         </Typography>
       </Box>
-      <Box mt={1} mr={1}>
-        <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
+      <Box mt={2} mr={1} ml={0.2}>
+        <SportsVolleyballIcon
+          className={logoIconStyle}
+          color="secondary"
+          fontSize="small"
+        />
       </Box>
       <Box>
-        <Typography variant="h1" className={logoTextStyle}>
+        <Typography color={color} className={logoTextStyle}>
           {" "}
           retr
         </Typography>
       </Box>
-      <Box mt={1}>
+      <Box mt={2} ml={0.2}>
         <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
       </Box>
     </Box>

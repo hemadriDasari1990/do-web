@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import useSearchStyles from "../../styles/search";
-
+import { useState } from "react";
 export default function DoSearch(props: any) {
   const { placeHolder, handleSearch } = props;
   const { searchRootStyle, searchIconStyle, inputStyle } = useSearchStyles();

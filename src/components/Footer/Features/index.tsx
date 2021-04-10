@@ -8,6 +8,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import DepartmentIcon from "../../../assets/department.svg";
 import DragIcon from "../../../assets/drag.svg";
+import FeaturesOverview from "../../../assets/features-overview.svg";
 import Grid from "@material-ui/core/Grid";
 import ProjectIcon from "../../../assets/project.svg";
 import PublicDiscussionIcon from "../../../assets/public-discussion.svg";
@@ -16,9 +17,8 @@ import ReactionsIcon from "../../../assets/reactions.svg";
 // import SecureLoginIcon from "../../../assets/secure-login.svg";
 import TimeManagementIcon from "../../../assets/time-management.svg";
 import Typography from "@material-ui/core/Typography";
-import FeaturesOverview from "../../../assets/features-overview.svg";
-import useStyles from "../../styles";
 import Zoom from "@material-ui/core/Zoom";
+import useStyles from "../../styles";
 
 const FeatureContent = React.lazy(() => import("./FeatureContent"));
 const FeatureImage = React.lazy(() => import("./FeatureImage"));

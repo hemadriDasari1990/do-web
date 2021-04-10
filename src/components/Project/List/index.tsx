@@ -1,8 +1,7 @@
-import React, { Suspense } from "react";
-
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import AvatarGroupList from "../../common/AvatarGroupList";
+import { BOARDS } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -20,22 +19,25 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSkeleton from "../../common/skeletons/list";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import { PROJECT_DASHBOARD } from "../../../routes/config";
+import React from "react";
 import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
+import { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import { addProjectToStore } from "../../../redux/actions/project";
 import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
-import { replaceStr } from "../../../util";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
 
 const ProjectList = (props: any) => {
-  const { projects, handleMenu, setSelectedProject } = props;
+  const { projects, handleMenu, setSelectedProject, hideMenu } = props;
   const { cursor, avatarBoxStyle, boxMainStyle } = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Redux hooks */
   const { loading } = useProjectLoading();
@@ -48,9 +50,8 @@ const ProjectList = (props: any) => {
 
   /* Handler functions */
   const renderCardAction = (project: { [Key: string]: any }) => {
-    return (
-      <Box display="flex" mt={1}>
-        <Box mt={0.5}>{getCardSubHeaderText(project.updatedAt)}</Box>
+    return !hideMenu ? (
+      <Box>
         <Tooltip arrow title="Update">
           <IconButton
             color="primary"
@@ -67,7 +68,7 @@ const ProjectList = (props: any) => {
         </Tooltip>
         {renderMenu()}
       </Box>
-    );
+    ) : null;
   };
 
   const handleButton = (
@@ -77,7 +78,9 @@ const ProjectList = (props: any) => {
     event.stopPropagation();
     setOpen(!open);
     setAnchorEl(event.currentTarget);
-    setSelectedProject(project);
+    if (typeof setSelectedProject === "function") {
+      setSelectedProject(project);
+    }
   };
 
   const handleClose = () => {
@@ -88,11 +91,15 @@ const ProjectList = (props: any) => {
     event: React.MouseEvent<HTMLDivElement | MouseEvent>,
     action: string
   ) => {
+    event.stopPropagation();
     handleMenu(event, action);
     setOpen(false);
   };
 
-  const handleClickAwayClose = () => {
+  const handleClickAwayClose = (
+    event: React.MouseEvent<Document, MouseEvent>
+  ) => {
+    event.stopPropagation();
     setAnchorEl(null);
     setOpen(false);
   };
@@ -110,6 +117,9 @@ const ProjectList = (props: any) => {
           keepMounted
           getContentAnchorEl={null}
           TransitionComponent={Zoom}
+          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+            event.stopPropagation()
+          }
         >
           <ListItem
             button={true}
@@ -185,9 +195,8 @@ const ProjectList = (props: any) => {
     project: { [Key: string]: any }
   ) => {
     event.stopPropagation();
-    return history.push(
-      replaceStr(PROJECT_DASHBOARD, ":projectId", project?._id)
-    );
+    dispatch(addProjectToStore(project));
+    history.push(BOARDS);
   };
 
   const viewProject = (
@@ -195,9 +204,7 @@ const ProjectList = (props: any) => {
     project: { [Key: string]: any }
   ) => {
     event.stopPropagation();
-    return history.push(
-      replaceStr(PROJECT_DASHBOARD, ":projectId", project?._id)
-    );
+    history.push(BOARDS);
   };
 
   const renderCardActions = (
@@ -209,7 +216,7 @@ const ProjectList = (props: any) => {
         <AvatarGroupList
           dataList={project?.boards}
           keyName="title"
-          noDataMessage="No Boards"
+          noDataMessage=" "
         />
         <Box display="flex">
           <Box mt={0.5}>
@@ -240,12 +247,11 @@ const ProjectList = (props: any) => {
     index: number
   ) => {
     return (
-      <Box minHeight={50}>
+      <Box minHeight={30}>
         <Box my={2} display="flex">
           <Box mr={2}>
             <SubjectOutlinedIcon />
           </Box>
-
           <Zoom in={true} timeout={2000}>
             <Typography>
               {renderSecondaryText(project.description, index)}
@@ -262,7 +268,15 @@ const ProjectList = (props: any) => {
       <Grid container spacing={2}>
         {!loading && Array.isArray(projects)
           ? projects.map((project: { [Key: string]: any }, index: number) => (
-              <Grid key={project?._id} item xl={3} lg={3} md={4} sm={6} xs={12}>
+              <Grid
+                key={project?._id}
+                item
+                xl={hideMenu ? 4 : 3}
+                lg={hideMenu ? 4 : 3}
+                md={hideMenu ? 4 : 4}
+                sm={6}
+                xs={12}
+              >
                 <Card
                   className={`${boxMainStyle} ${cursor}`}
                   onClick={(event: React.MouseEvent<HTMLDivElement>) =>
@@ -272,14 +286,13 @@ const ProjectList = (props: any) => {
                   <CardHeader
                     avatar={
                       <AssignmentIcon
-                        // style={{ background: getRandomBGColor() }}
                         className={avatarBoxStyle}
                         color="secondary"
                       />
                     }
                     action={renderCardAction(project)}
                     title={project?.title}
-                    subheader={getCardSubHeaderText(project.updatedAt)}
+                    subheader={getCardSubHeaderText(project.createdAt)}
                   />
                   <CardContent>{renderCardContent(project, index)}</CardContent>
                   <Box my={1}>

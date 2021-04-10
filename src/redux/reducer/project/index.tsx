@@ -1,10 +1,11 @@
 import {
+  ADD_PROJECT_TO_STORE,
   DELETE_PROJECT_FAILED,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
-  GET_PROJECT_FAILED,
-  GET_PROJECT_REQUEST,
-  GET_PROJECT_SUCCESS,
+  GET_PROJECTS_FAILED,
+  GET_PROJECTS_REQUEST,
+  GET_PROJECTS_SUCCESS,
   UPDATE_PROJECT_FAILED,
   UPDATE_PROJECT_REQUEST,
   UPDATE_PROJECT_SUCCESS,
@@ -21,14 +22,16 @@ const initialState = {
   title: "",
   description: "",
   loading: false,
+  data: [],
   response: null,
+  totalProjects: 0,
 };
 
 const project = (state = initialState, action: ReduxAction) => {
   switch (action.type) {
     case DELETE_PROJECT_REQUEST:
       return {
-        loading: true,
+        ...state,
       };
     case DELETE_PROJECT_FAILED:
       return {
@@ -42,25 +45,27 @@ const project = (state = initialState, action: ReduxAction) => {
         response: action.payload,
         loading: false,
       };
-    case GET_PROJECT_REQUEST:
+    case GET_PROJECTS_REQUEST:
       return {
+        ...state,
         loading: true,
       };
-    case GET_PROJECT_FAILED:
+    case GET_PROJECTS_FAILED:
       return {
         ...state,
-        response: action.payload,
+        data: action.payload,
         loading: false,
       };
-    case GET_PROJECT_SUCCESS:
+    case GET_PROJECTS_SUCCESS:
       return {
         ...state,
-        response: action.payload,
+        data: action.payload?.data,
+        totalProjects: action.payload?.total[0]?.count,
         loading: false,
       };
     case UPDATE_PROJECT_REQUEST:
       return {
-        loading: true,
+        ...state,
       };
     case UPDATE_PROJECT_FAILED:
       return {
@@ -73,6 +78,11 @@ const project = (state = initialState, action: ReduxAction) => {
         ...state,
         response: action.payload,
         loading: false,
+      };
+    case ADD_PROJECT_TO_STORE:
+      return {
+        ...state,
+        response: action.payload,
       };
     default:
       return state;

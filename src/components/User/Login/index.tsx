@@ -1,15 +1,11 @@
-import {
-  COMMERCIAL_DASHBOARD,
-  INDIVIDUAL_DASHBOARD,
-  FORGOT_PASSWORD,
-  USER,
-} from "../../../routes/config";
+import { DASHBOARD, FORGOT_PASSWORD, USER } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import DoLogo from "../../common/DoLogo";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -17,8 +13,6 @@ import { emailRegex } from "../../../util/regex";
 import { login } from "../../../redux/actions/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import DoLogo from "../../common/DoLogo";
-import { COMMERCIAL, INDIVIDUAL } from "../../../util/constants";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 
@@ -45,7 +39,7 @@ const Login = () => {
   const history = useHistory();
 
   /* Redux hooks */
-  const { token, message, accountType } = useLogin();
+  const { token, message } = useLogin();
   const { loading } = useLoading();
 
   /* Local state */
@@ -59,12 +53,8 @@ const Login = () => {
 
   /* React Hooks */
   useEffect(() => {
-    if (!loading && apiTriggered && token && accountType == COMMERCIAL) {
-      history.push(COMMERCIAL_DASHBOARD);
-      setApiTriggered(false);
-    }
-    if (!loading && apiTriggered && token && accountType == INDIVIDUAL) {
-      history.push(INDIVIDUAL_DASHBOARD);
+    if (!loading && apiTriggered && token) {
+      history.push(DASHBOARD);
       setApiTriggered(false);
     }
     if (!loading && apiTriggered && !token) {
@@ -117,7 +107,7 @@ const Login = () => {
   return (
     <React.Fragment>
       <Box my={5}>
-        <DoLogo justifyContent="center" />
+        <DoLogo justifyContent="center" color="primary" />
       </Box>
       <Box maxWidth={400} m="auto" className={boxStyle}>
         <Box textAlign="center">
@@ -190,7 +180,7 @@ const Login = () => {
               Can't login?&nbsp;
               <Link component="button" onClick={handleCreateUser}>
                 <Typography variant="subtitle2" color="primary">
-                  Sign up for an account
+                  Create an Account
                 </Typography>
               </Link>
             </Typography>

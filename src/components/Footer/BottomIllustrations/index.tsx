@@ -1,11 +1,9 @@
-import React from "react";
-
 import Box from "@material-ui/core/Box";
-
-import ScrumBoard from "../../../assets/board.svg";
-import Zoom from "@material-ui/core/Zoom";
 import Hidden from "@material-ui/core/Hidden";
 import ProjectIcon from "../../../assets/project.svg";
+import React from "react";
+import ScrumBoard from "../../../assets/board.svg";
+import Zoom from "@material-ui/core/Zoom";
 
 const BottomIllustrations = () => {
   return (

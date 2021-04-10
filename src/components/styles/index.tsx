@@ -7,32 +7,32 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
     textAlign: "end",
   },
-  countStyle: {
-    borderRadius: 5,
-    border: "1px solid #172b4d",
-    minWidth: 30,
-    height: 30,
-    [theme.breakpoints.down("xl")]: {
-      marginTop: 14,
-    },
-    [theme.breakpoints.down("lg")]: {
-      marginTop: 14,
-    },
-    [theme.breakpoints.down("md")]: {
-      marginTop: 14,
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: 14,
-    },
-    [theme.breakpoints.down("xs")]: {
-      marginTop: 14,
-    },
-  },
-  countTextStyle: {
-    top: "50%",
-    textAlign: "center",
-    fontWeight: 600,
-  },
+  // countStyle: {
+  //   borderRadius: 5,
+  //   border: "1px solid #172b4d",
+  //   minWidth: 30,
+  //   height: 30,
+  //   [theme.breakpoints.down("xl")]: {
+  //     marginTop: 14,
+  //   },
+  //   [theme.breakpoints.down("lg")]: {
+  //     marginTop: 14,
+  //   },
+  //   [theme.breakpoints.down("md")]: {
+  //     marginTop: 14,
+  //   },
+  //   [theme.breakpoints.down("sm")]: {
+  //     marginTop: 14,
+  //   },
+  //   [theme.breakpoints.down("xs")]: {
+  //     marginTop: 14,
+  //   },
+  // },
+  // countTextStyle: {
+  //   top: "50%",
+  //   textAlign: "center",
+  //   fontWeight: 600,
+  // },
   iconBackStyle: {
     backgroundColor: "#dfebfb",
   },
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 5,
     fontSize: 30,
     padding: 2,
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
   },
   boxTextStyle: {
     padding: "3px 10px 3px 10px",
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   boxTopGridStyle: {
     height: 100,
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
   },
   boxGridStyle: {
     padding: "2rem 1rem",
@@ -117,15 +117,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   logoIconStyle: {
     padding: 3,
     borderRadius: "50%",
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
-    width: 25,
-    height: 25,
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    width: 23,
+    height: 23,
   },
   n30: {
     backgroundColor: "#EBECF0",
   },
   n40: {
-    backgroundColor: "#fdf3fa",
+    backgroundColor: "#ff5e0024",
   },
   captionTextStyle: {
     borderRadius: 6,
@@ -136,7 +136,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     lineHeight: 1,
     whiteSpace: "nowrap",
     verticalAlign: "middle",
-    color: "#f307b5",
+    color: "#ff5e00",
   },
   sideNoteStyle: {
     padding: 30,
@@ -166,6 +166,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   iconStyle: {
     fontSize: 50,
+  },
+  bannerStyle: {
+    backgroundColor: "#232F3E",
+    backgroundSize: "cover",
+    backgroundImage:
+      "url('//d1.awsstatic.com/webteam/homepage/Hybrid Solutions/WEB_Homepage_Hybrid_ImageBackgrounds_3.76e75f8d80d01f3d2412e004a28dc3065780a476.png')",
+  },
+  textSecondaryColor: {
+    color: "#ec6910",
+  },
+  bottomStyle: {
+    position: "fixed",
+    bottom: 0,
   },
 }));
 

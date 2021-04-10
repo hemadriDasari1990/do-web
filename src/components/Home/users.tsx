@@ -24,8 +24,8 @@ const useLocalStyles = makeStyles(() => ({
     fontSize: 80,
   },
   imageBoxStyle: {
-    height: 154,
-    width: 130,
+    height: 110,
+    width: 90,
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
     justifyContent: "center",
     alignItems: "center",
@@ -34,19 +34,19 @@ const useLocalStyles = makeStyles(() => ({
     borderRadius: 6,
   },
   imageBoxGridStyle: {
-    height: 140,
-    width: 120,
+    height: 90,
+    width: 75,
     borderRadius: "20%",
     // border: "5px solid #e8edf3",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center" /* Centering y-axis */,
     alignItems: "center",
-    // background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    // background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
   },
   avatarTextStyle: {
-    fontSize: 50,
+    // fontSize: 50,
   },
   avatarStyle: {
     backgroundColor: "unset",
@@ -66,7 +66,7 @@ const useLocalStyles = makeStyles(() => ({
     borderRadius: 6,
   },
   iconButtonStyle: {
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
     borderRadius: 6,
   },
   iconButtonGridStyle: {
@@ -127,13 +127,13 @@ const Users = () => {
   return (
     <Box>
       <Loader enable={loading} />
-      <Box textAlign="center" pb={8}>
+      <Box textAlign="center" pb={3}>
         <Typography variant="h1" className={titleSecondaryStyle}>
           Here from our {summary?.usersCount} customers about their experience
           on letsdoretro.
         </Typography>
       </Box>
-      <Box minHeight={430} maxHeight={430}>
+      <Box minHeight={200} maxHeight={200}>
         <Box className={mainBoxStyle}>
           {!loading && (
             <GridList
@@ -164,23 +164,20 @@ const Users = () => {
                                 className={avatarTextStyle}
                                 color="secondary"
                               >
-                                {user?.name ? user?.name.substring(0, 1) : ""}
+                                {user?.name
+                                  ? user?.name?.toUpperCase()?.substring(0, 1)
+                                  : ""}
                               </Typography>
                             </Avatar>
                           </Box>
                         </Box>
                         <Box textAlign="center">
                           <Box mt={3} mb={2}>
-                            <Typography
-                              variant="h2"
-                              className={titleSecondaryStyle}
-                            >
-                              {user?.name}
-                            </Typography>
+                            <Typography variant="h4">{user?.name}</Typography>
                           </Box>
                           <Box>
                             <Typography
-                              variant="h3"
+                              variant="h5"
                               style={{ fontWeight: "normal" }}
                             >
                               {user?.description}
@@ -200,10 +197,9 @@ const Users = () => {
           justifyContent="space-between"
           style={{ float: "right" }}
           mt={1.5}
-          // py={5}
         >
           <Box mr={5}>
-            <Tooltip arrow title="Left">
+            <Tooltip arrow title="Left" placement="left">
               <IconButton
                 size="small"
                 className={iconButtonStyle}
@@ -214,7 +210,7 @@ const Users = () => {
             </Tooltip>
           </Box>
           <Box>
-            <Tooltip arrow title="Right">
+            <Tooltip arrow title="Right" placement="right">
               <IconButton
                 size="small"
                 className={iconButtonStyle}

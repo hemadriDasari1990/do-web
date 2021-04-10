@@ -3,8 +3,8 @@ import {
   DELETE_TEAM,
   GET_TEAMS,
   GET_TEAM_DETAILS,
-  UPDATE_TEAM,
   SEND_INVITE_TO_TEAMS,
+  UPDATE_TEAM,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
@@ -14,8 +14,19 @@ export const getTeamDetails = (id: string) => {
   return API(replaceStr(GET_TEAM_DETAILS, "{id}", id), { method: "GET" });
 };
 
-export const getTeams = (userId: string) => {
-  return API(replaceStr(GET_TEAMS, "{id}", userId), { method: "GET" });
+export const getTeams = (
+  userId: string,
+  queryString: string,
+  page: number,
+  size: number
+) => {
+  return API(
+    GET_TEAMS +
+      `?userId=${userId}&queryString=${queryString}&page=${page}&size=${size}`,
+    {
+      method: "GET",
+    }
+  );
 };
 
 export const updateTeam = (payload: { [Key: string]: any }) => {

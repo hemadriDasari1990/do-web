@@ -10,7 +10,7 @@ import { useHistory } from "react-router";
 const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
     height: 40,
-    width: 190,
+    width: "fit-content",
     "& .MuiButton-label": {
       justifyContent: "center",
     },
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const CreateAccount = (props: any) => {
   const { buttonStyle } = useStyles();
   const history = useHistory();
-  const { title } = props;
+  const { title, hideArrow } = props;
   const handleCreateUser = () => {
     history.push(USER);
   };
@@ -37,7 +37,9 @@ const CreateAccount = (props: any) => {
           color="primary"
           size="small"
           onClick={() => handleCreateUser()}
-          endIcon={<ArrowForwardOutlinedIcon color="secondary" />}
+          endIcon={
+            !hideArrow ? <ArrowForwardOutlinedIcon color="secondary" /> : null
+          }
         >
           {title}
         </Button>

@@ -1,32 +1,30 @@
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-
 import Box from "@material-ui/core/Box";
 import Pagination from "@material-ui/lab/Pagination";
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      // "& > *": {
-      //   marginTop: theme.spacing(2),
-      // },
-      // position: "fixed",
-      bottom: 0,
-      zIndex: 2,
+const useStyles = makeStyles(() => ({
+  root: (props: any) => ({
+    // "& > *": {
+    //   marginTop: theme.spacing(2),
+    // },
+    position: props.type === "modal" ? "unset" : "fixed",
+    bottom: props.type === "modal" ? "unset" : 0,
+    right: 0,
+    zIndex: 2,
+  }),
+  paginationStyle: {
+    "& .Mui-selected": {
+      fontWeight: 600,
+      color: "#fff",
+      background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
     },
-    padginationStyle: {
-      "& .Mui-selected": {
-        fontWeight: 600,
-        color: "#fff",
-        background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
-      },
-    },
-  })
-);
+  },
+}));
 
 export default function DoPagination(props: any) {
-  const { handlePage, totalCount, pageCount } = props;
-  const classes = useStyles();
+  const { handlePage, totalCount, pageCount, type } = props;
+  const classes = useStyles({ type });
   const [page, setPage] = React.useState(0);
   const totalPages = Math.ceil(totalCount / pageCount);
 
@@ -36,23 +34,18 @@ export default function DoPagination(props: any) {
   };
 
   return (
-    <Box
-      className={classes.root}
-      // justifyContent="center"
-      // display="flex"
-      // alignItems="center"
-      // width="100%"
-    >
+    <Box className={classes.root}>
       <Pagination
-        className={classes.padginationStyle}
+        className={classes.paginationStyle}
         count={totalPages}
         page={page}
         showFirstButton
         showLastButton
         onChange={handleChange}
         siblingCount={1}
-        boundaryCount={1}
+        boundaryCount={2}
         shape="rounded"
+        defaultPage={1}
       />
     </Box>
   );

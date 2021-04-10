@@ -1,15 +1,18 @@
-import React, { Suspense, useState } from "react";
+import { Suspense, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import CommentsView from "./CommentsView";
 import Info from "./Info";
 import PropTypes from "prop-types";
+import React from "react";
 import ReactionsView from "./ReactionsView";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Typography from "@material-ui/core/Typography";
+import formateNumber from "../../../util/formateNumber";
 // import formateNumber from "../../../util/formateNumber";
 import { makeStyles } from "@material-ui/core/styles";
+import { useReactions } from "../../../redux/state/reaction";
 
 const useStyles = makeStyles(() => ({
   defaultTab: {
@@ -57,13 +60,11 @@ const DoTabs = (props: any) => {
   const { note } = props;
   const { tabStyle } = useStyles();
   const [value, setValue] = useState(0);
-  const [type, setType] = useState("");
+  const { totalReactions } = useReactions();
 
   const handleChange = async (index: number, type: string) => {
     setValue(index);
-    setType(type);
   };
-  console.log(type);
 
   return (
     <Suspense fallback={<div />}>
@@ -78,7 +79,7 @@ const DoTabs = (props: any) => {
           <Tab
             onClick={() => handleChange(0, "reactions")}
             value={0}
-            label={`Reactions (${note?.totalReactions})`}
+            label={`Reactions (${formateNumber(totalReactions) || 0})`}
             aria-label="reactions"
             className={tabStyle}
           />
@@ -98,7 +99,7 @@ const DoTabs = (props: any) => {
           />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <ReactionsView reactions={note?.reactions} />
+          <ReactionsView note={note} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <CommentsView />

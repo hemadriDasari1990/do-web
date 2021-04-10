@@ -14,6 +14,7 @@ export const getMemberDetails = (id: string) => {
 
 export const getMembersByUser = (
   id: string,
+  status: string,
   queryString: string,
   page: number,
   size: number
@@ -22,7 +23,7 @@ export const getMembersByUser = (
     GET_MEMBERS_BY_USER,
     "{id}",
     id
-  )}&queryString=${queryString}&page=${page}&size=${size}`;
+  )}&status=${status}&queryString=${queryString}&page=${page}&size=${size}`;
   return API(url, { method: "GET" });
 };
 

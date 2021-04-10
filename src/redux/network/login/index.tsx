@@ -1,41 +1,39 @@
 import {
   FORGOT_PASSWORD,
   LOGIN,
+  LOGOUT,
   RESEND_TOKEN,
   RESET_PASSWORD,
   VALIDATE_FORGOT_PASSWORD,
   VERIFY_TOKEN,
-  LOGOUT,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
 
-export const login = async (payload: { [Key: string]: any }) => {
-  return await API(LOGIN, { method: "POST", data: payload });
+export const login = (payload: { [Key: string]: any }) => {
+  return API(LOGIN, { method: "POST", data: payload });
 };
 
-export const logout = async () => {
-  return await API(LOGOUT, { method: "POST", data: {} });
+export const logout = () => {
+  return API(LOGOUT, { method: "POST", data: {} });
 };
 
-export const verifyToken = async (payload: { [Key: string]: any }) => {
-  return await API(VERIFY_TOKEN, { method: "POST", data: payload });
+export const verifyToken = (payload: { [Key: string]: any }) => {
+  return API(VERIFY_TOKEN, { method: "POST", data: payload });
 };
 
-export const resendToken = async (payload: { [Key: string]: any }) => {
-  return await API(RESEND_TOKEN, { method: "POST", data: payload });
+export const resendToken = (payload: { [Key: string]: any }) => {
+  return API(RESEND_TOKEN, { method: "POST", data: payload });
 };
 
-export const forgotPassword = async (payload: { [Key: string]: any }) => {
-  return await API(FORGOT_PASSWORD, { method: "POST", data: payload });
+export const forgotPassword = (payload: { [Key: string]: any }) => {
+  return API(FORGOT_PASSWORD, { method: "POST", data: payload });
 };
 
-export const validateForgotPassword = async (payload: {
-  [Key: string]: any;
-}) => {
-  return await API(VALIDATE_FORGOT_PASSWORD, { method: "POST", data: payload });
+export const validateForgotPassword = (payload: { [Key: string]: any }) => {
+  return API(VALIDATE_FORGOT_PASSWORD, { method: "POST", data: payload });
 };
 
-export const resetPassword = async (payload: { [Key: string]: any }) => {
-  return await API(RESET_PASSWORD, { method: "POST", data: payload });
+export const resetPassword = (payload: { [Key: string]: any }) => {
+  return API(RESET_PASSWORD, { method: "POST", data: payload });
 };

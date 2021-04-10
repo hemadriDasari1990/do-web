@@ -8,6 +8,9 @@ import {
   GET_ALL_SUMMARY_FAILED,
   GET_ALL_SUMMARY_REQUEST,
   GET_ALL_SUMMARY_SUCCESS,
+  GET_BOARDS_BY_USER_FAILED,
+  GET_BOARDS_BY_USER_REQUEST,
+  GET_BOARDS_BY_USER_SUCCESS,
   GET_USERS_FAILED,
   GET_USERS_REQUEST,
   GET_USERS_SUCCESS,
@@ -25,6 +28,7 @@ import {
   createUser,
   deleteUser,
   getAllSummary,
+  getBoardsByUser,
   getUserDetails,
   getUserSummary,
   getUsers,
@@ -34,7 +38,7 @@ import { put, takeLatest } from "redux-saga/effects";
 
 function* callGetUserDetails(action: { [Key: string]: any }) {
   try {
-    const result = yield getUserDetails(action.id, action.accountType);
+    const result = yield getUserDetails(action.id);
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_USER_SUCCESS, payload: data });
@@ -46,6 +50,22 @@ function* callGetUserDetails(action: { [Key: string]: any }) {
 
 export function* watchGetUserDetails() {
   yield takeLatest(GET_USER_REQUEST, callGetUserDetails);
+}
+
+function* callGetBoardsByUser(action: { [Key: string]: any }) {
+  try {
+    const result = yield getBoardsByUser(action.id, action.limit);
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_BOARDS_BY_USER_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({ type: GET_BOARDS_BY_USER_FAILED, payload: err.response.data });
+  }
+}
+
+export function* watchGetBoardsByUser() {
+  yield takeLatest(GET_BOARDS_BY_USER_REQUEST, callGetBoardsByUser);
 }
 
 function* callGetUserSummary(action: { [Key: string]: any }) {

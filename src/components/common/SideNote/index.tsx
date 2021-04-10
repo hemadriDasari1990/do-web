@@ -1,11 +1,9 @@
-import React from "react";
-
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import useStyles from "../../styles";
-import Link from "@material-ui/core/Link";
 import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
-
+import Link from "@material-ui/core/Link";
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import useStyles from "../../styles";
 const SideNote = (props: any) => {
   const { title, description, showLink, link, linkURL } = props;
   const { n30, sideNoteStyle, sideNoteTitleStyle } = useStyles();

@@ -1,16 +1,16 @@
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import Grid from "@material-ui/core/Grid";
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import ScrumBoard from "../../../assets/board.svg";
-import Zoom from "@material-ui/core/Zoom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import React from "react";
+import ScrumBoard from "../../../assets/board.svg";
+import Typography from "@material-ui/core/Typography";
+import Zoom from "@material-ui/core/Zoom";
+import { makeStyles } from "@material-ui/core/styles";
 const SideNote = React.lazy(() => import("../../common/SideNote"));
 const Caption = React.lazy(() => import("../../common/Caption"));
 

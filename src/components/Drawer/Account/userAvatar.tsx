@@ -1,21 +1,20 @@
-import React, { Suspense } from "react";
-
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Hidden from "@material-ui/core/Hidden";
+import React from "react";
+import { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import useStyles from "../../styles";
 import { useUser } from "../../../redux/state/user";
-
 const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     width: 35,
     height: 35,
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
   },
   avatarTitleStyle: {
     color: "#334357",
@@ -26,7 +25,7 @@ const useLocalStyles = makeStyles(() => ({
 }));
 
 const UserAvatar = (props: any) => {
-  const { handleAccount } = props;
+  const { handleAccount, hideName } = props;
   const { name } = useUser();
   const { iconStyle, avatarTitleStyle, boxStyle } = useLocalStyles();
   const { cursor } = useStyles();
@@ -52,18 +51,20 @@ const UserAvatar = (props: any) => {
               </Zoom>
             </Tooltip>
           </Box>
-          <Hidden only={["xs"]}>
-            <Box ml={1} mt={1}>
-              <Typography
-                color="primary"
-                className={avatarTitleStyle}
-                variant="h5"
-              >
-                {name || "..."}
-              </Typography>
-            </Box>
-          </Hidden>
-          <Box ml={1} mt={0.7}>
+          {!hideName ? (
+            <Hidden only={["xs"]}>
+              <Box ml={1} mt={1}>
+                <Typography
+                  color="primary"
+                  className={avatarTitleStyle}
+                  variant="h5"
+                >
+                  {name || "..."}
+                </Typography>
+              </Box>
+            </Hidden>
+          ) : null}
+          <Box ml={0.5} mr={0.5} mt={0.7}>
             <ArrowDropDownIcon color="primary" />
           </Box>
         </Box>

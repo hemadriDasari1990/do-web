@@ -58,6 +58,7 @@ const Create = (props: any) => {
 
   const handleSubmit = () => {
     dispatch(updateTeam({ ...formData, userId }));
+    setFormData({});
   };
 
   const disableButton = () => {

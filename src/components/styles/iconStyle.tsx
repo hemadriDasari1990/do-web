@@ -2,10 +2,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   iconStyle: {
-    color: "#0072ff",
+    color: "#ff5e00",
   },
   iconGridStyle: {
-    backgroundColor: "#0072ff14",
+    backgroundColor: "#ff5e0024",
   },
 }));
 

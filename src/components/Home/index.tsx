@@ -4,18 +4,18 @@ import { useFeedback, useLoading } from "../../redux/state/feedback";
 
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-// import { COMMERCIAL_DASHBOARD } from "../../routes/config";
+// import { DASHBOARD } from "../../routes/config";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import ScrumBoard from "../../assets/board.svg";
 import ScrumBoardSkeleton from "../../assets/scrum-real-board.png";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
+import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
 import { getFeedbacks } from "../../redux/actions/feedback";
 // import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
-import Wave from "../../assets/wave.svg";
 import useStyles from "../styles";
 
 // import { useHistory } from "react-router";
@@ -29,7 +29,7 @@ const AdContainer = React.lazy(() => import("./adContainer"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   imageStyle: {
-    height: 300,
+    height: 270,
     [theme.breakpoints.down("xs")]: {
       height: 230,
       textAlign: "center",
@@ -40,7 +40,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "#fff",
   },
   boxGridStyle: {
-    backgroundColor: "#f5f6f8",
+    backgroundColor: "#F2F4f4",
   },
   skeletonImageStyle: {
     maxWidth: "100%",
@@ -51,7 +51,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 
 const Home = () => {
   const { imageStyle, boxGridStyle, skeletonImageStyle } = useLocalStyles();
-  const { titleStyle, titleSecondaryStyle } = useStyles();
+  const { titleStyle, titleSecondaryStyle, bannerStyle } = useStyles();
   const dispatch = useDispatch();
   // const authenticated: boolean = useAuthenticated();
   // const history = useHistory();
@@ -61,17 +61,17 @@ const Home = () => {
   useEffect(() => {
     dispatch(getFeedbacks(true));
     // if(authenticated){
-    //   history.push(COMMERCIAL_DASHBOARD);
+    //   history.push(DASHBOARD);
     // }
   }, []);
 
   return (
     <React.Fragment>
-      <Container>
-        <Hidden only={["xs"]}>
-          <AdContainer />
-        </Hidden>
-        <Box py={3}>
+      <Hidden only={["xs"]}>
+        <AdContainer />
+      </Hidden>
+      <Box py={3} className={bannerStyle}>
+        <Container>
           <Grid container spacing={2}>
             <Slide
               direction="right"
@@ -82,27 +82,39 @@ const Home = () => {
             >
               <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
                 <Box>
-                  <Typography className={titleStyle} variant="h1">
+                  <Typography
+                    className={titleStyle}
+                    variant="h1"
+                    color="secondary"
+                  >
                     Let's do retro
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography className={titleStyle} variant="h1">
+                  <Typography
+                    className={titleStyle}
+                    variant="h1"
+                    color="secondary"
+                  >
                     Helps teams to run
                   </Typography>
                 </Box>
                 <Box mb={2}>
-                  <Typography className={titleStyle} variant="h1">
+                  <Typography
+                    className={titleStyle}
+                    variant="h1"
+                    color="secondary"
+                  >
                     Retrospective's differently
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="body1">
+                  <Typography variant="body1" color="secondary">
                     Provide a safe space to discuss what worked and what didn't.{" "}
                   </Typography>
                 </Box>
                 <Box mb={5}>
-                  <Typography variant="body1">
+                  <Typography variant="body1" color="secondary">
                     Identify how to improve teamwork by reflecting on what
                     worked, what didn’t, and why. We recommend running a
                     Retrospective with your team every couple of weeks or at the
@@ -110,7 +122,7 @@ const Home = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <CreateAccount title="Get Started" />
+                  <CreateAccount title="Get Started for Free" />
                 </Box>
               </Grid>
             </Slide>
@@ -134,12 +146,14 @@ const Home = () => {
               </Grid>
             </Slide>
           </Grid>
-        </Box>
+        </Container>
+      </Box>
+      <Container>
         <Grid container spacing={2}>
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-            <Box py={7} textAlign="center">
+            <Box pt={5} textAlign="center">
               <Box>
-                <Typography variant="h1" className={titleSecondaryStyle}>
+                <Typography variant="h1" className={`${titleSecondaryStyle}`}>
                   It's fun and a way of discussing what worked and what didn't.
                 </Typography>
               </Box>
@@ -151,10 +165,7 @@ const Home = () => {
                   spirit—all in one place.
                 </Typography>
               </Box>
-              <Box mt={3}>
-                <CreateAccount title="Signup Now" />
-              </Box>
-              <Box>
+              <Box mt={5}>
                 <Zoom in={true} timeout={2000}>
                   <img
                     src={ScrumBoardSkeleton}
@@ -167,35 +178,41 @@ const Home = () => {
             </Box>
           </Grid>
         </Grid>
-
-        <Box>
-          <Summary />
-        </Box>
-        {!loading && feedback?.length ? (
-          <Box py={5}>
-            <Box py={5}>
-              <Box textAlign="center">
-                <Typography variant="h1" className={titleSecondaryStyle}>
-                  What people say about us
-                </Typography>
-              </Box>
-            </Box>
-            <Box>
-              <FeedbackList feedbacks={feedback} />
-            </Box>
-          </Box>
-        ) : null}
       </Container>
-      <Box mb={-0.9}>
+      <Box mb={-0.9} mt={-15}>
         <img src={Wave} />
       </Box>
-      <Box py={5} className={boxGridStyle}>
-        <CreateAccountGrid />
+      <Box className={boxGridStyle}>
+        <Summary />
       </Box>
-      <Box py={5}>
+      {!loading && feedback?.length ? (
+        <Box pb={5} className={bannerStyle}>
+          <Box py={5}>
+            <Box textAlign="center">
+              <Typography
+                color="secondary"
+                variant="h1"
+                className={`${titleSecondaryStyle}`}
+              >
+                What people say about us
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            <FeedbackList feedbacks={feedback} color="secondary" />
+          </Box>
+        </Box>
+      ) : null}
+      <Box pt={5}>
         <Container>
           <UserList />
         </Container>
+      </Box>
+      <Box mb={-0.9}>
+        <img src={Wave} />
+      </Box>
+      <Box className={boxGridStyle}>
+        <CreateAccountGrid />
       </Box>
     </React.Fragment>
   );

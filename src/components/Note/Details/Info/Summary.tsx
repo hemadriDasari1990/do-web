@@ -1,8 +1,7 @@
-import React, { Suspense } from "react";
-
 import Grid from "@material-ui/core/Grid";
+import React from "react";
 import SummaryField from "../../../common/SummaryField";
-
+import { Suspense } from "react";
 const Summary = (props: any) => {
   const { note } = props;
   return (

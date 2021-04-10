@@ -3,8 +3,8 @@ import {
   DELETE_TEAM_REQUEST,
   GET_TEAMS_REQUEST,
   GET_TEAM_REQUEST,
-  UPDATE_TEAM_REQUEST,
   SEND_INVITE_TO_TEAMS_REQUEST,
+  UPDATE_TEAM_REQUEST,
 } from "./types";
 
 export const getTeamDetails = (teamId: string) => {
@@ -14,10 +14,18 @@ export const getTeamDetails = (teamId: string) => {
   };
 };
 
-export const getTeams = (userId: string) => {
+export const getTeams = (
+  userId: string,
+  queryString: string,
+  page: number,
+  size: number
+) => {
   return {
     type: GET_TEAMS_REQUEST,
     id: userId,
+    queryString,
+    page,
+    size,
   };
 };
 

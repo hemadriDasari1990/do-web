@@ -1,7 +1,6 @@
+import Grid from "@material-ui/core/Grid";
 import React from "react";
 import SectionmSkeleton from "./section";
-import Grid from "@material-ui/core/Grid";
-
 export default function SectionsListSkeleton() {
   return (
     <>

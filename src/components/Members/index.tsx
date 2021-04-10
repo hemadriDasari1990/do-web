@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
 import { deleteMember, getMembersByUser } from "../../redux/actions/member";
+import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { COMMERCIAL_DASHBOARD } from "../../routes/config";
+import { DASHBOARD } from "../../routes/config";
 import DoSearch from "../common/search";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
-import Tooltip from "@material-ui/core/Tooltip";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
+import formateNumber from "../../util/formateNumber";
+import useDebounce from "../common/useDebounce";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
@@ -21,20 +23,13 @@ import useStyles from "../styles";
 import { useUser } from "../../redux/state/user";
 
 const MemberList = React.lazy(() => import("./List"));
-const NoRecords = React.lazy(() => import("../NoRecords"));
 const UpdateMember = React.lazy(() => import("./Update"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const Loader = React.lazy(() => import("../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const MemberDashboard = () => {
-  const {
-    root,
-    countStyle,
-    countTextStyle,
-    buttonStyle,
-    iconBackStyle,
-  } = useStyles();
+  const { root, buttonStyle, iconBackStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { member } = useMember();
@@ -51,25 +46,16 @@ const MemberDashboard = () => {
   const [selectedMember, setSelectedMember] = useState<any>(null);
   const [openError, setOpenError] = useState(false);
   const [queryString, setQueryString] = useState("");
+  const debouncedValue = useDebounce(queryString, 500);
 
   /* React Hooks */
-  useEffect(() => {
-    loadMembers();
-  }, []);
-
-  const loadMembers = () => {
-    dispatch(getMembersByUser(userId, queryString, 0, 15));
+  const loadMembers = (searchValue: string) => {
+    dispatch(getMembersByUser(userId, "", searchValue, 0, 15));
   };
 
   useEffect(() => {
-    const usersTimer = setTimeout(async () => {
-      await loadMembers();
-    }, 300);
-
-    return () => {
-      clearTimeout(usersTimer);
-    };
-  }, [queryString]);
+    loadMembers(debouncedValue);
+  }, [debouncedValue]);
 
   useEffect(() => {
     if (membersList) {
@@ -128,7 +114,7 @@ const MemberDashboard = () => {
   };
 
   const handleBack = () => {
-    history.push(COMMERCIAL_DASHBOARD);
+    history.push(DASHBOARD);
   };
 
   const handleMenu = async (
@@ -243,30 +229,27 @@ const MemberDashboard = () => {
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
                 <Hidden only={["xs"]}>
-                  <Typography variant="h1">{user?.name}</Typography>
+                  <Typography variant="h2">
+                    {user?.name}&nbsp;({formateNumber(totalMembers) || 0})
+                  </Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <Typography variant="h4">{user?.name}</Typography>
+                  <Typography variant="h4">
+                    {user?.name}&nbsp;({formateNumber(totalMembers) || 0})
+                  </Typography>
                 </Hidden>
-                <Tooltip arrow title="Total Members">
-                  <Box ml={2} className={countStyle}>
-                    <Typography color="primary" className={countTextStyle}>
-                      {totalMembers || 0}
-                    </Typography>
-                  </Box>
-                </Tooltip>
               </Box>
             </Grid>
             <Grid item xl={3} lg={3} md={3} xs={12} sm={6}>
-              <Box mt={1.2}>
+              <Box>
                 <DoSearch
-                  placeHolder="Search boards by its title"
+                  placeHolder="Search members by name or email address"
                   handleSearch={handleSearch}
                 />
               </Box>
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
+              <Box display="flex" justifyContent={"flex-end"}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
                     className={iconBackStyle}
@@ -291,37 +274,25 @@ const MemberDashboard = () => {
                     </Button>
                   </Box>
                 </Hidden>
-                {members?.length ? (
-                  <Box ml={2} className={buttonStyle}>
-                    {renderCreateNewMember()}
-                  </Box>
-                ) : null}
+                <Box ml={2} className={buttonStyle}>
+                  {renderCreateNewMember()}
+                </Box>
               </Box>
             </Grid>
           </Grid>
         </Box>
-        {!loading && (!members || !members?.length) ? (
-          <Box mt={10}>
-            <NoRecords message="No Members found! Please add" />
-            <Box mt={5} textAlign="center">
-              {renderCreateNewMember()}
-            </Box>
-          </Box>
-        ) : null}
         <UpdateMember
           selectedMember={selectedMember}
           openDialog={showMemberForm}
           handleUpdateForm={handleUpdateForm}
         />
-        {members?.length ? (
-          <Box>
-            <MemberList
-              members={members}
-              handleMenu={handleMenu}
-              setSelectedMember={setSelectedMember}
-            />
-          </Box>
-        ) : null}
+        <Box>
+          <MemberList
+            members={members}
+            handleMenu={handleMenu}
+            setSelectedMember={setSelectedMember}
+          />
+        </Box>
       </Box>
     </React.Fragment>
   );

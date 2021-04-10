@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
+import React from "react";
 import ScrumBoard from "../../assets/board.svg";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "absolute",
     left: "96%",
     top: "-10%",
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
     color: "#fff",
     borderRadius: "50%",
   },
@@ -105,7 +106,7 @@ const AdContainer = () => {
                     variant="contained"
                     color="primary"
                   >
-                    Get Started
+                    Get Started for Free
                   </Button>
                 </Box>
               </DialogContent>

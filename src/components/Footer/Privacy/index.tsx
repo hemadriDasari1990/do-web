@@ -5,9 +5,9 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
+import UnderlineText from "../../common/UnderlineText";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
-import UnderlineText from "../../common/UnderlineText";
 
 const FAQList = React.lazy(() => import("../Faq/list"));
 

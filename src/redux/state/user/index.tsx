@@ -5,15 +5,11 @@ export function useUser() {
     user: state.user.response,
     name: state.user.response?.name,
     description: state.user.response?.description,
-    departments: state.user.response?.departments,
-    totalDepartments: state.user.response?.totalDepartments,
     message: state.user.response?.message,
-    teams: state.user.response?.teams,
     totalTeams: state.user.response?.totalTeams,
-    members: state.user.response?.members,
     totalMembers: state.user.response?.totalMembers,
-    boards: state.user.response?.boards,
-    totalBoards: state.user.response?.totalBoards,
+    totalProjects: state.user.response?.totalProjects,
+    boards: state.user?.boards,
   }));
 }
 

@@ -1,3 +1,4 @@
+import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import IconButton from "@material-ui/core/IconButton";
@@ -6,7 +7,6 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
-import Avatar from "@material-ui/core/Avatar";
 const useStyles = makeStyles({
   subTitleStyle: {
     textTransform: "uppercase",

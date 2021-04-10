@@ -28,6 +28,7 @@ import MuiSkeleton from "./MuiSkeleton";
 import MuiStepLabel from "./MuiStepLabel";
 import MuiStepper from "./MuiStepper";
 import MuiSvgIcon from "./MuiSvgIcon";
+import MuiSwitch from "./MuiSwitch";
 import MuiTab from "./MuiTab";
 import MuiTableCell from "./MuiTableCell";
 import MuiTableHead from "./MuiTableHead";
@@ -72,4 +73,5 @@ export default {
   MuiStepLabel,
   MuiLink,
   MuiSkeleton,
+  MuiSwitch,
 };

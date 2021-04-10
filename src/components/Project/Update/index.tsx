@@ -5,13 +5,13 @@ import Box from "@material-ui/core/Box";
 // import Checkbox from "@material-ui/core/Checkbox";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CreateNewProject from "../../../assets/create.svg";
-
 import TextField from "@material-ui/core/TextField";
 // import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { updateProject } from "../../../redux/actions/project";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+
+// import { useLogin } from "../../../redux/state/login";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -25,13 +25,12 @@ const Create = (props: any) => {
   const { openDialog, handleUpdateForm, selectedProject } = props;
   const { textFieldStyle } = useStyles();
   const dispatch = useDispatch();
-  const { departmentId } = useParams<{ departmentId: string }>();
+  // const { userId } = useLogin();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     title: "",
     description: "",
-    departmentId,
     projectId: selectedProject._id,
   });
   const { title, description } = formData;
@@ -66,7 +65,7 @@ const Create = (props: any) => {
   };
 
   const handleSubmit = () => {
-    dispatch(updateProject({ ...formData, departmentId }));
+    dispatch(updateProject({ ...formData }));
   };
 
   const disableButton = () => {

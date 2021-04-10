@@ -8,10 +8,7 @@ export const accountTypes = [
   { id: 1, label: "Individual", value: "individual" },
 ];
 
-export const COMMERCIAL = "commercial";
-export const INDIVIDUAL = "individual";
-
-export const PER_PAGE = 8;
+export const PER_PAGE = 12;
 export const ADD_MEMBERS_PER_PAGE = 30;
-
+export const REACTIONS_PER_PAGE = 15;
 export const DRAWER_WIDTH = 70;

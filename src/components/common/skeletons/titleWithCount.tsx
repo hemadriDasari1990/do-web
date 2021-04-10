@@ -2,7 +2,6 @@ import Box from "@material-ui/core/Box";
 import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import useSkeletonStyle from "./styles";
-
 export default function TitleWithCountSkeleton() {
   const { contentColor } = useSkeletonStyle();
 

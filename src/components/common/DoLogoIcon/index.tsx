@@ -1,16 +1,10 @@
-import { COMMERCIAL, INDIVIDUAL } from "../../../util/constants";
-import {
-  COMMERCIAL_DASHBOARD,
-  INDIVIDUAL_DASHBOARD,
-  ROOT,
-} from "../../../routes/config";
+import { DASHBOARD, ROOT } from "../../../routes/config";
 
 import Box from "@material-ui/core/Box";
 import React from "react";
 import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
-import { useLogin } from "../../../redux/state/login";
 import useStyles from "../../styles";
 
 const DoLogoIcon = (props: any) => {
@@ -20,15 +14,10 @@ const DoLogoIcon = (props: any) => {
   /* Redux hooks */
   const authenticated = useAuthenticated();
   const history = useHistory();
-  const { accountType } = useLogin();
 
   const refreshDashboard = () => {
-    if (authenticated && accountType === INDIVIDUAL) {
-      history.push(INDIVIDUAL_DASHBOARD);
-      return;
-    }
-    if (authenticated && accountType === COMMERCIAL) {
-      history.push(COMMERCIAL_DASHBOARD);
+    if (authenticated) {
+      history.push(DASHBOARD);
       return;
     }
     history.push(ROOT);

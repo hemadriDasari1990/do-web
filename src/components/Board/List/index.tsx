@@ -68,7 +68,7 @@ const BoardList = (props: any) => {
     handleMenu,
     setSelectedBoard,
     selectedBoard,
-    lastBoard,
+    hideMenu,
   } = props;
   const {} = useLocalStyles();
   const { loading: projectLoading } = useProjectLoading();
@@ -94,11 +94,15 @@ const BoardList = (props: any) => {
     board: { [Key: string]: any }
   ) => {
     event.stopPropagation();
+    event.preventDefault();
     if (!board) {
       return;
     }
     setClipboardText("Copied");
-    setSelectedBoard(board);
+    if (typeof setSelectedBoard === "function") {
+      setSelectedBoard(board);
+    }
+
     navigator.clipboard.writeText(
       (((process.env.REACT_APP_PROTOCOL as string) +
         process.env.REACT_APP_SERVER) as string) +
@@ -111,7 +115,7 @@ const BoardList = (props: any) => {
 
   /* Handler functions */
   const renderCardAction = (board: { [Key: string]: any }, index: number) => {
-    return (
+    return !hideMenu ? (
       <Box display="flex">
         <Box mt={0.4}>
           <Typography variant="h6">
@@ -145,7 +149,7 @@ const BoardList = (props: any) => {
         )}
         {renderMenu(board, index)}
       </Box>
-    );
+    ) : null;
   };
 
   const handleButton = (
@@ -154,9 +158,12 @@ const BoardList = (props: any) => {
     index: number
   ) => {
     event.stopPropagation();
+    event.preventDefault();
     setOpen(!open);
     setAnchorEl(event.currentTarget);
-    setSelectedBoard(board);
+    if (typeof setSelectedBoard === "function") {
+      setSelectedBoard(board);
+    }
     setSelectedIndex(index);
   };
 
@@ -170,11 +177,15 @@ const BoardList = (props: any) => {
     action: string
   ) => {
     event.stopPropagation();
+    event.preventDefault();
     handleMenu(event, action);
     setOpen(false);
   };
 
-  const handleClickAwayClose = () => {
+  const handleClickAwayClose = (
+    event: React.MouseEvent<Document, MouseEvent>
+  ) => {
+    event.preventDefault();
     setAnchorEl(null);
     setOpen(false);
   };
@@ -195,6 +206,9 @@ const BoardList = (props: any) => {
               keepMounted
               getContentAnchorEl={null}
               TransitionComponent={Zoom}
+              onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
+                event.stopPropagation()
+              }
             >
               <ListItem
                 button={true}
@@ -260,6 +274,7 @@ const BoardList = (props: any) => {
     index: number
   ) => {
     event.stopPropagation();
+    event.preventDefault();
     setShowMoreIndex(index);
     setShowMore(!showMore);
   };
@@ -344,7 +359,7 @@ const BoardList = (props: any) => {
   const renderCardContent = (board: { [Key: string]: any }, index: number) => {
     return (
       <Box minHeight={50}>
-        <Box my={2} display="flex">
+        <Box mt={2} display="flex">
           <Box mr={2}>
             <SubjectOutlinedIcon />
           </Box>
@@ -364,10 +379,16 @@ const BoardList = (props: any) => {
     board: { [Key: string]: any }
   ) => {
     event.stopPropagation();
+    event.preventDefault();
     if (board?.status === "draft") {
       return;
     }
-    return history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
+    return history.replace({
+      pathname: replaceStr(BOARD_DASHBOARD, ":boardId", board?._id),
+      state: {
+        board: board,
+      },
+    });
   };
 
   const viewBoard = (
@@ -375,10 +396,16 @@ const BoardList = (props: any) => {
     board: { [Key: string]: any }
   ) => {
     event.stopPropagation();
+    event.preventDefault();
     if (board?.status === "draft") {
       return;
     }
-    return history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
+    return history.replace({
+      pathname: replaceStr(BOARD_DASHBOARD, ":boardId", board?._id),
+      state: {
+        board: board,
+      },
+    });
   };
 
   return (
@@ -390,12 +417,11 @@ const BoardList = (props: any) => {
               <Grid
                 key={b?._id}
                 item
-                xl={3}
-                lg={3}
-                md={4}
+                xl={hideMenu ? 4 : 3}
+                lg={hideMenu ? 4 : 3}
+                md={hideMenu ? 4 : 4}
                 sm={6}
                 xs={12}
-                ref={lastBoard}
               >
                 <Card
                   className={`${boxMainStyle} ${cursor}`}
@@ -413,7 +439,7 @@ const BoardList = (props: any) => {
                     }
                     action={renderCardAction(b, index)}
                     title={b?.title}
-                    subheader={getCardSubHeaderText(b.updatedAt)}
+                    subheader={getCardSubHeaderText(b.createdAt)}
                   />
                   <CardContent>{renderCardContent(b, index)}</CardContent>
                   <Box my={1}>

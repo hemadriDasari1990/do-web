@@ -6,6 +6,7 @@ import { useUser, useUserLoading } from "../../../redux/state/user";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import DoLogo from "../../common/DoLogo";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
@@ -14,9 +15,6 @@ import { createUser } from "../../../redux/actions/user";
 import { emailRegex } from "../../../util/regex";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import DoLogo from "../../common/DoLogo";
-import DoAutoComplete from "../../common/DoAutoComplete";
-import { accountTypes } from "../../../util/constants";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 const Loader = React.lazy(() => import("../../Loader/components"));
@@ -52,16 +50,8 @@ const Create = () => {
     password: "",
     confirmPassword: "",
     isAgreed: false,
-    accountType: "",
   });
-  const {
-    name,
-    email,
-    password,
-    confirmPassword,
-    isAgreed,
-    accountType,
-  } = formData;
+  const { name, email, password, confirmPassword, isAgreed } = formData;
   const [apiTriggered, setApiTriggered] = useState(false);
   const [showError, setShowError] = useState(false);
 
@@ -97,7 +87,6 @@ const Create = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      accountType: "",
     });
   };
 
@@ -119,12 +108,7 @@ const Create = () => {
     if (confirmPassword.trim().length < 6) {
       return true;
     }
-    if (password.trim() !== confirmPassword.trim()) {
-      return true;
-    }
-    if (!accountType) {
-      return true;
-    }
+
     if (!isAgreed) {
       return true;
     }
@@ -149,15 +133,11 @@ const Create = () => {
     win.focus();
   };
 
-  const handleAccountType = (data: { [Key: string]: any }) => {
-    setFormData({ ...formData, accountType: data?.value });
-  };
-
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
       <Box my={5}>
-        <DoLogo justifyContent="center" />
+        <DoLogo justifyContent="center" color="primary" />
       </Box>
       <Box maxWidth={400} m="auto" className={boxStyle}>
         <Box textAlign="center">
@@ -166,7 +146,7 @@ const Create = () => {
         <TextField
           name="name"
           id="name"
-          label="Name"
+          label="Your Name"
           placeholder="Enter Full name"
           value={name}
           onChange={handleInput}
@@ -213,20 +193,6 @@ const Create = () => {
           fullWidth
           className={textFieldStyle}
         />
-        <Box mt={1.5}>
-          <DoAutoComplete
-            // defaultValue={accountTypes[0]}
-            textInputLabel="Select your account type"
-            textInputPlaceholder="Individual/Commercial"
-            optionKey="label"
-            options={accountTypes}
-            onInputChange={(e: any, data: Array<{ [Key: string]: any }>) =>
-              handleAccountType(data)
-            }
-            // customClass={dropdownInputStyle}
-          />
-        </Box>
-
         <Box mt={1} mb={2}>
           <FormControlLabel
             labelPlacement="end"

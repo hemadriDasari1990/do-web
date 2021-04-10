@@ -11,12 +11,12 @@ import {
   GET_TEAM_FAILED,
   GET_TEAM_REQUEST,
   GET_TEAM_SUCCESS,
+  SEND_INVITE_TO_TEAMS_FAILED,
+  SEND_INVITE_TO_TEAMS_REQUEST,
+  SEND_INVITE_TO_TEAMS_SUCCESS,
   UPDATE_TEAM_FAILED,
   UPDATE_TEAM_REQUEST,
   UPDATE_TEAM_SUCCESS,
-  SEND_INVITE_TO_TEAMS_REQUEST,
-  SEND_INVITE_TO_TEAMS_SUCCESS,
-  SEND_INVITE_TO_TEAMS_FAILED,
 } from "../../actions/team/types";
 
 import { Action } from "redux";
@@ -114,7 +114,8 @@ const team = (state = initialState, action: ReduxAction) => {
     case GET_TEAMS_SUCCESS:
       return {
         ...state,
-        teams: action.payload,
+        teams: action.payload?.data,
+        totalTeams: action.payload?.total[0]?.count,
         loading: false,
       };
     case SEND_INVITE_TO_TEAMS_REQUEST:

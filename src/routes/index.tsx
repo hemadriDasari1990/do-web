@@ -5,17 +5,19 @@ import { Route, Switch } from "react-router-dom";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
-import { COMMERCIAL_DASHBOARD, INDIVIDUAL_DASHBOARD } from "./config";
+import { DASHBOARD } from "./config";
+import { DRAWER_WIDTH } from "../util/constants";
+import PrivateRoute from "./PrvateRoute";
 // import { replaceStr } from "../util";
 import { useAuthenticated } from "../redux/state/common";
 import { useHistory } from "react-router";
-import { useLogin } from "../redux/state/login";
-import { COMMERCIAL, INDIVIDUAL } from "../util/constants";
+import { useParams } from "react-router";
 
 // import { useLogin } from "../redux/state/login"
 
+const Header = React.lazy(() => import("../components/Header"));
+const Footer = React.lazy(() => import("../components/Footer"));
 const Home = React.lazy(() => import("../components/Home"));
-
 const Developers = React.lazy(() => import("../components/Footer/About"));
 const Feedback = React.lazy(() => import("../components/Feedback"));
 const Careers = React.lazy(() => import("../components/Footer/Careers"));
@@ -39,13 +41,60 @@ const ResetPassword = React.lazy(
 const Retrospective = React.lazy(
   () => import("../components/Footer/Retrospective")
 );
+const Dashboard = React.lazy(() => import("../components/Dashboard"));
+const BoardDashbaord = React.lazy(() => import("../components/Board"));
+const Team = React.lazy(() => import("../components/Team"));
+const Members = React.lazy(() => import("../components/Members/Members"));
+const Notifications = React.lazy(() => import("../components/Notifications"));
+const Projects = React.lazy(() => import("../components/Project"));
+
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
     [theme.breakpoints.down("xs")]: {},
     // padding: "20px 0px",
     // minHeight: !props.authenticated ? "90vh" : "",
   }),
+  content: (props: any) => ({
+    flexGrow: 1,
+    // backgroundColor: "#f6f6f7",
+    paddingTop: 0,
+    paddingRight: theme.spacing(2),
+    paddingLeft: props.authenticated ? DRAWER_WIDTH : 0,
+    // minHeight: "90vh",
+    [theme.breakpoints.down("xs")]: {
+      // padding: theme.spacing(1),
+    },
+  }),
 }));
+
+const protectedRoutes = () => {
+  return [
+    {
+      path: routePath.DASHBOARD,
+      component: Dashboard,
+    },
+    {
+      path: routePath.PROJECTS,
+      component: Projects,
+    },
+    {
+      path: routePath.BOARDS,
+      component: BoardDashbaord,
+    },
+    {
+      path: routePath.TEAM,
+      component: Team,
+    },
+    {
+      path: routePath.MEMBERS_LIST,
+      component: Members,
+    },
+    {
+      path: routePath.NOTIFICATIONS,
+      component: Notifications,
+    },
+  ];
+};
 
 const routes = () => {
   return [
@@ -82,10 +131,6 @@ const routes = () => {
       component: Terms,
     },
     {
-      path: routePath.BOARD_DASHBOARD,
-      component: SectionDashboard,
-    },
-    {
       path: routePath.FAQ,
       component: FAQ,
     },
@@ -118,37 +163,59 @@ const routes = () => {
 
 const Routes = () => {
   const authenticated: boolean = useAuthenticated();
+  const { boardId } = useParams<{ boardId: string }>();
+
   const history = useHistory();
-  const { boxStyle } = useStyles({ authenticated });
-  const { accountType } = useLogin();
+  const { boxStyle, content } = useStyles({ authenticated });
 
   useEffect(() => {
-    if (authenticated && accountType == COMMERCIAL) {
-      history.push(COMMERCIAL_DASHBOARD);
+    if (authenticated) {
+      history.push(DASHBOARD);
     }
-    if (authenticated && accountType == INDIVIDUAL) {
-      history.push(INDIVIDUAL_DASHBOARD);
-    }
-  }, [authenticated, accountType]);
+  }, [authenticated]);
 
   const renderRoutes = () => {
     return (
       <Box className={boxStyle}>
         <Switch>
-          {routes().map((route: { [Key: string]: any }, index: number) => (
-            <Route
-              exact
-              key={"Key-" + index}
-              component={route.component}
-              path={route.path}
-            />
-          ))}
+          <Route
+            exact
+            key={"private-board"}
+            component={SectionDashboard}
+            path={routePath.BOARD_DASHBOARD}
+          />{" "}
+          // Route without header and footer
+          <React.Fragment>
+            <Header />
+            <main className={content}>
+              {protectedRoutes().map(
+                (route: { [Key: string]: any }, index: number) => (
+                  <PrivateRoute
+                    exact
+                    key={"private-" + index}
+                    component={route.component}
+                    path={route.path}
+                  />
+                )
+              )}
+            </main>
+            {routes().map((route: { [Key: string]: any }, index: number) => (
+              <Route
+                exact
+                key={"Key-" + index}
+                component={route.component}
+                path={route.path}
+              />
+            ))}
+            {!authenticated && !boardId && <Footer />}
+          </React.Fragment>
         </Switch>
+
         {/* <Redirect
           from="*"
           to={
             accountType == COMMERCIAL
-              ? COMMERCIAL_DASHBOARD
+              ? DASHBOARD
               : INDIVIDUAL_DASHBOARD
           }
         /> */}

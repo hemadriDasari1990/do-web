@@ -8,12 +8,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Routes from "./routes";
 import Typography from "@material-ui/core/Typography";
 import theme from "./theme";
-import { useAuthenticated } from "./redux/state/common";
-import { useLocation } from "react-router";
 
-const Header = React.lazy(() => import("./components/Header"));
 const ScrollTop = React.lazy(() => import("./components/ScrollTop"));
-const Footer = React.lazy(() => import("./components/Footer"));
 const DoSnackbar = React.lazy(() => import("./components/Snackbar/components"));
 
 const useStyles = makeStyles(() => ({
@@ -24,9 +20,6 @@ const useStyles = makeStyles(() => ({
 
 const App = () => {
   const { boxStyle } = useStyles();
-  const authenticated: boolean = useAuthenticated();
-  const location = useLocation();
-  const pathname: string = location.pathname;
 
   /* States */
   const [isDisconnected, setIsDisconnected] = useState(false);
@@ -59,7 +52,6 @@ const App = () => {
     <Suspense fallback={<div></div>}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
         <Box className={boxStyle}>
           <Box>
             <Routes />
@@ -77,7 +69,6 @@ const App = () => {
             </Typography>
           </DoSnackbar>
         )}
-        {!authenticated && !pathname.includes("/board") && <Footer />}
       </MuiThemeProvider>
     </Suspense>
   );

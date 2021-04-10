@@ -8,6 +8,9 @@ import {
   GET_ALL_SUMMARY_FAILED,
   GET_ALL_SUMMARY_REQUEST,
   GET_ALL_SUMMARY_SUCCESS,
+  GET_BOARDS_BY_USER_FAILED,
+  GET_BOARDS_BY_USER_REQUEST,
+  GET_BOARDS_BY_USER_SUCCESS,
   GET_USERS_FAILED,
   GET_USERS_REQUEST,
   GET_USERS_SUCCESS,
@@ -34,6 +37,7 @@ const initialState = {
   uniqueKey: "",
   loading: false,
   response: null,
+  boards: [],
 };
 
 const user = (state = initialState, action: ReduxAction) => {
@@ -158,7 +162,23 @@ const user = (state = initialState, action: ReduxAction) => {
         summary: action.payload,
         loading: false,
       };
-
+    case GET_BOARDS_BY_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_BOARDS_BY_USER_FAILED:
+      return {
+        ...state,
+        boards: action.payload,
+        loading: false,
+      };
+    case GET_BOARDS_BY_USER_SUCCESS:
+      return {
+        ...state,
+        boards: action.payload,
+        loading: false,
+      };
     default:
       return state;
   }

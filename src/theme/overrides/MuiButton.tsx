@@ -1,23 +1,36 @@
 export default {
   contained: {
-    // boxShadow: "0 5px 30px rgb(0 0 0 / 30%)",
+    boxShadow: "none",
   },
   outlined: {
     color: "#172b4d",
-    border: "2px solid #172b4d",
+    border: "unset",
     "&:hover": {
-      border: "2px solid #172b4d",
+      border: "unset",
     },
   },
   outlinedPrimary: {
     color: "#172b4d",
-    border: "2px solid #172b4d",
+    border: "unset",
     "&:hover": {
-      border: "2px solid #172b4d",
+      border: "unset",
+    },
+  },
+  outlinedSecondary: {
+    color: "#fff",
+    border: "unset",
+    "&:hover": {
+      border: "unset",
     },
   },
   containedPrimary: {
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500)",
+    "&:hover": {
+      boxShadow: "none",
+      "&$disabled": {
+        boxShadow: "none",
+      },
+    },
   },
   // containedPrimary: {
   //   width: '100%',
@@ -54,30 +67,33 @@ export default {
     appearance: "none",
     textalign: "left",
     padding: "0 24px !important",
+    backgroundColor: "#192a4d0d",
     cursor: "pointer",
     boxSizing: "border-box",
     width: "fit-content",
-    minHeight: 38,
+    minHeight: 35,
     fontWeight: 500,
     borderRadius: 6,
     outline: "none",
     position: "relative",
     zIndex: 0,
-    // boxShadow: "0 5px 30px rgb(0 0 0 / 30%)",
+    boxShadow: "none",
     "&:hover": {
-      // boxShadow: "none",
+      backgroundColor: "#192a4d0d",
       "&$disabled": {
         backgroundColor: "transparent",
       },
     },
     "&:active": {
       boxShadow: "none",
+      backgroundColor: "#192a4d0d",
       "&$disabled": {
         backgroundColor: "transparent",
       },
     },
     "&:focus": {
       boxShadow: "none",
+      backgroundColor: "#192a4d0d",
       "&$disabled": {
         backgroundColor: "transparent",
       },

@@ -2,8 +2,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Zoom from "@material-ui/core/Zoom";
 import UnderlineText from "../../common/UnderlineText";
+import Zoom from "@material-ui/core/Zoom";
 
 const Features = React.lazy(() => import("./Features"));
 const HintMessage = React.lazy(() => import("../../HintMessage"));

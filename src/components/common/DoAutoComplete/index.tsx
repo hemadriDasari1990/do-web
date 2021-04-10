@@ -3,7 +3,7 @@ import Autocomplete, {
 } from "@material-ui/lab/Autocomplete";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 
-import { FormHelperText } from "@material-ui/core";
+// import { FormHelperText } from "@material-ui/core";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
@@ -27,6 +27,7 @@ export default function DoAutoComplete(props: any) {
     defaultValue,
     textInputLabel,
     onInputChange,
+    onChange,
     multiple,
     isFreeSolo,
     // maxAllowed,
@@ -63,10 +64,7 @@ export default function DoAutoComplete(props: any) {
           const filtered = filter(options, params);
           if (isFreeSolo) {
             if (params?.inputValue !== "") {
-              filtered.push({
-                inputValue: params.inputValue,
-                title: `Add - ${params.inputValue}`,
-              });
+              filtered.push(params.inputValue);
             }
             return filtered;
           }
@@ -80,14 +78,17 @@ export default function DoAutoComplete(props: any) {
             : defaultValue
         }
         filterSelectedOptions
-        onChange={onInputChange}
+        onChange={onChange}
         renderInput={(params) => (
           <TextField
             {...params}
+            error={error}
+            helperText={error ? helperText : ""}
             label={textInputLabel}
             placeholder={textInputPlaceholder}
             disabled={disabled}
             className={customClass}
+            onChange={onInputChange}
             fullWidth
           />
         )}
@@ -95,9 +96,9 @@ export default function DoAutoComplete(props: any) {
         handleHomeEndKeys
         selectOnFocus
       />
-      {error && helperText && (
+      {/* {error && helperText && (
         <FormHelperText error={error}>{helperText}</FormHelperText>
-      )}
+      )} */}
     </div>
   );
 }
@@ -106,6 +107,7 @@ DoAutoComplete.defaultProps = {
   options: [],
   textInputLabel: "Select Item",
   onInputChange: () => {},
+  onChange: () => {},
   multiple: false,
   defaultValue: "",
   error: false,

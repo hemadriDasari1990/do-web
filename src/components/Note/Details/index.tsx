@@ -10,12 +10,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import Loader from "../../Loader/components";
+import PersonIcon from "@material-ui/icons/Person";
 import SubtitlesIcon from "@material-ui/icons/Subtitles";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import getPastTime from "../../../util/getPastTime";
-import PersonIcon from "@material-ui/icons/Person";
-import Loader from "../../Loader/components";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   defaultTab: {

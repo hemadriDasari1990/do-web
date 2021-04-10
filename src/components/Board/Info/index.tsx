@@ -1,5 +1,3 @@
-import React, { Suspense } from "react";
-
 import Activity from "../Activity";
 // import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
@@ -7,11 +5,13 @@ import Divider from "@material-ui/core/Divider";
 // import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 // import ListItemText from "@material-ui/core/ListItemText";
 import Members from "../Members";
+import React from "react";
+import Summary from "../../Reaction/Summary";
+import { Suspense } from "react";
 // import { ROOT } from "../../../routes/config";
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import Slide from "@material-ui/core/Slide";
 import Teams from "../Teams";
-
 // import Typography from "@material-ui/core/Typography";
 // import Zoom from "@material-ui/core/Zoom";
 // import { logout } from "../../../redux/actions/login";
@@ -61,8 +61,9 @@ const BoardInfo = (props: any) => {
         <Members />
         <Divider />
         <Teams />
+        <Divider />
+        <Summary />
       </Box>
-      <Divider />
     </Suspense>
   );
 };

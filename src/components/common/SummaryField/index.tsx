@@ -1,16 +1,14 @@
-import React from "react";
-
 import Box from "@material-ui/core/Box";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-
 const useStyles = makeStyles(() => ({
   titleStyle: {
     color: "#777e8c",
     fontWeight: "normal",
   },
   valueStyle: {
-    color: "#192a4d",
+    // color: "#ff6584",
   },
 }));
 
@@ -28,7 +26,7 @@ const SummaryField = (props: any) => {
         {typeof value === "object" ? (
           value
         ) : (
-          <Typography className={valueStyle} variant="h6">
+          <Typography className={valueStyle} variant="subtitle1">
             {value}
           </Typography>
         )}

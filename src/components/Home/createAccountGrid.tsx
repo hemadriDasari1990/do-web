@@ -2,11 +2,11 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import CreateAccount from "./create";
+import CreateNewTeam from "../../assets/team.svg";
+import GoodTeam from "../../assets/good-team.svg";
 import Hidden from "@material-ui/core/Hidden";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import CreateNewTeam from "../../assets/team.svg";
-import GoodTeam from "../../assets/good-team.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   titleStyle: {
@@ -36,11 +36,11 @@ const CreateAccountGrid = () => {
           </Box>
           <Box py={3}>
             <Typography variant="h3">
-              It's absolutely free to use. Get started from here
+              It's absolutely free to use. Get Started for Free from here
             </Typography>
           </Box>
           <Box>
-            <CreateAccount title="Get Started" />
+            <CreateAccount title="Get Started for Free" />
           </Box>
         </Box>
         <img src={CreateNewTeam} height="400px" width="300px" />

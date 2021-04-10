@@ -2,8 +2,8 @@ import {
   DELETE_MEMBER_REQUEST,
   GET_MEMBERS_BY_USER_REQUEST,
   GET_MEMBER_REQUEST,
-  UPDATE_MEMBER_REQUEST,
   SEND_INVITATION_REQUEST,
+  UPDATE_MEMBER_REQUEST,
 } from "./types";
 
 export const getMemberDetails = (memberId: string) => {
@@ -15,6 +15,7 @@ export const getMemberDetails = (memberId: string) => {
 
 export const getMembersByUser = (
   userId: string,
+  status: string,
   queryString: string,
   page: number,
   size: number
@@ -22,6 +23,7 @@ export const getMembersByUser = (
   return {
     type: GET_MEMBERS_BY_USER_REQUEST,
     id: userId,
+    status,
     queryString,
     page,
     size,

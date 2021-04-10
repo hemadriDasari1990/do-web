@@ -1,23 +1,21 @@
 import {
   DELETE_PROJECT,
-  GET_PROJECT_DETAILS,
+  GET_PROJECTS,
   UPDATE_PROJECT,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
 import { replaceStr } from "../../../util";
 
-export const getProjectDetails = (
-  id: string,
-  limit: number,
-  offset: number
+export const getProjects = (
+  userId: string,
+  queryString: string,
+  page: number,
+  size: number
 ) => {
   return API(
-    replaceStr(
-      GET_PROJECT_DETAILS + `?limit=${limit}&offset=${offset}`,
-      "{id}",
-      id
-    ),
+    GET_PROJECTS +
+      `?userId=${userId}&queryString=${queryString}&page=${page}&size=${size}`,
     {
       method: "GET",
     }

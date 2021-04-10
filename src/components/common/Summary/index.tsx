@@ -1,10 +1,6 @@
-import React from "react";
-
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
 import List from "@material-ui/core/List";
+import { Paper } from "@material-ui/core";
 // import ListItem from "@material-ui/core/ListItem";
 // import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,10 +9,12 @@ import List from "@material-ui/core/List";
 // import Avatar from "@material-ui/core/Avatar";
 // import IconButton from "@material-ui/core/IconButton";
 // import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
-
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   paperStyle: {
-    padding: 15,
+    boxShadow: "none",
   },
 }));
 

@@ -28,7 +28,7 @@ export default {
     fontWeight: 500,
     fontSize: 20,
     letterSpacing: "-0.06px",
-    lineHeight: 1.8,
+    lineHeight: 2,
     color: textPrimary,
   },
   h4: {
@@ -44,7 +44,7 @@ export default {
     fontWeight: 500,
     fontSize: 16,
     letterSpacing: "-0.05px",
-    color: textSecondary,
+    color: textPrimary,
     // marginBottom: 24,
   },
   h6: {
@@ -53,12 +53,13 @@ export default {
     fontSize: 14,
     letterSpacing: "-0.05px",
     color: textSecondary,
+    whiteSpace: "pre-line",
   },
   subtitle1: {
     fontFamily: fontFamily,
     fontSize: 14,
     letterSpacing: "-0.05px",
-    fontWeight: 400,
+    fontWeight: 600,
     color: textPrimary,
   },
   subtitle2: {
@@ -71,7 +72,7 @@ export default {
   body1: {
     fontFamily: fontFamily,
     fontSize: 18,
-    fontWeight: 500,
+    fontWeight: 400,
     letterSpacing: "-0.05px",
     color: textPrimary,
   },
@@ -80,7 +81,7 @@ export default {
     fontSize: 14,
     fontWeight: 500,
     letterSpacing: "-0.04px",
-    whiteSpace: "initial",
+    whiteSpace: "pre-line",
     color: textSecondary,
   },
   button: {
@@ -101,11 +102,14 @@ export default {
   overline: {
     fontFamily: fontFamily,
     fontSize: ".875rem",
-    fontWeight: 400,
+    fontWeight: 600,
     letterSpacing: "-0.04px",
-    whiteSpace: "initial",
+    whiteSpace: "pre-line",
     textTransform: "capitalize",
     lineHeight: 1.5,
-    color: textPrimary,
+    color: "#eaeded",
+    "&:hover": {
+      color: "#f67c1b",
+    },
   },
 };

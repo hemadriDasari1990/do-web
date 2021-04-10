@@ -1,28 +1,30 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { Suspense, useEffect, useState } from "react";
+import { deleteProject, getProjects } from "../../redux/actions/project";
+import { useProject, useProjectLoading } from "../../redux/state/project";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Caption from "../common/Caption";
+import { DASHBOARD } from "../../routes/config";
+import DoPagination from "../common/Pagination";
+import DoSearch from "../common/search";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import ListSkeleton from "../common/skeletons/list";
+import { PER_PAGE } from "../../util/constants";
+import React from "react";
 import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import { USER_DASHBOARD } from "../../routes/config";
-import { deleteProject } from "../../redux/actions/project";
 import formateNumber from "../../util/formateNumber";
-import { getDepartmentDetails } from "../../redux/actions/department";
-import { replaceStr } from "../../util";
-import { useDepartment } from "../../redux/state/department";
-import { useDepartmentLoading } from "../../redux/state/department";
+import useDebounce from "../common/useDebounce";
 import { useDispatch } from "react-redux";
-import { useProject } from "../../redux/state/project";
+import { useHistory } from "react-router";
+import { useLogin } from "../../redux/state/login";
 import useStyles from "../styles";
+import { useUser } from "../../redux/state/user";
 
 const ProjectList = React.lazy(() => import("./List"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -31,44 +33,44 @@ const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const ProjectDashboard = () => {
-  const {
-    root,
-    countStyle,
-    countTextStyle,
-    buttonStyle,
-    iconBackStyle,
-  } = useStyles();
+  const { root, buttonStyle, iconBackStyle } = useStyles();
   const dispatch = useDispatch();
-  const { project } = useProject();
-  const { departmentId } = useParams<{ departmentId: string }>();
+  const { project, projects: projectsList } = useProject();
   const history = useHistory();
-  const {
-    department,
-    projects: projectsList,
-    totalProjects: totalProjectsCount,
-  } = useDepartment();
-  const { loading } = useDepartmentLoading();
+  const { loading } = useProjectLoading();
+  const { totalProjects: totalProjectsCount, user } = useUser();
+  const { userId } = useLogin();
 
   /* React local states */
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [apiCalled, setApiCalled] = useState(false);
   const [totalProjects, setTotalProjects] = useState(totalProjectsCount);
-  const [projects, setProjects] = useState<Array<{ [Key: string]: any }>>([]);
+  const [projects, setProjects] = useState<Array<{ [Key: string]: any }>>(
+    projectsList
+  );
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [selectedProject, setSelectedProject] = useState<{
     [Key: string]: any;
   }>({});
   const [openError, setOpenError] = useState(false);
+  const [queryString, setQueryString] = useState("");
+  const [page, setPage] = useState<number>(0);
+  const debouncedValue = useDebounce(queryString, 500);
 
   /* React Hooks */
-  useEffect(() => {
+
+  const loadProjects = (pageNo: number, searchValue: string) => {
     setApiCalled(false);
-    dispatch(getDepartmentDetails(departmentId));
+    dispatch(getProjects(userId, searchValue, pageNo, PER_PAGE));
     setApiCalled(true);
-  }, []);
+  };
 
   useEffect(() => {
-    if (!loading && apiCalled && projectsList) {
+    loadProjects(page, debouncedValue);
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    if (!loading && projectsList) {
       setShowProjectForm(false);
       setProjects(projectsList);
       setTotalProjects(totalProjectsCount);
@@ -106,7 +108,7 @@ const ProjectDashboard = () => {
         setProjects(projectsList);
       } else {
         setProjects((currentProjects: Array<{ [Key: string]: any }>) =>
-          currentProjects?.length ? [currentProjects, project] : [project]
+          currentProjects?.length ? [...currentProjects, project] : [project]
         );
         setTotalProjects(totalProjects + 1);
       }
@@ -127,7 +129,7 @@ const ProjectDashboard = () => {
   };
 
   const handleBack = () => {
-    history.push(replaceStr(USER_DASHBOARD, ":userId", department?.userId));
+    history.push(DASHBOARD);
   };
 
   const handleMenu = async (
@@ -165,6 +167,10 @@ const ProjectDashboard = () => {
         </ResponsiveDialog>
       </Box>
     );
+  };
+
+  const handleInput = (value: string) => {
+    setQueryString(value);
   };
 
   const handleDelete = () => {
@@ -227,6 +233,11 @@ const ProjectDashboard = () => {
     );
   };
 
+  const handlePage = (page: number) => {
+    setPage(page);
+    loadProjects(page, "");
+  };
+
   return (
     <Suspense fallback={<ListSkeleton />}>
       {renderDeleteDialog()}
@@ -234,38 +245,36 @@ const ProjectDashboard = () => {
       <Box className={root}>
         <Box py={2}>
           <Grid container spacing={2}>
-            <Grid
-              item
-              xl={projects?.length ? 8 : 8}
-              lg={projects?.length ? 8 : 8}
-              md={projects?.length ? 6 : 6}
-              sm={12}
-              xs={12}
-            >
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               {loading ? (
                 <TitleWithCountSkeleton />
               ) : (
                 <Box display="flex">
                   <Hidden only={["xs"]}>
-                    <Typography variant="h2">{department?.title}</Typography>
+                    <Typography variant="h2">
+                      {user?.name}&nbsp;({formateNumber(totalProjects) || 0})
+                    </Typography>
                   </Hidden>
                   <Hidden only={["xl", "lg", "md", "sm"]}>
-                    <Typography variant="h4">{department?.title}</Typography>
+                    <Typography variant="h4">
+                      {user?.name}&nbsp;({formateNumber(totalProjects) || 0})
+                    </Typography>
                   </Hidden>
-                  <Tooltip arrow title="Total Projects">
-                    <Box ml={2} className={countStyle}>
-                      <Typography color="primary" className={countTextStyle}>
-                        {formateNumber(totalProjects) || 0}
-                      </Typography>
-                    </Box>
-                  </Tooltip>
-                  <Box ml={1} mt={2.2}>
+                  <Box ml={1} mt={1.9}>
                     <Caption title="Projects" />
                   </Box>
                 </Box>
               )}
             </Grid>
-            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+            <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
+              <Box mt={1}>
+                <DoSearch
+                  placeHolder="Search projects by title"
+                  handleSearch={handleInput}
+                />
+              </Box>
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
@@ -286,7 +295,7 @@ const ProjectDashboard = () => {
                       onClick={() => handleBack()}
                     >
                       <Typography color="primary" variant="subtitle1">
-                        Go Back to Departments
+                        Go Back to Dashboard
                       </Typography>
                     </Button>
                   </Box>
@@ -316,6 +325,14 @@ const ProjectDashboard = () => {
             projects={projects}
             handleMenu={handleMenu}
             setSelectedProject={setSelectedProject}
+          />
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Box></Box>
+          <DoPagination
+            handlePage={handlePage}
+            totalCount={totalProjects}
+            pageCount={PER_PAGE}
           />
         </Box>
       </Box>

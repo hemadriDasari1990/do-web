@@ -3,7 +3,6 @@ import Empty from "../../assets/empty.svg";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-
 function NoRecords(props: any) {
   const { message, hideImage } = props;
   return (

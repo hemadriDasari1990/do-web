@@ -6,7 +6,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import useStyles from "../../styles";
-
 export default function ListItemSkeleton() {
   const {
     avatarBoxStyle,

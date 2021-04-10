@@ -1,4 +1,4 @@
-import { HeaderColumn } from "../components/common/Table/types";
+import { HeaderColumn } from "../components/Team/Table/types";
 
 export const teamHeaderColumns: Array<HeaderColumn> = [
   {

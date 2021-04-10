@@ -1,14 +1,8 @@
-import React, { useEffect, Suspense, useState } from "react";
-
-import Box from "@material-ui/core/Box";
-import { getBoardDetails } from "../../redux/actions/board";
-import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
+import React, { Suspense, useEffect, useState } from "react";
 // import BoardSkeleton from "../common/skeletons/board";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
-import Typography from "@material-ui/core/Typography";
-import { useLogin } from "../../redux/state/login";
+
+import Box from "@material-ui/core/Box";
 // import Dialog from "@material-ui/core/Dialog";
 // import DialogContent from "@material-ui/core/DialogContent";
 // import DialogContentText from "@material-ui/core/DialogContentText";
@@ -16,8 +10,14 @@ import { useLogin } from "../../redux/state/login";
 // import { TransitionProps } from "@material-ui/core/transitions";
 // import DialogTitle from "@material-ui/core/DialogTitle";
 import Hidden from "@material-ui/core/Hidden";
-import Zoom from "@material-ui/core/Zoom";
 import Notify from "../../assets/notify.svg";
+import Typography from "@material-ui/core/Typography";
+import Zoom from "@material-ui/core/Zoom";
+import { getBoardDetails } from "../../redux/actions/board";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { useLogin } from "../../redux/state/login";
+import { useParams } from "react-router";
 
 const SectionList = React.lazy(() => import("./list"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));

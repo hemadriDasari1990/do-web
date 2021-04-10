@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
+import React from "react";
+import { Slide } from "@material-ui/core";
 // import Tooltip from '@material-ui/core/Tooltip'
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,21 +10,24 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   timerTextStyle: {
     color: "#0066ff",
-    top: "50%",
-    position: "relative",
-    transform: "translateY(-50%)",
+    width: "fit-content",
     textAlign: "center",
+  },
+  middleStyle: {
+    marginTop: 7,
   },
   boxStyle: {
     borderRadius: 5,
     backgroundColor: "#f7f8f9",
     height: 35,
-    width: 35,
+    minWidth: 150,
+    maxWidth: 150,
+    display: "flex",
   },
 }));
 
 const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
-  const { boxStyle, timerTextStyle } = useStyles();
+  const { boxStyle, timerTextStyle, middleStyle } = useStyles();
   const sessionStartDateTime: any = new Date(startDateTime).getTime();
   const [time, setTime] = useState({
     days: 0,
@@ -68,38 +73,71 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
   }, []);
 
   return (
-    <Box display="flex" mr={2}>
-      <Box ml={1} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h3">
-          {time?.days}
-        </Typography>
+    <Box display="flex" className={boxStyle} justifyContent="space-around">
+      {time?.days ? (
+        <Box className={middleStyle}>
+          <Slide
+            direction="down"
+            in={true}
+            timeout={3000}
+            mountOnEnter
+            unmountOnExit
+          >
+            <Typography className={timerTextStyle} variant="h5">
+              {time?.days}
+            </Typography>
+          </Slide>
+        </Box>
+      ) : null}
+      {time?.days ? (
+        <Box className={middleStyle}>
+          <Typography variant="h5">:</Typography>
+        </Box>
+      ) : null}
+      <Box className={middleStyle}>
+        <Slide
+          direction="down"
+          in={true}
+          timeout={2500}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Typography className={timerTextStyle} variant="h5">
+            {time?.hours}
+          </Typography>
+        </Slide>
       </Box>
-      <Box>
-        <Typography variant="h4"> &nbsp;days</Typography>
+      <Box className={middleStyle}>
+        <Typography variant="h5">:</Typography>
       </Box>
-      <Box ml={1} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h4">
-          {time?.hours}
-        </Typography>
+      <Box className={middleStyle}>
+        <Slide
+          direction="down"
+          in={true}
+          timeout={2000}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Typography className={timerTextStyle} variant="h5">
+            {time?.minutes}
+          </Typography>
+        </Slide>
       </Box>
-      <Box>
-        <Typography variant="h4"> &nbsp;hrs</Typography>
+      <Box className={middleStyle}>
+        <Typography variant="h5">:</Typography>
       </Box>
-      <Box ml={1} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h4">
-          {time?.minutes}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="h4"> &nbsp;mins</Typography>
-      </Box>
-      <Box mr={0.3} className={boxStyle}>
-        <Typography className={timerTextStyle} variant="h4">
-          {time?.seconds}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="h4"> &nbsp;secs</Typography>
+      <Box className={middleStyle}>
+        <Slide
+          direction="down"
+          in={true}
+          timeout={1500}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Typography className={timerTextStyle} variant="h5">
+            {time?.seconds}
+          </Typography>
+        </Slide>
       </Box>
     </Box>
   );

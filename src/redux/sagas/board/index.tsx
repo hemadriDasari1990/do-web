@@ -2,21 +2,21 @@ import {
   DELETE_BOARD_FAILED,
   DELETE_BOARD_REQUEST,
   DELETE_BOARD_SUCCESS,
+  GET_BOARDS_FAILED,
+  GET_BOARDS_REQUEST,
+  GET_BOARDS_SUCCESS,
   GET_BOARD_FAILED,
   GET_BOARD_REQUEST,
   GET_BOARD_SUCCESS,
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
-  GET_BOARDS_SUCCESS,
-  GET_BOARDS_REQUEST,
-  GET_BOARDS_FAILED,
 } from "../../actions/board/types";
 import {
   deleteBoard,
   getBoardDetails,
-  updateBoard,
   getBoards,
+  updateBoard,
 } from "../../network/board";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -40,7 +40,6 @@ function* callGetBoards(action: { [Key: string]: any }) {
   try {
     const result = yield getBoards(
       action.id,
-      action.accountType,
       action.queryString,
       action.page,
       action.size

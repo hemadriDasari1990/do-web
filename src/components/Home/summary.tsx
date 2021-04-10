@@ -14,7 +14,7 @@ import useStyles from "../styles";
 const Loader = React.lazy(() => import("../Loader/components"));
 
 const Summary = () => {
-  const { titleSecondaryStyle, iconStyle } = useStyles();
+  const { titleSecondaryStyle, iconStyle, textSecondaryColor } = useStyles();
   const dispatch = useDispatch();
   const { summary } = useUserSummary();
   const { loading } = useUserLoading();
@@ -39,7 +39,10 @@ const Summary = () => {
                 <ApartmentOutlinedIcon color="primary" className={iconStyle} />
               </Box>
               <Box>
-                <Typography variant="h1" className={titleSecondaryStyle}>
+                <Typography
+                  variant="h1"
+                  className={`${titleSecondaryStyle} ${textSecondaryColor}`}
+                >
                   {summary?.usersCount}
                 </Typography>
               </Box>
@@ -57,7 +60,10 @@ const Summary = () => {
                 />
               </Box>
               <Box>
-                <Typography variant="h1" className={titleSecondaryStyle}>
+                <Typography
+                  variant="h1"
+                  className={`${titleSecondaryStyle} ${textSecondaryColor}`}
+                >
                   {summary?.projectsCount}
                 </Typography>
               </Box>
@@ -72,7 +78,10 @@ const Summary = () => {
                 <DashboardOutlinedIcon color="primary" className={iconStyle} />
               </Box>
               <Box>
-                <Typography variant="h1" className={titleSecondaryStyle}>
+                <Typography
+                  variant="h1"
+                  className={`${titleSecondaryStyle} ${textSecondaryColor}`}
+                >
                   {summary?.boardsCount}
                 </Typography>
               </Box>

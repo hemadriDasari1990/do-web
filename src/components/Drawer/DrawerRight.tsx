@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
       // width: drawerWidth,
-      flexShrink: 0,
+      flexShrink: 1,
     },
     drawerPaper: {
-      marginTop: 60,
-      // zIndex: 999,
+      // marginTop: 60,
+
       width: drawerWidth,
       padding: 10,
       borderRadius: 6,
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerHeader: {
       // padding: theme.spacing(0, 1),
-      margin: "6px 10px",
+      margin: "10px 10px",
       // necessary for content to be below app bar
       // ...theme.mixins.toolbar,
     },

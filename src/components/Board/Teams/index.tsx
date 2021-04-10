@@ -1,5 +1,3 @@
-import React, { Suspense } from "react";
-
 import { Avatar } from "@material-ui/core";
 // import Avatar from "@material-ui/core/Avatar";
 // import Box from "@material-ui/core/Box";
@@ -9,8 +7,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ROOT } from "../../../routes/config";
+import React from "react";
 // import SettingsIcon from "@material-ui/icons/Settings";
 import Slide from "@material-ui/core/Slide";
+import { Suspense } from "react";
 // import Typography from "@material-ui/core/Typography";
 // import Zoom from "@material-ui/core/Zoom";
 import { logout } from "../../../redux/actions/login";
@@ -18,7 +18,6 @@ import socket from "../../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles/iconStyle";
-
 // import { useUser } from "../../../redux/state/user";
 
 const Teams = (props: any) => {

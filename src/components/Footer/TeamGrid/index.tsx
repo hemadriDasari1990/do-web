@@ -1,9 +1,10 @@
-import React from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+
+import CreateNewTeam from "../../../assets/team.svg";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import CreateNewTeam from "../../../assets/team.svg";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

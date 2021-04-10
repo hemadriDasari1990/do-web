@@ -15,12 +15,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   avatarStyle: {
-    background: "linear-gradient(12deg,#c724b1,#c724b1 40%,#753bbd) ",
+    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
   },
 });
 
 function FeedbackList(props: any) {
-  const { feedbacks } = props;
+  const { feedbacks, color } = props;
   const { avatarStyle } = useStyles();
   return (
     <>
@@ -28,7 +28,7 @@ function FeedbackList(props: any) {
         <Grid container spacing={2}>
           {Array.isArray(feedbacks) &&
             feedbacks.map((feedback: { [Key: string]: any }) => (
-              <Grid key={feedback._id} item xl={4} lg={4} md={6} sm={6} xs={12}>
+              <Grid key={feedback._id} item xl={4} lg={4} md={4} sm={6} xs={12}>
                 <ListItem
                   alignItems="flex-start"
                   className="b-r-15 cursor mb-10"
@@ -39,13 +39,21 @@ function FeedbackList(props: any) {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary={feedback.title}
+                    primary={
+                      <Typography
+                        component="span"
+                        variant="body1"
+                        color={color}
+                      >
+                        {feedback.title}{" "}
+                      </Typography>
+                    }
                     secondary={
                       <React.Fragment>
                         <Typography
                           component="span"
                           variant="body2"
-                          color="textPrimary"
+                          color={color}
                         >
                           {feedback.description}
                         </Typography>{" "}
@@ -55,11 +63,11 @@ function FeedbackList(props: any) {
                   <ListItemSecondaryAction>
                     {feedback.like ? (
                       <Tooltip arrow title="Likes the tool">
-                        <LikeIcon color="primary" />
+                        <LikeIcon color={color} />
                       </Tooltip>
                     ) : (
                       <Tooltip arrow title="DisLike the tool">
-                        <DisLikeIcon color="primary" />
+                        <DisLikeIcon color={color} />
                       </Tooltip>
                     )}
                   </ListItemSecondaryAction>

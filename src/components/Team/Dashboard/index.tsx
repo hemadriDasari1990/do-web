@@ -2,45 +2,40 @@ import React, { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import DoSearch from "../../common/search";
 import Grid from "@material-ui/core/Grid";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import { MEMBERS_LIST } from "../../../routes/config";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteTeam } from "../../../redux/actions/team";
+import formateNumber from "../../../util/formateNumber";
 import { getTeams } from "../../../redux/actions/team";
 import { replaceStr } from "../../../util";
-import { useDepartmentLoading } from "../../../redux/state/department";
+import useDebounce from "../../common/useDebounce";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
+import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
 import { useTeam } from "../../../redux/state/team";
 import { useUser } from "../../../redux/state/user";
 
 const TeamList = React.lazy(() => import("../List"));
-const NoRecords = React.lazy(() => import("../../NoRecords"));
 const UpdateTeam = React.lazy(() => import("../Update"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 const Loader = React.lazy(() => import("../../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 
 const TeamDashboard = () => {
-  const {
-    root,
-    countStyle,
-    countTextStyle,
-    buttonStyle,
-    iconBackStyle,
-  } = useStyles();
+  const { root, buttonStyle, iconBackStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { team, teams: teamsList } = useTeam();
   const { user } = useUser();
-  const { loading } = useDepartmentLoading();
+  const { loading } = useProjectLoading();
   const { userId } = useLogin();
 
   /* React local states */
@@ -53,11 +48,18 @@ const TeamDashboard = () => {
     [Key: string]: any;
   }>({});
   const [openError, setOpenError] = useState(false);
+  const [queryString, setQueryString] = useState("");
+  const debouncedValue = useDebounce(queryString, 500);
 
   /* React Hooks */
+
+  const loadTeams = (searchValue: string) => {
+    dispatch(getTeams(userId, searchValue, 0, 15));
+  };
+
   useEffect(() => {
-    dispatch(getTeams(userId));
-  }, []);
+    loadTeams(debouncedValue);
+  }, [debouncedValue]);
 
   useEffect(() => {
     if (teamsList) {
@@ -244,6 +246,11 @@ const TeamDashboard = () => {
       </DoSnackbar>
     );
   };
+
+  const handleSearch = (value: string) => {
+    setQueryString(value);
+  };
+
   return (
     <React.Fragment>
       {renderDeleteDialog()}
@@ -253,31 +260,29 @@ const TeamDashboard = () => {
       <Box className={root}>
         <Box py={2}>
           <Grid container spacing={2}>
-            <Grid
-              item
-              xl={teams?.length ? 8 : 8}
-              lg={teams?.length ? 8 : 8}
-              md={teams?.length ? 6 : 6}
-              sm={12}
-              xs={12}
-            >
+            <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
                 <Hidden only={["xs"]}>
-                  <Typography variant="h2">{user?.name}</Typography>
+                  <Typography variant="h2">
+                    {user?.name}&nbsp;({formateNumber(totalTeams) || 0})
+                  </Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
-                  <Typography variant="h4">{user?.name}</Typography>
+                  <Typography variant="h4">
+                    {user?.name}&nbsp;({formateNumber(totalTeams) || 0})
+                  </Typography>
                 </Hidden>
-                <Tooltip arrow title="Total Teams">
-                  <Box ml={2} className={countStyle}>
-                    <Typography color="primary" className={countTextStyle}>
-                      {totalTeams || 0}
-                    </Typography>
-                  </Box>
-                </Tooltip>
               </Box>
             </Grid>
-            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+            <Grid item xl={3} lg={3} md={3} xs={12} sm={6}>
+              <Box>
+                <DoSearch
+                  placeHolder="Search teams by name"
+                  handleSearch={handleSearch}
+                />
+              </Box>
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box display="flex" justifyContent={"flex-end"}>
                 <Hidden only={["xl", "lg", "md"]}>
                   <IconButton
@@ -303,38 +308,26 @@ const TeamDashboard = () => {
                     </Button>
                   </Box>
                 </Hidden>
-                {teams?.length ? (
-                  <Box ml={2} className={buttonStyle}>
-                    {renderCreateNewTeam()}
-                  </Box>
-                ) : null}
+                <Box ml={2} className={buttonStyle}>
+                  {renderCreateNewTeam()}
+                </Box>
               </Box>
             </Grid>
           </Grid>
         </Box>
-        {!loading && (!teams || !teams?.length) ? (
-          <Box mt={10}>
-            <NoRecords message="No Teams found! Please add" />
-            <Box mt={5} textAlign="center">
-              {renderCreateNewTeam()}
-            </Box>
-          </Box>
-        ) : null}
         <UpdateTeam
           selectedTeam={selectedTeam}
           openDialog={showTeamForm}
           handleUpdateForm={handleUpdateForm}
         />
-        {teams?.length ? (
-          <Box>
-            <TeamList
-              teams={teams}
-              handleMenu={handleMenu}
-              setSelectedTeam={setSelectedTeam}
-              handleAddMember={handleAddMember}
-            />
-          </Box>
-        ) : null}
+        <Box>
+          <TeamList
+            teams={teams}
+            handleMenu={handleMenu}
+            setSelectedTeam={setSelectedTeam}
+            handleAddMember={handleAddMember}
+          />
+        </Box>
       </Box>
     </React.Fragment>
   );

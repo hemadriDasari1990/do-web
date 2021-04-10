@@ -1,7 +1,7 @@
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import Box from "@material-ui/core/Box";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import DoTable from "../../common/Table";
+import DoTable from "../Table";
 import EditIcon from "@material-ui/icons/Edit";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -31,6 +31,8 @@ const GroupList = (props: any) => {
   /* Local state */
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [open, setOpen] = React.useState(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
   const handleTableMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -132,8 +134,21 @@ const GroupList = (props: any) => {
   };
 
   const refreshData = (queryString?: string) => {
-    console.log(queryString);
-    dispatch(getTeams(userId));
+    dispatch(getTeams(userId, queryString || "", page, rowsPerPage));
+  };
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 15));
+    setPage(0);
   };
 
   return (
@@ -148,6 +163,10 @@ const GroupList = (props: any) => {
           viewItem={viewTeam}
           handleMenu={handleTableMenu}
           handleAddMember={handleAddMember}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          page={page}
+          rowsPerPage={rowsPerPage}
         />
       </Box>
     </React.Fragment>

@@ -13,6 +13,7 @@ import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
 
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
+import { BOARDS } from "../../routes/config";
 import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -21,22 +22,29 @@ import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
+import Invite from "../common/Invite";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import { List } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import LockIcon from "@material-ui/icons/Lock";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import PauseIcon from "@material-ui/icons/Pause";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import PublicIcon from "@material-ui/icons/Public";
 import SectionsListSkeleton from "../common/skeletons/sectionsList";
 import Slide from "@material-ui/core/Slide";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import UserAvatar from "../Header/Account/userAvatar";
+import UserAvatar from "../Drawer/Account/userAvatar";
+import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
+import { addProjectToStore } from "../../redux/actions/project";
+import formateNumber from "../../util/formateNumber";
 import { getMembers } from "../../util/member";
 import { getSectionsByBoard } from "../../redux/actions/section";
 // import { deleteSection } from "../../redux/actions/section";
@@ -50,7 +58,7 @@ import { useParams } from "react-router";
 import useStyles from "../styles";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
-const UserAccount = React.lazy(() => import("../Header/Account"));
+const UserAccount = React.lazy(() => import("../Drawer/Account"));
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -114,7 +122,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   boxStyle: {
     width: "fit-content",
     borderRadius: 6,
-    backgroundColor: "#0072ff14",
+    backgroundColor: "#0072ff21",
   },
   boxTextStyle: {
     padding: "5px 15px 5px 15px",
@@ -139,25 +147,20 @@ const SectionList = () => {
     boxTextStyle,
     // sectionGridStyle,
   } = useLocalStyles();
-  const {
-    countStyle,
-    countTextStyle,
-    buttonStyle,
-    iconBackStyle,
-  } = useStyles();
+  const { buttonStyle, iconBackStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { boardId } = useParams<{ boardId: string }>();
 
   /* Redux hooks */
   const { section } = useSection();
-  const { totalSections: totalSectionCount } = useBoard();
+  const { totalSections: totalSectionCount, board } = useBoard();
   const { loading } = useLoading();
   const { loading: boardLoading } = useBoardLoading();
-  const { board } = useBoard();
   const authenticated = useAuthenticated();
   const { userId } = useLogin();
 
+  console.log("board", board);
   /* Local state */
   const [action, setAction] = useState(false);
   const [selectedSection, setSelectedSection] = useState<any>(null);
@@ -171,15 +174,16 @@ const SectionList = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [totalSections, setTotalSections] = useState(totalSectionCount);
   const [startSession, setStartSession] = useState(false);
+  const [openInviteDialog, setOpenInviteDialog] = useState(false);
+  const [openChangeVisibilityDialog, setOpenChangeVisibilityDialog] = useState(
+    false
+  );
 
   /* React Hooks */
   useEffect(() => {
     setAction(false);
     dispatch(getSectionsByBoard(boardId));
     setAction(true);
-    // return () => {
-    //   socket.off("move-note-to-section");
-    // };
   }, []);
 
   useEffect(() => {
@@ -204,13 +208,37 @@ const SectionList = () => {
         setBoardDetails(updatedBoard);
       }
     );
+
+    return () => {
+      socket.off("start-session-responsee");
+      socket.off("end-session-response");
+    };
   }, [boardDetails]);
 
   useEffect(() => {
-    if (!board?.startedAt && !board?.completedAt) {
-      setBoardDetails(board);
-    }
+    socket.on(
+      `change-visibility-response`,
+      (updated: { [Key: string]: any }) => {
+        if (!updated) {
+          return;
+        }
+        const newBoardDetails = { ...boardDetails };
+        newBoardDetails.isPrivate = updated?.isPrivate;
+        setBoardDetails(newBoardDetails);
+        setOpenChangeVisibilityDialog(false);
+      }
+    );
+    return () => {
+      socket.off("change-visibility-response");
+    };
+  }, [openChangeVisibilityDialog]);
+
+  useEffect(() => {
+    // if (!board?.startedAt && !board?.completedAt) {
+    //   setBoardDetails(board);
+    // }
     setBoardDetails(board);
+    dispatch(addProjectToStore(board?.project));
   }, [board]);
 
   useEffect(() => {
@@ -394,6 +422,34 @@ const SectionList = () => {
     );
   };
 
+  const handleInviteClose = () => {
+    setOpenInviteDialog(false);
+  };
+
+  const renderInviteMemberDialog = () => {
+    return (
+      <Invite
+        selectedBoard={boardDetails}
+        openDialog={openInviteDialog}
+        handleClose={handleInviteClose}
+      />
+    );
+  };
+
+  const handleVisibilityClose = () => {
+    setOpenChangeVisibilityDialog(false);
+  };
+
+  const renderChangeVisibilityDialog = () => {
+    return (
+      <Visibility
+        selectedBoard={boardDetails}
+        openDialog={openChangeVisibilityDialog}
+        handleClose={handleVisibilityClose}
+      />
+    );
+  };
+
   const renderDeleteDialog = useCallback(() => {
     return (
       <Box>
@@ -492,7 +548,7 @@ const SectionList = () => {
   };
 
   const handleBack = () => {
-    history.goBack();
+    history.push(BOARDS);
   };
 
   const handleStartSession = () => {
@@ -718,15 +774,12 @@ const SectionList = () => {
     }
 
     // reordering in same list
-    console.log("result", result);
     if (
       result.type === "NOTE" &&
       source.droppableId === destination.droppableId
     ) {
-      console.log("source", source, destination);
       // socket.emit("update-note-position", )
       const newSections = reorderNotesList(source, destination);
-      console.log("result", newSections);
       setSections(newSections);
       return;
     }
@@ -864,12 +917,23 @@ const SectionList = () => {
       window.navigator.vibrate(100);
     }
   };
+
+  const inviteMember = () => {
+    setOpenInviteDialog(true);
+  };
+
+  const changeVisibility = () => {
+    setOpenChangeVisibilityDialog(true);
+  };
+
   return (
     <Suspense fallback={<div />}>
       {/* <Loader enable={loading} /> */}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
       {renderEndSessionDialog()}
+      {renderInviteMemberDialog()}
+      {renderChangeVisibilityDialog()}
       {loading ? (
         <BoardHeaderSkeleton />
       ) : (
@@ -885,16 +949,10 @@ const SectionList = () => {
               <Box display="flex">
                 <Box>
                   <Typography variant="h3" style={{ color: "#071040" }}>
-                    {boardDetails?.title}
+                    {boardDetails?.title}&nbsp;(
+                    {formateNumber(totalSections) || 0})
                   </Typography>
                 </Box>
-                <Tooltip arrow title="Total Sections" placement="right">
-                  <Box ml={2} className={countStyle} style={{ marginTop: 5 }}>
-                    <Typography color="primary" className={countTextStyle}>
-                      {totalSections || 0}
-                    </Typography>
-                  </Box>
-                </Tooltip>
                 {!boardLoading && boardDetails?.teams?.length ? (
                   <Box ml={2} mt={0.5}>
                     <AvatarGroupList dataList={boardDetails?.teams} />
@@ -907,6 +965,32 @@ const SectionList = () => {
                     />
                   </Box>
                 ) : null}
+                {authenticated && (
+                  <Box ml={1} mt={0.3}>
+                    <Button
+                      color="primary"
+                      onClick={() => inviteMember()}
+                      startIcon={<PersonAddIcon />}
+                    >
+                      <Typography variant="subtitle1">Invite</Typography>
+                    </Button>
+                  </Box>
+                )}
+                {authenticated && (
+                  <Box ml={1} mt={0.3}>
+                    <Button
+                      color="primary"
+                      onClick={() => changeVisibility()}
+                      startIcon={
+                        boardDetails?.isPrivate ? <LockIcon /> : <PublicIcon />
+                      }
+                    >
+                      <Typography variant="subtitle1">
+                        {boardDetails?.isPrivate ? "Private" : "Public"}
+                      </Typography>
+                    </Button>
+                  </Box>
+                )}
               </Box>
             </Grid>
           </Slide>
@@ -953,7 +1037,7 @@ const SectionList = () => {
                 ) : null}
                 {authenticated && (
                   <Box mt={-0.5}>
-                    <UserAvatar handleAccount={handleAccount} />
+                    <UserAvatar handleAccount={handleAccount} hideName={true} />
                   </Box>
                 )}
                 <PersistentDrawerRight
@@ -1038,25 +1122,11 @@ const SectionList = () => {
                                               className={sectionHeader}
                                               variant="h3"
                                             >
-                                              {item.title}
+                                              {item.title}&nbsp;(
+                                              {formateNumber(item.totalNotes) ||
+                                                0}
+                                              )
                                             </Typography>
-                                          </Box>
-                                          <Box
-                                            className={countStyle}
-                                            style={{ marginTop: 9 }}
-                                          >
-                                            <Tooltip
-                                              arrow
-                                              title="Total Notes"
-                                              placement="right"
-                                            >
-                                              <Typography
-                                                color="primary"
-                                                className={countTextStyle}
-                                              >
-                                                {item.totalNotes || 0}
-                                              </Typography>
-                                            </Tooltip>
                                           </Box>
                                         </Box>
                                       }

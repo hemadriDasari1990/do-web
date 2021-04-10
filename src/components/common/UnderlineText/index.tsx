@@ -1,8 +1,6 @@
 import React from "react";
-
 import Typography from "@material-ui/core/Typography";
 import underlineIcon from "../../../assets/underline.svg";
-
 const UnderlineText = (props: any) => {
   const { title } = props;
 

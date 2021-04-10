@@ -1,8 +1,7 @@
-import React, { Suspense } from "react";
-
 import Box from "@material-ui/core/Box";
+import React from "react";
 import Summary from "./Summary";
-
+import { Suspense } from "react";
 const Info = (props: any) => {
   const { note } = props;
   return (

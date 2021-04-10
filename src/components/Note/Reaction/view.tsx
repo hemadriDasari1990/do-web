@@ -2,9 +2,9 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import Plus2Icon from "@material-ui/icons/ExposurePlus2";
 import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import React from "react";

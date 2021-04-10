@@ -20,6 +20,7 @@ export const UPDATE_USER = "/user";
 export const GET_USER_SUMMARY = "/user/{id}/summary";
 export const GET_ALL_SUMMARY = "/user/summary";
 export const GET_USERS = "/user/";
+export const GET_BOARDS_BY_USER = "/user/{id}/boards";
 
 /* Department Endpoints */
 export const CREATE_DEPARTMENT = "/department";
@@ -33,7 +34,7 @@ export const DELETE_TEAM = "/team/{id}";
 export const GET_TEAM_DETAILS = "/team/{id}";
 export const UPDATE_TEAM = "/team";
 export const ADD_OR_REMOVE_TEAM_MEMBER = "/team/{id}/member";
-export const GET_TEAMS = "/team?userId={id}";
+export const GET_TEAMS = "/team";
 export const SEND_INVITE_TO_TEAMS = "/team/invitation";
 
 /* Member Endpoints */
@@ -46,7 +47,7 @@ export const UPDATE_MEMBER = "/member";
 /* Project Endpoints */
 export const CREATE_PROJECT = "/project";
 export const DELETE_PROJECT = "/project/{id}";
-export const GET_PROJECT_DETAILS = "/project/{id}";
+export const GET_PROJECTS = "/project";
 export const UPDATE_PROJECT = "/project";
 
 /* Board Endpoints */
@@ -62,6 +63,10 @@ export const GET_SECTIONS_BY_BOARD = "/section/{id}";
 export const DELETE_NOTE = "/note/{id}";
 export const GET_NOTES_BY_SECTION_DETAILS = "/note/{id}";
 export const MARK_AS_READ = "/note/{id}/mark-read";
+
+/* Reaction Endpoints */
+export const GET_REACTIONS_SUMMARY_BY_BOARD = "/reactions/{boardId}/summary";
+export const GET_REACTIONS = "/reactions";
 
 /* Feedback Endpoints */
 export const CREATE_FEEDBACK = "/feedback";

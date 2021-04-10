@@ -157,7 +157,7 @@ const VerifyAccount = () => {
                     variant="contained"
                   >
                     <Typography variant="h6" color="secondary">
-                      Get started
+                      Get Started for Free
                     </Typography>
                   </Button>
                 </Box>

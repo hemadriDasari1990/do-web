@@ -1,8 +1,7 @@
-import React from "react";
 import Box from "@material-ui/core/Box";
+import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import useStyles from "./styles";
-
 export default function BoardHeaderSkeleton() {
   const { contentColor } = useStyles();
   return (
