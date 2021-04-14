@@ -268,7 +268,7 @@ const DoTable = (props: TableProps & any) => {
                       )}
                     </AvatarGroup>
                   ) : (
-                    "No Team"
+                    "0 Teams"
                   )}
                 </TableCell>
                 <TableCell

@@ -20,6 +20,9 @@ import {
   GET_USER_SUMMARY_FAILED,
   GET_USER_SUMMARY_REQUEST,
   GET_USER_SUMMARY_SUCCESS,
+  UPDATE_PASSWORD_FAILED,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
@@ -32,6 +35,7 @@ import {
   getUserDetails,
   getUserSummary,
   getUsers,
+  updatePassword,
   updateUser,
 } from "../../network/user";
 import { put, takeLatest } from "redux-saga/effects";
@@ -108,9 +112,9 @@ export function* watchCreateUser() {
 
 function* callUpdateUser(action: { [Key: string]: any }) {
   try {
-    const result = yield updateUser(action.id, action.payload);
+    const result = yield updateUser(action.payload);
     const { status, data } = result;
-    if (status === 200 && data?._id) {
+    if (status === 200) {
       yield put({ type: UPDATE_USER_SUCCESS, payload: data });
     }
   } catch (err) {
@@ -123,6 +127,25 @@ function* callUpdateUser(action: { [Key: string]: any }) {
 
 export function* watchUpdateUser() {
   yield takeLatest(UPDATE_USER_REQUEST, callUpdateUser);
+}
+
+function* callUpdatePassword(action: { [Key: string]: any }) {
+  try {
+    const result = yield updatePassword(action.payload);
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: UPDATE_PASSWORD_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: UPDATE_PASSWORD_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchUpdatePassword() {
+  yield takeLatest(UPDATE_PASSWORD_REQUEST, callUpdatePassword);
 }
 
 function* callDeleteUser(action: { [Key: string]: any }) {

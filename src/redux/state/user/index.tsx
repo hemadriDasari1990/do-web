@@ -10,6 +10,7 @@ export function useUser() {
     totalMembers: state.user.response?.totalMembers,
     totalProjects: state.user.response?.totalProjects,
     boards: state.user?.boards,
+    userUpdated: state.user?.updated,
   }));
 }
 

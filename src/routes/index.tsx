@@ -7,7 +7,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { DASHBOARD } from "./config";
 import { DRAWER_WIDTH } from "../util/constants";
-import PrivateRoute from "./PrvateRoute";
+import PrivateRoute from "./PrivateRoute";
 // import { replaceStr } from "../util";
 import { useAuthenticated } from "../redux/state/common";
 import { useHistory } from "react-router";
@@ -47,6 +47,7 @@ const Team = React.lazy(() => import("../components/Team"));
 const Members = React.lazy(() => import("../components/Members/Members"));
 const Notifications = React.lazy(() => import("../components/Notifications"));
 const Projects = React.lazy(() => import("../components/Project"));
+const GettingStarted = React.lazy(() => import("../components/GettingStarted"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
@@ -157,6 +158,10 @@ const routes = () => {
     {
       path: routePath.RETROSPECTIVE,
       component: Retrospective,
+    },
+    {
+      path: routePath.GETTING_STARTED,
+      component: GettingStarted,
     },
   ];
 };

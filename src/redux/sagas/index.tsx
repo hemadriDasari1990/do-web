@@ -8,6 +8,11 @@ import {
 } from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
+  watchCreateSecurityQuestionAnswer,
+  watchGetSecurityQuestions,
+  watchVerifySecurityQuestionAnswer,
+} from "./securityQuestion";
+import {
   watchCreateUser,
   watchDeleteUser,
   watchGetAllSummary,
@@ -15,6 +20,7 @@ import {
   watchGetUserDetails,
   watchGetUserSummary,
   watchGetUsers,
+  watchUpdatePassword,
   watchUpdateUser,
 } from "./user";
 import {
@@ -43,7 +49,12 @@ import {
   watchValidateForgotPassword,
   watchVerifyToken,
 } from "./login";
-import { watchGetReactions, watchGetReactionsSummaryByBoard } from "./reaction";
+import {
+  watchGetReactions,
+  watchGetReactionsSummaryByBoard,
+  watchGetReactionsSummaryByNote,
+  watchGetReactionsSummaryBySection,
+} from "./reaction";
 
 import { fork } from "redux-saga/effects";
 import { watchGetSectionsByBoard } from "./section";
@@ -67,6 +78,7 @@ function* rootSaga() {
   yield fork(watchGetUsers);
   yield fork(watchGetAllSummary);
   yield fork(watchGetBoardsByUser);
+  yield fork(watchUpdatePassword);
 
   /* Project sagas */
   yield fork(watchGetProjects);
@@ -99,10 +111,17 @@ function* rootSaga() {
   /* Reaction sagas */
   yield fork(watchGetReactionsSummaryByBoard);
   yield fork(watchGetReactions);
+  yield fork(watchGetReactionsSummaryBySection);
+  yield fork(watchGetReactionsSummaryByNote);
 
   /* Feedback sagas */
   yield fork(watchCreateFeedback);
   yield fork(watchGetFeedbacks);
+
+  /* Security Question sagas */
+  yield fork(watchCreateSecurityQuestionAnswer);
+  yield fork(watchGetSecurityQuestions);
+  yield fork(watchVerifySecurityQuestionAnswer);
 }
 
 export default rootSaga;

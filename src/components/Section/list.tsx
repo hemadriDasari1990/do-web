@@ -9,16 +9,22 @@ import {
 } from "react-beautiful-dnd";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+// import { deleteSection } from "../../redux/actions/section";
+import { getDownloadFile, reorder, replaceStr } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
 
+import API from "../../network";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import { BOARDS } from "../../routes/config";
 import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import { DOWNLOAD_BOARD_REPORT } from "../../network/endpoints";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
+import ExcelIcon from "../../assets/excel.svg";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -34,27 +40,26 @@ import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import PauseIcon from "@material-ui/icons/Pause";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import PieChartOutlinedIcon from "@material-ui/icons/PieChartOutlined";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PublicIcon from "@material-ui/icons/Public";
+import ReactionSummaryDialog from "./Reaction";
 import SectionsListSkeleton from "../common/skeletons/sectionsList";
 import Slide from "@material-ui/core/Slide";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import UserAvatar from "../Drawer/Account/userAvatar";
 import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
 import formateNumber from "../../util/formateNumber";
 import { getMembers } from "../../util/member";
 import { getSectionsByBoard } from "../../redux/actions/section";
-// import { deleteSection } from "../../redux/actions/section";
-import { reorder } from "../../util";
-import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
+import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
@@ -151,6 +156,7 @@ const SectionList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { boardId } = useParams<{ boardId: string }>();
+  const { socket } = useSocket();
 
   /* Redux hooks */
   const { section } = useSection();
@@ -160,7 +166,6 @@ const SectionList = () => {
   const authenticated = useAuthenticated();
   const { userId } = useLogin();
 
-  console.log("board", board);
   /* Local state */
   const [action, setAction] = useState(false);
   const [selectedSection, setSelectedSection] = useState<any>(null);
@@ -178,6 +183,7 @@ const SectionList = () => {
   const [openChangeVisibilityDialog, setOpenChangeVisibilityDialog] = useState(
     false
   );
+  const [openAnalytics, setOpenAnalytics] = useState(false);
 
   /* React Hooks */
   useEffect(() => {
@@ -469,8 +475,27 @@ const SectionList = () => {
     );
   }, [deleteDialog]);
 
+  const handleDialogClose = () => {
+    setOpenAnalytics(false);
+  };
+
+  const renderReactionsummaryDialog = useCallback(() => {
+    return (
+      <ReactionSummaryDialog
+        section={selectedSection}
+        handleDialogClose={handleDialogClose}
+        openDialog={openAnalytics}
+      />
+    );
+  }, [openAnalytics, selectedSection]);
+
   const handleMenuClose = () => {
     setOpen(false);
+  };
+
+  const handleViewAnalytics = (section: { [Key: string]: any }) => {
+    setOpenAnalytics(true);
+    setSelectedSection(section);
   };
 
   const renderMenu = (item: { [Key: string]: any }) => {
@@ -796,7 +821,7 @@ const SectionList = () => {
 
   const renderStartSession = useCallback(() => {
     return (
-      <Box mr={2} className={buttonStyle}>
+      <Box mr={1} className={buttonStyle}>
         <Button
           variant="outlined"
           color="default"
@@ -816,7 +841,7 @@ const SectionList = () => {
 
   const renderEndSession = useCallback(() => {
     return (
-      <Box mx={2} className={buttonStyle}>
+      <Box mx={1} className={buttonStyle}>
         <Button
           variant="outlined"
           color="default"
@@ -848,7 +873,7 @@ const SectionList = () => {
 
   const renderCreateNewSection = useCallback(() => {
     return (
-      <Box mr={2}>
+      <Box mr={1}>
         <Hidden only={["xl", "lg", "md", "sm"]}>
           <IconButton
             size="small"
@@ -860,16 +885,9 @@ const SectionList = () => {
         </Hidden>
         <Hidden only={["xs"]}>
           <Box className={buttonStyle}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddOutlinedIcon color="secondary" />}
-              onClick={() => handleCreateNewSection()}
-            >
-              <Typography color="secondary" variant="subtitle1">
-                Create New Section
-              </Typography>
-            </Button>
+            <Fab color="primary" onClick={() => handleCreateNewSection()}>
+              <AddOutlinedIcon color="primary" />
+            </Fab>
           </Box>
         </Hidden>
       </Box>
@@ -878,7 +896,7 @@ const SectionList = () => {
 
   const renderGoBackToBoards = useCallback(() => {
     return (
-      <Box mr={2}>
+      <Box mr={1}>
         <Hidden only={["xl", "lg", "md", "sm"]}>
           <IconButton
             size="small"
@@ -926,9 +944,38 @@ const SectionList = () => {
     setOpenChangeVisibilityDialog(true);
   };
 
+  const renderAnalytics = (section: { [Key: string]: any }) => {
+    return (
+      <Tooltip arrow title="View Analytics">
+        <IconButton
+          aria-label="reaction-menu"
+          size="small"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+            handleViewAnalytics(section)
+          }
+        >
+          <PieChartOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
+  const handleDownloadReport = async () => {
+    const response: any = await API(
+      replaceStr(DOWNLOAD_BOARD_REPORT, "{boardId}", boardDetails._id),
+      {
+        method: "GET",
+        credentials: "include",
+        responseType: "blob", // Important
+      }
+    );
+    await getDownloadFile(response, `boardreport.xlsx`);
+  };
+
   return (
     <Suspense fallback={<div />}>
       {/* <Loader enable={loading} /> */}
+      {renderReactionsummaryDialog()}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
       {renderEndSessionDialog()}
@@ -953,11 +1000,11 @@ const SectionList = () => {
                     {formateNumber(totalSections) || 0})
                   </Typography>
                 </Box>
-                {!boardLoading && boardDetails?.teams?.length ? (
+                {/* {!boardLoading && boardDetails?.teams?.length ? (
                   <Box ml={2} mt={0.5}>
                     <AvatarGroupList dataList={boardDetails?.teams} />
                   </Box>
-                ) : null}
+                ) : null} */}
                 {!boardLoading && boardDetails?.teams?.length ? (
                   <Box ml={2} mt={0.5}>
                     <AvatarGroupList
@@ -991,6 +1038,13 @@ const SectionList = () => {
                     </Button>
                   </Box>
                 )}
+                <Box ml={1} mt={0.3}>
+                  <Tooltip title="Export to Excel" placement="right" arrow>
+                    <Fab color="primary" onClick={() => handleDownloadReport()}>
+                      <img src={ExcelIcon} width={20} height={20} />
+                    </Fab>
+                  </Tooltip>
+                </Box>
               </Box>
             </Grid>
           </Slide>
@@ -1011,7 +1065,7 @@ const SectionList = () => {
                 {!boardLoading &&
                 boardDetails?.startedAt &&
                 boardDetails?.completedAt ? (
-                  <Box mt={0.3} mr={2}>
+                  <Box mt={0.3} mr={1}>
                     {renderDiffInDays()}
                   </Box>
                 ) : null}
@@ -1036,15 +1090,24 @@ const SectionList = () => {
                   <>{renderCreateNewSection()}</>
                 ) : null}
                 {authenticated && (
-                  <Box mt={-0.5}>
-                    <UserAvatar handleAccount={handleAccount} hideName={true} />
+                  <Box>
+                    <Button
+                      color="primary"
+                      onClick={() => handleAccount()}
+                      startIcon={<MoreHorizIcon />}
+                    >
+                      <Typography variant="subtitle1">Show Menu</Typography>
+                    </Button>
                   </Box>
                 )}
                 <PersistentDrawerRight
                   open={openAccount}
                   handleDrawerClose={handleDrawerClose}
                 >
-                  <UserAccount handleDrawerClose={handleDrawerClose} />
+                  <UserAccount
+                    handleDrawerClose={handleDrawerClose}
+                    openAccount={openAccount}
+                  />
                 </PersistentDrawerRight>
               </Box>
             </Grid>
@@ -1131,8 +1194,12 @@ const SectionList = () => {
                                         </Box>
                                       }
                                     />
+
                                     {authenticated && (
                                       <ListItemSecondaryAction>
+                                        {item.totalNotes
+                                          ? renderAnalytics(item)
+                                          : null}
                                         {renderMenuAction(item)}
                                       </ListItemSecondaryAction>
                                     )}

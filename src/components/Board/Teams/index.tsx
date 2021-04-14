@@ -14,9 +14,9 @@ import { Suspense } from "react";
 // import Typography from "@material-ui/core/Typography";
 // import Zoom from "@material-ui/core/Zoom";
 import { logout } from "../../../redux/actions/login";
-import socket from "../../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useSocket } from "../../../redux/state/socket";
 import useStyles from "../../styles/iconStyle";
 // import { useUser } from "../../../redux/state/user";
 
@@ -25,6 +25,7 @@ const Teams = (props: any) => {
   const { iconGridStyle, iconStyle } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { socket } = useSocket();
 
   const handleLogout = async () => {
     dispatch(logout());

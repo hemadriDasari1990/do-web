@@ -6,10 +6,10 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import socket from "../../socket";
 import updateSection from "../../assets/section.svg";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
+import { useSocket } from "../../redux/state/socket";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 
@@ -29,6 +29,7 @@ export default function SectionUpdate(props: any) {
   const { textfieldStyle } = useStyles();
   const { userId } = useLogin();
   const { boardId } = useParams<{ boardId: string }>();
+  const { socket } = useSocket();
 
   /* Local states */
   const [title, setTitle] = useState("");

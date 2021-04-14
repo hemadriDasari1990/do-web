@@ -17,7 +17,8 @@ import { getBoardDetails } from "../../redux/actions/board";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
+import { ROOT } from "../../routes/config";
 
 const SectionList = React.lazy(() => import("./list"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -43,6 +44,7 @@ export default function Section() {
   const { board } = useBoard();
   const { loading } = useBoardLoading();
   const { userId } = useLogin();
+  const history = useHistory();
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -62,6 +64,12 @@ export default function Section() {
       );
       setShowDialog(true);
     }
+    if (!userId && !loading && board?.isPrivate) {
+      setMessage(
+        "The board isn't public. Please request organizer to make it public"
+      );
+      setShowDialog(true);
+    }
     if (!loading && board?.status === "completed" && !userId) {
       setMessage(
         "The session has been completed. The board is on readonly mode"
@@ -72,6 +80,9 @@ export default function Section() {
 
   const handleClose = () => {
     setShowDialog(false);
+    if (board?.status !== "completed") {
+      history.push(ROOT);
+    }
   };
 
   const renderDialog = () => {

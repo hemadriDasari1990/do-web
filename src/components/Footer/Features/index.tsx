@@ -1,20 +1,20 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import AddIcon from "../../../assets/add.svg";
+import AddMemberIcon from "../../../assets/add-member.svg";
 import AnnonymousIcon from "../../../assets/annonymous.svg";
 import BoardIcon from "../../../assets/board.svg";
-// import BoardSectionIcon from "../../../assets/board-section.png";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import DepartmentIcon from "../../../assets/department.svg";
 import DragIcon from "../../../assets/drag.svg";
 import FeaturesOverview from "../../../assets/features-overview.svg";
 import Grid from "@material-ui/core/Grid";
-import ProjectIcon from "../../../assets/project.svg";
+import JoinTeamIcon from "../../../assets/join-team.svg";
+import ProjectIcon from "../../../assets/department.svg";
 import PublicDiscussionIcon from "../../../assets/public-discussion.svg";
 import React from "react";
 import ReactionsIcon from "../../../assets/reactions.svg";
-// import SecureLoginIcon from "../../../assets/secure-login.svg";
+import TeamIcon from "../../../assets/team.svg";
 import TimeManagementIcon from "../../../assets/time-management.svg";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -36,67 +36,96 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 
 export default function Features() {
   const { imageStyle } = useLocalStyles();
-  const { titleStyle } = useStyles();
+  const { titleStyle, bannerStyle } = useStyles();
 
   return (
     <React.Fragment>
-      <Container>
-        <Box>
-          <Box py={3}>
-            <Grid container spacing={2}>
-              <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
-                <Box>
-                  <Typography className={titleStyle} variant="h1">
-                    Features to help
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography className={titleStyle} variant="h1">
-                    Your team/group run
-                  </Typography>
-                </Box>
-                <Box mb={2}>
-                  <Typography className={titleStyle} variant="h1">
-                    Restrospectives differently
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="body1">
-                    Let's do retro is a free application. Yes! you heard it
-                    right it's absolutely free to use.
-                  </Typography>
-                </Box>
-                <Box mb={5}>
-                  <Typography variant="body1">
-                    The biggest difference is that its 100% free to use.
-                    Powering a productive team means using a powerful tool with
-                    great fun. From departments to projects to boards and run
-                    boards, letdoretro’s intuitive features give any team/group
-                    the ability to quickly set up and run retrospectives.
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                <Box>
-                  <Zoom in={true} timeout={2000}>
-                    <img
-                      src={FeaturesOverview}
-                      className={imageStyle}
-                      width="fit-content"
-                    />
-                  </Zoom>
-                </Box>
-              </Grid>
+      <Box py={3} className={bannerStyle}>
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
+              <Box>
+                <Typography
+                  className={titleStyle}
+                  variant="h1"
+                  color="secondary"
+                >
+                  Features to help
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                  className={titleStyle}
+                  variant="h1"
+                  color="secondary"
+                >
+                  Your team/group run
+                </Typography>
+              </Box>
+              <Box mb={2}>
+                <Typography
+                  className={titleStyle}
+                  variant="h1"
+                  color="secondary"
+                >
+                  Restrospectives differently
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="body1" color="secondary">
+                  Let's do retro is a free application. Yes! you heard it right
+                  it's absolutely free to use.
+                </Typography>
+              </Box>
+              <Box mb={5}>
+                <Typography variant="body1" color="secondary">
+                  The biggest difference is that its 100% free to use. Powering
+                  a productive team means using a powerful tool with great fun.
+                  From departments to projects to boards and run boards,
+                  letdoretro’s intuitive features give any team/group the
+                  ability to quickly set up and run retrospectives.
+                </Typography>
+              </Box>
             </Grid>
-          </Box>
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+              <Box>
+                <Zoom in={true} timeout={2000}>
+                  <img
+                    src={FeaturesOverview}
+                    className={imageStyle}
+                    width="fit-content"
+                  />
+                </Zoom>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+      <Box py={5}>
+        <Container>
           <Grid container spacing={4}>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={DepartmentIcon} />
+              <FeatureImage image={TeamIcon} />
               <FeatureContent
-                title="Create a Department"
-                description="Create unlimited departments, manage individual departments or 100's at once"
+                title="Create Team"
+                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
               />
             </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <FeatureImage image={AddMemberIcon} />
+              <FeatureContent
+                title="Create Members"
+                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
+              />
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <FeatureImage image={JoinTeamIcon} />
+              <FeatureContent
+                title="Add Members to the team"
+                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
+              />
+            </Grid>
+
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={ProjectIcon} />
               <FeatureContent
@@ -154,8 +183,8 @@ export default function Features() {
               />
             </Grid>
           </Grid>
-        </Box>
-      </Container>
+        </Container>
+      </Box>
     </React.Fragment>
   );
 }

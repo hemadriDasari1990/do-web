@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 // import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import { ROOT } from "../../../routes/config";
-import React from "react";
+import React, { useState } from "react";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Slide from "@material-ui/core/Slide";
 import { Suspense } from "react";
@@ -19,20 +19,23 @@ import { Suspense } from "react";
 // import Zoom from "@material-ui/core/Zoom";
 import { logout } from "../../../redux/actions/login";
 // import { makeStyles } from "@material-ui/core/styles";
-import socket from "../../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import useIconStyles from "../../styles/iconStyle";
+import { useSocket } from "../../../redux/state/socket";
 import useStyles from "../../styles";
+import ManageAccount from "./Manage";
 // import { useUser } from "../../../redux/state/user";
 
 const UserAccount = (props: any) => {
-  const { handleDrawerClose } = props;
+  const { handleDrawerClose, openAccount } = props;
   const { iconGridStyle, iconStyle } = useIconStyles();
   // const { name } = useUser();
   const history = useHistory();
   const dispatch = useDispatch();
   const { cursor, bottomStyle } = useStyles();
+  const { socket } = useSocket();
+  const [openManageAccount, setOpenManageAccount] = useState(false);
 
   const handleLogout = async () => {
     dispatch(logout());
@@ -43,15 +46,28 @@ const UserAccount = (props: any) => {
     history.push(ROOT);
   };
 
+  const handleManageAccount = () => {
+    // handleDrawerClose();
+    setOpenManageAccount(true);
+  };
+
+  const handleManageAccountClose = () => {
+    setOpenManageAccount(false);
+  };
+
   return (
     <Suspense fallback={<div></div>}>
       <Box>
-        <BoardInfo />
+        <BoardInfo openBoardInfo={openAccount} />
+        <ManageAccount
+          open={openManageAccount}
+          handleDrawerClose={handleManageAccountClose}
+        />
         <Box className={bottomStyle}>
           <List>
             <ListItem
               alignItems="flex-start"
-              onClick={() => handleLogout()}
+              onClick={() => handleManageAccount()}
               className={cursor}
             >
               <ListItemAvatar>

@@ -6,6 +6,7 @@ import {
   GET_USERS,
   GET_USER_DETAILS,
   GET_USER_SUMMARY,
+  UPDATE_PASSWORD,
   UPDATE_USER,
 } from "../../../network/endpoints";
 
@@ -22,8 +23,15 @@ export const createUser = (payload: { [Key: string]: any }) => {
   return API(CREATE_USER, { method: "POST", data: payload });
 };
 
-export const updateUser = (id: string, payload: { [Key: string]: any }) => {
-  return API(replaceStr(UPDATE_USER, "{id}", id), {
+export const updateUser = (payload: { [Key: string]: any }) => {
+  return API(UPDATE_USER, {
+    method: "PUT",
+    data: payload,
+  });
+};
+
+export const updatePassword = (payload: { [Key: string]: any }) => {
+  return API(UPDATE_PASSWORD, {
     method: "PUT",
     data: payload,
   });

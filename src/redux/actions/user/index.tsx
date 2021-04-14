@@ -1,4 +1,5 @@
 import {
+  CLEAR_USER_STATE,
   CREATE_USER_REQUEST,
   DELETE_USER_REQUEST,
   GET_ALL_SUMMARY_REQUEST,
@@ -6,6 +7,7 @@ import {
   GET_USERS_REQUEST,
   GET_USER_REQUEST,
   GET_USER_SUMMARY_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
   UPDATE_USER_REQUEST,
 } from "./types";
 
@@ -27,7 +29,13 @@ export const createUser = (payload: { [Key: string]: any }) => {
 export const updateUser = (payload: { [Key: string]: any }) => {
   return {
     type: UPDATE_USER_REQUEST,
-    url: `/user`,
+    payload: payload,
+  };
+};
+
+export const updatePassword = (payload: { [Key: string]: any }) => {
+  return {
+    type: UPDATE_PASSWORD_REQUEST,
     payload: payload,
   };
 };
@@ -63,5 +71,11 @@ export const getBoardsByUser = (id: string, limit: number) => {
     type: GET_BOARDS_BY_USER_REQUEST,
     id,
     limit,
+  };
+};
+
+export const clearUserState = () => {
+  return {
+    type: CLEAR_USER_STATE,
   };
 };

@@ -20,9 +20,13 @@ import {
   GET_USER_SUMMARY_FAILED,
   GET_USER_SUMMARY_REQUEST,
   GET_USER_SUMMARY_SUCCESS,
+  UPDATE_PASSWORD_FAILED,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
+  CLEAR_USER_STATE,
 } from "../../actions/user/types";
 
 import { Action } from "redux";
@@ -38,6 +42,7 @@ const initialState = {
   loading: false,
   response: null,
   boards: [],
+  updated: null,
 };
 
 const user = (state = initialState, action: ReduxAction) => {
@@ -101,13 +106,13 @@ const user = (state = initialState, action: ReduxAction) => {
     case UPDATE_USER_FAILED:
       return {
         ...state,
-        response: action.payload,
+        updated: action.payload,
         loading: false,
       };
     case UPDATE_USER_SUCCESS:
       return {
         ...state,
-        response: action.payload,
+        updated: action.payload,
         loading: false,
       };
     case GET_USER_SUMMARY_REQUEST:
@@ -179,6 +184,25 @@ const user = (state = initialState, action: ReduxAction) => {
         boards: action.payload,
         loading: false,
       };
+    case UPDATE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_PASSWORD_FAILED:
+      return {
+        ...state,
+        updated: action.payload,
+        loading: false,
+      };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        updated: action.payload,
+        loading: false,
+      };
+    case CLEAR_USER_STATE:
+      return {};
     default:
       return state;
   }

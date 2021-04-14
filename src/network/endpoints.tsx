@@ -21,6 +21,7 @@ export const GET_USER_SUMMARY = "/user/{id}/summary";
 export const GET_ALL_SUMMARY = "/user/summary";
 export const GET_USERS = "/user/";
 export const GET_BOARDS_BY_USER = "/user/{id}/boards";
+export const UPDATE_PASSWORD = "/user/update-password";
 
 /* Department Endpoints */
 export const CREATE_DEPARTMENT = "/department";
@@ -66,6 +67,9 @@ export const MARK_AS_READ = "/note/{id}/mark-read";
 
 /* Reaction Endpoints */
 export const GET_REACTIONS_SUMMARY_BY_BOARD = "/reactions/{boardId}/summary";
+export const GET_REACTIONS_SUMMARY_BY_SECTION =
+  "/reactions/{sectionId}/section-summary";
+export const GET_REACTIONS_SUMMARY_BY_NOTE = "/reactions/{noteId}/note-summary";
 export const GET_REACTIONS = "/reactions";
 
 /* Feedback Endpoints */
@@ -74,3 +78,9 @@ export const GET_FEEDBACKS = "/feedback";
 
 /* Reaction Endpoints */
 export const CREATE_OR_UPDATE_REACTION = "/react";
+
+/* Security Question */
+export const CREATE_SECURITY_QUESTION_ANSWER = "/security-question/answer";
+export const GET_SECURITY_QUESTIONS = "/security-question";
+export const VERIFY_SECURITY_QUESTION_ANSWER = "/security-question/verify";
+export const DOWNLOAD_BOARD_REPORT = "/board/{boardId}/download-report";

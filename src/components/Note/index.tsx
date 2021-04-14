@@ -14,9 +14,9 @@ import Typography from "@material-ui/core/Typography";
 import UpdateNote from "./Update";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
+import { useSocket } from "../../redux/state/socket";
 
 const NotesList = React.lazy(() => import("./list"));
 
@@ -48,14 +48,17 @@ function Note(props: any) {
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
+  const { socket } = useSocket();
 
-  const enableActions =
-    (authenticated && startSession) ||
-    (board?.status === "inprogress" &&
-      !board?.isLocked &&
-      board?.status !== "completed" &&
-      board?.status !== "draft" &&
-      board?.status !== "pending");
+  const enableActions = () => {
+    if (authenticated && (startSession || board?.startedAt)) {
+      return true;
+    }
+    if (!authenticated && board?.status === "inprogress" && !board?.isPrivate) {
+      return true;
+    }
+    return false;
+  };
 
   /* Local states */
   const [notes, setNotes] = useState(noteList || []);
@@ -65,10 +68,36 @@ function Note(props: any) {
 
   /* React Hooks */
   useEffect(() => {
-    if (notes !== noteList) {
-      setNotes(noteList);
-    }
+    setNotes(noteList);
   }, [noteList]);
+
+  // useEffect(() => {
+  //   /* Delete note */
+  //   socket.on(
+  //     `delete-note-response-${note?._id}`,
+  //     async (deleteNote: { [Key: string]: any }) => {
+  //       console.log("note", note);
+  //       await removeDeletedNote(deleteNote?._id, selectedSectionId);
+  //       await updateTotalNotes(selectedSectionId, "substract");
+  //       setNote(null);
+  //     }
+  //   );
+
+  //   /* Update note */
+  //   socket.on(
+  //     `update-note-response-${note?._id}`,
+  //     (newNote: { [Key: string]: any }) => {
+  //       setNote(null);
+  //       setShowNote(false);
+  //       updateNote(newNote, selectedSectionId);
+  //     }
+  //   );
+
+  //   return () => {
+  //     socket.off(`update-note-response-${note?._id}`);
+  //     socket.off(`delete-note-response-${note?._id}`);
+  //   };
+  // }, [notes, note]);
 
   useEffect(() => {
     /* Delete note */
@@ -91,18 +120,11 @@ function Note(props: any) {
         updateNote(newNote, selectedSectionId);
       }
     );
-
-    return () => {
-      socket.off(`update-note-response-${note?._id}`);
-      socket.off(`delete-note-response-${note?._id}`);
-    };
-  }, [notes, note]);
-
-  useEffect(() => {
     /* Add new note */
     socket.on(
       `create-note-response-${selectedSectionId}`,
       (newNote: { [Key: string]: any }) => {
+        console.log("newNote response", newNote);
         addNotes(newNote, selectedSectionId);
         setShowNote(false);
         setSelectedSectionId(null);
@@ -111,8 +133,10 @@ function Note(props: any) {
 
     return () => {
       socket.off(`create-note-response-${selectedSectionId}`);
+      socket.off(`update-note-response-${note?._id}`);
+      socket.off(`delete-note-response-${note?._id}`);
     };
-  }, [notes, selectedSectionId]);
+  });
 
   const editNote = (note: { [Key: string]: any }) => {
     if (!note) {
@@ -181,12 +205,12 @@ function Note(props: any) {
         </Grid>
       </Grid>
     );
-  }, [showNote, enableActions]);
+  }, [showNote, enableActions()]);
 
   return (
     <React.Fragment>
       {showNote ? <>{renderUpdateNote()}</> : null}
-      {!showNote && enableActions && <>{renderCreateNoteButton()}</>}
+      {!showNote && enableActions() && <>{renderCreateNoteButton()}</>}
       <Droppable
         droppableId={sectionId}
         type="NOTE"

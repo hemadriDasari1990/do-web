@@ -9,18 +9,20 @@ import { DRAWER_WIDTH } from "../../util/constants";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import DoLogoIcon from "../common/DoLogoIcon";
 import Drawer from "@material-ui/core/Drawer";
+import GettingStartedDrawer from "./Account/GettingStarted";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
+import ManageAccount from "./Account/Manage";
 import NotificationsOutlinedIcon from "@material-ui/icons/NotificationsOutlined";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import { logout } from "../../redux/actions/login";
-import socket from "../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 import { useUser } from "../../redux/state/user";
 
@@ -81,7 +83,11 @@ export default function PersistentDrawerLeft() {
   const { name } = useUser();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { socket } = useSocket();
+
   const [open, setOpen] = useState(false);
+  const [gettingStarted, setGettingStarted] = useState(false);
+  const [openManageAccount, setOpenManageAccount] = useState(false);
 
   const handleDashboard = () => {
     history.push(DASHBOARD);
@@ -109,6 +115,22 @@ export default function PersistentDrawerLeft() {
 
   const handleAccount = () => {
     setOpen(!open);
+  };
+
+  const handleManageAccount = () => {
+    setOpenManageAccount(!openManageAccount);
+  };
+
+  const handleManageAccountClose = () => {
+    setOpenManageAccount(false);
+  };
+
+  const handleGettingStarted = () => {
+    setGettingStarted(!gettingStarted);
+  };
+
+  const handleGettingStartedClose = () => {
+    setGettingStarted(false);
   };
 
   return (
@@ -177,7 +199,11 @@ export default function PersistentDrawerLeft() {
           <Box mb={2}>
             <Tooltip arrow title="Manage Account" placement="right">
               <Zoom in={true} timeout={2000}>
-                <IconButton size="medium" classes={{ root: iconButtonStyle }}>
+                <IconButton
+                  size="medium"
+                  classes={{ root: iconButtonStyle }}
+                  onClick={() => handleManageAccount()}
+                >
                   <SettingsOutlinedIcon
                     color="secondary"
                     className={iconStyle}
@@ -189,7 +215,11 @@ export default function PersistentDrawerLeft() {
           <Box mb={2}>
             <Tooltip arrow title="Help" placement="right">
               <Zoom in={true} timeout={2000}>
-                <IconButton size="medium" classes={{ root: iconButtonStyle }}>
+                <IconButton
+                  size="medium"
+                  classes={{ root: iconButtonStyle }}
+                  onClick={() => handleGettingStarted()}
+                >
                   <HelpOutlineOutlinedIcon
                     color="secondary"
                     className={iconStyle}
@@ -238,6 +268,17 @@ export default function PersistentDrawerLeft() {
       <PersistentDrawerRight open={open} handleDrawerClose={handleDrawerClose}>
         <UserAccount handleDrawerClose={handleDrawerClose} />
       </PersistentDrawerRight>
+      <ManageAccount
+        open={openManageAccount}
+        handleDrawerClose={handleManageAccountClose}
+      />
+
+      <GettingStartedDrawer
+        open={gettingStarted}
+        handleDrawerClose={handleGettingStartedClose}
+      >
+        {/* <ManageActions handleDrawerClose={handleManageAccountClose} /> */}
+      </GettingStartedDrawer>
     </React.Fragment>
   );
 }

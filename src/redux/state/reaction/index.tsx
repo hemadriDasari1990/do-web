@@ -12,3 +12,9 @@ export function useReactions() {
     totalReactions: state.reaction?.totalReactions,
   }));
 }
+
+export function useLoading() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    loading: state.reaction?.loading,
+  }));
+}

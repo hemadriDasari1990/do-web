@@ -4,7 +4,7 @@ import {
   FAQ,
   FEATURES,
   FEEDBACK,
-  GET_STARTED,
+  GETTING_STARTED,
   PRIVACY_POLICY,
   RETROSPECTIVE,
   SECURITY,
@@ -112,7 +112,7 @@ export default function Footer() {
   };
 
   const handleGetStarted = () => {
-    history.push(GET_STARTED);
+    history.push(GETTING_STARTED);
   };
 
   return (

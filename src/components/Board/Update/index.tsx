@@ -11,13 +11,13 @@ import { TEAM } from "../../../routes/config";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import socket from "../../../socket";
 import { updateBoard } from "../../../redux/actions/board";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useProject } from "../../../redux/state/project";
+import { useSocket } from "../../../redux/state/socket";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -48,7 +48,8 @@ const Update = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { project } = useProject();
-  console.log("selectedBoard", selectedBoard);
+  const { socket } = useSocket();
+
   /* Redux hooks */
   const { userId, accountType } = useLogin();
   const { loading } = useBoardLoading();

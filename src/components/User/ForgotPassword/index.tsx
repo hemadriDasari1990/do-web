@@ -94,7 +94,7 @@ const ForgotPassword = () => {
             {response?.message}
           </Typography>
         </DoSnackbar>
-        <Box textAlign="center">
+        <Box textAlign="center" py={5}>
           <Box mt={8}>
             <Zoom in={true} timeout={2000}>
               <img

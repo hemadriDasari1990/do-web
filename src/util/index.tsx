@@ -86,3 +86,14 @@ export function formatNumberWithCommas(num: number) {
   }
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
+
+export function getDownloadFile(res: any, fileName: string) {
+  const file = new Blob([res.data], {
+    type: "application/vnd.openxmlformats-officedocumment.spreadsheetml.sheet",
+  });
+  const fileUrl = URL.createObjectURL(file);
+  let tempLink = document.createElement("a");
+  tempLink.href = fileUrl;
+  tempLink.setAttribute("download", fileName);
+  tempLink.click();
+}

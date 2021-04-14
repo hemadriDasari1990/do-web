@@ -138,10 +138,11 @@ const MemberDashboard = () => {
       <Box>
         <ResponsiveDialog
           open={openDeleteDialog}
-          title="Delete Note"
+          title="Delete Member"
           pcta="Delete"
           scta="Cancel"
           handleSave={handleDelete}
+          handleSecondarySubmit={handleClose}
           handleClose={handleClose}
           maxWidth={440}
         >

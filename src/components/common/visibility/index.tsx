@@ -8,7 +8,7 @@ import PublicIcon from "@material-ui/icons/Public";
 import React from "react";
 import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
-import socket from "../../../socket";
+import { useSocket } from "../../../redux/state/socket";
 
 // import { useEffect, useState } from "react";
 
@@ -28,6 +28,7 @@ export default function Visibility(props: any) {
   const [checked, setChecked] = React.useState(
     selectedBoard?.isPrivate ? "private" : "public"
   );
+  const { socket } = useSocket();
 
   const handleToggle = (value: string) => () => {
     setChecked(value);

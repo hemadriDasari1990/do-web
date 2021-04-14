@@ -26,10 +26,10 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import getPastTime from "../../util/getPastTime";
 import { makeStyles } from "@material-ui/core/styles";
-import socket from "../../socket";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useLogin } from "../../redux/state/login";
+import { useSocket } from "../../redux/state/socket";
 
 // import { getStickyColor } from "../../util";
 // import underlineIcon from "../../assets/underline.svg";
@@ -114,6 +114,7 @@ const NoteList = (props: any) => {
   const { board } = useBoard();
   const { userId } = useLogin();
   const enableActions = !board?.isLocked || authenticated;
+  const { socket } = useSocket();
 
   /* Redux hooks */
   // const { note } = useNote();

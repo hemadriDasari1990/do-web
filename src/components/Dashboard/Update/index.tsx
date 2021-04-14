@@ -15,11 +15,11 @@ import { addProjectToStore } from "../../../redux/actions/project";
 import { getTeams } from "../../../redux/actions/team";
 // import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import { replaceStr } from "../../../util";
-import socket from "../../../socket";
 import { updateBoard } from "../../../redux/actions/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLogin } from "../../../redux/state/login";
+import { useSocket } from "../../../redux/state/socket";
 import { useTeam } from "../../../redux/state/team";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
@@ -48,6 +48,7 @@ const Update = () => {
   const { loading } = useBoardLoading();
   const { board } = useBoard();
   const history = useHistory();
+  const { socket } = useSocket();
 
   /* Local state */
   const [apiCalled, setApiCalled] = useState(false);

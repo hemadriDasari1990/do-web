@@ -8,8 +8,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import socket from "../../socket";
 import { useLogin } from "../../redux/state/login";
+import { useSocket } from "../../redux/state/socket";
 import { useState } from "react";
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
@@ -26,6 +26,7 @@ export default function NoteUpdate(props: any) {
   const { sectionId, selectedNote, handleCancel, notes } = props;
   const { textfieldStyle } = useStyles();
   const { userId } = useLogin();
+  const { socket } = useSocket();
 
   /* Local states */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({

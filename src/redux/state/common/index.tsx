@@ -6,3 +6,12 @@ export function useAuthenticated() {
   }));
   return !!authenticated;
 }
+
+export function useAction() {
+  const { action } = useSelector((state: { [Key: string]: any }) => ({
+    action: state.common.action,
+  }));
+  return {
+    action,
+  };
+}

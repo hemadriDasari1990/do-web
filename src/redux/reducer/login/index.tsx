@@ -147,7 +147,6 @@ const login = (state = initialState, action: ReduxAction) => {
 
     case LOGOUT_REQUEST:
       return {
-        ...state,
         loading: true,
       };
     case LOGOUT_SUCCESS:

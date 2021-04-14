@@ -2,12 +2,15 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
 import DoAutoComplete from "../DoAutoComplete";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { emailRegex } from "../../../util/regex";
-import socket from "../../../socket";
 import useDebounce from "../useDebounce";
+import { useSocket } from "../../../redux/state/socket";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -39,18 +42,23 @@ export default function Invite(props: any) {
     primaryButtonStyle,
     textFieldStyle,
   } = useStyles();
+  const { socket } = useSocket();
+
   /* Local states */
   const [queryString, setQueryString] = useState("");
   const [members, setMembers] = useState<Array<{ [Key: string]: any }>>([]);
   const [open, setOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<boolean>(false);
+  const [showCreateMember, setShowCreateMember] = React.useState<boolean>(
+    false
+  );
   const [fetching, setFetching] = React.useState<boolean>(false);
+  const [createMember, setCreateMember] = React.useState<boolean>(false);
   const [member, setMember] = React.useState<{ [Key: string]: any }>({
     name: "",
     email: "",
-    _id: null,
   });
-  const { _id, name, email } = member;
+  const { name, email } = member;
   const membersLoading = open && fetching;
   const debouncedValue = useDebounce(queryString, 500);
 
@@ -101,9 +109,11 @@ export default function Invite(props: any) {
       } else {
         setError(false);
         setMember({ ...member, email: newMember });
+        setShowCreateMember(true);
       }
     }
     if (typeof newMember === "object") {
+      setShowCreateMember(false);
       setMember({ ...member, ...newMember });
     }
   };
@@ -124,6 +134,10 @@ export default function Invite(props: any) {
 
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMember({ ...member, [event.target.name]: event.target.value });
+  };
+
+  const handleCreateMember = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCreateMember(!createMember);
   };
 
   return (
@@ -163,7 +177,7 @@ export default function Invite(props: any) {
         loading={membersLoading}
         customClass={dropdownInputStyle}
       />
-      {email && !_id ? (
+      {email && !member._id ? (
         <Box>
           <TextField
             name="name"
@@ -173,6 +187,22 @@ export default function Invite(props: any) {
             value={name}
             onChange={handleName}
             className={textFieldStyle}
+          />
+        </Box>
+      ) : null}
+      {showCreateMember && name?.trim()?.length ? (
+        <Box mt={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={createMember}
+                onChange={handleCreateMember}
+                value="false"
+                color="primary"
+                name="createMember"
+              />
+            }
+            label={<Typography variant="h6">Also create as member</Typography>}
           />
         </Box>
       ) : null}

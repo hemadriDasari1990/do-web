@@ -16,10 +16,9 @@ import BoardList from "../Board/List";
 // import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import { Divider } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
-// import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import Grid from "@material-ui/core/Grid";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
@@ -29,11 +28,11 @@ import Typography from "@material-ui/core/Typography";
 import UpdateBoard from "./Update";
 import WelcomeBanner from "../common/WelcomeBanner";
 import { getProjects } from "../../redux/actions/project";
-import socket from "../../socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useProject } from "../../redux/state/project";
+import { useSocket } from "../../redux/state/socket";
 
 // import Zoom from "@material-ui/core/Zoom";
 
@@ -53,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   drawerPaper: {
     // marginTop: 60,
+    zIndex: 1,
     padding: "10px 30px",
     borderRadius: 6,
     border: "none",
@@ -73,6 +73,7 @@ const Dashboard = () => {
   const { summaryGridStyle, drawer, drawerPaper } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { socket } = useSocket();
 
   // const { name } = useUser();
 
@@ -165,7 +166,7 @@ const Dashboard = () => {
                 <Summary title="Boards">
                   <SummaryItem
                     title="Total Boards"
-                    icon={DashboardIcon}
+                    icon={DashboardOutlinedIcon}
                     value={summary?.totalBoards}
                     hideAction={true}
                   />
@@ -175,7 +176,7 @@ const Dashboard = () => {
                   </Box>
                   <SummaryItem
                     title="New Boards"
-                    icon={DashboardIcon}
+                    icon={DashboardOutlinedIcon}
                     value={summary?.totalNewBoards}
                     hideAction={true}
                   />
@@ -184,7 +185,7 @@ const Dashboard = () => {
                   </Box>
                   <SummaryItem
                     title="In progress Boards"
-                    icon={DashboardIcon}
+                    icon={DashboardOutlinedIcon}
                     value={summary?.totalInProgressBoards}
                     hideAction={true}
                   />
@@ -212,7 +213,7 @@ const Dashboard = () => {
                   </Box>
                   <SummaryItem
                     title="Completed Boards"
-                    icon={DashboardIcon}
+                    icon={DashboardOutlinedIcon}
                     value={summary?.totalCompletedBoards}
                     hideAction={true}
                   />

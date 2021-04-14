@@ -7,7 +7,10 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Routes from "./routes";
 import Typography from "@material-ui/core/Typography";
+import { initiateSocketConnection } from "./socket";
+import { storeSocketInstance } from "./redux/actions/socket";
 import theme from "./theme";
+import { useDispatch } from "react-redux";
 
 const ScrollTop = React.lazy(() => import("./components/ScrollTop"));
 const DoSnackbar = React.lazy(() => import("./components/Snackbar/components"));
@@ -20,12 +23,15 @@ const useStyles = makeStyles(() => ({
 
 const App = () => {
   const { boxStyle } = useStyles();
+  const dispatch = useDispatch();
 
   /* States */
   const [isDisconnected, setIsDisconnected] = useState(false);
 
   useEffect(() => {
     handleConnectionChange();
+    const socket: any = initiateSocketConnection();
+    dispatch(storeSocketInstance(socket));
     window.addEventListener("online", handleConnectionChange);
     window.addEventListener("offline", handleConnectionChange);
 

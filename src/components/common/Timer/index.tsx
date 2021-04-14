@@ -84,7 +84,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
             unmountOnExit
           >
             <Typography className={timerTextStyle} variant="h5">
-              {time?.days}
+              {time?.days}d
             </Typography>
           </Slide>
         </Box>
@@ -103,7 +103,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
           unmountOnExit
         >
           <Typography className={timerTextStyle} variant="h5">
-            {time?.hours}
+            {time?.hours}h
           </Typography>
         </Slide>
       </Box>
@@ -119,7 +119,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
           unmountOnExit
         >
           <Typography className={timerTextStyle} variant="h5">
-            {time?.minutes}
+            {time?.minutes}m
           </Typography>
         </Slide>
       </Box>
@@ -135,7 +135,7 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
           unmountOnExit
         >
           <Typography className={timerTextStyle} variant="h5">
-            {time?.seconds}
+            {time?.seconds}s
           </Typography>
         </Slide>
       </Box>

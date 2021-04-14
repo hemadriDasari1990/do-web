@@ -1,7 +1,6 @@
 export const ROOT = "/";
 
 export const CREATE = "/create";
-export const GET_STARTED = "getting-started";
 export const DASHBOARD = "/dashboard";
 export const BOARDS = "/boards";
 export const BOARD_DASHBOARD = "/board/:boardId";
@@ -26,3 +25,8 @@ export const SECURITY = "/security";
 export const FEATURES = "/features";
 export const TEAM = "/team";
 export const RETROSPECTIVE = "/retrospective";
+export const GETTING_STARTED = "/getting-started";
+export const MANAGE_ACCOUNT = "/manage-account";
+export const SECURITY_QUESTIONS = `${DASHBOARD}${MANAGE_ACCOUNT}/security-questions`;
+export const CHANGE_EMAIL = `${DASHBOARD}${MANAGE_ACCOUNT}/change-email`;
+export const UPDATE_PASSWORD = `${DASHBOARD}${MANAGE_ACCOUNT}/update-password`;

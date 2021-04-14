@@ -1,41 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { makeFriendly, noFormatter } from "../../../util/formateNumber";
+// import { getReactionsSummaryByBoard } from "../../../redux/actions/reaction";
+// import Typography from "@material-ui/core/Typography";
+// import Zoom from "@material-ui/core/Zoom";
+// import { useDispatch } from "react-redux";
+import { useLoading, useReactionSummary } from "../../../redux/state/reaction";
 
 // import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import { PieChart } from "react-minimal-pie-chart";
 import { Suspense } from "react";
 import { Typography } from "@material-ui/core";
-import { getReactionsSummaryByBoard } from "../../../redux/actions/reaction";
-// import Typography from "@material-ui/core/Typography";
-// import Zoom from "@material-ui/core/Zoom";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useReactionSummary } from "../../../redux/state/reaction";
 import useStyles from "../../styles";
 
-const Summary = () => {
+const Summary = (props: any) => {
+  const { hideTitle } = props;
   // const { name } = useUser();
   //   const history = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const {
     minusOneIconStyle,
     plusTwoIconStyle,
     deserveIconStyle,
     loveIconStyle,
   } = useStyles();
-  const { boardId } = useParams<{ boardId: string }>();
+
   const { summary: reactionsSummary } = useReactionSummary();
+  const { loading } = useLoading();
   const [selected, setSelected] = useState<number | undefined>(0);
   const [hovered, setHovered] = useState<number | undefined>(undefined);
   const [summary, setSummary] = useState<any>(reactionsSummary);
-
-  useEffect(() => {
-    console.log("boardId", boardId);
-    if (boardId) {
-      dispatch(getReactionsSummaryByBoard(boardId));
-    }
-  }, [boardId]);
 
   useEffect(() => {
     setSummary(reactionsSummary);
@@ -94,14 +88,17 @@ const Summary = () => {
 
   return (
     <Suspense fallback={<div></div>}>
-      {summary?.totalReactions ? (
+      {!loading && summary?.totalReactions ? (
         <>
-          <Box mt={3} mb={2} textAlign="center">
-            <Typography variant="h4">
-              Total Reactions ({noFormatter(summary?.totalReactions)})
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="space-between" mt={2}>
+          {!hideTitle && (
+            <Box mb={2}>
+              <Typography variant="h4">
+                Total Reactions ({noFormatter(summary?.totalReactions)})
+              </Typography>
+            </Box>
+          )}
+
+          <Box display="flex" justifyContent="space-between">
             <Box display="flex">
               <Box height={20} width={20} className={deserveIconStyle}></Box>
               <Box ml={1}>
@@ -109,13 +106,29 @@ const Summary = () => {
               </Box>
             </Box>
             <Box display="flex">
+              <Box height={20} width={20} className={plusTwoIconStyle}></Box>
+              <Box ml={1}>
+                <Typography variant="h6">Plus One</Typography>
+              </Box>
+            </Box>
+
+            <Box display="flex">
               <Box height={20} width={20} className={loveIconStyle}></Box>
               <Box ml={1}>
                 <Typography variant="h6">Love</Typography>
               </Box>
             </Box>
           </Box>
-          <Box>
+
+          <Box display="flex" mt={2}>
+            <Box mt="18%">
+              <Box height={20} width={20} className={minusOneIconStyle}></Box>
+              <Box mt={1}>
+                <Typography variant="h6" style={{ writingMode: "vertical-rl" }}>
+                  Minus One
+                </Typography>
+              </Box>
+            </Box>
             <PieChart
               style={{ height: 200 }}
               data={getReactionSummaryData()}
@@ -145,29 +158,22 @@ const Summary = () => {
               }}
               animate
             />
-          </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Box display="flex">
+            <Box mt="18%">
               <Box height={20} width={20} className={plusTwoIconStyle}></Box>
-              <Box ml={1}>
-                <Typography variant="h6">Plus One</Typography>
-              </Box>
-            </Box>
-            <Box display="flex">
-              <Box height={20} width={20} className={minusOneIconStyle}></Box>
-              <Box ml={1}>
-                <Typography variant="h6">Minus One</Typography>
-              </Box>
-            </Box>
-            <Box display="flex">
-              <Box height={20} width={20} className={plusTwoIconStyle}></Box>
-              <Box ml={1}>
-                <Typography variant="h6">Plus Two</Typography>
+              <Box mt={1}>
+                <Typography variant="h6" style={{ writingMode: "vertical-rl" }}>
+                  Plus Two
+                </Typography>
               </Box>
             </Box>
           </Box>
         </>
       ) : null}
+      {!loading && !summary?.totalReactions && (
+        <Box textAlign="center">
+          <Typography variant="h5">Chart summary isn't available</Typography>
+        </Box>
+      )}
     </Suspense>
   );
 };
