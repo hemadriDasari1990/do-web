@@ -56,6 +56,8 @@ import {
   watchGetReactionsSummaryBySection,
 } from "./reaction";
 
+import { watchGetNotesBySection } from "./note";
+
 import { fork } from "redux-saga/effects";
 import { watchGetSectionsByBoard } from "./section";
 
@@ -122,6 +124,9 @@ function* rootSaga() {
   yield fork(watchCreateSecurityQuestionAnswer);
   yield fork(watchGetSecurityQuestions);
   yield fork(watchVerifySecurityQuestionAnswer);
+
+  /* Notes sagas */
+  yield fork(watchGetNotesBySection);
 }
 
 export default rootSaga;

@@ -114,7 +114,6 @@ const Dashboard = () => {
   const handleProjects = () => {
     history.push(PROJECTS);
   };
-  console.log("boards", boards);
   return (
     <Box pt={2} pb={2} pl={2}>
       <DoSnackbar

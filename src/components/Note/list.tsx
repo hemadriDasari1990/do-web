@@ -30,6 +30,7 @@ import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
+import { useNote } from "../../redux/state/note";
 
 // import { getStickyColor } from "../../util";
 // import underlineIcon from "../../assets/underline.svg";
@@ -95,7 +96,7 @@ const useStyles = makeStyles(() => ({
 
 const NoteList = (props: any) => {
   const {
-    notes,
+    sectionId,
     editNote,
     dropProvided,
     showNote,
@@ -115,6 +116,7 @@ const NoteList = (props: any) => {
   const { userId } = useLogin();
   const enableActions = !board?.isLocked || authenticated;
   const { socket } = useSocket();
+  const { noteList } = useNote(sectionId);
 
   /* Redux hooks */
   // const { note } = useNote();
@@ -127,15 +129,15 @@ const NoteList = (props: any) => {
     clickAwayAnchorEl,
     setClickAwayAnchorEl,
   ] = React.useState<HTMLElement | null>(null);
-  const [notesList, setNotesList] = useState(notes);
   const [open, setOpen] = React.useState(false);
   const [showDialog, setShowDialog] = React.useState(false);
+  const [notes, setNotes] = useState(noteList || []);
 
   /* React Hooks */
 
   useEffect(() => {
-    setNotesList(notes);
-  }, [notes]);
+    setNotes(noteList);
+  }, [noteList]);
 
   useEffect(() => {
     socket.on(
@@ -161,6 +163,100 @@ const NoteList = (props: any) => {
     };
   }, [selectedNote]);
 
+  useEffect(() => {
+    /* Delete note */
+    socket.on(
+      `delete-note-response-${sectionId}`,
+      (deleteNote: { [Key: string]: any }) => {
+        if (sectionId === deleteNote?.sectionId) {
+          removeDeletedNote(deleteNote);
+        }
+      }
+    );
+
+    /* Update note */
+    socket.on(
+      `update-note-response-${sectionId}`,
+      (newNote: { [Key: string]: any }) => {
+        if (sectionId === newNote?.sectionId) {
+          updateNote(newNote);
+        }
+      }
+    );
+
+    /* Add new note */
+    socket.on(
+      `create-note-response-${sectionId}`,
+      (newNote: { [Key: string]: any }) => {
+        if (sectionId === newNote?.sectionId) {
+          addNotes(newNote);
+        }
+      }
+    );
+
+    /* Add new note */
+    // socket.on(
+    //   `move-note-to-section-response`,
+    //   (newNote: { [Key: string]: any }) => {
+    //     if (sectionId === newNote?.sectionId) {
+    //       addNotes(newNote);
+    //     }
+    //   }
+    // );
+
+    return () => {
+      socket.off(`create-note-response-${sectionId}`);
+      socket.off(`update-note-response-${sectionId}`);
+      socket.off(`delete-note-response-${sectionId}`);
+    };
+  }, [notes]);
+
+  const updateNote = (updatedNote: { [Key: string]: any }) => {
+    if (!updatedNote || sectionId !== updatedNote?.sectionId) {
+      return;
+    }
+
+    const newNotes: Array<{ [Key: string]: any }> = [...notes];
+    const noteIndex: number = newNotes.findIndex(
+      (newNote: { [Key: string]: any }) => newNote._id === updatedNote._id
+    );
+    const noteData: { [Key: string]: any } = newNotes[noteIndex];
+    if (!noteData) {
+      return;
+    }
+    noteData.read = updatedNote.read;
+    noteData.description = updatedNote.description;
+    newNotes[noteIndex] = noteData;
+    setNotes(newNotes);
+  };
+
+  const addNotes = (newNote: { [Key: string]: any }) => {
+    console.log("newNote", notes, sectionId, newNote);
+    if (!newNote || sectionId !== newNote?.sectionId) {
+      return;
+    }
+
+    if (notes?.length) {
+      const newNotes = [...notes];
+      setNotes([...newNotes, newNote]);
+      return;
+    }
+    setNotes([newNote]);
+  };
+
+  const removeDeletedNote = (note: { [Key: string]: any }) => {
+    if (!note || sectionId !== note?.sectionId || !notes?.length) {
+      return;
+    }
+    let newNotes = [...notes];
+    const filteredNotes: Array<{
+      [Key: string]: any;
+    }> = newNotes.filter(
+      (item: { [Key: string]: any }) => item._id !== note?._id
+    );
+    setNotes(filteredNotes);
+  };
+
   /* Handler functions */
   // const deleteNoteById = (note: {[Key:string]: any}) => {
   //     setSelectedNote(note);
@@ -172,7 +268,7 @@ const NoteList = (props: any) => {
   };
 
   const updateTotalReactions = (newReaction: { [Key: string]: any }) => {
-    if (!notesList || !newReaction) {
+    if (!notes || !newReaction) {
       return;
     }
     const newNotes: Array<{ [Key: string]: any }> = [...notes];
@@ -326,24 +422,7 @@ const NoteList = (props: any) => {
       }
     }
     newNotes[noteIndex] = noteData;
-    setNotesList(newNotes);
-  };
-
-  const updateNote = (updatedNote: { [Key: string]: any }) => {
-    if (!updatedNote) {
-      return;
-    }
-    const newNotes: Array<{ [Key: string]: any }> = [...notesList];
-    const noteIndex: number = newNotes.findIndex(
-      (newNote: { [Key: string]: any }) => newNote._id === updatedNote._id
-    );
-    const noteData: { [Key: string]: any } = newNotes[noteIndex];
-    if (!noteData) {
-      return;
-    }
-    noteData.read = updatedNote.read;
-    newNotes[noteIndex] = noteData;
-    setNotesList(newNotes);
+    setNotes(newNotes);
   };
 
   const handleReaction = (
@@ -362,7 +441,11 @@ const NoteList = (props: any) => {
   };
 
   const handleDelete = () => {
-    socket.emit("delete-note", { id: selectedNote._id, userId: userId });
+    socket.emit(`delete-note`, {
+      id: selectedNote._id,
+      userId: userId,
+      sectionId: selectedNote?.sectionId,
+    });
     setOpenDeleteDialog(false);
   };
 
@@ -642,8 +725,8 @@ const NoteList = (props: any) => {
       {renderMenu()}
       <div ref={dropProvided?.innerRef}>
         <Grid container spacing={0}>
-          {Array.isArray(notesList) && notesList?.length
-            ? notesList.map((note: { [Key: string]: any }, index: number) => (
+          {Array.isArray(notes) && notes?.length
+            ? notes.map((note: { [Key: string]: any }, index: number) => (
                 <Draggable
                   key={note._id}
                   draggableId={note._id}
@@ -758,7 +841,7 @@ const NoteList = (props: any) => {
               ))
             : null}
         </Grid>
-        {!notesList?.length && !showNote && dropProvided?.placeholder && (
+        {!notes?.length && !showNote && dropProvided?.placeholder && (
           <Box py={2}>
             <NoRecords message="Notes are empty" hideImage={true} />
           </Box>

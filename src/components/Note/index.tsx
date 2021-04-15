@@ -17,6 +17,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useSocket } from "../../redux/state/socket";
+import { useDispatch } from "react-redux";
+import { getNotesBySectionId } from "../../redux/actions/note";
 
 const NotesList = React.lazy(() => import("./list"));
 
@@ -35,20 +37,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 function Note(props: any) {
-  const {
-    sectionId,
-    noteList,
-    updateTotalNotes,
-    startSession,
-    sectionIndex,
-    removeDeletedNote,
-    updateNote,
-    addNotes,
-  } = props;
+  const { sectionId, startSession, sectionIndex } = props;
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const { socket } = useSocket();
+  const dispatch = useDispatch();
 
   const enableActions = () => {
     if (authenticated && (startSession || board?.startedAt)) {
@@ -61,82 +55,54 @@ function Note(props: any) {
   };
 
   /* Local states */
-  const [notes, setNotes] = useState(noteList || []);
+
   const [note, setNote] = useState<any>(null);
   const [showNote, setShowNote] = useState(false);
   const [selectedSectionId, setSelectedSectionId] = useState<any>(null);
 
   /* React Hooks */
+
   useEffect(() => {
-    setNotes(noteList);
-  }, [noteList]);
+    dispatch(getNotesBySectionId(sectionId, sectionId));
+  }, [sectionId]);
 
-  // useEffect(() => {
-  //   /* Delete note */
-  //   socket.on(
-  //     `delete-note-response-${note?._id}`,
-  //     async (deleteNote: { [Key: string]: any }) => {
-  //       console.log("note", note);
-  //       await removeDeletedNote(deleteNote?._id, selectedSectionId);
-  //       await updateTotalNotes(selectedSectionId, "substract");
-  //       setNote(null);
-  //     }
-  //   );
+  useEffect(() => {
+    /* Update note */
+    socket.on(
+      `update-note-response-${sectionId}`,
+      (newNote: { [Key: string]: any }) => {
+        setNote(null);
+        setShowNote(false);
+      }
+    );
 
-  //   /* Update note */
-  //   socket.on(
-  //     `update-note-response-${note?._id}`,
-  //     (newNote: { [Key: string]: any }) => {
-  //       setNote(null);
-  //       setShowNote(false);
-  //       updateNote(newNote, selectedSectionId);
-  //     }
-  //   );
+    /* Add new note */
+    socket.on(
+      `create-note-response-${sectionId}`,
+      (newNote: { [Key: string]: any }) => {
+        if (sectionId === newNote?.sectionId) {
+          setShowNote(false);
+          setSelectedSectionId(null);
+        }
+      }
+    );
 
-  //   return () => {
-  //     socket.off(`update-note-response-${note?._id}`);
-  //     socket.off(`delete-note-response-${note?._id}`);
-  //   };
-  // }, [notes, note]);
+    return () => {};
+  }, [showNote]);
 
   useEffect(() => {
     /* Delete note */
     socket.on(
-      `delete-note-response-${note?._id}`,
-      async (deleteNote: { [Key: string]: any }) => {
-        console.log("note", note);
-        await removeDeletedNote(deleteNote?._id, selectedSectionId);
-        await updateTotalNotes(selectedSectionId, "substract");
-        setNote(null);
+      `delete-note-response-${sectionId}`,
+      (deleteNote: { [Key: string]: any }) => {
+        if (sectionId === deleteNote?.sectionId) {
+          setNote(null);
+        }
       }
     );
 
-    /* Update note */
-    socket.on(
-      `update-note-response-${note?._id}`,
-      (newNote: { [Key: string]: any }) => {
-        setNote(null);
-        setShowNote(false);
-        updateNote(newNote, selectedSectionId);
-      }
-    );
-    /* Add new note */
-    socket.on(
-      `create-note-response-${selectedSectionId}`,
-      (newNote: { [Key: string]: any }) => {
-        console.log("newNote response", newNote);
-        addNotes(newNote, selectedSectionId);
-        setShowNote(false);
-        setSelectedSectionId(null);
-      }
-    );
-
-    return () => {
-      socket.off(`create-note-response-${selectedSectionId}`);
-      socket.off(`update-note-response-${note?._id}`);
-      socket.off(`delete-note-response-${note?._id}`);
-    };
-  });
+    return () => {};
+  }, [note]);
 
   const editNote = (note: { [Key: string]: any }) => {
     if (!note) {
@@ -176,7 +142,6 @@ function Note(props: any) {
             selectedNote={note}
             sectionId={sectionId}
             handleCancel={handleCancel}
-            notes={notes}
           />
         </ClickAwayListener>
       </Box>
@@ -224,12 +189,12 @@ function Note(props: any) {
         ) => (
           <div ref={dropProvided.innerRef}>
             <NotesList
-              notes={notes}
               editNote={editNote}
               dropProvided={dropProvided}
               showNote={showNote}
               deleteNote={deleteNote}
               sectionIndex={sectionIndex}
+              sectionId={sectionId}
             />
           </div>
         )}

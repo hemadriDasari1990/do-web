@@ -58,7 +58,6 @@ const BoardInfo = (props: any) => {
   // };
 
   useEffect(() => {
-    console.log("boardId", boardId);
     if (boardId && openBoardInfo) {
       dispatch(getReactionsSummaryByBoard(boardId));
     }

@@ -193,6 +193,24 @@ const SectionList = () => {
   }, []);
 
   useEffect(() => {
+    socket.on(
+      `minus-note-count-response`,
+      (deleteNote: { [Key: string]: any }) => {
+        updateTotalNotes(deleteNote?.sectionId, "substract");
+      }
+    );
+
+    socket.on(`plus-note-count-response`, (newNote: { [Key: string]: any }) => {
+      updateTotalNotes(newNote?.sectionId, "add");
+    });
+
+    return () => {
+      socket.off(`plus-note-count-response`);
+      socket.off(`minus-note-count-response`);
+    };
+  }, [sections]);
+
+  useEffect(() => {
     /* Start session */
     socket.on(
       `start-session-response`,
@@ -307,27 +325,30 @@ const SectionList = () => {
     setOpenAccount(!openAccount);
   };
 
-  const updateTotalNotes = (sectionId: string, operation: string) => {
-    if (!sections) {
-      return;
-    }
-    const newSections: Array<{ [Key: string]: any }> = [...sections];
-    const sectionIndex: number = newSections.findIndex(
-      (newSection) => newSection._id === sectionId
-    );
-    const sectionData: { [Key: string]: any } = newSections[sectionIndex];
-    if (!sectionData) {
-      return;
-    }
-    sectionData.totalNotes =
-      operation === "add"
-        ? sectionData?.totalNotes + 1
-        : sectionData?.totalNotes >= 1
-        ? sectionData?.totalNotes - 1
-        : 0;
-    newSections[sectionIndex] = sectionData;
-    setSections(newSections);
-  };
+  const updateTotalNotes = useCallback(
+    (sectionId: string, operation: string) => {
+      if (!sections) {
+        return;
+      }
+      const newSections: Array<{ [Key: string]: any }> = [...sections];
+      const sectionIndex: number = newSections.findIndex(
+        (newSection) => newSection._id === sectionId
+      );
+      const sectionData: { [Key: string]: any } = newSections[sectionIndex];
+      if (!sectionData) {
+        return;
+      }
+      sectionData.totalNotes =
+        operation === "add"
+          ? sectionData?.totalNotes + 1
+          : sectionData?.totalNotes > 1
+          ? sectionData?.totalNotes - 1
+          : 0;
+      newSections[sectionIndex] = sectionData;
+      setSections(newSections);
+    },
+    [sections]
+  );
 
   const filterSections = (deletedSection: { [Key: string]: any }) => {
     if (!deletedSection || !sections?.length) {
@@ -619,90 +640,6 @@ const SectionList = () => {
         </Typography>
       </Box>
     );
-  };
-
-  const removeDeletedNote = (noteId: string, selectedSectionId: string) => {
-    if (!noteId || !sections?.length || !selectedSectionId) {
-      return;
-    }
-    /* Clone original sections */
-    const newSections: Array<{ [Key: string]: any }> = [...sections];
-    /* Find source section index */
-    const currentSectionIndex: number = sections.findIndex(
-      (newSection: { [Key: string]: any }) =>
-        newSection?._id === selectedSectionId
-    );
-    /* Find source notes */
-    const currentSectionNotes: Array<{ [Key: string]: any }> =
-      sections[currentSectionIndex]?.notes;
-
-    const filteredNotes: Array<{
-      [Key: string]: any;
-    }> = currentSectionNotes.filter(
-      (item: { [Key: string]: any }) => item._id !== noteId
-    );
-    newSections[currentSectionIndex].notes = filteredNotes;
-    setSections(newSections);
-  };
-
-  const updateNote = (
-    newNote: { [Key: string]: any },
-    selectedSectionId: string
-  ) => {
-    if (selectedSectionId !== newNote?.sectionId) {
-      return;
-    }
-    /* Clone original sections */
-    const newSections: Array<{ [Key: string]: any }> = [...sections];
-    /* Find source section index */
-    const currentSectionIndex: number = sections.findIndex(
-      (newSection: { [Key: string]: any }) =>
-        newSection?._id === selectedSectionId
-    );
-    /* Find source notes */
-    const currentSectionNotes: Array<{ [Key: string]: any }> =
-      sections[currentSectionIndex]?.notes;
-
-    const notesList = [...currentSectionNotes];
-    const noteIndex = notesList.findIndex(
-      (n: { [Key: string]: any }) => n._id === newNote._id
-    );
-    const noteData = currentSectionNotes[noteIndex];
-    if (noteData) {
-      noteData.description = newNote.description;
-      noteData.updatedBy = newNote.updatedBy;
-      noteData.updatedById = newNote.updatedById;
-      noteData.isAnnonymous = newNote.isAnnonymous;
-      notesList[noteIndex] = noteData;
-      newSections[currentSectionIndex].notes = notesList;
-    } else {
-      newSections[currentSectionIndex].notes = [...notesList, newNote];
-    }
-    setSections(newSections);
-  };
-
-  const addNotes = (
-    newNote: { [Key: string]: any },
-    selectedSectionId: string
-  ) => {
-    if (!newNote || selectedSectionId !== newNote?.sectionId) {
-      return;
-    }
-    /* Clone original sections */
-    const newSections: Array<{ [Key: string]: any }> = [...sections];
-    /* Find source section index */
-    const currentSectionIndex: number = sections.findIndex(
-      (newSection: { [Key: string]: any }) =>
-        newSection?._id === selectedSectionId
-    );
-    /* Find source notes */
-    const currentSectionNotes: Array<{ [Key: string]: any }> =
-      sections[currentSectionIndex]?.notes;
-
-    const notesList = [...currentSectionNotes];
-    newSections[currentSectionIndex].notes = [...notesList, newNote];
-    updateTotalNotes(selectedSectionId, "add");
-    setSections(newSections);
   };
 
   const reorderNotesList = (
@@ -1209,12 +1146,7 @@ const SectionList = () => {
                                     sectionIndex={index}
                                     startSession={startSession}
                                     key={item._id}
-                                    noteList={item.notes}
                                     sectionId={item._id}
-                                    updateTotalNotes={updateTotalNotes}
-                                    removeDeletedNote={removeDeletedNote}
-                                    updateNote={updateNote}
-                                    addNotes={addNotes}
                                   />
                                 </div>
                               </Grid>

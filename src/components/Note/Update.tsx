@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import { useState } from "react";
+// import { useDispatch } from "react-redux";
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
     "& .MuiFilledInput-root": {
@@ -23,10 +24,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function NoteUpdate(props: any) {
-  const { sectionId, selectedNote, handleCancel, notes } = props;
+  const { sectionId, selectedNote, handleCancel } = props;
   const { textfieldStyle } = useStyles();
   const { userId } = useLogin();
   const { socket } = useSocket();
+  // const dispatch = useDispatch();
 
   /* Local states */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
@@ -42,7 +44,7 @@ export default function NoteUpdate(props: any) {
 
   const saveNote = () => {
     if (selectedNote?._id) {
-      socket.emit("update-note", {
+      socket.emit(`update-note`, {
         description: description,
         sectionId,
         noteId: selectedNote?._id,
@@ -50,14 +52,14 @@ export default function NoteUpdate(props: any) {
         createdById: selectedNote?.createdById,
         ...(!isAnnonymous ? { updatedById: userId } : {}),
       });
+
       return;
     }
 
-    socket.emit("create-note", {
+    socket.emit(`create-note`, {
       description: description,
       sectionId,
       isAnnonymous: isAnnonymous,
-      position: notes?.length + 1,
       ...(!isAnnonymous
         ? { createdById: userId, updatedById: userId }
         : { createdById: null, updatedById: null }),

@@ -11,6 +11,7 @@ import securityQuestion from "./securityQuestion";
 import socket from "./socket";
 import team from "./team";
 import user from "./user";
+import note from "./note";
 
 const appReducer: any = combineReducers({
   board: board,
@@ -25,6 +26,7 @@ const appReducer: any = combineReducers({
   socket,
   securityQuestion,
   common,
+  note,
 });
 
 export default appReducer;

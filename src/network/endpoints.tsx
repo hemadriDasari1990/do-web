@@ -64,6 +64,7 @@ export const GET_SECTIONS_BY_BOARD = "/section/{id}";
 export const DELETE_NOTE = "/note/{id}";
 export const GET_NOTES_BY_SECTION_DETAILS = "/note/{id}";
 export const MARK_AS_READ = "/note/{id}/mark-read";
+export const GET_NOTES_BY_SECTION = "/note/{sectionId}";
 
 /* Reaction Endpoints */
 export const GET_REACTIONS_SUMMARY_BY_BOARD = "/reactions/{boardId}/summary";
