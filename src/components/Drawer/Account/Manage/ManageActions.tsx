@@ -1,37 +1,43 @@
-// import ActivityOutlinedIcon from "@material-ui/icons/SubjectOutlined";
-
 import Avatar from "@material-ui/core/Avatar";
+import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
-// import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
+import EditIcon from "@material-ui/icons/Edit";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 import MailOutlineOutlinedIcon from "@material-ui/icons/MailOutlineOutlined";
-// import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
+import { ROOT } from "../../../../routes/config";
 import React from "react";
-// import { useUser } from "../../../redux/state/user";
 import SecurityIcon from "@material-ui/icons/Security";
 import Slide from "@material-ui/core/Slide";
 import { Suspense } from "react";
 import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
+import Zoom from "@material-ui/core/Zoom";
+import { logout } from "../../../../redux/actions/login";
 import { storeAction } from "../../../../redux/actions/common";
 import { useDispatch } from "react-redux";
-// import Typography from "@material-ui/core/Typography";
-// import Zoom from "@material-ui/core/Zoom";
-// import { makeStyles } from "@material-ui/core/styles";
-// import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import useIconStyles from "../../../styles/iconStyle";
+import { useSocket } from "../../../../redux/state/socket";
 import useStyles from "../../../styles";
 
 const ManageActions = () => {
   const { iconGridStyle, iconStyle } = useIconStyles();
-  // const { name } = useUser();
   const dispatch = useDispatch();
-  const { cursor } = useStyles();
+  const { cursor, bottomStyle } = useStyles();
+  const { socket } = useSocket();
+  const history = useHistory();
 
   const handleItem = (action: string) => {
     dispatch(storeAction(action));
+  };
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    socket.off("login-success");
+    history.push(ROOT);
   };
 
   return (
@@ -87,6 +93,30 @@ const ManageActions = () => {
         <Divider />
         <ListItem
           alignItems="flex-start"
+          onClick={() => handleItem("change-name")}
+          className={cursor}
+        >
+          <ListItemAvatar>
+            <Slide
+              direction="right"
+              in={true}
+              timeout={1500}
+              mountOnEnter
+              unmountOnExit
+            >
+              <Avatar className={iconGridStyle} variant="square">
+                <EditIcon className={iconStyle} />
+              </Avatar>
+            </Slide>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Change Name"
+            secondary="Update your name. You can update any time"
+          />
+        </ListItem>
+        <Divider />
+        <ListItem
+          alignItems="flex-start"
           onClick={() => handleItem("security-questions")}
           className={cursor}
         >
@@ -109,6 +139,24 @@ const ManageActions = () => {
           />
         </ListItem>
       </List>
+      <Box className={bottomStyle}>
+        <List>
+          <ListItem
+            alignItems="flex-start"
+            onClick={() => handleLogout()}
+            className={cursor}
+          >
+            <ListItemAvatar>
+              <Zoom in={true} timeout={2000}>
+                <Avatar className={iconGridStyle} variant="square">
+                  <LogoutIcon className={iconStyle} />
+                </Avatar>
+              </Zoom>
+            </ListItemAvatar>
+            <ListItemText primary="Log Out" secondary="You'll be logged out" />
+          </ListItem>
+        </List>
+      </Box>
     </Suspense>
   );
 };

@@ -20,12 +20,15 @@ import {
   GET_USER_SUMMARY_FAILED,
   GET_USER_SUMMARY_REQUEST,
   GET_USER_SUMMARY_SUCCESS,
+  UPDATE_EMAIL_FAILED,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_NAME_FAILED,
+  UPDATE_NAME_REQUEST,
+  UPDATE_NAME_SUCCESS,
   UPDATE_PASSWORD_FAILED,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
-  UPDATE_USER_FAILED,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
 } from "../../actions/user/types";
 import {
   createUser,
@@ -35,8 +38,9 @@ import {
   getUserDetails,
   getUserSummary,
   getUsers,
+  updateEmail,
+  updateName,
   updatePassword,
-  updateUser,
 } from "../../network/user";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -110,23 +114,45 @@ export function* watchCreateUser() {
   yield takeLatest(CREATE_USER_REQUEST, callCreateUser);
 }
 
-function* callUpdateUser(action: { [Key: string]: any }) {
+function* callUpdateEmail(action: { [Key: string]: any }) {
   try {
-    const result = yield updateUser(action.payload);
+    const result = yield updateEmail(action.payload);
     const { status, data } = result;
     if (status === 200) {
-      yield put({ type: UPDATE_USER_SUCCESS, payload: data });
+      yield put({ type: UPDATE_EMAIL_SUCCESS, payload: data });
     }
   } catch (err) {
     yield put({
-      type: UPDATE_USER_FAILED,
+      type: UPDATE_EMAIL_FAILED,
       payload: err.response.data,
     });
   }
 }
 
-export function* watchUpdateUser() {
-  yield takeLatest(UPDATE_USER_REQUEST, callUpdateUser);
+export function* watchUpdateEmail() {
+  yield takeLatest(UPDATE_EMAIL_REQUEST, callUpdateEmail);
+}
+
+function* callUpdateName(action: { [Key: string]: any }) {
+  try {
+    const result = yield updateName(action.payload);
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({
+        type: UPDATE_NAME_SUCCESS,
+        payload: { ...data, name: action.payload?.name },
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: UPDATE_NAME_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchUpdateName() {
+  yield takeLatest(UPDATE_NAME_REQUEST, callUpdateName);
 }
 
 function* callUpdatePassword(action: { [Key: string]: any }) {

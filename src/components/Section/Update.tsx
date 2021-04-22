@@ -46,6 +46,7 @@ export default function SectionUpdate(props: any) {
   const handleUpdate = () => {
     socket.emit("update-section", {
       title: title,
+      previousTitle: selectedSection?.title,
       sectionId: selectedSection?._id,
       boardId: selectedSection?.boardId,
       userId,

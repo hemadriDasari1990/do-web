@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
 import DoPagination from "../../common/Pagination";
 import Grid from "@material-ui/core/Grid";
+import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,7 +15,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import LoveIcon from "@material-ui/icons/Favorite";
 import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import NoRecords from "../../NoRecords";
-import Plus2Icon from "@material-ui/icons/ExposurePlus2";
 import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import { REACTIONS_PER_PAGE } from "../../../util/constants";
 import React from "react";
@@ -24,34 +24,21 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import getPastTime from "../../../util/getPastTime";
 import { getReactions } from "../../../redux/actions/reaction";
-import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { useReactions } from "../../../redux/state/reaction";
 import useStyles from "../../styles";
 
-const useLocalStyles = makeStyles(() => ({
-  customBadge: {
-    top: "90%",
-    background: "unset",
-    border: "unset",
-  },
-  avatarStyle: {
-    width: 30,
-    height: 30,
-    backgroundColor: "#e8eef5",
-  },
-}));
-
 const ReactionsView = (props: any) => {
   const { note } = props;
-  const { customBadge, avatarStyle } = useLocalStyles();
   const {
-    plusTwoIconStyle,
+    highlightIconStyle,
     minusOneIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
     reactionStyle,
+    avatarStyle,
+    customBadge,
   } = useStyles();
 
   const dispatch = useDispatch();
@@ -75,9 +62,9 @@ const ReactionsView = (props: any) => {
         iconStyle = plusIconStyle;
         ReactionIcon = PlusOneIcon;
         break;
-      case "plusTwo":
-        iconStyle = plusTwoIconStyle;
-        ReactionIcon = Plus2Icon;
+      case "highlight":
+        iconStyle = highlightIconStyle;
+        ReactionIcon = HighlightIcon;
         break;
       case "deserve":
         iconStyle = deserveIconStyle;

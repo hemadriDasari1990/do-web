@@ -7,6 +7,7 @@ import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DoPagination from "../../common/Pagination";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -43,7 +44,7 @@ const Members = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const { searchRootStyle, searchIconStyle, inputStyle } = useStyles();
   const { authorBoxStyle, authorStyle } = useTableStyles();
-  const { iconBackStyle, buttonStyle } = useMainStyles();
+  const { buttonStyle } = useMainStyles();
   const { userId } = useLogin();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -183,15 +184,18 @@ const Members = () => {
           </Grid>
           <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
             <Box display="flex" justifyContent={"flex-end"}>
-              <Hidden only={["xl", "lg", "md"]}>
-                <IconButton
-                  className={iconBackStyle}
-                  onClick={() => handleBack()}
+              <Hidden only={["xl", "lg"]}>
+                <Tooltip
+                  title="Go Back To Previous Page"
+                  placement="bottom"
+                  arrow
                 >
-                  <KeyboardBackspaceOutlinedIcon color="primary" />
-                </IconButton>
+                  <Fab color="primary" onClick={() => handleBack()}>
+                    <KeyboardBackspaceOutlinedIcon color="primary" />
+                  </Fab>
+                </Tooltip>
               </Hidden>
-              <Hidden only={["xs", "sm"]}>
+              <Hidden only={["xs", "sm", "md"]}>
                 <Box className={buttonStyle}>
                   <Button
                     variant="outlined"

@@ -5,9 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   root: (props: any) => ({
-    // "& > *": {
-    //   marginTop: theme.spacing(2),
-    // },
+    background: "#fff",
     position: props.type === "modal" ? "unset" : "fixed",
     bottom: props.type === "modal" ? "unset" : 0,
     right: 0,
@@ -17,7 +15,7 @@ const useStyles = makeStyles(() => ({
     "& .Mui-selected": {
       fontWeight: 600,
       color: "#fff",
-      background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+      background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
     },
   },
 }));

@@ -20,3 +20,16 @@ export function useBoards() {
     boards: state.board?.boards,
   }));
 }
+
+export function useMenuItem() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    itemName: state.board?.itemName,
+  }));
+}
+
+export function useActivities() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    activities: state.board?.activities,
+    totalActivities: state.board?.totalActivities,
+  }));
+}

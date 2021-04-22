@@ -8,7 +8,7 @@ import useSkeletonStyle from "./styles";
 import useStyles from "../../styles";
 export default function NoteSkeleton() {
   const {
-    plusTwoIconStyle,
+    highlightIconStyle,
     minusOneIconStyle,
     loveIconStyle,
     deserveIconStyle,
@@ -49,7 +49,7 @@ export default function NoteSkeleton() {
               width={20}
               height={20}
               style={{ borderRadius: "50%" }}
-              className={plusTwoIconStyle}
+              className={highlightIconStyle}
             />
           </Box>
           <Box mr={1}>

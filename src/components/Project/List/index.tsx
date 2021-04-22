@@ -1,5 +1,4 @@
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 import AvatarGroupList from "../../common/AvatarGroupList";
 import { BOARDS } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
@@ -19,6 +18,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSkeleton from "../../common/skeletons/list";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import React from "react";
 import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import { Suspense } from "react";
@@ -31,11 +31,13 @@ import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
+import useStatusStyles from "../../styles/status";
 import useStyles from "../../styles";
 
 const ProjectList = (props: any) => {
   const { projects, handleMenu, setSelectedProject, hideMenu } = props;
-  const { cursor, avatarBoxStyle, boxMainStyle } = useStyles();
+  const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
+  const { inProgressTextStyle, inProgressStyle } = useStatusStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -273,8 +275,8 @@ const ProjectList = (props: any) => {
                 item
                 xl={hideMenu ? 4 : 3}
                 lg={hideMenu ? 4 : 3}
-                md={hideMenu ? 4 : 4}
-                sm={6}
+                md={hideMenu ? 6 : 6}
+                sm={12}
                 xs={12}
               >
                 <Card
@@ -285,8 +287,8 @@ const ProjectList = (props: any) => {
                 >
                   <CardHeader
                     avatar={
-                      <AssignmentIcon
-                        className={avatarBoxStyle}
+                      <ProjectOutlinedIcon
+                        className={`${inProgressStyle} ${inProgressTextStyle} ${avatarBoxStyle}`}
                         color="secondary"
                       />
                     }
@@ -302,34 +304,6 @@ const ProjectList = (props: any) => {
                     {renderCardActions(project, index)}
                   </CardActions>
                 </Card>
-
-                {/* <Box className={boxMainStyle}>
-                  <Box className={`${boxTopGridStyle}`}></Box>
-                  <Box className={boxGridStyle}>
-                    <Box className={iconBoxStyle}>
-                      <Box
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        p={0.5}
-                      >
-                        <AssignmentIcon
-                          className={avatarBoxStyle}
-                          color="secondary"
-                        />
-                      </Box>
-                    </Box>
-                    <Box display="flex" justifyContent="space-between">
-                      {renderCardTitle(project)}
-                      {renderCardAction(project)}
-                    </Box>
-                    <Box>
-                      <Typography component="p">
-                        {renderCardContent(project, index)}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box> */}
               </Grid>
             ))
           : null}

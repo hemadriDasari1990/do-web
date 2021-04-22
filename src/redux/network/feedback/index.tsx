@@ -2,8 +2,8 @@ import { CREATE_FEEDBACK, GET_FEEDBACKS } from "../../../network/endpoints";
 
 import API from "../../../network";
 
-export const getFeedbacks = (flag: boolean) => {
-  const queryString = flag ? `?like=${flag}` : "";
+export const getFeedbacks = (flag: boolean, limit: number) => {
+  const queryString = flag ? `?like=${flag}&limit=${limit}` : "";
   return API(GET_FEEDBACKS + queryString, { method: "GET" });
 };
 

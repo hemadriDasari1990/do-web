@@ -6,8 +6,9 @@ import {
   GET_USERS,
   GET_USER_DETAILS,
   GET_USER_SUMMARY,
+  UPDATE_EMAIL,
+  UPDATE_NAME,
   UPDATE_PASSWORD,
-  UPDATE_USER,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
@@ -23,8 +24,15 @@ export const createUser = (payload: { [Key: string]: any }) => {
   return API(CREATE_USER, { method: "POST", data: payload });
 };
 
-export const updateUser = (payload: { [Key: string]: any }) => {
-  return API(UPDATE_USER, {
+export const updateName = (payload: { [Key: string]: any }) => {
+  return API(UPDATE_NAME, {
+    method: "PUT",
+    data: payload,
+  });
+};
+
+export const updateEmail = (payload: { [Key: string]: any }) => {
+  return API(UPDATE_EMAIL, {
     method: "PUT",
     data: payload,
   });

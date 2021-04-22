@@ -55,15 +55,18 @@ const NoteDetails = (props: any) => {
             <ListItemText
               primary={
                 <React.Fragment>
-                  <Typography variant="h4">{note?.description}</Typography>
+                  <Typography variant="subtitle1">
+                    {note?.description}
+                  </Typography>
                 </React.Fragment>
               }
               secondary={
-                <React.Fragment>
-                  <Typography component="span" variant="body2">
-                    in section #{note?.section?.title}
+                <Box display="flex">
+                  <Typography variant="h6">in section &nbsp;</Typography>
+                  <Typography variant="subtitle1">
+                    #{note?.section?.title}
                   </Typography>
-                </React.Fragment>
+                </Box>
               }
             />
           </ListItem>
@@ -73,15 +76,16 @@ const NoteDetails = (props: any) => {
             </ListItemIcon>
             <ListItemText
               primary={
-                <React.Fragment>
-                  <Typography variant="h6">
-                    Created By {note?.createdBy?.name || "Team Member"}
+                <Box display="flex">
+                  <Typography variant="subtitle1">Created By &nbsp;</Typography>
+                  <Typography variant="subtitle1" style={{ color: "#57f" }}>
+                    {note?.createdBy?.name || "Team Member"}
                   </Typography>
-                </React.Fragment>
+                </Box>
               }
               secondary={
                 <React.Fragment>
-                  <Typography component="span" variant="subtitle2">
+                  <Typography variant="subtitle2">
                     {getPastTime(note?.createdAt)}
                   </Typography>
                 </React.Fragment>
@@ -94,11 +98,12 @@ const NoteDetails = (props: any) => {
             </ListItemIcon>
             <ListItemText
               primary={
-                <React.Fragment>
-                  <Typography variant="h6">
-                    Last Updated By {note?.updatedBy?.name || "Team Member"}
+                <Box display="flex">
+                  <Typography variant="subtitle1">Updated By &nbsp;</Typography>
+                  <Typography variant="subtitle1" style={{ color: "#57f" }}>
+                    {note?.updatedBy?.name || "Team Member"}
                   </Typography>
-                </React.Fragment>
+                </Box>
               }
               secondary={
                 <React.Fragment>

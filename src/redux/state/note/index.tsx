@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 
 export function useNote(sectionId: string) {
   return useSelector((state: { [Key: string]: any }) => ({
-    noteList: state?.note?.[sectionId],
+    noteList: state?.note?.[sectionId]?.data,
   }));
 }
 
-export function useLoading() {
+export function useLoading(sectionId: string) {
   return useSelector((state: { [Key: string]: any }) => ({
-    loading: state.note?.loading,
+    loading: state.note?.[sectionId]?.loading,
   }));
 }

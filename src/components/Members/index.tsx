@@ -5,12 +5,13 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { DASHBOARD } from "../../routes/config";
 import DoSearch from "../common/search";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import React from "react";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import formateNumber from "../../util/formateNumber";
 import useDebounce from "../common/useDebounce";
@@ -29,7 +30,7 @@ const Loader = React.lazy(() => import("../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const MemberDashboard = () => {
-  const { root, buttonStyle, iconBackStyle } = useStyles();
+  const { root, buttonStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { member } = useMember();
@@ -163,7 +164,7 @@ const MemberDashboard = () => {
   const renderCreateNewMember = () => {
     return (
       <>
-        <Hidden only={["xs"]}>
+        <Hidden only={["xs", "sm", "md"]}>
           <Button
             variant="contained"
             color="primary"
@@ -176,13 +177,12 @@ const MemberDashboard = () => {
           </Button>
         </Hidden>
 
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <IconButton
-            className={iconBackStyle}
-            onClick={() => handleCreateNewMember()}
-          >
-            <PersonAddOutlinedIcon color="primary" />
-          </IconButton>
+        <Hidden only={["xl", "lg"]}>
+          <Tooltip title="Create New Member" placement="bottom" arrow>
+            <Fab color="primary" onClick={() => handleCreateNewMember()}>
+              <PersonAddOutlinedIcon color="primary" />
+            </Fab>
+          </Tooltip>
         </Hidden>
       </>
     );
@@ -251,15 +251,18 @@ const MemberDashboard = () => {
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <Box display="flex" justifyContent={"flex-end"}>
-                <Hidden only={["xl", "lg", "md"]}>
-                  <IconButton
-                    className={iconBackStyle}
-                    onClick={() => handleBack()}
+                <Hidden only={["xl", "lg"]}>
+                  <Tooltip
+                    title="Go Back to Dashboard"
+                    placement="bottom"
+                    arrow
                   >
-                    <KeyboardBackspaceOutlinedIcon color="primary" />
-                  </IconButton>
+                    <Fab color="primary" onClick={() => handleBack()}>
+                      <KeyboardBackspaceOutlinedIcon color="primary" />
+                    </Fab>
+                  </Tooltip>
                 </Hidden>
-                <Hidden only={["xs", "sm"]}>
+                <Hidden only={["xs", "sm", "md"]}>
                   <Box className={buttonStyle}>
                     <Button
                       variant="outlined"

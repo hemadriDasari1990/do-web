@@ -1,3 +1,4 @@
+import { EMAIL_PATTERN, allow } from "../../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useUser, useUserLoading } from "../../../../redux/state/user";
@@ -7,8 +8,8 @@ import Button from "@material-ui/core/Button";
 import DoSnackbar from "../../../Snackbar/components";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
-import { emailRegex } from "../../../../util/regex";
-import { updateUser } from "../../../../redux/actions/user";
+import { storeAction } from "../../../../redux/actions/common";
+import { updateEmail } from "../../../../redux/actions/user";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -32,15 +33,21 @@ const ChangeEmail = () => {
   });
   const { email, password, currentEmail } = formData;
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [apiCalled, setApiCalled] = useState(false);
 
   useEffect(() => {}, []);
 
   useEffect(() => {
-    if (!loading && (userUpdated?.errorId || userUpdated?.code)) {
+    if (!loading && (userUpdated?.errorId || userUpdated?.code) && apiCalled) {
       setOpenSnackbar(true);
+      setApiCalled(false);
     }
-    if (!loading && userUpdated?.updated) {
+    if (!loading && userUpdated?.updated && apiCalled) {
       setOpenSnackbar(true);
+      setApiCalled(false);
+      setTimeout(() => {
+        dispatch(storeAction(""));
+      }, 2000);
     }
   }, [loading, userUpdated]);
 
@@ -50,21 +57,23 @@ const ChangeEmail = () => {
   };
 
   const handleSave = () => {
+    setApiCalled(false);
     dispatch(
-      updateUser({
+      updateEmail({
         ...formData,
       })
     );
+    setApiCalled(true);
   };
 
   const disableButton = () => {
-    if (!email || !email?.trim()?.length || !emailRegex.test(email)) {
+    if (!email || !email?.trim()?.length || !EMAIL_PATTERN.test(email)) {
       return true;
     }
     if (
       !currentEmail ||
       !currentEmail?.trim()?.length ||
-      !emailRegex.test(currentEmail)
+      !EMAIL_PATTERN.test(currentEmail)
     ) {
       return true;
     }
@@ -109,6 +118,9 @@ const ChangeEmail = () => {
             autoComplete="off"
             required
             className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, EMAIL_PATTERN)
+            }
           />
         </Box>
         <Box>
@@ -137,6 +149,9 @@ const ChangeEmail = () => {
             autoComplete="off"
             required
             className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, EMAIL_PATTERN)
+            }
           />
         </Box>
 

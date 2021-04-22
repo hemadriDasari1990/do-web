@@ -5,9 +5,13 @@ import {
   GET_BOARDS_FAILED,
   GET_BOARDS_REQUEST,
   GET_BOARDS_SUCCESS,
+  GET_BOARD_ACTIVITIES_FAILED,
+  GET_BOARD_ACTIVITIES_REQUEST,
+  GET_BOARD_ACTIVITIES_SUCCESS,
   GET_BOARD_FAILED,
   GET_BOARD_REQUEST,
   GET_BOARD_SUCCESS,
+  STORE_MENU_ITEM,
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
@@ -30,6 +34,8 @@ const initialState = {
   completedAt: null,
   boards: [],
   totalBoards: 0,
+  activities: [],
+  totalActivities: 0,
 };
 
 const board = (state = initialState, action: ReduxAction) => {
@@ -100,6 +106,28 @@ const board = (state = initialState, action: ReduxAction) => {
         boards: action.payload?.data,
         totalBoards: action.payload?.total[0]?.count,
         loading: false,
+      };
+    case GET_BOARD_ACTIVITIES_REQUEST:
+      return {
+        ...state,
+      };
+    case GET_BOARD_ACTIVITIES_FAILED:
+      return {
+        ...state,
+        activities: action.payload,
+        loading: false,
+      };
+    case GET_BOARD_ACTIVITIES_SUCCESS:
+      return {
+        ...state,
+        activities: action.payload?.data,
+        totalActivities: action.payload?.total[0]?.count,
+        loading: false,
+      };
+    case STORE_MENU_ITEM:
+      return {
+        ...state,
+        itemName: action.payload,
       };
     default:
       return state;

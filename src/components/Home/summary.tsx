@@ -1,20 +1,18 @@
 import React, { useEffect } from "react";
 import { useUserLoading, useUserSummary } from "../../redux/state/user";
 
-import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
-import ApartmentOutlinedIcon from "@material-ui/icons/ApartmentOutlined";
 import Box from "@material-ui/core/Box";
-import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import { getAllSummary } from "../../redux/actions/user";
+import { getRandomColor } from "../../util/getRandomColor";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
 
 const Loader = React.lazy(() => import("../Loader/components"));
 
 const Summary = () => {
-  const { titleSecondaryStyle, iconStyle, textSecondaryColor } = useStyles();
+  const { titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
   const { summary } = useUserSummary();
   const { loading } = useUserLoading();
@@ -24,9 +22,9 @@ const Summary = () => {
   }, []);
 
   return (
-    <Box p={5} minHeight={380}>
+    <Box minHeight={240}>
       <Loader enable={loading} backdrop={true} />
-      <Box textAlign="center" pb={5}>
+      <Box textAlign="center" pb={3}>
         <Typography variant="h1" className={titleSecondaryStyle}>
           Built for global scale
         </Typography>
@@ -36,57 +34,36 @@ const Summary = () => {
           <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
             <Box textAlign="center">
               <Box>
-                <ApartmentOutlinedIcon color="primary" className={iconStyle} />
-              </Box>
-              <Box>
-                <Typography
-                  variant="h1"
-                  className={`${titleSecondaryStyle} ${textSecondaryColor}`}
-                >
-                  {summary?.usersCount}
+                <Typography variant="h1" style={{ color: getRandomColor(0) }}>
+                  {summary?.usersCount > 1000
+                    ? summary?.usersCount + "+"
+                    : summary?.usersCount}
                 </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h5">Users powered worldwide</Typography>
+                <Typography variant="h2">Users</Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
             <Box textAlign="center">
               <Box>
-                <AccountTreeOutlinedIcon
-                  color="primary"
-                  className={iconStyle}
-                />
-              </Box>
-              <Box>
-                <Typography
-                  variant="h1"
-                  className={`${titleSecondaryStyle} ${textSecondaryColor}`}
-                >
-                  {summary?.projectsCount}
+                <Typography variant="h1" style={{ color: getRandomColor(5) }}>
+                  {summary?.projectsCount > 1000
+                    ? summary?.projectsCount + "+"
+                    : summary?.projectsCount}
                 </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h5">Total Projects</Typography>
+                <Typography variant="h2">Total projects</Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
             <Box textAlign="center">
               <Box>
-                <DashboardOutlinedIcon color="primary" className={iconStyle} />
-              </Box>
-              <Box>
-                <Typography
-                  variant="h1"
-                  className={`${titleSecondaryStyle} ${textSecondaryColor}`}
-                >
-                  {summary?.boardsCount}
+                <Typography variant="h1" style={{ color: getRandomColor(3) }}>
+                  {summary?.boardsCount > 1000
+                    ? summary?.boardsCount + "+"
+                    : summary?.boardsCount}
                 </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h5">Total Retro Boards</Typography>
+                <Typography variant="h2">Total boards</Typography>
               </Box>
             </Box>
           </Grid>

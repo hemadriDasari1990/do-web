@@ -5,55 +5,44 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import { MEMBERS_PER_PAGE } from "../../../util/constants";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
-import { ROOT } from "../../../routes/config";
 import React from "react";
-// import SettingsIcon from "@material-ui/icons/Settings";
-import Slide from "@material-ui/core/Slide";
 import { Suspense } from "react";
-// import Typography from "@material-ui/core/Typography";
-// import Zoom from "@material-ui/core/Zoom";
-import { logout } from "../../../redux/actions/login";
+import Zoom from "@material-ui/core/Zoom";
+import { getInvitedMembers } from "../../../redux/actions/invite";
+import { storeMenuItem } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useSocket } from "../../../redux/state/socket";
+import useMainStyles from "../../styles";
+import { useParams } from "react-router-dom";
 import useStyles from "../../styles/iconStyle";
-// import { useUser } from "../../../redux/state/user";
 
-const Members = (props: any) => {
-  const { handleDrawerClose } = props;
-  // const { name } = useUser();
-  const history = useHistory();
+const Members = () => {
   const dispatch = useDispatch();
   const { iconGridStyle, iconStyle } = useStyles();
-  const { socket } = useSocket();
+  const { cursor } = useMainStyles();
+  const { boardId } = useParams<{ boardId: string }>();
 
-  const handleLogout = async () => {
-    dispatch(logout());
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("refreshToken");
-    socket.off("login-success");
-    handleDrawerClose();
-    history.push(ROOT);
+  const handleMembers = () => {
+    dispatch(storeMenuItem("members"));
+    dispatch(getInvitedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
   };
 
   return (
     <Suspense fallback={<div></div>}>
       <Box>
         <List>
-          <ListItem alignItems="flex-start" onClick={() => handleLogout()}>
+          <ListItem
+            alignItems="flex-start"
+            onClick={() => handleMembers()}
+            className={cursor}
+          >
             <ListItemAvatar>
-              <Slide
-                direction="right"
-                in={true}
-                timeout={1500}
-                mountOnEnter
-                unmountOnExit
-              >
+              <Zoom in={true} timeout={2000}>
                 <Avatar className={iconGridStyle} variant="square">
                   <PersonOutlinedIcon className={iconStyle} />
                 </Avatar>
-              </Slide>
+              </Zoom>
             </ListItemAvatar>
             <ListItemText primary="Members" secondary="Members invited" />
           </ListItem>

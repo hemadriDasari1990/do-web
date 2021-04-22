@@ -20,11 +20,13 @@ import {
   watchGetUserDetails,
   watchGetUserSummary,
   watchGetUsers,
+  watchUpdateEmail,
+  watchUpdateName,
   watchUpdatePassword,
-  watchUpdateUser,
 } from "./user";
 import {
   watchDeleteBoard,
+  watchGetBoardActivities,
   watchGetBoardDetails,
   watchGetBoards,
   watchUpdateBoard,
@@ -56,9 +58,11 @@ import {
   watchGetReactionsSummaryBySection,
 } from "./reaction";
 
-import { watchGetNotesBySection } from "./note";
-
 import { fork } from "redux-saga/effects";
+import { watchGetActionByBoard } from "./action";
+import { watchGetActionItemsByAction } from "./actionItem";
+import { watchGetInvitedMembers } from "./invite";
+import { watchGetNotesBySection } from "./note";
 import { watchGetSectionsByBoard } from "./section";
 
 function* rootSaga() {
@@ -73,7 +77,7 @@ function* rootSaga() {
 
   /* User sagas */
   yield fork(watchCreateUser);
-  yield fork(watchUpdateUser);
+  yield fork(watchUpdateEmail);
   yield fork(watchDeleteUser);
   yield fork(watchGetUserDetails);
   yield fork(watchGetUserSummary);
@@ -81,6 +85,7 @@ function* rootSaga() {
   yield fork(watchGetAllSummary);
   yield fork(watchGetBoardsByUser);
   yield fork(watchUpdatePassword);
+  yield fork(watchUpdateName);
 
   /* Project sagas */
   yield fork(watchGetProjects);
@@ -106,9 +111,13 @@ function* rootSaga() {
   yield fork(watchDeleteBoard);
   yield fork(watchGetBoardDetails);
   yield fork(watchGetBoards);
+  yield fork(watchGetBoardActivities);
 
   /* Section sagas */
   yield fork(watchGetSectionsByBoard);
+
+  /* Action sagas */
+  yield fork(watchGetActionByBoard);
 
   /* Reaction sagas */
   yield fork(watchGetReactionsSummaryByBoard);
@@ -127,6 +136,12 @@ function* rootSaga() {
 
   /* Notes sagas */
   yield fork(watchGetNotesBySection);
+
+  /* Action item sagas */
+  yield fork(watchGetActionItemsByAction);
+
+  /* Inivte sagas */
+  yield fork(watchGetInvitedMembers);
 }
 
 export default rootSaga;

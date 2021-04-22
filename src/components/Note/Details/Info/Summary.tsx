@@ -3,6 +3,7 @@ import React from "react";
 import ReactionSummary from "../../../Reaction/Summary";
 import SummaryField from "../../../common/SummaryField";
 import { Suspense } from "react";
+import { getHumanReadableData } from "../../../../util";
 
 const Summary = (props: any) => {
   const { note } = props;
@@ -16,28 +17,12 @@ const Summary = (props: any) => {
             value={note?.read ? "Read" : "Not read"}
           />
           <SummaryField
-            title="Craeted At"
-            value={
-              new Date(note?.createdAt).toDateString() +
-                " at " +
-                new Date(note?.createdAt).toLocaleString("en-US", {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true,
-                }) || "--"
-            }
+            title="Created At"
+            value={getHumanReadableData(note?.createdAt)}
           />
           <SummaryField
             title="Updated At"
-            value={
-              new Date(note?.updatedAt).toDateString() +
-                " at " +
-                new Date(note?.updatedAt).toLocaleString("en-US", {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true,
-                }) || "--"
-            }
+            value={getHumanReadableData(note?.updatedAt)}
           />
         </Grid>
         <Grid item xl={7} lg={7} md={6} sm={6} xs={12}>

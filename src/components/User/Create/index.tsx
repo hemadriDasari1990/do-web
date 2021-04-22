@@ -1,3 +1,8 @@
+import {
+  ALPHA_NUMERIC_WITH_SPACE,
+  EMAIL_PATTERN,
+  allow,
+} from "../../../util/regex";
 import { LOGIN, PRIVACY_POLICY, TERMS } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
@@ -9,10 +14,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import DoLogo from "../../common/DoLogo";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Link from "@material-ui/core/Link";
+import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { createUser } from "../../../redux/actions/user";
-import { emailRegex } from "../../../util/regex";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -99,7 +104,7 @@ const Create = () => {
       return true;
     }
 
-    if (!email.trim().length || !emailRegex.test(email)) {
+    if (!email.trim().length || !EMAIL_PATTERN.test(email)) {
       return true;
     }
     if (password.trim().length < 6) {
@@ -133,6 +138,10 @@ const Create = () => {
     win.focus();
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
@@ -154,6 +163,12 @@ const Create = () => {
           required
           fullWidth
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
+          }
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <TextField
           name="email"
@@ -166,6 +181,9 @@ const Create = () => {
           required
           fullWidth
           className={textFieldStyle}
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <TextField
           type="password"
@@ -179,6 +197,9 @@ const Create = () => {
           required
           fullWidth
           className={textFieldStyle}
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <TextField
           type="password"
@@ -192,6 +213,9 @@ const Create = () => {
           required
           fullWidth
           className={textFieldStyle}
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <Box mt={1} mb={2}>
           <FormControlLabel

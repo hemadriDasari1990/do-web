@@ -1,4 +1,3 @@
-import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import Box from "@material-ui/core/Box";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import DoTable from "../Table";
@@ -107,20 +106,6 @@ const GroupList = (props: any) => {
           <ListItemText
             primary={<b>Delete Member</b>}
             secondary="Once deleted can't be undone"
-          />
-        </ListItem>
-        <ListItem
-          button={true}
-          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) =>
-            handleMenuItem(event, "archive")
-          }
-        >
-          <ListItemAvatar style={{ minWidth: 35 }}>
-            <ArchiveOutlinedIcon />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<b>Archive Member</b>}
-            secondary="You've control to make it unarchive any time"
           />
         </ListItem>
       </Menu>

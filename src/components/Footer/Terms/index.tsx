@@ -6,7 +6,7 @@ import UnderlineText from "../../common/UnderlineText";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import termsIcon from "../../../assets/terms.svg";
-const FAQList = React.lazy(() => import("../Faq/list"));
+const PrivacyList = React.lazy(() => import("../Privacy/list"));
 
 const useStyles = makeStyles({});
 
@@ -36,7 +36,7 @@ function Terms() {
             Welcome to Let's do retro. By using Let's do retro, you are agreeing
             to comply and be bound by the following terms and conditions of use.
           </Typography>
-          <FAQList
+          <PrivacyList
             list={[
               "These together with our Privacy Policy govern the relationship between you and www.letsdoretro.com, in your use of this website.",
               `The use of "letsdoretro" is subject to the following terms of use:`,
@@ -44,7 +44,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="General"
             list={[
               "The content and information of the pages of this website. And functionality of let's do retro is subject to change without notice. Your use of any product, service, information or materials on this website is entirely at your own risk, for which the site owner shall not be liable.",
@@ -52,7 +52,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Use Of The Service"
             list={[
               "It shall be your own responsibility to ensure that any products, services or information available through this site meet your specific requirements and make sense to use. Otherwise you need to avoid this.",
@@ -64,7 +64,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Changes In The Service"
             list={[
               "Let's do retro shall have the right to update and change any part of the Service from time to time. If the changes or updates made require changes in your hardware, software and/or data connections, Let's do retro shall notify you of such requirements (e.g. browser updates) one (1) month prior to the implementation of the necessary changes. You are solely responsible for all costs related to the changes of hardware, software and/or data connections. Any modifications or development work requested by you shall always be separately agreed upon with Let's do retro. Such services shall be invoiced on time and material basis.",
@@ -72,7 +72,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Availability"
             list={[
               "Let's do retro shall use reasonable endeavours to provide the Service on a continuous basis. The expected availability of the Service is 99.0 % or even more over a monthly period.",
@@ -81,7 +81,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Your responsibilities"
             list={[
               "You shall be responsible for maintaining the secrecy and security of the Users’ IDs and passwords. You are fully responsible for all activities, transactions and other operations which are made through the Service by using the User and Main User IDs and passwords.",
@@ -90,7 +90,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Customer Data"
             list={[
               `You shall own all rights, title and interest in and to all of the Customer Data and shall have sole responsibility for the legality, reliability, integrity, accuracy and quality of the Customer Data. Let's do retro acknowledges and agrees that the Customer Data and all data processed in relation to the provision of the Service may be your Confidential Information (as defined below), and Let's do retro shall store such data only to the extent necessary for the provision of the Service and shall not use such data for any other purpose.`,
@@ -103,7 +103,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Customer Data"
             list={[
               `For the purposes of this Agreement, "Confidential Information" shall mean all confidential information disclosed by a party ("Disclosing Party") to the other party ("Receiving Party"), whether orally or in writing.`,
@@ -117,7 +117,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Limitation of liability"
             list={[
               `The Service is provided ”as is” without any warranties of any kind. You acknowledge and agree that any use of the Service is at your sole risk and liability. To the maximum extent permitted by applicable law, Let's do retro expressly disclaims any and all representations and warranties, either express or implied, including, without limitation, any implied warranties of merchantability, fitness for a particular purpose and non-infringement, with respect to the Service.`,
@@ -128,7 +128,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Terms And Termination"
             list={[
               `This Agreement will be effective as of the date upon which you accept these terms or start using the Service.`,
@@ -139,7 +139,7 @@ function Terms() {
           />
         </Box>
         <Box mt={3}>
-          <FAQList
+          <PrivacyList
             header="Modification Of Terms"
             list={[
               `Let's do retro reserves the right to modify the terms and conditions included in this Agreement or relating to the Service and any such modifications shall become effective upon posting a new version of the terms and conditions. It is on your responsibility to review the terms and conditions applicable to the Service and continued use of the Service after the changes have become effective constitute your consent to the changes.`,
@@ -147,7 +147,7 @@ function Terms() {
           />
         </Box>
         <Box my={3}>
-          <FAQList
+          <PrivacyList
             header="Modification Of Terms"
             list={[
               `Dispute Resolution. Any dispute, controversy or claim arising out of or relating to this contract, or the breach, termination or validity thereof shall be finally settled by arbitration in accordance with the Rules Danish Institute of Arbitration by one (1) arbitrator. The arbitration shall take place in Copenhagen, Denmark. The award of the arbitration shall be final and binding on both Parties. The arbitration shall be conducted in the English language.`,

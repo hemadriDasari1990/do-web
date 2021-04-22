@@ -1,20 +1,26 @@
+import {
+  ALPHA_NUMERIC_WITH_SPACE,
+  ONLY_NUMBERS,
+  allow,
+} from "../../../util/regex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { getRemainingCharLength, replaceStr } from "../../../util";
 import { useBoard, useBoardLoading } from "../../../redux/state/board";
 
 import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import DoSnackbar from "../../Snackbar/components";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
+import { MAX_CHAR_COUNT } from "../../../util/constants";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import { addProjectToStore } from "../../../redux/actions/project";
 import { getTeams } from "../../../redux/actions/team";
-// import ViewModuleIcon from "@material-ui/icons/ViewModule";
-import { replaceStr } from "../../../util";
 import { updateBoard } from "../../../redux/actions/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -52,6 +58,7 @@ const Update = () => {
 
   /* Local state */
   const [apiCalled, setApiCalled] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: "",
     noOfSections: "",
@@ -59,7 +66,11 @@ const Update = () => {
     teams: [],
     isDefaultBoard: false,
     project: "",
+    projectDescription: "",
   });
+  const [descriptionCount, setDescriptionCount] = useState(0);
+  const [projectDescriptionCount, setProjectDescriptionCount] = useState(0);
+
   const [projects, setProjects] = useState<Array<{ [Key: string]: any }>>([]);
   const {
     description,
@@ -67,6 +78,7 @@ const Update = () => {
     teams,
     isDefaultBoard,
     project,
+    projectDescription,
   } = formData;
 
   /* React Hooks */
@@ -76,10 +88,14 @@ const Update = () => {
   }, []);
 
   useEffect(() => {
-    if (!loading && board?._id && apiCalled) {
+    if (!loading && board && board._id && apiCalled) {
       dispatch(addProjectToStore(board?.project));
       history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
       setApiCalled(false);
+      setShowError(false);
+    }
+    if (!loading && board && board.errorId && apiCalled) {
+      setShowError(true);
     }
   }, [loading, board, apiCalled]);
 
@@ -93,11 +109,23 @@ const Update = () => {
     return () => {
       socket.off("get-projects-response");
     };
-  }, [userId, projects]);
+  }, [projects]);
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    if (event.target.name === "description") {
+      const charCount = event.target.value.length;
+      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
+      setDescriptionCount(charLeft);
+    }
+
+    if (event.target.name === "projectDescription") {
+      const charCount = event.target.value.length;
+      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
+      setProjectDescriptionCount(charLeft);
+    }
   };
 
   const handleStartRetro = () => {
@@ -105,8 +133,9 @@ const Update = () => {
     dispatch(
       updateBoard({
         description,
+        projectDescription,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        status: "pending",
+        status: "new",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
         isDefaultBoard,
         title: "Retro " + (project?.boards?.length + 1),
@@ -138,6 +167,24 @@ const Update = () => {
 
   const handleProject = (data: { [Key: string]: any }) => {
     setFormData({ ...formData, project: data });
+  };
+
+  const handleSnackbarClose = () => {
+    setShowError(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={showError}
+        status="error"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {board?.message}
+        </Typography>
+      </DoSnackbar>
+    );
   };
 
   const renderProject = () => {
@@ -172,13 +219,25 @@ const Update = () => {
           onChange={handleInput}
           required
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ONLY_NUMBERS, 1)
+          }
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
       </Box>
     );
   }, [isDefaultBoard, noOfSections]);
+
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
       <Loader enable={loading} />
+      {renderSnackbar()}
       <Box>
         <Typography variant="h3">Start Quick Retro</Typography>
       </Box>
@@ -187,10 +246,32 @@ const Update = () => {
       {project && (
         <Box mt={3}>
           <HintMessage
-            message={`System will generate board name Retro ${
+            message={`The board name will be Retro ${
               project?.boards?.length ? project?.boards?.length + 1 : 1
             }`}
           />
+        </Box>
+      )}
+      {!project?._id && (
+        <Box>
+          <TextField
+            name="projectDescription"
+            id="projectDescription"
+            label="Project Description"
+            placeholder="Enter description about project"
+            value={projectDescription}
+            onChange={handleInput}
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+          />
+          <Typography variant="subtitle2">
+            {projectDescriptionCount} chars
+          </Typography>
         </Box>
       )}
       <>
@@ -218,7 +299,7 @@ const Update = () => {
         ) : null}
         {isDefaultBoard && (
           <Box mt={3}>
-            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings and Recognitions." />
+            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
           </Box>
         )}
       </>
@@ -231,14 +312,21 @@ const Update = () => {
           value={description}
           onChange={handleInput}
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+          }
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
+        <Typography variant="subtitle2">{descriptionCount} chars</Typography>
       </Box>
       <Box>
         <DoAutoComplete
           defaultValue={teams}
           multiple={true}
-          textInputLabel="Select your Team/Teams"
-          textInputPlaceholder="Select multiple teams"
+          textInputLabel="Invite Team/Teams"
+          textInputPlaceholder="Select one/more teams"
           optionKey="name"
           options={teamsList}
           onChange={(e: any, data: Array<{ [Key: string]: any }>) =>

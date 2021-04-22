@@ -6,13 +6,13 @@ import DeserveIcon from "@material-ui/icons/EmojiEvents";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
 import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
-import Plus2Icon from "@material-ui/icons/ExposurePlus2";
 import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import Popover from "@material-ui/core/Popover";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import useStyles from "../../styles";
+import HighlightIcon from "@material-ui/icons/Highlight";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   popover: {
@@ -30,11 +30,17 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 }));
 
 function ReactionPopover(props: any) {
-  const { anchorEl, note, handlePopoverClose, handleReaction } = props;
+  const {
+    anchorEl,
+    note,
+    handlePopoverClose,
+    handleReaction,
+    setAnchorEl,
+  } = props;
   const { popover, paper, reactionStyle } = useLocalStyles();
   const {
     minusOneIconStyle,
-    plusTwoIconStyle,
+    highlightIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
@@ -59,21 +65,25 @@ function ReactionPopover(props: any) {
             vertical: "bottom",
             horizontal: "right",
           }}
-          key={note._id}
+          key={note?._id}
+          onClick={(event: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
+            event.stopPropagation();
+            setAnchorEl(null);
+          }}
         >
           <Box display="flex" justifyContent="space-between">
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="-1" placement="top">
+                <Tooltip arrow title="+1" placement="top">
                   <IconButton
-                    className={minusOneIconStyle}
+                    className={plusIconStyle}
                     color="secondary"
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleReaction(event, "minusOne", note)
+                      handleReaction(event, "plusOne", note)
                     }
                     size="small"
                   >
-                    <MinusOneIcon className={reactionStyle} />
+                    <PlusOneIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
@@ -96,37 +106,21 @@ function ReactionPopover(props: any) {
             </Box>
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="+1" placement="top">
+                <Tooltip arrow title="Highlight" placement="top">
                   <IconButton
-                    className={plusIconStyle}
+                    className={highlightIconStyle}
                     color="secondary"
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleReaction(event, "plusOne", note)
+                      handleReaction(event, "highlight", note)
                     }
                     size="small"
                   >
-                    <PlusOneIcon className={reactionStyle} />
+                    <HighlightIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
             </Box>
             <Box mr={1}>
-              <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="+2" placement="top">
-                  <IconButton
-                    className={plusTwoIconStyle}
-                    color="secondary"
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleReaction(event, "plusTwo", note)
-                    }
-                    size="small"
-                  >
-                    <Plus2Icon className={reactionStyle} />
-                  </IconButton>
-                </Tooltip>
-              </Zoom>
-            </Box>
-            <Box>
               <Zoom in={true} timeout={1500}>
                 <Tooltip arrow title="Deserve" placement="top">
                   <IconButton
@@ -138,6 +132,22 @@ function ReactionPopover(props: any) {
                     size="small"
                   >
                     <DeserveIcon className={reactionStyle} />
+                  </IconButton>
+                </Tooltip>
+              </Zoom>
+            </Box>
+            <Box>
+              <Zoom in={true} timeout={1500}>
+                <Tooltip arrow title="-1" placement="top">
+                  <IconButton
+                    className={minusOneIconStyle}
+                    color="secondary"
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                      handleReaction(event, "minusOne", note)
+                    }
+                    size="small"
+                  >
+                    <MinusOneIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>

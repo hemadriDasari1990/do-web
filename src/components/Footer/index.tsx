@@ -1,9 +1,8 @@
 import {
   ABOUT,
+  APPS,
   CAREERS,
-  FAQ,
   FEATURES,
-  FEEDBACK,
   GETTING_STARTED,
   PRIVACY_POLICY,
   RETROSPECTIVE,
@@ -79,20 +78,12 @@ export default function Footer() {
     history.push(ABOUT);
   };
 
-  const handleFeedback = () => {
-    history.push(FEEDBACK);
-  };
-
   const handleCareers = () => {
     history.push(CAREERS);
   };
 
   const handleTerms = () => {
     history.push(TERMS);
-  };
-
-  const handleFAQ = () => {
-    history.push(FAQ);
   };
 
   const handlePrivacy = () => {
@@ -113,6 +104,10 @@ export default function Footer() {
 
   const handleGetStarted = () => {
     history.push(GETTING_STARTED);
+  };
+
+  const handleApps = () => {
+    history.push(APPS);
   };
 
   return (
@@ -142,7 +137,7 @@ export default function Footer() {
             </Grid>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
-                <CreateAccount title="Create an Account" hideArrow={true} />
+                <CreateAccount title="Sign up free" hideArrow={true} />
               </Box>
             </Grid>
           </Grid>
@@ -154,7 +149,7 @@ export default function Footer() {
                   className={titleStyle}
                   color="secondary"
                 >
-                  Menu
+                  Company
                 </Typography>
               </Box>
               <List>
@@ -170,26 +165,21 @@ export default function Footer() {
                     }
                   />
                 </ListItem>
-                <ListItem
-                  className={listStyle}
-                  onClick={() => handleFeedback()}
-                >
+                <ListItem className={listStyle} onClick={() => handleCareers()}>
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
-                        Feedback
+                        Careers
                       </Typography>
                     }
                   />
                 </ListItem>
-                <ListItem
-                  className={listStyle}
-                  onClick={() => handleFeatures()}
-                >
+
+                <ListItem className={listStyle} onClick={() => handleApps()}>
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
-                        Features
+                        Apps
                       </Typography>
                     }
                   />
@@ -221,6 +211,18 @@ export default function Footer() {
                 </ListItem>
                 <ListItem
                   className={listStyle}
+                  onClick={() => handleFeatures()}
+                >
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        Features
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  className={listStyle}
                   onClick={() => handleRetrospective()}
                 >
                   <ListItemText
@@ -239,37 +241,6 @@ export default function Footer() {
                     secondary={
                       <Typography variant="overline" color="secondary">
                         What's New
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              </List>
-            </Grid>
-            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
-              <Box>
-                <Typography
-                  variant="h3"
-                  className={titleStyle}
-                  color="secondary"
-                >
-                  Company
-                </Typography>
-              </Box>
-              <List>
-                <ListItem className={listStyle} onClick={() => handleCareers()}>
-                  <ListItemText
-                    secondary={
-                      <Typography variant="overline" color="secondary">
-                        Careers
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem className={listStyle} onClick={() => handleFAQ()}>
-                  <ListItemText
-                    secondary={
-                      <Typography variant="overline" color="secondary">
-                        FAQ
                       </Typography>
                     }
                   />
@@ -380,7 +351,7 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+            <Grid item xl={3} lg={3} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"

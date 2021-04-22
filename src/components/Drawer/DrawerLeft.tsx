@@ -1,30 +1,29 @@
-import { DASHBOARD, LOGIN, NOTIFICATIONS, TEAM } from "../../routes/config";
+import { DASHBOARD, LOGIN, TEAM } from "../../routes/config";
 import React, { useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import { DRAWER_WIDTH } from "../../util/constants";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import DoLogoIcon from "../common/DoLogoIcon";
 import Drawer from "@material-ui/core/Drawer";
+import Feedback from "../Feedback";
+import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
 import GettingStartedDrawer from "./Account/GettingStarted";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 import ManageAccount from "./Account/Manage";
-import NotificationsOutlinedIcon from "@material-ui/icons/NotificationsOutlined";
+// import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import { logout } from "../../redux/actions/login";
+import { storeMenuItem } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useSocket } from "../../redux/state/socket";
-import useStyles from "../styles";
-import { useUser } from "../../redux/state/user";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
@@ -64,7 +63,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     borderRadius: 6,
     padding: 8,
     "&:hover": {
-      background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+      background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
       borderRadius: 6,
       padding: 8,
     },
@@ -72,53 +71,54 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function PersistentDrawerLeft() {
-  const {
-    drawer,
-    drawerPaper,
-    avatarStyle,
-    iconStyle,
-    iconButtonStyle,
-  } = useLocalStyles();
-  const { cursor } = useStyles();
-  const { name } = useUser();
+  const { drawer, drawerPaper, iconStyle, iconButtonStyle } = useLocalStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const { socket } = useSocket();
 
   const [open, setOpen] = useState(false);
+  const [openFeedback, setOpenFeedback] = useState(false);
   const [gettingStarted, setGettingStarted] = useState(false);
   const [openManageAccount, setOpenManageAccount] = useState(false);
 
   const handleDashboard = () => {
+    setGettingStarted(false);
+    setOpenFeedback(false);
+    setOpenManageAccount(false);
+    setOpen(false);
     history.push(DASHBOARD);
   };
 
   const handleLogout = async () => {
     dispatch(logout());
-    await sessionStorage.removeItem("token");
-    await sessionStorage.removeItem("refreshToken");
     socket.off("login-success");
     history.push(LOGIN);
   };
 
   const handleTeams = () => {
+    dispatch(storeMenuItem(""));
+    setGettingStarted(false);
+    setOpenFeedback(false);
+    setOpenManageAccount(false);
+    setOpen(false);
     history.push(TEAM);
   };
 
-  const handleNotifications = () => {
-    history.push(NOTIFICATIONS);
+  const handleFeedback = () => {
+    dispatch(storeMenuItem(""));
+    setOpenFeedback(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
-  const handleAccount = () => {
-    setOpen(!open);
-  };
-
   const handleManageAccount = () => {
+    dispatch(storeMenuItem(""));
     setOpenManageAccount(!openManageAccount);
+    setGettingStarted(false);
+    setOpenFeedback(false);
+    setOpen(false);
   };
 
   const handleManageAccountClose = () => {
@@ -126,11 +126,19 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleGettingStarted = () => {
+    dispatch(storeMenuItem(""));
     setGettingStarted(!gettingStarted);
+    setOpenFeedback(false);
+    setOpenManageAccount(false);
+    setOpen(false);
   };
 
   const handleGettingStartedClose = () => {
     setGettingStarted(false);
+  };
+
+  const handleFeedbackDrawerClose = () => {
+    setOpenFeedback(false);
   };
 
   return (
@@ -163,14 +171,14 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box mb={2}>
-            <Tooltip arrow title="Notifications" placement="right">
+            <Tooltip arrow title="Give Feedback" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
                   size="medium"
                   classes={{ root: iconButtonStyle }}
-                  onClick={() => handleNotifications()}
+                  onClick={() => handleFeedback()}
                 >
-                  <NotificationsOutlinedIcon
+                  <FeedbackOutlinedIcon
                     color="secondary"
                     className={iconStyle}
                   />
@@ -241,28 +249,6 @@ export default function PersistentDrawerLeft() {
               </Zoom>
             </Tooltip>
           </Box>
-          <Box
-            display="flex"
-            className={cursor}
-            onClick={() => handleAccount()}
-          >
-            <Box ml={1}>
-              <Tooltip arrow title={name} placement="right">
-                <Zoom in={true} timeout={1500}>
-                  <IconButton size="small">
-                    <Avatar classes={{ root: avatarStyle }}>
-                      {/* <Typography variant="h4" color="secondary">
-                      {name ? name.substring(0, 1) : ""}
-                    </Typography> */}
-                    </Avatar>
-                  </IconButton>
-                </Zoom>
-              </Tooltip>
-            </Box>
-            <Box mt={1}>
-              <ArrowDropDownIcon color="secondary" />
-            </Box>
-          </Box>
         </Box>
       </Drawer>
       <PersistentDrawerRight open={open} handleDrawerClose={handleDrawerClose}>
@@ -279,6 +265,10 @@ export default function PersistentDrawerLeft() {
       >
         {/* <ManageActions handleDrawerClose={handleManageAccountClose} /> */}
       </GettingStartedDrawer>
+      <Feedback
+        open={openFeedback}
+        handleDrawerClose={handleFeedbackDrawerClose}
+      />
     </React.Fragment>
   );
 }

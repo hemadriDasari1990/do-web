@@ -1,17 +1,20 @@
+import {
+  ALPHABET_NUMBERIC_WITH_SPACE_AND_HYPHEN,
+  ALPHA_NUMERIC_WITH_SPACE,
+  allow,
+} from "../../../util/regex";
+import { MAX_CHAR_COUNT, TITLE_MAX_CHAR_COUNT } from "../../../util/constants";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
-// import Checkbox from "@material-ui/core/Checkbox";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CreateNewProject from "../../../assets/create.svg";
 import TextField from "@material-ui/core/TextField";
-// import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import { getRemainingCharLength } from "../../../util";
 import { updateProject } from "../../../redux/actions/project";
 import { useDispatch } from "react-redux";
-
-// import { useLogin } from "../../../redux/state/login";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -25,7 +28,6 @@ const Create = (props: any) => {
   const { openDialog, handleUpdateForm, selectedProject } = props;
   const { textFieldStyle } = useStyles();
   const dispatch = useDispatch();
-  // const { userId } = useLogin();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
@@ -33,6 +35,7 @@ const Create = (props: any) => {
     description: "",
     projectId: selectedProject._id,
   });
+  const [count, setCount] = useState(0);
   const { title, description } = formData;
 
   useEffect(() => {}, []);
@@ -54,11 +57,12 @@ const Create = (props: any) => {
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
+    if (event.target.name === "description") {
+      const charCount = event.target.value.length;
+      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
+      setCount(charLeft);
+    }
   };
-
-  // const handlePrivate = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData({ ...formData, isPrivate: !isPrivate });
-  // };
 
   const handleClose = () => {
     handleUpdateForm();
@@ -76,6 +80,10 @@ const Create = (props: any) => {
       return true;
     }
     return false;
+  };
+
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
   };
 
   const renderDialog = () => {
@@ -104,6 +112,16 @@ const Create = (props: any) => {
           required
           fullWidth
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(
+              event,
+              ALPHABET_NUMBERIC_WITH_SPACE_AND_HYPHEN,
+              TITLE_MAX_CHAR_COUNT
+            )
+          }
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <TextField
           multiline
@@ -115,26 +133,16 @@ const Create = (props: any) => {
           onChange={handleInput}
           fullWidth
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+          }
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
-        {/* <Box mt={2}>
-          <Typography variant="h6">
-            Do you like to mark this project as private?
-          </Typography>
+        <Box mt={1}>
+          <Typography variant="subtitle2">{count} chars</Typography>
         </Box>
-        <Box>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isPrivate}
-                onChange={handlePrivate}
-                value="false"
-                color="primary"
-                name="isPrivate"
-              />
-            }
-            label={<Typography variant="h6">Mark as private</Typography>}
-          />
-        </Box> */}
       </ResponsiveDialog>
     );
   };

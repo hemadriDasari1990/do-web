@@ -1,6 +1,7 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 
+import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
@@ -11,10 +12,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
-import ScrumBoard from "../../assets/board.svg";
+import { SIGNUP } from "../../routes/config";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
-import { USER } from "../../routes/config";
 import Zoom from "@material-ui/core/Zoom";
 import { useHistory } from "react-router";
 
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "absolute",
     left: "96%",
     top: "-10%",
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    background: "#ffc800",
     color: "#fff",
     borderRadius: "50%",
   },
@@ -51,7 +51,7 @@ const AdContainer = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleGetStarted = () => {
     sessionStorage.setItem("add", "close");
-    history.push(USER);
+    history.push(SIGNUP);
   };
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const AdContainer = () => {
                     variant="contained"
                     color="primary"
                   >
-                    Get Started for Free
+                    Start a retroboard
                   </Button>
                 </Box>
               </DialogContent>
@@ -114,12 +114,21 @@ const AdContainer = () => {
           </Slide>
           <Box>
             <Zoom in={true} timeout={2000}>
-              <img
-                src={ScrumBoard}
-                //   className={imageStyle}
-                sizes="(max-width: 767px) 100vw, 571.421875px"
-                width="280px"
-                height="228px"
+              <BoardIcon
+                stickyNoteColor="#ffc800"
+                stickyNoteColor1="#fd7171"
+                stickyNoteColor2="#7b68ee"
+                stickyNoteColor3="#49ccf9"
+                stickyNoteColor4="#00b884"
+                hairColor="#2f2e41"
+                borderColor="#2f2e41"
+                primarySkinColor="#ffb8b8"
+                secondarySkinColor="#a0616a"
+                shoeColor="#2f2e41"
+                shirtColor="#cccccc"
+                cornerCircleColor="#cccccc"
+                width={281}
+                height={226}
               />
             </Zoom>
           </Box>

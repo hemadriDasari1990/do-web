@@ -2,10 +2,10 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
 import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
-import Plus2Icon from "@material-ui/icons/ExposurePlus2";
 import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -19,7 +19,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({}));
 function ReactionView(props: any) {
   const { note } = props;
   const {
-    plusTwoIconStyle,
+    highlightIconStyle,
     minusOneIconStyle,
     loveIconStyle,
     plusIconStyle,
@@ -35,7 +35,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="minusOne">
+                <Tooltip arrow title="-1">
                   <IconButton
                     className={minusOneIconStyle}
                     color="secondary"
@@ -97,24 +97,24 @@ function ReactionView(props: any) {
             </Box>
           </Box>
         ) : null}
-        {note?.totalPlusTwo ? (
+        {note?.totalHighlight ? (
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="+2">
+                <Tooltip arrow title="Highlight">
                   <IconButton
-                    className={plusTwoIconStyle}
+                    className={highlightIconStyle}
                     color="secondary"
                     size="small"
                   >
-                    <Plus2Icon className={reactionStyle} />
+                    <HighlightIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
             </Box>
             <Box mr={1}>
               <Typography variant="h6">
-                {formateNumber(note?.totalPlusTwo)}
+                {formateNumber(note?.totalHighlight)}
               </Typography>
             </Box>
           </Box>

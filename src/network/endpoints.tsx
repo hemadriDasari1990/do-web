@@ -16,12 +16,13 @@ export const RESET_PASSWORD = "/auth/reset-password";
 export const CREATE_USER = "/user";
 export const DELETE_USER = "/user/{id}";
 export const GET_USER_DETAILS = "/user/{id}";
-export const UPDATE_USER = "/user";
+export const UPDATE_EMAIL = "/user/email";
 export const GET_USER_SUMMARY = "/user/{id}/summary";
 export const GET_ALL_SUMMARY = "/user/summary";
 export const GET_USERS = "/user/";
 export const GET_BOARDS_BY_USER = "/user/{id}/boards";
 export const UPDATE_PASSWORD = "/user/update-password";
+export const UPDATE_NAME = "/user/name";
 
 /* Department Endpoints */
 export const CREATE_DEPARTMENT = "/department";
@@ -60,11 +61,14 @@ export const GET_BOARDS = "/board";
 /* Section Endpoints */
 export const GET_SECTIONS_BY_BOARD = "/section/{id}";
 
+/* Action Endpoints */
+export const GET_ACTION_BY_BOARD = "/action/{id}";
+
 /* Note Endpoints */
-export const DELETE_NOTE = "/note/{id}";
-export const GET_NOTES_BY_SECTION_DETAILS = "/note/{id}";
-export const MARK_AS_READ = "/note/{id}/mark-read";
 export const GET_NOTES_BY_SECTION = "/note/{sectionId}";
+
+/* Note Endpoints */
+export const GET_ACTION_ITEMS_BY_ACTION = "/action-item/{sectionId}";
 
 /* Reaction Endpoints */
 export const GET_REACTIONS_SUMMARY_BY_BOARD = "/reactions/{boardId}/summary";
@@ -79,6 +83,12 @@ export const GET_FEEDBACKS = "/feedback";
 
 /* Reaction Endpoints */
 export const CREATE_OR_UPDATE_REACTION = "/react";
+
+/* Board Activities */
+export const GET_BOARD_ACTIVITIES = "/activity";
+
+/* Get invited members */
+export const GET_INVITED_MEMBERS = "/invite";
 
 /* Security Question */
 export const CREATE_SECURITY_QUESTION_ANSWER = "/security-question/answer";

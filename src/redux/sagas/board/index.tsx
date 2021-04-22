@@ -5,6 +5,9 @@ import {
   GET_BOARDS_FAILED,
   GET_BOARDS_REQUEST,
   GET_BOARDS_SUCCESS,
+  GET_BOARD_ACTIVITIES_FAILED,
+  GET_BOARD_ACTIVITIES_REQUEST,
+  GET_BOARD_ACTIVITIES_SUCCESS,
   GET_BOARD_FAILED,
   GET_BOARD_REQUEST,
   GET_BOARD_SUCCESS,
@@ -14,6 +17,7 @@ import {
 } from "../../actions/board/types";
 import {
   deleteBoard,
+  getBoardActivities,
   getBoardDetails,
   getBoards,
   updateBoard,
@@ -87,4 +91,28 @@ function* callDeleteBoard(action: { [Key: string]: any }) {
 
 export function* watchDeleteBoard() {
   yield takeLatest(DELETE_BOARD_REQUEST, callDeleteBoard);
+}
+
+function* callGetBoardActivities(action: { [Key: string]: any }) {
+  try {
+    const result = yield getBoardActivities(
+      action.id,
+      action.queryString,
+      action.page,
+      action.size
+    );
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_BOARD_ACTIVITIES_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: GET_BOARD_ACTIVITIES_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchGetBoardActivities() {
+  yield takeLatest(GET_BOARD_ACTIVITIES_REQUEST, callGetBoardActivities);
 }

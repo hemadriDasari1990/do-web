@@ -7,34 +7,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
     textAlign: "end",
   },
-  // countStyle: {
-  //   borderRadius: 5,
-  //   border: "1px solid #172b4d",
-  //   minWidth: 30,
-  //   height: 30,
-  //   [theme.breakpoints.down("xl")]: {
-  //     marginTop: 14,
-  //   },
-  //   [theme.breakpoints.down("lg")]: {
-  //     marginTop: 14,
-  //   },
-  //   [theme.breakpoints.down("md")]: {
-  //     marginTop: 14,
-  //   },
-  //   [theme.breakpoints.down("sm")]: {
-  //     marginTop: 14,
-  //   },
-  //   [theme.breakpoints.down("xs")]: {
-  //     marginTop: 14,
-  //   },
-  // },
-  // countTextStyle: {
-  //   top: "50%",
-  //   textAlign: "center",
-  //   fontWeight: 600,
-  // },
-  iconBackStyle: {
-    backgroundColor: "#dfebfb",
+  gettingStartedBanner: {
+    minHeight: 300,
+    borderRadius: 6,
+    padding: 20,
   },
   cursor: {
     cursor: "pointer",
@@ -46,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 5,
     fontSize: 30,
     padding: 2,
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
   },
   boxTextStyle: {
     padding: "3px 10px 3px 10px",
@@ -56,16 +31,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 6,
   },
   minusOneIconStyle: {
-    background: "linear-gradient(50deg, #2d7bf1 0%, #27fd00 100%)",
+    background: "linear-gradient(90deg, #4e0eea 0%, #b400ff 100%)",
   },
-  plusTwoIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
+  highlightIconStyle: {
+    background: "linear-gradient(50deg, #00ff37 0%, #0072ffeb 100%)",
   },
   loveIconStyle: {
     background: "linear-gradient(50deg, #ea087b 0%, #ff5656 100%)",
   },
   plusIconStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
+    background: "linear-gradient(50deg, #57f 0%, #0089ffeb 100%)",
   },
   deserveIconStyle: {
     background: "linear-gradient(50deg, #ffc800 0%, #ff0000ba 100%)",
@@ -75,11 +50,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   boxTopGridStyle: {
     height: 100,
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
   },
   boxGridStyle: {
     padding: "2rem 1rem",
     position: "relative",
+    backgroundColor: "#F2F4f4",
+    borderRadius: 16,
   },
   iconBoxStyle: {
     backgroundColor: "rgb(255, 255, 255)",
@@ -117,15 +94,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   logoIconStyle: {
     padding: 3,
     borderRadius: "50%",
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
     width: 23,
     height: 23,
   },
   n30: {
-    backgroundColor: "#EBECF0",
+    backgroundColor: "#22303e14",
   },
   n40: {
-    backgroundColor: "#ff5e0024",
+    backgroundColor: "#0072ff14",
   },
   captionTextStyle: {
     borderRadius: 6,
@@ -136,7 +113,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     lineHeight: 1,
     whiteSpace: "nowrap",
     verticalAlign: "middle",
-    color: "#ff5e00",
+    color: "#57f",
   },
   sideNoteStyle: {
     padding: 30,
@@ -148,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 32,
   },
   primaryAvatarStyle: {
-    background: "linear-gradient(50deg, #0072ff 0%, #0089ffeb 100%)",
+    background: "linear-gradient(50deg, #57f 0%, #0089ffeb 100%)",
   },
   titleStyle: {
     fontSize: "3.5rem",
@@ -174,11 +151,59 @@ const useStyles = makeStyles((theme: Theme) => ({
       "url('//d1.awsstatic.com/webteam/homepage/Hybrid Solutions/WEB_Homepage_Hybrid_ImageBackgrounds_3.76e75f8d80d01f3d2412e004a28dc3065780a476.png')",
   },
   textSecondaryColor: {
-    color: "#ec6910",
+    color: "#57f",
   },
   bottomStyle: {
     position: "fixed",
     bottom: 0,
+  },
+  titleBoxStyle: {
+    borderRadius: 6,
+    padding: "0px 15px",
+    height: 35,
+    alignItems: "center",
+    display: "flex",
+    backgroundColor: "#f3f4f6",
+  },
+  breakText: {
+    whiteSpace: "initial",
+  },
+  avatarStyle: {
+    width: "30px !important",
+    height: "30px !important",
+    backgroundColor: "#e8eef5 !important",
+  },
+  smallAvatarStyle: {
+    width: "30px !important",
+    height: "30px !important",
+  },
+  avatar2Style: {
+    width: 30,
+    height: 30,
+    backgroundColor: "#57f",
+  },
+  userdelineStyle: {
+    textDecoration: "underline",
+    fontWeight: 500,
+  },
+  nameStyle: {
+    fontWeight: 700,
+  },
+  actionStyle: {
+    fontWeight: 400,
+    fontSize: 14,
+  },
+  customBadge: {
+    top: "90% !important",
+    background: "unset",
+    border: "unset",
+  },
+  dotBannerStyle: {
+    background:
+      "url(https://clickup.com/landing/images/v2/dots.svg) repeat top center/auto",
+    maxWidth: 1600,
+    margin: "auto",
+    position: "relative",
   },
 }));
 

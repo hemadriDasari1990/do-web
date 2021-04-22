@@ -10,7 +10,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Divider } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
@@ -18,14 +18,11 @@ import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
-// import Link from "@material-ui/core/Link";
-// import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSkeleton from "../../common/skeletons/list";
 import Loader from "../../Loader/components";
-// import LockOutlinedIcon from "@material-ui/icons/EnhancedEncryptionOutlined";
 import Menu from "@material-ui/core/Menu";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import Status from "../../common/Status";
@@ -33,16 +30,15 @@ import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-// import Status from "../../common/Status";
 import { formatNumberWithCommas } from "../../../util";
 import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
-// import SummaryField from "../../common/SummaryField";
 import { getMembers } from "../../../util/member";
 import { replaceStr } from "../../../util";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
+import useStatusStyles from "../../styles/status";
 import useStyles from "../../styles";
 import { useTeamLoading } from "../../../redux/state/team";
 
@@ -72,7 +68,8 @@ const BoardList = (props: any) => {
   } = props;
   const {} = useLocalStyles();
   const { loading: projectLoading } = useProjectLoading();
-  const { cursor, avatarBoxStyle, boxMainStyle } = useStyles();
+  const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
+  const { inProgressTextStyle, inProgressStyle } = useStatusStyles();
   const history = useHistory();
 
   /* Redux hooks */
@@ -306,13 +303,13 @@ const BoardList = (props: any) => {
   const renderCardActions = (board: { [Key: string]: any }, index: number) => {
     return (
       <>
-        <Box>
-          <Status value={board?.status} />
-        </Box>
         <AvatarGroupList
           dataList={getMembers(board?.teams)}
           noDataMessage="No Members"
         />
+        <Box>
+          <Status value={board?.status} />
+        </Box>
         <Box display="flex">
           <Box mr={2}>
             {board?.status !== "draft" && (
@@ -419,8 +416,8 @@ const BoardList = (props: any) => {
                 item
                 xl={hideMenu ? 4 : 3}
                 lg={hideMenu ? 4 : 3}
-                md={hideMenu ? 4 : 4}
-                sm={6}
+                md={hideMenu ? 6 : 6}
+                sm={12}
                 xs={12}
               >
                 <Card
@@ -431,9 +428,8 @@ const BoardList = (props: any) => {
                 >
                   <CardHeader
                     avatar={
-                      <DashboardIcon
-                        // style={{ background: getRandomBGColor() }}
-                        className={avatarBoxStyle}
+                      <DashboardOutlinedIcon
+                        className={`${inProgressStyle} ${inProgressTextStyle} ${avatarBoxStyle}`}
                         color="secondary"
                       />
                     }

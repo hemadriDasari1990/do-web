@@ -1,79 +1,55 @@
 import Box from "@material-ui/core/Box";
+import { IconButton } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 import React from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
-// import Tooltip from '@material-ui/core/Tooltip'
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
-  boxStyle: {
-    backgroundColor: "#fff",
-    borderRadius: 6,
-    height: 100,
-    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
+  paperStyle: {
+    borderRadius: 16,
+    height: 200,
+    boxShadow: "0 4px 12px rgb(5 0 56 / 8%)",
+    padding: "24px 24px 24px",
   },
-  summaryGridStyle: {
-    minHeight: 300,
-  },
-  iconGridStyle: {
-    backgroundColor: "#fff",
-    height: 60,
-    width: 60,
-    margin: "auto auto auto 5px",
-    borderRadius: 6,
-    boxShadow: "#10101024 0px 7px 29px 0px",
-  },
-  iconStyle: {
-    position: "relative",
-    top: "calc(50% - 18px)",
-  },
-  iconLogoStyle: {
-    fontSize: 40,
-  },
+  iconStyle: (props: any) => ({
+    background: getRandomColor(props.index),
+    "&:hover": {
+      background: getRandomColor(props.index),
+    },
+    width: 40,
+    height: 40,
+    bottom: 16,
+  }),
   titleStyle: {
-    fontWeight: 400,
+    fontWeight: 700,
+    fontSize: 24,
+    lineHeight: 1.5,
+    letterSpacing: -0.5,
   },
 }));
 
 const InfoCard = (props: any) => {
-  const { icon, title, value } = props;
-  const {
-    boxStyle,
-    iconGridStyle,
-    iconStyle,
-    iconLogoStyle,
-    titleStyle,
-  } = useStyles();
+  const { icon, title, handleButton } = props;
+  const { paperStyle, iconStyle, titleStyle } = useStyles(props);
 
   return (
     <React.Fragment>
-      <Box
-        className={boxStyle}
-        display="flex"
-        justifyContent="space-between"
-        p={2}
-      >
-        <Box className={iconGridStyle} justifyContent="center">
-          <Box className={iconStyle} textAlign="center">
-            <SvgIcon
-              component={icon}
-              className={iconLogoStyle}
-              style={{ color: getRandomColor() }}
-            />
-          </Box>
+      <Paper className={paperStyle}>
+        <Box minHeight={110}>
+          <Typography variant="h2" className={titleStyle}>
+            {title}
+          </Typography>
         </Box>
-        <Box ml={2}>
-          <Box>
-            <Typography className={titleStyle} variant="h5">
-              {title}
-            </Typography>
-          </Box>
-          <Box textAlign="center">
-            <Typography variant="h1">{value || 0}</Typography>
-          </Box>
+
+        <Box display="flex" justifyContent="flex-end" mt={3}>
+          <IconButton onClick={handleButton} className={iconStyle}>
+            <SvgIcon component={icon} color="secondary" />
+          </IconButton>
         </Box>
-      </Box>
+      </Paper>
     </React.Fragment>
   );
 };

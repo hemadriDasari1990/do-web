@@ -1,3 +1,5 @@
+import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../../util/regex";
+import { MAX_CHAR_COUNT, NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
@@ -98,6 +100,9 @@ const Create = (props: any) => {
           required
           fullWidth
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
+          }
         />
         <TextField
           multiline
@@ -111,6 +116,9 @@ const Create = (props: any) => {
           required
           fullWidth
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+          }
         />
       </ResponsiveDialog>
     );

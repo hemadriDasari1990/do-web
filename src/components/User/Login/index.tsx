@@ -1,4 +1,5 @@
-import { DASHBOARD, FORGOT_PASSWORD, USER } from "../../../routes/config";
+import { DASHBOARD, FORGOT_PASSWORD, SIGNUP } from "../../../routes/config";
+import { EMAIL_PATTERN, allow } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
@@ -7,9 +8,9 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DoLogo from "../../common/DoLogo";
 import Link from "@material-ui/core/Link";
+import Loader from "../../Loader/components";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { emailRegex } from "../../../util/regex";
 import { login } from "../../../redux/actions/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -83,14 +84,14 @@ const Login = () => {
   };
 
   const handleCreateUser = () => {
-    history.push(USER);
+    history.push(SIGNUP);
   };
 
   const disableButton = () => {
-    if (!email.trim().length || !emailRegex.test(email)) {
+    if (!email?.trim().length || !EMAIL_PATTERN.test(email)) {
       return true;
     }
-    if (password.trim().length < 6) {
+    if (password?.trim().length < 6) {
       return true;
     }
     return false;
@@ -104,8 +105,13 @@ const Login = () => {
     history.push(FORGOT_PASSWORD);
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
+      <Loader enable={loading} backdrop={true} />
       <Box my={5}>
         <DoLogo justifyContent="center" color="primary" />
       </Box>
@@ -123,6 +129,12 @@ const Login = () => {
           autoComplete="off"
           required
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, EMAIL_PATTERN)
+          }
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <TextField
           type="password"
@@ -135,6 +147,9 @@ const Login = () => {
           autoComplete="off"
           required
           className={textFieldStyle}
+          onCut={handlePrevent}
+          onCopy={handlePrevent}
+          onPaste={handlePrevent}
         />
         <Box mt={3} display="flex">
           <Box mr={2}>
@@ -180,7 +195,7 @@ const Login = () => {
               Can't login?&nbsp;
               <Link component="button" onClick={handleCreateUser}>
                 <Typography variant="subtitle2" color="primary">
-                  Create an Account
+                  Sign up
                 </Typography>
               </Link>
             </Typography>

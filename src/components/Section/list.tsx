@@ -3,73 +3,45 @@ import {
   Draggable,
   DraggableLocation,
   DraggableProvided,
+  DraggableStateSnapshot,
   DropResult,
   Droppable,
   DroppableProvided,
 } from "react-beautiful-dnd";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-// import { deleteSection } from "../../redux/actions/section";
-import { getDownloadFile, reorder, replaceStr } from "../../util";
-import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
 
-import API from "../../network";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import { BOARDS } from "../../routes/config";
-import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import { DOWNLOAD_BOARD_REPORT } from "../../network/endpoints";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
-import ExcelIcon from "../../assets/excel.svg";
-import Fab from "@material-ui/core/Fab";
-import Grid from "@material-ui/core/Grid";
-import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import Invite from "../common/Invite";
-import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import { List } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import LockIcon from "@material-ui/icons/Lock";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import PauseIcon from "@material-ui/icons/Pause";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PieChartOutlinedIcon from "@material-ui/icons/PieChartOutlined";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import PublicIcon from "@material-ui/icons/Public";
 import ReactionSummaryDialog from "./Reaction";
-import SectionsListSkeleton from "../common/skeletons/sectionsList";
-import Slide from "@material-ui/core/Slide";
+import SectionsListSkeleton from "../common/skeletons/sectionList";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
-import { addProjectToStore } from "../../redux/actions/project";
 import formateNumber from "../../util/formateNumber";
-import { getMembers } from "../../util/member";
 import { getSectionsByBoard } from "../../redux/actions/section";
+import { reorder } from "../../util";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
-import useStyles from "../styles";
 
-const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
-const UserAccount = React.lazy(() => import("../Drawer/Account"));
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const UpdateSection = React.lazy(() => import("./Update"));
-const AvatarGroupList = React.lazy(() => import("../common/AvatarGroupList"));
-const Timer = React.lazy(() => import("../common/Timer"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   sectionHeader: {
@@ -78,91 +50,50 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   titleStyle: {
     width: "fit-content",
   },
-  sectionGridStyle: {
-    border: "2px solid #172b4d",
-    borderRadius: 6,
-  },
-  sectionStyle: {
-    backgroundColor: "#d8d8d833",
-    borderRadius: 6,
-  },
+  sectionStyle: (props: any) => ({
+    minHeight: "100vh",
+    /* like display:flex but will allow bleeding over the window width */
+    minWidth: "100vw",
+    display: "inline-flex", // Change this to flex for window scroll
+    flexWrap: props?.viewType, // nowrap is row wrap is next line
+    transform: "translateZ(0)",
+  }),
   listItemStyle: {
     cursor: "pointer",
   },
-  startSessionIconStyle: {
-    borderRadius: "50%",
-    color: "#0fe220",
+  parentContainer: {
+    height: "90vh",
+    overflow: "auto",
   },
-  buttonOutlinedStartStyle: {
-    backgroundColor: "#dbfdde",
-    border: "unset",
-    "&.MuiButton-outlined:hover": {
-      backgroundColor: "#dbfdde",
-      border: "unset",
-    },
-  },
-  startSessionTextStyle: {
-    color: "#0fe220",
-    fontWeight: 600,
-  },
-  stopSessionIconStyle: {
-    borderRadius: "50%",
-    color: "#ff0000",
-    padding: 3,
-    height: 20,
-    width: 20,
-  },
-  buttonOutlinedStopStyle: {
-    backgroundColor: "#ffd2d2",
-    border: "unset",
-    "&.MuiButton-outlined:hover": {
-      backgroundColor: "#ffd2d2",
-      border: "unset",
-    },
-  },
-  stopSessionTextStyle: {
-    color: "#ff0000",
-    fontWeight: 600,
-  },
-  boxStyle: {
-    width: "fit-content",
+  sectionContainer: {
+    margin: 4,
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#f3f4f6",
+    width: 420,
     borderRadius: 6,
-    backgroundColor: "#0072ff21",
-  },
-  boxTextStyle: {
-    padding: "5px 15px 5px 15px",
-    color: "#0072ff",
-    fontWeight: 500,
   },
 }));
 
-const SectionList = () => {
+const SectionList = (props: any) => {
+  const { startSession } = props;
   const {
     sectionHeader,
     titleStyle,
-    sectionStyle,
     listItemStyle,
-    startSessionIconStyle,
-    buttonOutlinedStartStyle,
-    startSessionTextStyle,
-    stopSessionIconStyle,
-    buttonOutlinedStopStyle,
-    stopSessionTextStyle,
-    boxStyle,
-    boxTextStyle,
-    // sectionGridStyle,
-  } = useLocalStyles();
-  const { buttonStyle, iconBackStyle } = useStyles();
+    parentContainer,
+    sectionStyle,
+    sectionContainer,
+  } = useLocalStyles(props);
+
   const dispatch = useDispatch();
-  const history = useHistory();
+
   const { boardId } = useParams<{ boardId: string }>();
   const { socket } = useSocket();
 
   /* Redux hooks */
   const { section } = useSection();
-  const { totalSections: totalSectionCount, board } = useBoard();
   const { loading } = useLoading();
-  const { loading: boardLoading } = useBoardLoading();
   const authenticated = useAuthenticated();
   const { userId } = useLogin();
 
@@ -171,18 +102,9 @@ const SectionList = () => {
   const [selectedSection, setSelectedSection] = useState<any>(null);
   const [sections, setSections] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [openAccount, setOpenAccount] = useState(false);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
-  const [endSessionDialog, setEndSessionDialog] = useState(false);
   const [open, setOpen] = useState(false);
-  const [boardDetails, setBoardDetails] = useState(board);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [totalSections, setTotalSections] = useState(totalSectionCount);
-  const [startSession, setStartSession] = useState(false);
-  const [openInviteDialog, setOpenInviteDialog] = useState(false);
-  const [openChangeVisibilityDialog, setOpenChangeVisibilityDialog] = useState(
-    false
-  );
   const [openAnalytics, setOpenAnalytics] = useState(false);
 
   /* React Hooks */
@@ -211,61 +133,6 @@ const SectionList = () => {
   }, [sections]);
 
   useEffect(() => {
-    /* Start session */
-    socket.on(
-      `start-session-response`,
-      (updatedBoard: { [Key: string]: any }) => {
-        if (!updatedBoard) {
-          return;
-        }
-        setBoardDetails(updatedBoard);
-        setStartSession(true);
-      }
-    );
-    /* End session */
-    socket.on(
-      `end-session-response`,
-      (updatedBoard: { [Key: string]: any }) => {
-        if (!updatedBoard) {
-          return;
-        }
-        setBoardDetails(updatedBoard);
-      }
-    );
-
-    return () => {
-      socket.off("start-session-responsee");
-      socket.off("end-session-response");
-    };
-  }, [boardDetails]);
-
-  useEffect(() => {
-    socket.on(
-      `change-visibility-response`,
-      (updated: { [Key: string]: any }) => {
-        if (!updated) {
-          return;
-        }
-        const newBoardDetails = { ...boardDetails };
-        newBoardDetails.isPrivate = updated?.isPrivate;
-        setBoardDetails(newBoardDetails);
-        setOpenChangeVisibilityDialog(false);
-      }
-    );
-    return () => {
-      socket.off("change-visibility-response");
-    };
-  }, [openChangeVisibilityDialog]);
-
-  useEffect(() => {
-    // if (!board?.startedAt && !board?.completedAt) {
-    //   setBoardDetails(board);
-    // }
-    setBoardDetails(board);
-    dispatch(addProjectToStore(board?.project));
-  }, [board]);
-
-  useEffect(() => {
     /* Update Section Title */
     socket.on(
       `update-section-response`,
@@ -273,6 +140,7 @@ const SectionList = () => {
         if (!updatedSection) {
           return;
         }
+
         filterLatestSections(updatedSection);
       }
     );
@@ -307,22 +175,19 @@ const SectionList = () => {
     if (!loading && action && Array.isArray(section)) {
       setSections(section);
       setAction(false);
-      setTotalSections(totalSectionCount);
     }
   }, [action, section, loading]);
 
   /* Handler functions */
   const editSection = () => {
+    setAnchorEl(null);
+    setOpen(false);
     setOpenDialog(true);
   };
 
   const handleDeleteSection = () => {
     setOpen(false);
     setOpenDeleteDialog(true);
-  };
-
-  const handleAccount = () => {
-    setOpenAccount(!openAccount);
   };
 
   const updateTotalNotes = useCallback(
@@ -359,7 +224,6 @@ const SectionList = () => {
       (item) => item._id !== deletedSection?._id
     );
     setSections(filteredSections);
-    setTotalSections(totalSections - 1);
     setSelectedSection(null);
   };
 
@@ -368,11 +232,10 @@ const SectionList = () => {
       return;
     }
     setSections([...sections, newSection]);
-    setTotalSections(totalSections + 1);
   };
 
   const filterLatestSections = (section: { [Key: string]: any }) => {
-    if (!selectedSection) {
+    if (!section) {
       return;
     }
     const newSections: Array<{ [Key: string]: any }> = [...sections];
@@ -388,113 +251,6 @@ const SectionList = () => {
     setSections(newSections);
     setSelectedSection(null);
   };
-
-  const handleDelete = () => {
-    socket.emit("delete-section", selectedSection?._id);
-    setOpenDeleteDialog(false);
-  };
-
-  const handleCreateNewSection = () => {
-    setOpenDialog(true);
-  };
-
-  const handleClose = () => {
-    if (openDialog) {
-      setOpenDialog(false);
-    }
-
-    if (deleteDialog) {
-      setOpenDeleteDialog(false);
-    }
-
-    if (endSessionDialog) {
-      setEndSessionDialog(false);
-    }
-  };
-
-  const renderUpdateDialog = () => {
-    return (
-      <UpdateSection
-        selectedSection={selectedSection}
-        openDialog={openDialog}
-        handleClose={handleClose}
-      />
-    );
-  };
-
-  const handleEndSession = () => {
-    socket.emit("end-session", {
-      action: "end",
-      id: boardDetails?._id,
-      completedAt: Date.now(),
-    });
-    handleClose();
-  };
-
-  const renderEndSessionDialog = () => {
-    return (
-      <ResponsiveDialog
-        open={endSessionDialog}
-        title="End Session"
-        pcta="End Session"
-        scta="Cancel"
-        handleSave={handleEndSession}
-        handleClose={handleClose}
-        maxWidth={440}
-      >
-        <Typography variant="h4">
-          Are you sure you want to end the session?
-        </Typography>
-      </ResponsiveDialog>
-    );
-  };
-
-  const handleInviteClose = () => {
-    setOpenInviteDialog(false);
-  };
-
-  const renderInviteMemberDialog = () => {
-    return (
-      <Invite
-        selectedBoard={boardDetails}
-        openDialog={openInviteDialog}
-        handleClose={handleInviteClose}
-      />
-    );
-  };
-
-  const handleVisibilityClose = () => {
-    setOpenChangeVisibilityDialog(false);
-  };
-
-  const renderChangeVisibilityDialog = () => {
-    return (
-      <Visibility
-        selectedBoard={boardDetails}
-        openDialog={openChangeVisibilityDialog}
-        handleClose={handleVisibilityClose}
-      />
-    );
-  };
-
-  const renderDeleteDialog = useCallback(() => {
-    return (
-      <Box>
-        <ResponsiveDialog
-          open={deleteDialog}
-          title="Delete Section"
-          pcta="Delete"
-          handleSave={handleDelete}
-          handleClose={handleClose}
-          maxWidth={440}
-        >
-          <Typography variant="h5">
-            Are you sure you want to delete {selectedSection?.title}?
-          </Typography>
-        </ResponsiveDialog>
-      </Box>
-    );
-  }, [deleteDialog]);
 
   const handleDialogClose = () => {
     setOpenAnalytics(false);
@@ -512,6 +268,7 @@ const SectionList = () => {
 
   const handleMenuClose = () => {
     setOpen(false);
+    setAnchorEl(null);
   };
 
   const handleViewAnalytics = (section: { [Key: string]: any }) => {
@@ -593,55 +350,6 @@ const SectionList = () => {
     );
   };
 
-  const handleBack = () => {
-    history.push(BOARDS);
-  };
-
-  const handleStartSession = () => {
-    socket.emit("start-session", {
-      action: "start",
-      id: boardDetails?._id,
-      startedAt: Date.now(),
-    });
-  };
-
-  const handleStopSession = () => {
-    setEndSessionDialog(true);
-  };
-
-  const dateDiffInDays = () => {
-    // Discard the time and time-zone information.
-    const completedDateTime: any = new Date(
-      boardDetails?.completedAt
-    ).getTime();
-    const startDateTime: any = new Date(boardDetails?.startedAt).getTime();
-
-    let milisec_diff = null;
-    if (startDateTime < completedDateTime) {
-      milisec_diff = completedDateTime - startDateTime;
-    } else {
-      milisec_diff = startDateTime - completedDateTime;
-    }
-    const dd = Math.floor(milisec_diff / 1000 / 60 / 60 / 24);
-    milisec_diff -= dd * 1000 * 60 * 60 * 24;
-    const hh = Math.floor(milisec_diff / 1000 / 60 / 60);
-    milisec_diff -= hh * 1000 * 60 * 60;
-    const mm = Math.floor(milisec_diff / 1000 / 60);
-    milisec_diff -= mm * 1000 * 60;
-    const ss = Math.floor(milisec_diff / 1000);
-    milisec_diff -= ss * 1000;
-
-    return (
-      <Box className={boxStyle}>
-        <Typography variant="subtitle1" className={boxTextStyle}>
-          Session Completed in{" "}
-          {`${dd ? dd + " days" : ""} ${hh ? hh + " hrs" : ""}`} {mm}{" "}
-          {mm === 1 ? "min" : "mins"} {ss} secs
-        </Typography>
-      </Box>
-    );
-  };
-
   const reorderNotesList = (
     source: DraggableLocation,
     destination: DraggableLocation
@@ -666,42 +374,51 @@ const SectionList = () => {
     return newSections;
   };
 
-  const moveNotesBetweenSections = (
-    source: DraggableLocation,
-    destination: DraggableLocation
-  ) => {
-    /* Clone original sections */
-    const newSections: Array<{ [Key: string]: any }> = [...sections];
-    /* Find source section index */
-    const sourceSectionIndex: number = sections.findIndex(
-      (newSection: { [Key: string]: any }) =>
-        newSection?._id === source.droppableId
+  const handleDelete = () => {
+    socket.emit("delete-section", {
+      id: selectedSection?._id,
+      boardId: boardId,
+    });
+    setOpenDeleteDialog(false);
+  };
+
+  const renderUpdateDialog = () => {
+    return (
+      <UpdateSection
+        selectedSection={selectedSection}
+        openDialog={openDialog}
+        handleClose={handleClose}
+      />
     );
-    /* Find destination section index */
-    const destinationSectionIndex: number = sections.findIndex(
-      (newSection: { [Key: string]: any }) =>
-        newSection?._id === destination.droppableId
+  };
+
+  const renderDeleteDialog = useCallback(() => {
+    return (
+      <Box>
+        <ResponsiveDialog
+          open={deleteDialog}
+          title="Delete Section"
+          pcta="Delete"
+          handleSave={handleDelete}
+          handleClose={handleClose}
+          maxWidth={440}
+        >
+          <Typography variant="h5">
+            Are you sure you want to delete {selectedSection?.title}?
+          </Typography>
+        </ResponsiveDialog>
+      </Box>
     );
-    /* Find current section */
-    const sourceSection: { [Key: string]: any } = sections[sourceSectionIndex];
-    const destinationSection: { [Key: string]: any } =
-      sections[destinationSectionIndex];
-    const sourceNote = sourceSection.notes[source.index];
+  }, [deleteDialog]);
 
-    // 1. Remove note from source section
-    sourceSection.notes.splice(source.index, 1);
-    /* Decrease notes count */
-    sourceSection.totalNotes =
-      sourceSection.totalNotes >= 1 ? sourceSection.totalNotes - 1 : 0;
+  const handleClose = () => {
+    if (openDialog) {
+      setOpenDialog(false);
+    }
 
-    // 2. insert note into destination section
-    destinationSection.notes.splice(destination.index, 0, sourceNote);
-    /* Increase notes count */
-    destinationSection.totalNotes = destinationSection.totalNotes + 1;
-
-    newSections[sourceSectionIndex] = sourceSection;
-    newSections[destinationSectionIndex] = destinationSection;
-    return newSections;
+    if (deleteDialog) {
+      setOpenDeleteDialog(false);
+    }
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -745,124 +462,16 @@ const SectionList = () => {
       setSections(newSections);
       return;
     }
-
     // moving notes between sections
     socket.emit("move-note-to-section", {
+      boardId,
+      userId,
       noteId: result.draggableId,
       sourceSectionId: source.droppableId,
       destinationSectionId: destination.droppableId,
+      source,
+      destination,
     });
-    const newSections = moveNotesBetweenSections(source, destination);
-    setSections(newSections);
-  };
-
-  const renderStartSession = useCallback(() => {
-    return (
-      <Box mr={1} className={buttonStyle}>
-        <Button
-          variant="outlined"
-          color="default"
-          className={buttonOutlinedStartStyle}
-          startIcon={
-            <PlayArrowIcon color="primary" className={startSessionIconStyle} />
-          }
-          onClick={() => handleStartSession()}
-        >
-          <Typography className={startSessionTextStyle} variant="h6">
-            Start Session
-          </Typography>
-        </Button>
-      </Box>
-    );
-  }, [boardLoading, authenticated, boardDetails]);
-
-  const renderEndSession = useCallback(() => {
-    return (
-      <Box mx={1} className={buttonStyle}>
-        <Button
-          variant="outlined"
-          color="default"
-          className={buttonOutlinedStopStyle}
-          startIcon={
-            <PauseIcon color="primary" className={stopSessionIconStyle} />
-          }
-          onClick={() => handleStopSession()}
-        >
-          <Typography
-            color="primary"
-            variant="h6"
-            className={stopSessionTextStyle}
-          >
-            End Session
-          </Typography>
-        </Button>
-      </Box>
-    );
-  }, [boardLoading, authenticated, boardDetails]);
-
-  const renderTimer = useCallback(() => {
-    return <Timer startDateTime={boardDetails?.startedAt} interval={1000} />;
-  }, [boardLoading, boardDetails]);
-
-  const renderDiffInDays = useCallback(() => {
-    return <Box>{dateDiffInDays()}</Box>;
-  }, [boardLoading, boardDetails]);
-
-  const renderCreateNewSection = useCallback(() => {
-    return (
-      <Box mr={1}>
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <IconButton
-            size="small"
-            className={iconBackStyle}
-            onClick={() => handleBack()}
-          >
-            <AddOutlinedIcon color="primary" />
-          </IconButton>
-        </Hidden>
-        <Hidden only={["xs"]}>
-          <Box className={buttonStyle}>
-            <Fab color="primary" onClick={() => handleCreateNewSection()}>
-              <AddOutlinedIcon color="primary" />
-            </Fab>
-          </Box>
-        </Hidden>
-      </Box>
-    );
-  }, [boardLoading, authenticated]);
-
-  const renderGoBackToBoards = useCallback(() => {
-    return (
-      <Box mr={1}>
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <IconButton
-            size="small"
-            className={iconBackStyle}
-            onClick={() => handleBack()}
-          >
-            <KeyboardBackspaceOutlinedIcon color="primary" />
-          </IconButton>
-        </Hidden>
-        <Hidden only={["xs"]}>
-          <Box className={buttonStyle}>
-            <Button
-              variant="outlined"
-              color="default"
-              startIcon={<KeyboardBackspaceOutlinedIcon color="primary" />}
-              onClick={() => handleBack()}
-            >
-              <Typography color="primary" variant="subtitle1">
-                Go Back to Boards
-              </Typography>
-            </Button>
-          </Box>
-        </Hidden>
-      </Box>
-    );
-  }, [boardLoading, authenticated]);
-
-  const handleDrawerClose = () => {
-    setOpenAccount(false);
   };
 
   const onDragStart = () => {
@@ -873,17 +482,9 @@ const SectionList = () => {
     }
   };
 
-  const inviteMember = () => {
-    setOpenInviteDialog(true);
-  };
-
-  const changeVisibility = () => {
-    setOpenChangeVisibilityDialog(true);
-  };
-
   const renderAnalytics = (section: { [Key: string]: any }) => {
     return (
-      <Tooltip arrow title="View Analytics">
+      <Tooltip arrow title="View Analytics" placement="bottom">
         <IconButton
           aria-label="reaction-menu"
           size="small"
@@ -897,250 +498,88 @@ const SectionList = () => {
     );
   };
 
-  const handleDownloadReport = async () => {
-    const response: any = await API(
-      replaceStr(DOWNLOAD_BOARD_REPORT, "{boardId}", boardDetails._id),
-      {
-        method: "GET",
-        credentials: "include",
-        responseType: "blob", // Important
-      }
-    );
-    await getDownloadFile(response, `boardreport.xlsx`);
-  };
-
   return (
     <Suspense fallback={<div />}>
       {/* <Loader enable={loading} /> */}
       {renderReactionsummaryDialog()}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
-      {renderEndSessionDialog()}
-      {renderInviteMemberDialog()}
-      {renderChangeVisibilityDialog()}
-      {loading ? (
-        <BoardHeaderSkeleton />
-      ) : (
-        <Grid container spacing={2}>
-          <Slide
-            direction="right"
-            in={true}
-            timeout={1500}
-            mountOnEnter
-            unmountOnExit
-          >
-            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-              <Box display="flex">
-                <Box>
-                  <Typography variant="h3" style={{ color: "#071040" }}>
-                    {boardDetails?.title}&nbsp;(
-                    {formateNumber(totalSections) || 0})
-                  </Typography>
-                </Box>
-                {/* {!boardLoading && boardDetails?.teams?.length ? (
-                  <Box ml={2} mt={0.5}>
-                    <AvatarGroupList dataList={boardDetails?.teams} />
-                  </Box>
-                ) : null} */}
-                {!boardLoading && boardDetails?.teams?.length ? (
-                  <Box ml={2} mt={0.5}>
-                    <AvatarGroupList
-                      dataList={getMembers(boardDetails?.teams)}
-                    />
-                  </Box>
-                ) : null}
-                {authenticated && (
-                  <Box ml={1} mt={0.3}>
-                    <Button
-                      color="primary"
-                      onClick={() => inviteMember()}
-                      startIcon={<PersonAddIcon />}
-                    >
-                      <Typography variant="subtitle1">Invite</Typography>
-                    </Button>
-                  </Box>
-                )}
-                {authenticated && (
-                  <Box ml={1} mt={0.3}>
-                    <Button
-                      color="primary"
-                      onClick={() => changeVisibility()}
-                      startIcon={
-                        boardDetails?.isPrivate ? <LockIcon /> : <PublicIcon />
-                      }
-                    >
-                      <Typography variant="subtitle1">
-                        {boardDetails?.isPrivate ? "Private" : "Public"}
-                      </Typography>
-                    </Button>
-                  </Box>
-                )}
-                <Box ml={1} mt={0.3}>
-                  <Tooltip title="Export to Excel" placement="right" arrow>
-                    <Fab color="primary" onClick={() => handleDownloadReport()}>
-                      <img src={ExcelIcon} width={20} height={20} />
-                    </Fab>
-                  </Tooltip>
-                </Box>
-              </Box>
-            </Grid>
-          </Slide>
-          <Slide
-            direction="left"
-            in={true}
-            timeout={1500}
-            mountOnEnter
-            unmountOnExit
-          >
-            <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
-              <Box display="flex" justifyContent="flex-end">
-                {!boardLoading &&
-                boardDetails?.startedAt &&
-                !boardDetails?.completedAt ? (
-                  <Box>{renderTimer()}</Box>
-                ) : null}
-                {!boardLoading &&
-                boardDetails?.startedAt &&
-                boardDetails?.completedAt ? (
-                  <Box mt={0.3} mr={1}>
-                    {renderDiffInDays()}
-                  </Box>
-                ) : null}
-                <Box>
-                  {!boardLoading &&
-                  authenticated &&
-                  boardDetails &&
-                  !boardDetails.startedAt ? (
-                    <>{renderStartSession()}</>
-                  ) : null}
-                  {!boardLoading &&
-                  authenticated &&
-                  boardDetails?.startedAt &&
-                  !boardDetails.completedAt ? (
-                    <>{renderEndSession()}</>
-                  ) : null}
-                </Box>
-                {!boardLoading && authenticated ? (
-                  <>{renderGoBackToBoards()}</>
-                ) : null}
-                {!boardLoading && authenticated ? (
-                  <>{renderCreateNewSection()}</>
-                ) : null}
-                {authenticated && (
-                  <Box>
-                    <Button
-                      color="primary"
-                      onClick={() => handleAccount()}
-                      startIcon={<MoreHorizIcon />}
-                    >
-                      <Typography variant="subtitle1">Show Menu</Typography>
-                    </Button>
-                  </Box>
-                )}
-                <PersistentDrawerRight
-                  open={openAccount}
-                  handleDrawerClose={handleDrawerClose}
-                >
-                  <UserAccount
-                    handleDrawerClose={handleDrawerClose}
-                    openAccount={openAccount}
-                  />
-                </PersistentDrawerRight>
-              </Box>
-            </Grid>
-          </Slide>
-        </Grid>
-      )}
       {loading ? <SectionsListSkeleton /> : null}
       {!loading && (
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-          <List>
-            <Droppable
-              droppableId="section"
-              type="SECTION"
-              direction="horizontal"
-              // ignoreContainerClipping={Boolean(containerHeight)}
-              // isCombineEnabled={false}
-            >
-              {(droppableProvided: DroppableProvided) => (
-                <div
-                  ref={droppableProvided.innerRef}
-                  {...droppableProvided.droppableProps}
-                >
-                  <Grid container spacing={1}>
+        <List disablePadding>
+          <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+            <div className={parentContainer}>
+              <Droppable
+                droppableId="section"
+                type="SECTION"
+                direction="horizontal"
+                ignoreContainerClipping={true}
+                isCombineEnabled={false}
+              >
+                {(droppableProvided: DroppableProvided) => (
+                  <div
+                    ref={droppableProvided.innerRef}
+                    {...droppableProvided.droppableProps}
+                    className={sectionStyle}
+                  >
                     {Array.isArray(sections) &&
                       sections.map(
                         (item: { [Key: string]: any }, index: number) => (
-                          <Draggable
-                            key={item._id}
-                            draggableId={item._id}
-                            index={index}
-                            isDragDisabled={!userId}
-                          >
-                            {(
-                              draggableProvided: DraggableProvided
-                              // draggableSnapshot: DraggableStateSnapshot
-                            ) => (
-                              <Grid
-                                item
-                                // key={item._id}
-                                xl={3}
-                                lg={3}
-                                md={4}
-                                sm={6}
-                                xs={12}
-                                ref={draggableProvided.innerRef}
-                                {...draggableProvided.draggableProps}
-                              >
+                          <div key={item._id}>
+                            <Draggable
+                              draggableId={item._id}
+                              index={index}
+                              isDragDisabled={!authenticated}
+                            >
+                              {(
+                                draggableProvided: DraggableProvided,
+                                draggableSnapshot: DraggableStateSnapshot
+                              ) => (
                                 <div
-                                  // ref={draggableProvided.innerRef}
-                                  // {...draggableProvided.draggableProps}
-                                  // {...draggableProvided.dragHandleProps}
-                                  // style={getItemStyle(
-                                  //   provided.draggableStyle,
-                                  //   snapshot.isDragging
-                                  // )}
-                                  className={`${sectionStyle}`}
-                                  // data-isDragging={
-                                  //   draggableSnapshot.isDragging &&
-                                  //   !draggableSnapshot.isDropAnimating
-                                  // }
+                                  ref={draggableProvided.innerRef}
+                                  {...draggableProvided.draggableProps}
+                                  className={`${sectionContainer}`}
                                 >
-                                  <ListItem
-                                    disableGutters
-                                    {...draggableProvided.dragHandleProps}
+                                  <div
+                                    is-dragging={draggableSnapshot.isDragging}
                                   >
-                                    <ListItemText
-                                      primary={
-                                        <Box
-                                          display="flex"
-                                          justifyContent="space-between"
-                                          className={`${titleStyle}`}
-                                        >
-                                          <Box>
-                                            <Typography
-                                              className={sectionHeader}
-                                              variant="h3"
-                                            >
-                                              {item.title}&nbsp;(
-                                              {formateNumber(item.totalNotes) ||
-                                                0}
-                                              )
-                                            </Typography>
+                                    <ListItem
+                                      {...draggableProvided.dragHandleProps}
+                                      is-dragging={draggableSnapshot.isDragging}
+                                      disableGutters
+                                    >
+                                      <ListItemText
+                                        primary={
+                                          <Box
+                                            display="flex"
+                                            justifyContent="space-between"
+                                            className={`${titleStyle}`}
+                                          >
+                                            <Box>
+                                              <Typography
+                                                className={sectionHeader}
+                                                variant="h3"
+                                              >
+                                                {item.title}&nbsp;(
+                                                {formateNumber(
+                                                  item.totalNotes
+                                                ) || 0}
+                                                )
+                                              </Typography>
+                                            </Box>
                                           </Box>
-                                        </Box>
-                                      }
-                                    />
-
-                                    {authenticated && (
+                                        }
+                                      />
                                       <ListItemSecondaryAction>
                                         {item.totalNotes
                                           ? renderAnalytics(item)
                                           : null}
-                                        {renderMenuAction(item)}
+                                        {authenticated
+                                          ? renderMenuAction(item)
+                                          : null}
                                       </ListItemSecondaryAction>
-                                    )}
-                                  </ListItem>
+                                    </ListItem>
+                                  </div>
                                   {renderMenu(item)}
                                   <Note
                                     sectionIndex={index}
@@ -1149,18 +588,18 @@ const SectionList = () => {
                                     sectionId={item._id}
                                   />
                                 </div>
-                              </Grid>
-                            )}
-                          </Draggable>
+                              )}
+                            </Draggable>
+                          </div>
                         )
                       )}
                     {droppableProvided.placeholder}
-                  </Grid>
-                </div>
-              )}
-            </Droppable>
-          </List>
-        </DragDropContext>
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          </DragDropContext>
+        </List>
       )}
       {!loading && !sections?.length && (
         <NoRecords message="No Sections found" />

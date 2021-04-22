@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { makeFriendly, noFormatter } from "../../../util/formateNumber";
-// import { getReactionsSummaryByBoard } from "../../../redux/actions/reaction";
-// import Typography from "@material-ui/core/Typography";
-// import Zoom from "@material-ui/core/Zoom";
-// import { useDispatch } from "react-redux";
 import { useLoading, useReactionSummary } from "../../../redux/state/reaction";
 
-// import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
+import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import HighlightIcon from "@material-ui/icons/Highlight";
+import IconButton from "@material-ui/core/IconButton";
+import LoveIcon from "@material-ui/icons/Favorite";
+import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import { PieChart } from "react-minimal-pie-chart";
+import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import { Suspense } from "react";
 import { Typography } from "@material-ui/core";
+import { getRandomColor } from "../../../util/getRandomColor";
 import useStyles from "../../styles";
 
 const Summary = (props: any) => {
-  const { hideTitle } = props;
-  // const { name } = useUser();
-  //   const history = useHistory();
-  // const dispatch = useDispatch();
+  const { hideTitle, hideNoSummary } = props;
   const {
+    plusIconStyle,
     minusOneIconStyle,
-    plusTwoIconStyle,
+    highlightIconStyle,
     deserveIconStyle,
     loveIconStyle,
   } = useStyles();
@@ -39,7 +39,7 @@ const Summary = (props: any) => {
     const data = [];
     if (summary?.plusOne) {
       data.push({
-        color: hovered === 0 ? "#3333" : "#0072ff",
+        color: hovered === 0 ? "#3333" : "#57f",
         title: "Plus One",
         value: summary?.plusOne,
         shortValue: noFormatter(summary?.plusOne),
@@ -49,7 +49,7 @@ const Summary = (props: any) => {
 
     if (summary?.minusOne) {
       data.push({
-        color: hovered === 1 ? "#3333" : "#27fd00",
+        color: hovered === 1 ? "#3333" : getRandomColor(6),
         title: "Minus One",
         value: summary?.minusOne,
         shortValue: noFormatter(summary?.minusOne),
@@ -58,25 +58,25 @@ const Summary = (props: any) => {
     }
     if (summary?.love) {
       data.push({
-        color: hovered === 2 ? "#3333" : "#ea087b",
+        color: hovered === 2 ? "#3333" : getRandomColor(1),
         title: "Love",
         value: summary?.love,
         shortValue: noFormatter(summary?.love),
         abbrevateLabel: makeFriendly(summary?.love),
       });
     }
-    if (summary?.plusTwo) {
+    if (summary?.highlight) {
       data.push({
-        color: hovered === 3 ? "#3333" : "#0072ff",
+        color: hovered === 3 ? "#3333" : getRandomColor(4),
         title: "Plus Two",
-        value: summary?.plusTwo,
-        shortValue: noFormatter(summary?.plusTwo),
-        abbrevateLabel: makeFriendly(summary?.plusTwo),
+        value: summary?.highlight,
+        shortValue: noFormatter(summary?.highlight),
+        abbrevateLabel: makeFriendly(summary?.highlight),
       });
     }
     if (summary?.deserve) {
       data.push({
-        color: hovered === 4 ? "#3333" : "#ffc800",
+        color: hovered === 4 ? "#3333" : getRandomColor(3),
         title: "Deserve",
         value: summary?.deserve,
         shortValue: noFormatter(summary?.deserve),
@@ -88,92 +88,123 @@ const Summary = (props: any) => {
 
   return (
     <Suspense fallback={<div></div>}>
-      {!loading && summary?.totalReactions ? (
-        <>
-          {!hideTitle && (
-            <Box mb={2}>
-              <Typography variant="h4">
-                Total Reactions ({noFormatter(summary?.totalReactions)})
-              </Typography>
-            </Box>
-          )}
-
-          <Box display="flex" justifyContent="space-between">
-            <Box display="flex">
-              <Box height={20} width={20} className={deserveIconStyle}></Box>
-              <Box ml={1}>
-                <Typography variant="h6">Deserve</Typography>
-              </Box>
-            </Box>
-            <Box display="flex">
-              <Box height={20} width={20} className={plusTwoIconStyle}></Box>
-              <Box ml={1}>
-                <Typography variant="h6">Plus One</Typography>
-              </Box>
-            </Box>
-
-            <Box display="flex">
-              <Box height={20} width={20} className={loveIconStyle}></Box>
-              <Box ml={1}>
-                <Typography variant="h6">Love</Typography>
-              </Box>
-            </Box>
-          </Box>
-
-          <Box display="flex" mt={2}>
-            <Box mt="18%">
-              <Box height={20} width={20} className={minusOneIconStyle}></Box>
-              <Box mt={1}>
-                <Typography variant="h6" style={{ writingMode: "vertical-rl" }}>
-                  Minus One
+      <Box p={2}>
+        {!loading && summary?.totalReactions ? (
+          <>
+            {!hideTitle && (
+              <Box mb={2}>
+                <Typography variant="h4">
+                  Total Reactions ({noFormatter(summary?.totalReactions)})
                 </Typography>
               </Box>
-            </Box>
-            <PieChart
-              style={{ height: 200 }}
-              data={getReactionSummaryData()}
-              radius={50 - 6}
-              lineWidth={50}
-              segmentsStyle={{ transition: "stroke .3s", cursor: "pointer" }}
-              labelPosition={100 - 50 / 2}
-              segmentsShift={(index: number) => (index === selected ? 6 : 1)}
-              label={({ dataEntry }: { [Key: string]: any }) =>
-                dataEntry?.shortValue + dataEntry?.abbrevateLabel
-              }
-              onClick={(_, index: number) => {
-                setSelected(index === selected ? undefined : index);
-              }}
-              onMouseOver={(_, index: number) => {
-                setHovered(index);
-              }}
-              onMouseOut={() => {
-                setHovered(undefined);
-              }}
-              labelStyle={{
-                fill: "#fff",
-                opacity: 0.75,
-                fontSize: 10,
-                fontWeight: 600,
-                pointerEvents: "none",
-              }}
-              animate
-            />
-            <Box mt="18%">
-              <Box height={20} width={20} className={plusTwoIconStyle}></Box>
-              <Box mt={1}>
-                <Typography variant="h6" style={{ writingMode: "vertical-rl" }}>
-                  Plus Two
-                </Typography>
+            )}
+
+            <Box display="flex" justifyContent="space-around">
+              <Box display="flex">
+                <IconButton
+                  className={deserveIconStyle}
+                  color="secondary"
+                  size="small"
+                >
+                  <DeserveIcon color="secondary" fontSize="small" />
+                </IconButton>
+                <Box ml={1}>
+                  <Typography variant="h6">Deserve</Typography>
+                </Box>
+              </Box>
+              <Box display="flex">
+                <IconButton
+                  className={plusIconStyle}
+                  color="secondary"
+                  size="small"
+                >
+                  <PlusOneIcon color="secondary" fontSize="small" />
+                </IconButton>
+
+                <Box ml={1}>
+                  <Typography variant="h6">Plus One</Typography>
+                </Box>
+              </Box>
+
+              <Box display="flex">
+                <IconButton
+                  className={loveIconStyle}
+                  color="secondary"
+                  size="small"
+                >
+                  <LoveIcon color="secondary" fontSize="small" />
+                </IconButton>
+                <Box ml={1}>
+                  <Typography variant="h6">Love</Typography>
+                </Box>
               </Box>
             </Box>
+            <Box display="flex" mt={2} justifyContent="space-around">
+              <Box display="flex">
+                <IconButton
+                  className={highlightIconStyle}
+                  color="secondary"
+                  size="small"
+                >
+                  <HighlightIcon color="secondary" fontSize="small" />
+                </IconButton>
+                <Box ml={1}>
+                  <Typography variant="h6">Highlight</Typography>
+                </Box>
+              </Box>
+              <Box display="flex">
+                <IconButton
+                  className={minusOneIconStyle}
+                  color="secondary"
+                  size="small"
+                >
+                  <MinusOneIcon color="secondary" fontSize="small" />
+                </IconButton>
+                <Box ml={1}>
+                  <Typography variant="h6">Minus One</Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Box mt={2}>
+              <PieChart
+                style={{ height: 200 }}
+                data={getReactionSummaryData()}
+                radius={50 - 6}
+                lineWidth={50}
+                segmentsStyle={{ transition: "stroke .3s", cursor: "pointer" }}
+                labelPosition={100 - 50 / 2}
+                segmentsShift={(index: number) => (index === selected ? 6 : 1)}
+                label={({ dataEntry }: { [Key: string]: any }) =>
+                  dataEntry?.shortValue + dataEntry?.abbrevateLabel
+                }
+                onClick={(_, index: number) => {
+                  setSelected(index === selected ? undefined : index);
+                }}
+                onMouseOver={(_, index: number) => {
+                  setHovered(index);
+                }}
+                onMouseOut={() => {
+                  setHovered(undefined);
+                }}
+                labelStyle={{
+                  fill: "#fff",
+                  opacity: 0.75,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  pointerEvents: "none",
+                }}
+                animate
+              />
+            </Box>
+          </>
+        ) : null}
+        {!loading && !summary?.totalReactions && !hideNoSummary && (
+          <Box textAlign="center">
+            <Typography variant="h5">No reactions to display</Typography>
           </Box>
-        </>
-      ) : null}
-      {!loading && !summary?.totalReactions && (
-        <Box textAlign="center">
-          <Typography variant="h5">Chart summary isn't available</Typography>
-        </Box>
-      )}
+        )}
+      </Box>
     </Suspense>
   );
 };

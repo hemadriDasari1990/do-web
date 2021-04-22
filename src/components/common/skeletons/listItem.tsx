@@ -10,7 +10,7 @@ export default function ListItemSkeleton() {
   const {
     avatarBoxStyle,
     boxMainStyle,
-    plusTwoIconStyle,
+    highlightIconStyle,
     minusOneIconStyle,
     loveIconStyle,
     deserveIconStyle,
@@ -31,13 +31,7 @@ export default function ListItemSkeleton() {
         }
         action={
           <>
-            <Skeleton
-              animation="wave"
-              variant="circle"
-              width={5}
-              height={5}
-              // style={{ borderRadius: "50%" }}
-            />
+            <Skeleton animation="wave" variant="circle" width={5} height={5} />
             <Skeleton animation="wave" variant="circle" width={5} height={5} />
             <Skeleton animation="wave" variant="circle" width={5} height={5} />
           </>
@@ -100,7 +94,7 @@ export default function ListItemSkeleton() {
               width={20}
               height={20}
               style={{ borderRadius: "50%" }}
-              className={plusTwoIconStyle}
+              className={highlightIconStyle}
             />
           </Box>
           <Box mr={1}>

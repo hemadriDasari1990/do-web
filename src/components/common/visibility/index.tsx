@@ -8,9 +8,8 @@ import PublicIcon from "@material-ui/icons/Public";
 import React from "react";
 import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
+import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
-
-// import { useEffect, useState } from "react";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -22,7 +21,6 @@ const useStyles = makeStyles((e) => ({
 
 export default function Visibility(props: any) {
   const { openDialog, handleClose, selectedBoard } = props;
-  //   const { userId } = useLogin();
   const { publicIconStyle } = useStyles();
   /* Local states */
   const [checked, setChecked] = React.useState(
@@ -39,13 +37,13 @@ export default function Visibility(props: any) {
     handleClose();
   };
 
-  // useEffect(() => {
-  //   if (!selectedBoard?.isPrivate) {
-  //     setChecked("public");
-  //   } else {
-  //     setChecked("private");
-  //   }
-  // }, [selectedBoard]);
+  useEffect(() => {
+    if (!selectedBoard?.isPrivate) {
+      setChecked("public");
+    } else {
+      setChecked("private");
+    }
+  }, [selectedBoard]);
 
   return (
     <ResponsiveDialog

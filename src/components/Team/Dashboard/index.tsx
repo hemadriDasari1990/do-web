@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DoSearch from "../../common/search";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import { MEMBERS_LIST } from "../../../routes/config";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteTeam } from "../../../redux/actions/team";
 import formateNumber from "../../../util/formateNumber";
@@ -30,7 +31,7 @@ const Loader = React.lazy(() => import("../../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 
 const TeamDashboard = () => {
-  const { root, buttonStyle, iconBackStyle } = useStyles();
+  const { root, buttonStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { team, teams: teamsList } = useTeam();
@@ -194,7 +195,7 @@ const TeamDashboard = () => {
   const renderCreateNewTeam = () => {
     return (
       <>
-        <Hidden only={["xs"]}>
+        <Hidden only={["xs", "md", "sm"]}>
           <Button
             variant="contained"
             color="primary"
@@ -207,13 +208,12 @@ const TeamDashboard = () => {
           </Button>
         </Hidden>
 
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <IconButton
-            className={iconBackStyle}
-            onClick={() => handleCreateNewTeam()}
-          >
-            <GroupAddOutlinedIcon color="primary" />
-          </IconButton>
+        <Hidden only={["xl", "lg"]}>
+          <Tooltip title="Create New Team" placement="bottom" arrow>
+            <Fab color="primary" onClick={() => handleCreateNewTeam()}>
+              <GroupAddOutlinedIcon color="primary" />
+            </Fab>
+          </Tooltip>
         </Hidden>
       </>
     );
@@ -284,15 +284,18 @@ const TeamDashboard = () => {
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box display="flex" justifyContent={"flex-end"}>
-                <Hidden only={["xl", "lg", "md"]}>
-                  <IconButton
-                    className={iconBackStyle}
-                    onClick={() => handleBack()}
+                <Hidden only={["xl", "lg"]}>
+                  <Tooltip
+                    title="Go Back To Previous Page"
+                    placement="bottom"
+                    arrow
                   >
-                    <KeyboardBackspaceOutlinedIcon color="primary" />
-                  </IconButton>
+                    <Fab color="primary" onClick={() => handleBack()}>
+                      <KeyboardBackspaceOutlinedIcon color="primary" />
+                    </Fab>
+                  </Tooltip>
                 </Hidden>
-                <Hidden only={["xs", "sm"]}>
+                <Hidden only={["xs", "sm", "md"]}>
                   <Box className={buttonStyle}>
                     <Button
                       variant="outlined"

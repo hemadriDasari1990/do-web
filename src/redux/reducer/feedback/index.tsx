@@ -55,7 +55,8 @@ const feedback = (state = initialState, action: ReduxAction) => {
     case GET_FEEDBACKS_SUCCESS:
       return {
         ...state,
-        response: action.payload,
+        response: action.payload?.data,
+        totalFeedbacks: action.payload?.total[0]?.count,
         loading: false,
       };
     default:

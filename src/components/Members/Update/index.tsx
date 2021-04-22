@@ -1,11 +1,16 @@
+import {
+  ALPHA_NUMERIC_WITH_SPACE,
+  EMAIL_PATTERN,
+  allow,
+} from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import JoinTeam from "../../../assets/join-team.svg";
+import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
-import { emailRegex } from "../../../util/regex";
 import { updateMember } from "../../../redux/actions/member";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login";
@@ -67,7 +72,7 @@ const Create = (props: any) => {
     if (!name || !name?.trim().length) {
       return true;
     }
-    if (!email?.trim().length || !emailRegex.test(email)) {
+    if (!email?.trim().length || !EMAIL_PATTERN.test(email)) {
       return true;
     }
     return false;
@@ -100,6 +105,9 @@ const Create = (props: any) => {
           required
           fullWidth
           className={textFieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
+          }
         />
         <TextField
           name="email"

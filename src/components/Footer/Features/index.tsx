@@ -1,9 +1,9 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import AddIcon from "../../../assets/add.svg";
 import AddMemberIcon from "../../../assets/add-member.svg";
+import AddNoteIcon from "../../../assets/add-note.svg";
 import AnnonymousIcon from "../../../assets/annonymous.svg";
-import BoardIcon from "../../../assets/board.svg";
+import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import DragIcon from "../../../assets/drag.svg";
@@ -50,7 +50,7 @@ export default function Features() {
                   variant="h1"
                   color="secondary"
                 >
-                  Features to help
+                  Start collaborating
                 </Typography>
               </Box>
               <Box>
@@ -59,7 +59,7 @@ export default function Features() {
                   variant="h1"
                   color="secondary"
                 >
-                  Your team/group run
+                  in less than
                 </Typography>
               </Box>
               <Box mb={2}>
@@ -68,22 +68,16 @@ export default function Features() {
                   variant="h1"
                   color="secondary"
                 >
-                  Restrospectives differently
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body1" color="secondary">
-                  Let's do retro is a free application. Yes! you heard it right
-                  it's absolutely free to use.
+                  a minute...
                 </Typography>
               </Box>
               <Box mb={5}>
                 <Typography variant="body1" color="secondary">
-                  The biggest difference is that its 100% free to use. Powering
-                  a productive team means using a powerful tool with great fun.
-                  From departments to projects to boards and run boards,
-                  letdoretro’s intuitive features give any team/group the
-                  ability to quickly set up and run retrospectives.
+                  Powering a productive team means using a powerful tool with
+                  great fun. From projects to boards, adding section, notes and
+                  reactions, letdoretro’s intuitive features give any team/group
+                  the ability to quickly set up and run retrospectives
+                  differently.
                 </Typography>
               </Box>
             </Grid>
@@ -107,22 +101,22 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={TeamIcon} />
               <FeatureContent
-                title="Create Team"
-                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
+                title="Create A Team"
+                description="Create unlimited teams, manage individual team or 100's at once."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={AddMemberIcon} />
               <FeatureContent
                 title="Create Members"
-                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
+                description="Create unlimited members, manage individual member or 100's at once."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={JoinTeamIcon} />
               <FeatureContent
                 title="Add Members to the team"
-                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
+                description="Add members with just a click."
               />
             </Grid>
 
@@ -130,14 +124,33 @@ export default function Features() {
               <FeatureImage image={ProjectIcon} />
               <FeatureContent
                 title="Create a Project"
-                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards"
+                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={BoardIcon} />
+              <Box textAlign="center">
+                <Zoom in={true} timeout={2000}>
+                  <BoardIcon
+                    stickyNoteColor="#ffc800"
+                    stickyNoteColor1="#fd7171"
+                    stickyNoteColor2="#7b68ee"
+                    stickyNoteColor3="#49ccf9"
+                    stickyNoteColor4="#00b884"
+                    hairColor="#2f2e41"
+                    borderColor="#2f2e41"
+                    primarySkinColor="#ffb8b8"
+                    secondarySkinColor="#a0616a"
+                    shoeColor="#2f2e41"
+                    shirtColor="#cccccc"
+                    cornerCircleColor="#cccccc"
+                    width={281}
+                    height={180}
+                  />
+                </Zoom>
+              </Box>
               <FeatureContent
                 title="Create a retrospective board"
-                description="A retrospective board designed to keep you improving, just a single click and generate sections dynamically and express reactions on each note."
+                description="A retrospective is a meeting where a team examines how it’s working together with the goal of improving their future collaborations."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -148,7 +161,7 @@ export default function Features() {
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={AddIcon} />
+              <FeatureImage image={AddNoteIcon} />
               <FeatureContent
                 title="Add a note"
                 description="Collect thoughts, ideas and feedback as notes, with realtime update everything is instantly visible to everyone."
@@ -158,7 +171,7 @@ export default function Features() {
               <FeatureImage image={ReactionsIcon} />
               <FeatureContent
                 title="Express reactions"
-                description="Let's do retro allows you to express different types of reactions on each note like -1, I love it, +1, +2 and Deserve. With this  make decisions democratically and improve along the way."
+                description="Let's do retro allows you to express different types of reactions on each note like +1, I love it, Highlight, Deserve and -1. With this make decisions democratically and improve along the way."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -179,7 +192,7 @@ export default function Features() {
               <FeatureImage image={DragIcon} />
               <FeatureContent
                 title="Move notes across the board"
-                description="Drag and drop notes to merge them, move them across the board, your board your rules."
+                description="Drag and drop notes to move them across the board, your board your rules."
               />
             </Grid>
           </Grid>

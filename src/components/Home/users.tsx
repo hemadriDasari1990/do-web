@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import { useUserLoading, useUsers } from "../../redux/state/user";
 
 import Avatar from "@material-ui/core/Avatar";
-// import ApartmentOutlinedIcon from "@material-ui/icons/ApartmentOutlined";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import GridList from "@material-ui/core/GridList";
@@ -14,7 +13,6 @@ import getRandomBGColor from "../../util/getRandomColor";
 import { getUsers } from "../../redux/actions/user";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
-import useStyles from "../styles";
 import { useUserSummary } from "../../redux/state/user";
 
 const Loader = React.lazy(() => import("../Loader/components"));
@@ -37,12 +35,10 @@ const useLocalStyles = makeStyles(() => ({
     height: 90,
     width: 75,
     borderRadius: "20%",
-    // border: "5px solid #e8edf3",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center" /* Centering y-axis */,
     alignItems: "center",
-    // background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
   },
   avatarTextStyle: {
@@ -58,15 +54,18 @@ const useLocalStyles = makeStyles(() => ({
   },
   gridListTileStyle: {
     width: "300px !important",
-    height: "400px !important",
+    height: "200px !important",
     overflowY: "scroll",
     scrollBehavior: "smooth",
-    // background: "#fff",
     marginRight: 10,
     borderRadius: 6,
   },
   iconButtonStyle: {
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
+    borderRadius: 6,
+  },
+  iconButtonSecondaryStyle: {
+    background: "linear-gradient(180deg,#ffdb58 0,#ffc800 100%)",
     borderRadius: 6,
   },
   iconButtonGridStyle: {
@@ -103,8 +102,8 @@ const Users = () => {
     gridListTileStyle,
     iconButtonStyle,
     mainBoxStyle,
+    iconButtonSecondaryStyle,
   } = useLocalStyles();
-  const { titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
   const { users } = useUsers();
   const { loading } = useUserLoading();
@@ -128,12 +127,11 @@ const Users = () => {
     <Box>
       <Loader enable={loading} />
       <Box textAlign="center" pb={3}>
-        <Typography variant="h1" className={titleSecondaryStyle}>
-          Here from our {summary?.usersCount} customers about their experience
-          on letsdoretro.
+        <Typography variant="h2">
+          {summary?.usersCount}+ teams trust letsdoretro.com worldwide.
         </Typography>
       </Box>
-      <Box minHeight={200} maxHeight={200}>
+      <Box minHeight={160} maxHeight={160}>
         <Box className={mainBoxStyle}>
           {!loading && (
             <GridList
@@ -199,7 +197,7 @@ const Users = () => {
           mt={1.5}
         >
           <Box mr={5}>
-            <Tooltip arrow title="Left" placement="left">
+            <Tooltip arrow title="Scroll Left" placement="left">
               <IconButton
                 size="small"
                 className={iconButtonStyle}
@@ -210,10 +208,10 @@ const Users = () => {
             </Tooltip>
           </Box>
           <Box>
-            <Tooltip arrow title="Right" placement="right">
+            <Tooltip arrow title="Scroll Right" placement="right">
               <IconButton
                 size="small"
-                className={iconButtonStyle}
+                className={iconButtonSecondaryStyle}
                 onClick={() => handleScroll(500)}
               >
                 <KeyboardArrowRightOutlinedIcon color="secondary" />

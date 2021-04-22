@@ -23,7 +23,8 @@ const AvatarGroupList = (props: any) => {
                 alt={keyName ? data?.[keyName] : data["name"]}
                 className={avatarStyle}
                 style={{
-                  background: index < 6 ? getRandomBGColor(index) : "none",
+                  background:
+                    index < 6 ? getRandomBGColor(index) : getRandomBGColor(0),
                 }}
               >
                 <Tooltip arrow title={keyName ? data?.[keyName] : data["name"]}>

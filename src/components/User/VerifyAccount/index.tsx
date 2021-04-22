@@ -86,7 +86,7 @@ const VerifyAccount = () => {
     <React.Fragment>
       <Container>
         <Box minHeight="90vh">
-          <Loader enable={loading} />
+          <Loader enable={loading} backdrop={true} />
           <DoSnackbar
             open={showSnackbar}
             handleClose={handleClose}
@@ -126,9 +126,8 @@ const VerifyAccount = () => {
                     <Button
                       onClick={() => handleLogin()}
                       size="small"
-                      aria-label="add"
+                      variant="contained"
                       color="primary"
-                      variant="outlined"
                     >
                       Login Now
                     </Button>
@@ -157,7 +156,7 @@ const VerifyAccount = () => {
                     variant="contained"
                   >
                     <Typography variant="h6" color="secondary">
-                      Get Started for Free
+                      Start a retroboard
                     </Typography>
                   </Button>
                 </Box>

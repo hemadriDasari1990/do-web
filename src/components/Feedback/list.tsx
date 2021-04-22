@@ -11,30 +11,23 @@ import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  avatarStyle: {
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
-  },
-});
+import { getRandomColor } from "../../util/getRandomColor";
 
 function FeedbackList(props: any) {
   const { feedbacks, color } = props;
-  const { avatarStyle } = useStyles();
   return (
     <>
       <List>
         <Grid container spacing={2}>
           {Array.isArray(feedbacks) &&
-            feedbacks.map((feedback: { [Key: string]: any }) => (
+            feedbacks.map((feedback: { [Key: string]: any }, index: number) => (
               <Grid key={feedback._id} item xl={4} lg={4} md={4} sm={6} xs={12}>
                 <ListItem
                   alignItems="flex-start"
                   className="b-r-15 cursor mb-10"
                 >
                   <ListItemAvatar>
-                    <Avatar className={avatarStyle}>
+                    <Avatar style={{ background: getRandomColor(index) }}>
                       <PersonIcon color="secondary" />
                     </Avatar>
                   </ListItemAvatar>
@@ -45,7 +38,7 @@ function FeedbackList(props: any) {
                         variant="body1"
                         color={color}
                       >
-                        {feedback.title}{" "}
+                        {feedback.user?.name}{" "}
                       </Typography>
                     }
                     secondary={
@@ -55,7 +48,7 @@ function FeedbackList(props: any) {
                           variant="body2"
                           color={color}
                         >
-                          {feedback.description}
+                          {feedback.title}&nbsp;- &nbsp;{feedback.description}
                         </Typography>{" "}
                       </React.Fragment>
                     }

@@ -1,4 +1,5 @@
 import {
+  CLEAR_USER_STATE,
   CREATE_USER_FAILED,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
@@ -20,13 +21,15 @@ import {
   GET_USER_SUMMARY_FAILED,
   GET_USER_SUMMARY_REQUEST,
   GET_USER_SUMMARY_SUCCESS,
+  UPDATE_EMAIL_FAILED,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_NAME_FAILED,
+  UPDATE_NAME_REQUEST,
+  UPDATE_NAME_SUCCESS,
   UPDATE_PASSWORD_FAILED,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
-  UPDATE_USER_FAILED,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
-  CLEAR_USER_STATE,
 } from "../../actions/user/types";
 
 import { Action } from "redux";
@@ -40,7 +43,7 @@ const initialState = {
   name: "",
   uniqueKey: "",
   loading: false,
-  response: null,
+  response: {},
   boards: [],
   updated: null,
 };
@@ -98,18 +101,18 @@ const user = (state = initialState, action: ReduxAction) => {
         response: action.payload,
         loading: false,
       };
-    case UPDATE_USER_REQUEST:
+    case UPDATE_EMAIL_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case UPDATE_USER_FAILED:
+    case UPDATE_EMAIL_FAILED:
       return {
         ...state,
         updated: action.payload,
         loading: false,
       };
-    case UPDATE_USER_SUCCESS:
+    case UPDATE_EMAIL_SUCCESS:
       return {
         ...state,
         updated: action.payload,
@@ -199,6 +202,27 @@ const user = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         updated: action.payload,
+        loading: false,
+      };
+    case UPDATE_NAME_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_NAME_FAILED:
+      return {
+        ...state,
+        updated: action.payload,
+        loading: false,
+      };
+    case UPDATE_NAME_SUCCESS:
+      return {
+        ...state,
+        updated: action.payload,
+        response: {
+          ...state.response,
+          name: action.payload?.name,
+        },
         loading: false,
       };
     case CLEAR_USER_STATE:

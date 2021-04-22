@@ -9,7 +9,7 @@ import UnderlineText from "../../common/UnderlineText";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 
-const FAQList = React.lazy(() => import("../Faq/list"));
+const PrivacyList = React.lazy(() => import("./list"));
 
 const useStyles = makeStyles({
   titleStyle: {
@@ -68,8 +68,10 @@ export default function Privacy() {
               </Typography>
             </Box>
             <Box mt={5}>
-              <UnderlineText title="Scope of this Privacy policy" />
-              <FAQList
+              <Typography variant="body1">
+                Scope of this Privacy policy
+              </Typography>
+              <PrivacyList
                 list={[
                   `This privacy policy applies only to the actions of Let's do retro and users with respect to this Website. It does not extend to any websites that can be accessed from this Website including, but not limited to, any links we may provide to social media websites. For purposes of the applicable Data Protection Laws, Let's do retro ApS is the “data controller”.`,
                   "This means that Let's do retro ApS determines the purposes for which, and the manner in which, your Data is processed.",
@@ -83,7 +85,7 @@ export default function Privacy() {
                   We may collect the following Data, which includes personal
                   Data, from you
                 </Typography>
-                <FAQList
+                <PrivacyList
                   list={[
                     "IP address (automatically collected);",
                     "Web browser type and version (automatically collected)",
@@ -109,7 +111,7 @@ export default function Privacy() {
                   Letsdoretro App will collect your Data in a number of ways,
                   for example:
                 </Typography>
-                <FAQList
+                <PrivacyList
                   list={[
                     "Orgnization details such as name and description of the user",
                     "Departments details such as name and description of the department",
@@ -143,7 +145,7 @@ export default function Privacy() {
                   and experience when using our Website. Specifically, Data may
                   be used by us for the following reasons:
                 </Typography>
-                <FAQList
+                <PrivacyList
                   list={[
                     "internal record keeping",
                     "improvement of our products / services",
@@ -154,9 +156,9 @@ export default function Privacy() {
               </Box>
             </Box>
             <Box mt={5}>
-              <UnderlineText title="Who we share Data with" />
+              <Typography variant="body1">Who we share Data with</Typography>
               <Box mt={2}>
-                <FAQList
+                <PrivacyList
                   list={[
                     "We may share your Data with the following groups of people for the following reasons",
                     "Our employees, agents and/or professional advisors – to provide technical support when asked by the customer for any issues related to use of the service.",
@@ -175,7 +177,7 @@ export default function Privacy() {
                   We will use technical and organisational measures to safeguard
                   your Data, for example
                 </Typography>
-                <FAQList
+                <PrivacyList
                   list={[
                     "Access to your account is controlled by a password and a user name that is unique to you",
                     "Technical and organisational measures include measures to deal with any suspected data breach. If you suspect any misuse or loss or unauthorised access to your Data, please let us know immediately by contacting us via Feedback(listed down below in the footer section) ",
@@ -203,7 +205,7 @@ export default function Privacy() {
                 <Typography variant="body1">
                   You have the following rights in relation to your Data
                 </Typography>
-                <FAQList
+                <PrivacyList
                   list={[
                     "Right to access – the right to request (i) copies of the information we hold about you at any time, or (ii) that we modify, update or delete such information. If we provide you with access to the information we hold about you, we will not charge you for this, unless your request is “manifestly unfounded or excessive.” Where we are legally permitted to do so, we may refuse your request. If we refuse your request, we will tell you the reasons why",
                     "Right to correct – the right to have your Data rectified if it is inaccurate or incomplete.",

@@ -4,11 +4,12 @@ import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import ChangeEmail from "./ChangeEmail";
+import ChangeName from "./ChangeName";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-// import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
+import ManageAccountIcon from "../../../../assets/manage-account.svg";
 import ManageActions from "./ManageActions";
 import SecurityQuestions from "./SecurityQuestions";
 import UpdatePassword from "./UpdatePassword";
@@ -46,7 +47,6 @@ export default function ManageAccount(props: any) {
   const classes = useStyles();
   const { action } = useAction();
   const dispatch = useDispatch();
-  // const theme = useTheme();
 
   const [title, setTitle] = useState("Manage Account");
 
@@ -63,6 +63,9 @@ export default function ManageAccount(props: any) {
         break;
       case "change-email":
         setTitle("Change email address");
+        break;
+      case "change-name":
+        setTitle("Change Name");
         break;
       case "security-questions":
         setTitle("Update security questions");
@@ -114,8 +117,12 @@ export default function ManageAccount(props: any) {
           </Box>
         </Box>
         <Divider />
+        <Box mt={5}>
+          <img src={ManageAccountIcon} height={200} width={350} />
+        </Box>
         {action === "update-password" && <UpdatePassword />}
         {action === "change-email" && <ChangeEmail />}
+        {action === "change-name" && <ChangeName />}
         {action === "security-questions" && <SecurityQuestions />}
         {action === "" && <ManageActions />}
       </Drawer>

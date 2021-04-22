@@ -5,6 +5,8 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import React from "react";
+import { Typography } from "@material-ui/core";
+import hemadri from "../../../assets/hemadri.jpg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,44 +27,33 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 export default function TeamGrid() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={160} cols={3} className={classes.gridList}>
+      <GridList cellHeight={160} cols={4} className={classes.gridList}>
         <GridListTile cols={1} rows={2}>
           <img
-            src={
-              "https://media-exp1.licdn.com/dms/image/C4D03AQHe9wGR_VbQ9g/profile-displayphoto-shrink_800_800/0/1608972491530?e=1617235200&v=beta&t=nOg-8ROEMwwu2zBhrsjv2j8PbbA2FWELmLxnwBpEXgw"
-            }
+            src={hemadri}
             loading="lazy"
             height="100%"
             alt={"Hemadri Dasari"}
           />
           <GridListTileBar
-            title={"Hemadri Dasari"}
-            subtitle={<span>FOUNDER & CEO</span>}
+            title={
+              <Typography variant="h2" color="secondary">
+                Hemadri Dasari
+              </Typography>
+            }
+            subtitle={
+              <Typography variant="h5" color="secondary">
+                Founder
+              </Typography>
+            }
           />
         </GridListTile>
-        <GridListTile cols={1} rows={2}>
+        <GridListTile cols={2} rows={2}>
           <img
             src={CreateNewTeam}
             loading="lazy"
@@ -70,24 +61,34 @@ export default function TeamGrid() {
             alt={"Hemadri Dasari"}
           />
           <GridListTileBar
-            title={"Hemadri Dasari"}
-            subtitle={<span>FOUNDER & CEO</span>}
-          />
-        </GridListTile>
-        <GridListTile cols={1} rows={2}>
-          <img
-            src={
-              "https://media-exp1.licdn.com/dms/image/C4D03AQHe9wGR_VbQ9g/profile-displayphoto-shrink_800_800/0/1608972491530?e=1617235200&v=beta&t=nOg-8ROEMwwu2zBhrsjv2j8PbbA2FWELmLxnwBpEXgw"
+            title={
+              <Typography variant="h2" color="secondary">
+                Hemadri Dasari
+              </Typography>
             }
-            height="100%"
-            alt={"Hemadri Dasari"}
-          />
-          <GridListTileBar
-            title={"Hemadri Dasari"}
-            subtitle={<span>FOUNDER & CEO</span>}
+            subtitle={
+              <Typography variant="h5" color="secondary">
+                Founder
+              </Typography>
+            }
           />
         </GridListTile>
         <GridListTile cols={1} rows={2}>
+          <img src={hemadri} height="100%" alt={"Hemadri Dasari"} />
+          <GridListTileBar
+            title={
+              <Typography variant="h2" color="secondary">
+                Hemadri Dasari
+              </Typography>
+            }
+            subtitle={
+              <Typography variant="h5" color="secondary">
+                Founder
+              </Typography>
+            }
+          />
+        </GridListTile>
+        <GridListTile cols={2} rows={2}>
           <img
             src={CreateNewTeam}
             loading="lazy"
@@ -95,29 +96,51 @@ export default function TeamGrid() {
             alt={"Hemadri Dasari"}
           />
           <GridListTileBar
-            title={"Hemadri Dasari"}
-            subtitle={<span>FOUNDER & CEO</span>}
+            title={
+              <Typography variant="h2" color="secondary">
+                Hemadri Dasari
+              </Typography>
+            }
+            subtitle={
+              <Typography variant="h5" color="secondary">
+                Founder
+              </Typography>
+            }
           />
         </GridListTile>
         <GridListTile cols={1} rows={2}>
           <img
-            src={
-              "https://media-exp1.licdn.com/dms/image/C4D03AQHe9wGR_VbQ9g/profile-displayphoto-shrink_800_800/0/1608972491530?e=1617235200&v=beta&t=nOg-8ROEMwwu2zBhrsjv2j8PbbA2FWELmLxnwBpEXgw"
-            }
+            src={hemadri}
             height="100%"
             alt={"Hemadri Dasari"}
             loading="lazy"
           />
           <GridListTileBar
-            title={"Hemadri Dasari"}
-            subtitle={<span>FOUNDER & CEO</span>}
+            title={
+              <Typography variant="h2" color="secondary">
+                Hemadri Dasari
+              </Typography>
+            }
+            subtitle={
+              <Typography variant="h5" color="secondary">
+                Founder
+              </Typography>
+            }
           />
         </GridListTile>
         <GridListTile cols={1} rows={2}>
           <img src={CreateNewTeam} height="100%" alt={"Hemadri Dasari"} />
           <GridListTileBar
-            title={"Hemadri Dasari"}
-            subtitle={<span>FOUNDER & CEO</span>}
+            title={
+              <Typography variant="h2" color="secondary">
+                Hemadri Dasari
+              </Typography>
+            }
+            subtitle={
+              <Typography variant="h5" color="secondary">
+                Founder
+              </Typography>
+            }
           />
         </GridListTile>
       </GridList>

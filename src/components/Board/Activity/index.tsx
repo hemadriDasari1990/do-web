@@ -1,62 +1,49 @@
+import { getActivities, storeMenuItem } from "../../../redux/actions";
+
+import { ACTIVITIES_PER_PAGE } from "../../../util/constants";
 import { Avatar } from "@material-ui/core";
-// import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import { ROOT } from "../../../routes/config";
 import React from "react";
-// import SettingsIcon from "@material-ui/icons/Settings";
-import Slide from "@material-ui/core/Slide";
 import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import { Suspense } from "react";
-// import Typography from "@material-ui/core/Typography";
-// import Zoom from "@material-ui/core/Zoom";
-import { logout } from "../../../redux/actions/login";
+import Zoom from "@material-ui/core/Zoom";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useSocket } from "../../../redux/state/socket";
+import useMainStyles from "../../styles";
+import { useParams } from "react-router-dom";
 import useStyles from "../../styles/iconStyle";
 
-// import { useUser } from "../../../redux/state/user";
-
-const Activity = (props: any) => {
-  const { handleDrawerClose } = props;
-  // const { name } = useUser();
-  const history = useHistory();
+const Activity = () => {
   const dispatch = useDispatch();
   const { iconGridStyle, iconStyle } = useStyles();
-  const { socket } = useSocket();
+  const { cursor } = useMainStyles();
+  const { boardId } = useParams<{ boardId: string }>();
 
-  const handleLogout = async () => {
-    dispatch(logout());
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("refreshToken");
-    socket.off("login-success");
-    handleDrawerClose();
-    history.push(ROOT);
+  const handleActivity = () => {
+    dispatch(storeMenuItem("activity"));
+    dispatch(getActivities(boardId, "", 0, ACTIVITIES_PER_PAGE));
   };
 
   return (
     <Suspense fallback={<div></div>}>
       <Box>
         <List>
-          <ListItem alignItems="flex-start" onClick={() => handleLogout()}>
+          <ListItem
+            alignItems="flex-start"
+            onClick={() => handleActivity()}
+            className={cursor}
+          >
             <ListItemAvatar>
-              <Slide
-                direction="right"
-                in={true}
-                timeout={1500}
-                mountOnEnter
-                unmountOnExit
-              >
+              <Zoom in={true} timeout={2000}>
                 <Avatar className={iconGridStyle} variant="square">
                   <SubjectOutlinedIcon className={iconStyle} />
                 </Avatar>
-              </Slide>
+              </Zoom>
             </ListItemAvatar>
-            <ListItemText primary="Activity" secondary="Board reactions" />
+            <ListItemText primary="Activity" secondary="Board activity" />
           </ListItem>
         </List>
       </Box>

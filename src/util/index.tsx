@@ -60,7 +60,7 @@ export const getStickyColor = (index: number) => {
     "#f5cd0b",
     "#0079bf",
     "deeppink",
-    "#0072ff",
+    "#57f",
     "orange",
     "#ff13f8",
     "#00bf78",
@@ -68,7 +68,7 @@ export const getStickyColor = (index: number) => {
     "#f5cd0b",
     "#0079bf",
     "deepping",
-    "#0072ff",
+    "#57f",
     "orange",
     "#ff13f8",
     "#00bf78",
@@ -97,3 +97,89 @@ export function getDownloadFile(res: any, fileName: string) {
   tempLink.setAttribute("download", fileName);
   tempLink.click();
 }
+
+export function getRemainingCharLength(maxCount: number, actualLength: number) {
+  if (!maxCount || !actualLength) {
+    return 0;
+  }
+  return maxCount - actualLength;
+}
+
+export const getActivityText = (action: string) => {
+  let text = "";
+  switch (action) {
+    case "create":
+      text = " created ";
+      break;
+    case "update":
+      text = " updated ";
+      break;
+    case "delete":
+      text = " deleted ";
+      break;
+    case "session-start":
+      text = " started ";
+      break;
+    case "session-stop":
+      text = " ended ";
+      break;
+    case "read":
+      text = " Marked ";
+      break;
+    case "un-read":
+      text = " Marked ";
+      break;
+    case "react":
+      text = " added ";
+      break;
+    case "un-react":
+      text = " removed ";
+      break;
+    case "move":
+      text = " moved ";
+      break;
+    case "move":
+      text = " moved ";
+      break;
+    case "private":
+      text = " changed ";
+      break;
+    case "public":
+      text = " changed ";
+      break;
+    case "view":
+      text = " viewed ";
+      break;
+    default:
+      break;
+  }
+  return text;
+};
+
+export const getInitials = (value: string) => {
+  if (!value) {
+    return "";
+  }
+  let names = value.split(" "),
+    initials = names[0].substring(0, 1).toUpperCase();
+
+  if (names.length > 1) {
+    initials += names[names.length - 1].substring(0, 1).toUpperCase();
+  }
+  return initials;
+};
+
+export const getHumanReadableData = (value: string) => {
+  if (!value) {
+    return "";
+  }
+  const output =
+    new Date(value).toDateString() +
+      " at " +
+      new Date(value).toLocaleString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      }) || "--";
+  return output;
+};

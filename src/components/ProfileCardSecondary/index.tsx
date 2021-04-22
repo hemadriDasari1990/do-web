@@ -5,23 +5,25 @@ import IconButton from "@material-ui/core/IconButton";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
+import { getRandomColor } from "../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 const useStyles = makeStyles({
-  subTitleStyle: {
+  subTitleStyle: (props: any) => ({
     textTransform: "uppercase",
-    fontSize: ".75rem",
-  },
+    color: getRandomColor(props.index),
+  }),
   imageStyle: {
     verticalAlign: "bottom",
-    width: 75,
-    height: 75,
+    width: 150,
+    height: 150,
+    borderRadius: 6,
   },
 });
 
 function ProfileCardSecondary(props: any) {
   const { path, title, subTitle, fbPath, linkedinPath, button } = props;
-  const { subTitleStyle, imageStyle } = useStyles();
+  const { subTitleStyle, imageStyle } = useStyles(props);
   const history = useHistory();
 
   const handleButton = (path: string) => {
@@ -42,12 +44,6 @@ function ProfileCardSecondary(props: any) {
         <Typography gutterBottom variant="h5" className={subTitleStyle}>
           {subTitle}
         </Typography>
-        {/* <Box>
-          <Typography variant="body2">{tagLine}</Typography>
-        </Box>
-        <Box mt={2}>
-          <Typography variant="h6">{content}</Typography>
-        </Box> */}
       </Box>
       <Box>
         {button && (

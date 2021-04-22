@@ -1,3 +1,4 @@
+import { EMAIL_PATTERN, allow } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useForgotPassword, useLoading } from "../../../redux/state/login";
@@ -9,7 +10,6 @@ import ForgotPasswordIcon from "../../../assets/forgot-password.svg";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import { emailRegex } from "../../../util/regex";
 import { forgotPassword } from "../../../redux/actions/login";
 import { useDispatch } from "react-redux";
 
@@ -75,16 +75,20 @@ const ForgotPassword = () => {
   };
 
   const disableButton = () => {
-    if (!email.trim().length || !emailRegex.test(email)) {
+    if (!email.trim().length || !EMAIL_PATTERN.test(email)) {
       return true;
     }
     return false;
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
       <Container>
-        <Loader enable={loading} />
+        <Loader enable={loading} backdrop={true} />
         <DoSnackbar
           open={showSnackbar}
           handleClose={handleClose}
@@ -125,6 +129,12 @@ const ForgotPassword = () => {
               required
               fullWidth
               className={textFieldStyle}
+              onKeyPress={(event: React.KeyboardEvent<any>) =>
+                allow(event, EMAIL_PATTERN)
+              }
+              onCut={handlePrevent}
+              onCopy={handlePrevent}
+              onPaste={handlePrevent}
             />
             <Box mt={3}>
               <Button

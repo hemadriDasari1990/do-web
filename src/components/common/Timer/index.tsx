@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Box from "@material-ui/core/Box";
 import React from "react";
 import { Slide } from "@material-ui/core";
-// import Tooltip from '@material-ui/core/Tooltip'
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,9 +12,7 @@ const useStyles = makeStyles(() => ({
     width: "fit-content",
     textAlign: "center",
   },
-  middleStyle: {
-    marginTop: 7,
-  },
+  middleStyle: {},
   boxStyle: {
     borderRadius: 5,
     backgroundColor: "#f7f8f9",
@@ -73,7 +70,12 @@ const Timer = ({ startDateTime, interval }: { [Key: string]: any }) => {
   }, []);
 
   return (
-    <Box display="flex" className={boxStyle} justifyContent="space-around">
+    <Box
+      display="flex"
+      className={boxStyle}
+      justifyContent="space-around"
+      px={1}
+    >
       {time?.days ? (
         <Box className={middleStyle}>
           <Slide

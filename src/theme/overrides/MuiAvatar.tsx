@@ -1,5 +1,5 @@
 export default {
   square: {
-    borderRadius: '0.65rem',
+    borderRadius: "0.65rem",
   },
-}
+};

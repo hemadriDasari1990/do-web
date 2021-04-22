@@ -14,7 +14,7 @@ const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     width: 35,
     height: 35,
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
   },
   avatarTitleStyle: {
     color: "#334357",

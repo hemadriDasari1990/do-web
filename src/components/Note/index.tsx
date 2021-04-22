@@ -9,16 +9,18 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
+import NoteListSkeleton from "../common/skeletons/notesList";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import UpdateNote from "./Update";
 import Zoom from "@material-ui/core/Zoom";
+import { getNotesBySectionId } from "../../redux/actions/note";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
-import { useSocket } from "../../redux/state/socket";
 import { useDispatch } from "react-redux";
-import { getNotesBySectionId } from "../../redux/actions/note";
+import { useLoading } from "../../redux/state/note";
+import { useSocket } from "../../redux/state/socket";
 
 const NotesList = React.lazy(() => import("./list"));
 
@@ -43,6 +45,7 @@ function Note(props: any) {
   const { board } = useBoard();
   const { socket } = useSocket();
   const dispatch = useDispatch();
+  const { loading } = useLoading(sectionId);
 
   const enableActions = () => {
     if (authenticated && (startSession || board?.startedAt)) {
@@ -134,6 +137,19 @@ function Note(props: any) {
     setShowNote(false);
   };
 
+  const getBackgroundColor = (
+    isDraggingOver: boolean,
+    isDraggingFrom: boolean
+  ): string => {
+    if (isDraggingOver) {
+      return "#fffae9";
+    }
+    if (isDraggingFrom) {
+      return "#f5f7ff";
+    }
+    return "inherit";
+  };
+
   const renderUpdateNote = useCallback(() => {
     return (
       <Box p={1}>
@@ -176,18 +192,34 @@ function Note(props: any) {
     <React.Fragment>
       {showNote ? <>{renderUpdateNote()}</> : null}
       {!showNote && enableActions() && <>{renderCreateNoteButton()}</>}
+      {loading ? <NoteListSkeleton /> : null}
       <Droppable
         droppableId={sectionId}
         type="NOTE"
-        // ignoreContainerClipping={false} // undefined or false
+        ignoreContainerClipping={false} // undefined or false
         // isDropDisabled={isDropDisabled}
-        // isCombineEnabled={false} //always false
+        isCombineEnabled={false} //always false
       >
         {(
           dropProvided: DroppableProvided,
           dropSnapshot: DroppableStateSnapshot
         ) => (
-          <div ref={dropProvided.innerRef}>
+          <div
+            ref={dropProvided.innerRef}
+            style={{
+              backgroundColor: getBackgroundColor(
+                dropSnapshot.isDraggingOver,
+                Boolean(dropSnapshot.draggingFromThisWith)
+              ),
+              opacity: "inherit",
+              margin:
+                dropSnapshot.isDraggingOver ||
+                Boolean(dropSnapshot.draggingFromThisWith)
+                  ? 8
+                  : 0,
+              borderRadius: 6,
+            }}
+          >
             <NotesList
               editNote={editNote}
               dropProvided={dropProvided}

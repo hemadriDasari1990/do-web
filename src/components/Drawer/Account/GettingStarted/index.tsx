@@ -14,7 +14,7 @@ import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
 
-const drawerWidth = 400;
+const drawerWidth = 339;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

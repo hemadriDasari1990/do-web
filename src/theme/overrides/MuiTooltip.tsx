@@ -1,21 +1,19 @@
 export default {
   tooltip: {
-    color: "#0153cc",
+    color: "#172b4d",
     zIndex: 1,
-    // rippleBackgroundColor: '#eaecf3',
-    backgroundColor: "#0052cc14",
-    boxShadow: "0 3rem 6rem rgba(0, 0, 0, .1)",
-    //   "linear-gradient(180deg,#f67c1b 0,#e15500) ",
+    backgroundColor: "#fff",
+    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
     whiteSpace: "pre-line !important",
     fontSize: 13,
-    padding: "10px 15px 10px 15px",
+    padding: "5px 15px 5px 15px",
   },
   arrow: {
     fontSize: 16,
     width: 17,
-    boxShadow: "0 3rem 6rem rgba(0, 0, 0, .1)",
     "&::before": {
-      backgroundColor: "#0052cc14",
+      backgroundColor: "#fff",
+      boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
     },
   },
 };

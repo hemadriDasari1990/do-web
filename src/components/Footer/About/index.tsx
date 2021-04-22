@@ -1,16 +1,15 @@
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import GoodTeam from "../../../assets/good-team.svg";
 import Grid from "@material-ui/core/Grid";
+import Process from "./process";
 import React from "react";
+import Team from "../../../assets/team.svg";
 import Typography from "@material-ui/core/Typography";
 import UnderlineText from "../../common/UnderlineText";
 import Wave from "../../../assets/wave.svg";
+import hemadri from "../../../assets/hemadri.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import useStyles from "../../styles";
-
-// const ProfileCard = React.lazy(() => import("../../ProfileCard"));
-const Features = React.lazy(() => import("./Features"));
 const CreateAccountGrid = React.lazy(
   () => import("../../Home/createAccountGrid")
 );
@@ -32,59 +31,70 @@ const useLocalStyles = makeStyles({
   createAccountStyle: {
     background: "#f4f5f7",
   },
-  addressStyle: {
-    lineHeight: 2,
-  },
 });
 
 export default function About() {
-  const { parahStyle, createAccountStyle, addressStyle } = useLocalStyles();
-  const { bannerStyle } = useStyles();
+  const { parahStyle, createAccountStyle } = useLocalStyles();
+  const { bannerStyle, titleStyle } = useStyles();
   return (
     <React.Fragment>
-      <Box py={5}>
-        <Box>
+      <Box>
+        <Box className={bannerStyle}>
           <Container>
-            <Grid container spacing={2}>
-              <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
-                <Box my={7}>
+            <Box py={3}>
+              <Grid container spacing={2}>
+                <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
                   <Box>
-                    <Typography component="p" variant="h1">
-                      The power of teamwork
-                    </Typography>
-                    <Typography component="p" className={parahStyle}>
-                      Behind every great human achievement, there is a team.
-                    </Typography>
-                    <Typography component="p" className={parahStyle}>
-                      Our mission is to help teams run retrospectives in a
-                      modern way.
-                    </Typography>
+                    <Box>
+                      <Typography
+                        variant="h1"
+                        color="secondary"
+                        className={titleStyle}
+                      >
+                        Lets do retro is the online collaborative retrospective
+                        platform
+                      </Typography>
+                      <Typography
+                        component="p"
+                        className={parahStyle}
+                        color="secondary"
+                      >
+                        At Lets do retro, we’ve built a platform for modern
+                        retrospectives, enabling collocated, distributed, and
+                        remote teams to discuss what worked and what didn't.
+                      </Typography>
+                      <Typography
+                        variant="h2"
+                        // className={titleStyle}
+                        color="secondary"
+                      >
+                        Our mission is to empower teams to create the next big
+                        thing.
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
+                </Grid>
+                <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
+                  <Box mt={-3} textAlign="center">
+                    <img src={Team} height="400px" width="300px" />
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
-                <Box mt={-7}>
-                  <img src={GoodTeam} height="400px" width="300px" />
-                </Box>
-              </Grid>
-            </Grid>
+            </Box>
           </Container>
         </Box>
-        <Box className={bannerStyle} py={5}>
-          <Container>
-            <Features />
-          </Container>
+        <Box py={3}>
+          <Process />
         </Box>
         <Box my={7}>
           <Container>
-            <Box p={5} textAlign="center">
-              <Typography variant="h1">Our people</Typography>
+            <Box textAlign="center">
+              <Typography variant="h1">We're two people</Typography>
               <Typography component="p" className={parahStyle}>
-                This is our team, a lot of smiling happy people who work hard to
-                empower your teams.
+                Behind every great human achievement, there is a team.
               </Typography>
             </Box>
-            <Box>
+            <Box mt={5}>
               <TeamGrid />
             </Box>
           </Container>
@@ -92,71 +102,15 @@ export default function About() {
         <Box my={7}>
           <Container>
             <Box p={5} textAlign="center">
-              <Typography variant="h2">Contributors</Typography>
+              <Typography variant="h1">Contributors</Typography>
               <Typography component="p" className={parahStyle}>
-                This is our team, a lot of smiling happy people who work hard to
-                empower your teams.
+                This is our team, we work hard to empower your teams.
               </Typography>
             </Box>
             <Grid container spacing={2}>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
-                {/* <Zoom in={true} timeout={2000}> */}
                 <ProfileCardSecondary
-                  path="https://media-exp1.licdn.com/dms/image/C4D03AQHe9wGR_VbQ9g/profile-displayphoto-shrink_800_800/0/1608972491530?e=1617235200&v=beta&t=nOg-8ROEMwwu2zBhrsjv2j8PbbA2FWELmLxnwBpEXgw"
-                  title="Hemadri Dasari"
-                  subTitle="Founder & CEO"
-                  fbPath={"https://www.facebook.com/Hemadri.Dasari.1990"}
-                  linkedinPath={
-                    "https://www.linkedin.com/in/hemadri-dasari-15051990/"
-                  }
-                  button={true}
-                  buttonName="Facebook"
-                  buttonOneName="Linekdin"
-                  tagLine="Full Stack Developer at Mashreq Bank, Dubai"
-                  content=""
-                />
-                {/* </Zoom> */}
-              </Grid>
-              <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
-                {/* <Zoom in={true} timeout={2000}> */}
-                <ProfileCardSecondary
-                  path="https://media-exp1.licdn.com/dms/image/C5103AQErndFCozlkYA/profile-displayphoto-shrink_800_800/0/1516337167165?e=1617235200&v=beta&t=dY_-K-1CqvA2c2SXDLkihMvWYVtxyBizYa8Xi_crVcg"
-                  title="Sreesha Venkita Krishnan"
-                  subTitle="Senior Testing professional"
-                  fbPath={"https://www.facebook.com/rajesh.pemmasani"}
-                  linkedinPath={
-                    "https://www.linkedin.com/in/rajesh-pemmasani-56673170/"
-                  }
-                  button={true}
-                  buttonName="Facebook"
-                  buttonOneName="Linekdin"
-                  tagLine="Senior QA Engineer at Mashreq Bank, Dubai"
-                  content={``}
-                />
-                {/* </Zoom> */}
-              </Grid>
-              <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
-                {/* <Zoom in={true} timeout={2000}> */}
-                <ProfileCardSecondary
-                  path="https://media-exp1.licdn.com/dms/image/C5103AQErndFCozlkYA/profile-displayphoto-shrink_800_800/0/1516337167165?e=1617235200&v=beta&t=dY_-K-1CqvA2c2SXDLkihMvWYVtxyBizYa8Xi_crVcg"
-                  title="Sreesha Venkita Krishnan"
-                  subTitle="Senior Testing professional"
-                  fbPath={"https://www.facebook.com/rajesh.pemmasani"}
-                  linkedinPath={
-                    "https://www.linkedin.com/in/rajesh-pemmasani-56673170/"
-                  }
-                  button={true}
-                  buttonName="Facebook"
-                  buttonOneName="Linekdin"
-                  tagLine="Senior QA Engineer at Mashreq Bank, Dubai"
-                  content={``}
-                />
-                {/* </Zoom> */}
-              </Grid>
-              <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
-                {/* <Zoom in={true} timeout={2000}> */}
-                <ProfileCardSecondary
-                  path="https://media-exp1.licdn.com/dms/image/C4D03AQHe9wGR_VbQ9g/profile-displayphoto-shrink_800_800/0/1608972491530?e=1617235200&v=beta&t=nOg-8ROEMwwu2zBhrsjv2j8PbbA2FWELmLxnwBpEXgw"
+                  path={hemadri}
                   title="Hemadri Dasari"
                   subTitle="Founder"
                   fbPath={"https://www.facebook.com/Hemadri.Dasari.1990"}
@@ -168,98 +122,84 @@ export default function About() {
                   buttonOneName="Linekdin"
                   tagLine="Full Stack Developer at Mashreq Bank, Dubai"
                   content=""
+                  index={0}
                 />
-                {/* </Zoom> */}
+              </Grid>
+              <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
+                <ProfileCardSecondary
+                  path={null}
+                  title="Sreesha Venkita Krishnan"
+                  subTitle="Co Founder"
+                  fbPath={"https://www.facebook.com/rajesh.pemmasani"}
+                  linkedinPath={
+                    "https://www.linkedin.com/in/rajesh-pemmasani-56673170/"
+                  }
+                  button={true}
+                  buttonName="Facebook"
+                  buttonOneName="Linekdin"
+                  tagLine="Senior QA Engineer at Mashreq Bank, Dubai"
+                  content={``}
+                  index={1}
+                />
               </Grid>
             </Grid>
           </Container>
         </Box>
         <Container>
-          <UnderlineText title="Individual Stories" />
-          <Box>
-            <Grid container spacing={2}>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <Box>
-                  <Typography variant="body1">
-                    <b>Hemadri Dasari</b> is a Founder & Developer of Let's do
-                    retro Inc. He started as side project in the middle of Jan
-                    2021. He is currently working in a team and not very pleased
-                    with the current retrospective board. So he decided to
-                    create his own modern respective application with beautiful
-                    UI and allow users to express reactions and see if that
-                    could make it better than the one which we are currently
-                    using.
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <Box>
-                  <Typography variant="body1">
-                    <b>Hemadri Dasari</b> had build this application end to end
-                    from Analysis, Planning, UX/UI design, Both FE & BE
-                    Implementation including solution & DB design. He has coded
-                    close to 1 month developing this beautiful platform in his
-                    offline time.
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <Box>
-                  <Typography variant="body1">
-                    <b>Hemadri Dasari</b> is a Founder & Developer of Let's do
-                    retro Inc. He started as side project in the middle of Jan
-                    2021. He is currently working in a team and not very pleased
-                    with the current retrospective board. So he decided to
-                    create his own modern respective application with beautiful
-                    UI and allow users to express reactions and see if that
-                    could make it better than the one which we are currently
-                    using.
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <Box>
-                  <Typography variant="body1">
-                    <b>Hemadri Dasari</b> had build this application end to end
-                    from Analysis, Planning, UX/UI design, Both FE & BE
-                    Implementation including solution & DB design. He has coded
-                    close to 1 month developing this beautiful platform in his
-                    offline time.
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
+          <Box textAlign="center">
+            <Typography variant="h1">Individual Stories</Typography>
           </Box>
-        </Container>
-        <Container>
-          <Box pt={5}>
-            <Box>
-              <UnderlineText title="Our Work Locations (1)" />
-            </Box>
-            <Box my={2}>
-              <Typography variant="h3" component="p" className={addressStyle}>
-                Dubai
-              </Typography>
-              <Typography variant="h6" component="p" className={addressStyle}>
-                +971 545678591
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                component="p"
-                className={addressStyle}
-              >
-                405, 4th Floor
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                component="p"
-                className={addressStyle}
-              >
-                Tulip Hotel Apartments
-              </Typography>
-            </Box>
+          <Box mt={3}>
+            <Grid container spacing={2}>
+              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                <Box>
+                  <UnderlineText title="Hemadri Dasari" />
+                  <Box mt={2}>
+                    <Typography variant="body1">
+                      He is a Founder & Developer of Let's do retro Inc. He
+                      started as side project in the middle of Jan 2021. He is
+                      currently working in a team and not very pleased with the
+                      current retrospective board. So he decided to create his
+                      own modern respective application with beautiful UI and
+                      allow users to express reactions and see if that could
+                      make it better than the one which we are currently using.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                <Box>
+                  <UnderlineText title="Hemadri Dasari" />
+                  <Box mt={2}>
+                    <Typography variant="body1">
+                      He built this application end to end from Analysis,
+                      Planning, UX/UI design, Both FE & BE Implementation
+                      including solution & DB design. He has coded close to 3
+                      months developing this beautiful platform in his offline
+                      time.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                <Box>
+                  <UnderlineText title="Sreesha Venkita krishnan" />
+                  <Box mt={2}>
+                    <Typography variant="body1"></Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                <Box>
+                  <UnderlineText title="Sreesha Venkita krishnan" />
+                  <Box mt={2}>
+                    <Typography variant="body1"></Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Container>
       </Box>

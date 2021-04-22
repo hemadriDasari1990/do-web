@@ -5,8 +5,6 @@ import useStatusStyles from "../../styles/status";
 const Status = (props: any) => {
   const { value } = props;
   const {
-    pendingStyle,
-    pendingTextStyle,
     inProgressStyle,
     inProgressTextStyle,
     completedStyle,
@@ -20,11 +18,8 @@ const Status = (props: any) => {
   const getBoxStyle = () => {
     let style = draftStyle;
     switch (value?.toLowerCase()) {
-      case "draft":
-        style = draftStyle;
-        break;
-      case "pending":
-        style = pendingStyle;
+      case "new":
+        style = completedStyle;
         break;
       case "inprogress":
         style = inProgressStyle;
@@ -41,11 +36,8 @@ const Status = (props: any) => {
   const getTextStyle = () => {
     let style = draftTextStyle;
     switch (value?.toLowerCase()) {
-      case "draft":
-        style = draftTextStyle;
-        break;
-      case "pending":
-        style = pendingTextStyle;
+      case "new":
+        style = completedTextStyle;
         break;
       case "inprogress":
         style = inProgressTextStyle;
@@ -62,11 +54,8 @@ const Status = (props: any) => {
   const getValue = () => {
     let title = "";
     switch (value?.toLowerCase()) {
-      case "draft":
-        title = "DRAFT";
-        break;
-      case "pending":
-        title = "TODO";
+      case "new":
+        title = "NEW";
         break;
       case "inprogress":
         title = "IN PROGRESS";

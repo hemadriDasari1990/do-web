@@ -22,19 +22,25 @@ const note = (state = initialState, action: ReduxAction) => {
     case GET_NOTES_BY_SECTION_REQUEST:
       return {
         ...state,
-        loading: true,
+        [action.sectionKey]: {
+          loading: true,
+        },
       };
     case GET_NOTES_BY_SECTION_FAILED:
       return {
         ...state,
-        [action.sectionKey]: action.payload || [],
-        loading: false,
+        [action.sectionKey]: {
+          data: action.payload || [],
+          loading: false,
+        },
       };
     case GET_NOTES_BY_SECTION_SUCCESS:
       return {
         ...state,
-        [action.sectionKey]: action.payload || [],
-        loading: false,
+        [action.sectionKey]: {
+          data: action.payload || [],
+          loading: false,
+        },
       };
     default:
       return state;

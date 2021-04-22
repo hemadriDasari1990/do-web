@@ -11,7 +11,8 @@ const useStyles = makeStyles(() => ({
     },
   },
   tableCellStyle: {
-    height: 55,
+    height: "2.5rem",
+    padding: "4px 24px 4px 16px",
   },
   incompleteStyle: {
     color: "#b00020",

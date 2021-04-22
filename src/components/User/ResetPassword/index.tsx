@@ -104,10 +104,14 @@ const ForgotPassword = () => {
     return false;
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
       <Container>
-        <Loader enable={loading} />
+        <Loader enable={loading} backdrop={true} />
         <DoSnackbar
           open={showSnackbar}
           handleClose={handleClose}
@@ -117,16 +121,16 @@ const ForgotPassword = () => {
             {response?.message}
           </Typography>
         </DoSnackbar>
-        <Box textAlign="center">
+        <Box textAlign="center" pb={5}>
           <Box mt={8}>
             <Zoom in={true} timeout={2000}>
               <img src={ResetPasswordIcon} height="200px" width="fit-content" />
             </Zoom>
           </Box>
+          <Box mt={2} ml="auto" mr="auto">
+            <Typography variant="h1">Reset your password</Typography>
+          </Box>
           <Box width={350} ml="auto" mr="auto">
-            <Box mt={2}>
-              <Typography variant="h1">Reset your password</Typography>
-            </Box>
             <TextField
               type="password"
               name="password"
@@ -139,6 +143,9 @@ const ForgotPassword = () => {
               required
               fullWidth
               className={textFieldStyle}
+              onCut={handlePrevent}
+              onCopy={handlePrevent}
+              onPaste={handlePrevent}
             />
             <TextField
               type="password"
@@ -152,6 +159,9 @@ const ForgotPassword = () => {
               required
               fullWidth
               className={textFieldStyle}
+              onCut={handlePrevent}
+              onCopy={handlePrevent}
+              onPaste={handlePrevent}
             />
             <Box mt={3}>
               <Button
@@ -163,7 +173,7 @@ const ForgotPassword = () => {
                 }
                 disabled={disableButton()}
               >
-                Submit
+                Save
               </Button>
             </Box>
           </Box>

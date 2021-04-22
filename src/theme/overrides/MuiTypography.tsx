@@ -10,7 +10,7 @@ export default {
   textSecondary: textSecondary,
   h1: {
     fontFamily: fontFamily,
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: "2.75rem",
     letterSpacing: "0.76px",
     color: textPrimary,
@@ -46,6 +46,7 @@ export default {
     letterSpacing: "-0.05px",
     color: textPrimary,
     // marginBottom: 24,
+    lineHeight: 2,
   },
   h6: {
     fontFamily: fontFamily,
@@ -109,7 +110,7 @@ export default {
     lineHeight: 1.5,
     color: "#eaeded",
     "&:hover": {
-      color: "#f67c1b",
+      color: "#57f",
     },
   },
 };

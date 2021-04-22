@@ -7,8 +7,9 @@ import {
   GET_USERS_REQUEST,
   GET_USER_REQUEST,
   GET_USER_SUMMARY_REQUEST,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_NAME_REQUEST,
   UPDATE_PASSWORD_REQUEST,
-  UPDATE_USER_REQUEST,
 } from "./types";
 
 export const getUserDetails = (userId: string) => {
@@ -26,9 +27,16 @@ export const createUser = (payload: { [Key: string]: any }) => {
   };
 };
 
-export const updateUser = (payload: { [Key: string]: any }) => {
+export const updateEmail = (payload: { [Key: string]: any }) => {
   return {
-    type: UPDATE_USER_REQUEST,
+    type: UPDATE_EMAIL_REQUEST,
+    payload: payload,
+  };
+};
+
+export const updateName = (payload: { [Key: string]: any }) => {
+  return {
+    type: UPDATE_NAME_REQUEST,
     payload: payload,
   };
 };

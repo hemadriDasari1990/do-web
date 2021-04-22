@@ -4,19 +4,13 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Education from "../../assets/education.svg";
-// import { DASHBOARD } from "../../routes/config";
 import Grid from "@material-ui/core/Grid";
-// import Hidden from "@material-ui/core/Hidden";
-// import ScrumBoardSkeleton from "../../assets/scrum-real-board.png";
+import Process from "./process";
+import ReactionsList from "../common/Reactions";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-// import { getFeedbacks } from "../../redux/actions/feedback";
-// import { useAuthenticated } from "../../redux/state/common";
-// import { useDispatch } from "react-redux";
 import useStyles from "../styles";
-
-// import { useHistory } from "react-router";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   imageStyle: {
@@ -35,7 +29,6 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 const GettingStarted = () => {
   const { imageStyle } = useLocalStyles();
   const { titleStyle, bannerStyle } = useStyles();
-  //   const dispatch = useDispatch();
 
   useEffect(() => {}, []);
 
@@ -105,6 +98,19 @@ const GettingStarted = () => {
               </Grid>
             </Slide>
           </Grid>
+        </Container>
+      </Box>
+      <Box py={3}>
+        <Process />
+      </Box>
+      <Box py={3}>
+        <Container>
+          <Box>
+            <Typography className={titleStyle} variant="h1" color="primary">
+              Reactions that you can express
+            </Typography>
+          </Box>
+          <ReactionsList />
         </Container>
       </Box>
     </React.Fragment>

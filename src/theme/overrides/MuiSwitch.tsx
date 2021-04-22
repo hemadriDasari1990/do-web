@@ -7,7 +7,7 @@ export default {
   colorSecondary: {
     "&$checked": {
       // Controls checked color for the thumb
-      color: "#f67c1b",
+      color: "#57f",
     },
   },
   track: {

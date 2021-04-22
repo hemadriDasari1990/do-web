@@ -19,12 +19,13 @@ export default {
   outlinedSecondary: {
     color: "#fff",
     border: "unset",
+    background: "#cccccc1a",
     "&:hover": {
       border: "unset",
     },
   },
   containedPrimary: {
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500)",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
     "&:hover": {
       boxShadow: "none",
       "&$disabled": {
@@ -32,19 +33,6 @@ export default {
       },
     },
   },
-  // containedPrimary: {
-  //   width: '100%',
-  //   height: '30px !important',
-  //   borderRadius: 5,
-  // },
-  // outlinedSecondary: {
-  //   '&:hover': {
-  //     // fontWeight: 'bold',
-  //     // backgroundColor: '#fff !important',
-  //   },
-  //   border: '1px solid #fff',
-  //   color: '#fff !important',
-  // },
   label: {
     fontWeight: 600,
     width: "100%",

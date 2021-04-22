@@ -10,31 +10,29 @@ export const initiateSocketConnection = () => {
     // forceNew: true,
     //   transports: ["websocket"],
   });
+  const tryReconnect = () => {
+    setTimeout(() => {
+      socket.io.open((err: any) => {
+        if (err) {
+          tryReconnect();
+        }
+      });
+    }, 5000);
+  };
+  socket.on("connect", () => console.log("connected"));
+  // socket.on("disconnect", () => {
+  //   socket.connect();
+  // });
+
+  socket.io.on("close", tryReconnect);
+
+  socket.on("unauthorised", () => {
+    // socket.disconnect();
+  });
+
+  socket.on("error", console.error);
+  socket.on("connect_error", console.error);
   return socket;
 };
-
-// socket.on("connect", () => console.log("connected"));
-// socket.on("disconnect", () => {
-//   socket.connect();
-// });
-
-// const tryReconnect = () => {
-//   setTimeout(() => {
-//     socket.io.open((err: any) => {
-//       if (err) {
-//         tryReconnect();
-//       }
-//     });
-//   }, 2000);
-// };
-
-// socket.io.on("close", tryReconnect);
-
-// socket.on("unauthorised", () => {
-//   // socket.disconnect();
-// });
-
-// socket.on("error", console.error);
-// socket.on("connect_error", console.error);
 
 // export default socket;

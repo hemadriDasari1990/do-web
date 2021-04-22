@@ -9,14 +9,15 @@ import Caption from "../common/Caption";
 import { DASHBOARD } from "../../routes/config";
 import DoPagination from "../common/Pagination";
 import DoSearch from "../common/search";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import ListSkeleton from "../common/skeletons/list";
 import { PER_PAGE } from "../../util/constants";
 import React from "react";
 import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import formateNumber from "../../util/formateNumber";
 import useDebounce from "../common/useDebounce";
@@ -33,7 +34,7 @@ const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const ProjectDashboard = () => {
-  const { root, buttonStyle, iconBackStyle } = useStyles();
+  const { root, buttonStyle } = useStyles();
   const dispatch = useDispatch();
   const { project, projects: projectsList } = useProject();
   const history = useHistory();
@@ -181,7 +182,7 @@ const ProjectDashboard = () => {
   const renderCreateNewProject = () => {
     return (
       <>
-        <Hidden only={["xs"]}>
+        <Hidden only={["xs", "md", "sm"]}>
           <Button
             variant="contained"
             color="primary"
@@ -194,13 +195,12 @@ const ProjectDashboard = () => {
           </Button>
         </Hidden>
 
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <IconButton
-            className={iconBackStyle}
-            onClick={() => handleCreateNewProject()}
-          >
-            <AddOutlinedIcon color="primary" />
-          </IconButton>
+        <Hidden only={["xl", "lg"]}>
+          <Tooltip title="Create New Project" placement="bottom" arrow>
+            <Fab color="primary" onClick={() => handleCreateNewProject()}>
+              <AddOutlinedIcon color="primary" />
+            </Fab>
+          </Tooltip>
         </Hidden>
       </>
     );
@@ -276,15 +276,18 @@ const ProjectDashboard = () => {
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
-                <Hidden only={["xl", "lg", "md"]}>
-                  <IconButton
-                    className={iconBackStyle}
-                    onClick={() => handleBack()}
+                <Hidden only={["xl", "lg"]}>
+                  <Tooltip
+                    title="Go Back to Dashboard"
+                    placement="bottom"
+                    arrow
                   >
-                    <KeyboardBackspaceOutlinedIcon color="primary" />
-                  </IconButton>
+                    <Fab color="primary" onClick={() => handleBack()}>
+                      <KeyboardBackspaceOutlinedIcon color="primary" />
+                    </Fab>
+                  </Tooltip>
                 </Hidden>
-                <Hidden only={["xs", "sm"]}>
+                <Hidden only={["xs", "sm", "md"]}>
                   <Box className={buttonStyle} mr={2}>
                     <Button
                       variant="outlined"
@@ -301,7 +304,9 @@ const ProjectDashboard = () => {
                   </Box>
                 </Hidden>
                 {projects?.length ? (
-                  <Box className={buttonStyle}>{renderCreateNewProject()}</Box>
+                  <Box className={buttonStyle} ml={1}>
+                    {renderCreateNewProject()}
+                  </Box>
                 ) : null}
               </Box>
             </Grid>

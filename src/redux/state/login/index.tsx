@@ -12,7 +12,7 @@ export function useLogin() {
       accountType: state.login.response?.accountType,
     })
   );
-  const descodedData: { [Key: string]: any } = parseJwt(token);
+  const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
   return {
     accountType: accountType || descodedData?.accountType,
     token,

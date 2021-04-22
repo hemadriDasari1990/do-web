@@ -1,4 +1,5 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useUser, useUserSummary } from "../../../redux/state/user";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import Box from "@material-ui/core/Box";
@@ -9,20 +10,16 @@ import SuperHero from "../../../assets/group-discussion.svg";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { useHistory } from "react-router-dom";
-import { useUser } from "../../../redux/state/user";
 
 const useStyles = makeStyles((theme: Theme) => ({
   bannerStyle: {
     backgroundColor: "#fff",
     borderRadius: 6,
-    height: 300,
-    // position: "fixed",
-    // bottom: 0,
-    // padding: 10,
+    height: 280,
   },
   bannerHeaderStyle: {
     height: 60,
-    background: "linear-gradient(180deg,#f67c1b 0,#e15500)",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
   },
 }));
 
@@ -30,6 +27,7 @@ export default function WelcomeBanner(props: any) {
   const { name } = useUser();
   const { bannerStyle } = useStyles();
   const history = useHistory();
+  const { summary } = useUserSummary();
 
   const viewProjects = () => {
     history.replace({
@@ -46,7 +44,7 @@ export default function WelcomeBanner(props: any) {
         </Zoom>
       </Box>
       <Box className={bannerStyle}>
-        <Box p={2} pt={15}>
+        <Box p={2} pt={17}>
           <Box mb={1} textAlign="center">
             <Typography variant="h4">{name}</Typography>
           </Box>
@@ -56,8 +54,8 @@ export default function WelcomeBanner(props: any) {
             </Typography>
           </Box>
 
-          <Box mt={3} mb={1} textAlign="center">
-            <Box mt={1}>
+          <Box mt={3} textAlign="center">
+            <Box>
               <Button
                 variant="contained"
                 color="primary"
@@ -65,7 +63,7 @@ export default function WelcomeBanner(props: any) {
                 endIcon={<ArrowForwardOutlinedIcon color="secondary" />}
               >
                 <Typography variant="subtitle1" color="secondary">
-                  View Projects
+                  {summary?.totalProjects ? "Goto Projects" : "Create Project"}
                 </Typography>
               </Button>
             </Box>

@@ -56,9 +56,9 @@ function* callLogout() {
     const result = yield logout();
     const status = result?.status;
     const data = result?.data;
-    if (status === 200 && data?.token) {
-      sessionStorage.setItem("token", data?.token);
-      sessionStorage.setItem("refreshToken", data?.refreshToken);
+    if (status === 200) {
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("refreshToken");
       yield put({ type: LOGOUT_SUCCESS, payload: data });
     }
   } catch (err) {

@@ -20,8 +20,8 @@ const CreateAccountGrid = () => {
   return (
     <Box textAlign="center">
       <Box display="flex" justifyContent="space-between">
-        <img src={GoodTeam} height="400px" width="300px" />
-        <Box>
+        <img src={GoodTeam} height="300px" width="300px" />
+        <Box mt="3%">
           <Box>
             <Hidden only={["xl", "lg", "md"]}>
               <Typography variant="h1">
@@ -34,16 +34,14 @@ const CreateAccountGrid = () => {
               </Typography>
             </Hidden>
           </Box>
-          <Box py={3}>
-            <Typography variant="h3">
-              It's absolutely free to use. Get Started for Free from here
-            </Typography>
-          </Box>
-          <Box>
-            <CreateAccount title="Get Started for Free" />
+          <Box mt={3}>
+            <CreateAccount
+              title="Sign up Free"
+              subTitle="Free forever — no credit card required"
+            />
           </Box>
         </Box>
-        <img src={CreateNewTeam} height="400px" width="300px" />
+        <img src={CreateNewTeam} height="300px" width="300px" />
       </Box>
     </Box>
   );

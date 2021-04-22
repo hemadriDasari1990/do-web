@@ -1,6 +1,5 @@
 import React, { Suspense, useState } from "react";
 
-// import Grow from "@material-ui/core/Grow";
 import Members from "../../Members";
 import PeopleOutlinedIcon from "@material-ui/icons/PeopleOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
@@ -9,22 +8,9 @@ import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import TeamDashboard from "../Dashboard";
 import Typography from "@material-ui/core/Typography";
-// import formateNumber from "../../../util/formateNumber";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
-  defaultTab: {
-    color: "#68C222",
-    width: "33.3%",
-    backgroundColor: "#FFFFFF",
-    fontSize: 15,
-  },
-  activeTab: {
-    color: "red",
-    width: "33.3%",
-    backgroundColor: "#FFFFFF",
-    fontSize: 15,
-  },
   tabStyle: {
     textTransform: "capitalize",
     fontWeight: 600,
@@ -81,6 +67,7 @@ const DoTabs = (props: any) => {
         onChange={(event: React.ChangeEvent<{}>, newValue: number) =>
           handleChange(newValue)
         }
+        selectionFollowsFocus={true}
       >
         <Tab
           value={0}

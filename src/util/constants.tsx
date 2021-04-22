@@ -12,3 +12,10 @@ export const PER_PAGE = 12;
 export const ADD_MEMBERS_PER_PAGE = 30;
 export const REACTIONS_PER_PAGE = 15;
 export const DRAWER_WIDTH = 70;
+
+export const MAX_CHAR_COUNT = 350;
+export const TITLE_MAX_CHAR_COUNT = 70;
+export const NAME_MAX_CHAR_COUNT = 70;
+
+export const ACTIVITIES_PER_PAGE = 10;
+export const MEMBERS_PER_PAGE = 15;

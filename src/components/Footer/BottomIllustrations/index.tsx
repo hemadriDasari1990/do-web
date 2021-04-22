@@ -1,8 +1,8 @@
+import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
 import Hidden from "@material-ui/core/Hidden";
-import ProjectIcon from "../../../assets/project.svg";
+import ProjectIcon from "../../../assets/add-note.svg";
 import React from "react";
-import ScrumBoard from "../../../assets/board.svg";
 import Zoom from "@material-ui/core/Zoom";
 
 const BottomIllustrations = () => {
@@ -12,14 +12,29 @@ const BottomIllustrations = () => {
         <Hidden only={["xs"]}>
           <Box>
             <Zoom in={true} timeout={2000}>
-              <img src={ScrumBoard} height={300} width="fit-content" />
+              <BoardIcon
+                stickyNoteColor="#ffc800"
+                stickyNoteColor1="#fd7171"
+                stickyNoteColor2="#7b68ee"
+                stickyNoteColor3="#49ccf9"
+                stickyNoteColor4="#00b884"
+                hairColor="#2f2e41"
+                borderColor="#2f2e41"
+                primarySkinColor="#ffb8b8"
+                secondarySkinColor="#a0616a"
+                shoeColor="#2f2e41"
+                shirtColor="#cccccc"
+                cornerCircleColor="#cccccc"
+                width={423}
+                height={300}
+              />
             </Zoom>
           </Box>
         </Hidden>
         <Hidden only={["xs"]}>
-          <Box>
+          <Box pb={-3}>
             <Zoom in={true} timeout={2000}>
-              <img src={ProjectIcon} height={300} width="fit-content" />
+              <img src={ProjectIcon} height={300} width={550} />
             </Zoom>
           </Box>
         </Hidden>

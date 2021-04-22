@@ -11,7 +11,6 @@ import ColoredLine from "../common/ColoredLine";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import DoneAllOutlinedIcon from "@material-ui/icons/DoneAllOutlined";
 import EditIcon from "@material-ui/icons/Edit";
-import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import ListItem from "@material-ui/core/ListItem";
@@ -29,11 +28,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
 import { useLogin } from "../../redux/state/login";
-import { useSocket } from "../../redux/state/socket";
 import { useNote } from "../../redux/state/note";
-
-// import { getStickyColor } from "../../util";
-// import underlineIcon from "../../assets/underline.svg";
+import { useParams } from "react-router-dom";
+import { useSocket } from "../../redux/state/socket";
+import useStyles from "../styles";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -41,10 +39,7 @@ const ReactionView = React.lazy(() => import("./Reaction/view"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const NoteDetails = React.lazy(() => import("./Details"));
 
-const useStyles = makeStyles(() => ({
-  cursorStyle: {
-    cursor: "pointer",
-  },
+const useLocalStyles = makeStyles(() => ({
   adornmentStyle: {
     marginTop: "0px !important",
     marginRight: 0,
@@ -69,7 +64,7 @@ const useStyles = makeStyles(() => ({
     marginTop: 5,
   },
   paperStyle: {
-    padding: 10,
+    padding: 8,
     minHeight: 70,
     borderRadius: 6,
     boxShadow:
@@ -79,7 +74,8 @@ const useStyles = makeStyles(() => ({
     borderRadius: 5,
   },
   hightlightNoteStyle: {
-    border: "2px solid #172b4d",
+    "-ms-transform": "rotate(2deg)" /* IE 9 */,
+    transform: "rotate(2deg)",
   },
   pastTimeStyle: {
     verticalAlign: "middle",
@@ -92,6 +88,15 @@ const useStyles = makeStyles(() => ({
   svgIconStyle: {
     fontSize: "1.2rem",
   },
+  noteContainer: {
+    /* stop the list collapsing when empty */
+    // minHeight: 420,
+    /*
+    not relying on the items for a margin-bottom
+    as it will collapse when the list is empty
+  */
+  },
+  noteItemStyle: {},
 }));
 
 const NoteList = (props: any) => {
@@ -110,19 +115,22 @@ const NoteList = (props: any) => {
     pastTimeStyle,
     timeIconStyle,
     svgIconStyle,
-  } = useStyles();
+    noteContainer,
+    noteItemStyle,
+  } = useLocalStyles();
+  const { cursor } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const { userId } = useLogin();
   const enableActions = !board?.isLocked || authenticated;
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
+  const { boardId } = useParams<{ boardId: string }>();
 
   /* Redux hooks */
-  // const { note } = useNote();
 
   /* Local state */
-  const [selectedNote, setSelectedNote] = useState<{ [Key: string]: any }>({});
+  const [selectedNote, setSelectedNote] = useState<any>(null);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [
@@ -134,34 +142,21 @@ const NoteList = (props: any) => {
   const [notes, setNotes] = useState(noteList || []);
 
   /* React Hooks */
-
   useEffect(() => {
     setNotes(noteList);
   }, [noteList]);
 
   useEffect(() => {
     socket.on(
-      `add-reaction-response-${selectedNote?._id}`,
+      `add-reaction-response-${sectionId}`,
       (data: { [Key: string]: any }) => {
         updateTotalReactions(data);
       }
     );
     return () => {
-      socket.off(`add-reaction-response-${selectedNote?._id}`);
+      socket.off(`add-reaction-response-${sectionId}`);
     };
-  }, [selectedNote]);
-
-  useEffect(() => {
-    socket.on(
-      `mark-note-read-response-${selectedNote?._id}`,
-      (updatedNote: { [Key: string]: any }) => {
-        updateNote(updatedNote);
-      }
-    );
-    return () => {
-      socket.off(`mark-note-read-response-${selectedNote?._id}`);
-    };
-  }, [selectedNote]);
+  }, [notes]);
 
   useEffect(() => {
     /* Delete note */
@@ -194,20 +189,59 @@ const NoteList = (props: any) => {
       }
     );
 
-    /* Add new note */
-    // socket.on(
-    //   `move-note-to-section-response`,
-    //   (newNote: { [Key: string]: any }) => {
-    //     if (sectionId === newNote?.sectionId) {
-    //       addNotes(newNote);
-    //     }
-    //   }
-    // );
+    socket.on(
+      `mark-note-read-response-${sectionId}`,
+      (updatedNote: { [Key: string]: any }) => {
+        console.log("received response", updatedNote);
+        updateNote(updatedNote);
+      }
+    );
 
     return () => {
       socket.off(`create-note-response-${sectionId}`);
       socket.off(`update-note-response-${sectionId}`);
       socket.off(`delete-note-response-${sectionId}`);
+      socket.off(`mark-note-read-response--${sectionId}`);
+    };
+  }, [notes]);
+
+  useEffect(() => {
+    /* move notes between sections response */
+    socket.on(
+      `move-note-to-source-section-response-${sectionId}`,
+      (source: { [Key: string]: any }) => {
+        /* Hanlde source section notes */
+        if (sectionId === source?.droppableId) {
+          /* Remove note from source section */
+          const newNotes = notes?.length ? [...notes] : [];
+          if (newNotes?.length) {
+            newNotes.splice(source.index, 1);
+          }
+          setNotes([...newNotes]);
+        }
+      }
+    );
+
+    socket.on(
+      `move-note-to-destination-section-response-${sectionId}`,
+      (
+        sourceNote: { [Key: string]: any },
+        destination: { [Key: string]: any }
+      ) => {
+        /* Hanlde destination section notes */
+        if (sectionId === destination?.droppableId) {
+          console.log("sourceNote", sourceNote);
+          /* Add note into destination section */
+          const newNotes = notes?.length ? [...notes] : [];
+          newNotes.push(sourceNote);
+          setNotes([...newNotes]);
+        }
+      }
+    );
+
+    return () => {
+      socket.off(`move-note-to-destination-section-response-${sectionId}`);
+      socket.off(`move-note-to-source-section-response-${sectionId}`);
     };
   }, [notes]);
 
@@ -216,7 +250,9 @@ const NoteList = (props: any) => {
       return;
     }
 
-    const newNotes: Array<{ [Key: string]: any }> = [...notes];
+    const newNotes: Array<{ [Key: string]: any }> = notes?.length
+      ? [...notes]
+      : [];
     const noteIndex: number = newNotes.findIndex(
       (newNote: { [Key: string]: any }) => newNote._id === updatedNote._id
     );
@@ -231,7 +267,6 @@ const NoteList = (props: any) => {
   };
 
   const addNotes = (newNote: { [Key: string]: any }) => {
-    console.log("newNote", notes, sectionId, newNote);
     if (!newNote || sectionId !== newNote?.sectionId) {
       return;
     }
@@ -263,7 +298,10 @@ const NoteList = (props: any) => {
   //     setOpenDeleteDialog(true);
   // }
 
-  const handlePopoverClose = () => {
+  const handlePopoverClose = (
+    event: React.MouseEvent<Document, MouseEvent>
+  ) => {
+    event.preventDefault();
     setAnchorEl(null);
   };
 
@@ -285,9 +323,11 @@ const NoteList = (props: any) => {
           noteData.totalPlusOne =
             parseInt(noteData.totalPlusOne) > 0 ? noteData.totalPlusOne - 1 : 0;
           break;
-        case "plusTwo":
-          noteData.totalPlusTwo =
-            parseInt(noteData.totalPlusTwo) > 0 ? noteData.totalPlusTwo - 1 : 0;
+        case "highlight":
+          noteData.totalHighlight =
+            parseInt(noteData.totalHighlight) > 0
+              ? noteData.totalHighlight - 1
+              : 0;
           break;
         case "minusOne":
           noteData.totalMinusOne =
@@ -322,10 +362,10 @@ const NoteList = (props: any) => {
                 ? noteData.totalPlusOne - 1
                 : 0;
             break;
-          case "plusTwo":
-            noteData.totalPlusTwo =
-              parseInt(noteData.totalPlusTwo) > 0
-                ? noteData.totalPlusTwo - 1
+          case "highlight":
+            noteData.totalHighlight =
+              parseInt(noteData.totalHighlight) > 0
+                ? noteData.totalHighlight - 1
                 : 0;
             break;
           case "minusOne":
@@ -354,10 +394,10 @@ const NoteList = (props: any) => {
                 ? noteData.totalPlusOne + 1
                 : 1;
             break;
-          case "plusTwo":
-            noteData.totalPlusTwo =
-              parseInt(noteData.totalPlusTwo) > 0
-                ? noteData.totalPlusTwo + 1
+          case "highlight":
+            noteData.totalHighlight =
+              parseInt(noteData.totalHighlight) > 0
+                ? noteData.totalHighlight + 1
                 : 1;
             break;
           case "minusOne":
@@ -392,10 +432,10 @@ const NoteList = (props: any) => {
                 ? noteData.totalPlusOne + 1
                 : 1;
             break;
-          case "plusTwo":
-            noteData.totalPlusTwo =
-              parseInt(noteData.totalPlusTwo) > 0
-                ? noteData.totalPlusTwo + 1
+          case "highlight":
+            noteData.totalHighlight =
+              parseInt(noteData.totalHighlight) > 0
+                ? noteData.totalHighlight + 1
                 : 1;
             break;
           case "minusOne":
@@ -431,11 +471,12 @@ const NoteList = (props: any) => {
     note: { [Key: string]: any }
   ) => {
     event.stopPropagation();
-    setSelectedNote(note);
     socket.emit("add-reaction", {
       noteId: note._id,
       type,
       reactedBy: userId,
+      sectionId: note.sectionId,
+      boardId,
     });
     setAnchorEl(null);
   };
@@ -445,6 +486,8 @@ const NoteList = (props: any) => {
       id: selectedNote._id,
       userId: userId,
       sectionId: selectedNote?.sectionId,
+      description: selectedNote?.description,
+      boardId,
     });
     setOpenDeleteDialog(false);
   };
@@ -515,10 +558,12 @@ const NoteList = (props: any) => {
     note: { [Key: string]: any }
   ) => {
     event.stopPropagation();
-    setSelectedNote(note);
+    // setSelectedNote(note);
     socket.emit("mark-note-read", {
+      userId,
       id: note._id,
       read: !note.read,
+      boardId,
     });
   };
 
@@ -645,7 +690,7 @@ const NoteList = (props: any) => {
             <Zoom in={true} timeout={2000}>
               <DoneAllOutlinedIcon
                 style={{
-                  color: note.read ? "#0072ff" : "inherit",
+                  color: note.read ? "#57f" : "inherit",
                 }}
                 className={svgIconStyle}
               />
@@ -669,7 +714,7 @@ const NoteList = (props: any) => {
           >
             <DoneAllOutlinedIcon
               style={{
-                color: note.read ? "#0072ff" : "inherit",
+                color: note.read ? "#57f" : "inherit",
               }}
               className={svgIconStyle}
             />
@@ -701,113 +746,104 @@ const NoteList = (props: any) => {
     [enableActions]
   );
 
-  const getItemStyle = (
-    { isDragging, isDropAnimating }: { [Key: string]: any },
-    draggableStyle: any
-  ) => ({
-    ...draggableStyle,
-    // some basic styles to make the items look a bit nicer
-    userSelect: "none",
-
-    // change background colour if dragging
-    // background: isDragging ? "lightgreen" : "grey",
-
-    ...(!isDragging && { transform: "translate(0,0)" }),
-    ...(isDropAnimating && { transitionDuration: "0.001s" }),
-
-    // styles we need to apply on draggables
-  });
+  const renderName = (note: { [Key: string]: any }) => {
+    return (
+      <Box>
+        <Typography variant="subtitle1" style={{ color: "#57f" }}>
+          by {note?.createdBy?.name || "Team member"}
+        </Typography>
+      </Box>
+    );
+  };
 
   return (
     <React.Fragment>
       {renderDeleteDialog()}
       {renderNoteViewDialog()}
       {renderMenu()}
-      <div ref={dropProvided?.innerRef}>
-        <Grid container spacing={0}>
-          {Array.isArray(notes) && notes?.length
-            ? notes.map((note: { [Key: string]: any }, index: number) => (
-                <Draggable
-                  key={note._id}
-                  draggableId={note._id}
-                  index={index}
-                  isDragDisabled={!userId}
-                >
-                  {(
-                    dragProvided: DraggableProvided,
-                    dragSnapshot: DraggableStateSnapshot
-                  ) => (
-                    <Grid
-                      item
-                      key={note._id}
-                      xl={12}
-                      lg={12}
-                      md={12}
-                      sm={12}
-                      xs={12}
+      <div ref={dropProvided?.innerRef} className={noteContainer}>
+        {Array.isArray(notes) && notes?.length
+          ? notes.map((note: { [Key: string]: any }, index: number) => (
+              <Draggable
+                key={note._id}
+                draggableId={note._id}
+                index={index}
+                isDragDisabled={!userId}
+              >
+                {(
+                  dragProvided: DraggableProvided,
+                  dragSnapshot: DraggableStateSnapshot
+                ) => (
+                  <div
+                    key={note._id}
+                    // isDragging={dragSnapshot.isDragging}
+                    is-groupedOver={Boolean(dragSnapshot.combineTargetFor)}
+                    // isClone={isClone}
+                    ref={dragProvided.innerRef}
+                    {...dragProvided.draggableProps}
+                    {...dragProvided.dragHandleProps}
+                    style={{
+                      ...dragProvided.draggableProps.style,
+                      // borderColor: dragSnapshot.isDragging
+                      //   ? "yellow"
+                      //   : "transparent",
+                      // backgroundColor: getBackgroundColor(
+                      //   dragSnapshot.isDragging,
+                      //   Boolean(dragSnapshot.combineTargetFor)
+                      // ),
+                      // boxShadow: dragSnapshot.isDragging
+                      //   ? `2px 2px 1px #675`
+                      //   : "none",
+                    }}
+                    is-dragging={dragSnapshot.isDragging}
+                    data-is-dragging={dragSnapshot.isDragging}
+                    data-testid={note._id}
+                    data-index={index}
+                    className={noteItemStyle}
+                  >
+                    <Box
+                      pl={1}
+                      pr={1}
+                      pb={1}
+                      onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                        handleNote(event, note)
+                      }
+                      className={cursor}
                     >
-                      <div
-                        // isDragging={dragSnapshot.isDragging}
-                        data-isGroupedOver={Boolean(
-                          dragSnapshot.combineTargetFor
-                        )}
-                        // isClone={isClone}
-                        ref={dragProvided.innerRef}
-                        {...dragProvided.draggableProps}
-                        {...dragProvided.dragHandleProps}
-                        style={{
-                          ...getItemStyle(
-                            dragSnapshot,
-                            dragProvided.draggableProps.style
-                          ),
-                          // ...style
-                        }}
-                        data-isDragging={dragSnapshot.isDragging}
-                        data-testid={note._id}
-                        data-index={index}
+                      <Paper
+                        className={`${paperStyle} ${
+                          dragSnapshot.isDragging ? hightlightNoteStyle : ""
+                        }`}
+                        // style={{ background: getStickyColor(sectionIndex) }}
+                        // style={{
+                        //   border: `2px solid ${getRandomBGColor()}`,
+                        //   borderImage: getRandomBGColor(),
+                        //   borderImageSlice: 1,
+                        // }}
                       >
+                        <Box display="flex" justifyContent="space-between">
+                          <ColoredLine index={sectionIndex} />
+                          {renderName(note)}
+                        </Box>
+                        <Box style={{ minHeight: 40 }}>
+                          <Typography variant="h6" style={{ color: "#172b4d" }}>
+                            {note.description}
+                          </Typography>
+                        </Box>
                         <Box
-                          p={1}
-                          onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-                            handleNote(event, note)
-                          }
+                          pt={2}
+                          display="flex"
+                          justifyContent="space-between"
                         >
-                          <Paper
-                            className={`${paperStyle} ${
-                              dragSnapshot.isDragging ? hightlightNoteStyle : ""
-                            }`}
-                            // style={{ background: getStickyColor(sectionIndex) }}
-                            // style={{
-                            //   border: `2px solid ${getRandomBGColor()}`,
-                            //   borderImage: getRandomBGColor(),
-                            //   borderImageSlice: 1,
-                            // }}
-                          >
-                            <Box display="flex">
-                              <ColoredLine index={sectionIndex} />
+                          <Box display="flex">
+                            <Box>
+                              <ReactionView note={note} />
                             </Box>
-                            <Box style={{ minHeight: 40 }}>
-                              <Typography
-                                variant="h6"
-                                style={{ color: "#172b4d" }}
-                              >
-                                {note.description}
-                              </Typography>
-                            </Box>
-                            <Box
-                              pt={2}
-                              display="flex"
-                              justifyContent="space-between"
-                            >
-                              <Box display="flex">
-                                <Box>
-                                  <ReactionView note={note} />
-                                </Box>
-                              </Box>
-                              <Box display="flex">
-                                {renderPastTime(note)}
-                                {enableActions && <>{renderEmoji(note)}</>}
-                                {/* {enableActions && (
+                          </Box>
+                          <Box display="flex">
+                            {renderPastTime(note)}
+                            {enableActions && <>{renderEmoji(note)}</>}
+                            {/* {enableActions && (
                                       <Tooltip arrow title="Add Comment">
                                         <IconButton
                                           size="small"
@@ -821,26 +857,25 @@ const NoteList = (props: any) => {
                                         </IconButton>
                                       </Tooltip>
                                     )} */}
-                                {authenticated && <>{renderMarkRead(note)}</>}
-                                {!authenticated && <>{renderRead(note)}</>}
-                                {enableActions && <>{renderMenuIcon(note)}</>}
-                              </Box>
-                            </Box>
-                          </Paper>
-                          <ReactionPopover
-                            handleReaction={handleReaction}
-                            anchorEl={anchorEl}
-                            note={selectedNote}
-                            handlePopoverClose={handlePopoverClose}
-                          />
+                            {authenticated && <>{renderMarkRead(note)}</>}
+                            {!authenticated && <>{renderRead(note)}</>}
+                            {enableActions && <>{renderMenuIcon(note)}</>}
+                          </Box>
                         </Box>
-                      </div>
-                    </Grid>
-                  )}
-                </Draggable>
-              ))
-            : null}
-        </Grid>
+                      </Paper>
+                      <ReactionPopover
+                        handleReaction={handleReaction}
+                        anchorEl={anchorEl}
+                        note={selectedNote}
+                        handlePopoverClose={handlePopoverClose}
+                        setAnchorEl={setAnchorEl}
+                      />
+                    </Box>
+                  </div>
+                )}
+              </Draggable>
+            ))
+          : null}
         {!notes?.length && !showNote && dropProvided?.placeholder && (
           <Box py={2}>
             <NoRecords message="Notes are empty" hideImage={true} />

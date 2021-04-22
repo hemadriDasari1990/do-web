@@ -8,14 +8,15 @@ import Button from "@material-ui/core/Button";
 import Caption from "../common/Caption";
 import DoPagination from "../common/Pagination";
 import DoSearch from "../common/search";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import ListSkeleton from "../common/skeletons/list";
 import { PER_PAGE } from "../../util/constants";
 import { PROJECTS } from "../../routes/config";
 import TitleWithCountSkeleton from "../common/skeletons/titleWithCount";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { deleteBoard } from "../../redux/actions/board";
 import formateNumber from "../../util/formateNumber";
@@ -36,7 +37,7 @@ const UpdateBoard = React.lazy(() => import("./Update"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const BoardDashboard = () => {
-  const { root, buttonStyle, iconBackStyle } = useStyles();
+  const { root, buttonStyle } = useStyles();
   const dispatch = useDispatch();
   const { project } = useProject();
   const { boards: boardsList, totalBoards: totalBoardsCount } = useBoard();
@@ -227,7 +228,7 @@ const BoardDashboard = () => {
   const renderCreateNewBoard = () => {
     return (
       <>
-        <Hidden only={["xs"]}>
+        <Hidden only={["xs", "md", "sm"]}>
           <Button
             variant="contained"
             color="primary"
@@ -240,13 +241,12 @@ const BoardDashboard = () => {
           </Button>
         </Hidden>
 
-        <Hidden only={["xl", "lg", "md", "sm"]}>
-          <IconButton
-            className={iconBackStyle}
-            onClick={() => handleCreateNewBoard()}
-          >
-            <AddOutlinedIcon color="primary" />
-          </IconButton>
+        <Hidden only={["xl", "lg"]}>
+          <Tooltip title="Create New Board" placement="bottom" arrow>
+            <Fab color="primary" onClick={() => handleCreateNewBoard()}>
+              <AddOutlinedIcon color="primary" />
+            </Fab>
+          </Tooltip>
         </Hidden>
       </>
     );
@@ -325,16 +325,15 @@ const BoardDashboard = () => {
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box display="flex" justifyContent={"flex-end"} mt={1.2}>
-                <Hidden only={["xl", "lg", "md"]}>
-                  <IconButton
-                    className={iconBackStyle}
-                    onClick={() => handleBack()}
-                  >
-                    <KeyboardBackspaceOutlinedIcon color="primary" />
-                  </IconButton>
+                <Hidden only={["xl", "lg"]}>
+                  <Tooltip title="Go Back to Projects" placement="bottom" arrow>
+                    <Fab color="primary" onClick={() => handleBack()}>
+                      <KeyboardBackspaceOutlinedIcon color="primary" />
+                    </Fab>
+                  </Tooltip>
                 </Hidden>
 
-                <Hidden only={["xs", "sm"]}>
+                <Hidden only={["xs", "sm", "md"]}>
                   <Box className={buttonStyle} mr={2}>
                     <Button
                       variant="outlined"
@@ -352,24 +351,12 @@ const BoardDashboard = () => {
                 </Hidden>
 
                 {boards?.length ? (
-                  <Box className={buttonStyle}>{renderCreateNewBoard()}</Box>
+                  <Box className={buttonStyle} ml={1}>
+                    {renderCreateNewBoard()}
+                  </Box>
                 ) : null}
-                {/* <Hidden only={["xs", "sm"]}>
-                  <IconButton
-                    size="small"
-                    className={iconBackStyle}
-                    onClick={() => handleSort()}
-                  >
-                    <SortOutlinedIcon color="primary" />
-                  </IconButton>
-                </Hidden> */}
               </Box>
             </Grid>
-            {/* {boards?.length ? (
-              <Grid item xl={2} lg={2} md={4} sm={6} xs={12}>
-                <Box className={buttonStyle}>{renderCreateNewBoard()}</Box>
-              </Grid>
-            ) : null} */}
           </Grid>
         </Box>
         {!loading && (!boards || !boards?.length) && (

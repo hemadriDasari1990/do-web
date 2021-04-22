@@ -1,9 +1,9 @@
 export default {
-  // root: {},
+  root: {},
   wrapper: {
     flexDirection: "row",
   },
-  // // /* Styles applied to the root element if both `icon` and `label` are provided. */
+  /* Styles applied to the root element if both `icon` and `label` are provided. */
   labelIcon: {
     minHeight: 40,
     paddingTop: 9,
@@ -11,17 +11,4 @@ export default {
       marginBottom: 6,
     },
   },
-  wrapped: {
-    lineHeight: 1.5,
-  },
-  /* Styles applied to the root element if the parent [`Tabs`](/api/tabs/) has `textColor="primary"`. */
-  // textColorPrimary: {
-  //   color: "#5b6886",
-  //   "&$selected": {
-  //     color: "#172b4d",
-  //   },
-  //   "&$disabled": {
-  //     color: "#3333",
-  //   },
-  // },
 };

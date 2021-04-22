@@ -1,14 +1,21 @@
+import {
+  ALPHA_NUMERIC_WITH_SPACE,
+  EMAIL_PATTERN,
+  allow,
+} from "../../../util/regex";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import DoAutoComplete from "../DoAutoComplete";
+import DoSnackbar from "../../Snackbar/components";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Loader from "../../Loader/components";
+import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { emailRegex } from "../../../util/regex";
 import useDebounce from "../useDebounce";
 import { useSocket } from "../../../redux/state/socket";
 
@@ -52,6 +59,8 @@ export default function Invite(props: any) {
   const [showCreateMember, setShowCreateMember] = React.useState<boolean>(
     false
   );
+
+  const [showSnackbar, setShowSnackbar] = React.useState<boolean>(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [createMember, setCreateMember] = React.useState<boolean>(false);
   const [member, setMember] = React.useState<{ [Key: string]: any }>({
@@ -68,6 +77,7 @@ export default function Invite(props: any) {
     socket.emit("invite-member-to-board", {
       id: selectedBoard?._id,
       member: member,
+      createMember,
     });
   };
 
@@ -76,7 +86,10 @@ export default function Invite(props: any) {
       "invite-member-to-board-response",
       (response: { [Key: string]: any }) => {
         setFetching(false);
-        handleClose();
+        setShowSnackbar(true);
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
       }
     );
     return () => {
@@ -93,22 +106,23 @@ export default function Invite(props: any) {
     socket.on(
       "search-members-response",
       (members: Array<{ [Key: string]: any }>) => {
+        console.log("members", members);
         setMembers(members);
         setFetching(false);
       }
     );
     return () => {
-      socket.off("search-members-response");
+      // socket.off("search-members-response");
     };
   }, [members]);
 
   const handleMember = (newMember: { [Key: string]: any } | string) => {
     if (typeof newMember === "string") {
-      if (!newMember.trim().length || !emailRegex.test(newMember)) {
+      if (!newMember.trim().length || !EMAIL_PATTERN.test(newMember)) {
         setError(true);
       } else {
         setError(false);
-        setMember({ ...member, email: newMember });
+        setMember({ name: member?.name, email: newMember });
         setShowCreateMember(true);
       }
     }
@@ -126,7 +140,10 @@ export default function Invite(props: any) {
     if (!member) {
       return true;
     }
-    if (!member.name?.trim().length || !emailRegex.test(member?.email)) {
+    if (!member.name?.trim().length || !EMAIL_PATTERN.test(member?.email)) {
+      return true;
+    }
+    if (showSnackbar) {
       return true;
     }
     return false;
@@ -138,6 +155,24 @@ export default function Invite(props: any) {
 
   const handleCreateMember = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCreateMember(!createMember);
+  };
+
+  const handleSnackbarClose = () => {
+    setShowSnackbar(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={showSnackbar}
+        status="success"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          Invite Sent Successfully
+        </Typography>
+      </DoSnackbar>
+    );
   };
 
   return (
@@ -152,11 +187,13 @@ export default function Invite(props: any) {
       maxWidth={440}
       primaryButtonStyle={primaryButtonStyle}
     >
+      <Loader enable={fetching} backdrop={true} />
+      {renderSnackbar()}
       <DoAutoComplete
         defaultValue={members}
         textInputLabel="Select/Add member"
-        textInputPlaceholder="Search by Email address or name"
-        optionKey="name"
+        textInputPlaceholder="Search by name"
+        optionKey={"name"}
         options={members}
         isFreeSolo={true}
         autoHighlight
@@ -177,7 +214,7 @@ export default function Invite(props: any) {
         loading={membersLoading}
         customClass={dropdownInputStyle}
       />
-      {email && !member._id ? (
+      {email && !member?._id ? (
         <Box>
           <TextField
             name="name"
@@ -187,6 +224,9 @@ export default function Invite(props: any) {
             value={name}
             onChange={handleName}
             className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
+            }
           />
         </Box>
       ) : null}

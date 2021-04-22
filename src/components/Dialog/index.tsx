@@ -20,9 +20,6 @@ const useStyles = makeStyles(() => ({
     position: "absolute",
     left: "86%",
     top: "5%",
-    // background: "linear-gradient(180deg,#f67c1b 0,#e15500) ",
-    // color: "#fff",
-    // borderRadius: "50%",
   }),
   contentStyle: {
     overflowX: "hidden",

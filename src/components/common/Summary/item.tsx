@@ -1,33 +1,31 @@
 import { SvgIcon, Typography } from "@material-ui/core";
 
-import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
+import getRandomBGColor from "../../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
-import useStatusStyles from "../../styles/status";
 
 const useStyles = makeStyles(() => ({
-  avatarStyle: {
-    backgroundColor: "#ffe9df",
-  },
+  avatarStyle: (props: any) => ({
+    background: getRandomBGColor(props.index),
+    boxShadow: "0 15px 15px rgb(16 30 54 / 15%)",
+  }),
   itemStyle: {
     marginTop: 10,
   },
   iconStyle: {
-    color: "#ff5e04",
+    color: "#fff",
   },
 }));
 
 const SummaryItem = (props: any) => {
-  const { title, icon, value, handleButton, hideAction } = props;
-  const { avatarStyle, itemStyle, iconStyle } = useStyles();
-  const { pendingStyle, pendingTextStyle } = useStatusStyles();
+  const { title, icon, value } = props;
+  const { avatarStyle, itemStyle, iconStyle } = useStyles(props);
   return (
     <ListItem className={itemStyle} disableGutters>
       <ListItemAvatar>
@@ -41,22 +39,6 @@ const SummaryItem = (props: any) => {
           <Box mt={1} mr={2}>
             <Typography variant="h4">{value}</Typography>
           </Box>
-          {!hideAction && (
-            <Box mt={1.4}>
-              <IconButton
-                style={{ width: 25, height: 25 }}
-                className={pendingStyle}
-                edge="end"
-                aria-label="view"
-                onClick={() => handleButton()}
-              >
-                <ArrowForwardIosOutlinedIcon
-                  style={{ fontSize: 16, fontWeight: "bold" }}
-                  className={pendingTextStyle}
-                />
-              </IconButton>
-            </Box>
-          )}
         </Box>
       </ListItemSecondaryAction>
     </ListItem>

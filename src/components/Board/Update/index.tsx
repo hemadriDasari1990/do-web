@@ -1,16 +1,23 @@
+import {
+  ALPHA_NUMERIC_WITH_SPACE,
+  ONLY_NUMBERS,
+  allow,
+} from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Hidden from "@material-ui/core/Hidden";
 import Link from "@material-ui/core/Link";
-import ScrumBoard from "../../../assets/board.svg";
+import { MAX_CHAR_COUNT } from "../../../util/constants";
 import { TEAM } from "../../../routes/config";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
+import { getRemainingCharLength } from "../../../util";
 import { updateBoard } from "../../../redux/actions/board";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
@@ -63,6 +70,7 @@ const Update = (props: any) => {
     teams: [],
     isDefaultBoard: false,
   });
+  const [count, setCount] = useState(0);
   const { description, noOfSections, status, teams, isDefaultBoard } = formData;
 
   /* React Hooks */
@@ -99,6 +107,11 @@ const Update = (props: any) => {
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
+    if (event.target.name === "description") {
+      const charCount = event.target.value.length;
+      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
+      setCount(charLeft);
+    }
   };
 
   const handleClose = () => {
@@ -121,7 +134,7 @@ const Update = (props: any) => {
       updateBoard({
         description,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        status: status || "pending",
+        status: status || "new",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
         isDefaultBoard,
         projectId: project?._id,
@@ -155,6 +168,10 @@ const Update = (props: any) => {
     setFormData({ ...formData, isDefaultBoard: !isDefaultBoard });
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
       <ResponsiveDialog
@@ -171,7 +188,22 @@ const Update = (props: any) => {
         <Hidden only={["xs"]}>
           <Box mt={5} textAlign="center">
             <Zoom in={true} timeout={2000}>
-              <img src={ScrumBoard} height="200px" width="fit-content" />
+              <BoardIcon
+                stickyNoteColor="#ffc800"
+                stickyNoteColor1="#fd7171"
+                stickyNoteColor2="#7b68ee"
+                stickyNoteColor3="#49ccf9"
+                stickyNoteColor4="#00b884"
+                hairColor="#2f2e41"
+                borderColor="#2f2e41"
+                primarySkinColor="#ffb8b8"
+                secondarySkinColor="#a0616a"
+                shoeColor="#2f2e41"
+                shirtColor="#cccccc"
+                cornerCircleColor="#cccccc"
+                width={281}
+                height={200}
+              />
             </Zoom>
           </Box>
         </Hidden>
@@ -198,6 +230,12 @@ const Update = (props: any) => {
               disabled={!!selectedBoard?.totalSections}
               required
               className={textFieldStyle}
+              onKeyPress={(event: React.KeyboardEvent<any>) =>
+                allow(event, ONLY_NUMBERS, 2)
+              }
+              onCut={handlePrevent}
+              onCopy={handlePrevent}
+              onPaste={handlePrevent}
             />
           </Box>
         )}
@@ -223,7 +261,7 @@ const Update = (props: any) => {
         </Box>
         {!selectedBoard?._id && isDefaultBoard && (
           <Box mt={3}>
-            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings and Recognitions." />
+            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
           </Box>
         )}
         <Box>
@@ -235,7 +273,14 @@ const Update = (props: any) => {
             value={description}
             onChange={handleInput}
             className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
           />
+          <Typography variant="subtitle2">{count} chars</Typography>
         </Box>
         <Box>
           <DoAutoComplete

@@ -13,7 +13,7 @@ function* callCreateFeedback(action: { [Key: string]: any }) {
   try {
     const result = yield createFeedback(action.payload);
     const { status, data } = result;
-    if (status === 200 && data?._id) {
+    if (status === 200) {
       yield put({ type: CREATE_FEEDBACK_SUCCESS, payload: data });
     }
   } catch (err) {
@@ -27,7 +27,7 @@ export function* watchCreateFeedback() {
 
 function* callGetFeedbacks(action: { [Key: string]: any }) {
   try {
-    const result = yield getFeedbacks(action?.like);
+    const result = yield getFeedbacks(action?.like, action?.limit);
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_FEEDBACKS_SUCCESS, payload: data });

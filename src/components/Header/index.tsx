@@ -1,4 +1,4 @@
-import { LOGIN, USER } from "../../routes/config";
+import { LOGIN, SIGNUP } from "../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";
@@ -57,7 +57,7 @@ const Header = () => {
   }, [userAuthenticated]);
 
   const handleCreateUser = () => {
-    history.push(USER);
+    history.push(SIGNUP);
   };
 
   const handleLogin = () => {
@@ -67,11 +67,11 @@ const Header = () => {
   const renderAppbar = () => {
     return (
       <Box mt={1} display="flex" justifyContent="space-between">
-        <Hidden only={["xl", "lg", "md", "sm"]}>
+        <Hidden only={["xl", "lg", "md"]}>
           <DoLogoIcon />
         </Hidden>
         {showLogo && (
-          <Hidden only={["xs"]}>
+          <Hidden only={["xs", "sm"]}>
             {" "}
             <DoLogo color="secondary" />
           </Hidden>
@@ -98,7 +98,7 @@ const Header = () => {
                 variant="contained"
               >
                 <Typography variant="h6" color="secondary">
-                  Create an Account
+                  Sign up free
                 </Typography>
               </Button>
             </Box>

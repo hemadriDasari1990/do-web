@@ -1,24 +1,23 @@
+import { FEATURES, GETTING_STARTED, RETROSPECTIVE } from "../../routes/config";
 import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useFeedback, useLoading } from "../../redux/state/feedback";
 
+import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
+import CallMadeIcon from "@material-ui/icons/CallMade";
 import Container from "@material-ui/core/Container";
-// import { DASHBOARD } from "../../routes/config";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import ScrumBoard from "../../assets/board.svg";
+import InfoCard from "../common/InfoCard";
 import ScrumBoardSkeleton from "../../assets/scrum-real-board.png";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
 import { getFeedbacks } from "../../redux/actions/feedback";
-// import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
-
-// import { useHistory } from "react-router";
 
 const FeedbackList = React.lazy(() => import("../Feedback/list"));
 const CreateAccount = React.lazy(() => import("./create"));
@@ -39,9 +38,6 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   boxStyle: {
     backgroundColor: "#fff",
   },
-  boxGridStyle: {
-    backgroundColor: "#F2F4f4",
-  },
   skeletonImageStyle: {
     maxWidth: "100%",
     height: "auto",
@@ -50,20 +46,38 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Home = () => {
-  const { imageStyle, boxGridStyle, skeletonImageStyle } = useLocalStyles();
-  const { titleStyle, titleSecondaryStyle, bannerStyle } = useStyles();
+  const { skeletonImageStyle } = useLocalStyles();
+  const {
+    titleStyle,
+    titleSecondaryStyle,
+    bannerStyle,
+    boxGridStyle,
+  } = useStyles();
   const dispatch = useDispatch();
-  // const authenticated: boolean = useAuthenticated();
-  // const history = useHistory();
   const { feedback } = useFeedback();
   const { loading } = useLoading();
 
   useEffect(() => {
-    dispatch(getFeedbacks(true));
+    dispatch(getFeedbacks(20, true));
     // if(authenticated){
     //   history.push(DASHBOARD);
     // }
   }, []);
+
+  const handleRetrospective = () => {
+    const win: any = window.open(RETROSPECTIVE, "_blank");
+    win.focus();
+  };
+
+  const handleGettingStarted = () => {
+    const win: any = window.open(GETTING_STARTED, "_blank");
+    win.focus();
+  };
+
+  const handleFeatures = () => {
+    const win: any = window.open(FEATURES, "_blank");
+    win.focus();
+  };
 
   return (
     <React.Fragment>
@@ -105,7 +119,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Retrospective's differently
+                    Retrospective's from anywhere
                   </Typography>
                 </Box>
                 <Box>
@@ -122,7 +136,10 @@ const Home = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <CreateAccount title="Get Started for Free" />
+                  <CreateAccount
+                    title="Start a retroboard"
+                    subTitle="Free forever — no credit card required"
+                  />
                 </Box>
               </Grid>
             </Slide>
@@ -134,15 +151,27 @@ const Home = () => {
               unmountOnExit
             >
               <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                <Box>
-                  <Zoom in={true} timeout={2000}>
-                    <img
-                      src={ScrumBoard}
-                      className={imageStyle}
-                      width="fit-content"
+                <Zoom in={true} timeout={2000}>
+                  <Box>
+                    <BoardIcon
+                      stickyNoteColor="#ffc800"
+                      stickyNoteColor1="#fd7171"
+                      stickyNoteColor2="#7b68ee"
+                      stickyNoteColor3="#49ccf9"
+                      stickyNoteColor4="#00b884"
+                      hairColor="#2f2e41"
+                      borderColor="#cccccc"
+                      primarySkinColor="#ffb8b8"
+                      secondarySkinColor="#a0616a"
+                      shoeColor="#cccccc"
+                      pantColor="#2f2e41"
+                      shirtColor="#cccccc"
+                      cornerCircleColor="#cccccc"
+                      width={381}
+                      height={320}
                     />
-                  </Zoom>
-                </Box>
+                  </Box>
+                </Zoom>
               </Grid>
             </Slide>
           </Grid>
@@ -151,18 +180,26 @@ const Home = () => {
       <Container>
         <Grid container spacing={2}>
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-            <Box pt={5} textAlign="center">
-              <Box>
-                <Typography variant="h1" className={`${titleSecondaryStyle}`}>
-                  It's fun and a way of discussing what worked and what didn't.
+            <Box pt={5}>
+              <Box mb={2}>
+                <Typography variant="h1" className={`${titleStyle}`}>
+                  It’s more than work.
+                </Typography>
+                <Typography variant="h1" className={`${titleStyle}`}>
+                  It’s a way of discussing
+                </Typography>
+                <Typography variant="h1" className={`${titleStyle}`}>
+                  What worked and what didn't.
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="body1">
-                  Start with a Letsdoretro board, lists, and cards. Customize
-                  and expand with more features as your teamwork grows. Manage
-                  departments, projects, organize boards, and build team
-                  spirit—all in one place.
+                  Start with a Lets do retro board, sections, notes and
+                  reactions. Customize and expand with more features as your
+                  teamwork grows.
+                </Typography>
+                <Typography variant="body1">
+                  Manage projects, and build team spirit all in one place.
                 </Typography>
               </Box>
               <Box mt={5}>
@@ -179,14 +216,58 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
-      <Box mb={-0.9} mt={-15}>
-        <img src={Wave} />
-      </Box>
-      <Box className={boxGridStyle}>
-        <Summary />
-      </Box>
+      <Container>
+        <Box my={5}>
+          <Box textAlign="center">
+            <Typography variant="h1">Discover</Typography>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+              <Box pt={2}>
+                <Box mt={2}>
+                  <InfoCard
+                    title="How to get started? Take a look at our six step process to get started"
+                    icon={CallMadeIcon}
+                    handleButton={() => handleGettingStarted()}
+                    index={0}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+              <Box pt={2}>
+                <Box mt={2}>
+                  <InfoCard
+                    title="What is Sprint Retrospective and how to run?"
+                    icon={CallMadeIcon}
+                    handleButton={() => handleRetrospective()}
+                    index={5}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+              <Box pt={2}>
+                <Box mt={2}>
+                  <InfoCard
+                    title="What features are offered by letdoretro.com?"
+                    icon={CallMadeIcon}
+                    handleButton={() => handleFeatures()}
+                    index={3}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+      <Container>
+        <Box className={boxGridStyle}>
+          <Summary />
+        </Box>
+      </Container>
       {!loading && feedback?.length ? (
-        <Box pb={5} className={bannerStyle}>
+        <Box mt={5} pb={5} className={bannerStyle}>
           <Box py={5}>
             <Box textAlign="center">
               <Typography
@@ -198,12 +279,12 @@ const Home = () => {
               </Typography>
             </Box>
           </Box>
-          <Box>
+          <Container>
             <FeedbackList feedbacks={feedback} color="secondary" />
-          </Box>
+          </Container>
         </Box>
       ) : null}
-      <Box pt={5}>
+      <Box p={5}>
         <Container>
           <UserList />
         </Container>
