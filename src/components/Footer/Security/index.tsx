@@ -102,9 +102,10 @@ export default function Security() {
                       <Typography variant="body1">
                         Let's do retro physical infrastructure is hosted and
                         managed within Amazon's secure data centers and utilizes
-                        the AWS cloud technology. AWS Cloud continually manages
-                        risk and undergoes recurring assessments to ensure
-                        compliance with industry standards.
+                        the Google's cloud technology. Google's Cloud
+                        continually manages risk and undergoes recurring
+                        assessments to ensure compliance with industry
+                        standards.
                       </Typography>
                     </Box>
                   </Grid>
@@ -219,10 +220,11 @@ export default function Security() {
                     <Box mb={5}>
                       <Typography variant="body1">
                         Let's do retro physical infrastructure is hosted and
-                        managed within AWS's secure data centers and utilizes
-                        the AWS cloud technology. AWS Cloud continually manages
-                        risk and undergoes recurring assessments to ensure
-                        compliance with industry standards.
+                        managed within Google's's secure data centers and
+                        utilizes the Google's cloud technology. Google's Cloud
+                        continually manages risk and undergoes recurring
+                        assessments to ensure compliance with industry
+                        standards.
                       </Typography>
                     </Box>
                   </Grid>
@@ -325,10 +327,11 @@ export default function Security() {
                     <Box mb={5}>
                       <Typography variant="body1">
                         Let's do retro physical infrastructure is hosted and
-                        managed within AWS's secure data centers and utilizes
-                        the AWS cloud technology. AWS Cloud continually manages
-                        risk and undergoes recurring assessments to ensure
-                        compliance with industry standards.
+                        managed within Google's's secure data centers and
+                        utilizes the Google's cloud technology. Google's Cloud
+                        continually manages risk and undergoes recurring
+                        assessments to ensure compliance with industry
+                        standards.
                       </Typography>
                     </Box>
                   </Grid>
