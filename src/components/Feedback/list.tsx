@@ -1,20 +1,23 @@
 import Avatar from "@material-ui/core/Avatar";
+import Badge from "@material-ui/core/Badge";
 import DisLikeIcon from "@material-ui/icons/ThumbDownAlt";
 import Grid from "@material-ui/core/Grid";
 import LikeIcon from "@material-ui/icons/ThumbUpAlt";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../util/getRandomColor";
+import useStyles from "../styles";
 
 function FeedbackList(props: any) {
   const { feedbacks, color } = props;
+  const { customBadge } = useStyles();
+
   return (
     <>
       <List>
@@ -27,9 +30,25 @@ function FeedbackList(props: any) {
                   className="b-r-15 cursor mb-10"
                 >
                   <ListItemAvatar>
-                    <Avatar style={{ background: getRandomColor(index) }}>
-                      <PersonIcon color="secondary" />
-                    </Avatar>
+                    <Badge
+                      classes={{ badge: customBadge }}
+                      overlap="circle"
+                      badgeContent={
+                        feedback.like ? (
+                          <Tooltip arrow title="Likes the tool">
+                            <LikeIcon style={{ color: "#ffc800" }} />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip arrow title="DisLike the tool">
+                            <DisLikeIcon />
+                          </Tooltip>
+                        )
+                      }
+                    >
+                      <Avatar style={{ background: getRandomColor(index) }}>
+                        <PersonIcon color="secondary" />
+                      </Avatar>
+                    </Badge>
                   </ListItemAvatar>
                   <ListItemText
                     primary={
@@ -53,17 +72,6 @@ function FeedbackList(props: any) {
                       </React.Fragment>
                     }
                   />
-                  <ListItemSecondaryAction>
-                    {feedback.like ? (
-                      <Tooltip arrow title="Likes the tool">
-                        <LikeIcon color={color} />
-                      </Tooltip>
-                    ) : (
-                      <Tooltip arrow title="DisLike the tool">
-                        <DisLikeIcon color={color} />
-                      </Tooltip>
-                    )}
-                  </ListItemSecondaryAction>
                 </ListItem>
               </Grid>
             ))}

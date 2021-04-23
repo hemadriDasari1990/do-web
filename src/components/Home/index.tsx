@@ -216,8 +216,14 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
+
       <Container>
-        <Box my={5}>
+        <Box mt={2} className={boxGridStyle}>
+          <Summary />
+        </Box>
+      </Container>
+      <Container>
+        <Box my={3}>
           <Box textAlign="center">
             <Typography variant="h1">Discover</Typography>
           </Box>
@@ -261,28 +267,19 @@ const Home = () => {
           </Grid>
         </Box>
       </Container>
-      <Container>
-        <Box className={boxGridStyle}>
-          <Summary />
-        </Box>
-      </Container>
       {!loading && feedback?.length ? (
-        <Box mt={5} pb={5} className={bannerStyle}>
-          <Box py={5}>
-            <Box textAlign="center">
-              <Typography
-                color="secondary"
-                variant="h1"
-                className={`${titleSecondaryStyle}`}
-              >
-                What people say about us
-              </Typography>
+        <Container>
+          <Box mt={5} pb={5} className={boxGridStyle}>
+            <Box>
+              <Box textAlign="center">
+                <Typography variant="h1" className={`${titleSecondaryStyle}`}>
+                  What people say about us
+                </Typography>
+              </Box>
             </Box>
+            <FeedbackList feedbacks={feedback} />
           </Box>
-          <Container>
-            <FeedbackList feedbacks={feedback} color="secondary" />
-          </Container>
-        </Box>
+        </Container>
       ) : null}
       <Box p={5}>
         <Container>
