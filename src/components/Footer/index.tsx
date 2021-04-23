@@ -131,7 +131,7 @@ export default function Footer() {
               </Box>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">
-                  Empowering teams to run retrospectives differently
+                  Empower teams to create the next big thing
                 </Typography>
               </Box>
             </Grid>
@@ -233,18 +233,6 @@ export default function Footer() {
                     }
                   />
                 </ListItem>
-                <ListItem
-                  className={listStyle}
-                  onClick={() => handleRetrospective()}
-                >
-                  <ListItemText
-                    secondary={
-                      <Typography variant="overline" color="secondary">
-                        What's New
-                      </Typography>
-                    }
-                  />
-                </ListItem>
               </List>
             </Grid>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
@@ -306,7 +294,7 @@ export default function Footer() {
                     <FacebookIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    secondary={
+                    primary={
                       <Typography variant="overline" color="secondary">
                         Facebook
                       </Typography>
@@ -318,7 +306,7 @@ export default function Footer() {
                     <TwitterIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    secondary={
+                    primary={
                       <Typography variant="overline" color="secondary">
                         Twitter
                       </Typography>
@@ -330,7 +318,7 @@ export default function Footer() {
                     <InstagramIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    secondary={
+                    primary={
                       <Typography variant="overline" color="secondary">
                         Instagram
                       </Typography>
@@ -342,7 +330,7 @@ export default function Footer() {
                     <YouTubeIcon color="secondary" />
                   </ListItemIcon>
                   <ListItemText
-                    secondary={
+                    primary={
                       <Typography variant="overline" color="secondary">
                         Youtube
                       </Typography>
@@ -400,7 +388,7 @@ export default function Footer() {
                           width: "fit-content",
                         }}
                       >
-                        contact@letsdoretro.com
+                        letsdoretro@gmail.com
                       </Typography>
                     }
                   />

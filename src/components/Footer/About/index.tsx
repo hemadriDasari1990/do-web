@@ -9,11 +9,12 @@ import UnderlineText from "../../common/UnderlineText";
 import Wave from "../../../assets/wave.svg";
 import hemadri from "../../../assets/hemadri.jpg";
 import { makeStyles } from "@material-ui/core/styles";
+import sreesha from "../../../assets/sreesha.jpeg";
 import useStyles from "../../styles";
+
 const CreateAccountGrid = React.lazy(
   () => import("../../Home/createAccountGrid")
 );
-const TeamGrid = React.lazy(() => import("../TeamGrid"));
 const ProfileCardSecondary = React.lazy(
   () => import("../../ProfileCardSecondary")
 );
@@ -83,28 +84,12 @@ export default function About() {
             </Box>
           </Container>
         </Box>
-        <Box py={3}>
-          <Process />
-        </Box>
-        <Box my={7}>
-          <Container>
-            <Box textAlign="center">
-              <Typography variant="h1">We're two people</Typography>
-              <Typography component="p" className={parahStyle}>
-                Behind every great human achievement, there is a team.
-              </Typography>
-            </Box>
-            <Box mt={5}>
-              <TeamGrid />
-            </Box>
-          </Container>
-        </Box>
-        <Box my={7}>
+        <Box>
           <Container>
             <Box p={5} textAlign="center">
               <Typography variant="h1">Contributors</Typography>
               <Typography component="p" className={parahStyle}>
-                This is our team, we work hard to empower your teams.
+                Behind every great human achievement, there is a team.
               </Typography>
             </Box>
             <Grid container spacing={2}>
@@ -112,41 +97,27 @@ export default function About() {
                 <ProfileCardSecondary
                   path={hemadri}
                   title="Hemadri Dasari"
-                  subTitle="Founder"
-                  fbPath={"https://www.facebook.com/Hemadri.Dasari.1990"}
-                  linkedinPath={
-                    "https://www.linkedin.com/in/hemadri-dasari-15051990/"
-                  }
+                  subTitle="Founder and Senior Developer"
+                  fbPath={process.env.REACT_APP_HEMADRI_FB_URL}
+                  linkedinPath={process.env.REACT_APP_HEMADRI_LINKEDIN_URL}
                   button={true}
-                  buttonName="Facebook"
-                  buttonOneName="Linekdin"
-                  tagLine="Full Stack Developer at Mashreq Bank, Dubai"
-                  content=""
-                  index={0}
                 />
               </Grid>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
                 <ProfileCardSecondary
-                  path={null}
+                  path={sreesha}
                   title="Sreesha Venkita Krishnan"
-                  subTitle="Co Founder"
-                  fbPath={"https://www.facebook.com/rajesh.pemmasani"}
-                  linkedinPath={
-                    "https://www.linkedin.com/in/rajesh-pemmasani-56673170/"
-                  }
+                  subTitle="Senior QA Professional"
+                  fbPath={process.env.REACT_APP_SREESHA_FB_URL}
+                  linkedinPath={process.env.REACT_APP_SREESHA_LINKEDIN_URL}
                   button={true}
-                  buttonName="Facebook"
-                  buttonOneName="Linekdin"
-                  tagLine="Senior QA Engineer at Mashreq Bank, Dubai"
-                  content={``}
-                  index={1}
                 />
               </Grid>
             </Grid>
           </Container>
         </Box>
         <Container>
-          <Box textAlign="center">
+          <Box mt={5} textAlign="center">
             <Typography variant="h1">Individual Stories</Typography>
           </Box>
           <Box mt={3}>
@@ -155,14 +126,13 @@ export default function About() {
                 <Box>
                   <UnderlineText title="Hemadri Dasari" />
                   <Box mt={2}>
-                    <Typography variant="body1">
+                    <Typography variant="h5">
                       He is a Founder & Developer of Let's do retro Inc. He
                       started as side project in the middle of Jan 2021. He is
                       currently working in a team and not very pleased with the
                       current retrospective board. So he decided to create his
-                      own modern respective application with beautiful UI and
-                      allow users to express reactions and see if that could
-                      make it better than the one which we are currently using.
+                      own modern respective tool and see if that could make it
+                      better than the one which they are currently using.
                     </Typography>
                   </Box>
                 </Box>
@@ -171,12 +141,11 @@ export default function About() {
                 <Box>
                   <UnderlineText title="Hemadri Dasari" />
                   <Box mt={2}>
-                    <Typography variant="body1">
-                      He built this application end to end from Analysis,
-                      Planning, UX/UI design, Both FE & BE Implementation
-                      including solution & DB design. He has coded close to 3
-                      months developing this beautiful platform in his offline
-                      time.
+                    <Typography variant="h5">
+                      He built this application from Analysis, Planning, UX/UI
+                      design, both FE & BE Implementation including end to end
+                      architecture. He has coded close to 3 months developing
+                      this beautiful platform in his offline time.
                     </Typography>
                   </Box>
                 </Box>
@@ -187,21 +156,20 @@ export default function About() {
                 <Box>
                   <UnderlineText title="Sreesha Venkita krishnan" />
                   <Box mt={2}>
-                    <Typography variant="body1"></Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <Box>
-                  <UnderlineText title="Sreesha Venkita krishnan" />
-                  <Box mt={2}>
-                    <Typography variant="body1"></Typography>
+                    <Typography variant="h5">
+                      A quality assurance specialist and a key advisor, she is a
+                      key contributor in developing and implementing quality
+                      assurance policies.
+                    </Typography>
                   </Box>
                 </Box>
               </Grid>
             </Grid>
           </Box>
         </Container>
+      </Box>
+      <Box py={3}>
+        <Process />
       </Box>
       <Box mb={-0.9}>
         <img src={Wave} />

@@ -194,9 +194,9 @@ const Home = () => {
               </Box>
               <Box>
                 <Typography variant="body1">
-                  Start with a Lets do retro board, sections, notes and
-                  reactions. Customize and expand with more features as your
-                  teamwork grows.
+                  Start with Lets do retro board, create sections, notes and
+                  express reactions. Expand with more features as your teamwork
+                  grows.
                 </Typography>
                 <Typography variant="body1">
                   Manage projects, and build team spirit all in one place.

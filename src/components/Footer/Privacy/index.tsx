@@ -277,7 +277,7 @@ export default function Privacy() {
                   Website and you are deemed to have accepted the terms of the
                   privacy policy on your first use of the Website following the
                   alterations.You may contact Let's do retro App by email at
-                  contact@letsdoretro.com.
+                  letsdoretro@gmail.com.
                 </Typography>
               </Box>
             </Box>

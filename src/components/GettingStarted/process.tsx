@@ -20,7 +20,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
 const Process = () => {
   const {} = useLocalStyles();
-  const { dotBannerStyle, titleStyle } = useStyles();
+  const { dotBannerStyle } = useStyles();
 
   useEffect(() => {}, []);
 
@@ -28,9 +28,7 @@ const Process = () => {
     <Box>
       <Container>
         <Box mb={5}>
-          <Typography className={titleStyle} variant="h1">
-            Our six step process
-          </Typography>
+          <Typography variant="h1">Our six step process</Typography>
         </Box>
       </Container>
       <Box className={dotBannerStyle}>

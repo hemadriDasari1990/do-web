@@ -5,53 +5,52 @@ import IconButton from "@material-ui/core/IconButton";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import { getRandomColor } from "../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router";
+
 const useStyles = makeStyles({
-  subTitleStyle: (props: any) => ({
-    textTransform: "uppercase",
-    color: getRandomColor(props.index),
-  }),
   imageStyle: {
     verticalAlign: "bottom",
-    width: 150,
-    height: 150,
-    borderRadius: 6,
+    width: 120,
+    height: 120,
+    // borderRadius: 6,
+  },
+  specialText: {
+    fontSize: 26,
+    letterSpacing: -1,
   },
 });
 
 function ProfileCardSecondary(props: any) {
   const { path, title, subTitle, fbPath, linkedinPath, button } = props;
-  const { subTitleStyle, imageStyle } = useStyles(props);
-  const history = useHistory();
+  const { imageStyle, specialText } = useStyles(props);
 
   const handleButton = (path: string) => {
-    history.push(path);
+    const win: any = window.open(path, "_blank");
+    win.focus();
   };
 
   return (
     <React.Fragment>
-      <Box>
+      <Box display="flex" justifyContent="center">
         <Avatar src={path} className={imageStyle}></Avatar>
       </Box>
-      <Box mt={3}>
-        <Box mb={2}>
-          <Typography gutterBottom variant="h2">
+      <Box mt={1} textAlign="center">
+        <Box mb={0.3}>
+          <Typography gutterBottom variant="h3" className={specialText}>
             {title}
           </Typography>
         </Box>
-        <Typography gutterBottom variant="h5" className={subTitleStyle}>
+        <Typography gutterBottom component="p">
           {subTitle}
         </Typography>
       </Box>
-      <Box>
+      <Box display="flex" justifyContent="center">
         {button && (
-          <Box display="flex" mt={2}>
+          <Box display="flex" mt={1}>
             <Typography component="h6" variant="h6">
               Social Profiles
             </Typography>
-            <Box mt={-0.5} ml={5}>
+            <Box mt={-0.5} ml={2}>
               {fbPath && (
                 <IconButton size="small" onClick={() => handleButton(fbPath)}>
                   <FacebookIcon color="primary" />

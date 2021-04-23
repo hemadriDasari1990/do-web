@@ -91,7 +91,7 @@ export default function Retrospective() {
         <Grid container spacing={2}>
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h1" className={titleStyle}>
+              <Typography variant="h1">
                 What is a sprint retrospective and how do you run one?
               </Typography>
             </Box>
@@ -138,9 +138,7 @@ export default function Retrospective() {
           </Grid>
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h1" className={titleStyle}>
-                What is a retrospective?
-              </Typography>
+              <Typography variant="h1">What is a retrospective?</Typography>
             </Box>
             <Box mt={3}>
               <GridList cols={3} cellHeight={150} spacing={2}>
@@ -185,7 +183,7 @@ export default function Retrospective() {
 
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h1" className={titleStyle}>
+              <Typography variant="h1">
                 Why retrospectives are a crucial tool for teams
               </Typography>
             </Box>
@@ -347,7 +345,7 @@ export default function Retrospective() {
         <Grid container spacing={6}>
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h1" className={titleStyle}>
+              <Typography variant="h1">
                 How to perform a sprint retrospective in 6 steps
               </Typography>
             </Box>
@@ -445,7 +443,7 @@ export default function Retrospective() {
         <Grid container spacing={6}>
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h1" className={titleStyle}>
+              <Typography variant="h1">
                 Beware of the barriers to a successful retrospective
               </Typography>
             </Box>
@@ -520,7 +518,7 @@ export default function Retrospective() {
         <Grid container spacing={6}>
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h1" className={titleStyle}>
+              <Typography variant="h1">
                 Questions your team should ask (and answer) during your
                 retrospective
               </Typography>
@@ -603,9 +601,7 @@ export default function Retrospective() {
         <Grid container spacing={6}>
           <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
             <Box>
-              <Typography variant="h1" className={titleStyle}>
-                Stay organized
-              </Typography>
+              <Typography variant="h1">Stay organized</Typography>
             </Box>
             <Box mt={3}>
               <Box mb={3}>

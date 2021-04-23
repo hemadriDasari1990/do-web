@@ -106,7 +106,7 @@ const GettingStarted = () => {
       <Box py={3}>
         <Container>
           <Box>
-            <Typography className={titleStyle} variant="h1" color="primary">
+            <Typography variant="h1" color="primary">
               Reactions that you can express
             </Typography>
           </Box>

@@ -24,9 +24,7 @@ const Process = () => {
     <Box>
       <Container>
         <Box mb={5} textAlign="center">
-          <Typography className={titleStyle} variant="h1">
-            Our history
-          </Typography>
+          <Typography variant="h1">Our history</Typography>
         </Box>
       </Container>
       <Box className={dotBannerStyle}>
@@ -43,7 +41,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Development started"
+                subTitle="Setup completed"
                 description="22nd JAN"
                 index={1}
               />
@@ -51,7 +49,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Setup completed"
+                subTitle="Development started"
                 description="25th JAN"
                 index={2}
               />
@@ -59,7 +57,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Initial version released"
+                subTitle="Created initial version"
                 description="Mid FEB"
                 index={3}
               />
@@ -78,7 +76,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Suggestions received"
+                subTitle="Received Suggestions"
                 description="Mid FEB"
                 index={4}
               />
@@ -86,7 +84,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Suggestions implemented"
+                subTitle="Implemented Suggestions"
                 description="2nd MARCH"
                 index={1}
               />
@@ -102,8 +100,8 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Gained more confidence"
-                description="3rd APRIL"
+                subTitle="Launched beta version"
+                description="23rd APRIL"
                 index={2}
               />
             </Grid>

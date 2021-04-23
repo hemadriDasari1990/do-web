@@ -147,8 +147,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   bannerStyle: {
     backgroundColor: "#232F3E",
     backgroundSize: "cover",
-    backgroundImage:
-      "url('//d1.awsstatic.com/webteam/homepage/Hybrid Solutions/WEB_Homepage_Hybrid_ImageBackgrounds_3.76e75f8d80d01f3d2412e004a28dc3065780a476.png')",
+    backgroundImage: `url(${process.env.PUBLIC_URL}/home-page-banner.png)`,
   },
   textSecondaryColor: {
     color: "#57f",
