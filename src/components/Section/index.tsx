@@ -11,13 +11,13 @@ import { BOARDS } from "../../routes/config";
 import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import ClearIcon from "@material-ui/icons/Clear";
+// import ClearIcon from "@material-ui/icons/Clear";
 import { DOWNLOAD_BOARD_REPORT } from "../../network/endpoints";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import HtmlTooltip from "../HTMLTooltip";
-import { IconButton } from "@material-ui/core";
+// import HtmlTooltip from "../HTMLTooltip";
+// import { IconButton } from "@material-ui/core";
 import Invite from "../common/Invite";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import LockIcon from "@material-ui/icons/Lock";
@@ -136,10 +136,10 @@ export default function Section() {
   const [openAccount, setOpenAccount] = useState(false);
   const [endSessionDialog, setEndSessionDialog] = useState(false);
   const [boardDetails, setBoardDetails] = useState(board);
-  const [openInviteTooltip, setOpenInviteTootltip] = useState(true);
-  const [openVisibilityTooltip, setOpenVisibilityTootltip] = useState(true);
-  const [openSessionTooltip, setOpenSessionTootltip] = useState(true);
-  const [openSectionTooltip, setOpenSectionTootltip] = useState(true);
+  // const [openInviteTooltip, setOpenInviteTootltip] = useState(true);
+  // const [openVisibilityTooltip, setOpenVisibilityTootltip] = useState(true);
+  // const [openSessionTooltip, setOpenSessionTootltip] = useState(true);
+  // const [openSectionTooltip, setOpenSectionTootltip] = useState(true);
 
   useEffect(() => {
     if (boardId) {
@@ -297,25 +297,25 @@ export default function Section() {
     );
   };
 
-  const handleTooltipClose = () => {
-    if (openSessionTooltip) {
-      setOpenSessionTootltip(false);
-    }
-    if (openVisibilityTooltip) {
-      setOpenVisibilityTootltip(false);
-    }
-    if (openInviteTooltip) {
-      setOpenInviteTootltip(false);
-    }
-    if (openSectionTooltip) {
-      setOpenSectionTootltip(false);
-    }
-  };
+  // const handleTooltipClose = () => {
+  //   if (openSessionTooltip) {
+  //     setOpenSessionTootltip(false);
+  //   }
+  //   if (openVisibilityTooltip) {
+  //     setOpenVisibilityTootltip(false);
+  //   }
+  //   if (openInviteTooltip) {
+  //     setOpenInviteTootltip(false);
+  //   }
+  //   if (openSectionTooltip) {
+  //     setOpenSectionTootltip(false);
+  //   }
+  // };
 
   const renderStartSession = useCallback(() => {
     return (
       <Box mr={1} className={buttonStyle}>
-        <HtmlTooltip
+        {/* <HtmlTooltip
           open={openSessionTooltip}
           placement="left"
           title={
@@ -334,24 +334,21 @@ export default function Section() {
             </Box>
           }
           arrow
+        > */}
+        <Button
+          variant="outlined"
+          color="default"
+          className={buttonOutlinedStartStyle}
+          startIcon={
+            <PlayArrowIcon color="primary" className={startSessionIconStyle} />
+          }
+          onClick={() => handleStartSession()}
         >
-          <Button
-            variant="outlined"
-            color="default"
-            className={buttonOutlinedStartStyle}
-            startIcon={
-              <PlayArrowIcon
-                color="primary"
-                className={startSessionIconStyle}
-              />
-            }
-            onClick={() => handleStartSession()}
-          >
-            <Typography className={startSessionTextStyle} variant="h6">
-              Start Session
-            </Typography>
-          </Button>
-        </HtmlTooltip>
+          <Typography className={startSessionTextStyle} variant="h6">
+            Start Session
+          </Typography>
+        </Button>
+        {/* </HtmlTooltip> */}
       </Box>
     );
   }, [boardLoading, authenticated, boardDetails]);
@@ -391,7 +388,7 @@ export default function Section() {
   const renderCreateNewSection = useCallback(() => {
     return (
       <Box mr={1}>
-        <HtmlTooltip
+        {/* <HtmlTooltip
           open={openSectionTooltip}
           title={
             <Box display="flex">
@@ -409,13 +406,13 @@ export default function Section() {
             </Box>
           }
           arrow
-        >
-          <Box className={buttonStyle}>
-            <Fab color="primary" onClick={() => handleCreateNewSection()}>
-              <AddOutlinedIcon style={{ color: getRandomColor(1) }} />
-            </Fab>
-          </Box>
-        </HtmlTooltip>
+        > */}
+        <Box className={buttonStyle}>
+          <Fab color="primary" onClick={() => handleCreateNewSection()}>
+            <AddOutlinedIcon style={{ color: getRandomColor(1) }} />
+          </Fab>
+        </Box>
+        {/* </HtmlTooltip> */}
       </Box>
     );
   }, [boardLoading, authenticated]);
@@ -656,7 +653,7 @@ export default function Section() {
 
                 {authenticated && (
                   <Box ml={1} mt={0.3}>
-                    <HtmlTooltip
+                    {/* <HtmlTooltip
                       open={openInviteTooltip}
                       title={
                         <Box display="flex">
@@ -677,22 +674,22 @@ export default function Section() {
                         </Box>
                       }
                       arrow
+                    > */}
+                    <Button
+                      color="primary"
+                      onClick={() => inviteMember()}
+                      startIcon={
+                        <PersonAddIcon style={{ color: getRandomColor(0) }} />
+                      }
                     >
-                      <Button
-                        color="primary"
-                        onClick={() => inviteMember()}
-                        startIcon={
-                          <PersonAddIcon style={{ color: getRandomColor(0) }} />
-                        }
-                      >
-                        <Typography variant="subtitle1">Invite</Typography>
-                      </Button>
-                    </HtmlTooltip>
+                      <Typography variant="subtitle1">Invite</Typography>
+                    </Button>
+                    {/* </HtmlTooltip> */}
                   </Box>
                 )}
                 {authenticated && (
                   <Box ml={1} mt={0.3}>
-                    <HtmlTooltip
+                    {/* <HtmlTooltip
                       open={openVisibilityTooltip}
                       placement="right"
                       title={
@@ -718,23 +715,23 @@ export default function Section() {
                         </Box>
                       }
                       arrow
+                    > */}
+                    <Button
+                      color="primary"
+                      onClick={() => changeVisibility()}
+                      startIcon={
+                        boardDetails?.isPrivate ? (
+                          <LockIcon style={{ color: getRandomColor(4) }} />
+                        ) : (
+                          <PublicIcon style={{ color: getRandomColor(4) }} />
+                        )
+                      }
                     >
-                      <Button
-                        color="primary"
-                        onClick={() => changeVisibility()}
-                        startIcon={
-                          boardDetails?.isPrivate ? (
-                            <LockIcon style={{ color: getRandomColor(4) }} />
-                          ) : (
-                            <PublicIcon style={{ color: getRandomColor(4) }} />
-                          )
-                        }
-                      >
-                        <Typography variant="subtitle1">
-                          {boardDetails?.isPrivate ? "Private" : "Public"}
-                        </Typography>
-                      </Button>
-                    </HtmlTooltip>
+                      <Typography variant="subtitle1">
+                        {boardDetails?.isPrivate ? "Private" : "Public"}
+                      </Typography>
+                    </Button>
+                    {/* </HtmlTooltip> */}
                   </Box>
                 )}
                 {!boardLoading && boardDetails?.teams?.length ? (
