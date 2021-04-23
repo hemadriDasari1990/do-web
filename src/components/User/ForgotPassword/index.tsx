@@ -1,4 +1,3 @@
-import { EMAIL_PATTERN, allow } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useForgotPassword, useLoading } from "../../../redux/state/login";
@@ -6,6 +5,7 @@ import { useForgotPassword, useLoading } from "../../../redux/state/login";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import { EMAIL_PATTERN } from "../../../util/regex";
 import ForgotPasswordIcon from "../../../assets/forgot-password.svg";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -129,9 +129,6 @@ const ForgotPassword = () => {
               required
               fullWidth
               className={textFieldStyle}
-              onKeyPress={(event: React.KeyboardEvent<any>) =>
-                allow(event, EMAIL_PATTERN)
-              }
               onCut={handlePrevent}
               onCopy={handlePrevent}
               onPaste={handlePrevent}
