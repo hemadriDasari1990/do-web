@@ -27,7 +27,7 @@ const NotesList = React.lazy(() => import("./list"));
 const useStyles = makeStyles(() => ({
   buttonStyle: {
     background: "#fff",
-    height: 45,
+    height: 35,
     boxShadow:
       "0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2)",
     justifyContent: "center !important",
@@ -178,7 +178,7 @@ function Note(props: any) {
                   classes={{ root: buttonStyle }}
                   onClick={() => createNote(sectionId)}
                 >
-                  <Typography variant="h5">+ Create Note</Typography>
+                  <Typography variant="h6">+ Create Note</Typography>
                 </Button>
               </Zoom>
             </Tooltip>

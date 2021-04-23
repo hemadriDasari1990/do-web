@@ -3,7 +3,7 @@ import {
   ONLY_NUMBERS,
   allow,
 } from "../../../util/regex";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { getRemainingCharLength, replaceStr } from "../../../util";
 import { useBoard, useBoardLoading } from "../../../redux/state/board";
@@ -138,7 +138,9 @@ const Update = () => {
         status: "new",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
         isDefaultBoard,
-        title: "Retro " + (project?.boards?.length + 1),
+        title:
+          "Retro " +
+          (project?.boards?.length ? project?.boards?.length + 1 : 1),
         ...(project?._id
           ? { projectId: project?._id }
           : { projectTitle: project }),
@@ -166,6 +168,7 @@ const Update = () => {
   };
 
   const handleProject = (data: { [Key: string]: any }) => {
+    console.log("data", data);
     setFormData({ ...formData, project: data });
   };
 
@@ -207,7 +210,7 @@ const Update = () => {
     );
   };
 
-  const renderNoOfSections = useCallback(() => {
+  const renderNoOfSections = () => {
     return (
       <Box>
         <TextField
@@ -228,7 +231,7 @@ const Update = () => {
         />
       </Box>
     );
-  }, [isDefaultBoard, noOfSections]);
+  };
 
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
     event.preventDefault();

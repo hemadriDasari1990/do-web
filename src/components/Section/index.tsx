@@ -1,5 +1,6 @@
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { clearBoard, getBoardDetails } from "../../redux/actions/board";
 import { getDownloadFile, replaceStr } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
@@ -37,7 +38,6 @@ import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
 import formateNumber from "../../util/formateNumber";
-import { getBoardDetails } from "../../redux/actions/board";
 import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
 import { useAuthenticated } from "../../redux/state/common";
@@ -411,11 +411,9 @@ export default function Section() {
           arrow
         >
           <Box className={buttonStyle}>
-            <Tooltip title="Add another section" placement="bottom" arrow>
-              <Fab color="primary" onClick={() => handleCreateNewSection()}>
-                <AddOutlinedIcon style={{ color: getRandomColor(1) }} />
-              </Fab>
-            </Tooltip>
+            <Fab color="primary" onClick={() => handleCreateNewSection()}>
+              <AddOutlinedIcon style={{ color: getRandomColor(1) }} />
+            </Fab>
           </Box>
         </HtmlTooltip>
       </Box>
@@ -442,33 +440,22 @@ export default function Section() {
   const renderGoBackToBoards = useCallback(() => {
     return (
       <Box>
-        <Hidden only={["xl", "lg"]}>
-          <Tooltip title="Go Back to Boards" placement="bottom" arrow>
-            <Fab color="primary" onClick={() => handleBack()}>
+        <Box className={buttonStyle}>
+          <Button
+            variant="outlined"
+            color="default"
+            startIcon={
               <KeyboardBackspaceOutlinedIcon
-                style={{ color: getRandomColor(2) }}
+                style={{ color: getRandomColor(3) }}
               />
-            </Fab>
-          </Tooltip>
-        </Hidden>
-        <Hidden only={["xs", "sm", "md"]}>
-          <Box className={buttonStyle}>
-            <Button
-              variant="outlined"
-              color="default"
-              startIcon={
-                <KeyboardBackspaceOutlinedIcon
-                  style={{ color: getRandomColor(3) }}
-                />
-              }
-              onClick={() => handleBack()}
-            >
-              <Typography color="primary" variant="subtitle1">
-                Go Back to Boards
-              </Typography>
-            </Button>
-          </Box>
-        </Hidden>
+            }
+            onClick={() => handleBack()}
+          >
+            <Typography color="primary" variant="subtitle1">
+              Go Back to Boards
+            </Typography>
+          </Button>
+        </Box>
       </Box>
     );
   }, [boardLoading, authenticated]);
@@ -498,6 +485,7 @@ export default function Section() {
   };
 
   const handleBack = () => {
+    dispatch(clearBoard());
     history.push(BOARDS);
   };
 

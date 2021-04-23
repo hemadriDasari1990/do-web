@@ -13,6 +13,7 @@ const CustomHtmlTooltip = withStyles((theme: Theme) => ({
         background: "#1a73e8",
       },
     },
+    zIndex: 2,
   },
 }))(Tooltip);
 

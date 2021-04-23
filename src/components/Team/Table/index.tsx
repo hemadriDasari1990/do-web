@@ -132,7 +132,14 @@ const DoTable = (props: TableProps & any) => {
               !Array.isArray(updatedData) ||
               !updatedData.length) && (
               <TableRow>
-                <TableCell align="center" colSpan={9}>
+                <TableCell
+                  align="center"
+                  component="td"
+                  scope="row"
+                  padding="none"
+                  size="medium"
+                  colSpan={9}
+                >
                   No records found
                 </TableCell>
               </TableRow>

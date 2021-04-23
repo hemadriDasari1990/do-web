@@ -25,3 +25,5 @@ export const GET_BOARD_ACTIVITIES_FAILED = "GET_BOARD_ACTIVITIES_FAILED";
 
 /* Store Menu Item */
 export const STORE_MENU_ITEM = "STORE_MENU_ITEM";
+
+export const CLEAR_BOARD = "CLEAR_BOARD";

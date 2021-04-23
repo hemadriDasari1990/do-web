@@ -1,4 +1,5 @@
 import {
+  CLEAR_BOARD,
   DELETE_BOARD_REQUEST,
   GET_BOARDS_REQUEST,
   GET_BOARD_ACTIVITIES_REQUEST,
@@ -63,5 +64,11 @@ export const storeMenuItem = (itemName: string) => {
   return {
     type: STORE_MENU_ITEM,
     payload: itemName,
+  };
+};
+
+export const clearBoard = () => {
+  return {
+    type: CLEAR_BOARD,
   };
 };

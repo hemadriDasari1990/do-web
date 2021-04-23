@@ -1,4 +1,5 @@
 import {
+  CLEAR_BOARD,
   DELETE_BOARD_FAILED,
   DELETE_BOARD_REQUEST,
   DELETE_BOARD_SUCCESS,
@@ -128,6 +129,11 @@ const board = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         itemName: action.payload,
+      };
+    case CLEAR_BOARD:
+      return {
+        ...state,
+        response: null,
       };
     default:
       return state;
