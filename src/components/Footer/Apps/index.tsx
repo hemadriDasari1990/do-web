@@ -120,8 +120,11 @@ export default function Apps() {
                   Desktop
                 </Typography>
                 <Box mt={1.5} ml={1}>
-                  <CheckCircleIcon className={greenStyle} />
+                  <CancelIcon className={redStyle} />
                 </Box>
+              </Box>
+              <Box textAlign="center">
+                <Typography variant="h6">Will be coming soon</Typography>
               </Box>
             </Grid>
           </Grid>
