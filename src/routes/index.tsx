@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import { DASHBOARD } from "./config";
 import { DRAWER_WIDTH } from "../util/constants";
 import PrivateRoute from "./PrivateRoute";
+import Profile from "../components/Drawer/Profile";
 import { useAuthenticated } from "../redux/state/common";
 import { useHistory } from "react-router";
 import { useParams } from "react-router";
@@ -78,6 +79,10 @@ const protectedRoutes = () => {
     {
       path: routePath.MEMBERS_LIST,
       component: Members,
+    },
+    {
+      path: routePath.PROFILE,
+      component: Profile,
     },
   ];
 };

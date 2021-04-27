@@ -1,7 +1,8 @@
-import { DASHBOARD, LOGIN, TEAM } from "../../routes/config";
+import { DASHBOARD, LOGIN, PROFILE, TEAM } from "../../routes/config";
 import React, { useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import { DRAWER_WIDTH } from "../../util/constants";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
@@ -15,15 +16,20 @@ import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 import ManageAccount from "./Account/Manage";
+// import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 // import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import { getAvatar } from "../../util/getAvatar";
+import { getInitials } from "../../util";
 import { logout } from "../../redux/actions/login";
 import { storeMenuItem } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useSocket } from "../../redux/state/socket";
+import { useUser } from "../../redux/state/user";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
@@ -48,12 +54,6 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     position: "fixed",
     bottom: 0,
   },
-  avatarStyle: {
-    border: "2px solid #fff",
-    backgroundColor: "inherit",
-    width: 30,
-    height: 30,
-  },
   iconStyle: {
     // fontSize: 30,
     // color: "#1a2e56",
@@ -68,13 +68,26 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
       padding: 8,
     },
   },
+  avatarStyle: {
+    background: "#eaeaf121",
+    "&:hover": {
+      background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
+    },
+  },
 }));
 
 export default function PersistentDrawerLeft() {
-  const { drawer, drawerPaper, iconStyle, iconButtonStyle } = useLocalStyles();
+  const {
+    drawer,
+    drawerPaper,
+    iconStyle,
+    iconButtonStyle,
+    avatarStyle,
+  } = useLocalStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const { socket } = useSocket();
+  const { user } = useUser();
 
   const [open, setOpen] = useState(false);
   const [openFeedback, setOpenFeedback] = useState(false);
@@ -139,6 +152,10 @@ export default function PersistentDrawerLeft() {
 
   const handleFeedbackDrawerClose = () => {
     setOpenFeedback(false);
+  };
+
+  const handleProfile = () => {
+    history.push(PROFILE);
   };
 
   return (
@@ -215,7 +232,7 @@ export default function PersistentDrawerLeft() {
               </Zoom>
             </Tooltip>
           </Box>
-          <Box mb={2}>
+          <Box mb={1}>
             <Tooltip arrow title="Help" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
@@ -231,7 +248,8 @@ export default function PersistentDrawerLeft() {
               </Zoom>
             </Tooltip>
           </Box>
-          <Box mb={2}>
+
+          <Box mt={2} mb={1}>
             <Tooltip arrow title="Logout" placement="right">
               <Zoom in={true} timeout={2000}>
                 <IconButton
@@ -244,6 +262,25 @@ export default function PersistentDrawerLeft() {
               </Zoom>
             </Tooltip>
           </Box>
+        </Box>
+        <Box pl={1.5}>
+          <Tooltip arrow title="View Profile" placement="right">
+            <Zoom in={true} timeout={2000}>
+              {user?.avatarId ? (
+                <IconButton onClick={handleProfile} size="small">
+                  <img src={getAvatar(user?.avatarId)} width={40} height={40} />
+                </IconButton>
+              ) : (
+                <IconButton onClick={handleProfile} size="small">
+                  <Avatar classes={{ root: avatarStyle }}>
+                    <Typography variant="h5" color="secondary">
+                      {getInitials(user?.name)}
+                    </Typography>
+                  </Avatar>
+                </IconButton>
+              )}
+            </Zoom>
+          </Tooltip>
         </Box>
       </Drawer>
       <PersistentDrawerRight open={open} handleDrawerClose={handleDrawerClose}>

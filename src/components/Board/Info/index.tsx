@@ -4,7 +4,8 @@ import AboutBoard from "../About";
 import Activity from "../Activity";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
-import Members from "../Members";
+import InvitedMembers from "../InvitedMembers";
+import JoinedMembers from "../JoinedMembers";
 import Summary from "../../Reaction/Summary";
 import { Suspense } from "react";
 import { getReactionsSummaryByBoard } from "../../../redux/actions/reaction";
@@ -35,7 +36,13 @@ const BoardInfo = (props: any) => {
         )}
         {authenticated && boardId && (
           <>
-            <Members />
+            <InvitedMembers />
+            <Divider />
+          </>
+        )}
+        {authenticated && boardId && (
+          <>
+            <JoinedMembers />
             <Divider />
           </>
         )}

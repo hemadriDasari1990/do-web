@@ -1,4 +1,4 @@
-import { formatNumberWithCommas, getHumanReadableData } from "../../../util";
+import { formatNumberWithCommas, getHumanReadableDate } from "../../../util";
 
 import Box from "@material-ui/core/Box";
 import React from "react";
@@ -37,7 +37,7 @@ const AboutBoardInfo = () => {
           <Box mb={1}>
             <SummaryField
               title="Session started at "
-              value={getHumanReadableData(board?.startedAt)}
+              value={getHumanReadableDate(board?.startedAt)}
             />
           </Box>
         )}
@@ -45,21 +45,21 @@ const AboutBoardInfo = () => {
           <Box mb={1}>
             <SummaryField
               title="Session ended at "
-              value={getHumanReadableData(board?.completedAt)}
+              value={getHumanReadableDate(board?.completedAt)}
             />
           </Box>
         )}
         <Box mb={1}>
           <SummaryField
             title="Created At"
-            value={getHumanReadableData(board?.createdAt)}
+            value={getHumanReadableDate(board?.createdAt)}
           />
         </Box>
 
         <Box mb={1}>
           <SummaryField
             title="Updated At"
-            value={getHumanReadableData(board?.updatedAt)}
+            value={getHumanReadableDate(board?.updatedAt)}
           />
         </Box>
       </Box>

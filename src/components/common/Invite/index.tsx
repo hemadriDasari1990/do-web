@@ -106,7 +106,6 @@ export default function Invite(props: any) {
     socket.on(
       "search-members-response",
       (members: Array<{ [Key: string]: any }>) => {
-        console.log("members", members);
         setMembers(members);
         setFetching(false);
       }

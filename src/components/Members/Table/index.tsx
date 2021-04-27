@@ -9,8 +9,7 @@ import { Data, Order, TableProps } from "./types";
 import { useEffect, useState } from "react";
 
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
-import Avatar from "@material-ui/core/Avatar";
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import AvatarGroupList from "../../common/AvatarGroupList";
 import Header from "./header";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
@@ -24,7 +23,7 @@ import TablePaginationActions from "../../common/TablePaginationActions";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
-import getRandomBGColor from "../../../util/getRandomColor";
+import { getTeams } from "../../../util/member";
 import { useMember } from "../../../redux/state/member";
 import useStyles from "../../styles/table";
 
@@ -50,8 +49,6 @@ const DoTable = (props: TableProps & any) => {
     rowStyle,
     authorBoxStyle,
     authorStyle,
-    avatarStyle,
-    avatarGroupStyle,
   } = useStyles();
   const { totalMembers } = useMember();
 
@@ -246,27 +243,7 @@ const DoTable = (props: TableProps & any) => {
                 >
                   {/* {td?.totalTeams || 0 + " Teams"} */}
                   {td?.teams?.length ? (
-                    <AvatarGroup
-                      max={4}
-                      classes={{ avatar: `${avatarStyle} ${avatarGroupStyle}` }}
-                    >
-                      {td?.teams?.map(
-                        (team: { [Key: string]: any }, index: number) => (
-                          <Avatar
-                            key={team._id}
-                            alt={team?.team?.name}
-                            className={avatarStyle}
-                            style={{ background: getRandomBGColor(index) }}
-                          >
-                            <Tooltip arrow title={team?.team?.name}>
-                              <Typography variant="h6" color="secondary">
-                                {team?.team?.name?.substring(0, 1) || ""}
-                              </Typography>
-                            </Tooltip>
-                          </Avatar>
-                        )
-                      )}
-                    </AvatarGroup>
+                    <AvatarGroupList dataList={getTeams(td?.teams)} />
                   ) : (
                     "0 Teams"
                   )}

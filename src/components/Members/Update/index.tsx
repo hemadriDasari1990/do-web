@@ -45,7 +45,6 @@ const Create = (props: any) => {
         ...formData,
         name: selectedMember.name,
         email: selectedMember.email,
-        userId: selectedMember.userId,
         memberId: selectedMember._id,
       });
     }

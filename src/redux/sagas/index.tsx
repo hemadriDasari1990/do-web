@@ -20,6 +20,7 @@ import {
   watchGetUserDetails,
   watchGetUserSummary,
   watchGetUsers,
+  watchUpdateAvatar,
   watchUpdateEmail,
   watchUpdateName,
   watchUpdatePassword,
@@ -62,6 +63,7 @@ import { fork } from "redux-saga/effects";
 import { watchGetActionByBoard } from "./action";
 import { watchGetActionItemsByAction } from "./actionItem";
 import { watchGetInvitedMembers } from "./invite";
+import { watchGetJoinedMembers } from "./join";
 import { watchGetNotesBySection } from "./note";
 import { watchGetSectionsByBoard } from "./section";
 
@@ -86,6 +88,7 @@ function* rootSaga() {
   yield fork(watchGetBoardsByUser);
   yield fork(watchUpdatePassword);
   yield fork(watchUpdateName);
+  yield fork(watchUpdateAvatar);
 
   /* Project sagas */
   yield fork(watchGetProjects);
@@ -142,6 +145,9 @@ function* rootSaga() {
 
   /* Inivte sagas */
   yield fork(watchGetInvitedMembers);
+
+  /* Joined sagas */
+  yield fork(watchGetJoinedMembers);
 }
 
 export default rootSaga;

@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 import common from "./common";
 import feedback from "./feedback";
 import invite from "./invite";
+import join from "./join";
 import login from "./login";
 import member from "./member";
 import note from "./note";
@@ -33,6 +34,7 @@ const appReducer: any = combineReducers({
   actionItem,
   action,
   invite,
+  join,
 });
 
 export default appReducer;

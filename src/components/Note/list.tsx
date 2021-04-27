@@ -192,7 +192,6 @@ const NoteList = (props: any) => {
     socket.on(
       `mark-note-read-response-${sectionId}`,
       (updatedNote: { [Key: string]: any }) => {
-        console.log("received response", updatedNote);
         updateNote(updatedNote);
       }
     );
@@ -230,7 +229,6 @@ const NoteList = (props: any) => {
       ) => {
         /* Hanlde destination section notes */
         if (sectionId === destination?.droppableId) {
-          console.log("sourceNote", sourceNote);
           /* Add note into destination section */
           const newNotes = notes?.length ? [...notes] : [];
           newNotes.push(sourceNote);

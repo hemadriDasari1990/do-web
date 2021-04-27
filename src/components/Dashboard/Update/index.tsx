@@ -157,8 +157,8 @@ const Update = () => {
     return false;
   };
 
-  const handleTeams = (data: Array<{ [Key: string]: any }>) => {
-    setFormData({ ...formData, teams: data });
+  const handleTeam = (data: { [Key: string]: any }) => {
+    setFormData({ ...formData, teams: [data] });
   };
 
   const handleDefaultRetroBoard = (
@@ -168,7 +168,6 @@ const Update = () => {
   };
 
   const handleProject = (data: { [Key: string]: any }) => {
-    console.log("data", data);
     setFormData({ ...formData, project: data });
   };
 
@@ -327,14 +326,11 @@ const Update = () => {
       <Box>
         <DoAutoComplete
           defaultValue={teams}
-          multiple={true}
-          textInputLabel="Invite Team/Teams"
-          textInputPlaceholder="Select one/more teams"
+          textInputLabel="Invite Team"
+          textInputPlaceholder="Select team"
           optionKey="name"
           options={teamsList}
-          onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
-            handleTeams(data)
-          }
+          onChange={(e: any, data: { [Key: string]: any }) => handleTeam(data)}
           customClass={dropdownInputStyle}
         />
       </Box>

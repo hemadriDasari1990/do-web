@@ -11,19 +11,19 @@ import { MEMBERS_PER_PAGE } from "../../../util/constants";
 import { Suspense } from "react";
 import Typography from "@material-ui/core/Typography";
 import { getActivities } from "../../../redux/actions/board";
+import { getAvatar } from "../../../util/getAvatar";
 import { getInitials } from "../../../util";
 import getPastTime from "../../../util/getPastTime";
 import { useDispatch } from "react-redux";
-import { useInvitedMembers } from "../../../redux/state/invite";
+import { useJoinedMembers } from "../../../redux/state/join";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles";
 
 const InvitedMembersList = () => {
   const dispatch = useDispatch();
   const { boardId } = useParams<{ boardId: string }>();
-  const { members, totalMembers } = useInvitedMembers();
+  const { members, totalMembers } = useJoinedMembers();
   const { avatarStyle, breakText, nameStyle, cursor } = useStyles();
-
   useEffect(() => {}, []);
 
   const loadInvitedMembers = (pageNo: number) => {
@@ -47,11 +47,18 @@ const InvitedMembersList = () => {
                   disableGutters
                 >
                   <ListItemAvatar style={{ minWidth: 40 }}>
-                    <Avatar className={`${avatarStyle}`}>
-                      <Typography variant="subtitle1" className={nameStyle}>
-                        {getInitials(member?.name) || "TM"}
-                      </Typography>
-                    </Avatar>
+                    {member?.avatarId ? (
+                      <Avatar
+                        className={`${avatarStyle}`}
+                        src={getAvatar(member?.avatarId)}
+                      ></Avatar>
+                    ) : (
+                      <Avatar className={`${avatarStyle}`}>
+                        <Typography variant="subtitle1" className={nameStyle}>
+                          {getInitials(member?.guestName) || "TM"}
+                        </Typography>
+                      </Avatar>
+                    )}
                   </ListItemAvatar>
                   <ListItemText
                     primary={
@@ -61,7 +68,7 @@ const InvitedMembersList = () => {
                           color="primary"
                           className={nameStyle}
                         >
-                          {member?.name}
+                          {member?.guestName}
                         </Typography>
                       </Box>
                     }

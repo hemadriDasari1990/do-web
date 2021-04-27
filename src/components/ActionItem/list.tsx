@@ -138,7 +138,6 @@ const ActionItemList = (props: any) => {
     socket.on(
       `mark-action-item-read-response-${actionId}`,
       (updatedActionItem: { [Key: string]: any }) => {
-        console.log("received response", updatedActionItem);
         updateActionItem(updatedActionItem);
       }
     );

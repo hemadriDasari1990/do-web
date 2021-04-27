@@ -3,13 +3,13 @@ import {
   NOT_FOUND,
   TOKEN_EXPIRED,
 } from "../../../util/constants";
-import { CREATE, LOGIN } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useLoading, useVerifyToken } from "../../../redux/state/login";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import { CREATE } from "../../../routes/config";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import VerifiedIcon from "../../../assets/verified.svg";
@@ -76,10 +76,6 @@ const VerifyAccount = () => {
     history.push(CREATE);
   };
 
-  const handleLogin = () => {
-    history.push(LOGIN);
-  };
-
   const handleResend = () => {};
 
   return (
@@ -120,19 +116,6 @@ const VerifyAccount = () => {
                 </Box>
               ))}
             <Box textAlign="center" mt={3}>
-              {(response?.errorId === ALREADY_VERIFIED || !response?.errorId) &&
-                !loading && (
-                  <Box mt={0.4} mr={2}>
-                    <Button
-                      onClick={() => handleLogin()}
-                      size="small"
-                      variant="contained"
-                      color="primary"
-                    >
-                      Login Now
-                    </Button>
-                  </Box>
-                )}
               {!loading && response?.errorId === TOKEN_EXPIRED && (
                 <Box mt={0.4} mr={2}>
                   <Button

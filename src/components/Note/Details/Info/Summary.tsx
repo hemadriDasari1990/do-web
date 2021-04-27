@@ -3,7 +3,7 @@ import React from "react";
 import ReactionSummary from "../../../Reaction/Summary";
 import SummaryField from "../../../common/SummaryField";
 import { Suspense } from "react";
-import { getHumanReadableData } from "../../../../util";
+import { getHumanReadableDate } from "../../../../util";
 
 const Summary = (props: any) => {
   const { note } = props;
@@ -18,11 +18,11 @@ const Summary = (props: any) => {
           />
           <SummaryField
             title="Created At"
-            value={getHumanReadableData(note?.createdAt)}
+            value={getHumanReadableDate(note?.createdAt)}
           />
           <SummaryField
             title="Updated At"
-            value={getHumanReadableData(note?.updatedAt)}
+            value={getHumanReadableDate(note?.updatedAt)}
           />
         </Grid>
         <Grid item xl={7} lg={7} md={6} sm={6} xs={12}>

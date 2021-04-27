@@ -3,7 +3,8 @@ import ActivityList from "../../Board/Activity/list";
 import Avatar from "@material-ui/core/Avatar";
 import BoardInfo from "../../Board/Info";
 import Box from "@material-ui/core/Box";
-import InvitedMembersList from "../../Board/Members/list";
+import InvitedMembersList from "../../Board/InvitedMembers/list";
+import JoinedMembersList from "../../Board/JoinedMembers/list";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -43,7 +44,8 @@ const UserAccount = (props: any) => {
   return (
     <Suspense fallback={<div></div>}>
       {itemName === "activity" ? <ActivityList /> : null}
-      {itemName === "members" ? <InvitedMembersList /> : null}
+      {itemName === "invited-members" ? <InvitedMembersList /> : null}
+      {itemName === "joined-members" ? <JoinedMembersList /> : null}
       {itemName === "about-board" ? <AboutBoardInfo /> : null}
       {!itemName || itemName === "account" ? (
         <Box>

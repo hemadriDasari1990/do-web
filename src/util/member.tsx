@@ -48,6 +48,31 @@ export const getMembers = (teams: Array<{ [Key: string]: any }>) => {
   );
 };
 
+export const getTeams = (teams: Array<{ [Key: string]: any }>) => {
+  return teams.map((item: { [Key: string]: any }) => item.team);
+};
+
+export const getBoardJoinedMembers = (
+  members: Array<{ [Key: string]: any }>
+) => {
+  return members.map((elem: { [Key: string]: any }) => {
+    if (elem.member) {
+      return {
+        name: elem?.guestName,
+        avatarId: elem?.member?.avatarId,
+      };
+    }
+    return {
+      name: elem?.guestName,
+      avatarId: elem?.avatarId,
+    };
+  });
+};
+
+export const getTeamMembers = (members: Array<{ [Key: string]: any }>) => {
+  return members.map((elem: { [Key: string]: any }) => elem?.member);
+};
+
 export const getMemberIds = (teams: Array<{ [Key: string]: any }>) => {
   const members: Array<{ [Key: string]: any }> = [];
   teams.map((team: { [Key: string]: any }) => {

@@ -16,7 +16,7 @@ const initialState = {
   totalMembers: 0,
 };
 
-const board = (state = initialState, action: ReduxAction) => {
+const invite = (state = initialState, action: ReduxAction) => {
   switch (action.type) {
     case GET_INVITED_MEMBERS_REQUEST:
       return {
@@ -40,4 +40,4 @@ const board = (state = initialState, action: ReduxAction) => {
   }
 };
 
-export default board;
+export default invite;

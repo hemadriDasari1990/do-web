@@ -10,22 +10,22 @@ import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import React from "react";
 import { Suspense } from "react";
 import Zoom from "@material-ui/core/Zoom";
-import { getInvitedMembers } from "../../../redux/actions/invite";
+import { getJoinedMembers } from "../../../redux/actions/join";
 import { storeMenuItem } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
 import useMainStyles from "../../styles";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles/iconStyle";
 
-const Members = () => {
+const JoinedMembers = () => {
   const dispatch = useDispatch();
   const { iconGridStyle, iconStyle } = useStyles();
   const { cursor } = useMainStyles();
   const { boardId } = useParams<{ boardId: string }>();
 
   const handleMembers = () => {
-    dispatch(storeMenuItem("members"));
-    dispatch(getInvitedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
+    dispatch(storeMenuItem("joined-members"));
+    dispatch(getJoinedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
   };
 
   return (
@@ -44,7 +44,7 @@ const Members = () => {
                 </Avatar>
               </Zoom>
             </ListItemAvatar>
-            <ListItemText primary="Members" secondary="Members invited" />
+            <ListItemText primary="Joined Members" secondary="Members joined" />
           </ListItem>
         </List>
       </Box>
@@ -52,4 +52,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default JoinedMembers;

@@ -188,24 +188,18 @@ function Feedback(props: any) {
         </Box>
         <Box>
           <Typography variant="body1" className={classes.breakText}>
-            This page is designed for end users to help us improve the system by
-            sharing their user experience.
+            We'd love your feedback on your experience with our Retro tool
           </Typography>
-          <Box mt={2}>
-            <Typography variant="body2">
-              Your feedback is valuable for us!
-            </Typography>
+          <Box mt={3}>
+            <Typography variant="h4">Submit your feedback below</Typography>
           </Box>
-        </Box>
-        <Box mt={3}>
-          <Typography variant="h4">Submit your feedback below</Typography>
         </Box>
         <Box>
           <TextField
             fullWidth
             name="title"
             id="title"
-            label="Feedback About"
+            label="Summary"
             value={title}
             onChange={handleAbout}
             required
@@ -226,7 +220,7 @@ function Feedback(props: any) {
             fullWidth
             id="description"
             name="description"
-            label="Your Comments"
+            label="Description"
             multiline
             rowsMax={8}
             value={description}
@@ -243,9 +237,7 @@ function Feedback(props: any) {
         </Box>
         <Box mt={3}>
           <Box>
-            <Typography variant="h4">
-              Do you like this Letsdoretro board?
-            </Typography>
+            <Typography variant="h5">Do you like the tool?</Typography>
           </Box>
           <Box>
             <FormControlLabel
@@ -258,7 +250,7 @@ function Feedback(props: any) {
                   name="yes"
                 />
               }
-              label="Yes"
+              label={<Typography variant="subtitle1">Yes</Typography>}
             />
             <FormControlLabel
               control={
@@ -270,7 +262,7 @@ function Feedback(props: any) {
                   name="no"
                 />
               }
-              label="No"
+              label={<Typography variant="subtitle1">No</Typography>}
             />
           </Box>
         </Box>

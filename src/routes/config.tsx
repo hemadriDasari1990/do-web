@@ -30,3 +30,4 @@ export const SECURITY_QUESTIONS = `${DASHBOARD}${MANAGE_ACCOUNT}/security-questi
 export const CHANGE_EMAIL = `${DASHBOARD}${MANAGE_ACCOUNT}/change-email`;
 export const UPDATE_PASSWORD = `${DASHBOARD}${MANAGE_ACCOUNT}/update-password`;
 export const APPS = "/apps";
+export const PROFILE = "/profile";

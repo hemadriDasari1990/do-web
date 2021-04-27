@@ -6,6 +6,7 @@ import {
   GET_USERS,
   GET_USER_DETAILS,
   GET_USER_SUMMARY,
+  UPDATE_AVATAR,
   UPDATE_EMAIL,
   UPDATE_NAME,
   UPDATE_PASSWORD,
@@ -74,4 +75,8 @@ export const getBoardsByUser = (userId: string, limit: number) => {
       method: "GET",
     }
   );
+};
+
+export const updateAvatar = (payload: { [Key: string]: any }) => {
+  return API(UPDATE_AVATAR, { method: "PUT", data: payload });
 };

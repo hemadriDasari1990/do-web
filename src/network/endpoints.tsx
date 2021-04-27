@@ -23,6 +23,7 @@ export const GET_USERS = "/user/";
 export const GET_BOARDS_BY_USER = "/user/{id}/boards";
 export const UPDATE_PASSWORD = "/user/update-password";
 export const UPDATE_NAME = "/user/name";
+export const UPDATE_AVATAR = "/user/update-avatar";
 
 /* Department Endpoints */
 export const CREATE_DEPARTMENT = "/department";
@@ -89,6 +90,9 @@ export const GET_BOARD_ACTIVITIES = "/activity";
 
 /* Get invited members */
 export const GET_INVITED_MEMBERS = "/invite";
+
+/* Get joined members */
+export const GET_JOINED_MEMBERS = "/join";
 
 /* Security Question */
 export const CREATE_SECURITY_QUESTION_ANSWER = "/security-question/answer";

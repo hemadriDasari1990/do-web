@@ -95,6 +95,7 @@ const member = (state = initialState, action: ReduxAction) => {
         totalMembers: action.payload?.total[0]?.count,
         loading: false,
       };
+
     default:
       return state;
   }

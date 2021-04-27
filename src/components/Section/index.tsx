@@ -4,6 +4,10 @@ import { clearBoard, getBoardDetails } from "../../redux/actions/board";
 import { getDownloadFile, replaceStr } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
+import {
+  useJoinedMembers,
+  useJoinedMembersLoading,
+} from "../../redux/state/join";
 
 import API from "../../network";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
@@ -13,6 +17,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 // import ClearIcon from "@material-ui/icons/Clear";
 import { DOWNLOAD_BOARD_REPORT } from "../../network/endpoints";
+import DoSnackbar from "../Snackbar/components";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
@@ -21,6 +26,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Invite from "../common/Invite";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
 import LockIcon from "@material-ui/icons/Lock";
+import { MEMBERS_PER_PAGE } from "../../util/constants";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Notify from "../../assets/notify.svg";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -38,7 +44,9 @@ import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
 import formateNumber from "../../util/formateNumber";
-import { getMembers } from "../../util/member";
+import { getBoardJoinedMembers } from "../../util/member";
+import { getJoinedMembers } from "../../redux/actions/join";
+// import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
@@ -53,6 +61,7 @@ const Timer = React.lazy(() => import("../common/Timer"));
 const SectionList = React.lazy(() => import("./list"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const UpdateSection = React.lazy(() => import("./Update"));
+const AddGuest = React.lazy(() => import("./AddGuest"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   startSessionIconStyle: {
@@ -121,6 +130,11 @@ export default function Section() {
   const { loading: boardLoading } = useBoardLoading();
   const { socket } = useSocket();
   const authenticated = useAuthenticated();
+  const { members: joinedMembers } = useJoinedMembers();
+  const { loading: joinedMembersLoading } = useJoinedMembersLoading();
+
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -136,6 +150,9 @@ export default function Section() {
   const [openAccount, setOpenAccount] = useState(false);
   const [endSessionDialog, setEndSessionDialog] = useState(false);
   const [boardDetails, setBoardDetails] = useState(board);
+  const [openAddGuestDialog, setOpenAddGuestDialog] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [joinedMember, setJoinedMember] = useState<any>(null);
   // const [openInviteTooltip, setOpenInviteTootltip] = useState(true);
   // const [openVisibilityTooltip, setOpenVisibilityTootltip] = useState(true);
   // const [openSessionTooltip, setOpenSessionTootltip] = useState(true);
@@ -144,12 +161,38 @@ export default function Section() {
   useEffect(() => {
     if (boardId) {
       dispatch(getBoardDetails(boardId));
+      dispatch(getJoinedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
     }
   }, []);
 
   useEffect(() => {
+    /* join memeber to board response */
+    socket.on(
+      `join-member-to-board-response`,
+      (joinedMember: { [Key: string]: any }) => {
+        if (!joinedMember) {
+          return;
+        }
+        setJoinedMember(joinedMember);
+        setOpenSnackbar(true);
+        setOpenAddGuestDialog(false);
+      }
+    );
+
+    return () => {
+      socket.off("join-member-to-board-response");
+    };
+  }, [email]);
+
+  useEffect(() => {
     setBoardDetails(board);
     dispatch(addProjectToStore(board?.project));
+    // if (board?.startedAt && email) {
+    //   socket.emit("join-member-to-board", {
+    //     boardId: boardId,
+    //     email,
+    //   });
+    // }
   }, [board]);
 
   useEffect(() => {
@@ -252,6 +295,15 @@ export default function Section() {
       );
       setShowDialog(true);
     }
+
+    if (
+      !loading &&
+      board?.status === "inprogress" &&
+      !board?.isPrivate &&
+      !authenticated
+    ) {
+      setOpenAddGuestDialog(true);
+    }
   }, [board, loading]);
 
   const handleDialogClose = () => {
@@ -311,6 +363,24 @@ export default function Section() {
   //     setOpenSectionTootltip(false);
   //   }
   // };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={openSnackbar}
+        status="success"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {`${joinedMember?.guestName} joined the session`}
+        </Typography>
+      </DoSnackbar>
+    );
+  };
 
   const renderStartSession = useCallback(() => {
     return (
@@ -547,6 +617,10 @@ export default function Section() {
     // if (openActionDialog) {
     //   setOpenActionDialog(false);
     // }
+
+    if (openAddGuestDialog) {
+      setOpenAddGuestDialog(false);
+    }
   };
 
   const handleEndSession = () => {
@@ -613,6 +687,12 @@ export default function Section() {
     return <UpdateSection openDialog={openDialog} handleClose={handleClose} />;
   };
 
+  const renderAddGuest = () => {
+    return (
+      <AddGuest openDialog={openAddGuestDialog} handleClose={handleClose} />
+    );
+  };
+
   // const renderCreateAction = () => {
   //   return (
   //     <UpdateAction openDialog={openActionDialog} handleClose={handleClose} />
@@ -627,6 +707,8 @@ export default function Section() {
       {renderEndSessionDialog()}
       {renderInviteMemberDialog()}
       {renderChangeVisibilityDialog()}
+      {renderAddGuest()}
+      {renderSnackbar()}
       {loading ? (
         <BoardHeaderSkeleton />
       ) : (
@@ -734,10 +816,10 @@ export default function Section() {
                     {/* </HtmlTooltip> */}
                   </Box>
                 )}
-                {!boardLoading && boardDetails?.teams?.length ? (
+                {!joinedMembersLoading && joinedMembers?.length ? (
                   <Box ml={1} mt={0.5}>
                     <AvatarGroupList
-                      dataList={getMembers(boardDetails?.teams)}
+                      dataList={getBoardJoinedMembers(joinedMembers)}
                     />
                   </Box>
                 ) : null}

@@ -20,6 +20,9 @@ import {
   GET_USER_SUMMARY_FAILED,
   GET_USER_SUMMARY_REQUEST,
   GET_USER_SUMMARY_SUCCESS,
+  UPDATE_AVATAR_FAILED,
+  UPDATE_AVATAR_REQUEST,
+  UPDATE_AVATAR_SUCCESS,
   UPDATE_EMAIL_FAILED,
   UPDATE_EMAIL_REQUEST,
   UPDATE_EMAIL_SUCCESS,
@@ -38,6 +41,7 @@ import {
   getUserDetails,
   getUserSummary,
   getUsers,
+  updateAvatar,
   updateEmail,
   updateName,
   updatePassword,
@@ -226,4 +230,23 @@ function* callGetUsers() {
 
 export function* watchGetUsers() {
   yield takeLatest(GET_USERS_REQUEST, callGetUsers);
+}
+
+function* callUpdateAvatar(action: { [Key: string]: any }) {
+  try {
+    const result = yield updateAvatar(action.payload);
+    const { status, data } = result;
+    if (status === 200 && data?._id) {
+      yield put({ type: UPDATE_AVATAR_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: UPDATE_AVATAR_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchUpdateAvatar() {
+  yield takeLatest(UPDATE_AVATAR_REQUEST, callUpdateAvatar);
 }

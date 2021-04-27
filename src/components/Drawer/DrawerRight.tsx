@@ -67,8 +67,11 @@ export default function PersistentDrawerRight(props: any) {
       case "teams":
         title = "Teams";
         break;
-      case "members":
+      case "invited-members":
         title = "Invited Members";
+        break;
+      case "joined-members":
+        title = "Joined Members";
         break;
       case "account":
         title = "Account";

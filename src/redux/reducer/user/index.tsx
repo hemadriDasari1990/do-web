@@ -21,6 +21,9 @@ import {
   GET_USER_SUMMARY_FAILED,
   GET_USER_SUMMARY_REQUEST,
   GET_USER_SUMMARY_SUCCESS,
+  UPDATE_AVATAR_FAILED,
+  UPDATE_AVATAR_REQUEST,
+  UPDATE_AVATAR_SUCCESS,
   UPDATE_EMAIL_FAILED,
   UPDATE_EMAIL_REQUEST,
   UPDATE_EMAIL_SUCCESS,
@@ -223,6 +226,23 @@ const user = (state = initialState, action: ReduxAction) => {
           ...state.response,
           name: action.payload?.name,
         },
+        loading: false,
+      };
+    case UPDATE_AVATAR_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_AVATAR_FAILED:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+    case UPDATE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        response: action.payload,
         loading: false,
       };
     case CLEAR_USER_STATE:

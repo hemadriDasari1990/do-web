@@ -169,7 +169,7 @@ export const getInitials = (value: string) => {
   return initials;
 };
 
-export const getHumanReadableData = (value: string) => {
+export const getHumanReadableDate = (value: string) => {
   if (!value) {
     return "";
   }

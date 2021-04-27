@@ -7,6 +7,7 @@ import {
   GET_USERS_REQUEST,
   GET_USER_REQUEST,
   GET_USER_SUMMARY_REQUEST,
+  UPDATE_AVATAR_REQUEST,
   UPDATE_EMAIL_REQUEST,
   UPDATE_NAME_REQUEST,
   UPDATE_PASSWORD_REQUEST,
@@ -85,5 +86,12 @@ export const getBoardsByUser = (id: string, limit: number) => {
 export const clearUserState = () => {
   return {
     type: CLEAR_USER_STATE,
+  };
+};
+
+export const updateAvatar = (payload: { [Key: string]: any }) => {
+  return {
+    type: UPDATE_AVATAR_REQUEST,
+    payload: payload,
   };
 };
