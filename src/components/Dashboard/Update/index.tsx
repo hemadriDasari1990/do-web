@@ -383,7 +383,7 @@ const Update = () => {
     <React.Fragment>
       <Loader enable={loading} />
       {renderSnackbar()}
-      <Box>
+      <Box mb={2}>
         <Typography variant="h3">Start Quick Retro</Typography>
       </Box>
       <Stepper
