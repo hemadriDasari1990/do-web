@@ -101,7 +101,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Let's do retro
+                    Let's experience the
                   </Typography>
                 </Box>
                 <Box>
@@ -110,7 +110,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Helps teams to run
+                    Difference
                   </Typography>
                 </Box>
                 <Box mb={2}>
@@ -119,7 +119,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Retrospective's from anywhere
+                    With our Let's do retro tool
                   </Typography>
                 </Box>
                 <Box>

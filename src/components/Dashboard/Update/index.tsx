@@ -12,11 +12,16 @@ import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import ColorlibStepIcon from "./StepLibIcon";
 import DoSnackbar from "../../Snackbar/components";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
 import { MAX_CHAR_COUNT } from "../../../util/constants";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import Step from "@material-ui/core/Step";
+import StepContent from "@material-ui/core/StepContent";
+import StepLabel from "@material-ui/core/StepLabel";
+import Stepper from "@material-ui/core/Stepper";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import { addProjectToStore } from "../../../redux/actions/project";
@@ -42,10 +47,19 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "53%",
     },
   },
+  stepperStyle: {
+    "&.MuiPaper-root": {
+      backgroundColor: "#f8f9fa",
+    },
+  },
 }));
 
+function getSteps() {
+  return ["Select Project", "Board details", "Invite Team"];
+}
+
 const Update = () => {
-  const { textFieldStyle, dropdownInputStyle } = useStyles();
+  const { textFieldStyle, dropdownInputStyle, stepperStyle } = useStyles();
   const dispatch = useDispatch();
 
   /* Redux hooks */
@@ -59,6 +73,8 @@ const Update = () => {
   /* Local state */
   const [apiCalled, setApiCalled] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = getSteps();
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: "",
     noOfSections: "",
@@ -150,13 +166,6 @@ const Update = () => {
     setApiCalled(true);
   };
 
-  const disableButton = () => {
-    if (!isDefaultBoard && (!noOfSections || noOfSections === 0)) {
-      return true;
-    }
-    return false;
-  };
-
   const handleTeam = (data: { [Key: string]: any }) => {
     setFormData({ ...formData, teams: [data] });
   };
@@ -193,7 +202,7 @@ const Update = () => {
     return (
       <Box>
         <DoAutoComplete
-          defaultValue={null}
+          defaultValue={project}
           multiple={false}
           isFreeSolo={true}
           textInputLabel="Select or add project"
@@ -205,6 +214,37 @@ const Update = () => {
           }
           customClass={dropdownInputStyle}
         />
+        {project && (
+          <Box mt={3}>
+            <HintMessage
+              message={`The board name will be Retro ${
+                project?.boards?.length ? project?.boards?.length + 1 : 1
+              }`}
+            />
+          </Box>
+        )}
+        {!project?._id && (
+          <Box>
+            <TextField
+              name="projectDescription"
+              id="projectDescription"
+              label="Project Description"
+              placeholder="Enter description about project"
+              value={projectDescription}
+              onChange={handleInput}
+              className={textFieldStyle}
+              onKeyPress={(event: React.KeyboardEvent<any>) =>
+                allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+              }
+              onCut={handlePrevent}
+              onCopy={handlePrevent}
+              onPaste={handlePrevent}
+            />
+            <Typography variant="subtitle2">
+              {projectDescriptionCount} chars
+            </Typography>
+          </Box>
+        )}
       </Box>
     );
   };
@@ -236,46 +276,29 @@ const Update = () => {
     event.preventDefault();
   };
 
-  return (
-    <React.Fragment>
-      <Loader enable={loading} />
-      {renderSnackbar()}
-      <Box>
-        <Typography variant="h3">Start Quick Retro</Typography>
-      </Box>
-      {renderProject()}
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
 
-      {project && (
-        <Box mt={3}>
-          <HintMessage
-            message={`The board name will be Retro ${
-              project?.boards?.length ? project?.boards?.length + 1 : 1
-            }`}
-          />
-        </Box>
-      )}
-      {!project?._id && (
-        <Box>
-          <TextField
-            name="projectDescription"
-            id="projectDescription"
-            label="Project Description"
-            placeholder="Enter description about project"
-            value={projectDescription}
-            onChange={handleInput}
-            className={textFieldStyle}
-            onKeyPress={(event: React.KeyboardEvent<any>) =>
-              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
-            }
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
-          />
-          <Typography variant="subtitle2">
-            {projectDescriptionCount} chars
-          </Typography>
-        </Box>
-      )}
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const getStepContent = (step: number) => {
+    switch (step) {
+      case 0:
+        return renderProject();
+      case 1:
+        return renderBoard();
+      case 2:
+        return renderTeam();
+      default:
+        return "Unknown step";
+    }
+  };
+
+  const renderBoard = () => {
+    return (
       <>
         {!isDefaultBoard && renderNoOfSections()}
         {!isDefaultBoard && noOfSections ? (
@@ -304,25 +327,30 @@ const Update = () => {
             <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
           </Box>
         )}
+        <Box>
+          <TextField
+            name="description"
+            id="description"
+            label="Description"
+            placeholder="Enter description about this board"
+            value={description}
+            onChange={handleInput}
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+          />
+          <Typography variant="subtitle2">{descriptionCount} chars</Typography>
+        </Box>
       </>
-      <Box>
-        <TextField
-          name="description"
-          id="description"
-          label="Description"
-          placeholder="Enter description about this board"
-          value={description}
-          onChange={handleInput}
-          className={textFieldStyle}
-          onKeyPress={(event: React.KeyboardEvent<any>) =>
-            allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
-          }
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
-        />
-        <Typography variant="subtitle2">{descriptionCount} chars</Typography>
-      </Box>
+    );
+  };
+
+  const renderTeam = () => {
+    return (
       <Box>
         <DoAutoComplete
           defaultValue={teams}
@@ -334,19 +362,76 @@ const Update = () => {
           customClass={dropdownInputStyle}
         />
       </Box>
-      <Box mt={5} display="flex" justifyContent="flex-end">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleStartRetro()}
-          startIcon={<PlayArrowIcon color="secondary" />}
-          disabled={disableButton()}
-        >
-          <Typography variant="h6" color="secondary">
-            Start Retro
-          </Typography>
-        </Button>
+    );
+  };
+
+  const disableButton = () => {
+    if (activeStep === 0 && !project) {
+      return true;
+    }
+    if (
+      activeStep === 1 &&
+      !isDefaultBoard &&
+      (!noOfSections || noOfSections === 0)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  return (
+    <React.Fragment>
+      <Loader enable={loading} />
+      {renderSnackbar()}
+      <Box>
+        <Typography variant="h3">Start Quick Retro</Typography>
       </Box>
+      <Stepper
+        activeStep={activeStep}
+        orientation="vertical"
+        className={stepperStyle}
+      >
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel StepIconComponent={ColorlibStepIcon}>
+              <Typography variant="h5">{label}</Typography>
+            </StepLabel>
+            <StepContent>
+              <Typography>{getStepContent(index)}</Typography>
+              <Box display="flex" mt={2}>
+                {activeStep !== 0 ? (
+                  <Box mr={1}>
+                    <Button onClick={handleBack}>Back</Button>
+                  </Box>
+                ) : null}
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleStartRetro()}
+                    startIcon={<PlayArrowIcon color="secondary" />}
+                    // disabled={disableButton()}
+                  >
+                    <Typography variant="h6" color="secondary">
+                      Start Retro
+                    </Typography>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    disabled={disableButton()}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
+            </StepContent>
+          </Step>
+        ))}
+      </Stepper>
+      <Box mt={5} display="flex" justifyContent="flex-end"></Box>
     </React.Fragment>
   );
 };
