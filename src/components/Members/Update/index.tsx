@@ -8,12 +8,14 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import JoinTeam from "../../../assets/join-team.svg";
+import Loader from "../../Loader/components";
 import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
 import { updateMember } from "../../../redux/actions/member";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login";
+import { useMemberLoading } from "../../../redux/state/member";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -28,6 +30,7 @@ const Create = (props: any) => {
   const { textFieldStyle } = useStyles();
   const { userId } = useLogin();
   const dispatch = useDispatch();
+  const { loading } = useMemberLoading();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
@@ -88,6 +91,7 @@ const Create = (props: any) => {
         disablePrimaryCTA={disableButton()}
         maxWidth={440}
       >
+        <Loader enable={loading} backdrop={true} />
         <Box mt={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
             <img src={JoinTeam} height="150px" width="fit-content" />

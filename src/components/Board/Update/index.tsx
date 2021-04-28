@@ -12,19 +12,21 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Hidden from "@material-ui/core/Hidden";
 import Link from "@material-ui/core/Link";
+import Loader from "../../Loader/components";
 import { MAX_CHAR_COUNT } from "../../../util/constants";
 import { TEAM } from "../../../routes/config";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import { getRemainingCharLength } from "../../../util";
+import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useProject } from "../../../redux/state/project";
-import { useSocket } from "../../../redux/state/socket";
+import { useTeam } from "../../../redux/state/team";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -55,14 +57,13 @@ const Update = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { project } = useProject();
-  const { socket } = useSocket();
 
   /* Redux hooks */
   const { userId, accountType } = useLogin();
   const { loading } = useBoardLoading();
+  const { teams: teamsList } = useTeam();
 
   /* Local state */
-  const [teamsList, setTeamsList] = useState<Array<{ [Key: string]: any }>>([]);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: "",
     noOfSections: 0,
@@ -92,17 +93,8 @@ const Update = (props: any) => {
   }, [selectedBoard]);
 
   useEffect(() => {
-    socket.emit("get-teams", userId);
+    dispatch(getTeams(userId, "", 0, 5));
   }, []);
-
-  useEffect(() => {
-    socket.on("get-teams-response", (teams: Array<{ [Key: string]: any }>) => {
-      setTeamsList(teams);
-    });
-    return () => {
-      socket.off("get-teams-response");
-    };
-  }, [userId, teamsList]);
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,9 +174,8 @@ const Update = (props: any) => {
         handleClose={handleClose}
         disablePrimaryCTA={disableButton()}
         maxWidth={440}
-        loading={loading}
       >
-        {/* <Loader backdrop={true} enable={loading} /> */}
+        <Loader backdrop={true} enable={loading} />
         <Hidden only={["xs"]}>
           <Box mt={5} textAlign="center">
             <Zoom in={true} timeout={2000}>

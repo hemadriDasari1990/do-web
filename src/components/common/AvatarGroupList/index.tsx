@@ -11,7 +11,6 @@ import useStyles from "../../styles/table";
 const AvatarGroupList = (props: any) => {
   const { dataList, keyName, noDataMessage } = props;
   const { avatarStyle, avatarGroupStyle } = useStyles();
-
   return (
     <>
       {dataList?.length ? (
@@ -24,6 +23,7 @@ const AvatarGroupList = (props: any) => {
               {data?.avatarId ? (
                 <Tooltip arrow title={keyName ? data?.[keyName] : data["name"]}>
                   <Avatar
+                    key={data._id}
                     src={getAvatar(data?.avatarId)}
                     className={avatarStyle}
                   ></Avatar>
@@ -36,6 +36,7 @@ const AvatarGroupList = (props: any) => {
                     background:
                       index < 6 ? getRandomBGColor(index) : getRandomBGColor(0),
                   }}
+                  key={data._id}
                 >
                   <Tooltip
                     arrow

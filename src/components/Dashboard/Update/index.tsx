@@ -99,7 +99,7 @@ const Update = () => {
 
   /* React Hooks */
   useEffect(() => {
-    dispatch(getTeams(userId, "", 0, 15));
+    dispatch(getTeams(userId, "", 0, 5));
     socket.emit("get-projects", userId);
   }, []);
 

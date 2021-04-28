@@ -10,19 +10,22 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   imageStyle: {
     verticalAlign: "bottom",
-    width: 120,
-    height: 120,
+    width: 75,
+    height: 75,
     // borderRadius: 6,
   },
   specialText: {
-    fontSize: 26,
-    letterSpacing: -1,
+    fontSize: "1.25rem",
+    letterSpacing: 0.3,
+  },
+  subTitleStyle: {
+    fontSize: "1rem",
   },
 });
 
 function ProfileCardSecondary(props: any) {
   const { path, title, subTitle, fbPath, linkedinPath, button } = props;
-  const { imageStyle, specialText } = useStyles(props);
+  const { imageStyle, specialText, subTitleStyle } = useStyles(props);
 
   const handleButton = (path: string) => {
     const win: any = window.open(path, "_blank");
@@ -31,20 +34,21 @@ function ProfileCardSecondary(props: any) {
 
   return (
     <React.Fragment>
-      <Box display="flex" justifyContent="center">
+      <Box mb={2}>
         <Avatar src={path} className={imageStyle}></Avatar>
       </Box>
-      <Box mt={1} textAlign="center">
-        <Box mb={0.3}>
-          <Typography gutterBottom variant="h3" className={specialText}>
-            {title}
-          </Typography>
-        </Box>
-        <Typography gutterBottom component="p">
+      <Box mb={0.3}>
+        <Typography variant="h4" className={specialText}>
+          {title}
+        </Typography>
+      </Box>
+      <Box mb={1}>
+        <Typography component="p" className={subTitleStyle}>
           {subTitle}
         </Typography>
       </Box>
-      <Box display="flex" justifyContent="center">
+
+      <Box display="flex" justifyContent="flex-start">
         {button && (
           <Box display="flex" mt={1}>
             <Typography component="h6" variant="h6">
@@ -57,7 +61,7 @@ function ProfileCardSecondary(props: any) {
                 </IconButton>
               )}
             </Box>
-            <Box mt={-0.5} ml={2}>
+            <Box mt={-0.5} ml={1}>
               {linkedinPath && (
                 <IconButton
                   size="small"

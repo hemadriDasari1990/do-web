@@ -4,10 +4,6 @@ import { clearBoard, getBoardDetails } from "../../redux/actions/board";
 import { getDownloadFile, replaceStr } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
-import {
-  useJoinedMembers,
-  useJoinedMembersLoading,
-} from "../../redux/state/join";
 
 import API from "../../network";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
@@ -44,12 +40,12 @@ import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
 import formateNumber from "../../util/formateNumber";
-import { getBoardJoinedMembers } from "../../util/member";
 import { getJoinedMembers } from "../../redux/actions/join";
 // import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
+import { useJoinedMembers } from "../../redux/state/join";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
@@ -130,11 +126,7 @@ export default function Section() {
   const { loading: boardLoading } = useBoardLoading();
   const { socket } = useSocket();
   const authenticated = useAuthenticated();
-  const { members: joinedMembers } = useJoinedMembers();
-  const { loading: joinedMembersLoading } = useJoinedMembersLoading();
-
-  const params = new URLSearchParams(window.location.search);
-  const email = params.get("email");
+  const { members: joinedMembersList } = useJoinedMembers();
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -153,6 +145,9 @@ export default function Section() {
   const [openAddGuestDialog, setOpenAddGuestDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [joinedMember, setJoinedMember] = useState<any>(null);
+  const [joinedMembers, setJoinedMembers] = useState<
+    Array<{ [Key: string]: any }>
+  >([]);
   // const [openInviteTooltip, setOpenInviteTootltip] = useState(true);
   // const [openVisibilityTooltip, setOpenVisibilityTootltip] = useState(true);
   // const [openSessionTooltip, setOpenSessionTootltip] = useState(true);
@@ -169,11 +164,19 @@ export default function Section() {
     /* join memeber to board response */
     socket.on(
       `join-member-to-board-response`,
-      (joinedMember: { [Key: string]: any }) => {
-        if (!joinedMember) {
+      (response: { [Key: string]: any }) => {
+        if (!response) {
           return;
         }
-        setJoinedMember(joinedMember);
+        if (response?.newMember) {
+          setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
+            ...currentMembers,
+            response,
+          ]);
+        } else {
+          updateJoinedMember(response);
+        }
+        setJoinedMember(response);
         setOpenSnackbar(true);
         setOpenAddGuestDialog(false);
       }
@@ -182,7 +185,7 @@ export default function Section() {
     return () => {
       socket.off("join-member-to-board-response");
     };
-  }, [email]);
+  }, [joinedMembers]);
 
   useEffect(() => {
     setBoardDetails(board);
@@ -194,6 +197,10 @@ export default function Section() {
     //   });
     // }
   }, [board]);
+
+  useEffect(() => {
+    setJoinedMembers(joinedMembersList);
+  }, [joinedMembersList]);
 
   useEffect(() => {
     setTotalSections(totalSectionsCount);
@@ -311,6 +318,25 @@ export default function Section() {
     if (board?.status !== "completed") {
       history.push(ROOT);
     }
+  };
+
+  const updateJoinedMember = (existingMember: { [Key: string]: any }) => {
+    if (!existingMember || !joinedMembers?.length) {
+      return;
+    }
+    const newJoinedMembers: Array<{ [Key: string]: any }> = [...joinedMembers];
+    const memberIndex: number = newJoinedMembers.findIndex(
+      (newJoinedMember: { [Key: string]: any }) =>
+        newJoinedMember._id === existingMember._id
+    );
+    const joinedMember: { [Key: string]: any } = newJoinedMembers[memberIndex];
+    if (!joinedMember) {
+      return;
+    }
+    joinedMember.avatarId = existingMember.avatarId;
+    newJoinedMembers[memberIndex] = joinedMember;
+
+    setJoinedMembers(newJoinedMembers);
   };
 
   const handleAccount = () => {
@@ -816,13 +842,12 @@ export default function Section() {
                     {/* </HtmlTooltip> */}
                   </Box>
                 )}
-                {!joinedMembersLoading && joinedMembers?.length ? (
-                  <Box ml={1} mt={0.5}>
-                    <AvatarGroupList
-                      dataList={getBoardJoinedMembers(joinedMembers)}
-                    />
-                  </Box>
-                ) : null}
+                <Box ml={1} mt={0.5}>
+                  <AvatarGroupList
+                    dataList={joinedMembers}
+                    keyName="guestName"
+                  />
+                </Box>
               </Box>
             </Grid>
           </Slide>
