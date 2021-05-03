@@ -50,7 +50,7 @@ export default {
   },
   h6: {
     fontFamily: fontFamily,
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: 14,
     letterSpacing: "-0.05px",
     color: textSecondary,

@@ -39,7 +39,7 @@ export const getMembers = (teams: Array<{ [Key: string]: any }>) => {
   }
   const members: Array<{ [Key: string]: any }> = [];
   teams.map((team: { [Key: string]: any }) => {
-    team.members.map((member: { [Key: string]: any }) => {
+    team?.members?.map((member: { [Key: string]: any }) => {
       members.push(member?.member);
     });
   });
@@ -52,17 +52,26 @@ export const getMembers = (teams: Array<{ [Key: string]: any }>) => {
 };
 
 export const getTeams = (teams: Array<{ [Key: string]: any }>) => {
-  return teams.map((item: { [Key: string]: any }) => item.team);
+  if (!teams?.length) {
+    return [];
+  }
+  return teams?.map((item: { [Key: string]: any }) => item.team);
 };
 
 export const getTeamMembers = (members: Array<{ [Key: string]: any }>) => {
+  if (!members?.length) {
+    return [];
+  }
   return members.map((elem: { [Key: string]: any }) => elem?.member);
 };
 
 export const getMemberIds = (teams: Array<{ [Key: string]: any }>) => {
+  if (!teams?.length) {
+    return [];
+  }
   const members: Array<{ [Key: string]: any }> = [];
   teams.map((team: { [Key: string]: any }) => {
-    team.members.map((member: { [Key: string]: any }) => {
+    team?.members?.map((member: { [Key: string]: any }) => {
       members.push(member?.member?._id);
     });
   });

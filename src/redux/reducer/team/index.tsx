@@ -27,17 +27,19 @@ export interface ReduxAction extends Action {
 }
 
 const initialState = {
-  title: "",
+  name: "",
   description: "",
   loading: false,
   response: null,
   teams: [],
+  totalTeams: 0,
 };
 
 const team = (state = initialState, action: ReduxAction) => {
   switch (action.type) {
     case DELETE_TEAM_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case DELETE_TEAM_FAILED:
@@ -54,6 +56,7 @@ const team = (state = initialState, action: ReduxAction) => {
       };
     case GET_TEAM_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case GET_TEAM_FAILED:
@@ -70,6 +73,7 @@ const team = (state = initialState, action: ReduxAction) => {
       };
     case UPDATE_TEAM_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case UPDATE_TEAM_FAILED:
@@ -86,6 +90,7 @@ const team = (state = initialState, action: ReduxAction) => {
       };
     case ADD_OR_REMOVE_TEAM_MEMBER_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case ADD_OR_REMOVE_TEAM_MEMBER_FAILED:

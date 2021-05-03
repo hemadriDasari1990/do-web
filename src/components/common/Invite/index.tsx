@@ -121,7 +121,7 @@ export default function Invite(props: any) {
         setError(true);
       } else {
         setError(false);
-        setMember({ name: member?.name, email: newMember });
+        setMember({ email: newMember });
         setShowCreateMember(true);
       }
     }
@@ -191,7 +191,7 @@ export default function Invite(props: any) {
       <DoAutoComplete
         defaultValue={members}
         textInputLabel="Select/Add member"
-        textInputPlaceholder="Search by name"
+        textInputPlaceholder="Search by name/Add by email"
         optionKey={"name"}
         options={members}
         isFreeSolo={true}

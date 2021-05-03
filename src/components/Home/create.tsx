@@ -32,7 +32,7 @@ const CreateAccount = (props: any) => {
 
   return (
     <React.Fragment>
-      <Tooltip arrow title="Create Your User Account">
+      <Tooltip arrow title={title}>
         <Button
           className={buttonStyle}
           variant="contained"

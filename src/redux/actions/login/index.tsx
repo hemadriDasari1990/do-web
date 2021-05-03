@@ -1,4 +1,5 @@
 import {
+  CLEAR_LOGIN,
   FORGOT_PASSWORD_REQUEST,
   LOGIN_REQUEST,
   LOGOUT_REQUEST,
@@ -19,6 +20,12 @@ export const login = (payload: { [Key: string]: any }) => {
 export const logout = () => {
   return {
     type: LOGOUT_REQUEST,
+  };
+};
+
+export const clearLogin = () => {
+  return {
+    type: CLEAR_LOGIN,
   };
 };
 

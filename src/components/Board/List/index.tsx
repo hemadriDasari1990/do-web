@@ -14,7 +14,7 @@ import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Divider } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
+import FilterNoneOutlinedIcon from "@material-ui/icons/FilterNoneOutlined";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
@@ -112,7 +112,7 @@ const BoardList = (props: any) => {
 
   /* Handler functions */
   const renderCardAction = (board: { [Key: string]: any }, index: number) => {
-    return !hideMenu ? (
+    return (
       <Box display="flex">
         <Box mt={0.4}>
           <Typography variant="h6">
@@ -127,7 +127,7 @@ const BoardList = (props: any) => {
           />
         </Box>
 
-        {!sendInviteLoading && (
+        {!hideMenu && !sendInviteLoading && (
           <Box>
             <Tooltip arrow title="Action">
               <IconButton
@@ -146,7 +146,7 @@ const BoardList = (props: any) => {
         )}
         {renderMenu(board, index)}
       </Box>
-    ) : null;
+    );
   };
 
   const handleButton = (
@@ -278,24 +278,28 @@ const BoardList = (props: any) => {
 
   const renderSecondaryText = (message: string, index: number) => {
     return (
-      <Box display="flex">
+      <Box>
         <Typography component="p" variant="body2">
           {!showMore && message && message?.length > 70
             ? message.slice(0, 70)
             : message}
-          {message?.length > 70 ? (
+        </Typography>
+        <Box display="flex" justifyContent="flex-end">
+          {message.length > 70 && index === showMoreIndex ? (
             <span
               onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                 handleShowMore(event, index)
               }
               className={cursor}
             >
-              {showMore && showMoreIndex === index
-                ? " Show Less"
-                : "... Show More"}
+              <Typography variant="subtitle1">
+                {showMore && showMoreIndex === index
+                  ? " see less"
+                  : "... see more"}
+              </Typography>
             </span>
           ) : null}
-        </Typography>
+        </Box>
       </Box>
     );
   };
@@ -329,13 +333,13 @@ const BoardList = (props: any) => {
                       handleCopy(event, board)
                     }
                   >
-                    <FileCopyOutlinedIcon />
+                    <FilterNoneOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Zoom>
               </Tooltip>
             )}
           </Box>
-          <Box mt={0.5}>
+          <Box>
             <Tooltip title="View Board" arrow>
               <IconButton
                 onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
@@ -356,7 +360,7 @@ const BoardList = (props: any) => {
   const renderCardContent = (board: { [Key: string]: any }, index: number) => {
     return (
       <Box minHeight={50}>
-        <Box mt={2} display="flex">
+        <Box mt={1} display="flex">
           <Box mr={2}>
             <SubjectOutlinedIcon />
           </Box>
@@ -434,11 +438,11 @@ const BoardList = (props: any) => {
                       />
                     }
                     action={renderCardAction(b, index)}
-                    title={b?.title}
+                    title={b?.name}
                     subheader={getCardSubHeaderText(b.createdAt)}
                   />
                   <CardContent>{renderCardContent(b, index)}</CardContent>
-                  <Box my={1}>
+                  <Box mb={1}>
                     <Divider />
                   </Box>
                   <CardActions style={{ justifyContent: "space-between" }}>

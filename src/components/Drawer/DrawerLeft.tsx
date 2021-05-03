@@ -28,7 +28,6 @@ import { logout } from "../../redux/actions/login";
 import { storeMenuItem } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { useSocket } from "../../redux/state/socket";
 import { useUser } from "../../redux/state/user";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
@@ -86,7 +85,6 @@ export default function PersistentDrawerLeft() {
   } = useLocalStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { socket } = useSocket();
   const { user } = useUser();
 
   const [open, setOpen] = useState(false);
@@ -104,7 +102,6 @@ export default function PersistentDrawerLeft() {
 
   const handleLogout = async () => {
     dispatch(logout());
-    socket.off("login-success");
     history.push(LOGIN);
   };
 

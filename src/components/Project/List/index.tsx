@@ -170,24 +170,28 @@ const ProjectList = (props: any) => {
       return null;
     }
     return (
-      <Box display="flex">
+      <Box>
         <Typography component="p" variant="body2">
           {!showMore && message && message?.length > 70
             ? message.slice(0, 70)
             : message}
-          {message.length > 70 ? (
+        </Typography>
+        <Box display="flex" justifyContent="flex-end">
+          {message.length > 70 && index === showMoreIndex ? (
             <span
               onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                 handleShowMore(event, index)
               }
               className={cursor}
             >
-              {showMore && showMoreIndex === index
-                ? " Show Less"
-                : "... Show More"}
+              <Typography variant="subtitle1">
+                {showMore && showMoreIndex === index
+                  ? " see less"
+                  : "... see more"}
+              </Typography>
             </span>
           ) : null}
-        </Typography>
+        </Box>
       </Box>
     );
   };
@@ -217,7 +221,7 @@ const ProjectList = (props: any) => {
       <>
         <AvatarGroupList
           dataList={project?.boards}
-          keyName="title"
+          keyName="name"
           noDataMessage=" "
         />
         <Box display="flex">
@@ -293,7 +297,7 @@ const ProjectList = (props: any) => {
                       />
                     }
                     action={renderCardAction(project)}
-                    title={project?.title}
+                    title={project?.name}
                     subheader={getCardSubHeaderText(project.createdAt)}
                   />
                   <CardContent>{renderCardContent(project, index)}</CardContent>

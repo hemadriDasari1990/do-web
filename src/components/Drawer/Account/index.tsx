@@ -20,7 +20,6 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import useIconStyles from "../../styles/iconStyle";
 import { useMenuItem } from "../../../redux/state/board";
-import { useSocket } from "../../../redux/state/socket";
 import useStyles from "../../styles";
 
 const UserAccount = (props: any) => {
@@ -31,12 +30,10 @@ const UserAccount = (props: any) => {
   const dispatch = useDispatch();
   const { itemName } = useMenuItem();
   const { cursor, bottomStyle } = useStyles();
-  const { socket } = useSocket();
   const authenticated = useAuthenticated();
 
   const handleLogout = async () => {
     dispatch(logout());
-    socket.off("login-success");
     handleDrawerClose();
     history.push(ROOT);
   };

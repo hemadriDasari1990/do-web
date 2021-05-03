@@ -10,6 +10,7 @@ import {
 } from "react-beautiful-dnd";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
 
 import Box from "@material-ui/core/Box";
@@ -96,6 +97,8 @@ const SectionList = (props: any) => {
   const { loading } = useLoading();
   const authenticated = useAuthenticated();
   const { userId } = useLogin();
+  const { board } = useBoard();
+  const { loading: boardLoading } = useBoardLoading();
 
   /* Local state */
   const [action, setAction] = useState(false);
@@ -110,9 +113,14 @@ const SectionList = (props: any) => {
   /* React Hooks */
   useEffect(() => {
     setAction(false);
-    dispatch(getSectionsByBoard(boardId));
+    if (
+      (!boardLoading && !board?.isPrivate && !authenticated) ||
+      authenticated
+    ) {
+      dispatch(getSectionsByBoard(boardId));
+    }
     setAction(true);
-  }, []);
+  }, [boardLoading, board]);
 
   useEffect(() => {
     socket.on(
@@ -133,7 +141,7 @@ const SectionList = (props: any) => {
   }, [sections]);
 
   useEffect(() => {
-    /* Update Section Title */
+    /* Update Section Name */
     socket.on(
       `update-section-response`,
       (updatedSection: { [Key: string]: any }) => {
@@ -246,7 +254,7 @@ const SectionList = (props: any) => {
     if (!sectionData) {
       return;
     }
-    sectionData.title = section.title;
+    sectionData.name = section.name;
     newSections[sectionIndex] = sectionData;
     setSections(newSections);
     setSelectedSection(null);
@@ -404,7 +412,7 @@ const SectionList = (props: any) => {
           maxWidth={440}
         >
           <Typography variant="h5">
-            Are you sure you want to delete {selectedSection?.title}?
+            Are you sure you want to delete {selectedSection?.name}?
           </Typography>
         </ResponsiveDialog>
       </Box>
@@ -558,9 +566,9 @@ const SectionList = (props: any) => {
                                             <Box>
                                               <Typography
                                                 className={sectionHeader}
-                                                variant="h3"
+                                                variant="h5"
                                               >
-                                                {item.title}&nbsp;(
+                                                {item.name}&nbsp;(
                                                 {formateNumber(
                                                   item.totalNotes
                                                 ) || 0}

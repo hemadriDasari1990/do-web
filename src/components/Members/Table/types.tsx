@@ -11,6 +11,7 @@ export type Data = {
   isAuthor: boolean;
   updatedAt: string;
   teams: Array<{ [Key: string]: any }>;
+  avatarId: number;
 };
 
 export type HeaderColumn = {

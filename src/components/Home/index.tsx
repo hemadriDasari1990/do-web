@@ -1,7 +1,6 @@
 import { FEATURES, GETTING_STARTED, RETROSPECTIVE } from "../../routes/config";
 import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { useFeedback, useLoading } from "../../redux/state/feedback";
 
 import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
@@ -15,15 +14,12 @@ import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
-import { getFeedbacks } from "../../redux/actions/feedback";
-import { useDispatch } from "react-redux";
 import useStyles from "../styles";
 
 const FeedbackList = React.lazy(() => import("../Feedback/list"));
 const CreateAccount = React.lazy(() => import("./create"));
 const CreateAccountGrid = React.lazy(() => import("./createAccountGrid"));
 const Summary = React.lazy(() => import("./summary"));
-const UserList = React.lazy(() => import("./users"));
 const AdContainer = React.lazy(() => import("./adContainer"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
@@ -47,18 +43,9 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 
 const Home = () => {
   const { skeletonImageStyle } = useLocalStyles();
-  const {
-    titleStyle,
-    titleSecondaryStyle,
-    bannerStyle,
-    boxGridStyle,
-  } = useStyles();
-  const dispatch = useDispatch();
-  const { feedback } = useFeedback();
-  const { loading } = useLoading();
+  const { titleStyle, bannerStyle, boxGridStyle } = useStyles();
 
   useEffect(() => {
-    dispatch(getFeedbacks(20, true));
     // if(authenticated){
     //   history.push(DASHBOARD);
     // }
@@ -119,12 +106,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    With our Let's do retro tool
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="body1" color="secondary">
-                    Provide a safe space to discuss what worked and what didn't.{" "}
+                    With our retrospective tool
                   </Typography>
                 </Box>
                 <Box mb={5}>
@@ -194,9 +176,9 @@ const Home = () => {
               </Box>
               <Box>
                 <Typography variant="body1">
-                  Start with Lets do retro board, create sections, notes and
-                  express reactions. Expand with more features as your teamwork
-                  grows.
+                  Start with Lets do retro board, create sections, notes, add
+                  reactions and much more... Expand with more features as your
+                  teamwork grows.
                 </Typography>
                 <Typography variant="body1">
                   Manage projects, and build team spirit all in one place.
@@ -232,7 +214,7 @@ const Home = () => {
               <Box pt={2}>
                 <Box mt={2}>
                   <InfoCard
-                    title="How to get started? Take a look at our six step process to get started"
+                    title="How to get started? Take a look at our five step process to get started"
                     icon={CallMadeIcon}
                     handleButton={() => handleGettingStarted()}
                     index={0}
@@ -267,23 +249,9 @@ const Home = () => {
           </Grid>
         </Box>
       </Container>
-      {!loading && feedback?.length ? (
-        <Container>
-          <Box mt={5} pb={5} className={boxGridStyle}>
-            <Box>
-              <Box textAlign="center">
-                <Typography variant="h1" className={`${titleSecondaryStyle}`}>
-                  What people say about us
-                </Typography>
-              </Box>
-            </Box>
-            <FeedbackList feedbacks={feedback} />
-          </Box>
-        </Container>
-      ) : null}
       <Box p={5}>
         <Container>
-          <UserList />
+          <FeedbackList />
         </Container>
       </Box>
       <Box mb={-0.9}>

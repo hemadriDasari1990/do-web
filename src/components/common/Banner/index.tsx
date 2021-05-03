@@ -2,11 +2,11 @@ import { ListItem, ListItemIcon, ListItemText, Paper } from "@material-ui/core";
 
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 import List from "@material-ui/core/List";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../../util/getRandomColor";
@@ -76,7 +76,7 @@ const Banner = (props: any) => {
                 style={{ background: getRandomColor(3) }}
                 className={smallAvatarStyle}
               >
-                <PlayArrowIcon color="secondary" fontSize="small" />
+                <FlightTakeoffIcon color="secondary" fontSize="small" />
               </Avatar>
             </ListItemIcon>
             <ListItemText

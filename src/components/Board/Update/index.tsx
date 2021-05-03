@@ -21,7 +21,7 @@ import Zoom from "@material-ui/core/Zoom";
 import { getRemainingCharLength } from "../../../util";
 import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
-import { useBoardLoading } from "../../../redux/state/board";
+import { useBoardUpdateLoading } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
@@ -50,7 +50,7 @@ const Update = (props: any) => {
     openDialog,
     handleUpdateForm,
     selectedBoard,
-    title: boardTitle,
+    title: boardName,
     totalBoards,
   } = props;
   const { textFieldStyle, dropdownInputStyle } = useStyles();
@@ -60,7 +60,7 @@ const Update = (props: any) => {
 
   /* Redux hooks */
   const { userId, accountType } = useLogin();
-  const { loading } = useBoardLoading();
+  const { loading } = useBoardUpdateLoading();
   const { teams: teamsList } = useTeam();
 
   /* Local state */
@@ -68,11 +68,11 @@ const Update = (props: any) => {
     description: "",
     noOfSections: 0,
     status: "",
-    teams: [],
+    team: null,
     isDefaultBoard: false,
   });
   const [count, setCount] = useState(0);
-  const { description, noOfSections, status, teams, isDefaultBoard } = formData;
+  const { description, noOfSections, status, team, isDefaultBoard } = formData;
 
   /* React Hooks */
   useEffect(() => {
@@ -83,7 +83,7 @@ const Update = (props: any) => {
         boardId: selectedBoard._id,
         status: selectedBoard.status,
         noOfSections: selectedBoard.totalSections,
-        teams: selectedBoard.teams,
+        team: selectedBoard.teams?.length ? selectedBoard.teams[0] : null,
         isDefaultBoard: selectedBoard.isDefaultBoard,
       });
     }
@@ -116,7 +116,7 @@ const Update = (props: any) => {
       description: "",
       noOfSections: 0,
       status: "",
-      teams: [],
+      team: [],
       isDefaultBoard: false,
     });
   };
@@ -127,15 +127,15 @@ const Update = (props: any) => {
         description,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
         status: status || "new",
-        teams: teams?.map((team: { [Key: string]: any }) => team._id),
+        teams: [team?._id],
         isDefaultBoard,
         projectId: project?._id,
         accountType,
-        title: "Retro " + (totalBoards + 1),
+        name: "Board " + (totalBoards + 1),
         boardId: selectedBoard?._id,
       })
     );
-    resetFormData();
+    // resetFormData();
   };
 
   const disableButton = () => {
@@ -146,8 +146,8 @@ const Update = (props: any) => {
     return false;
   };
 
-  const handleTeams = (data: Array<{ [Key: string]: any }>) => {
-    setFormData({ ...formData, teams: data });
+  const handleTeams = (data: { [Key: string]: any }) => {
+    setFormData({ ...formData, team: data });
   };
 
   const handleViewTeams = () => {
@@ -168,7 +168,7 @@ const Update = (props: any) => {
     <React.Fragment>
       <ResponsiveDialog
         open={openDialog}
-        title={boardTitle || "Create or Update Board"}
+        title={boardName || "Create or Update Board"}
         pcta="Save"
         handleSave={handleSubmit}
         handleClose={handleClose}
@@ -202,8 +202,8 @@ const Update = (props: any) => {
           <HintMessage
             message={
               selectedBoard?._id
-                ? `System generated name ${selectedBoard?.title}`
-                : `System will generate name Retro ${
+                ? `System generated name ${selectedBoard?.name}`
+                : `System will generate name Board ${
                     totalBoards ? totalBoards + 1 : 1
                   }`
             }
@@ -232,7 +232,7 @@ const Update = (props: any) => {
         )}
         {!isDefaultBoard && noOfSections ? (
           <Box mt={3}>
-            <HintMessage message="Please note System will generate default sections with name 'Section title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
+            <HintMessage message="Please note System will generate default sections with name 'Section name' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
         <Box mt={1} mb={-3}>
@@ -275,17 +275,17 @@ const Update = (props: any) => {
         </Box>
         <Box>
           <DoAutoComplete
-            defaultValue={teams}
-            multiple={true}
-            textInputLabel="Select your Team/Teams"
-            textInputPlaceholder="Select multiple teams"
+            defaultValue={team}
+            // multiple={true}
+            textInputLabel="Invite Team"
+            textInputPlaceholder="Select team"
             optionKey="name"
             options={teamsList}
             onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
               handleTeams(data)
             }
             customClass={dropdownInputStyle}
-            disabled={selectedBoard?._id}
+            // disabled={selectedBoard?._id}
           />
         </Box>
 

@@ -2,7 +2,6 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import UnderlineText from "../../common/UnderlineText";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import termsIcon from "../../../assets/terms.svg";
@@ -19,9 +18,7 @@ function Terms() {
         <Box py={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
             <Box>
-              <Typography variant="h1">
-                Let's do retro Terms & Conditions
-              </Typography>
+              <Typography variant="h1">Terms & Conditions</Typography>
             </Box>
           </Zoom>
           <Zoom in={true} timeout={2000}>
@@ -29,9 +26,6 @@ function Terms() {
           </Zoom>
         </Box>
         <Box>
-          <Box mb={2}>
-            <UnderlineText title="Let's do retro Basic Terms of Use & End User License Agreement" />
-          </Box>
           <Typography variant="body1">
             Welcome to Let's do retro. By using Let's do retro, you are agreeing
             to comply and be bound by the following terms and conditions of use.

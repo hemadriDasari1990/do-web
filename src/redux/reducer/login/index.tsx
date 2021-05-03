@@ -1,11 +1,14 @@
 import {
+  CLEAR_LOGIN,
   FORGOT_PASSWORD_FAILED,
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT_FAILED,
   LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
   RESEND_TOKEN_FAILED,
   RESEND_TOKEN_REQUEST,
   RESEND_TOKEN_SUCCESS,
@@ -18,8 +21,6 @@ import {
   VERIFY_TOKEN_FAILED,
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
-  LOGOUT_FAILED,
-  LOGOUT_SUCCESS,
 } from "../../actions/login/types";
 
 import { Action } from "redux";
@@ -33,6 +34,7 @@ const initialState = {
   token: null,
   loading: false,
   response: null,
+  loginSuccess: false,
 };
 
 const login = (state = initialState, action: ReduxAction) => {
@@ -41,18 +43,21 @@ const login = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         loading: true,
+        loginSuccess: false,
       };
     case LOGIN_FAILED:
       return {
         ...state,
         response: action.payload,
         loading: false,
+        loginSuccess: false,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         response: action.payload,
         loading: false,
+        loginSuccess: true,
       };
 
     case RESEND_TOKEN_REQUEST:
@@ -155,6 +160,11 @@ const login = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         loading: false,
+      };
+    case CLEAR_LOGIN:
+      return {
+        ...state,
+        loginSuccess: false,
       };
     default:
       return state;

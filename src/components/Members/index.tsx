@@ -225,7 +225,7 @@ const MemberDashboard = () => {
       {renderSnackbar()}
       <Loader enable={loading} />
       <Box className={root}>
-        <Box py={2}>
+        <Box pb={2}>
           <Grid container spacing={2}>
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">

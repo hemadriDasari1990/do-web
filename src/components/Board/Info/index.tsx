@@ -52,7 +52,7 @@ const BoardInfo = (props: any) => {
             <Divider />
           </>
         )}
-        {authenticated && boardId && (
+        {boardId && (
           <Box mt={2}>
             <Summary hideNoSummary={true} />
           </Box>

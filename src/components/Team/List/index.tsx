@@ -19,7 +19,13 @@ import { useLogin } from "../../../redux/state/login";
 import { useTeamLoading } from "../../../redux/state/team";
 
 const GroupList = (props: any) => {
-  const { teams, handleMenu, setSelectedTeam, handleAddMember } = props;
+  const {
+    teams,
+    handleMenu,
+    setSelectedTeam,
+    handleAddMember,
+    totalTeams,
+  } = props;
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -152,6 +158,7 @@ const GroupList = (props: any) => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           page={page}
           rowsPerPage={rowsPerPage}
+          totalCount={totalTeams}
         />
       </Box>
     </React.Fragment>

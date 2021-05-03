@@ -26,9 +26,10 @@ export interface ReduxAction extends Action {
 }
 
 const initialState = {
-  title: "",
+  name: "",
   description: "",
   loading: false,
+  updateLoading: false,
   noOfSections: 0,
   response: null,
   startedAt: null,
@@ -77,18 +78,19 @@ const board = (state = initialState, action: ReduxAction) => {
     case UPDATE_BOARD_REQUEST:
       return {
         ...state,
+        updateLoading: true,
       };
     case UPDATE_BOARD_FAILED:
       return {
         ...state,
         response: action.payload,
-        loading: false,
+        updateLoading: false,
       };
     case UPDATE_BOARD_SUCCESS:
       return {
         ...state,
         response: action.payload,
-        loading: false,
+        updateLoading: false,
       };
     case GET_BOARDS_REQUEST:
       return {

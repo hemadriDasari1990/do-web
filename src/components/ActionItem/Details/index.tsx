@@ -53,7 +53,7 @@ const ActionItemDetails = (props: any) => {
               secondary={
                 <React.Fragment>
                   <Typography variant="h5">
-                    in action #{actionItem?.action?.title}
+                    in action #{actionItem?.action?.name}
                   </Typography>
                 </React.Fragment>
               }

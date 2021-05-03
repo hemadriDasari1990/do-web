@@ -8,7 +8,6 @@ import Grid from "@material-ui/core/Grid";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import Step from "./step";
 import StepItem from "./stepItem";
@@ -28,7 +27,7 @@ const Process = () => {
     <Box>
       <Container>
         <Box mb={5}>
-          <Typography variant="h1">Our six step process</Typography>
+          <Typography variant="h1">Our five step process</Typography>
         </Box>
       </Container>
       <Box className={dotBannerStyle}>
@@ -94,15 +93,6 @@ const Process = () => {
                     style={{ color: getRandomColor(4) }}
                   />
                 }
-              />
-            </Grid>
-            <Grid item xl={3} lg={3} md={3}>
-              <Step
-                title="06."
-                subTitle="Start Session"
-                description="Click on Start session button to start the session."
-                index={5}
-                icon={<PlayArrowIcon style={{ color: getRandomColor(5) }} />}
               />
             </Grid>
           </Grid>

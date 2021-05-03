@@ -1,10 +1,12 @@
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { useLoading, useAction } from "../../redux/state/action";
+import { useAction, useLoading } from "../../redux/state/action";
+
+import ActionItem from "../ActionItem";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -17,12 +19,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import formateNumber from "../../util/formateNumber";
+import { getActionByBoard } from "../../redux/actions/action";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
-import { getActionByBoard } from "../../redux/actions/action";
-import ActionItem from "../ActionItem";
 
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -104,7 +105,7 @@ const ActionList = () => {
   }, [action]);
 
   useEffect(() => {
-    /* Update action Title */
+    /* Update action Name */
     socket.on(
       `update-action-response`,
       (updatedAction: { [Key: string]: any }) => {
@@ -275,7 +276,7 @@ const ActionList = () => {
           maxWidth={440}
         >
           <Typography variant="h5">
-            Are you sure you want to delete {action?.title}?
+            Are you sure you want to delete {action?.name}?
           </Typography>
         </ResponsiveDialog>
       </Box>
@@ -312,7 +313,7 @@ const ActionList = () => {
                     >
                       <Box>
                         <Typography className={sectionHeader} variant="h3">
-                          {action?.title}&nbsp;(
+                          {action?.name}&nbsp;(
                           {formateNumber(action?.totalActionItems) || 0})
                         </Typography>
                       </Box>

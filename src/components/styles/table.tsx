@@ -59,12 +59,10 @@ const useStyles = makeStyles(() => ({
     fontWeight: 600,
     color: "#1f1f58",
   },
-  authorBoxStyle: {
-    backgroundColor: "#172b4d",
-    borderRadius: 6,
-  },
   authorStyle: {
     padding: "0 6px",
+    backgroundColor: "#172b4d",
+    borderRadius: 6,
   },
 }));
 

@@ -66,7 +66,9 @@ function Note(props: any) {
   /* React Hooks */
 
   useEffect(() => {
-    dispatch(getNotesBySectionId(sectionId, sectionId));
+    if ((!board?.isPrivate && !authenticated) || authenticated) {
+      dispatch(getNotesBySectionId(sectionId, sectionId));
+    }
   }, [sectionId]);
 
   useEffect(() => {
@@ -178,7 +180,7 @@ function Note(props: any) {
                   classes={{ root: buttonStyle }}
                   onClick={() => createNote(sectionId)}
                 >
-                  <Typography variant="h6">+ Create Note</Typography>
+                  <Typography variant="subtitle1">+ Create Note</Typography>
                 </Button>
               </Zoom>
             </Tooltip>

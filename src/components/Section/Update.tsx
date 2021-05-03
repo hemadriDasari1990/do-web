@@ -32,21 +32,21 @@ export default function SectionUpdate(props: any) {
   const { socket } = useSocket();
 
   /* Local states */
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setName(event.target.value);
   };
 
   useEffect(() => {
-    setTitle(selectedSection?.title);
+    setName(selectedSection?.name);
   }, [selectedSection]);
 
   const handleUpdate = () => {
     socket.emit("update-section", {
-      title: title,
-      previousTitle: selectedSection?.title,
+      name: name,
+      previousTitle: selectedSection?.name,
       sectionId: selectedSection?._id,
       boardId: selectedSection?.boardId,
       userId,
@@ -56,7 +56,7 @@ export default function SectionUpdate(props: any) {
 
   const handleCreate = () => {
     socket.emit("create-section", {
-      title: title,
+      name: name,
       boardId: boardId,
       userId,
     });
@@ -82,10 +82,10 @@ export default function SectionUpdate(props: any) {
       <Box mb={1}>
         <TextField
           fullWidth
-          label="Title"
-          placeholder="Enter new section title"
+          label="Name"
+          placeholder="Enter new section name"
           multiline
-          value={title}
+          value={name}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             handleInput(event)
           }

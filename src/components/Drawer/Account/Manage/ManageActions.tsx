@@ -20,14 +20,12 @@ import { storeAction } from "../../../../redux/actions/common";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import useIconStyles from "../../../styles/iconStyle";
-import { useSocket } from "../../../../redux/state/socket";
 import useStyles from "../../../styles";
 
 const ManageActions = () => {
   const { iconGridStyle, iconStyle } = useIconStyles();
   const dispatch = useDispatch();
   const { cursor, bottomStyle } = useStyles();
-  const { socket } = useSocket();
   const history = useHistory();
 
   const handleItem = (action: string) => {
@@ -36,7 +34,6 @@ const ManageActions = () => {
 
   const handleLogout = async () => {
     dispatch(logout());
-    socket.off("login-success");
     history.push(ROOT);
   };
 

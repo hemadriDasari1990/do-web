@@ -4,16 +4,30 @@ import Box from "@material-ui/core/Box";
 import React from "react";
 import SummaryField from "../../common/SummaryField";
 import { Suspense } from "react";
+// import { getBoardDetails } from "../../../redux/actions";
 import { useBoard } from "../../../redux/state/board";
+
+// import { useDispatch } from "react-redux";
 
 const AboutBoardInfo = () => {
   const { board } = useBoard();
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getBoardDetails(board?._id));
+  // }, []);
 
   return (
     <Suspense fallback={<div></div>}>
       <Box p={2}>
         <Box mb={1}>
-          <SummaryField title="Description" value={board?.description} />
+          <SummaryField
+            title="Description"
+            value={board?.description || "--"}
+          />
+        </Box>
+        <Box mb={1}>
+          <SummaryField title="Project" value={board?.project?.name || "--"} />
         </Box>
         <Box mb={1}>
           <SummaryField
@@ -29,7 +43,7 @@ const AboutBoardInfo = () => {
         </Box>
         <Box mb={1}>
           <SummaryField
-            title="Board Views"
+            title="Views"
             value={formatNumberWithCommas(board?.views || 0)}
           />
         </Box>

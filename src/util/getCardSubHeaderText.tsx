@@ -6,7 +6,9 @@ export default function getCardSubHeaderText(timestamp: string) {
   return (
     <Box display="flex">
       <Box>
-        <Typography variant="body2">{getPastTime(timestamp)}</Typography>
+        <Typography variant="body2" style={{ fontWeight: 400 }}>
+          {getPastTime(timestamp)}
+        </Typography>
       </Box>
     </Box>
   );

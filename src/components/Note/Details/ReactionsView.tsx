@@ -22,6 +22,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import { getAvatar } from "../../../util/getAvatar";
 import getPastTime from "../../../util/getPastTime";
 import { getReactions } from "../../../redux/actions/reaction";
 import { useDispatch } from "react-redux";
@@ -118,13 +119,20 @@ const ReactionsView = (props: any) => {
                     overlap="circle"
                     badgeContent={getReactionIcon(reaction.type)}
                   >
-                    <Avatar className={`${avatarStyle}`} color="primary">
-                      {reaction?.reactedBy?.name ? (
-                        <Typography variant="h5">
-                          {reaction?.reactedBy?.name.substring(0, 1)}
-                        </Typography>
-                      ) : null}
-                    </Avatar>
+                    {reaction?.reactedBy?.avatarId ? (
+                      <Avatar
+                        src={getAvatar(reaction?.reactedBy?.avatarId)}
+                        className={avatarStyle}
+                      ></Avatar>
+                    ) : (
+                      <Avatar className={`${avatarStyle}`} color="primary">
+                        {reaction?.reactedBy?.name ? (
+                          <Typography variant="h5">
+                            {reaction?.reactedBy?.name.substring(0, 1)}
+                          </Typography>
+                        ) : null}
+                      </Avatar>
+                    )}
                   </Badge>
                 </ListItemIcon>
                 <ListItemText

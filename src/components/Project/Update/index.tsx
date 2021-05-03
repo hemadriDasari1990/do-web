@@ -31,12 +31,12 @@ const Create = (props: any) => {
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
-    title: "",
+    name: "",
     description: "",
     projectId: selectedProject._id,
   });
   const [count, setCount] = useState(0);
-  const { title, description } = formData;
+  const { name, description } = formData;
 
   useEffect(() => {}, []);
 
@@ -44,7 +44,7 @@ const Create = (props: any) => {
     if (selectedProject?._id) {
       setFormData({
         ...formData,
-        title: selectedProject.title,
+        name: selectedProject.name,
         description: selectedProject.description,
         projectId: selectedProject._id,
       });
@@ -73,7 +73,7 @@ const Create = (props: any) => {
   };
 
   const disableButton = () => {
-    if (!title?.trim()?.length) {
+    if (!name?.trim()?.length) {
       return true;
     }
     if (!description?.trim()?.length) {
@@ -103,11 +103,11 @@ const Create = (props: any) => {
           </Zoom>
         </Box>
         <TextField
-          name="title"
-          id="title"
+          name="name"
+          id="name"
           label="Project Name"
           placeholder="Enter your project name"
-          value={title}
+          value={name}
           onChange={handleInput}
           required
           fullWidth

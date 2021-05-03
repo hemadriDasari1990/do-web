@@ -173,6 +173,12 @@ const Routes = () => {
             component={SectionDashboard}
             path={routePath.BOARD_DASHBOARD}
           />{" "}
+          <Route
+            exact
+            key={"private-board"}
+            component={SectionDashboard}
+            path={routePath.BOARD_DASHBOARD_WITH_TOKEN}
+          />
           {/* Route without header and footer */}
           <React.Fragment>
             <Header />

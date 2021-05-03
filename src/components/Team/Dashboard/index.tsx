@@ -27,7 +27,6 @@ import { useUser } from "../../../redux/state/user";
 const TeamList = React.lazy(() => import("../List"));
 const UpdateTeam = React.lazy(() => import("../Update"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
-const Loader = React.lazy(() => import("../../Loader/components"));
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 
 const TeamDashboard = () => {
@@ -38,6 +37,7 @@ const TeamDashboard = () => {
   const { user } = useUser();
   const { loading } = useProjectLoading();
   const { userId } = useLogin();
+  const { totalTeams: totalTeamsCount } = useTeam();
 
   /* React local states */
   const [showTeamForm, setShowTeamForm] = useState(false);
@@ -53,7 +53,6 @@ const TeamDashboard = () => {
   const debouncedValue = useDebounce(queryString, 500);
 
   /* React Hooks */
-
   const loadTeams = (searchValue: string) => {
     dispatch(getTeams(userId, searchValue, 0, 15));
   };
@@ -63,10 +62,13 @@ const TeamDashboard = () => {
   }, [debouncedValue]);
 
   useEffect(() => {
+    setTotalTeams(totalTeamsCount);
+  }, [totalTeamsCount]);
+
+  useEffect(() => {
     if (teamsList) {
       setShowTeamForm(false);
       setTeams(teamsList);
-      setTotalTeams(teamsList?.length);
     }
   }, [teamsList]);
 
@@ -78,7 +80,7 @@ const TeamDashboard = () => {
       const teamsList = teams.filter(
         (d: { [Key: string]: any }) => d._id !== selectedTeam._id
       );
-      setTotalTeams(teamsList?.length);
+      setTotalTeams(totalTeams - 1);
       setTeams(teamsList);
       setSelectedTeam({});
       handleCloseDeleteDialog();
@@ -91,14 +93,14 @@ const TeamDashboard = () => {
       );
       const teamData = teams[teamIndex];
       if (teamData) {
-        teamData.title = team.title;
+        teamData.name = team.name;
         teamData.description = team.description;
         teamsList[teamIndex] = teamData;
         setTeams(teamsList);
       } else {
         setTeams((currentTeams: Array<{ [Key: string]: any }>) => [
-          ...currentTeams,
           team,
+          ...currentTeams,
         ]);
         setTotalTeams(totalTeams + 1);
       }
@@ -180,7 +182,7 @@ const TeamDashboard = () => {
         >
           <Typography variant="h4">
             {" "}
-            Are you sure you want to delete {selectedTeam?.title}?
+            Are you sure you want to delete {selectedTeam?.name}?
           </Typography>
         </ResponsiveDialog>
       </Box>
@@ -256,9 +258,8 @@ const TeamDashboard = () => {
       {renderDeleteDialog()}
       {renderSnackbar()}
       {renderAddMembersModal()}
-      <Loader enable={loading} />
       <Box className={root}>
-        <Box py={2}>
+        <Box pb={2}>
           <Grid container spacing={2}>
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
@@ -329,6 +330,7 @@ const TeamDashboard = () => {
             handleMenu={handleMenu}
             setSelectedTeam={setSelectedTeam}
             handleAddMember={handleAddMember}
+            totalTeams={totalTeams}
           />
         </Box>
       </Box>

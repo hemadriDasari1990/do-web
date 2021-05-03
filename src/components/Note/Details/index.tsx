@@ -64,7 +64,7 @@ const NoteDetails = (props: any) => {
                 <Box display="flex">
                   <Typography variant="h6">in section &nbsp;</Typography>
                   <Typography variant="subtitle1">
-                    #{note?.section?.title}
+                    #{note?.section?.name}
                   </Typography>
                 </Box>
               }

@@ -32,20 +32,20 @@ export default function ActionUpdate(props: any) {
   const { socket } = useSocket();
 
   /* Local states */
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setName(event.target.value);
   };
 
   useEffect(() => {
-    setTitle(selectedAction?.title);
+    setName(selectedAction?.name);
   }, [selectedAction]);
 
   const handleUpdate = () => {
     socket.emit("update-action", {
-      title: title,
+      name: name,
       actionId: selectedAction?._id,
       boardId: selectedAction?.boardId,
       userId,
@@ -55,7 +55,7 @@ export default function ActionUpdate(props: any) {
 
   const handleCreate = () => {
     socket.emit("create-action", {
-      title: title,
+      name: name,
       boardId: boardId,
       userId,
     });
@@ -81,10 +81,10 @@ export default function ActionUpdate(props: any) {
       <Box mb={1}>
         <TextField
           fullWidth
-          label="Title"
-          placeholder="Enter new action title"
+          label="Name"
+          placeholder="Enter new action name"
           multiline
-          value={title}
+          value={name}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             handleInput(event)
           }

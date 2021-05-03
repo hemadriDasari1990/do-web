@@ -6,7 +6,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { getRemainingCharLength, replaceStr } from "../../../util";
-import { useBoard, useBoardLoading } from "../../../redux/state/board";
+import { useBoard, useBoardUpdateLoading } from "../../../redux/state/board";
 
 import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
@@ -65,7 +65,7 @@ const Update = () => {
   /* Redux hooks */
   const { userId } = useLogin();
   const { teams: teamsList } = useTeam();
-  const { loading } = useBoardLoading();
+  const { loading } = useBoardUpdateLoading();
   const { board } = useBoard();
   const history = useHistory();
   const { socket } = useSocket();
@@ -107,6 +107,7 @@ const Update = () => {
     if (!loading && board && board._id && apiCalled) {
       dispatch(addProjectToStore(board?.project));
       history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
+      setFormData({});
       setApiCalled(false);
       setShowError(false);
     }
@@ -154,15 +155,14 @@ const Update = () => {
         status: "new",
         teams: teams?.map((team: { [Key: string]: any }) => team._id),
         isDefaultBoard,
-        title:
-          "Retro " +
+        name:
+          "Board " +
           (project?.boards?.length ? project?.boards?.length + 1 : 1),
         ...(project?._id
           ? { projectId: project?._id }
           : { projectTitle: project }),
       })
     );
-    setFormData({});
     setApiCalled(true);
   };
 
@@ -207,7 +207,7 @@ const Update = () => {
           isFreeSolo={true}
           textInputLabel="Select or add project"
           textInputPlaceholder="Select or add new project"
-          optionKey="title"
+          optionKey="name"
           options={projects || []}
           onChange={(e: any, data: { [Key: string]: any }) =>
             handleProject(data)
@@ -303,7 +303,7 @@ const Update = () => {
         {!isDefaultBoard && renderNoOfSections()}
         {!isDefaultBoard && noOfSections ? (
           <Box mt={3}>
-            <HintMessage message="Please note System will generate default sections with name 'Section title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
+            <HintMessage message="Please note System will generate default sections with name 'Section name' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
         {!noOfSections ? (
@@ -381,10 +381,10 @@ const Update = () => {
 
   return (
     <React.Fragment>
-      <Loader enable={loading} />
+      <Loader enable={loading} backdrop={true} />
       {renderSnackbar()}
       <Box mb={2}>
-        <Typography variant="h3">Start Quick Retro</Typography>
+        <Typography variant="h3">Start Quick Retro (3 steps)</Typography>
       </Box>
       <Stepper
         activeStep={activeStep}

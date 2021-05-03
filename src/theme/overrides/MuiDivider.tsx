@@ -1,6 +1,7 @@
 export default {
   root: {
     height: 1,
-    backgroundColor: "#091e4221",
+    backgroundColor: "#dedfe0",
+    color: "#dedfe0",
   },
 };

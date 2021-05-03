@@ -2,7 +2,7 @@ import { parseJwt } from "../../../util";
 import { useSelector } from "react-redux";
 
 export function useLogin() {
-  const { token, success, message, accountType } = useSelector(
+  const { token, success, message, accountType, loginSuccess } = useSelector(
     (state: { [Key: string]: any }) => ({
       token: state.login.response?.token
         ? state.login.response?.token
@@ -10,6 +10,7 @@ export function useLogin() {
       success: state.login.response?.success,
       message: state.login.response?.message,
       accountType: state.login.response?.accountType,
+      loginSuccess: state.login.loginSuccess,
     })
   );
   const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
@@ -19,6 +20,7 @@ export function useLogin() {
     success,
     userId: descodedData?._id,
     message,
+    loginSuccess,
   };
 }
 

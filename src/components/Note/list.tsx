@@ -5,6 +5,7 @@ import {
 } from "react-beautiful-dnd";
 import React, { useCallback, useEffect, useState } from "react";
 
+import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ColoredLine from "../common/ColoredLine";
@@ -23,6 +24,7 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import { getAvatar } from "../../util/getAvatar";
 import getPastTime from "../../util/getPastTime";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
@@ -32,6 +34,7 @@ import { useNote } from "../../redux/state/note";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
+import useTableStyles from "../styles/table";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -126,6 +129,7 @@ const NoteList = (props: any) => {
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
   const { boardId } = useParams<{ boardId: string }>();
+  const { avatarStyle } = useTableStyles();
 
   /* Redux hooks */
 
@@ -645,9 +649,7 @@ const NoteList = (props: any) => {
           <ScheduleIcon className={timeIconStyle} />
         </Box>
         <Box>
-          <Typography variant="body2">
-            {getPastTime(note?.createdAt)}
-          </Typography>
+          <Typography variant="h6">{getPastTime(note?.createdAt)}</Typography>
         </Box>
       </Box>
     );
@@ -746,11 +748,12 @@ const NoteList = (props: any) => {
 
   const renderName = (note: { [Key: string]: any }) => {
     return (
-      <Box>
-        <Typography variant="subtitle1" style={{ color: "#57f" }}>
-          by {note?.createdBy?.name || "Team member"}
-        </Typography>
-      </Box>
+      <Tooltip title={note?.createdBy?.name || "Team member"}>
+        <Avatar
+          src={getAvatar(note?.createdBy?.avatarId)}
+          className={avatarStyle}
+        ></Avatar>
+      </Tooltip>
     );
   };
 
@@ -821,10 +824,17 @@ const NoteList = (props: any) => {
                       >
                         <Box display="flex" justifyContent="space-between">
                           <ColoredLine index={sectionIndex} />
-                          {renderName(note)}
+                          <Box display="flex">
+                            <Box mr={1}>{renderPastTime(note)}</Box>
+
+                            {renderName(note)}
+                          </Box>
                         </Box>
                         <Box style={{ minHeight: 40 }}>
-                          <Typography variant="h6" style={{ color: "#172b4d" }}>
+                          <Typography
+                            variant="h6"
+                            style={{ color: "#172b4d", fontWeight: 600 }}
+                          >
                             {note.description}
                           </Typography>
                         </Box>
@@ -839,7 +849,6 @@ const NoteList = (props: any) => {
                             </Box>
                           </Box>
                           <Box display="flex">
-                            {renderPastTime(note)}
                             {enableActions && <>{renderEmoji(note)}</>}
                             {/* {enableActions && (
                                       <Tooltip arrow title="Add Comment">

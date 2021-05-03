@@ -127,6 +127,8 @@ export default function Section() {
   const { socket } = useSocket();
   const authenticated = useAuthenticated();
   const { members: joinedMembersList } = useJoinedMembers();
+  // const emailFromLS = localStorage.getItem(`${boardId}`) as string;
+  const { token } = useParams<{ token: string }>();
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -144,6 +146,7 @@ export default function Section() {
   const [boardDetails, setBoardDetails] = useState(board);
   const [openAddGuestDialog, setOpenAddGuestDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openStartSessionDialog, setOpenStartSessionDialog] = useState(false);
   const [joinedMember, setJoinedMember] = useState<any>(null);
   const [joinedMembers, setJoinedMembers] = useState<
     Array<{ [Key: string]: any }>
@@ -168,13 +171,19 @@ export default function Section() {
         if (!response) {
           return;
         }
-        if (response?.newMember) {
+        if (response?.errorId) {
+          setOpenSnackbar(true);
+          setOpenAddGuestDialog(false);
+          setJoinedMember(response);
+          return;
+        }
+        if (response?.memberId) {
+          updateJoinedMember(response);
+        } else {
           setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
             ...currentMembers,
             response,
           ]);
-        } else {
-          updateJoinedMember(response);
         }
         setJoinedMember(response);
         setOpenSnackbar(true);
@@ -307,7 +316,8 @@ export default function Section() {
       !loading &&
       board?.status === "inprogress" &&
       !board?.isPrivate &&
-      !authenticated
+      !authenticated &&
+      token
     ) {
       setOpenAddGuestDialog(true);
     }
@@ -398,11 +408,14 @@ export default function Section() {
     return (
       <DoSnackbar
         open={openSnackbar}
-        status="success"
+        status={joinedMember?.errorId ? "error" : "success"}
         handleClose={handleSnackbarClose}
       >
         <Typography variant="h6" color="secondary">
-          {`${joinedMember?.guestName} joined the session`}
+          {joinedMember?.errorId ? joinedMember?.message : ""}
+          {!joinedMember?.errorId
+            ? `${joinedMember?.guestName} joined the session`
+            : ""}
         </Typography>
       </DoSnackbar>
     );
@@ -438,7 +451,7 @@ export default function Section() {
           startIcon={
             <PlayArrowIcon color="primary" className={startSessionIconStyle} />
           }
-          onClick={() => handleStartSession()}
+          onClick={() => handleStartSessionDialog()}
         >
           <Typography className={startSessionTextStyle} variant="h6">
             Start Session
@@ -562,7 +575,7 @@ export default function Section() {
         responseType: "blob", // Important
       }
     );
-    await getDownloadFile(response, `${boardDetails.title}.xlsx`);
+    await getDownloadFile(response, `${boardDetails.name}.xlsx`);
   };
 
   const handleDrawerClose = () => {
@@ -582,12 +595,8 @@ export default function Section() {
     history.push(BOARDS);
   };
 
-  const handleStartSession = () => {
-    socket.emit("start-session", {
-      action: "start",
-      id: boardDetails?._id,
-      startedAt: Date.now(),
-    });
+  const handleStartSessionDialog = () => {
+    setOpenStartSessionDialog(true);
   };
 
   const handleStopSession = () => {
@@ -644,6 +653,10 @@ export default function Section() {
     //   setOpenActionDialog(false);
     // }
 
+    if (openStartSessionDialog) {
+      setOpenStartSessionDialog(false);
+    }
+
     if (openAddGuestDialog) {
       setOpenAddGuestDialog(false);
     }
@@ -654,6 +667,15 @@ export default function Section() {
       action: "end",
       id: boardDetails?._id,
       completedAt: Date.now(),
+    });
+    handleClose();
+  };
+
+  const handleStartSession = () => {
+    socket.emit("start-session", {
+      action: "start",
+      id: boardDetails?._id,
+      startedAt: Date.now(),
     });
     handleClose();
   };
@@ -672,6 +694,25 @@ export default function Section() {
       >
         <Typography variant="h4">
           Are you sure you want to end the session?
+        </Typography>
+      </ResponsiveDialog>
+    );
+  };
+
+  const renderStartSessionDialog = () => {
+    return (
+      <ResponsiveDialog
+        open={openStartSessionDialog}
+        title="Start Session"
+        pcta="Start Session"
+        scta="Cancel"
+        handleSave={handleStartSession}
+        handleClose={handleClose}
+        maxWidth={440}
+        handleSecondarySubmit={handleClose}
+      >
+        <Typography variant="h4">
+          Are you sure you want to start the session?
         </Typography>
       </ResponsiveDialog>
     );
@@ -735,6 +776,7 @@ export default function Section() {
       {renderChangeVisibilityDialog()}
       {renderAddGuest()}
       {renderSnackbar()}
+      {renderStartSessionDialog()}
       {loading ? (
         <BoardHeaderSkeleton />
       ) : (
@@ -750,7 +792,7 @@ export default function Section() {
               <Box display="flex">
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">
-                    {boardDetails?.title}
+                    {boardDetails?.name}
                   </Typography>
                 </Box>
                 <Box mt={0.3} className={titleBoxStyle}>

@@ -114,7 +114,7 @@ const SecurityQuestions = () => {
         <DoAutoComplete
           textInputLabel="Select your Question"
           textInputPlaceholder="Search for Security Question"
-          optionKey="title"
+          optionKey="name"
           options={questions}
           onChange={(e: any, data: { [Key: string]: any }) =>
             handleQuestion(data)

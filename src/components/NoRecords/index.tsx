@@ -13,7 +13,7 @@ function NoRecords(props: any) {
         </Zoom>
       )}
       <Box mt={3}>
-        <Typography variant="h4">{message}</Typography>
+        <Typography variant="subtitle1">{message}</Typography>
       </Box>
     </Box>
   );

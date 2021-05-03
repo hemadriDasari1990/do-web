@@ -8,6 +8,7 @@ import {
   RETROSPECTIVE,
   SECURITY,
   TERMS,
+  WHATS_NEXT,
 } from "../../routes/config";
 import { useHistory, useLocation } from "react-router";
 
@@ -108,6 +109,10 @@ export default function Footer() {
 
   const handleApps = () => {
     history.push(APPS);
+  };
+
+  const handleNext = () => {
+    history.push(WHATS_NEXT);
   };
 
   return (
@@ -229,6 +234,15 @@ export default function Footer() {
                     secondary={
                       <Typography variant="overline" color="secondary">
                         Retrospective
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem className={listStyle} onClick={() => handleNext()}>
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        What's Next
                       </Typography>
                     }
                   />

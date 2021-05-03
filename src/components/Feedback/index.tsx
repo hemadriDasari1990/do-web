@@ -1,6 +1,6 @@
 import {
   ALPHABET_NUMBERIC_WITH_SPACE_AND_HYPHEN,
-  ALPHA_NUMERIC_WITH_SPACE,
+  ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
 import { MAX_CHAR_COUNT, TITLE_MAX_CHAR_COUNT } from "../../util/constants";
@@ -227,7 +227,11 @@ function Feedback(props: any) {
             onChange={handleComment}
             required
             onKeyPress={(event: React.KeyboardEvent<any>) =>
-              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+              allow(
+                event,
+                ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
+                MAX_CHAR_COUNT
+              )
             }
             onCut={handlePrevent}
             onCopy={handlePrevent}

@@ -103,13 +103,13 @@ const ProjectDashboard = () => {
       );
       const projectData = projects[projectIndex];
       if (projectData) {
-        projectData.title = project.title;
+        projectData.name = project.name;
         projectData.description = project.description;
         projectsList[projectIndex] = projectData;
         setProjects(projectsList);
       } else {
         setProjects((currentProjects: Array<{ [Key: string]: any }>) =>
-          currentProjects?.length ? [...currentProjects, project] : [project]
+          currentProjects?.length ? [project, ...currentProjects] : [project]
         );
         setTotalProjects(totalProjects + 1);
       }
@@ -163,7 +163,7 @@ const ProjectDashboard = () => {
         >
           <Typography variant="h4">
             {" "}
-            Are you sure you want to delete {selectedProject?.title}?
+            Are you sure you want to delete {selectedProject?.name}?
           </Typography>
         </ResponsiveDialog>
       </Box>
@@ -269,7 +269,7 @@ const ProjectDashboard = () => {
             <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
               <Box mt={1}>
                 <DoSearch
-                  placeHolder="Search projects by title"
+                  placeHolder="Search projects by name"
                   handleSearch={handleInput}
                 />
               </Box>
@@ -332,8 +332,7 @@ const ProjectDashboard = () => {
             setSelectedProject={setSelectedProject}
           />
         </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Box></Box>
+        <Box>
           <DoPagination
             handlePage={handlePage}
             totalCount={totalProjects}

@@ -19,7 +19,7 @@ export interface ReduxAction extends Action {
 }
 
 const initialState = {
-  title: "",
+  name: "",
   description: "",
   loading: false,
   data: [],

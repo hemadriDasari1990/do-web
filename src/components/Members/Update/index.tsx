@@ -7,15 +7,18 @@ import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
+import DoAutoComplete from "../../common/DoAutoComplete";
 import JoinTeam from "../../../assets/join-team.svg";
 import Loader from "../../Loader/components";
 import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
+import { getTeams } from "../../../redux/actions/team";
 import { updateMember } from "../../../redux/actions/member";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../../redux/state/login";
 import { useMemberLoading } from "../../../redux/state/member";
+import { useTeam } from "../../../redux/state/team";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -23,24 +26,34 @@ const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
     marginTop: theme.spacing(3),
   },
+  dropdownInputStyle: {
+    marginTop: theme.spacing(3),
+    [theme.breakpoints.down("xs")]: {
+      width: "53%",
+    },
+  },
 }));
 
 const Create = (props: any) => {
   const { openDialog, handleUpdateForm, selectedMember } = props;
-  const { textFieldStyle } = useStyles();
+  const { textFieldStyle, dropdownInputStyle } = useStyles();
   const { userId } = useLogin();
   const dispatch = useDispatch();
   const { loading } = useMemberLoading();
+  const { teams: teamsList } = useTeam();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     name: selectedMember?.name,
     email: selectedMember?.email,
     userId: selectedMember?.userId,
+    teams: [],
   });
-  const { name, email } = formData;
+  const { name, email, teams } = formData;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getTeams(userId, "", 0, 5));
+  }, []);
 
   useEffect(() => {
     if (selectedMember?._id) {
@@ -78,6 +91,10 @@ const Create = (props: any) => {
       return true;
     }
     return false;
+  };
+
+  const handleTeams = (data: Array<{ [Key: string]: any }>) => {
+    setFormData({ ...formData, teams: data });
   };
 
   const renderDialog = () => {
@@ -123,6 +140,19 @@ const Create = (props: any) => {
           required
           fullWidth
           className={textFieldStyle}
+        />
+        <DoAutoComplete
+          disabled={selectedMember?._id}
+          multiple={true}
+          defaultValue={teams}
+          textInputLabel="Add member to teams"
+          textInputPlaceholder="Select teams"
+          optionKey="name"
+          options={teamsList}
+          onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
+            handleTeams(data)
+          }
+          customClass={dropdownInputStyle}
         />
       </ResponsiveDialog>
     );

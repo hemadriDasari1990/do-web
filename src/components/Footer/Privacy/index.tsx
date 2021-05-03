@@ -35,7 +35,7 @@ export default function Privacy() {
       <Container fixed>
         <Box py={5}>
           <Box>
-            <Typography variant="h1">let'sdoretro Privacy policy</Typography>
+            <Typography variant="h1">Privacy policy</Typography>
             <Box mt={3}>
               <Typography component="p" variant="body1">
                 Thank you for visiting/using Let's do retro. In order to protect

@@ -1,17 +1,18 @@
 import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../../util/regex";
-import { MAX_CHAR_COUNT, NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import CreateNewTeam from "../../../assets/team.svg";
+import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
 import { updateTeam } from "../../../redux/actions/team";
 import { useDispatch } from "react-redux";
-import { useLogin } from "../../../redux/state/login";
+import { useTeamLoading } from "../../../redux/state/team";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
+const Loader = React.lazy(() => import("../../Loader/components"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
@@ -22,16 +23,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Create = (props: any) => {
   const { openDialog, handleUpdateForm, selectedTeam } = props;
   const { textFieldStyle } = useStyles();
-  const { userId } = useLogin();
   const dispatch = useDispatch();
-
+  const { loading } = useTeamLoading();
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     name: selectedTeam?.name,
-    description: selectedTeam?.description,
     teamId: selectedTeam?._id,
   });
-  const { name, description } = formData;
+  const { name } = formData;
 
   useEffect(() => {}, []);
 
@@ -40,7 +39,6 @@ const Create = (props: any) => {
       setFormData({
         ...formData,
         name: selectedTeam.name,
-        description: selectedTeam.description,
         teamId: selectedTeam._id,
       });
     }
@@ -59,15 +57,12 @@ const Create = (props: any) => {
   };
 
   const handleSubmit = () => {
-    dispatch(updateTeam({ ...formData, userId }));
+    dispatch(updateTeam({ ...formData }));
     setFormData({});
   };
 
   const disableButton = () => {
     if (!name || !name.trim().length) {
-      return true;
-    }
-    if (!description || !description.trim().length) {
       return true;
     }
     return false;
@@ -84,6 +79,7 @@ const Create = (props: any) => {
         disablePrimaryCTA={disableButton()}
         maxWidth={440}
       >
+        <Loader enable={loading} backdrop={true} />
         <Box mt={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
             <img src={CreateNewTeam} height="150px" width="fit-content" />
@@ -102,22 +98,6 @@ const Create = (props: any) => {
           className={textFieldStyle}
           onKeyPress={(event: React.KeyboardEvent<any>) =>
             allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
-          }
-        />
-        <TextField
-          multiline
-          name="description"
-          id="description"
-          label="Description"
-          defaultValue={description}
-          placeholder="Enter description about team"
-          value={description}
-          onChange={handleInput}
-          required
-          fullWidth
-          className={textFieldStyle}
-          onKeyPress={(event: React.KeyboardEvent<any>) =>
-            allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
           }
         />
       </ResponsiveDialog>

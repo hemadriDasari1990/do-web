@@ -43,6 +43,7 @@ const Create = () => {
   const { textFieldStyle, boxStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const formRef: any = React.useRef();
 
   /* Redux hooks */
   const { user, message } = useUser();
@@ -79,6 +80,7 @@ const Create = () => {
   };
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    formRef.current.reportValidity();
     event.preventDefault();
     setApiTriggered(false);
     dispatch(createUser(formData));
@@ -88,7 +90,6 @@ const Create = () => {
   const handleReset = () => {
     setFormData({
       name: "",
-      description: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -100,23 +101,19 @@ const Create = () => {
   };
 
   const disableButton = () => {
-    if (!name.trim().length) {
-      return true;
-    }
-
     if (!email.trim().length || !EMAIL_PATTERN.test(email)) {
       return true;
     }
-    if (password.trim().length < 6) {
-      return true;
-    }
-    if (confirmPassword.trim().length < 6) {
-      return true;
-    }
+    // if (password.trim().length < 6) {
+    //   return true;
+    // }
+    // if (confirmPassword.trim().length < 6) {
+    //   return true;
+    // }
 
-    if (!isAgreed) {
-      return true;
-    }
+    // if (!isAgreed) {
+    //   return true;
+    // }
     return false;
   };
 
@@ -152,144 +149,146 @@ const Create = () => {
         <Box textAlign="center">
           <Typography variant="h3">Signup for your account</Typography>
         </Box>
-        <TextField
-          name="name"
-          id="name"
-          label="Your Name"
-          placeholder="Enter Full name"
-          value={name}
-          onChange={handleInput}
-          autoComplete="off"
-          required
-          fullWidth
-          className={textFieldStyle}
-          onKeyPress={(event: React.KeyboardEvent<any>) =>
-            allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
-          }
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
-        />
-        <TextField
-          name="email"
-          id="email"
-          label="Email Address"
-          placeholder="Enter Email Address"
-          value={email}
-          onChange={handleInput}
-          autoComplete="off"
-          required
-          fullWidth
-          className={textFieldStyle}
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
-        />
-        <TextField
-          type="password"
-          name="password"
-          id="password"
-          label="Password"
-          placeholder="Enter password"
-          value={password}
-          onChange={handleInput}
-          autoComplete="off"
-          required
-          fullWidth
-          className={textFieldStyle}
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
-        />
-        <TextField
-          type="password"
-          name="confirmPassword"
-          id="confirmPassword"
-          label="Confirm Password"
-          placeholder="Re Enter password"
-          value={confirmPassword}
-          onChange={handleInput}
-          autoComplete="off"
-          required
-          fullWidth
-          className={textFieldStyle}
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
-        />
-        <Box mt={1} mb={2}>
-          <FormControlLabel
-            labelPlacement="end"
-            control={
-              <Box mt={-0.3}>
-                <Checkbox
-                  checked={isAgreed}
-                  onChange={handleAgreed}
-                  value="false"
-                  color="primary"
-                  name="isAgreed"
-                />
-              </Box>
+        <form ref={formRef}>
+          <TextField
+            name="name"
+            id="name"
+            label="Your Name"
+            placeholder="Enter Full name"
+            value={name}
+            onChange={handleInput}
+            autoComplete="off"
+            required
+            fullWidth
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
             }
-            label={
-              <Box mt={2.5}>
-                <p style={{ fontSize: 12, fontWeight: 400 }}>
-                  I accept the &nbsp;
-                  <Link component="button" onClick={handleTerms}>
-                    <Typography variant="subtitle2">
-                      Terms of Service &nbsp;
-                    </Typography>
-                  </Link>
-                  and have read the &nbsp;
-                  <Link component="button" onClick={handlePrivacyStatement}>
-                    <Typography variant="subtitle2">
-                      Privacy Statement
-                    </Typography>
-                  </Link>
-                </p>
-              </Box>
-            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
           />
-        </Box>
-        <Box display="flex">
-          <Box mr={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                handleSubmit(event)
+          <TextField
+            name="email"
+            id="email"
+            label="Email Address"
+            placeholder="Enter Email Address"
+            value={email}
+            onChange={handleInput}
+            autoComplete="off"
+            required
+            fullWidth
+            className={textFieldStyle}
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+          />
+          <TextField
+            type="password"
+            name="password"
+            id="password"
+            label="Password"
+            placeholder="Enter password"
+            value={password}
+            onChange={handleInput}
+            autoComplete="off"
+            required
+            fullWidth
+            className={textFieldStyle}
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+          />
+          <TextField
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            label="Confirm Password"
+            placeholder="Re Enter password"
+            value={confirmPassword}
+            onChange={handleInput}
+            autoComplete="off"
+            required
+            fullWidth
+            className={textFieldStyle}
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+          />
+          <Box mt={1} mb={2}>
+            <FormControlLabel
+              labelPlacement="end"
+              control={
+                <Box mt={-0.3}>
+                  <Checkbox
+                    checked={isAgreed}
+                    onChange={handleAgreed}
+                    value="false"
+                    color="primary"
+                    name="isAgreed"
+                  />
+                </Box>
               }
-              disabled={disableButton()}
-            >
-              Register
-            </Button>
+              label={
+                <Box mt={2.5}>
+                  <p style={{ fontSize: 12, fontWeight: 400 }}>
+                    I accept the &nbsp;
+                    <Link component="button" onClick={handleTerms}>
+                      <Typography variant="subtitle2">
+                        Terms of Service &nbsp;
+                      </Typography>
+                    </Link>
+                    and have read the &nbsp;
+                    <Link component="button" onClick={handlePrivacyStatement}>
+                      <Typography variant="subtitle2">
+                        Privacy Statement
+                      </Typography>
+                    </Link>
+                  </p>
+                </Box>
+              }
+            />
           </Box>
-          <Box>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              onClick={() => handleReset()}
-            >
-              Reset
-            </Button>
+          <Box display="flex">
+            <Box mr={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                  handleSubmit(event)
+                }
+                disabled={disableButton()}
+              >
+                Register
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={() => handleReset()}
+              >
+                Reset
+              </Button>
+            </Box>
           </Box>
-        </Box>
-        <Box my={3} display="flex">
-          <Box mr={1}>
-            <Typography variant="subtitle2">
-              Already have an account?
-            </Typography>
-          </Box>
-          <Box mt={-0.3}>
-            <Link component="button" onClick={handleLogin}>
-              <Typography variant="subtitle2" color="primary">
-                Login
+          <Box my={3} display="flex">
+            <Box mr={1}>
+              <Typography variant="subtitle2">
+                Already have an account?
               </Typography>
-            </Link>
+            </Box>
+            <Box mt={-0.3}>
+              <Link component="button" onClick={handleLogin}>
+                <Typography variant="subtitle2" color="primary">
+                  Login
+                </Typography>
+              </Link>
+            </Box>
           </Box>
-        </Box>
+        </form>
       </Box>
       <DoSnackbar
         open={showError}

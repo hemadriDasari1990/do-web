@@ -70,6 +70,10 @@ export default function Retrospective() {
                 <Zoom in={true} timeout={2000}>
                   <ScrumBoard
                     stickyNoteColor="#57f"
+                    stickyNoteColor1="#fd7171"
+                    stickyNoteColor2="#ffc800"
+                    stickyNoteColor3="#49ccf9"
+                    stickyNoteColor4="#ffc800"
                     hairColor="#2f2e41"
                     borderColor="#cccccc"
                     primarySkinColor="#ffb8b8"
@@ -617,7 +621,7 @@ export default function Retrospective() {
               <Box mb={3}>
                 <Typography component="p">
                   Lets do retro can help your remote team run amazing
-                  retros.&nbsp;
+                  retrospectives.&nbsp;
                   <Link className={cursor} onClick={() => handleSignup()}>
                     Sign up for a free lets do retro account
                   </Link>

@@ -9,6 +9,7 @@ import { Data, Order, TableProps } from "./types";
 import { useEffect, useState } from "react";
 
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
+import Avatar from "@material-ui/core/Avatar";
 import AvatarGroupList from "../../common/AvatarGroupList";
 import Header from "./header";
 import IconButton from "@material-ui/core/IconButton";
@@ -22,6 +23,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TablePaginationActions from "../../common/TablePaginationActions";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
+import { getAvatar } from "../../../util/getAvatar";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getTeams } from "../../../util/member";
 import { useMember } from "../../../redux/state/member";
@@ -47,8 +49,8 @@ const DoTable = (props: TableProps & any) => {
     tableBodyStyle,
     tableStyle,
     rowStyle,
-    authorBoxStyle,
     authorStyle,
+    avatarStyle,
   } = useStyles();
   const { totalMembers } = useMember();
 
@@ -162,7 +164,7 @@ const DoTable = (props: TableProps & any) => {
                         {td.name}
                       </Link>
                       {td.isAuthor && (
-                        <Box ml={1} className={authorBoxStyle}>
+                        <Box ml={1}>
                           <Typography
                             variant="h6"
                             className={authorStyle}
@@ -257,6 +259,21 @@ const DoTable = (props: TableProps & any) => {
                   // padding="none"
                   colSpan={1}
                 >
+                  <Avatar
+                    src={getAvatar(td?.avatarId)}
+                    className={avatarStyle}
+                  ></Avatar>
+                </TableCell>
+
+                <TableCell
+                  className={tableCellStyle}
+                  align="left"
+                  component="td"
+                  scope="row"
+                  size="small"
+                  // padding="none"
+                  colSpan={1}
+                >
                   <Tooltip arrow title={`Actions`} placement="right">
                     <IconButton
                       size="small"
@@ -285,6 +302,7 @@ const DoTable = (props: TableProps & any) => {
                       size="small"
                       className={iconButtonStyle}
                       onClick={() => handleViewItem(td)}
+                      disabled={true}
                     >
                       <ArrowForwardIosOutlinedIcon
                         style={{ fontSize: "small" }}

@@ -21,7 +21,6 @@ import Zoom from "@material-ui/core/Zoom";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getTeamMembers } from "../../../util/member";
 import useStyles from "../../styles/table";
-import { useTeam } from "../../../redux/state/team";
 
 const DoTable = (props: TableProps & any) => {
   const {
@@ -36,6 +35,7 @@ const DoTable = (props: TableProps & any) => {
     handleChangePage,
     rowsPerPage,
     page,
+    totalCount,
   } = props;
   const {
     tableCellStyle,
@@ -45,7 +45,6 @@ const DoTable = (props: TableProps & any) => {
     tableStyle,
     rowStyle,
   } = useStyles();
-  const { totalTeams } = useTeam();
 
   /* States */
   const [order, setOrder] = useState<Order>("asc");
@@ -114,11 +113,11 @@ const DoTable = (props: TableProps & any) => {
           refreshData={refreshData}
         />
         <TableBody className={tableBodyStyle}>
-          {loading && (
+          {/* {loading && (
             <TableRow>
               <TableCell align="center" colSpan={9}></TableCell>
             </TableRow>
-          )}
+          )} */}
           {!loading &&
             (!updatedData ||
               !Array.isArray(updatedData) ||
@@ -286,6 +285,7 @@ const DoTable = (props: TableProps & any) => {
                       size="small"
                       className={iconButtonStyle}
                       onClick={() => handleViewItem(td)}
+                      disabled={true}
                     >
                       <ArrowForwardIosOutlinedIcon
                         style={{ fontSize: "small" }}
@@ -301,7 +301,7 @@ const DoTable = (props: TableProps & any) => {
             <TablePagination
               rowsPerPageOptions={[15, 25, 35, { label: "All", value: -1 }]}
               colSpan={9}
-              count={totalTeams || 0}
+              count={totalCount || 0}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

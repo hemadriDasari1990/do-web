@@ -102,6 +102,17 @@ const DoTableHeader = (props: TableHeader) => {
           scope="row"
           // padding="none"
         >
+          <Tooltip arrow title="Avatarf">
+            <Typography variant="h5">Avatar</Typography>
+          </Tooltip>
+        </TableCell>
+        <TableCell
+          className={tableColumnStyle}
+          align="left"
+          component="th"
+          scope="row"
+          // padding="none"
+        >
           <Tooltip arrow title="Actions">
             <Typography variant="h5">Actions</Typography>
           </Tooltip>

@@ -108,7 +108,7 @@ const BoardDashboard = () => {
       );
       const boardData = boards[boardIndex];
       if (boardData) {
-        boardData.title = board.title;
+        boardData.name = board.name;
         boardData.description = board.description;
         boardsList[boardIndex] = boardData;
         setBoards(boardsList);
@@ -196,7 +196,7 @@ const BoardDashboard = () => {
         >
           <Typography variant="h4">
             {" "}
-            Are you sure you want to delete {selectedBoard?.title}?
+            Are you sure you want to delete {selectedBoard?.name}?
           </Typography>
         </ResponsiveDialog>
       </Box>
@@ -301,12 +301,12 @@ const BoardDashboard = () => {
                 <Box display="flex">
                   <Hidden only={["xs"]}>
                     <Typography variant="h2">
-                      {project?.title}&nbsp;({formateNumber(totalBoards) || 0})
+                      {project?.name}&nbsp;({formateNumber(totalBoards) || 0})
                     </Typography>
                   </Hidden>
                   <Hidden only={["xl", "lg", "md", "sm"]}>
                     <Typography variant="h4">
-                      {project?.title}&nbsp;({formateNumber(totalBoards) || 0})
+                      {project?.name}&nbsp;({formateNumber(totalBoards) || 0})
                     </Typography>
                   </Hidden>
                   <Box ml={1} mt={1.9}>
@@ -318,7 +318,7 @@ const BoardDashboard = () => {
             <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
               <Box mt={1}>
                 <DoSearch
-                  placeHolder="Search boards by title"
+                  placeHolder="Search boards by name"
                   handleSearch={handleInput}
                 />
               </Box>
@@ -376,8 +376,7 @@ const BoardDashboard = () => {
             selectedBoard={selectedBoard}
           />
         </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Box></Box>
+        <Box>
           <DoPagination
             handlePage={handlePage}
             totalCount={totalBoards}

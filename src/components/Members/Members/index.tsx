@@ -26,6 +26,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { addOrRemoveMemberFromTeam } from "../../../redux/actions/team";
 import formateNumber from "../../../util/formateNumber";
+import { getAvatar } from "../../../util/getAvatar";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getMembersByUser } from "../../../redux/actions/member";
 import getRandomBGColor from "../../../util/getRandomColor";
@@ -43,7 +44,7 @@ const NoRecords = React.lazy(() => import("../../NoRecords"));
 const Members = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const { searchRootStyle, searchIconStyle, inputStyle } = useStyles();
-  const { authorBoxStyle, authorStyle } = useTableStyles();
+  const { authorStyle } = useTableStyles();
   const { buttonStyle } = useMainStyles();
   const { userId } = useLogin();
   const dispatch = useDispatch();
@@ -162,7 +163,7 @@ const Members = () => {
         <Grid container spacing={2}>
           <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
             <Typography variant="h2">
-              Active Members ({formateNumber(totalMembers) || 0})
+              Members ({formateNumber(totalMembers) || 0})
             </Typography>
           </Grid>
           <Grid item xl={4} lg={4} md={4} xs={12} sm={12}>
@@ -235,11 +236,20 @@ const Members = () => {
                       className="b-r-15 mt-10 w-us"
                     >
                       <ListItemAvatar>
-                        <Avatar style={{ background: getRandomBGColor(index) }}>
-                          <Typography variant="h5" color="secondary">
-                            {member?.name ? member?.name.substring(0, 1) : ""}
-                          </Typography>
-                        </Avatar>
+                        {member.avatarId ? (
+                          <Avatar
+                            key={member._id}
+                            src={getAvatar(member?.avatarId)}
+                          ></Avatar>
+                        ) : (
+                          <Avatar
+                            style={{ background: getRandomBGColor(index) }}
+                          >
+                            <Typography variant="h5" color="secondary">
+                              {member?.name ? member?.name.substring(0, 1) : ""}
+                            </Typography>
+                          </Avatar>
+                        )}
                       </ListItemAvatar>
                       <Tooltip
                         arrow
@@ -253,7 +263,7 @@ const Members = () => {
                                 {member?.name || "--"}
                               </Typography>
                               {member.isAuthor && (
-                                <Box ml={1} className={authorBoxStyle}>
+                                <Box mt={0.6} ml={1}>
                                   <Typography
                                     variant="h6"
                                     className={authorStyle}

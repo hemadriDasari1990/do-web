@@ -24,9 +24,7 @@ const useStyles = makeStyles(() => ({
 export default function AddGuest(props: any) {
   const { openDialog, handleClose } = props;
   const { textfieldStyle } = useStyles();
-  const { boardId } = useParams<{ boardId: string }>();
-  const params = new URLSearchParams(window.location.search);
-  const email = params.get("email");
+  const { boardId, token } = useParams<{ boardId: string; token?: string }>();
 
   const { socket } = useSocket();
 
@@ -43,9 +41,10 @@ export default function AddGuest(props: any) {
     socket.emit("join-member-to-board", {
       guestName: guestName,
       boardId: boardId,
-      email,
+      token,
       avatarId,
     });
+    // localStorage.setItem(`${boardId}`, email);
   };
 
   const handleAvatar = (avatarId: number) => {
@@ -53,10 +52,10 @@ export default function AddGuest(props: any) {
   };
 
   const disableButton = () => {
-    if (!email && !guestName?.trim()?.length) {
+    if (!token && !guestName?.trim()?.length) {
       return true;
     }
-    if (email && !avatarId) {
+    if (token && !avatarId) {
       return true;
     }
     return false;
@@ -65,14 +64,14 @@ export default function AddGuest(props: any) {
   return (
     <ResponsiveDialog
       open={openDialog}
-      title={!email ? "Let us know your name" : "Select a User Avatar"}
+      title={!token ? "Let us know your name" : "Select a User Avatar"}
       pcta={"Save"}
       handleSave={handleCreate}
       handleClose={handleClose}
-      maxWidth={!email ? 550 : 700}
+      maxWidth={!token ? 550 : 700}
       disablePrimaryCTA={disableButton()}
     >
-      {!email && (
+      {!token && (
         <Box mb={1}>
           <TextField
             fullWidth

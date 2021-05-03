@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { clearUserState, updatePassword } from "../../../../redux/actions/user";
 import { useUser, useUserLoading } from "../../../../redux/state/user";
 
 import Box from "@material-ui/core/Box";
@@ -9,11 +10,9 @@ import { LOGIN } from "../../../../routes/config";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import { logout } from "../../../../redux/actions/login";
-import { clearUserState, updatePassword } from "../../../../redux/actions/user";
+import { storeAction } from "../../../../redux/actions/common";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useSocket } from "../../../../redux/state/socket";
-import { storeAction } from "../../../../redux/actions/common";
 
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
@@ -28,7 +27,6 @@ const UpdatePassword = () => {
   const { userUpdated } = useUser();
   const { loading } = useUserLoading();
   const history = useHistory();
-  const { socket } = useSocket();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
@@ -52,7 +50,6 @@ const UpdatePassword = () => {
         dispatch(clearUserState());
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("refreshToken");
-        socket.off("login-success");
         dispatch(storeAction(""));
         history.push(LOGIN);
       }, 4000);

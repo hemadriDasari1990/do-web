@@ -15,6 +15,12 @@ export function useBoardLoading() {
   }));
 }
 
+export function useBoardUpdateLoading() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    loading: state.board?.updateLoading,
+  }));
+}
+
 export function useBoards() {
   return useSelector((state: { [Key: string]: any }) => ({
     boards: state.board?.boards,

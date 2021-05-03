@@ -37,6 +37,8 @@ export default function NoteUpdate(props: any) {
   const { userId } = useLogin();
   const { socket } = useSocket();
   const { boardId } = useParams<{ boardId: string }>();
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
 
   /* Local states */
   const [count, setCount] = useState(0);
@@ -66,6 +68,7 @@ export default function NoteUpdate(props: any) {
         isAnnonymous: isAnnonymous ? isAnnonymous : selectedNote?.isAnnonymous,
         createdById: selectedNote?.createdById,
         ...(!isAnnonymous ? { updatedById: userId } : {}),
+        email,
       });
 
       return;
@@ -80,6 +83,7 @@ export default function NoteUpdate(props: any) {
       ...(!isAnnonymous
         ? { createdById: userId, updatedById: userId }
         : { createdById: null, updatedById: null }),
+      email,
     });
   };
 
@@ -142,7 +146,7 @@ export default function NoteUpdate(props: any) {
           />
         </Box>
         <Box>
-          <Tooltip arrow title="Save Note">
+          <Tooltip arrow title="Cancel Note">
             <Zoom in={true} timeout={1500}>
               <Button
                 variant="outlined"

@@ -1,11 +1,28 @@
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import Alert, { AlertProps } from "@material-ui/lab/Alert";
 
+import ErrorIcon from "@material-ui/icons/BugReport";
+import InfoIcon from "@material-ui/icons/Info";
 import PropTypes from "prop-types";
 import React from "react";
 import Snackbar from "@material-ui/core/Snackbar";
+import SuccessIcon from "@material-ui/icons/CheckCircle";
+import WarningIcon from "@material-ui/icons/Warning";
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+function DoAlert(props: AlertProps) {
+  const iconMapping = {
+    error: <ErrorIcon />,
+    info: <InfoIcon />,
+    success: <SuccessIcon />,
+    warning: <WarningIcon />,
+  };
+  return (
+    <Alert
+      elevation={6}
+      variant="filled"
+      {...props}
+      iconMapping={iconMapping}
+    />
+  );
 }
 
 const DoSnackbar = (props: any) => {
@@ -17,27 +34,28 @@ const DoSnackbar = (props: any) => {
     }
     handleClose();
   };
+
   return (
     <React.Fragment>
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "right",
         }}
         open={open}
-        autoHideDuration={4000}
+        autoHideDuration={7000}
         onClose={(event?: React.SyntheticEvent, reason?: string) =>
           handleSnackbarClose(reason)
         }
       >
-        <Alert
+        <DoAlert
           onClose={(event?: React.SyntheticEvent, reason?: string) =>
             handleSnackbarClose(reason)
           }
           severity={status}
         >
           {children}
-        </Alert>
+        </DoAlert>
       </Snackbar>
     </React.Fragment>
   );

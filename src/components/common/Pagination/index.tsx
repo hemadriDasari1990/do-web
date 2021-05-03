@@ -7,8 +7,8 @@ const useStyles = makeStyles(() => ({
   root: (props: any) => ({
     background: "#fff",
     position: props.type === "modal" ? "unset" : "fixed",
-    bottom: props.type === "modal" ? "unset" : 0,
-    right: 0,
+    bottom: props.type === "modal" ? "unset" : 10,
+    // right: 0,
     zIndex: 2,
   }),
   paginationStyle: {

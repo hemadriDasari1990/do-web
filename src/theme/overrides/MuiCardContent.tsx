@@ -1,13 +1,16 @@
 export default {
   root: {
-    '&:hover': {},
-    fontFamily: 'inherit',
+    "&:hover": {},
+    fontFamily: "inherit",
     fontSize: 14,
-    fontWeight: 'normal',
-    lineHeight: '1.38',
-    padding: '8px 8px 8px 8px',
-    '&:last-child': {
+    fontWeight: "normal",
+    lineHeight: "1.38",
+    padding: "8px 8px 8px 8px",
+    "&:last-child": {
       paddingBottom: 0,
     },
+    height: 90,
+    maxHeight: 90,
+    overflowY: "auto",
   },
-}
+};
