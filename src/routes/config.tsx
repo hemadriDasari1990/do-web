@@ -19,6 +19,7 @@ export const RESEND = "/resend/:token";
 export const SIGNUP = "/signup";
 export const USER_DASHBOARD = "/user/:userId";
 export const TEAM_DASHBOARD = "/team/:teamId";
+export const MEMBER_DASHBOARD = "/member/:memberId";
 export const PROJECTS = "/projects";
 export const PRIVACY_POLICY = "/privacy-policy";
 export const SECURITY = "/security";

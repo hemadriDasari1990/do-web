@@ -18,6 +18,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import useDebounce from "../useDebounce";
 import { useSocket } from "../../../redux/state/socket";
+import { useLogin } from "../../../redux/state/login";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Invite(props: any) {
   const { openDialog, selectedBoard, handleClose } = props;
-  //   const { userId } = useLogin();
+  const { userId, email: emailAddress } = useLogin();
   const {
     dropdownInputStyle,
     primaryButtonStyle,
@@ -89,6 +90,7 @@ export default function Invite(props: any) {
         setShowSnackbar(true);
         setTimeout(() => {
           handleClose();
+          setShowSnackbar(false);
         }, 2000);
       }
     );
@@ -98,7 +100,11 @@ export default function Invite(props: any) {
   }, [fetching]);
 
   useEffect(() => {
-    socket.emit("search-members", debouncedValue);
+    socket.emit("search-members", {
+      queryString: debouncedValue,
+      userId,
+      email: emailAddress,
+    });
     setFetching(true);
   }, [debouncedValue]);
 

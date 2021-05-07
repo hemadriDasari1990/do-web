@@ -39,7 +39,7 @@ const Summary = () => {
                     ? summary?.usersCount + "+"
                     : summary?.usersCount}
                 </Typography>
-                <Typography variant="h2">Users</Typography>
+                <Typography variant="h2">Users Worldwide</Typography>
               </Box>
             </Box>
           </Grid>

@@ -37,7 +37,7 @@ const UpdateBoard = React.lazy(() => import("./Update"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const BoardDashboard = () => {
-  const { root, buttonStyle } = useStyles();
+  const { root, buttonStyle, alignCenterStyle } = useStyles();
   const dispatch = useDispatch();
   const { project } = useProject();
   const { boards: boardsList, totalBoards: totalBoardsCount } = useBoard();
@@ -360,9 +360,9 @@ const BoardDashboard = () => {
           </Grid>
         </Box>
         {!loading && (!boards || !boards?.length) && (
-          <Box mt={10}>
+          <Box className={alignCenterStyle}>
             <NoRecords message="No Boards found! Please add" />
-            <Box mt={5} textAlign="center">
+            <Box mt={3} textAlign="center">
               {renderCreateNewBoard()}
             </Box>
           </Box>

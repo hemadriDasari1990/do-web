@@ -46,11 +46,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AdContainer = () => {
   const { dialogStyle, closeIconStyle } = useStyles();
   const history = useHistory();
-  const openAdd = sessionStorage.getItem("add");
+  const openAdd = localStorage.getItem("add");
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleGetStarted = () => {
-    sessionStorage.setItem("add", "close");
+    localStorage.setItem("add", "close");
     history.push(SIGNUP);
   };
 
@@ -61,7 +61,7 @@ const AdContainer = () => {
   }, [openAdd]);
 
   const handleClose = () => {
-    sessionStorage.setItem("add", "close");
+    localStorage.setItem("add", "close");
     setDialogOpen(false);
   };
 

@@ -122,7 +122,7 @@ function FeedbackList() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   useEffect(() => {
-    dispatch(getFeedbacks(5, true));
+    dispatch(getFeedbacks(5, 5, true));
   }, []);
 
   const handleNext = () => {

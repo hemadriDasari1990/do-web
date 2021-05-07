@@ -11,6 +11,9 @@ import {
   UPDATE_MEMBER_FAILED,
   UPDATE_MEMBER_REQUEST,
   UPDATE_MEMBER_SUCCESS,
+  GET_MEMBERS_BY_TEAM_REQUEST,
+  GET_MEMBERS_BY_TEAM_FAILED,
+  GET_MEMBERS_BY_TEAM_SUCCESS,
 } from "../../actions/member/types";
 
 import { Action } from "redux";
@@ -95,7 +98,23 @@ const member = (state = initialState, action: ReduxAction) => {
         totalMembers: action.payload?.total[0]?.count,
         loading: false,
       };
-
+    case GET_MEMBERS_BY_TEAM_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_MEMBERS_BY_TEAM_FAILED:
+      return {
+        ...state,
+        members: action.payload,
+        loading: false,
+      };
+    case GET_MEMBERS_BY_TEAM_SUCCESS:
+      return {
+        ...state,
+        members: action.payload?.data,
+        totalMembers: action.payload?.total[0]?.count,
+        loading: false,
+      };
     default:
       return state;
   }

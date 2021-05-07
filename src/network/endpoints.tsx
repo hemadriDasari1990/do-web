@@ -39,6 +39,7 @@ export const UPDATE_TEAM = "/team";
 export const ADD_OR_REMOVE_TEAM_MEMBER = "/team/{id}/member";
 export const GET_TEAMS = "/team";
 export const SEND_INVITE_TO_TEAMS = "/team/invitation";
+export const GET_TEAMS_BY_MEMBER = "/team/{memberId}/teams";
 
 /* Member Endpoints */
 export const CREATE_MEMBER = "/member";
@@ -46,6 +47,7 @@ export const DELETE_MEMBER = "/member/{id}";
 export const GET_MEMBERS_BY_USER = "/member?userId={id}";
 export const GET_MEMBER_DETAILS = "/member/{id}";
 export const UPDATE_MEMBER = "/member";
+export const GET_MEMBERS_BY_TEAM = "/member/team/members?teamId={id}";
 
 /* Project Endpoints */
 export const CREATE_PROJECT = "/project";

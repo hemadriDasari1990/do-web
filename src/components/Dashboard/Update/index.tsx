@@ -153,7 +153,7 @@ const Update = () => {
         projectDescription,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
         status: "new",
-        teams: teams?.map((team: { [Key: string]: any }) => team._id),
+        teams: teams?.map((team: { [Key: string]: any }) => team?._id),
         isDefaultBoard,
         name:
           "Board " +
@@ -324,7 +324,11 @@ const Update = () => {
         ) : null}
         {isDefaultBoard && (
           <Box mt={3}>
-            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
+            <HintMessage
+              message={
+                "System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items."
+              }
+            />
           </Box>
         )}
         <Box>
@@ -390,6 +394,7 @@ const Update = () => {
         activeStep={activeStep}
         orientation="vertical"
         className={stepperStyle}
+        id="start-quick-retro"
       >
         {steps.map((label, index) => (
           <Step key={label}>
@@ -413,7 +418,7 @@ const Update = () => {
                     // disabled={disableButton()}
                   >
                     <Typography variant="h6" color="secondary">
-                      Start Retro
+                      Start
                     </Typography>
                   </Button>
                 ) : (

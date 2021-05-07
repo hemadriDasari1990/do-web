@@ -1,11 +1,16 @@
 import { CREATE_FEEDBACK_REQUEST, GET_FEEDBACKS_REQUEST } from "./types";
 
-export const getFeedbacks = (limit: number, like?: boolean) => {
+export const getFeedbacks = (
+  limit: number,
+  rating: number,
+  isApproved?: boolean
+) => {
   return {
     type: GET_FEEDBACKS_REQUEST,
     url: `/feedback`,
-    like,
+    rating,
     limit,
+    isApproved,
   };
 };
 

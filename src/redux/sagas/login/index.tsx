@@ -38,8 +38,8 @@ function* callLogin(action: { [Key: string]: any }) {
     const status = result?.status;
     const data = result?.data;
     if (status === 200 && data?.token) {
-      sessionStorage.setItem("token", data?.token);
-      sessionStorage.setItem("refreshToken", data?.refreshToken);
+      localStorage.setItem("token", data?.token);
+      localStorage.setItem("refreshToken", data?.refreshToken);
       yield put({ type: LOGIN_SUCCESS, payload: data });
     }
   } catch (err) {
@@ -57,8 +57,8 @@ function* callLogout() {
     const status = result?.status;
     const data = result?.data;
     if (status === 200) {
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("refreshToken");
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       yield put({ type: LOGOUT_SUCCESS, payload: data });
     }
   } catch (err) {

@@ -13,9 +13,13 @@ const useStyles = makeStyles(() => ({
   }),
   paginationStyle: {
     "& .Mui-selected": {
-      fontWeight: 600,
+      fontWeight: 800,
       color: "#fff",
       background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
+    },
+    "& .MuiPaginationItem-root": {
+      fontSize: 15,
+      fontWeight: 800,
     },
   },
 }));
@@ -44,6 +48,8 @@ export default function DoPagination(props: any) {
         boundaryCount={2}
         shape="rounded"
         defaultPage={1}
+        size="medium"
+        // variant="outlined"
       />
     </Box>
   );

@@ -26,7 +26,6 @@ import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import PieChartOutlinedIcon from "@material-ui/icons/PieChartOutlined";
 import ReactionSummaryDialog from "./Reaction";
-import SectionsListSkeleton from "../common/skeletons/sectionList";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -512,7 +511,6 @@ const SectionList = (props: any) => {
       {renderReactionsummaryDialog()}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
-      {loading ? <SectionsListSkeleton /> : null}
       {!loading && (
         <List disablePadding>
           <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>

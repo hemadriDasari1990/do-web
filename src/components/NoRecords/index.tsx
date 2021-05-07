@@ -3,17 +3,18 @@ import Empty from "../../assets/empty.svg";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+
 function NoRecords(props: any) {
-  const { message, hideImage } = props;
+  const { message, hideImage, icon } = props;
   return (
     <Box style={{ textAlign: "center" }}>
       {!hideImage && (
         <Zoom in={true} timeout={2000}>
-          <img src={Empty} height="200px" width="fit-content" />
+          <img src={icon || Empty} height="200px" width="fit-content" />
         </Zoom>
       )}
       <Box mt={3}>
-        <Typography variant="subtitle1">{message}</Typography>
+        <Typography variant="h4">{message}</Typography>
       </Box>
     </Box>
   );

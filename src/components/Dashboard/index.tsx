@@ -12,7 +12,7 @@ import {
   getUserSummary,
 } from "../../redux/actions/user";
 import { useUser, useUserSummary } from "../../redux/state/user";
-
+import CardTravelIcon from "@material-ui/icons/CardTravel";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import Banner from "../common/Banner";
@@ -43,10 +43,12 @@ import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
+import Tour from "reactour";
+import AdminUser from "../common/User";
 
 // import Zoom from "@material-ui/core/Zoom";
 
-const drawerWidth = 410;
+const drawerWidth = 339;
 
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 const Summary = React.lazy(() => import("../common/Summary"));
@@ -81,13 +83,14 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 
 const Dashboard = () => {
   const { summaryGridStyle, drawer, drawerPaper } = useLocalStyles();
-  const { breakText } = useStyles();
+  const { breakText, tourStyle } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   // const { name } = useUser();
 
   /* React states */
   const [showSuccess, setShowSuccess] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
 
   /* Redux hooks */
   const { loginSuccess, userId } = useLogin();
@@ -133,8 +136,214 @@ const Dashboard = () => {
     win.focus();
   };
 
+  const closeTour = () => {
+    setTourOpen(false);
+  };
+
+  const openTour = () => {
+    setTourOpen(true);
+  };
+
+  const tourConfig: any = [
+    {
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">Welcome to letsdoretro.com</Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              We're thrilled to count you in the letsdoretro community.{" "}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6">
+              My name is Hemadri (but please, call me Hemanth), and I'm going to
+              show you everything that letsdoretro.com can offer to your team.
+              In just 2 mins, you will be able to launch your first
+              retrospective board.{" "}
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      selector: '[id="drawer-dashboard-view"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              We're currently on your <b>team dashboard.</b>
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              This is the place where you can see the summary of your account,
+              recent projects, boards and most importantly quick retro launch in
+              seconds.
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6">
+              You will also be able to{" "}
+              <b>access your recent projects or boards</b> from there.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      selector: '[id="drawer-create-feedback"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              We'd love your feedback on your experience with our Retro tool
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              You can access this feature to share us the feedback about what
+              you like, dis like about the tool and suggestions to improve the
+              system.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      selector: '[id="drawer-create-team"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              Your team members do not need to create a retro account to join a
+              retrospective board.
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              You can access this feature to manage teams, members and team
+              members.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      selector: '[id="drawer-manage-account"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              You can use this feature to manage your account like you can
+              change password, email address, name and security questions
+              anytime.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      selector: '[id="drawer-user"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              You can use this feature to change your avatar. We have plenty of
+              cool avatars.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
+      selector: '[id="start-quick-retro"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              Okay, this is cool, but I would like to launch my first
+              retrospective now!
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              Start quick retro is the awesome feature to launch a retrospective
+              board in just 3 steps but, we would recommend to create your team
+              first and add your team members to the team. If this is already
+              done then you're in right place.
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              As a step, select the project or if you havent created a project
+              then just type your project name or select from the drop down and
+              enter description about your project.
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              In the 2nd step, choose no of sections.
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              In the 3rd step, select the team that you would like to invite to
+              join the restrospective session. That's it click on start retro
+              button to create the board.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+      position: "left",
+    },
+    {
+      selector: '[id="abc"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              You're all set! Now all you have to do is to start your first
+              retrospective!
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="h6">
+              Any questions? Hit me up via the chat module on the bottom right
+              corner of the page.
+            </Typography>
+          </Box>
+          <Box my={1}>
+            <Typography variant="subtitle1">
+              We wish you some excellent retrospectives!
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+  ];
+
   return (
     <Suspense fallback={<Loader loading={true} backdrop={true} />}>
+      <Tour
+        onRequestClose={closeTour}
+        steps={tourConfig}
+        isOpen={tourOpen}
+        // maskClassName="mask"
+        // className="helper"
+        rounded={5}
+        accentColor="#57f"
+        className={tourStyle}
+      />
       <Box pt={2} pb={2} pl={2}>
         <DoSnackbar
           open={showSuccess}
@@ -147,18 +356,32 @@ const Dashboard = () => {
         </DoSnackbar>
         <Grid container spacing={2}>
           <Grid item xl={9} lg={9} md={8} sm={12} xs={12}>
-            <Box>
-              <Box display="flex">
-                <Typography variant="h1" style={{ fontWeight: 300 }}>
-                  Welcome, &nbsp;
-                </Typography>
-                <Typography variant="h1">{name || ""}</Typography>
+            <Box display="flex" justifyContent="space-between">
+              <Box>
+                <Box display="flex">
+                  <Typography variant="h1" style={{ fontWeight: 300 }}>
+                    Welcome, &nbsp;
+                  </Typography>
+                  <Typography variant="h1">{name || ""}</Typography>
+                </Box>
+                <Box p={0.5}>
+                  <Typography variant="h5" className={breakText}>
+                    We’re so glad you’re here. This is the very beginning of
+                    your retrospective journey to exceptional retrospectives.
+                  </Typography>
+                </Box>
               </Box>
-              <Box p={0.5}>
-                <Typography variant="h5" className={breakText}>
-                  We’re so glad you’re here. This is the very beginning of your
-                  retrospective journey to exceptional retrospectives.
-                </Typography>
+              <Box mt={3}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => openTour()}
+                  startIcon={<CardTravelIcon color="secondary" />}
+                >
+                  <Typography variant="h6" color="secondary">
+                    Start Tour
+                  </Typography>
+                </Button>
               </Box>
             </Box>
           </Grid>

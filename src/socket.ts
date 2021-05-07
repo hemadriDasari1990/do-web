@@ -1,7 +1,7 @@
 const io = require("socket.io-client");
 
-const token = sessionStorage.getItem("token");
 export const initiateSocketConnection = () => {
+  const token = localStorage.getItem("token");
   const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
     query: {
       token,

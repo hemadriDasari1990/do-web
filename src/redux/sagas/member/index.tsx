@@ -11,12 +11,16 @@ import {
   UPDATE_MEMBER_FAILED,
   UPDATE_MEMBER_REQUEST,
   UPDATE_MEMBER_SUCCESS,
+  GET_MEMBERS_BY_TEAM_SUCCESS,
+  GET_MEMBERS_BY_TEAM_FAILED,
+  GET_MEMBERS_BY_TEAM_REQUEST,
 } from "../../actions/member/types";
 import {
   deleteMember,
   getMemberDetails,
   getMembersByUser,
   updateMember,
+  getMembersByTeam,
 } from "../../network/member";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -59,6 +63,30 @@ function* callGetMembersByUser(action: { [Key: string]: any }) {
 
 export function* watchGetMembersByUser() {
   yield takeLatest(GET_MEMBERS_BY_USER_REQUEST, callGetMembersByUser);
+}
+
+function* callGetMembersByTeam(action: { [Key: string]: any }) {
+  try {
+    const result = yield getMembersByTeam(
+      action.id,
+      action.queryString,
+      action.page,
+      action.size
+    );
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_MEMBERS_BY_TEAM_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: GET_MEMBERS_BY_TEAM_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchGetMembersByTeam() {
+  yield takeLatest(GET_MEMBERS_BY_TEAM_REQUEST, callGetMembersByTeam);
 }
 
 function* callUpdateMember(action: { [Key: string]: any }) {

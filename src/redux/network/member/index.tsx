@@ -3,6 +3,7 @@ import {
   GET_MEMBERS_BY_USER,
   GET_MEMBER_DETAILS,
   UPDATE_MEMBER,
+  GET_MEMBERS_BY_TEAM,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
@@ -24,6 +25,20 @@ export const getMembersByUser = (
     "{id}",
     id
   )}&status=${status}&queryString=${queryString}&page=${page}&size=${size}`;
+  return API(url, { method: "GET" });
+};
+
+export const getMembersByTeam = (
+  id: string,
+  queryString: string,
+  page: number,
+  size: number
+) => {
+  const url: string = `${replaceStr(
+    GET_MEMBERS_BY_TEAM,
+    "{id}",
+    id
+  )}&queryString=${queryString}&page=${page}&size=${size}`;
   return API(url, { method: "GET" });
 };
 

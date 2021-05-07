@@ -6,7 +6,7 @@ export function useLogin() {
     (state: { [Key: string]: any }) => ({
       token: state.login.response?.token
         ? state.login.response?.token
-        : sessionStorage.getItem("token"),
+        : localStorage.getItem("token"),
       success: state.login.response?.success,
       message: state.login.response?.message,
       accountType: state.login.response?.accountType,
@@ -19,6 +19,7 @@ export function useLogin() {
     token,
     success,
     userId: descodedData?._id,
+    email: descodedData?.email,
     message,
     loginSuccess,
   };

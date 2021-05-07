@@ -17,6 +17,9 @@ import {
   UPDATE_TEAM_FAILED,
   UPDATE_TEAM_REQUEST,
   UPDATE_TEAM_SUCCESS,
+  GET_TEAMS_BY_MEMBER_FAILED,
+  GET_TEAMS_BY_MEMBER_REQUEST,
+  GET_TEAMS_BY_MEMBER_SUCCESS,
 } from "../../actions/team/types";
 import {
   addOrRemoveMemberFromTeam,
@@ -25,6 +28,7 @@ import {
   getTeams,
   sendInvitationToTeams,
   updateTeam,
+  getTeamsByMember,
 } from "../../network/team";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -136,4 +140,28 @@ function* callSendInvitationToTeams(action: { [Key: string]: any }) {
 
 export function* watchSendInvitationToTeams() {
   yield takeLatest(SEND_INVITE_TO_TEAMS_REQUEST, callSendInvitationToTeams);
+}
+
+function* callGetTeamsByMember(action: { [Key: string]: any }) {
+  try {
+    const result = yield getTeamsByMember(
+      action.id,
+      action.queryString,
+      action.page,
+      action.size
+    );
+    const { status, data } = result;
+    if (status === 200) {
+      yield put({ type: GET_TEAMS_BY_MEMBER_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: GET_TEAMS_BY_MEMBER_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchGetTeamsByMember() {
+  yield takeLatest(GET_TEAMS_BY_MEMBER_REQUEST, callGetTeamsByMember);
 }

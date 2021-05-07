@@ -7,7 +7,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import React from "react";
-import { TEAM_DASHBOARD } from "../../../routes/config";
+import { MEMBER_DASHBOARD } from "../../../routes/config";
 import Zoom from "@material-ui/core/Zoom";
 import { getMembersByUser } from "../../../redux/actions/member";
 import { headerColumns } from "../../../util/member";
@@ -113,7 +113,7 @@ const GroupList = (props: any) => {
   };
 
   const viewMember = (member: { [Key: string]: any }) => {
-    history.push(replaceStr(TEAM_DASHBOARD, "memberId", member?._id));
+    history.push(replaceStr(MEMBER_DASHBOARD, ":memberId", member?._id));
   };
 
   const refreshData = (queryString?: string) => {

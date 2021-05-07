@@ -11,10 +11,20 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../../util/getRandomColor";
 import useStyles from "../../styles";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import { useHistory } from "react-router";
+import { TEAM } from "../../../routes/config";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
 const Banner = (props: any) => {
   const { title, subTitle } = props;
   const { gettingStartedBanner, smallAvatarStyle } = useStyles();
+  const history = useHistory();
+
+  const handleCreateTeam = () => {
+    history.push(TEAM);
+  };
 
   return (
     <Paper className={gettingStartedBanner}>
@@ -39,6 +49,11 @@ const Banner = (props: any) => {
               primary={<Typography variant="h5">Create a team</Typography>}
               secondary="About 10-15 secs"
             />
+            <ListItemSecondaryAction>
+              <IconButton size="small" onClick={handleCreateTeam}>
+                <ArrowRightIcon color="primary" />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
           <ListItem disableGutters>
             <ListItemIcon>
@@ -53,6 +68,11 @@ const Banner = (props: any) => {
               primary={<Typography variant="h5">Create members</Typography>}
               secondary="About a minute (Depends)"
             />
+            <ListItemSecondaryAction>
+              <IconButton size="small" onClick={handleCreateTeam}>
+                <ArrowRightIcon color="primary" />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
           <ListItem disableGutters>
             <ListItemIcon>
@@ -69,6 +89,11 @@ const Banner = (props: any) => {
               }
               secondary="About 10 secs"
             />
+            <ListItemSecondaryAction>
+              <IconButton size="small" onClick={handleCreateTeam}>
+                <ArrowRightIcon color="primary" />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
           <ListItem disableGutters>
             <ListItemIcon>

@@ -177,6 +177,7 @@ export default function PersistentDrawerLeft() {
                   classes={{ root: iconButtonStyle }}
                 >
                   <DashboardOutlinedIcon
+                    id="drawer-dashboard-view"
                     color="secondary"
                     className={iconStyle}
                   />
@@ -193,6 +194,7 @@ export default function PersistentDrawerLeft() {
                   onClick={() => handleFeedback()}
                 >
                   <FeedbackOutlinedIcon
+                    id="drawer-create-feedback"
                     color="secondary"
                     className={iconStyle}
                   />
@@ -209,7 +211,11 @@ export default function PersistentDrawerLeft() {
                 classes={{ root: iconButtonStyle }}
                 onClick={() => handleTeams()}
               >
-                <GroupAddOutlinedIcon color="secondary" className={iconStyle} />
+                <GroupAddOutlinedIcon
+                  id="drawer-create-team"
+                  color="secondary"
+                  className={iconStyle}
+                />
               </IconButton>
             </Zoom>
           </Box>
@@ -222,6 +228,7 @@ export default function PersistentDrawerLeft() {
                   onClick={() => handleManageAccount()}
                 >
                   <SettingsOutlinedIcon
+                    id="drawer-manage-account"
                     color="secondary"
                     className={iconStyle}
                   />
@@ -265,12 +272,17 @@ export default function PersistentDrawerLeft() {
             <Zoom in={true} timeout={2000}>
               {user?.avatarId ? (
                 <IconButton onClick={handleProfile} size="small">
-                  <img src={getAvatar(user?.avatarId)} width={40} height={40} />
+                  <img
+                    src={getAvatar(user?.avatarId)}
+                    id="drawer-user"
+                    width={40}
+                    height={40}
+                  />
                 </IconButton>
               ) : (
                 <IconButton onClick={handleProfile} size="small">
                   <Avatar classes={{ root: avatarStyle }}>
-                    <Typography variant="h5" color="secondary">
+                    <Typography variant="h5" color="secondary" id="drawer-user">
                       {getInitials(user?.name)}
                     </Typography>
                   </Avatar>

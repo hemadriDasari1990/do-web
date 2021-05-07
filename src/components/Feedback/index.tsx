@@ -3,20 +3,28 @@ import {
   ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
-import { MAX_CHAR_COUNT, TITLE_MAX_CHAR_COUNT } from "../../util/constants";
+import {
+  MAX_CHAR_COUNT,
+  TITLE_MAX_CHAR_COUNT,
+  feedbackLabels,
+} from "../../util/constants";
 import React, { useEffect, useState } from "react";
-import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+import {
+  Theme,
+  createStyles,
+  makeStyles,
+  withStyles,
+} from "@material-ui/core/styles";
 import { useFeedback, useLoading } from "../../redux/state/feedback";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
+import Rating from "@material-ui/lab/Rating";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import Divider from "@material-ui/core/Divider";
 import DoSnackbar from "../Snackbar/components";
 import Drawer from "@material-ui/core/Drawer";
 import FeedbackIcon from "../../assets/feedback.svg";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -53,6 +61,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+const StyledRating = withStyles({
+  iconFilled: {
+    color: "#ffc800",
+  },
+  iconHover: {
+    color: "#ffc800",
+  },
+})(Rating);
+
 function Feedback(props: any) {
   const { open, handleDrawerClose } = props;
   const dispatch = useDispatch();
@@ -60,14 +78,14 @@ function Feedback(props: any) {
   const { feedback } = useFeedback();
   const { loading } = useLoading();
   const classes = useStyles();
-
   /* Local state */
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [like, setLike] = useState("");
+  const [rating, setRating] = useState<any>(null);
   const [apiTriggered, setApiTriggered] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [count, setCount] = useState(0);
+  const [hover, setHover] = React.useState(-1);
 
   /* React Hooks */
   useEffect(() => {
@@ -79,8 +97,9 @@ function Feedback(props: any) {
       setOpenSnackbar(true);
       handleReset();
     }
-    if (!loading && apiTriggered && !feedback?._id) {
+    if (!loading && apiTriggered && feedback?.errorId) {
       setApiTriggered(false);
+      setOpenSnackbar(true);
     }
 
     return () => {};
@@ -97,17 +116,13 @@ function Feedback(props: any) {
     setTitle(event.target.value);
   };
 
-  const handleInterest = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLike(event.target.name);
-  };
-
   const handleSubmit = async () => {
     setApiTriggered(false);
     dispatch(
       createFeedback({
         title,
         description,
-        like: like === "yes" ? true : false,
+        rating: rating,
       })
     );
     setApiTriggered(true);
@@ -116,7 +131,7 @@ function Feedback(props: any) {
   const handleReset = () => {
     setDescription("");
     setTitle("");
-    setLike("");
+    setRating(null);
   };
 
   const disableButton = () => {
@@ -124,6 +139,9 @@ function Feedback(props: any) {
       return true;
     }
     if (!description || description?.length <= 10) {
+      return true;
+    }
+    if (!rating) {
       return true;
     }
     return false;
@@ -141,11 +159,12 @@ function Feedback(props: any) {
     return (
       <DoSnackbar
         open={openSnackbar}
-        status="success"
+        status={feedback?.errorId ? "error" : "success"}
         handleClose={handleSnackbarClose}
       >
         <Typography variant="h6" color="secondary">
-          Feedback Saved Successfully
+          {feedback?.errorId ? feedback.message : ""}
+          {feedback?._id ? "Feedback sent successfully" : ""}
         </Typography>
       </DoSnackbar>
     );
@@ -186,13 +205,10 @@ function Feedback(props: any) {
         <Box>
           <img src={FeedbackIcon} height={200} width={350} />
         </Box>
-        <Box>
-          <Typography variant="body1" className={classes.breakText}>
+        <Box mt={2}>
+          <Typography variant="h5" className={classes.breakText}>
             We'd love your feedback on your experience with our Retro tool
           </Typography>
-          <Box mt={3}>
-            <Typography variant="h4">Submit your feedback below</Typography>
-          </Box>
         </Box>
         <Box>
           <TextField
@@ -239,35 +255,29 @@ function Feedback(props: any) {
           />
           <Typography variant="subtitle2">{count} chars</Typography>
         </Box>
-        <Box mt={3}>
+        <Box mt={1}>
           <Box>
-            <Typography variant="h5">Do you like the tool?</Typography>
+            <Typography variant="h5" className={classes.breakText}>
+              How would you rate your experience with our product?
+            </Typography>
           </Box>
-          <Box>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={like === "yes"}
-                  onChange={handleInterest}
-                  value={true}
-                  color="primary"
-                  name="yes"
-                />
-              }
-              label={<Typography variant="subtitle1">Yes</Typography>}
+          <Box display="flex">
+            <StyledRating
+              name="rating"
+              value={rating}
+              onChange={(
+                event: React.ChangeEvent<{}>,
+                newValue: number | null
+              ) => {
+                setRating(newValue);
+              }}
+              onChangeActive={(event, newHover) => {
+                setHover(newHover);
+              }}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={like === "no"}
-                  onChange={handleInterest}
-                  value={false}
-                  color="primary"
-                  name="no"
-                />
-              }
-              label={<Typography variant="subtitle1">No</Typography>}
-            />
+            {rating !== null && (
+              <Box ml={2}>{feedbackLabels[hover !== -1 ? hover : rating]}</Box>
+            )}
           </Box>
         </Box>
         <Box my={3} display="flex">

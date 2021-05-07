@@ -44,7 +44,6 @@ export default function AddGuest(props: any) {
       token,
       avatarId,
     });
-    // localStorage.setItem(`${boardId}`, email);
   };
 
   const handleAvatar = (avatarId: number) => {

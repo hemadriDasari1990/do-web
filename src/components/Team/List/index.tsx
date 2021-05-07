@@ -121,7 +121,7 @@ const GroupList = (props: any) => {
   };
 
   const viewTeam = (team: { [Key: string]: any }) => {
-    history.push(replaceStr(TEAM_DASHBOARD, "teamId", team?._id));
+    history.push(replaceStr(TEAM_DASHBOARD, ":teamId", team?._id));
   };
 
   const refreshData = (queryString?: string) => {

@@ -37,6 +37,7 @@ import useMainStyles from "../../styles";
 import { useMember } from "../../../redux/state/member";
 import useStyles from "../../styles/search";
 import useTableStyles from "../../styles/table";
+import TeamIcon from "../../../assets/team.svg";
 
 const Loader = React.lazy(() => import("../../Loader/components"));
 const NoRecords = React.lazy(() => import("../../NoRecords"));
@@ -45,7 +46,7 @@ const Members = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const { searchRootStyle, searchIconStyle, inputStyle } = useStyles();
   const { authorStyle } = useTableStyles();
-  const { buttonStyle } = useMainStyles();
+  const { buttonStyle, alignCenterStyle } = useMainStyles();
   const { userId } = useLogin();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -259,7 +260,7 @@ const Members = () => {
                         <ListItemText
                           primary={
                             <Box display="flex">
-                              <Typography variant="h5" color="primary">
+                              <Typography variant="subtitle1" color="primary">
                                 {member?.name || "--"}
                               </Typography>
                               {member.isAuthor && (
@@ -320,8 +321,8 @@ const Members = () => {
             : null}
         </Grid>
         {!loading && (!filteredMembers || !filteredMembers.length) ? (
-          <Box>
-            <NoRecords message="No Members found! Please add" />
+          <Box className={alignCenterStyle}>
+            <NoRecords icon={TeamIcon} message="No Members found! Please add" />
           </Box>
         ) : null}
       </List>

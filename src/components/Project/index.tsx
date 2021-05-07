@@ -34,7 +34,7 @@ const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 
 const ProjectDashboard = () => {
-  const { root, buttonStyle } = useStyles();
+  const { root, buttonStyle, alignCenterStyle } = useStyles();
   const dispatch = useDispatch();
   const { project, projects: projectsList } = useProject();
   const history = useHistory();
@@ -313,9 +313,9 @@ const ProjectDashboard = () => {
           </Grid>
         </Box>
         {!loading && (!projects || !projects?.length) ? (
-          <Box mt={10}>
+          <Box className={alignCenterStyle}>
             <NoRecords message="No Projects found! Please add" />
-            <Box mt={5} textAlign="center">
+            <Box mt={3} textAlign="center">
               {renderCreateNewProject()}
             </Box>
           </Box>

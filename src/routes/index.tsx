@@ -13,6 +13,8 @@ import Profile from "../components/Drawer/Profile";
 import { useAuthenticated } from "../redux/state/common";
 import { useHistory } from "react-router";
 import { useParams } from "react-router";
+import TeamDetails from "../components/Team/Details";
+import MemberDetails from "../components/Members/Details";
 
 const Header = React.lazy(() => import("../components/Header"));
 const Footer = React.lazy(() => import("../components/Footer"));
@@ -83,6 +85,14 @@ const protectedRoutes = () => {
     {
       path: routePath.PROFILE,
       component: Profile,
+    },
+    {
+      path: routePath.TEAM_DASHBOARD,
+      component: TeamDetails,
+    },
+    {
+      path: routePath.MEMBER_DASHBOARD,
+      component: MemberDetails,
     },
   ];
 };

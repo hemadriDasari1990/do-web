@@ -4,6 +4,7 @@ import {
   GET_MEMBER_REQUEST,
   SEND_INVITATION_REQUEST,
   UPDATE_MEMBER_REQUEST,
+  GET_MEMBERS_BY_TEAM_REQUEST,
 } from "./types";
 
 export const getMemberDetails = (memberId: string) => {
@@ -24,6 +25,21 @@ export const getMembersByUser = (
     type: GET_MEMBERS_BY_USER_REQUEST,
     id: userId,
     status,
+    queryString,
+    page,
+    size,
+  };
+};
+
+export const getMembersByTeam = (
+  teamId: string,
+  queryString: string,
+  page: number,
+  size: number
+) => {
+  return {
+    type: GET_MEMBERS_BY_TEAM_REQUEST,
+    id: teamId,
     queryString,
     page,
     size,

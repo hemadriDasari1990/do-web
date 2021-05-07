@@ -48,8 +48,8 @@ const UpdatePassword = () => {
       setTimeout(() => {
         dispatch(logout());
         dispatch(clearUserState());
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("refreshToken");
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         dispatch(storeAction(""));
         history.push(LOGIN);
       }, 4000);

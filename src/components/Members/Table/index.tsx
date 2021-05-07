@@ -302,7 +302,6 @@ const DoTable = (props: TableProps & any) => {
                       size="small"
                       className={iconButtonStyle}
                       onClick={() => handleViewItem(td)}
-                      disabled={true}
                     >
                       <ArrowForwardIosOutlinedIcon
                         style={{ fontSize: "small" }}

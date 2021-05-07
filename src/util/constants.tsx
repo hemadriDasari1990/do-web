@@ -8,8 +8,16 @@ export const accountTypes = [
   { id: 1, label: "Individual", value: "individual" },
 ];
 
+export const feedbackLabels: { [index: string]: string } = {
+  1: "Bad",
+  2: "Average",
+  3: "Good",
+  4: "Very Good",
+  5: "Excellent",
+};
 export const PER_PAGE = 12;
 export const ADD_MEMBERS_PER_PAGE = 30;
+export const TEAM_MEMBERS_PER_PAGE = 30;
 export const REACTIONS_PER_PAGE = 15;
 export const DRAWER_WIDTH = 70;
 

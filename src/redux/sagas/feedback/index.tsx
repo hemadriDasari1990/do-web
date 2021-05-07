@@ -27,7 +27,11 @@ export function* watchCreateFeedback() {
 
 function* callGetFeedbacks(action: { [Key: string]: any }) {
   try {
-    const result = yield getFeedbacks(action?.like, action?.limit);
+    const result = yield getFeedbacks(
+      action?.rating,
+      action?.limit,
+      action.isApproved
+    );
     const { status, data } = result;
     if (status === 200) {
       yield put({ type: GET_FEEDBACKS_SUCCESS, payload: data });

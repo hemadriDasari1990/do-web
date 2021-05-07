@@ -5,6 +5,7 @@ import {
   watchGetTeams,
   watchSendInvitationToTeams,
   watchUpdateTeam,
+  watchGetTeamsByMember,
 } from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
@@ -37,6 +38,7 @@ import {
   watchGetMemberDetails,
   watchGetMembersByUser,
   watchUpdateMember,
+  watchGetMembersByTeam,
 } from "./member";
 import {
   watchDeleteProject,
@@ -102,12 +104,14 @@ function* rootSaga() {
   yield fork(watchAddOrRemoveMemberFromTeam);
   yield fork(watchGetTeams);
   yield fork(watchSendInvitationToTeams);
+  yield fork(watchGetTeamsByMember);
 
   /* Member sagas */
   yield fork(watchGetMemberDetails);
   yield fork(watchDeleteMember);
   yield fork(watchUpdateMember);
   yield fork(watchGetMembersByUser);
+  yield fork(watchGetMembersByTeam);
 
   /* Board sagas */
   yield fork(watchUpdateBoard);

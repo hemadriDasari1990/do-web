@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   hintDescriptionStyle: {
     padding: 10,
-    color: "#57f",
+    color: "#0072ff",
   },
 }));
 
