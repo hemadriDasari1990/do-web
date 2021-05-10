@@ -53,6 +53,10 @@ const useStyles = makeStyles(() => ({
     width: 30,
     height: 30,
   },
+  smallAvatarStyle: {
+    width: 25,
+    height: 25,
+  },
   avatarGroupStyle: {
     background: "#1f1f581a",
     fontSize: "0.8rem",

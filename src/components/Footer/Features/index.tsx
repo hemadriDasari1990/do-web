@@ -1,6 +1,5 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import AddMemberIcon from "../../../assets/add-member.svg";
 import AddNoteIcon from "../../../assets/add-note.svg";
 import AnnonymousIcon from "../../../assets/annonymous.svg";
 import BoardIcon from "../../../assets/board";
@@ -101,15 +100,8 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={TeamIcon} />
               <FeatureContent
-                title="Create A Team"
-                description="Create unlimited teams, manage individual team or 100's at once."
-              />
-            </Grid>
-            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={AddMemberIcon} />
-              <FeatureContent
-                title="Create Members"
-                description="Create unlimited members, manage individual member or 100's at once."
+                title="Create teams"
+                description="Create teams and invite unlimited people to collaborate on boards."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -170,8 +162,8 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={ReactionsIcon} />
               <FeatureContent
-                title="Express reactions"
-                description="Let's do retro allows you to express different types of reactions on each note like +1, I love it, Highlight, Deserve and -1. With this make decisions democratically and improve along the way."
+                title="Add reactions"
+                description="Let's do retro allows you to express different types of reactions on each note like +1, Love, Highlight, Deserve and -1. With this make decisions democratically and improve along the way."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -185,7 +177,7 @@ export default function Features() {
               <FeatureImage image={PublicDiscussionIcon} />
               <FeatureContent
                 title="Public or private"
-                description="Designed to give you flexibility and total control on what to share and with whom. Blazing fast performance for public boards even with 2000+ concurrent sessions."
+                description="Designed to give you flexibility to change the board visibility at any time. Blazing fast performance for public boards even with 2000+ concurrent sessions."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>

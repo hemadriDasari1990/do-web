@@ -26,7 +26,7 @@ import Loader from "../../Loader/components";
 import Menu from "@material-ui/core/Menu";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import Status from "../../common/Status";
-import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
+import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -38,9 +38,11 @@ import { replaceStr } from "../../../util";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
-import useStatusStyles from "../../styles/status";
 import useStyles from "../../styles";
 import { useTeamLoading } from "../../../redux/state/team";
+import getRandomBGColor, { getRandomColor } from "../../../util/getRandomColor";
+import SummaryField from "../../common/SummaryField";
+import useTableStyles from "../../styles/table";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
@@ -65,11 +67,12 @@ const BoardList = (props: any) => {
     setSelectedBoard,
     selectedBoard,
     hideMenu,
+    showProject,
   } = props;
   const {} = useLocalStyles();
   const { loading: projectLoading } = useProjectLoading();
   const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
-  const { inProgressTextStyle, inProgressStyle } = useStatusStyles();
+  const { smallAvatarStyle } = useTableStyles();
   const history = useHistory();
 
   /* Redux hooks */
@@ -253,7 +256,7 @@ const BoardList = (props: any) => {
                         {!board?.inviteSent ? "Send Invite" : "Resend Invite"}
                       </b>
                     }
-                    secondary={`Invite will be sent to ${formateNumber(
+                    secondary={`Send invite to ${formateNumber(
                       teamMembersLength
                     )} ${teamMembersLength > 1 ? "members" : "member"}`}
                   />
@@ -278,43 +281,56 @@ const BoardList = (props: any) => {
 
   const renderSecondaryText = (message: string, index: number) => {
     return (
-      <Box>
-        <Typography component="p" variant="body2">
+      <Box display="flex">
+        <Typography variant="subtitle1">
           {!showMore && message && message?.length > 70
             ? message.slice(0, 70)
             : message}
-        </Typography>
-        <Box display="flex" justifyContent="flex-end">
           {message.length > 70 && index === showMoreIndex ? (
             <span
               onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                 handleShowMore(event, index)
               }
               className={cursor}
+              style={{ fontWeight: 300 }}
             >
-              <Typography variant="subtitle1">
-                {showMore && showMoreIndex === index
-                  ? " see less"
-                  : "... see more"}
-              </Typography>
+              {showMore && showMoreIndex === index
+                ? " see less"
+                : " ...see more"}
             </span>
           ) : null}
-        </Box>
+        </Typography>
       </Box>
     );
   };
 
   const renderCardActions = (board: { [Key: string]: any }, index: number) => {
     return (
-      <>
-        <AvatarGroupList
-          dataList={getMembers(board?.teams)}
-          noDataMessage="No Members"
-        />
+      <Box display="flex" justifyContent="space-between" width="100%">
         <Box>
-          <Status value={board?.status} />
+          <AvatarGroupList
+            dataList={getMembers(board?.teams)}
+            noDataMessage="No Members"
+          />
         </Box>
         <Box display="flex">
+          <Box mr={2} mt={0.4}>
+            <Status value={board?.status} />
+          </Box>
+          {showProject && (
+            <Box mr={2}>
+              <Avatar
+                className={smallAvatarStyle}
+                style={{ background: getRandomColor(index) }}
+              >
+                <Tooltip arrow title={board?.project?.name}>
+                  <Typography variant="h6" color="secondary">
+                    {board?.project?.name?.substring(0, 1)?.toUpperCase()}
+                  </Typography>
+                </Tooltip>
+              </Avatar>
+            </Box>
+          )}
           <Box mr={2}>
             {board?.status !== "draft" && (
               <Tooltip
@@ -353,24 +369,17 @@ const BoardList = (props: any) => {
             </Tooltip>
           </Box>
         </Box>
-      </>
+      </Box>
     );
   };
 
   const renderCardContent = (board: { [Key: string]: any }, index: number) => {
     return (
-      <Box minHeight={50}>
-        <Box mt={1} display="flex">
-          <Box mr={2}>
-            <SubjectOutlinedIcon />
-          </Box>
-
-          <Zoom in={true} timeout={2000}>
-            <Typography>
-              {renderSecondaryText(board.description, index)}
-            </Typography>
-          </Zoom>
-        </Box>
+      <Box>
+        <SummaryField
+          title="Description"
+          value={renderSecondaryText(board.description, index)}
+        />
       </Box>
     );
   };
@@ -433,8 +442,9 @@ const BoardList = (props: any) => {
                   <CardHeader
                     avatar={
                       <DashboardOutlinedIcon
-                        className={`${inProgressStyle} ${inProgressTextStyle} ${avatarBoxStyle}`}
+                        className={`${avatarBoxStyle}`}
                         color="secondary"
+                        style={{ background: getRandomBGColor(index) }}
                       />
                     }
                     action={renderCardAction(b, index)}

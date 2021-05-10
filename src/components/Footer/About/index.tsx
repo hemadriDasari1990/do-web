@@ -11,6 +11,8 @@ import hemadri from "../../../assets/hemadri.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import sreesha from "../../../assets/sreesha.jpeg";
 import useStyles from "../../styles";
+import rajeshPemmasani from "../../../assets/rajesh-pemmasani.jpeg";
+import lokeshPemmasani from "../../../assets/lokesh-pemmasani.jpeg";
 
 const CreateAccountGrid = React.lazy(
   () => import("../../Home/createAccountGrid")
@@ -132,20 +134,27 @@ export default function About() {
                       currently working in a team and not very pleased with the
                       current retrospective board. So he decided to create his
                       own modern respective tool and see if that could make it
-                      better than the one which they are currently using.
+                      better than the one which they are currently using. He
+                      worked hard for 3 months to built this platform in his
+                      offline time.
                     </Typography>
                   </Box>
                 </Box>
               </Grid>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <Box>
-                  <UnderlineText title="Hemadri Dasari" />
+                  <UnderlineText title="Work Experience" />
                   <Box mt={2}>
                     <Typography variant="h5">
-                      He built this application from Analysis, Planning, UX/UI
-                      design, both FE & BE Implementation including end to end
-                      architecture. He has coded close to 3 months developing
-                      this beautiful platform in his offline time.
+                      Hemadri Dasari currently working as a Senior Full Stack
+                      Developer at Farah Experiences, Abu Dhabi, United Arab
+                      Emirates. Prior to Farah. he served as Senior Front end
+                      developer at Mashreq Bank, Dubai. He’s also worked as
+                      Senior Full Stack Developer at Emirates NBD Bank, Dubai
+                      and has also had multiple roles in Verizon Communications
+                      Inc, Cognizant Technology Solutions and Barclays Shared
+                      Services. Hemadri has completed his B.E Computer Science &
+                      Enginerring from Anna University.
                     </Typography>
                   </Box>
                 </Box>
@@ -166,6 +175,39 @@ export default function About() {
               </Grid>
             </Grid>
           </Box>
+        </Container>
+      </Box>
+      <Box>
+        <Container>
+          <Box p={5} textAlign="center">
+            <Typography variant="h1">Our Key Advisors</Typography>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
+              <ProfileCardSecondary
+                path={rajeshPemmasani}
+                title="Rajesh Pemmasani"
+                subTitle="Assistant Vice President"
+                fbPath={process.env.REACT_APP_RAJESH_PEMMASANI_FB_URL}
+                linkedinPath={
+                  process.env.REACT_APP_RAJESH_PEMMASANI_LINKEDIN_URL
+                }
+                button={true}
+              />
+            </Grid>
+            <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
+              <ProfileCardSecondary
+                path={lokeshPemmasani}
+                title="Lokesh Pemmasani"
+                subTitle="Principal Solution Architect"
+                fbPath={process.env.REACT_APP_LOKESH_PEMMASANI_FB_URL}
+                linkedinPath={
+                  process.env.REACT_APP_LOKESH_PEMMASANI_LINKEDIN_URL
+                }
+                button={true}
+              />
+            </Grid>
+          </Grid>
         </Container>
       </Box>
       <Box py={3}>

@@ -3,6 +3,7 @@ import {
   GETTING_STARTED,
   PROJECTS,
   RETROSPECTIVE,
+  REACTIONS,
 } from "../../routes/config";
 import React, { Suspense, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
@@ -144,17 +145,24 @@ const Dashboard = () => {
     setTourOpen(true);
   };
 
+  const handleReactions = () => {
+    const win: any = window.open(REACTIONS, "_blank");
+    win.focus();
+  };
+
   const tourConfig: any = [
     {
       content: () => (
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">Welcome to letsdoretro.com</Typography>
+            <Typography variant="subtitle1">
+              Welcome to letsdoretro.com
+            </Typography>
           </Box>
           <Box my={1}>
             <Typography variant="h6">
-              We're thrilled to count you in the letsdoretro community.{" "}
+              We're thrilled to count you in the lets do retro community.{" "}
             </Typography>
           </Box>
           <Box>
@@ -250,6 +258,20 @@ const Dashboard = () => {
       ),
     },
     {
+      selector: '[id="help"]',
+      content: () => (
+        <Box>
+          <AdminUser />
+          <Box mt={3}>
+            <Typography variant="h6">
+              You can use this feature to explore more about retrospectives and
+              help you get started.
+            </Typography>
+          </Box>
+        </Box>
+      ),
+    },
+    {
       selector: '[id="drawer-user"]',
       content: () => (
         <Box>
@@ -306,7 +328,6 @@ const Dashboard = () => {
       position: "left",
     },
     {
-      selector: '[id="abc"]',
       content: () => (
         <Box>
           <AdminUser />
@@ -543,6 +564,14 @@ const Dashboard = () => {
                         index={3}
                       />
                     </Box>
+                    <Box mt={2}>
+                      <InfoCard
+                        title="What's Reaction and how to add one?"
+                        icon={CallMadeIcon}
+                        index={6}
+                        handleButton={() => handleReactions()}
+                      />
+                    </Box>
                   </Box>
                 </Grid>
               </Grid>
@@ -579,6 +608,7 @@ const Dashboard = () => {
                   <BoardList
                     boards={boards}
                     hideMenu={true}
+                    showProject={true}
                     // lastBoard={lastBoard}
                   />
                 </Grid>

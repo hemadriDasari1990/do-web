@@ -8,7 +8,8 @@ import {
   RETROSPECTIVE,
   SECURITY,
   TERMS,
-  WHATS_NEXT,
+  // WHATS_NEXT,
+  REACTIONS,
 } from "../../routes/config";
 import { useHistory, useLocation } from "react-router";
 
@@ -111,8 +112,12 @@ export default function Footer() {
     history.push(APPS);
   };
 
-  const handleNext = () => {
-    history.push(WHATS_NEXT);
+  // const handleNext = () => {
+  //   history.push(WHATS_NEXT);
+  // };
+
+  const handleReactions = () => {
+    history.push(REACTIONS);
   };
 
   return (
@@ -238,7 +243,19 @@ export default function Footer() {
                     }
                   />
                 </ListItem>
-                <ListItem className={listStyle} onClick={() => handleNext()}>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleReactions()}
+                >
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        What's Reaction
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                {/* <ListItem className={listStyle} onClick={() => handleNext()}>
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
@@ -246,7 +263,7 @@ export default function Footer() {
                       </Typography>
                     }
                   />
-                </ListItem>
+                </ListItem> */}
               </List>
             </Grid>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>

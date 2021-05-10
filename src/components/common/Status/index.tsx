@@ -13,13 +13,15 @@ const Status = (props: any) => {
     draftTextStyle,
     statusBoxStyle,
     statusTextStyle,
+    pendingStyle,
+    pendingTextStyle,
   } = useStatusStyles();
 
   const getBoxStyle = () => {
     let style = draftStyle;
     switch (value?.toLowerCase()) {
       case "new":
-        style = completedStyle;
+        style = pendingStyle;
         break;
       case "inprogress":
         style = inProgressStyle;
@@ -37,7 +39,7 @@ const Status = (props: any) => {
     let style = draftTextStyle;
     switch (value?.toLowerCase()) {
       case "new":
-        style = completedTextStyle;
+        style = pendingTextStyle;
         break;
       case "inprogress":
         style = inProgressTextStyle;

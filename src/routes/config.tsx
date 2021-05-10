@@ -34,3 +34,4 @@ export const UPDATE_PASSWORD = `${DASHBOARD}${MANAGE_ACCOUNT}/update-password`;
 export const APPS = "/apps";
 export const PROFILE = "/profile";
 export const WHATS_NEXT = "/whats-next";
+export const REACTIONS = "/reactions";

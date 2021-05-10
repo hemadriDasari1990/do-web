@@ -231,7 +231,7 @@ const Create = () => {
               }
               label={
                 <Box mt={2.5}>
-                  <p style={{ fontSize: 12, fontWeight: 400 }}>
+                  <Typography variant="h6" component="p">
                     I accept the &nbsp;
                     <Link component="button" onClick={handleTerms}>
                       <Typography variant="subtitle2">
@@ -244,7 +244,7 @@ const Create = () => {
                         Privacy Statement
                       </Typography>
                     </Link>
-                  </p>
+                  </Typography>
                 </Box>
               }
             />
@@ -276,11 +276,9 @@ const Create = () => {
           </Box>
           <Box my={3} display="flex">
             <Box mr={1}>
-              <Typography variant="subtitle2">
-                Already have an account?
-              </Typography>
+              <Typography variant="h6">Already have an account?</Typography>
             </Box>
-            <Box mt={-0.3}>
+            <Box>
               <Link component="button" onClick={handleLogin}>
                 <Typography variant="subtitle2" color="primary">
                   Login

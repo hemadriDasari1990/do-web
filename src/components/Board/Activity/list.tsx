@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import useMainStyles from "../../styles";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles";
+import { getAvatar } from "../../../util/getAvatar";
 
 const ActivityList = () => {
   const dispatch = useDispatch();
@@ -123,11 +124,18 @@ const ActivityList = () => {
                           : null
                       }
                     >
-                      <Avatar color="primary" classes={{ root: avatarStyle }}>
-                        <Typography variant="subtitle1" className={nameStyle}>
-                          {getInitials(activity?.user?.name) || "TM"}
-                        </Typography>
-                      </Avatar>
+                      {activity?.user?.avatarId ? (
+                        <Avatar
+                          className={`${avatarStyle}`}
+                          src={getAvatar(activity?.user?.avatarId)}
+                        ></Avatar>
+                      ) : (
+                        <Avatar className={`${avatarStyle}`}>
+                          <Typography variant="subtitle1" className={nameStyle}>
+                            {getInitials(activity?.user?.name) || "TM"}
+                          </Typography>
+                        </Avatar>
+                      )}
                     </Badge>
                   </ListItemAvatar>
                   <ListItemText

@@ -8,7 +8,7 @@ const useStatusStyles = makeStyles(() => ({
     color: "#0153cc",
   },
   inProgressTextStyle: {
-    color: "#57f",
+    color: "#ffa600",
   },
   completedTextStyle: {
     color: "#1cbf39",
@@ -20,7 +20,7 @@ const useStatusStyles = makeStyles(() => ({
     backgroundColor: "#0052cc14",
   },
   inProgressStyle: {
-    backgroundColor: "#0072ff14",
+    backgroundColor: "#ffa60029",
   },
   completedStyle: {
     backgroundColor: "#16cc0014",

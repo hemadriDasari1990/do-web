@@ -33,7 +33,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Hemadri D Initiated"
+                subTitle="The idea was born"
                 description="21st JAN"
                 index={0}
               />
@@ -92,7 +92,7 @@ const Process = () => {
             <Grid item xl={3} lg={3} md={3}>
               <Step
                 title="2021"
-                subTitle="Redesigned theme"
+                subTitle="Re-designed theme"
                 description="5th MARCH"
                 index={5}
               />

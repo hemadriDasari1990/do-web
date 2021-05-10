@@ -361,7 +361,7 @@ const BoardDashboard = () => {
         </Box>
         {!loading && (!boards || !boards?.length) && (
           <Box className={alignCenterStyle}>
-            <NoRecords message="No Boards found! Please add" />
+            <NoRecords message="No Boards found to display! Please add" />
             <Box mt={3} textAlign="center">
               {renderCreateNewBoard()}
             </Box>

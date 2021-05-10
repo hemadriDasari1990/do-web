@@ -45,14 +45,14 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Impact"
+                primary={
+                  <Typography variant="h4" color="textPrimary">
+                    Impact
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
+                    <Typography variant="h6" color="textPrimary">
                       We're a small team operating at global Web scale. What you
                       do here really matters.
                     </Typography>
@@ -71,14 +71,14 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Curiosity"
+                primary={
+                  <Typography variant="h4" color="textPrimary">
+                    Curiosity
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
+                    <Typography variant="h6" color="textPrimary">
                       Let's do retro is not a "that's just the way it is" kind
                       of place.
                     </Typography>
@@ -104,14 +104,14 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="No Jerks"
+                primary={
+                  <Typography variant="h4" color="textPrimary">
+                    No Jerks
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
+                    <Typography variant="h6" color="textPrimary">
                       This is not just a platitude. We can't overstate how
                       serious we are about this.
                     </Typography>
@@ -136,19 +136,18 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Inclusion"
+                primary={
+                  <Typography variant="h4" color="textPrimary">
+                    Inclusion
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
+                    <Typography variant="h6" color="textPrimary">
                       We need a diverse team to serve a diverse global
                       community. We encourage applicants of all genders, ages,
                       abilities, orientations, and ethnicities to apply.
                     </Typography>
-                    {" — I'll be in your neighborhood doing errands this…"}
                   </React.Fragment>
                 }
               />
@@ -165,18 +164,17 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Flexibility"
+                primary={
+                  <Typography variant="h4" color="textPrimary">
+                    Flexibility
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
+                    <Typography variant="h6" color="textPrimary">
                       Work from anywhere with flexible PTO and generous parental
                       leave policies.
                     </Typography>
-                    {" — I'll be in your neighborhood doing errands this…"}
                   </React.Fragment>
                 }
               />
@@ -199,18 +197,17 @@ function Features() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Open Source"
+                primary={
+                  <Typography variant="h4" color="textPrimary">
+                    Open Source
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
+                    <Typography variant="h6" color="textPrimary">
                       We have a strong preference for using, publishing, and
                       contributing back to open source software.
                     </Typography>
-                    {" — I'll be in your neighborhood doing errands this…"}
                   </React.Fragment>
                 }
               />

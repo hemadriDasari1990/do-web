@@ -322,7 +322,10 @@ const Members = () => {
         </Grid>
         {!loading && (!filteredMembers || !filteredMembers.length) ? (
           <Box className={alignCenterStyle}>
-            <NoRecords icon={TeamIcon} message="No Members found! Please add" />
+            <NoRecords
+              icon={TeamIcon}
+              message="No Members found to display! Please add"
+            />
           </Box>
         ) : null}
       </List>

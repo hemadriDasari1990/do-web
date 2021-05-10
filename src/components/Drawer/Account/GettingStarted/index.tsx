@@ -61,7 +61,7 @@ export default function GettingStartedDrawer(props: any) {
           className={classes.drawerHeader}
         >
           <Box ml="auto" className={classes.headerStyle}>
-            <Typography variant="h5">Getting Started</Typography>
+            <Typography variant="h5">Learn & Inspire</Typography>
           </Box>
           <Box ml="auto">
             <IconButton

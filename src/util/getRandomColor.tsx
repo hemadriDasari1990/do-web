@@ -23,4 +23,17 @@ export const getRandomColor = (index: number) => {
   return index <= colorValues?.length ? colorValues[index] : colorValues[0];
 };
 
+export const getSectionColor = (index: number) => {
+  let colorValues = [
+    "#d2eaff",
+    "#d2ffe0",
+    "#fff1d2",
+    "#ffd6d2",
+    "#ffd2f3",
+    "#d2d8ff",
+    "#7b68ee",
+  ];
+  return index <= colorValues?.length ? colorValues[index] : colorValues[0];
+};
+
 export default getRandomBGColor;

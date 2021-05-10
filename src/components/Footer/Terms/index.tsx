@@ -4,7 +4,6 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
-import termsIcon from "../../../assets/terms.svg";
 const PrivacyList = React.lazy(() => import("../Privacy/list"));
 
 const useStyles = makeStyles({});
@@ -15,14 +14,11 @@ function Terms() {
   return (
     <React.Fragment>
       <Container>
-        <Box py={5} textAlign="center">
+        <Box py={5}>
           <Zoom in={true} timeout={2000}>
             <Box>
               <Typography variant="h1">Terms & Conditions</Typography>
             </Box>
-          </Zoom>
-          <Zoom in={true} timeout={2000}>
-            <img src={termsIcon} height="300px" width="350px" />
           </Zoom>
         </Box>
         <Box>

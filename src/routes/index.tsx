@@ -11,7 +11,7 @@ import { DRAWER_WIDTH } from "../util/constants";
 import PrivateRoute from "./PrivateRoute";
 import Profile from "../components/Drawer/Profile";
 import { useAuthenticated } from "../redux/state/common";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useParams } from "react-router";
 import TeamDetails from "../components/Team/Details";
 import MemberDetails from "../components/Members/Details";
@@ -46,6 +46,7 @@ const Team = React.lazy(() => import("../components/Team"));
 const Members = React.lazy(() => import("../components/Members/Members"));
 const Projects = React.lazy(() => import("../components/Project"));
 const GettingStarted = React.lazy(() => import("../components/GettingStarted"));
+const Reactions = React.lazy(() => import("../components/Footer/Reactions"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
@@ -157,18 +158,27 @@ const routes = () => {
       component: GettingStarted,
     },
     { path: routePath.APPS, component: Apps },
+    { path: routePath.REACTIONS, component: Reactions },
   ];
 };
 
 const Routes = () => {
   const authenticated: boolean = useAuthenticated();
   const { boardId } = useParams<{ boardId: string }>();
+  const location = useLocation();
+  const pathname = location.pathname as string;
 
   const history = useHistory();
   const { boxStyle, content } = useStyles({ authenticated });
 
   useEffect(() => {
-    if (authenticated) {
+    if (
+      authenticated &&
+      pathname?.toLowerCase() !== "/getting-started" &&
+      pathname?.toLowerCase() !== "/retrospective" &&
+      pathname?.toLowerCase() !== "/features" &&
+      pathname?.toLowerCase() !== "/reactions"
+    ) {
       history.push(DASHBOARD);
     }
   }, [authenticated]);

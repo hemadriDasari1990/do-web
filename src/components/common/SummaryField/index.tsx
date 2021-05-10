@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   titleStyle: {
     color: "#777e8c",
-    fontWeight: "normal",
+    fontWeight: 500,
   },
   valueStyle: {
     // color: "#ff6584",

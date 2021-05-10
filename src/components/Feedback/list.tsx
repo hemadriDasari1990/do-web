@@ -136,99 +136,104 @@ function FeedbackList() {
   return (
     <Box>
       <Loader enable={loading} />
-      <Box textAlign="center" pb={3}>
-        <Typography variant="h1">What people say about us</Typography>
-      </Box>
-      <Box>
-        <Box className={mainBoxStyle}>
-          <GridList cols={12} className={gridListStyle}>
-            {!loading && feedback?.length ? (
-              <GridListTile
-                classes={{ root: gridListTileStyle }}
-                key={feedback[activeStep]?._id}
-                cols={12}
-              >
-                <Slide
-                  direction="left"
-                  in={true}
-                  timeout={2000}
-                  mountOnEnter
-                  unmountOnExit
+      {!loading && feedback?.length ? (
+        <>
+          <Box textAlign="center" pb={3}>
+            <Typography variant="h1">What people say about us</Typography>
+          </Box>
+          <Box>
+            <Box className={mainBoxStyle}>
+              <GridList cols={12} className={gridListStyle}>
+                <GridListTile
+                  classes={{ root: gridListTileStyle }}
+                  key={feedback[activeStep]?._id}
+                  cols={12}
                 >
-                  <Box px={5}>
-                    <Box className={imageBoxStyle}>
-                      <Box
-                        className={imageBoxGridStyle}
-                        style={{
-                          background: getRandomBGColor(activeStep),
-                        }}
-                      >
-                        <Avatar
-                          color="secondary"
-                          classes={{ root: avatarStyle }}
+                  <Slide
+                    direction="left"
+                    in={true}
+                    timeout={2000}
+                    mountOnEnter
+                    unmountOnExit
+                  >
+                    <Box px={5}>
+                      <Box className={imageBoxStyle}>
+                        <Box
+                          className={imageBoxGridStyle}
+                          style={{
+                            background: getRandomBGColor(activeStep),
+                          }}
                         >
-                          <Typography
-                            variant="h1"
-                            className={avatarTextStyle}
+                          <Avatar
                             color="secondary"
+                            classes={{ root: avatarStyle }}
                           >
-                            {getInitials(feedback[activeStep]?.user?.name)}
-                          </Typography>
-                        </Avatar>
+                            <Typography
+                              variant="h1"
+                              className={avatarTextStyle}
+                              color="secondary"
+                            >
+                              {getInitials(feedback[activeStep]?.user?.name)}
+                            </Typography>
+                          </Avatar>
+                        </Box>
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="h2"
+                          style={{ fontWeight: "normal" }}
+                        >
+                          <b>{feedback[activeStep]?.title} - </b>
+                          {feedback[activeStep]?.description}
+                        </Typography>
                       </Box>
                     </Box>
-                    <Box>
-                      <Typography variant="h2" style={{ fontWeight: "normal" }}>
-                        <b>{feedback[activeStep]?.title} - </b>
-                        {feedback[activeStep]?.description}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Slide>
-              </GridListTile>
-            ) : null}
-          </GridList>
-        </Box>
-        <Divider />
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          style={{ float: "right" }}
-          mt={1.5}
-        >
-          <MobileStepper
-            variant="dots"
-            steps={feedback?.length}
-            position="static"
-            activeStep={activeStep}
-            className={stepperStyle}
-            nextButton={
-              <Tooltip arrow title="Scroll Right" placement="right">
-                <IconButton
-                  size="small"
-                  className={iconButtonSecondaryStyle}
-                  onClick={() => handleNext()}
-                  disabled={activeStep === feedback?.length - 1}
-                >
-                  <ArrowForwardIcon color="secondary" />
-                </IconButton>
-              </Tooltip>
-            }
-            backButton={
-              <Tooltip arrow title="Scroll Left" placement="left">
-                <IconButton
-                  size="small"
-                  className={iconButtonStyle}
-                  onClick={() => handleBack()}
-                  disabled={activeStep === 0}
-                >
-                  <ArrowBackIcon color="secondary" />
-                </IconButton>
-              </Tooltip>
-            }
-          />
-        </Box>
-      </Box>
+                  </Slide>
+                </GridListTile>
+              </GridList>
+            </Box>
+            <Divider />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              style={{ float: "right" }}
+              mt={1.5}
+            >
+              <MobileStepper
+                variant="dots"
+                steps={feedback?.length}
+                position="static"
+                activeStep={activeStep}
+                className={stepperStyle}
+                nextButton={
+                  <Tooltip arrow title="Scroll Right" placement="right">
+                    <IconButton
+                      size="small"
+                      className={iconButtonSecondaryStyle}
+                      onClick={() => handleNext()}
+                      disabled={activeStep === feedback?.length - 1}
+                    >
+                      <ArrowForwardIcon color="secondary" />
+                    </IconButton>
+                  </Tooltip>
+                }
+                backButton={
+                  <Tooltip arrow title="Scroll Left" placement="left">
+                    <IconButton
+                      size="small"
+                      className={iconButtonStyle}
+                      onClick={() => handleBack()}
+                      disabled={activeStep === 0}
+                    >
+                      <ArrowBackIcon color="secondary" />
+                    </IconButton>
+                  </Tooltip>
+                }
+              />
+            </Box>
+          </Box>
+        </>
+      ) : null}
     </Box>
   );
 }

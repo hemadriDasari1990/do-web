@@ -44,7 +44,7 @@ const AboutBoardInfo = () => {
         <Box mb={1}>
           <SummaryField
             title="Views"
-            value={formatNumberWithCommas(board?.views || 0)}
+            value={formatNumberWithCommas(board?.views) || 0}
           />
         </Box>
         {board?.startedAt && (

@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   avatarStyle: {
     width: "30px !important",
     height: "30px !important",
-    backgroundColor: "#e8eef5 !important",
+    backgroundColor: "#e8eef5",
   },
   smallAvatarStyle: {
     width: "30px !important",

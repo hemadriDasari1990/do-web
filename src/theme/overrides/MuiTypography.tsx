@@ -65,8 +65,8 @@ export default {
   },
   subtitle2: {
     fontFamily: fontFamily,
-    fontWeight: 400,
-    fontSize: 12,
+    fontWeight: 500,
+    fontSize: 14,
     letterSpacing: "-0.05px",
     color: textSecondary,
   },

@@ -20,7 +20,6 @@ import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import React from "react";
-import SubjectOutlinedIcon from "@material-ui/icons/SubjectOutlined";
 import { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -31,13 +30,13 @@ import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
-import useStatusStyles from "../../styles/status";
 import useStyles from "../../styles";
+import getRandomBGColor from "../../../util/getRandomColor";
+import SummaryField from "../../common/SummaryField";
 
 const ProjectList = (props: any) => {
   const { projects, handleMenu, setSelectedProject, hideMenu } = props;
   const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
-  const { inProgressTextStyle, inProgressStyle } = useStatusStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -170,28 +169,25 @@ const ProjectList = (props: any) => {
       return null;
     }
     return (
-      <Box>
-        <Typography component="p" variant="body2">
+      <Box display="flex">
+        <Typography variant="subtitle1">
           {!showMore && message && message?.length > 70
             ? message.slice(0, 70)
             : message}
-        </Typography>
-        <Box display="flex" justifyContent="flex-end">
           {message.length > 70 && index === showMoreIndex ? (
             <span
               onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                 handleShowMore(event, index)
               }
               className={cursor}
+              style={{ fontWeight: 300 }}
             >
-              <Typography variant="subtitle1">
-                {showMore && showMoreIndex === index
-                  ? " see less"
-                  : "... see more"}
-              </Typography>
+              {showMore && showMoreIndex === index
+                ? " see less"
+                : " ...see more"}
             </span>
           ) : null}
-        </Box>
+        </Typography>
       </Box>
     );
   };
@@ -227,7 +223,8 @@ const ProjectList = (props: any) => {
         <Box display="flex">
           <Box mt={0.5}>
             <Typography variant="h6">
-              {formateNumber(project?.totalBoards) || 0} Boards
+              {formateNumber(project?.totalBoards) || 0}{" "}
+              {project?.totalBoards > 1 ? "Boards" : "Board"}
             </Typography>
           </Box>
           <Box ml={4} mt={0.5}>
@@ -253,17 +250,11 @@ const ProjectList = (props: any) => {
     index: number
   ) => {
     return (
-      <Box minHeight={30}>
-        <Box my={2} display="flex">
-          <Box mr={2}>
-            <SubjectOutlinedIcon />
-          </Box>
-          <Zoom in={true} timeout={2000}>
-            <Typography>
-              {renderSecondaryText(project.description, index)}
-            </Typography>
-          </Zoom>
-        </Box>
+      <Box>
+        <SummaryField
+          title="Description"
+          value={renderSecondaryText(project.description, index)}
+        />
       </Box>
     );
   };
@@ -292,8 +283,9 @@ const ProjectList = (props: any) => {
                   <CardHeader
                     avatar={
                       <ProjectOutlinedIcon
-                        className={`${inProgressStyle} ${inProgressTextStyle} ${avatarBoxStyle}`}
+                        className={`${avatarBoxStyle}`}
                         color="secondary"
+                        style={{ background: getRandomBGColor(index) }}
                       />
                     }
                     action={renderCardAction(project)}

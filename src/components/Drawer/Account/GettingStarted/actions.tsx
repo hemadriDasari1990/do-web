@@ -1,98 +1,174 @@
-// import ActivityOutlinedIcon from "@material-ui/icons/SubjectOutlined";
-import Avatar from "@material-ui/core/Avatar";
-import Box from "@material-ui/core/Box";
-import Divider from "@material-ui/core/Divider";
-// import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
+import React from "react";
+import { Suspense } from "react";
+import {
+  FEATURES,
+  GETTING_STARTED,
+  RETROSPECTIVE,
+  REACTIONS,
+} from "../../../../routes/config";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
-// import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
-import React from "react";
-import SettingsIcon from "@material-ui/icons/Settings";
 import Slide from "@material-ui/core/Slide";
-import { Suspense } from "react";
-// import Typography from "@material-ui/core/Typography";
-// import Zoom from "@material-ui/core/Zoom";
-// import { makeStyles } from "@material-ui/core/styles";
-// import { useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
 import useIconStyles from "../../../styles/iconStyle";
 import useStyles from "../../../styles";
-// import { useUser } from "../../../redux/state/user";
+import TelegramIcon from "@material-ui/icons/Telegram";
+import FeaturedVideoIcon from "@material-ui/icons/FeaturedVideo";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import CallMadeIcon from "@material-ui/icons/CallMade";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 
-const ManageActions = (props: any) => {
-  const { handleDrawerClose } = props;
+const GettingStartedActions = (props: any) => {
+  const {} = props;
   const { iconGridStyle, iconStyle } = useIconStyles();
-  // const { name } = useUser();
-  //   const history = useHistory();
-  //   const dispatch = useDispatch();
   const { cursor } = useStyles();
 
-  const handleResetPassword = async () => {
-    handleDrawerClose();
+  const handleRetrospective = () => {
+    const win: any = window.open(RETROSPECTIVE, "_blank");
+    win.focus();
   };
 
-  const handleChangeEmail = async () => {};
+  const handleGettingStarted = () => {
+    const win: any = window.open(GETTING_STARTED, "_blank");
+    win.focus();
+  };
+
+  const handleFeatures = () => {
+    const win: any = window.open(FEATURES, "_blank");
+    win.focus();
+  };
+
+  const handleReactions = () => {
+    const win: any = window.open(REACTIONS, "_blank");
+    win.focus();
+  };
 
   return (
     <Suspense fallback={<div></div>}>
-      <Box>
-        <Box>
-          <List>
-            <ListItem
-              alignItems="flex-start"
-              onClick={() => handleResetPassword()}
-              className={cursor}
+      <List>
+        <ListItem
+          alignItems="flex-start"
+          onClick={() => handleGettingStarted()}
+          className={cursor}
+        >
+          <ListItemAvatar>
+            <Slide
+              direction="right"
+              in={true}
+              timeout={1500}
+              mountOnEnter
+              unmountOnExit
             >
-              <ListItemAvatar>
-                <Slide
-                  direction="right"
-                  in={true}
-                  timeout={1500}
-                  mountOnEnter
-                  unmountOnExit
-                >
-                  <Avatar className={iconGridStyle} variant="square">
-                    <SettingsIcon className={iconStyle} />
-                  </Avatar>
-                </Slide>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Reset Password"
-                secondary="Reset password of your account"
-              />
-            </ListItem>
-            <Divider />
-            <ListItem
-              alignItems="flex-start"
-              onClick={() => handleChangeEmail()}
-              className={cursor}
+              <Avatar className={iconGridStyle} variant="square">
+                <TelegramIcon className={iconStyle} />
+              </Avatar>
+            </Slide>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Getting Started"
+            secondary="Explore key features and possibilities"
+          />
+          <ListItemSecondaryAction>
+            <IconButton size="small" onClick={() => handleGettingStarted()}>
+              <CallMadeIcon color="primary" fontSize="small" />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Divider />
+        <ListItem
+          alignItems="flex-start"
+          onClick={() => handleRetrospective()}
+          className={cursor}
+        >
+          <ListItemAvatar>
+            <Slide
+              direction="right"
+              in={true}
+              timeout={1500}
+              mountOnEnter
+              unmountOnExit
             >
-              <ListItemAvatar>
-                <Slide
-                  direction="right"
-                  in={true}
-                  timeout={1500}
-                  mountOnEnter
-                  unmountOnExit
-                >
-                  <Avatar className={iconGridStyle} variant="square">
-                    <LogoutIcon className={iconStyle} />
-                  </Avatar>
-                </Slide>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Change Email Address"
-                secondary="You'll be required to login with new email address once updated"
-              />
-            </ListItem>
-          </List>
-        </Box>
-      </Box>
+              <Avatar className={iconGridStyle} variant="square">
+                <DashboardIcon className={iconStyle} />
+              </Avatar>
+            </Slide>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Sprint Retrospectives"
+            secondary="Find out more about sprint retrospectives"
+          />
+          <ListItemSecondaryAction>
+            <IconButton size="small" onClick={() => handleRetrospective()}>
+              <CallMadeIcon color="primary" fontSize="small" />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Divider />
+        <ListItem
+          alignItems="flex-start"
+          onClick={() => handleFeatures()}
+          className={cursor}
+        >
+          <ListItemAvatar>
+            <Slide
+              direction="right"
+              in={true}
+              timeout={1500}
+              mountOnEnter
+              unmountOnExit
+            >
+              <Avatar className={iconGridStyle} variant="square">
+                <FeaturedVideoIcon className={iconStyle} />
+              </Avatar>
+            </Slide>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Features offered"
+            secondary="Find out what we have developed for you"
+          />
+          <ListItemSecondaryAction>
+            <IconButton size="small" onClick={() => handleFeatures()}>
+              <CallMadeIcon color="primary" fontSize="small" />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Divider />
+        <ListItem
+          alignItems="flex-start"
+          onClick={() => handleFeatures()}
+          className={cursor}
+        >
+          <ListItemAvatar>
+            <Slide
+              direction="right"
+              in={true}
+              timeout={1500}
+              mountOnEnter
+              unmountOnExit
+            >
+              <Avatar className={iconGridStyle} variant="square">
+                <InsertEmoticonIcon className={iconStyle} />
+              </Avatar>
+            </Slide>
+          </ListItemAvatar>
+          <ListItemText
+            primary="What's Reaction?"
+            secondary="Discover more about reactions"
+          />
+          <ListItemSecondaryAction>
+            <IconButton size="small" onClick={() => handleReactions()}>
+              <CallMadeIcon color="primary" fontSize="small" />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      </List>
     </Suspense>
   );
 };
 
-export default ManageActions;
+export default GettingStartedActions;

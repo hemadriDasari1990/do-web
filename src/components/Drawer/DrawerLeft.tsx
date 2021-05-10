@@ -32,6 +32,9 @@ import { useUser } from "../../redux/state/user";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
+const GettingStartedActions = React.lazy(
+  () => import("./Account/GettingStarted/actions")
+);
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   drawer: {
@@ -245,6 +248,7 @@ export default function PersistentDrawerLeft() {
                   onClick={() => handleGettingStarted()}
                 >
                   <HelpOutlineOutlinedIcon
+                    id="help"
                     color="secondary"
                     className={iconStyle}
                   />
@@ -304,7 +308,7 @@ export default function PersistentDrawerLeft() {
         open={gettingStarted}
         handleDrawerClose={handleGettingStartedClose}
       >
-        {/* <ManageActions handleDrawerClose={handleManageAccountClose} /> */}
+        <GettingStartedActions handleDrawerClose={handleManageAccountClose} />
       </GettingStartedDrawer>
       <Feedback
         open={openFeedback}

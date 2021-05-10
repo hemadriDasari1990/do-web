@@ -117,11 +117,15 @@ const Header = () => {
         </AppBar>
       ) : null}
       <Box className={toolbar} />
-      {authenticated && (
-        <Hidden only={["xs"]}>
-          <PersistentDrawerLeft />
-        </Hidden>
-      )}
+      {authenticated &&
+        pathname?.toLowerCase() !== "/getting-started" &&
+        pathname?.toLowerCase() !== "/retrospective" &&
+        pathname?.toLowerCase() !== "/features" &&
+        pathname?.toLowerCase() !== "/reactions" && (
+          <Hidden only={["xs"]}>
+            <PersistentDrawerLeft />
+          </Hidden>
+        )}
     </Box>
   );
 };
