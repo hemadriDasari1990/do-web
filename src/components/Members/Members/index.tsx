@@ -297,7 +297,6 @@ const Members = () => {
                               ? "Remove Member"
                               : `Add Member`
                           }
-                          placement="left"
                         >
                           <IconButton
                             size="small"

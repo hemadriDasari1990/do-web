@@ -72,8 +72,7 @@ const GettingStarted = () => {
                 <Box mb={5}>
                   <Typography variant="body1" color="secondary">
                     We'll show you how easy it is to get up and running with
-                    Letsdoretro. Click on a topic below, or scroll down for some
-                    inspiration.
+                    Letsdoretro. Scroll down for some inspiration.
                   </Typography>
                 </Box>
               </Grid>
