@@ -164,7 +164,7 @@ function Feedback(props: any) {
       >
         <Typography variant="h6" color="secondary">
           {feedback?.errorId ? feedback.message : ""}
-          {feedback?._id ? "Feedback sent successfully" : ""}
+          {feedback?.success ? "Feedback sent successfully" : ""}
         </Typography>
       </DoSnackbar>
     );

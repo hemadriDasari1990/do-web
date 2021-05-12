@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { useJoinedMembers } from "../../../redux/state/join";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles";
+import NoRecords from "../../NoRecords";
 
 const InvitedMembersList = () => {
   const dispatch = useDispatch();
@@ -38,49 +39,53 @@ const InvitedMembersList = () => {
     <Suspense fallback={<div></div>}>
       <Box>
         <List>
-          {members?.length
-            ? members.map((member: { [Key: string]: any }) => (
-                <ListItem
-                  key={member._id}
-                  alignItems="flex-start"
-                  className={cursor}
-                  disableGutters
-                >
-                  <ListItemAvatar style={{ minWidth: 40 }}>
-                    {member?.avatarId ? (
-                      <Avatar
-                        className={`${avatarStyle}`}
-                        src={getAvatar(member?.avatarId)}
-                      ></Avatar>
-                    ) : (
-                      <Avatar className={`${avatarStyle}`}>
-                        <Typography variant="subtitle1" className={nameStyle}>
-                          {getInitials(member?.guestName) || "TM"}
-                        </Typography>
-                      </Avatar>
-                    )}
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={
-                      <Box className={`${breakText}`}>
-                        <Typography
-                          variant="subtitle1"
-                          color="primary"
-                          className={nameStyle}
-                        >
-                          {member?.guestName}
-                        </Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <Typography variant="subtitle2">
-                        {getPastTime(member?.createdAt)}
+          {members?.length ? (
+            members.map((member: { [Key: string]: any }) => (
+              <ListItem
+                key={member._id}
+                alignItems="flex-start"
+                className={cursor}
+                disableGutters
+              >
+                <ListItemAvatar style={{ minWidth: 40 }}>
+                  {member?.avatarId ? (
+                    <Avatar
+                      className={`${avatarStyle}`}
+                      src={getAvatar(member?.avatarId)}
+                    ></Avatar>
+                  ) : (
+                    <Avatar className={`${avatarStyle}`}>
+                      <Typography variant="subtitle1" className={nameStyle}>
+                        {getInitials(member?.guestName) || "TM"}
                       </Typography>
-                    }
-                  />
-                </ListItem>
-              ))
-            : null}
+                    </Avatar>
+                  )}
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Box className={`${breakText}`}>
+                      <Typography
+                        variant="subtitle1"
+                        color="primary"
+                        className={nameStyle}
+                      >
+                        {member?.guestName}
+                      </Typography>
+                    </Box>
+                  }
+                  secondary={
+                    <Typography variant="subtitle2">
+                      {getPastTime(member?.createdAt)}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            ))
+          ) : (
+            <Box>
+              <NoRecords message="No members found" hideImage={true} />
+            </Box>
+          )}
         </List>
       </Box>
       <Box mt={2} bottom="0" position="fixed">
