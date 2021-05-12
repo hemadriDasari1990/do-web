@@ -30,9 +30,7 @@ const DoLogoIcon = (props: any) => {
       onClick={() => refreshDashboard()}
       {...boxProps}
     >
-      <Box mt={1} mr={1} ml={1}>
-        <FlashOnIcon className={logoIconStyle} color="secondary" />
-      </Box>
+      <FlashOnIcon className={logoIconStyle} color="secondary" />
     </Box>
   );
 };

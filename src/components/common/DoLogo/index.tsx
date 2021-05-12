@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
+import DoLogoIcon from "../DoLogoIcon";
 
 const useLocalStyles = makeStyles(() => ({
   badgeStyle: {
@@ -20,7 +20,7 @@ const useLocalStyles = makeStyles(() => ({
 }));
 const DoLogo = (props: any) => {
   const { color, ...boxProps } = props;
-  const { logoTextStyle, logoIconStyle, cursor } = useStyles();
+  const { logoTextStyle, cursor } = useStyles();
   const { badgeStyle } = useLocalStyles();
 
   /* Redux hooks */
@@ -53,11 +53,7 @@ const DoLogo = (props: any) => {
         </Typography>
       </Box>
       <Box mt={2} mr={1} ml={0.2}>
-        <FlashOnIcon
-          className={logoIconStyle}
-          color="secondary"
-          fontSize="small"
-        />
+        <DoLogoIcon />
       </Box>
       <Box>
         <Typography color={color} className={logoTextStyle}>
@@ -74,7 +70,7 @@ const DoLogo = (props: any) => {
           className={badgeStyle}
           badgeContent="Beta"
         >
-          <FlashOnIcon className={logoIconStyle} color="secondary" />
+          <DoLogoIcon />
         </Badge>
       </Box>
     </Box>
