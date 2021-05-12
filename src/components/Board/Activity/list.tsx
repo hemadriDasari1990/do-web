@@ -107,7 +107,7 @@ const ActivityList = () => {
       <Box>
         <List>
           {activities?.length
-            ? activities.map((activity: { [Key: string]: any }) => (
+            ? activities?.map((activity: { [Key: string]: any }) => (
                 <ListItem
                   alignItems="flex-start"
                   className={cursor}

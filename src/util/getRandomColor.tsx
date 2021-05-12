@@ -1,5 +1,5 @@
 const getRandomBGColor = (index: number) => {
-  let colorValues = [
+  const colorValues = [
     "linear-gradient(180deg,#ff9ec9 0,#fd71af 100%)",
     "linear-gradient(180deg,#7997ff 0,#57f 100%)",
     "linear-gradient(180deg,#5ddd93 .03%,#00b884 99.97%)",
@@ -7,11 +7,11 @@ const getRandomBGColor = (index: number) => {
     "linear-gradient(180deg,#ff9696 .03%,#fd7171 99.97%)",
     "linear-gradient(180deg,#4dc 0,#2cc8b8 100%)",
   ];
-  return index <= colorValues?.length ? colorValues[index] : colorValues[0];
+  return index < colorValues?.length ? colorValues[index] : colorValues[0];
 };
 
 export const getRandomColor = (index: number) => {
-  let colorValues = [
+  const colorValues = [
     "#57f",
     "#fd71af",
     "#49ccf9",
@@ -20,11 +20,11 @@ export const getRandomColor = (index: number) => {
     "#fd7171",
     "#7b68ee",
   ];
-  return index <= colorValues?.length ? colorValues[index] : colorValues[0];
+  return index < colorValues?.length ? colorValues[index] : colorValues[0];
 };
 
 export const getSectionColor = (index: number) => {
-  let colorValues = [
+  const colorValues = [
     "#d2eaff",
     "#d2ffe0",
     "#fff1d2",
@@ -33,7 +33,7 @@ export const getSectionColor = (index: number) => {
     "#d2d8ff",
     "#7b68ee",
   ];
-  return index <= colorValues?.length ? colorValues[index] : colorValues[0];
+  return index < colorValues?.length ? colorValues[index] : colorValues[0];
 };
 
 export default getRandomBGColor;

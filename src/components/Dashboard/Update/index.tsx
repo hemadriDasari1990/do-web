@@ -74,7 +74,8 @@ const Update = () => {
   const [apiCalled, setApiCalled] = useState(false);
   const [showError, setShowError] = useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+  const stepsList = getSteps();
+  const [steps, setSteps] = useState(stepsList);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: "",
     noOfSections: "",
@@ -83,6 +84,7 @@ const Update = () => {
     isDefaultBoard: false,
     project: "",
     projectDescription: "",
+    isAnnonymous: false,
   });
   const [descriptionCount, setDescriptionCount] = useState(0);
   const [projectDescriptionCount, setProjectDescriptionCount] = useState(0);
@@ -95,6 +97,7 @@ const Update = () => {
     isDefaultBoard,
     project,
     projectDescription,
+    isAnnonymous,
   } = formData;
 
   /* React Hooks */
@@ -155,6 +158,7 @@ const Update = () => {
         status: "new",
         teams: teams?.map((team: { [Key: string]: any }) => team?._id),
         isDefaultBoard,
+        isAnnonymous,
         name:
           "Board " +
           (project?.boards?.length ? project?.boards?.length + 1 : 1),
@@ -176,6 +180,19 @@ const Update = () => {
     setFormData({ ...formData, isDefaultBoard: !isDefaultBoard });
   };
 
+  const removeItem = (items: Array<string>, i: number) =>
+    items.slice(0, i - 1).concat(items.slice(i, items.length));
+
+  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isAnnonymous) {
+      setSteps(removeItem(steps, 3));
+    }
+    if (isAnnonymous) {
+      setSteps(stepsList);
+    }
+    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
+  };
+
   const handleProject = (data: { [Key: string]: any }) => {
     setFormData({ ...formData, project: data });
   };
@@ -195,6 +212,25 @@ const Update = () => {
           {board?.message}
         </Typography>
       </DoSnackbar>
+    );
+  };
+
+  const renderAnnonymous = () => {
+    return (
+      <Box mt={1} mb={-3}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isAnnonymous}
+              onChange={handleIsAnnonymous}
+              value="false"
+              color="primary"
+              name="isAnnonymous"
+            />
+          }
+          label={<Typography variant="h6">Run as annonymous</Typography>}
+        />
+      </Box>
     );
   };
 
@@ -300,12 +336,14 @@ const Update = () => {
   const renderBoard = () => {
     return (
       <>
+        {renderAnnonymous()}
         {!isDefaultBoard && renderNoOfSections()}
         {!isDefaultBoard && noOfSections ? (
           <Box mt={3}>
             <HintMessage message="Please note System will generate default sections with name 'Section name' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
+
         {!noOfSections ? (
           <Box mt={1} mb={-3}>
             <FormControlLabel
@@ -409,7 +447,8 @@ const Update = () => {
                     <Button onClick={handleBack}>Back</Button>
                   </Box>
                 ) : null}
-                {activeStep === steps.length - 1 ? (
+                {activeStep === steps.length - 1 ||
+                (activeStep === steps.length - 1 && isAnnonymous) ? (
                   <Button
                     variant="contained"
                     color="primary"

@@ -70,9 +70,17 @@ const Update = (props: any) => {
     status: "",
     team: null,
     isDefaultBoard: false,
+    isAnnonymous: false,
   });
   const [count, setCount] = useState(0);
-  const { description, noOfSections, status, team, isDefaultBoard } = formData;
+  const {
+    description,
+    noOfSections,
+    status,
+    team,
+    isDefaultBoard,
+    isAnnonymous,
+  } = formData;
 
   /* React Hooks */
   useEffect(() => {
@@ -85,6 +93,7 @@ const Update = (props: any) => {
         noOfSections: selectedBoard.totalSections,
         team: selectedBoard.teams?.length ? selectedBoard.teams[0] : null,
         isDefaultBoard: selectedBoard.isDefaultBoard,
+        isAnnonymous: selectedBoard.isAnnonymous,
       });
     }
     if (!selectedBoard?._id) {
@@ -118,6 +127,7 @@ const Update = (props: any) => {
       status: "",
       team: [],
       isDefaultBoard: false,
+      isAnnonymous: false,
     });
   };
 
@@ -133,6 +143,7 @@ const Update = (props: any) => {
         accountType,
         name: "Board " + (totalBoards + 1),
         boardId: selectedBoard?._id,
+        isAnnonymous,
       })
     );
     // resetFormData();
@@ -162,6 +173,29 @@ const Update = (props: any) => {
 
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
     event.preventDefault();
+  };
+
+  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
+  };
+
+  const renderAnnonymous = () => {
+    return (
+      <Box mt={1} mb={-3}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isAnnonymous}
+              onChange={handleIsAnnonymous}
+              value="false"
+              color="primary"
+              name="isAnnonymous"
+            />
+          }
+          label={<Typography variant="h6">Run as annonymous</Typography>}
+        />
+      </Box>
+    );
   };
 
   return (
@@ -209,6 +243,7 @@ const Update = (props: any) => {
             }
           />
         </Box>
+        {renderAnnonymous()}
         {!isDefaultBoard && (
           <Box>
             <TextField
@@ -273,21 +308,23 @@ const Update = (props: any) => {
           />
           <Typography variant="subtitle2">{count} chars</Typography>
         </Box>
-        <Box>
-          <DoAutoComplete
-            defaultValue={team}
-            // multiple={true}
-            textInputLabel="Invite Team"
-            textInputPlaceholder="Select team"
-            optionKey="name"
-            options={teamsList}
-            onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
-              handleTeams(data)
-            }
-            customClass={dropdownInputStyle}
-            // disabled={selectedBoard?._id}
-          />
-        </Box>
+        {!isAnnonymous && (
+          <Box>
+            <DoAutoComplete
+              defaultValue={team}
+              // multiple={true}
+              textInputLabel="Invite Team"
+              textInputPlaceholder="Select team"
+              optionKey="name"
+              options={teamsList}
+              onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
+                handleTeams(data)
+              }
+              customClass={dropdownInputStyle}
+              // disabled={selectedBoard?._id}
+            />
+          </Box>
+        )}
 
         {!selectedBoard && (
           <Box mt={3}>

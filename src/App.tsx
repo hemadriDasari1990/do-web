@@ -11,7 +11,6 @@ import { initiateSocketConnection } from "./socket";
 import { storeSocketInstance } from "./redux/actions/socket";
 import theme from "./theme";
 import { useDispatch } from "react-redux";
-import Recommendation from "./components/Recommendation";
 
 const ScrollTop = React.lazy(() => import("./components/ScrollTop"));
 const DoSnackbar = React.lazy(() => import("./components/Snackbar/components"));
@@ -76,7 +75,6 @@ const App = () => {
             </Typography>
           </DoSnackbar>
         )}
-        <Recommendation />
       </MuiThemeProvider>
     </Suspense>
   );

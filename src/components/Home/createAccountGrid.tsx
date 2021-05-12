@@ -34,6 +34,11 @@ const CreateAccountGrid = () => {
               </Typography>
             </Hidden>
           </Box>
+          <Box>
+            <Typography>
+              Join thousands of teams who already enjoy our retrospective tool
+            </Typography>
+          </Box>
           <Box mt={3}>
             <CreateAccount
               title="Sign up Free"

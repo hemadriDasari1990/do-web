@@ -51,6 +51,7 @@ import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 import Tour from "reactour";
 import AdminUser from "../common/User";
+import Recommendation from "../Recommendation";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
@@ -148,6 +149,7 @@ export default function Section() {
   const [boardDetails, setBoardDetails] = useState(board);
   const [openAddGuestDialog, setOpenAddGuestDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [boardCompleted, setBoardCompleted] = useState(false);
   const [openStartSessionDialog, setOpenStartSessionDialog] = useState(false);
   const [joinedMember, setJoinedMember] = useState<any>(null);
   const [joinedMembers, setJoinedMembers] = useState<
@@ -273,6 +275,7 @@ export default function Section() {
           return;
         }
         setBoardDetails(updatedBoard);
+        setBoardCompleted(true);
       }
     );
 
@@ -1080,6 +1083,10 @@ export default function Section() {
     />
   );
 
+  const renderRecommendation = () => {
+    return <Recommendation />;
+  };
+
   return (
     <Suspense fallback={<div />}>
       {renderTour()}
@@ -1092,6 +1099,7 @@ export default function Section() {
       {renderAddGuest()}
       {renderSnackbar()}
       {renderStartSessionDialog()}
+      {boardDetails?.completedAt && boardCompleted && renderRecommendation()}
       {loading ? (
         <BoardHeaderSkeleton />
       ) : (
@@ -1116,7 +1124,7 @@ export default function Section() {
                   </Typography>
                 </Box>
 
-                {authenticated && (
+                {authenticated && !board?.isAnnonymous && (
                   <Box ml={1} mt={0.3}>
                     {/* <HtmlTooltip
                       open={openInviteTooltip}
@@ -1248,22 +1256,24 @@ export default function Section() {
                 {!boardLoading && authenticated ? (
                   <>{renderGoBackToBoards()}</>
                 ) : null}
-                <Box mx={1}>
-                  <Tooltip title="Download to Excel" placement="bottom" arrow>
-                    <Button
-                      color="primary"
-                      onClick={() => handleDownloadReport()}
-                      startIcon={
-                        <SaveAltIcon style={{ color: getRandomColor(4) }} />
-                      }
-                      id="download"
-                    >
-                      <Typography variant="subtitle1">
-                        Download to Excel
-                      </Typography>
-                    </Button>
-                  </Tooltip>
-                </Box>
+                {boardDetails?.completedAt && (
+                  <Box mx={1}>
+                    <Tooltip title="Download to Excel" placement="bottom" arrow>
+                      <Button
+                        color="primary"
+                        onClick={() => handleDownloadReport()}
+                        startIcon={
+                          <SaveAltIcon style={{ color: getRandomColor(4) }} />
+                        }
+                        id="download"
+                      >
+                        <Typography variant="subtitle1">
+                          Download to Excel
+                        </Typography>
+                      </Button>
+                    </Tooltip>
+                  </Box>
+                )}
 
                 {!boardLoading && authenticated ? (
                   <>{renderCreateNewSection()}</>

@@ -208,19 +208,21 @@ export default function PersistentDrawerLeft() {
         </Box>
         <Box mt="auto" textAlign="center">
           <Box mb={2}>
-            <Zoom in={true} timeout={2000}>
-              <IconButton
-                size="medium"
-                classes={{ root: iconButtonStyle }}
-                onClick={() => handleTeams()}
-              >
-                <GroupAddOutlinedIcon
-                  id="drawer-create-team"
-                  color="secondary"
-                  className={iconStyle}
-                />
-              </IconButton>
-            </Zoom>
+            <Tooltip arrow title="Manage Teams & Members" placement="right">
+              <Zoom in={true} timeout={2000}>
+                <IconButton
+                  size="medium"
+                  classes={{ root: iconButtonStyle }}
+                  onClick={() => handleTeams()}
+                >
+                  <GroupAddOutlinedIcon
+                    id="drawer-create-team"
+                    color="secondary"
+                    className={iconStyle}
+                  />
+                </IconButton>
+              </Zoom>
+            </Tooltip>
           </Box>
           <Box mb={2}>
             <Tooltip arrow title="Manage Account" placement="right">

@@ -37,6 +37,12 @@ const AboutBoardInfo = () => {
         </Box>
         <Box mb={1}>
           <SummaryField
+            title="Is Annonymous"
+            value={board?.isAnnonymous ? "Yes" : "No"}
+          />
+        </Box>
+        <Box mb={1}>
+          <SummaryField
             title="No of sections"
             value={formatNumberWithCommas(board?.totalSections || 0)}
           />

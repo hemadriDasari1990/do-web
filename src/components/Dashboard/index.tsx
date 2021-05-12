@@ -360,7 +360,6 @@ const Dashboard = () => {
         steps={tourConfig}
         isOpen={tourOpen}
         // maskClassName="mask"
-        // className="helper"
         rounded={5}
         accentColor="#57f"
         className={tourStyle}
@@ -533,9 +532,7 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                   <Box pt={2}>
-                    <Typography variant="h2">
-                      Get to Know Restrospective
-                    </Typography>
+                    <Typography variant="h2">Get to Know More</Typography>
                     <Box mt={2}>
                       <InfoCard
                         title="How to get started? Take a look at our five step process"
