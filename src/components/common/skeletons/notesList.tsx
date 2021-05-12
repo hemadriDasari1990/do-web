@@ -8,8 +8,7 @@ const useLocalStyles = makeStyles(() => ({
   createNoteStyle: {
     height: 40,
     borderRadius: 6,
-    background:
-      "linear-gradient(90deg, #e7eaec, rgb(230 235 239), transparent)",
+    background: "#fff",
   },
 }));
 export default function NoteListSkeleton() {
@@ -20,8 +19,10 @@ export default function NoteListSkeleton() {
       <Box p={1}>
         <Skeleton animation="wave" variant="rect" className={createNoteStyle} />
       </Box>
-      <NoteSkeleton />
-      <NoteSkeleton />
+      <Box p={1}>
+        <NoteSkeleton />
+        <NoteSkeleton />
+      </Box>
     </>
   );
 }

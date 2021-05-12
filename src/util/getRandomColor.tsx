@@ -25,11 +25,11 @@ export const getRandomColor = (index: number) => {
 
 export const getSectionColor = (index: number) => {
   const colorValues = [
-    "#d2eaff",
-    "#d2ffe0",
+    "#f5cd0b1c",
+    "#0079bf1c",
+    "#ffd2f3",
     "#fff1d2",
     "#ffd6d2",
-    "#ffd2f3",
     "#d2d8ff",
     "#7b68ee",
   ];

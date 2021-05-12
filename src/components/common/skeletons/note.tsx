@@ -21,7 +21,7 @@ export default function NoteSkeleton() {
         <Skeleton animation="wave" variant="rect" className={contentStyle} />
       </CardContent>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
-        <Box display="flex" justifyContent="space-between">
+        <Box display="flex" justifyContent="space-between" pl={0.7} mb={1}>
           <Box mr={1}>
             <Skeleton
               animation="wave"
@@ -63,7 +63,7 @@ export default function NoteSkeleton() {
             />
           </Box>
         </Box>
-        <Box display="flex" justifyContent="space-between">
+        <Box display="flex" justifyContent="space-between" pr={0.7} mb={1}>
           <Box mt={0.7} mr={1}>
             <Skeleton animation="wave" height={10} width={30} />
           </Box>

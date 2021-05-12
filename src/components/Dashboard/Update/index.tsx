@@ -228,7 +228,7 @@ const Update = () => {
               name="isAnnonymous"
             />
           }
-          label={<Typography variant="h6">Run as annonymous</Typography>}
+          label={<Typography variant="h6">Create annonymous board</Typography>}
         />
       </Box>
     );

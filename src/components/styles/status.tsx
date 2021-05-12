@@ -31,6 +31,7 @@ const useStatusStyles = makeStyles(() => ({
   },
   statusTextStyle: {
     fontWeight: 700,
+    fontSize: 12,
     width: "fit-content",
   },
 }));

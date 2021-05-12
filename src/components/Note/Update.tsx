@@ -2,9 +2,8 @@ import {
   ALPHABET_NUMIREC_AND_SOME_SPECIAL_CHARACTERS,
   allow,
 } from "../../util/regex";
-
+import Fab from "@material-ui/core/Fab";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { MAX_CHAR_COUNT } from "../../util/constants";
@@ -19,6 +18,9 @@ import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import { useState } from "react";
+import { useBoard } from "../../redux/state/board";
+import ClearIcon from "@material-ui/icons/Clear";
+import DoneIcon from "@material-ui/icons/Done";
 
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
@@ -39,6 +41,7 @@ export default function NoteUpdate(props: any) {
   const { boardId } = useParams<{ boardId: string }>();
   const params = new URLSearchParams(window.location.search);
   const email = params.get("email");
+  const { board } = useBoard();
 
   /* Local states */
   const [count, setCount] = useState(0);
@@ -125,54 +128,55 @@ export default function NoteUpdate(props: any) {
           onCopy={handlePrevent}
           onPaste={handlePrevent}
         />
-        <Box mt={1} ml={1} display="flex" justifyContent="flex-end">
-          <Typography variant="subtitle2">{count} chars</Typography>
-        </Box>
-      </Box>
-      <Box display="flex" justifyContent="space-between">
-        <Box mt={-0.5}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isAnnonymous}
-                onChange={handleIsAnnonymous}
-                value="false"
-                color="primary"
-                name="isAnnonymous"
-                // disabled={selectedBoard?._id && isDefaultBoard}
-              />
-            }
-            label={<Typography variant="h6">Post as annonymous</Typography>}
-          />
-        </Box>
-        <Box>
-          <Tooltip arrow title="Cancel Note">
-            <Zoom in={true} timeout={1500}>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                onClick={() => handleCancel()}
-              >
-                Cancel
-              </Button>
-            </Zoom>
-          </Tooltip>
-        </Box>
-        <Box>
-          <Tooltip arrow title="Save Note">
-            <Zoom in={true} timeout={1500}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                disabled={!description.trim()}
-                onClick={() => saveNote()}
-              >
-                Add Note
-              </Button>
-            </Zoom>
-          </Tooltip>
+        <Box mt={1} ml={1} display="flex" justifyContent="space-between">
+          <Box>
+            <Typography variant="subtitle2">{count} chars</Typography>
+          </Box>
+          <Box display="flex">
+            <Box mt={-1}>
+              {!board?.isAnnonymous && (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isAnnonymous}
+                      onChange={handleIsAnnonymous}
+                      value="false"
+                      color="primary"
+                      name="isAnnonymous"
+                      // disabled={selectedBoard?._id && isDefaultBoard}
+                    />
+                  }
+                  label={
+                    <Typography variant="h6">Post as annonymous</Typography>
+                  }
+                />
+              )}
+            </Box>
+            <Box display="flex">
+              <Box mr={1}>
+                <Tooltip arrow title="Save Note">
+                  <Zoom in={true} timeout={1500}>
+                    <Fab
+                      color="secondary"
+                      disabled={!description.trim()}
+                      onClick={() => saveNote()}
+                    >
+                      <DoneIcon color="primary" fontSize="small" />
+                    </Fab>
+                  </Zoom>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip arrow title="Cancel Note">
+                  <Zoom in={true} timeout={1500}>
+                    <Fab color="secondary" onClick={() => handleCancel()}>
+                      <ClearIcon color="primary" fontSize="small" />
+                    </Fab>
+                  </Zoom>
+                </Tooltip>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </React.Fragment>
