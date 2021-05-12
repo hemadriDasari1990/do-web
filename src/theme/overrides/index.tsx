@@ -10,6 +10,7 @@ import MuiCardContent from "./MuiCardContent";
 import MuiCardHeader from "./MuiCardHeader";
 import MuiCardMedia from "./MuiCardMedia";
 import MuiDialog from "./MuiDialog";
+import MuiDialogTitle from "./MuiDialogTitle";
 import MuiDivider from "./MuiDivider";
 import MuiDrawer from "./MuiDrawer";
 import MuiFab from "./MuiFab";
@@ -74,4 +75,5 @@ export default {
   MuiLink,
   MuiSkeleton,
   MuiSwitch,
+  MuiDialogTitle,
 };

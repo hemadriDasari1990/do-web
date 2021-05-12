@@ -310,7 +310,7 @@ const BoardList = (props: any) => {
         <Box>
           <AvatarGroupList
             dataList={getMembers(board?.teams)}
-            noDataMessage="No Members"
+            noDataMessage={board?.isAnnonymous ? "Annonymous" : "No Members"}
           />
         </Box>
         <Box display="flex">

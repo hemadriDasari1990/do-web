@@ -91,8 +91,6 @@ const NoteDetails = (props: any) => {
                 </React.Fragment>
               }
             />
-          </ListItem>
-          <ListItem alignItems="flex-start" disableGutters>
             <ListItemIcon>
               <PersonIcon className={listIconStyle} />
             </ListItemIcon>

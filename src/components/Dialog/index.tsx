@@ -18,8 +18,7 @@ const useStyles = makeStyles(() => ({
   }),
   closeIconStyle: (props: any) => ({
     position: "absolute",
-    left: "86%",
-    top: "5%",
+    top: "1%",
   }),
   contentStyle: {
     overflowX: "hidden",
@@ -63,7 +62,7 @@ export default function ResponsiveDialog(props: any) {
         classes={{ paper: paperStyle }}
       >
         <DialogTitle id="responsive-dialog-title">
-          <Typography variant="h2">{title}</Typography>
+          <Typography variant="h3">{title}</Typography>
         </DialogTitle>
         <DialogContent className={contentStyle}>
           <Loader enable={loading} />

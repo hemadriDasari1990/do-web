@@ -106,7 +106,7 @@ const ReactionsView = (props: any) => {
   return (
     <Suspense fallback={<div />}>
       {!newReactions || !newReactions?.length ? (
-        <NoRecords message="No Reactions found!" />
+        <NoRecords message="No Reactions found!" hideImage={true} />
       ) : null}
       <List disablePadding>
         <Grid container spacing={2}>

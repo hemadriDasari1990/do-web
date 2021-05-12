@@ -1,5 +1,5 @@
 export default {
   paper: {
-    borderRadius: 15
+    borderRadius: 15,
   },
-}
+};

@@ -1,7 +1,11 @@
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { clearBoard, getBoardDetails } from "../../redux/actions/board";
-import { getDownloadFile, replaceStr } from "../../util";
+import {
+  getDownloadFile,
+  replaceStr,
+  formatNumberWithCommas,
+} from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
@@ -1229,6 +1233,11 @@ export default function Section() {
                     dataList={joinedMembers}
                     keyName="guestName"
                   />
+                </Box>
+                <Box ml={1} mt={0.5}>
+                  <Typography variant="h5">
+                    {formatNumberWithCommas(boardDetails?.views) || 0} views
+                  </Typography>
                 </Box>
               </Box>
             </Grid>
