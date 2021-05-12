@@ -479,6 +479,7 @@ const NoteList = (props: any) => {
       reactedBy: userId,
       sectionId: note.sectionId,
       boardId,
+      isAnnonymous: board?.isAnnonymous,
     });
     setAnchorEl(null);
   };
