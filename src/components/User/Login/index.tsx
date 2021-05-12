@@ -1,5 +1,5 @@
 import { DASHBOARD, FORGOT_PASSWORD, SIGNUP } from "../../../routes/config";
-import { EMAIL_PATTERN, allow } from "../../../util/regex";
+import { EMAIL_PATTERN } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
@@ -129,9 +129,6 @@ const Login = () => {
           autoComplete="off"
           required
           className={textFieldStyle}
-          onKeyPress={(event: React.KeyboardEvent<any>) =>
-            allow(event, EMAIL_PATTERN)
-          }
           onCut={handlePrevent}
           onCopy={handlePrevent}
           onPaste={handlePrevent}
