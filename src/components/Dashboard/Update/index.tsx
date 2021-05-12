@@ -426,7 +426,7 @@ const Update = () => {
       <Loader enable={loading} backdrop={true} />
       {renderSnackbar()}
       <Box mb={2}>
-        <Typography variant="h3">Start Quick Retro (3 steps)</Typography>
+        <Typography variant="h3">Start Quick Retro</Typography>
       </Box>
       <Stepper
         activeStep={activeStep}

@@ -114,13 +114,13 @@ const VerifyAccount = () => {
               </Box>
             )}
             {!loading && !response?.errorId && (
-              <Box mt={0.4} mr={2}>
+              <Box mt={0.4} mr={2} textAlign="center">
                 <Button
                   onClick={() => handleLogin()}
                   size="small"
                   aria-label="add"
                   color="primary"
-                  variant="outlined"
+                  variant="contained"
                 >
                   Login Now
                 </Button>
