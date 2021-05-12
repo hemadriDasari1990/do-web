@@ -62,7 +62,7 @@ const TeamDashboard = () => {
   }, [debouncedValue]);
 
   useEffect(() => {
-    setTotalTeams(totalTeamsCount);
+    setTotalTeams(totalTeamsCount || 0);
   }, [totalTeamsCount]);
 
   useEffect(() => {

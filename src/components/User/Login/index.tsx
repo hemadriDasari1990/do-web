@@ -122,7 +122,7 @@ const Login = () => {
         <TextField
           name="email"
           id="email"
-          label="Email Address"
+          label="E-mail Address"
           placeholder="Enter Email Address"
           value={email}
           onChange={handleInput}

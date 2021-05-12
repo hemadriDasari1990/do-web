@@ -147,7 +147,7 @@ export default function Footer() {
             </Grid>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
-                <CreateAccount title="Sign up free" hideArrow={true} />
+                <CreateAccount title="Sign up free" />
               </Box>
             </Grid>
           </Grid>

@@ -1,6 +1,5 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import React from "react";
@@ -8,6 +7,7 @@ import { SIGNUP } from "../../routes/config";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const CreateAccount = (props: any) => {
   const { buttonStyle } = useStyles();
   const history = useHistory();
-  const { title, hideArrow, subTitle } = props;
+  const { title, subTitle } = props;
   const handleCreateUser = () => {
     history.push(SIGNUP);
   };
@@ -39,9 +39,7 @@ const CreateAccount = (props: any) => {
           color="primary"
           size="small"
           onClick={() => handleCreateUser()}
-          endIcon={
-            !hideArrow ? <ArrowForwardOutlinedIcon color="secondary" /> : null
-          }
+          startIcon={<FlashOnIcon color="secondary" />}
         >
           {title}
         </Button>

@@ -123,6 +123,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   logoTextStyle: {
     fontSize: 32,
+    fontWeight: 600,
   },
   primaryAvatarStyle: {
     background: "linear-gradient(50deg, #57f 0%, #0089ffeb 100%)",

@@ -20,6 +20,7 @@ import Typography from "@material-ui/core/Typography";
 import { createUser } from "../../../redux/actions/user";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import HintMessage from "../../HintMessage";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 const Loader = React.lazy(() => import("../../Loader/components"));
@@ -171,7 +172,7 @@ const Create = () => {
           <TextField
             name="email"
             id="email"
-            label="Email Address"
+            label="E-mail Address"
             placeholder="Enter Email Address"
             value={email}
             onChange={handleInput}
@@ -187,7 +188,7 @@ const Create = () => {
             type="password"
             name="password"
             id="password"
-            label="Password"
+            label="New Password"
             placeholder="Enter password"
             value={password}
             onChange={handleInput}
@@ -203,7 +204,7 @@ const Create = () => {
             type="password"
             name="confirmPassword"
             id="confirmPassword"
-            label="Confirm Password"
+            label="New Password (Again)"
             placeholder="Re Enter password"
             value={confirmPassword}
             onChange={handleInput}
@@ -215,7 +216,13 @@ const Create = () => {
             onCopy={handlePrevent}
             onPaste={handlePrevent}
           />
-          <Box mt={1} mb={2}>
+          <Box mt={1}>
+            <HintMessage
+              message={`8 characters or longer | At least one lowercase letter | At least one number | At least one uppercase letter | Passwords must match
+            `}
+            />
+          </Box>
+          <Box mb={2}>
             <FormControlLabel
               labelPlacement="end"
               control={

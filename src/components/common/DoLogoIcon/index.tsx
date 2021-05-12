@@ -2,10 +2,10 @@ import { DASHBOARD, ROOT } from "../../../routes/config";
 
 import Box from "@material-ui/core/Box";
 import React from "react";
-import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 
 const DoLogoIcon = (props: any) => {
   const { ...boxProps } = props;
@@ -31,7 +31,7 @@ const DoLogoIcon = (props: any) => {
       {...boxProps}
     >
       <Box mt={1} mr={1} ml={1}>
-        <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
+        <FlashOnIcon className={logoIconStyle} color="secondary" />
       </Box>
     </Box>
   );

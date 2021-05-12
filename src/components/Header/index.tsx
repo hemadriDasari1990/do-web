@@ -12,6 +12,7 @@ import DoLogoIcon from "../common/DoLogo";
 import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import { useAuthenticated } from "../../redux/state/common";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 
 const PersistentDrawerLeft = React.lazy(() => import("../Drawer/DrawerLeft"));
 
@@ -96,6 +97,7 @@ const Header = () => {
                 aria-label="add"
                 color="primary"
                 variant="contained"
+                startIcon={<FlashOnIcon color="secondary" />}
               >
                 <Typography variant="h6" color="secondary">
                   Sign up free

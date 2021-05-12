@@ -3,12 +3,12 @@ import { DASHBOARD, ROOT } from "../../../routes/config";
 import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
 import React from "react";
-import SportsVolleyballIcon from "@material-ui/icons/SportsVolleyball";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 
 const useLocalStyles = makeStyles(() => ({
   badgeStyle: {
@@ -53,7 +53,7 @@ const DoLogo = (props: any) => {
         </Typography>
       </Box>
       <Box mt={2} mr={1} ml={0.2}>
-        <SportsVolleyballIcon
+        <FlashOnIcon
           className={logoIconStyle}
           color="secondary"
           fontSize="small"
@@ -74,7 +74,7 @@ const DoLogo = (props: any) => {
           className={badgeStyle}
           badgeContent="Beta"
         >
-          <SportsVolleyballIcon className={logoIconStyle} color="secondary" />
+          <FlashOnIcon className={logoIconStyle} color="secondary" />
         </Badge>
       </Box>
     </Box>
