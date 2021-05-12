@@ -9,7 +9,7 @@ import { useLoading, useVerifyToken } from "../../../redux/state/login";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { CREATE } from "../../../routes/config";
+import { CREATE, LOGIN } from "../../../routes/config";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import VerifiedIcon from "../../../assets/verified.svg";
@@ -78,6 +78,10 @@ const VerifyAccount = () => {
 
   const handleResend = () => {};
 
+  const handleLogin = () => {
+    history.push(LOGIN);
+  };
+
   return (
     <React.Fragment>
       <Container>
@@ -107,6 +111,19 @@ const VerifyAccount = () => {
             {!loading && (
               <Box textAlign="center">
                 <Typography variant="h1">{response?.message} </Typography>
+              </Box>
+            )}
+            {!loading && !response?.errorId && (
+              <Box mt={0.4} mr={2}>
+                <Button
+                  onClick={() => handleLogin()}
+                  size="small"
+                  aria-label="add"
+                  color="primary"
+                  variant="outlined"
+                >
+                  Login Now
+                </Button>
               </Box>
             )}
             {response?.errorId === TOKEN_EXPIRED ||

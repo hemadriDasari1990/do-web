@@ -1,11 +1,11 @@
 import {
-  CREATE_FEEDBACK_FAILED,
-  CREATE_FEEDBACK_REQUEST,
-  CREATE_FEEDBACK_SUCCESS,
-  GET_FEEDBACKS_FAILED,
-  GET_FEEDBACKS_REQUEST,
-  GET_FEEDBACKS_SUCCESS,
-} from "../../actions/feedback/types";
+  CREATE_RECOMMENDATION_FAILED,
+  CREATE_RECOMMENDATION_REQUEST,
+  CREATE_RECOMMENDATION_SUCCESS,
+  GET_RECOMMENDATIONS_FAILED,
+  GET_RECOMMENDATIONS_REQUEST,
+  GET_RECOMMENDATIONS_SUCCESS,
+} from "../../actions/recommendation/types";
 
 import { Action } from "redux";
 
@@ -15,49 +15,48 @@ export interface ReduxAction extends Action {
 }
 
 const initialState = {
-  title: "",
-  desciption: "",
   loading: false,
+  desciption: "",
   rating: false,
   isApproved: false,
   response: null,
 };
 
-const feedback = (state = initialState, action: ReduxAction) => {
+const recommendation = (state = initialState, action: ReduxAction) => {
   switch (action.type) {
-    case CREATE_FEEDBACK_REQUEST:
+    case CREATE_RECOMMENDATION_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case CREATE_FEEDBACK_FAILED:
+    case CREATE_RECOMMENDATION_FAILED:
       return {
         ...state,
         response: action.payload,
         loading: false,
       };
-    case CREATE_FEEDBACK_SUCCESS:
+    case CREATE_RECOMMENDATION_SUCCESS:
       return {
         ...state,
         response: action.payload,
         loading: false,
       };
-    case GET_FEEDBACKS_REQUEST:
+    case GET_RECOMMENDATIONS_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case GET_FEEDBACKS_FAILED:
+    case GET_RECOMMENDATIONS_FAILED:
       return {
         ...state,
         response: action.payload,
         loading: false,
       };
-    case GET_FEEDBACKS_SUCCESS:
+    case GET_RECOMMENDATIONS_SUCCESS:
       return {
         ...state,
         response: action.payload?.data,
-        totalFeedbacks: action.payload?.total[0]?.count,
+        totalRecommendations: action.payload?.total[0]?.count,
         loading: false,
       };
     default:
@@ -65,4 +64,4 @@ const feedback = (state = initialState, action: ReduxAction) => {
   }
 };
 
-export default feedback;
+export default recommendation;

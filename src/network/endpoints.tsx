@@ -84,6 +84,10 @@ export const GET_REACTIONS = "/reactions";
 export const CREATE_FEEDBACK = "/feedback";
 export const GET_FEEDBACKS = "/feedback";
 
+/* Recommendation Endpoints */
+export const CREATE_RECOMMENDATION = "/recommendation";
+export const GET_RECOMMENDATIONS = "/recommendation";
+
 /* Reaction Endpoints */
 export const CREATE_OR_UPDATE_REACTION = "/react";
 

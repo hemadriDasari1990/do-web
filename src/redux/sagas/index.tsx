@@ -9,6 +9,10 @@ import {
 } from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
 import {
+  watchCreateRecommendation,
+  watchGetRecommendations,
+} from "./recommendation";
+import {
   watchCreateSecurityQuestionAnswer,
   watchGetSecurityQuestions,
   watchVerifySecurityQuestionAnswer,
@@ -135,6 +139,10 @@ function* rootSaga() {
   /* Feedback sagas */
   yield fork(watchCreateFeedback);
   yield fork(watchGetFeedbacks);
+
+  /* Recommendation sagas */
+  yield fork(watchCreateRecommendation);
+  yield fork(watchGetRecommendations);
 
   /* Security Question sagas */
   yield fork(watchCreateSecurityQuestionAnswer);

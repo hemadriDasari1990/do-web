@@ -171,9 +171,6 @@ export default function Section() {
           boardId: boardId,
         });
       }
-      if (!authenticated && !token) {
-        setOpenAddGuestDialog(true);
-      }
     }
   }, []);
 
@@ -245,6 +242,17 @@ export default function Section() {
     //     email,
     //   });
     // }
+    /* Ask for guest name and avatar only when board is not annonymous */
+    if (
+      !authenticated &&
+      !token &&
+      !loading &&
+      !board?.isPrivate &&
+      !board?.isAnnonymous &&
+      board?.startedAt
+    ) {
+      setOpenAddGuestDialog(true);
+    }
   }, [board]);
 
   useEffect(() => {
@@ -336,7 +344,7 @@ export default function Section() {
       (board?.status === "draft" || (board?.status === "new" && !userId))
     ) {
       setMessage(
-        "The Retro session isn't started yet. Please revisit after sometime."
+        "The Retro session isn't started yet. Please contact organisor."
       );
       setShowDialog(true);
     }
@@ -609,23 +617,21 @@ export default function Section() {
 
   const renderGoBackToBoards = useCallback(() => {
     return (
-      <Box>
-        <Box className={buttonStyle}>
-          <Button
-            variant="outlined"
-            color="default"
-            startIcon={
-              <KeyboardBackspaceOutlinedIcon
-                style={{ color: getRandomColor(3) }}
-              />
-            }
-            onClick={() => handleBack()}
-          >
-            <Typography color="primary" variant="subtitle1">
-              Go Back to Boards
-            </Typography>
-          </Button>
-        </Box>
+      <Box mr={1} className={buttonStyle}>
+        <Button
+          variant="outlined"
+          color="default"
+          startIcon={
+            <KeyboardBackspaceOutlinedIcon
+              style={{ color: getRandomColor(3) }}
+            />
+          }
+          onClick={() => handleBack()}
+        >
+          <Typography color="primary" variant="subtitle1">
+            Go Back to Boards
+          </Typography>
+        </Button>
       </Box>
     );
   }, [boardLoading, authenticated]);
@@ -1083,8 +1089,17 @@ export default function Section() {
     />
   );
 
+  const handleCloseRecommendation = () => {
+    setBoardCompleted(false);
+  };
+
   const renderRecommendation = () => {
-    return <Recommendation />;
+    return (
+      <Recommendation
+        open={boardCompleted}
+        handleClose={handleCloseRecommendation}
+      />
+    );
   };
 
   return (
@@ -1099,7 +1114,7 @@ export default function Section() {
       {renderAddGuest()}
       {renderSnackbar()}
       {renderStartSessionDialog()}
-      {boardDetails?.completedAt && boardCompleted && renderRecommendation()}
+      {renderRecommendation()}
       {loading ? (
         <BoardHeaderSkeleton />
       ) : (
@@ -1257,7 +1272,7 @@ export default function Section() {
                   <>{renderGoBackToBoards()}</>
                 ) : null}
                 {boardDetails?.completedAt && (
-                  <Box mx={1}>
+                  <Box mr={1}>
                     <Tooltip title="Download to Excel" placement="bottom" arrow>
                       <Button
                         color="primary"

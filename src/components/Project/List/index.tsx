@@ -253,7 +253,7 @@ const ProjectList = (props: any) => {
       <Box>
         <SummaryField
           title="Description"
-          value={renderSecondaryText(project.description, index)}
+          value={renderSecondaryText(project.description || "--", index)}
         />
       </Box>
     );

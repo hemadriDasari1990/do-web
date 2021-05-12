@@ -13,18 +13,19 @@ import Rating from "@material-ui/lab/Rating";
 import ClearIcon from "@material-ui/icons/Clear";
 import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
 import { MAX_CHAR_COUNT } from "../../util/constants";
+import { useDispatch } from "react-redux";
+import { createRecommendation } from "../../redux/actions/recommendation";
 
 const useStyles = makeStyles({});
 
-export default function Recommendation() {
+export default function Recommendation(props: any) {
+  const { open, handleClose } = props;
   const {} = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState<number | null>(0);
-  const [feedback, setFeedback] = React.useState("");
+  const [rating, setRating] = React.useState<number | null>(0);
+  const [description, setDescription] = React.useState("");
+  const dispatch = useDispatch();
 
-  const toggleDrawer = () => (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
+  const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -33,14 +34,21 @@ export default function Recommendation() {
     ) {
       return;
     }
-    setOpen(false);
+    handleClose();
   };
 
-  const handleFeedback = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFeedback(event.target.value);
+  const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(event.target.value);
   };
 
-  const handleSend = () => {};
+  const handleSend = () => {
+    dispatch(
+      createRecommendation({
+        description,
+        rating,
+      })
+    );
+  };
 
   return (
     <React.Fragment>
@@ -57,7 +65,7 @@ export default function Recommendation() {
             </IconButton>
           </Box>
           <Box textAlign="center">
-            {!value ? (
+            {!rating ? (
               <Typography variant="h5">
                 Based on your experience so far, how likely are you to recommend
                 Let's do retro to a friend or colleague?
@@ -69,18 +77,18 @@ export default function Recommendation() {
               </Typography>
             )}
           </Box>
-          {value ? (
+          {rating ? (
             <Container>
               <Box display="flex">
                 <TextField
                   multiline
-                  name="feedback"
-                  id="feedback"
+                  name="description"
+                  id="description"
                   label="Feedback"
                   placeholder="Tell us something that keeps you coming back. or something that might take it up another level."
-                  value={feedback}
-                  defaultValue={feedback}
-                  onChange={handleFeedback}
+                  value={description}
+                  defaultValue={description}
+                  onChange={handleDescription}
                   required
                   fullWidth
                   onKeyPress={(event: React.KeyboardEvent<any>) =>
@@ -109,9 +117,9 @@ export default function Recommendation() {
               <Rating
                 max={10}
                 size="large"
-                value={value}
+                value={rating}
                 onChange={(event, newValue) => {
-                  setValue(newValue);
+                  setRating(newValue);
                 }}
               />
             </Box>

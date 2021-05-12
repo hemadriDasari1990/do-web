@@ -89,7 +89,7 @@ function Feedback(props: any) {
 
   /* React Hooks */
   useEffect(() => {
-    if (!loading && apiTriggered && feedback?._id) {
+    if (!loading && apiTriggered && feedback?.success) {
       setApiTriggered(false);
       setTimeout(() => {
         handleDrawerClose();

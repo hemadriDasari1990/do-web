@@ -378,7 +378,7 @@ const BoardList = (props: any) => {
       <Box>
         <SummaryField
           title="Description"
-          value={renderSecondaryText(board.description, index)}
+          value={renderSecondaryText(board.description || "--", index)}
         />
       </Box>
     );

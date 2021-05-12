@@ -16,6 +16,7 @@ import securityQuestion from "./securityQuestion";
 import socket from "./socket";
 import team from "./team";
 import user from "./user";
+import recommendation from "./recommendation";
 
 const appReducer: any = combineReducers({
   board: board,
@@ -35,6 +36,7 @@ const appReducer: any = combineReducers({
   action,
   invite,
   join,
+  recommendation,
 });
 
 export default appReducer;

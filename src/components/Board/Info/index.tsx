@@ -12,12 +12,14 @@ import { getReactionsSummaryByBoard } from "../../../redux/actions/reaction";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useBoard } from "../../../redux/state/board";
 
 const BoardInfo = (props: any) => {
   const { openBoardInfo } = props;
   const dispatch = useDispatch();
   const { boardId } = useParams<{ boardId: string }>();
   const authenticated = useAuthenticated();
+  const { board } = useBoard();
 
   useEffect(() => {
     if (boardId && openBoardInfo) {
@@ -34,13 +36,13 @@ const BoardInfo = (props: any) => {
             <Divider />
           </>
         )}
-        {authenticated && boardId && (
+        {authenticated && boardId && !board?.isAnnonymous && (
           <>
             <InvitedMembers />
             <Divider />
           </>
         )}
-        {authenticated && boardId && (
+        {authenticated && boardId && !board?.isAnnonymous && (
           <>
             <JoinedMembers />
             <Divider />
