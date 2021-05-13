@@ -19,6 +19,7 @@ export function useLogin() {
     token,
     success,
     userId: descodedData?._id,
+    memberId: descodedData?.memberId,
     email: descodedData?.email,
     message,
     loginSuccess,

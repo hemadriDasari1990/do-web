@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import {
@@ -15,6 +15,13 @@ import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
 import { MAX_CHAR_COUNT } from "../../util/constants";
 import { useDispatch } from "react-redux";
 import { createRecommendation } from "../../redux/actions/recommendation";
+import { useLogin } from "../../redux/state/login";
+import {
+  useRecommendation,
+  useLoading,
+} from "../../redux/state/recommendation";
+import Loader from "../Loader/components";
+import DoSnackbar from "../Snackbar/components";
 
 const useStyles = makeStyles({});
 
@@ -24,6 +31,27 @@ export default function Recommendation(props: any) {
   const [rating, setRating] = React.useState<number | null>(0);
   const [description, setDescription] = React.useState("");
   const dispatch = useDispatch();
+  const { memberId } = useLogin();
+  const { recommendation } = useRecommendation();
+  const { loading } = useLoading();
+  const [apiTriggered, setApiTriggered] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  useEffect(() => {
+    if (!loading && apiTriggered && recommendation?.success) {
+      setApiTriggered(false);
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
+      setOpenSnackbar(true);
+    }
+    if (!loading && apiTriggered && recommendation?.errorId) {
+      setApiTriggered(false);
+      setOpenSnackbar(true);
+    }
+
+    return () => {};
+  }, [loading, apiTriggered, recommendation]);
 
   const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -42,12 +70,44 @@ export default function Recommendation(props: any) {
   };
 
   const handleSend = () => {
+    setApiTriggered(false);
     dispatch(
       createRecommendation({
         description,
         rating,
+        memberId,
       })
     );
+    setApiTriggered(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={openSnackbar}
+        status={recommendation?.errorId ? "error" : "success"}
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {recommendation?.errorId ? recommendation.message : ""}
+          {recommendation?.success ? recommendation.message : ""}
+        </Typography>
+      </DoSnackbar>
+    );
+  };
+
+  const disableButton = () => {
+    if (!description || description?.length <= 10) {
+      return true;
+    }
+    if (!rating) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -58,6 +118,8 @@ export default function Recommendation(props: any) {
         onClose={toggleDrawer}
         onOpen={toggleDrawer}
       >
+        {renderSnackbar()}
+        <Loader enable={loading} backdrop={true} />
         <Box mb={5}>
           <Box display="flex" justifyContent="flex-end">
             <IconButton onClick={toggleDrawer}>
@@ -100,6 +162,7 @@ export default function Recommendation(props: any) {
                     onClick={() => handleSend()}
                     variant="contained"
                     color="primary"
+                    disabled={disableButton()}
                   >
                     <Typography variant="h6" color="secondary">
                       Send

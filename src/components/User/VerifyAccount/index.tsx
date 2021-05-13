@@ -48,14 +48,18 @@ const VerifyAccount = () => {
   useEffect(() => {
     if (!loading && response && !response?.errorId) {
       setShowSnackbar(true);
-      //   history.push(LOGIN);
+      setTimeout(() => {
+        history.push(LOGIN);
+      }, 2000);
     }
     if (!loading && response?.errorId) {
       setShowSnackbar(true);
     }
     if (!loading && response?.errorId === ALREADY_VERIFIED) {
       setShowSnackbar(true);
-      //   history.push(LOGIN);
+      setTimeout(() => {
+        history.push(LOGIN);
+      }, 2000);
     }
   }, [loading, response]);
 
@@ -77,10 +81,6 @@ const VerifyAccount = () => {
   };
 
   const handleResend = () => {};
-
-  const handleLogin = () => {
-    history.push(LOGIN);
-  };
 
   return (
     <React.Fragment>
@@ -111,19 +111,6 @@ const VerifyAccount = () => {
             {!loading && (
               <Box textAlign="center">
                 <Typography variant="h1">{response?.message} </Typography>
-              </Box>
-            )}
-            {!loading && !response?.errorId && (
-              <Box mt={0.4} mr={2} textAlign="center">
-                <Button
-                  onClick={() => handleLogin()}
-                  size="small"
-                  aria-label="add"
-                  color="primary"
-                  variant="contained"
-                >
-                  Login Now
-                </Button>
               </Box>
             )}
             {response?.errorId === TOKEN_EXPIRED ||

@@ -21,6 +21,7 @@ export default {
     border: "unset",
     background: "#cccccc1a",
     "&:hover": {
+      background: "#cccccc1a",
       border: "unset",
     },
   },
@@ -55,7 +56,7 @@ export default {
     appearance: "none",
     textalign: "left",
     padding: "0 24px !important",
-    backgroundColor: "#192a4d0d",
+    backgroundColor: "#f3f4f6",
     cursor: "pointer",
     boxSizing: "border-box",
     width: "fit-content",
@@ -67,23 +68,24 @@ export default {
     zIndex: 0,
     boxShadow: "none",
     "&:hover": {
-      backgroundColor: "#192a4d0d",
+      backgroundColor: "#f3f4f6",
+      boxShadow: "none",
       "&$disabled": {
-        backgroundColor: "transparent",
+        backgroundColor: "#f3f4f6",
       },
     },
     "&:active": {
       boxShadow: "none",
-      backgroundColor: "#192a4d0d",
+      backgroundColor: "#f3f4f6",
       "&$disabled": {
-        backgroundColor: "transparent",
+        backgroundColor: "#f3f4f6",
       },
     },
     "&:focus": {
       boxShadow: "none",
-      backgroundColor: "#192a4d0d",
+      backgroundColor: "#f3f4f6",
       "&$disabled": {
-        backgroundColor: "transparent",
+        backgroundColor: "#f3f4f6",
       },
     },
   },

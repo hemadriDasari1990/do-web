@@ -8,7 +8,6 @@ import {
 } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
-import CardTravelIcon from "@material-ui/icons/CardTravel";
 import API from "../../network";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import { BOARDS } from "../../routes/config";
@@ -53,8 +52,6 @@ import { useJoinedMembers } from "../../redux/state/join";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
-import Tour from "reactour";
-import AdminUser from "../common/User";
 import Recommendation from "../Recommendation";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
@@ -123,7 +120,7 @@ export default function Section() {
     boxStyle,
     boxTextStyle,
   } = useLocalStyles();
-  const { buttonStyle, titleBoxStyle, tourStyle } = useStyles();
+  const { buttonStyle, titleBoxStyle } = useStyles();
   const dispatch = useDispatch();
   const { boardId } = useParams<{ boardId: string }>();
   const { totalSections: totalSectionsCount, board } = useBoard();
@@ -159,7 +156,6 @@ export default function Section() {
   const [joinedMembers, setJoinedMembers] = useState<
     Array<{ [Key: string]: any }>
   >([]);
-  const [startTour, setStartTour] = useState(false);
   // const [openInviteTooltip, setOpenInviteTootltip] = useState(true);
   // const [openVisibilityTooltip, setOpenVisibilityTootltip] = useState(true);
   // const [openSessionTooltip, setOpenSessionTootltip] = useState(true);
@@ -226,7 +222,7 @@ export default function Section() {
         //   /* ask user to choose avatar */
         //   setOpenAddGuestDialog(true);
         // }
-        if (!response?._id) {
+        if (!authenticated && !response?._id) {
           setOpenAddGuestDialog(true);
         }
       }
@@ -235,7 +231,7 @@ export default function Section() {
     return () => {
       socket.off("check-if-member-joined-board-response");
     };
-  }, [joinedMembers]);
+  }, [authenticated, joinedMembers]);
 
   useEffect(() => {
     setBoardDetails(board);
@@ -253,7 +249,7 @@ export default function Section() {
       !loading &&
       !board?.isPrivate &&
       !board?.isAnnonymous &&
-      board?.startedAt
+      !!board?.startedAt
     ) {
       setOpenAddGuestDialog(true);
     }
@@ -399,14 +395,6 @@ export default function Section() {
 
   const handleView = (type: string) => {
     setViewType(type);
-  };
-
-  const handleStartTour = () => {
-    setStartTour(true);
-  };
-
-  const handleCloseTour = () => {
-    setStartTour(false);
   };
 
   const renderDialog = () => {
@@ -569,11 +557,7 @@ export default function Section() {
           arrow
         > */}
         <Box className={buttonStyle}>
-          <Fab
-            id="create-section"
-            color="primary"
-            onClick={() => handleCreateNewSection()}
-          >
+          <Fab color="primary" onClick={() => handleCreateNewSection()}>
             <AddOutlinedIcon style={{ color: getRandomColor(1) }} />
           </Fab>
         </Box>
@@ -582,36 +566,16 @@ export default function Section() {
     );
   }, [boardLoading, authenticated]);
 
-  const renderTourButton = () => {
-    return (
-      <Tooltip title="Start Tour">
-        <Box mr={1} className={buttonStyle}>
-          <Fab color="primary" onClick={() => handleStartTour()}>
-            <CardTravelIcon style={{ color: getRandomColor(4) }} />
-          </Fab>
-        </Box>
-      </Tooltip>
-    );
-  };
-
   const renderView = () => {
     return (
       <Box display="flex">
         <Box mr={1} className={buttonStyle}>
-          <Fab
-            id="grid-view"
-            color="primary"
-            onClick={() => handleView("wrap")}
-          >
+          <Fab color="primary" onClick={() => handleView("wrap")}>
             <ViewStreamIcon style={{ color: getRandomColor(0) }} />
           </Fab>
         </Box>
         <Box mr={1} className={buttonStyle}>
-          <Fab
-            id="list-view"
-            color="primary"
-            onClick={() => handleView("nowrap")}
-          >
+          <Fab color="primary" onClick={() => handleView("nowrap")}>
             <ViewColumnIcon style={{ color: getRandomColor(3) }} />
           </Fab>
         </Box>
@@ -840,259 +804,6 @@ export default function Section() {
   //   );
   // };
 
-  const tourConfig: any = [
-    {
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              Welcome to your retrospective board
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              We're thrilled to count you in the letsdoretro community.{" "}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="h6">
-              My name is Hemadri (but please, call me Hemanth), and I'm going to
-              show you everything that letsdoretro.com can offer to your team.
-              In just 2 mins, you will be able to launch your first
-              retrospective board.{" "}
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="invite"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              We're currently on your <b>team dashboard.</b>
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              This is the place where you can see the summary of your account,
-              recent projects, boards and most importantly quick retro launch in
-              seconds.
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="h6">
-              You will also be able to{" "}
-              <b>access your recent projects or boards</b> from there.
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="visibility"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              We'd love your feedback on your experience with our Retro tool
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              You can access this feature to share us the feedback about what
-              you like, dis like about the tool and suggestions to improve the
-              system.
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="invited-members"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              Your team members do not need to create a retro account to join a
-              retrospective board.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              You can access this feature to manage teams, members and team
-              members.
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="timer"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              You can use this feature to manage your account like you can
-              change password, email address, name and security questions
-              anytime.
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="download"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              You can use this feature to change your avatar. We have plenty of
-              cool avatars.
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="create-section"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              Okay, this is cool, but I would like to launch my first
-              retrospective now!
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              Start quick retro is the awesome feature to launch a retrospective
-              board in just 3 steps but, we would recommend to create your team
-              first and add your team members to the team. If this is already
-              done then you're in right place.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              As a step, select the project or if you havent created a project
-              then just type your project name or select from the drop down and
-              enter description about your project.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              In the 2nd step, choose no of sections.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              In the 3rd step, select the team that you would like to invite to
-              join the restrospective session. That's it click on start retro
-              button to create the board.
-            </Typography>
-          </Box>
-        </Box>
-      ),
-      position: "left",
-    },
-    {
-      selector: '[id="grid-view"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              You're all set! Now all you have to do is to start your first
-              retrospective!
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              Any questions? Hit me up via the chat module on the bottom right
-              corner of the page.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="subtitle1">
-              We wish you some excellent retrospectives!
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="list-view"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              You're all set! Now all you have to do is to start your first
-              retrospective!
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              Any questions? Hit me up via the chat module on the bottom right
-              corner of the page.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="subtitle1">
-              We wish you some excellent retrospectives!
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      selector: '[id="show-menu"]',
-      content: () => (
-        <Box>
-          <AdminUser />
-          <Box mt={3}>
-            <Typography variant="h6">
-              You're all set! Now all you have to do is to start your first
-              retrospective!
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="h6">
-              Any questions? Hit me up via the chat module on the bottom right
-              corner of the page.
-            </Typography>
-          </Box>
-          <Box my={1}>
-            <Typography variant="subtitle1">
-              We wish you some excellent retrospectives!
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-  ];
-
-  const renderTour = () => (
-    <Tour
-      onRequestClose={handleCloseTour}
-      steps={tourConfig}
-      isOpen={startTour}
-      // maskClassName="mask"
-      // className="helper"
-      rounded={5}
-      accentColor="#57f"
-      className={tourStyle}
-    />
-  );
-
   const handleCloseRecommendation = () => {
     setBoardCompleted(false);
   };
@@ -1108,7 +819,6 @@ export default function Section() {
 
   return (
     <Suspense fallback={<div />}>
-      {renderTour()}
       {renderDialog()}
       {renderCreateSection()}
       {/* {renderCreateAction()} */}
@@ -1173,7 +883,6 @@ export default function Section() {
                       startIcon={
                         <PersonAddIcon style={{ color: getRandomColor(0) }} />
                       }
-                      id="invite"
                     >
                       <Typography variant="subtitle1">Invite</Typography>
                     </Button>
@@ -1212,7 +921,6 @@ export default function Section() {
                     <Button
                       color="primary"
                       onClick={() => changeVisibility()}
-                      id="visibility"
                       startIcon={
                         boardDetails?.isPrivate ? (
                           <LockIcon style={{ color: getRandomColor(4) }} />
@@ -1228,7 +936,7 @@ export default function Section() {
                     {/* </HtmlTooltip> */}
                   </Box>
                 )}
-                <Box ml={1} mt={0.5} id="invited-members">
+                <Box ml={1} mt={0.5}>
                   <AvatarGroupList
                     dataList={joinedMembers}
                     keyName="guestName"
@@ -1254,7 +962,7 @@ export default function Section() {
                 {!boardLoading &&
                 boardDetails?.startedAt &&
                 !boardDetails?.completedAt ? (
-                  <Box id="timer">{renderTimer()}</Box>
+                  <Box>{renderTimer()}</Box>
                 ) : null}
                 {!boardLoading &&
                 boardDetails?.startedAt &&
@@ -1289,7 +997,6 @@ export default function Section() {
                         startIcon={
                           <SaveAltIcon style={{ color: getRandomColor(4) }} />
                         }
-                        id="download"
                       >
                         <Typography variant="subtitle1">
                           Download to Excel
@@ -1321,7 +1028,6 @@ export default function Section() {
                   </Box>
                 ) : null} */}
                 {renderView()}
-                {!boardLoading && authenticated ? renderTourButton() : null}
                 <Box>
                   <Button
                     color="primary"
@@ -1330,9 +1036,7 @@ export default function Section() {
                       <MoreHorizIcon style={{ color: getRandomColor(0) }} />
                     }
                   >
-                    <Typography id="show-menu" variant="subtitle1">
-                      Show Menu
-                    </Typography>
+                    <Typography variant="subtitle1">Show Menu</Typography>
                   </Button>
                 </Box>
                 <PersistentDrawerRight

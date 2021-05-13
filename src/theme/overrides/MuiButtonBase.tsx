@@ -1,7 +1,7 @@
 export default {
   root: {
-    '&:focus': {
-      outline: "none"
+    "&:focus": {
+      outline: "none",
     },
   },
-}
+};

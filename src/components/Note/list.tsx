@@ -834,7 +834,7 @@ const NoteList = (props: any) => {
                         <Box style={{ minHeight: 40 }}>
                           <Typography
                             variant="h6"
-                            style={{ color: "#172b4d", fontWeight: 600 }}
+                            style={{ color: "#172b4d", fontWeight: 400 }}
                           >
                             {note.description}
                           </Typography>

@@ -55,6 +55,7 @@ export default {
     letterSpacing: "-0.05px",
     color: textSecondary,
     whiteSpace: "pre-line",
+    wordWrap: "break-word",
   },
   subtitle1: {
     fontFamily: fontFamily,
