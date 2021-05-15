@@ -1,8 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box } from "@material-ui/core";
+import { Typography, Box, Tooltip } from "@material-ui/core";
 import HintMessage from "../../HintMessage";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
+// import FileCopyIcon from "@material-ui/icons/FileCopy";
+import InsertLinkIcon from "@material-ui/icons/InsertLink";
 
 const useStyles = makeStyles(() => ({
   boxStyle: {
@@ -54,7 +55,9 @@ const CopyToClipboard = (props: any) => {
           justifyContent="center"
           onClick={() => handleCopy()}
         >
-          <FileCopyIcon color="secondary" fontSize="small" />
+          <Tooltip title={copied ? "Copied" : "Copy URL"}>
+            <InsertLinkIcon color="secondary" fontSize="small" />
+          </Tooltip>
         </Box>
       </Box>
       <Box>

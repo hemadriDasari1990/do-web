@@ -86,6 +86,12 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
   }),
+  listStyle: {
+    flexGrow: 1,
+    position: "absolute",
+    top: 43,
+    bottom: 0,
+  },
 }));
 
 const SectionList = (props: any) => {
@@ -97,6 +103,7 @@ const SectionList = (props: any) => {
     sectionStyle,
     sectionContainer,
     sectionHeaderStyle,
+    listStyle,
   } = useLocalStyles(props);
 
   const dispatch = useDispatch();
@@ -525,7 +532,7 @@ const SectionList = (props: any) => {
       {renderDeleteDialog()}
       {renderUpdateDialog()}
       {!loading && (
-        <List disablePadding>
+        <List className={listStyle} disablePadding>
           <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
             <Droppable
               droppableId="section"
