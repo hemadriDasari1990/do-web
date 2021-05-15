@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import { getRemainingCharLength } from "../../util";
+import { getRemainingCharLength, parseJwt } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router-dom";
@@ -35,12 +35,12 @@ const useStyles = makeStyles(() => ({
 export default function NoteUpdate(props: any) {
   const { sectionId, selectedNote, handleCancel } = props;
   const { textfieldStyle } = useStyles();
-  const { userId } = useLogin();
+  const { memberId } = useLogin();
   const { socket } = useSocket();
-  const { boardId } = useParams<{ boardId: string }>();
-  const params = new URLSearchParams(window.location.search);
-  const email = params.get("email");
+  const { boardId, token } = useParams<{ boardId: string; token?: string }>();
   const { board } = useBoard();
+  const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
+  const creatorId = memberId || descodedData?.memberId;
 
   /* Local states */
   const [count, setCount] = useState(0);
@@ -61,7 +61,7 @@ export default function NoteUpdate(props: any) {
   const saveNote = () => {
     if (selectedNote?._id) {
       socket.emit(`update-note`, {
-        userId: !isAnnonymous ? userId : null,
+        memberId: !isAnnonymous ? creatorId : null,
         boardId,
         description: description,
         previousDescription: selectedNote?.description,
@@ -69,23 +69,20 @@ export default function NoteUpdate(props: any) {
         noteId: selectedNote?._id,
         isAnnonymous: isAnnonymous ? isAnnonymous : selectedNote?.isAnnonymous,
         createdById: selectedNote?.createdById,
-        ...(!isAnnonymous ? { updatedById: userId } : {}),
-        email,
+        ...(!isAnnonymous ? { updatedById: creatorId } : {}),
       });
-
       return;
     }
 
     socket.emit(`create-note`, {
-      userId: !isAnnonymous ? userId : null,
+      memberId: !isAnnonymous ? creatorId : null,
       boardId,
       description: description,
       sectionId,
       isAnnonymous: isAnnonymous,
       ...(!isAnnonymous
-        ? { createdById: userId, updatedById: userId }
+        ? { createdById: creatorId, updatedById: creatorId }
         : { createdById: null, updatedById: null }),
-      email,
     });
   };
 

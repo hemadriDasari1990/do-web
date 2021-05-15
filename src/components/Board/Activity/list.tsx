@@ -124,15 +124,15 @@ const ActivityList = () => {
                           : null
                       }
                     >
-                      {activity?.user?.avatarId ? (
+                      {activity?.member?.avatarId ? (
                         <Avatar
                           className={`${avatarStyle}`}
-                          src={getAvatar(activity?.user?.avatarId)}
+                          src={getAvatar(activity?.member?.avatarId)}
                         ></Avatar>
                       ) : (
                         <Avatar className={`${avatarStyle}`}>
                           <Typography variant="subtitle1" className={nameStyle}>
-                            {getInitials(activity?.user?.name) || "TM"}
+                            {getInitials(activity?.member?.name) || "TM"}
                           </Typography>
                         </Avatar>
                       )}
@@ -142,7 +142,7 @@ const ActivityList = () => {
                     primary={
                       <Box className={`${breakText}`}>
                         <Typography variant="subtitle1" className={nameStyle}>
-                          {activity?.user?.name || "Team Member"}
+                          {activity?.member?.name || "Team Member"}
                           <span className={actionStyle}>
                             {getActivityText(activity?.action)}
                           </span>

@@ -129,7 +129,7 @@ const NoteList = (props: any) => {
   const { cursor } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
-  const { userId } = useLogin();
+  const { userId, memberId } = useLogin();
   const enableActions = !board?.isLocked || authenticated;
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
@@ -481,7 +481,7 @@ const NoteList = (props: any) => {
     socket.emit("add-reaction", {
       noteId: note._id,
       type,
-      reactedBy: userId,
+      reactedBy: memberId,
       sectionId: note.sectionId,
       boardId,
       isAnnonymous: board?.isAnnonymous,
@@ -492,7 +492,7 @@ const NoteList = (props: any) => {
   const handleDelete = () => {
     socket.emit(`delete-note`, {
       id: selectedNote._id,
-      userId: userId,
+      memberId: memberId,
       sectionId: selectedNote?.sectionId,
       description: selectedNote?.description,
       boardId,
@@ -808,7 +808,6 @@ const NoteList = (props: any) => {
                           <ColoredLine index={sectionIndex} />
                           <Box display="flex">
                             <Box mr={1}>{renderPastTime(note)}</Box>
-
                             {renderName(note)}
                           </Box>
                         </Box>

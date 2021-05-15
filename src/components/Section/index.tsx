@@ -126,7 +126,7 @@ export default function Section() {
   const { boardId } = useParams<{ boardId: string }>();
   const { totalSections: totalSectionsCount, board } = useBoard();
   const { loading } = useBoardLoading();
-  const { userId } = useLogin();
+  const { userId, memberId } = useLogin();
   const history = useHistory();
   const { loading: boardLoading } = useBoardLoading();
   const { socket } = useSocket();
@@ -706,6 +706,7 @@ export default function Section() {
       action: "end",
       id: boardDetails?._id,
       completedAt: Date.now(),
+      memberId,
     });
     handleClose();
   };
@@ -715,6 +716,7 @@ export default function Section() {
       action: "start",
       id: boardDetails?._id,
       startedAt: Date.now(),
+      memberId,
     });
     handleClose();
   };
@@ -948,7 +950,7 @@ export default function Section() {
                 </Box>
                 <Box ml={1} mt={0.5}>
                   <Typography variant="h5">
-                    {formatNumberWithCommas(boardDetails?.views || 0)} views
+                    {formatNumberWithCommas(boardDetails?.views) || 0} views
                   </Typography>
                 </Box>
               </Box>

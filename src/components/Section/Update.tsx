@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 export default function SectionUpdate(props: any) {
   const { openDialog, selectedSection, handleClose } = props;
   const { textfieldStyle } = useStyles();
-  const { userId } = useLogin();
+  const { memberId } = useLogin();
   const { boardId } = useParams<{ boardId: string }>();
   const { socket } = useSocket();
 
@@ -49,7 +49,7 @@ export default function SectionUpdate(props: any) {
       previousTitle: selectedSection?.name,
       sectionId: selectedSection?._id,
       boardId: selectedSection?.boardId,
-      userId,
+      memberId,
     });
     handleClose();
   };
@@ -58,7 +58,7 @@ export default function SectionUpdate(props: any) {
     socket.emit("create-section", {
       name: name,
       boardId: boardId,
-      userId,
+      memberId,
     });
     handleClose();
   };

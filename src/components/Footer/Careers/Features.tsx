@@ -1,20 +1,20 @@
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import CodeIcon from "@material-ui/icons/Code";
-import FaceIcon from "@material-ui/icons/Face";
-import GPSOffIcon from "@material-ui/icons/GpsOff";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import PublicIcon from "@material-ui/icons/Public";
 import React from "react";
 import Slide from "@material-ui/core/Slide";
-import SwapCallsIcon from "@material-ui/icons/SwapCalls";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
+import CreateIcon from "@material-ui/icons/Create";
+import ConnectIcon from "@material-ui/icons/WifiTethering";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import SchoolIcon from "@material-ui/icons/School";
+import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 
 const useStyles = makeStyles({
   avatarStyle: {
@@ -27,7 +27,7 @@ function Features() {
   return (
     <React.Fragment>
       <Box mb={3}>
-        <Typography variant="h2"> Our Core Values</Typography>
+        <Typography variant="h2"> Our Values</Typography>
       </Box>
       <Grid container>
         <Slide
@@ -41,20 +41,22 @@ function Features() {
             <ListItem alignItems="flex-start" disableGutters>
               <ListItemAvatar>
                 <Avatar className={avatarStyle}>
-                  <PublicIcon color="secondary" />
+                  <CreateIcon color="secondary" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Typography variant="h4" color="textPrimary">
-                    Impact
+                    Free to create
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
                     <Typography variant="h6" color="textPrimary">
-                      We're a small team operating at global Web scale. What you
-                      do here really matters.
+                      Giving people the space to take initiative is how we’ve
+                      gotten to where we are, and it’ll be what takes us ahead.
+                      We want our employees to find the blank spaces on the map
+                      and own them.
                     </Typography>
                   </React.Fragment>
                 }
@@ -67,20 +69,21 @@ function Features() {
             <ListItem alignItems="flex-start" disableGutters>
               <ListItemAvatar>
                 <Avatar className={avatarStyle}>
-                  <FaceIcon color="secondary" />
+                  <ConnectIcon color="secondary" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Typography variant="h4" color="textPrimary">
-                    Curiosity
+                    Free to connect
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
                     <Typography variant="h6" color="textPrimary">
-                      Let's do retro is not a "that's just the way it is" kind
-                      of place.
+                      We genuinely enjoy working, and being together. That, and
+                      mutual respect, is the glue that connects us around the
+                      world.
                     </Typography>
                   </React.Fragment>
                 }
@@ -100,20 +103,22 @@ function Features() {
             <ListItem alignItems="flex-start" disableGutters>
               <ListItemAvatar>
                 <Avatar className={avatarStyle}>
-                  <GPSOffIcon color="secondary" />
+                  <SupervisedUserCircleIcon color="secondary" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Typography variant="h4" color="textPrimary">
-                    No Jerks
+                    Free to fail
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
                     <Typography variant="h6" color="textPrimary">
-                      This is not just a platitude. We can't overstate how
-                      serious we are about this.
+                      All-in players aren’t afraid of failure. They commit to a
+                      task believing in its success. We’re all committed to
+                      getting it done, without the fear of striking out. If
+                      you’re all in, we’re with you.
                     </Typography>
                   </React.Fragment>
                 }
@@ -132,21 +137,22 @@ function Features() {
             <ListItem alignItems="flex-start" disableGutters>
               <ListItemAvatar>
                 <Avatar className={avatarStyle}>
-                  <GroupWorkIcon color="secondary" />
+                  <SchoolIcon color="secondary" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Typography variant="h4" color="textPrimary">
-                    Inclusion
+                    Free to learn
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
                     <Typography variant="h6" color="textPrimary">
-                      We need a diverse team to serve a diverse global
-                      community. We encourage applicants of all genders, ages,
-                      abilities, orientations, and ethnicities to apply.
+                      We never assume we know it all, and there’s always room
+                      for improvement. If we’re not experts in our field, we
+                      make sure to acquire the knowledge and the skills
+                      necessary to be one.
                     </Typography>
                   </React.Fragment>
                 }
@@ -160,20 +166,22 @@ function Features() {
             <ListItem alignItems="flex-start" disableGutters>
               <ListItemAvatar>
                 <Avatar className={avatarStyle}>
-                  <SwapCallsIcon color="secondary" />
+                  <ChangeHistoryIcon color="secondary" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Typography variant="h4" color="textPrimary">
-                    Flexibility
+                    Free to change
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
                     <Typography variant="h6" color="textPrimary">
-                      Work from anywhere with flexible PTO and generous parental
-                      leave policies.
+                      Our agility is key to staying competitive in an industry
+                      growing at hyper-speed, which rewrites itself every single
+                      day. It’s never boring, and our employees end up growing
+                      as fast as we do.
                     </Typography>
                   </React.Fragment>
                 }
@@ -193,20 +201,21 @@ function Features() {
             <ListItem alignItems="flex-start" disableGutters>
               <ListItemAvatar>
                 <Avatar className={avatarStyle}>
-                  <CodeIcon color="secondary" />
+                  <FavoriteIcon color="secondary" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={
                   <Typography variant="h4" color="textPrimary">
-                    Open Source
+                    Free to be yourself
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
                     <Typography variant="h6" color="textPrimary">
-                      We have a strong preference for using, publishing, and
-                      contributing back to open source software.
+                      Our differences drive our success. We work hard to create
+                      an environment where everyone feels comfortable and safe
+                      to be themselves.
                     </Typography>
                   </React.Fragment>
                 }

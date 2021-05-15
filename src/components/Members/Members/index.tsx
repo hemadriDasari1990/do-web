@@ -289,30 +289,32 @@ const Members = () => {
                           }
                         />
                       </Tooltip>
-                      <ListItemSecondaryAction className="r-5">
-                        <Tooltip
-                          arrow
-                          title={
-                            checkIfMemberAdded(member.teams)
-                              ? "Remove Member"
-                              : `Add Member`
-                          }
-                        >
-                          <IconButton
-                            size="small"
-                            onClick={() =>
-                              handleAddOrRemoveMember(member, index)
+                      {!member?.isAuthor ? (
+                        <ListItemSecondaryAction className="r-5">
+                          <Tooltip
+                            arrow
+                            title={
+                              checkIfMemberAdded(member.teams)
+                                ? "Remove Member"
+                                : `Add Member`
                             }
-                            color={renderAddMemberColor(member.teams)}
                           >
-                            {checkIfMemberAdded(member.teams) ? (
-                              <PersonIcon />
-                            ) : (
-                              <PersonAddOutlinedIcon />
-                            )}
-                          </IconButton>
-                        </Tooltip>
-                      </ListItemSecondaryAction>
+                            <IconButton
+                              size="small"
+                              onClick={() =>
+                                handleAddOrRemoveMember(member, index)
+                              }
+                              color={renderAddMemberColor(member.teams)}
+                            >
+                              {checkIfMemberAdded(member.teams) ? (
+                                <PersonIcon />
+                              ) : (
+                                <PersonAddOutlinedIcon />
+                              )}
+                            </IconButton>
+                          </Tooltip>
+                        </ListItemSecondaryAction>
+                      ) : null}
                     </ListItem>
                   </Grid>
                 )
