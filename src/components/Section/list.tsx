@@ -476,6 +476,13 @@ const SectionList = (props: any) => {
         destination.index
       );
       setSections([...newSections]);
+      const sourceSection: { [Key: string]: any } = sections[source.index];
+      const destinationSection: { [Key: string]: any } =
+        sections[destination.index];
+      socket.emit("update-section-position", {
+        sourceSection,
+        destinationSection,
+      });
       return;
     }
 

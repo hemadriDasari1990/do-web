@@ -10,6 +10,7 @@ import updateSection from "../../assets/section.svg";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
+import { useBoard } from "../../redux/state/board";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 
@@ -30,6 +31,7 @@ export default function SectionUpdate(props: any) {
   const { userId } = useLogin();
   const { boardId } = useParams<{ boardId: string }>();
   const { socket } = useSocket();
+  const { totalSections } = useBoard();
 
   /* Local states */
   const [name, setName] = useState("");
@@ -59,6 +61,7 @@ export default function SectionUpdate(props: any) {
       name: name,
       boardId: boardId,
       userId,
+      position: totalSections + 1,
     });
     handleClose();
   };
