@@ -53,7 +53,7 @@ import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 import Recommendation from "../Recommendation";
-import DoLogo from "../common/DoLogo";
+import DoLogoIcon from "../common/DoLogoIcon";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
@@ -841,10 +841,10 @@ export default function Section() {
             mountOnEnter
             unmountOnExit
           >
-            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
-                <Box mt={-1} mr={1}>
-                  <DoLogo hideBadge={true} />
+                <Box mt={1} mr={1}>
+                  <DoLogoIcon />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">
@@ -948,7 +948,7 @@ export default function Section() {
                 </Box>
                 <Box ml={1} mt={0.5}>
                   <Typography variant="h5">
-                    {formatNumberWithCommas(boardDetails?.views) || 0} views
+                    {formatNumberWithCommas(boardDetails?.views || 0)} views
                   </Typography>
                 </Box>
               </Box>
@@ -962,7 +962,7 @@ export default function Section() {
             mountOnEnter
             unmountOnExit
           >
-            <Grid item xl={8} lg={8} md={8} sm={12} xs={12}>
+            <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
               <Box display="flex" justifyContent="flex-end">
                 {!boardLoading &&
                 boardDetails?.startedAt &&
