@@ -53,6 +53,7 @@ import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 import Recommendation from "../Recommendation";
+import DoLogo from "../common/DoLogo";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
@@ -842,6 +843,9 @@ export default function Section() {
           >
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box display="flex">
+                <Box mt={-1} mr={1}>
+                  <DoLogo hideBadge={true} />
+                </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">
                     {boardDetails?.name}
@@ -950,6 +954,7 @@ export default function Section() {
               </Box>
             </Grid>
           </Slide>
+
           <Slide
             direction="left"
             in={true}
@@ -1053,10 +1058,7 @@ export default function Section() {
           </Slide>
         </Grid>
       )}
-
-      <Box className={boxStyle}>
-        <SectionList startSession={startSession} viewType={viewType} />
-      </Box>
+      <SectionList startSession={startSession} viewType={viewType} />
       {/* <Box className={boxStyle}>
         <Action />
       </Box> */}

@@ -13,11 +13,11 @@ export default {
   track: {
     // Controls default (unchecked) color for the track
     opacity: 0.2,
-    backgroundColor: "#172b4d63",
+    backgroundColor: "#172B4D63",
     "$checked$checked + &": {
       // Controls checked color for the track
       opacity: 0.7,
-      backgroundColor: "#172b4d63",
+      backgroundColor: "#172B4D63",
     },
   },
 };

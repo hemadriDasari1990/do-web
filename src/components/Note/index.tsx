@@ -10,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
 import NoteListSkeleton from "../common/skeletons/notesList";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import UpdateNote from "./Update";
 import Zoom from "@material-ui/core/Zoom";
@@ -21,19 +20,19 @@ import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useLoading } from "../../redux/state/note";
 import { useSocket } from "../../redux/state/socket";
+import AddIcon from "@material-ui/icons/Add";
 
 const NotesList = React.lazy(() => import("./list"));
 
 const useStyles = makeStyles(() => ({
   buttonStyle: {
-    background: "#fff",
     height: 35,
-    boxShadow:
-      "0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2)",
-    justifyContent: "center !important",
+    // color: "#5E6C84",
+    backgroundColor: "inherit",
+    justifyContent: "flex-start !important",
     "&:hover": {
+      backgroundColor: "#EBECF0",
       boxShadow: "none",
-      justifyContent: "center",
     },
   },
 }));
@@ -144,10 +143,10 @@ function Note(props: any) {
     isDraggingFrom: boolean
   ): string => {
     if (isDraggingOver) {
-      return "#fffae9";
+      return "#cecfd4";
     }
     if (isDraggingFrom) {
-      return "#f5f7ff";
+      return "#e0e2e6";
     }
     return "inherit";
   };
@@ -170,20 +169,19 @@ function Note(props: any) {
     return (
       <Grid container>
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-          <Box p={1}>
-            <Tooltip arrow title="Create Note">
-              <Zoom in={true} timeout={1500}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  fullWidth
-                  classes={{ root: buttonStyle }}
-                  onClick={() => createNote(sectionId)}
-                >
-                  <Typography variant="subtitle1">+ Create Note</Typography>
-                </Button>
-              </Zoom>
-            </Tooltip>
+          <Box mb={1}>
+            <Zoom in={true} timeout={1500}>
+              <Button
+                variant="contained"
+                size="small"
+                fullWidth
+                classes={{ root: buttonStyle }}
+                onClick={() => createNote(sectionId)}
+                startIcon={<AddIcon />}
+              >
+                <Typography variant="subtitle1">Create another note</Typography>
+              </Button>
+            </Zoom>
           </Box>
         </Grid>
       </Grid>
@@ -192,8 +190,6 @@ function Note(props: any) {
 
   return (
     <React.Fragment>
-      {showNote ? <>{renderUpdateNote()}</> : null}
-      {!showNote && enableActions() && <>{renderCreateNoteButton()}</>}
       {loading ? <NoteListSkeleton /> : null}
       <Droppable
         droppableId={sectionId}
@@ -207,6 +203,7 @@ function Note(props: any) {
           dropSnapshot: DroppableStateSnapshot
         ) => (
           <div
+            {...dropProvided.droppableProps}
             ref={dropProvided.innerRef}
             style={{
               backgroundColor: getBackgroundColor(
@@ -214,12 +211,6 @@ function Note(props: any) {
                 Boolean(dropSnapshot.draggingFromThisWith)
               ),
               opacity: "inherit",
-              margin:
-                dropSnapshot.isDraggingOver ||
-                Boolean(dropSnapshot.draggingFromThisWith)
-                  ? 8
-                  : 0,
-              borderRadius: 6,
             }}
           >
             <NotesList
@@ -233,6 +224,8 @@ function Note(props: any) {
           </div>
         )}
       </Droppable>
+      {!showNote && enableActions() && <>{renderCreateNoteButton()}</>}
+      {showNote ? <>{renderUpdateNote()}</> : null}
     </React.Fragment>
   );
 }

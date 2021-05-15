@@ -163,7 +163,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 35,
     alignItems: "center",
     display: "flex",
-    backgroundColor: "#f3f4f6",
+    backgroundColor: "#EBECF0",
   },
   breakText: {
     whiteSpace: "initial",

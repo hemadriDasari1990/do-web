@@ -1,12 +1,11 @@
 import React from "react";
-//
-import { getStickyColor } from "../../../util";
 import { makeStyles } from "@material-ui/core/styles";
+import getRandomBGColor from "../../../util/getRandomColor";
 
 const useStyles = makeStyles(() => ({
   hrStyle: (props: any) => ({
     width: 55,
-    backgroundColor: getStickyColor(props.index),
+    background: getRandomBGColor(props.index),
     height: 8,
     float: "left",
     border: "none",

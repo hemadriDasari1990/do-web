@@ -54,6 +54,7 @@ const BoardInfo = (props: any) => {
             <Divider />
           </>
         )}
+
         {boardId && (
           <Box mt={2}>
             <Summary hideNoSummary={true} />

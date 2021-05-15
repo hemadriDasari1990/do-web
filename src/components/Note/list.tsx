@@ -39,7 +39,6 @@ import useTableStyles from "../styles/table";
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
 const ReactionView = React.lazy(() => import("./Reaction/view"));
-const NoRecords = React.lazy(() => import("../NoRecords"));
 const NoteDetails = React.lazy(() => import("./Details"));
 
 const useLocalStyles = makeStyles(() => ({
@@ -77,8 +76,8 @@ const useLocalStyles = makeStyles(() => ({
     borderRadius: 5,
   },
   hightlightNoteStyle: {
-    "-ms-transform": "rotate(2deg)" /* IE 9 */,
-    transform: "rotate(2deg)",
+    // "-ms-transform": "rotate(2deg)" /* IE 9 */,
+    // transform: "rotate(2deg)",
   },
   pastTimeStyle: {
     verticalAlign: "middle",
@@ -92,6 +91,13 @@ const useLocalStyles = makeStyles(() => ({
     fontSize: "1.2rem",
   },
   noteContainer: {
+    /* flex child */
+    flexGrow: 1,
+    /*
+    flex parent
+    needed to allow width to grow greater than body
+  */
+    // display: "inline-flex",
     /* stop the list collapsing when empty */
     // minHeight: 420,
     /*
@@ -99,18 +105,17 @@ const useLocalStyles = makeStyles(() => ({
     as it will collapse when the list is empty
   */
   },
+  dropZoneStyle: {
+    /* stop the list collapsing when empty */
+    // minWidth: 600,
+    /* stop the list collapsing when it has no items */
+    minHeight: 5,
+  },
   noteItemStyle: {},
 }));
 
 const NoteList = (props: any) => {
-  const {
-    sectionId,
-    editNote,
-    dropProvided,
-    showNote,
-    deleteNote,
-    sectionIndex,
-  } = props;
+  const { sectionId, editNote, dropProvided, deleteNote, sectionIndex } = props;
   const {
     paperStyle,
     iconButtonStyle,
@@ -118,7 +123,7 @@ const NoteList = (props: any) => {
     pastTimeStyle,
     timeIconStyle,
     svgIconStyle,
-    noteContainer,
+    dropZoneStyle,
     noteItemStyle,
   } = useLocalStyles();
   const { cursor } = useStyles();
@@ -348,12 +353,12 @@ const NoteList = (props: any) => {
         default:
           break;
       }
-      noteData.reactions = noteData.reactions?.filter(
+      noteData.reactions = noteData?.reactions?.filter(
         (reaction: { [Key: string]: any }) => reaction?._id !== newReaction?._id
       );
       noteData.totalReactions = noteData.totalReactions - 1;
     } else {
-      const oldReaction = noteData.reactions?.find(
+      const oldReaction = noteData?.reactions?.find(
         (reaction: { [Key: string]: any }) => reaction?._id === newReaction?._id
       );
       if (oldReaction) {
@@ -421,7 +426,7 @@ const NoteList = (props: any) => {
           default:
             break;
         }
-        const reactionIndex = noteData.reactions?.findIndex(
+        const reactionIndex = noteData?.reactions?.findIndex(
           (reaction: { [Key: string]: any }) =>
             reaction?._id === newReaction?._id
         );
@@ -763,49 +768,31 @@ const NoteList = (props: any) => {
       {renderDeleteDialog()}
       {renderNoteViewDialog()}
       {renderMenu()}
-      <div ref={dropProvided?.innerRef} className={noteContainer}>
+      <div
+        ref={dropProvided?.innerRef}
+        className={`${dropZoneStyle}`}
+        style={{ padding: "10px 10px 0px 10px" }}
+      >
         {Array.isArray(notes) && notes?.length
           ? notes.map((note: { [Key: string]: any }, index: number) => (
               <Draggable
                 key={note._id}
                 draggableId={note._id}
                 index={index}
-                isDragDisabled={!userId}
+                isDragDisabled={!authenticated}
+                disableInteractiveElementBlocking={true}
               >
                 {(
                   dragProvided: DraggableProvided,
                   dragSnapshot: DraggableStateSnapshot
                 ) => (
                   <div
-                    key={note._id}
-                    // isDragging={dragSnapshot.isDragging}
-                    is-groupedOver={Boolean(dragSnapshot.combineTargetFor)}
-                    // isClone={isClone}
                     ref={dragProvided.innerRef}
                     {...dragProvided.draggableProps}
                     {...dragProvided.dragHandleProps}
-                    style={{
-                      ...dragProvided.draggableProps.style,
-                      // borderColor: dragSnapshot.isDragging
-                      //   ? "yellow"
-                      //   : "transparent",
-                      // backgroundColor: getBackgroundColor(
-                      //   dragSnapshot.isDragging,
-                      //   Boolean(dragSnapshot.combineTargetFor)
-                      // ),
-                      // boxShadow: dragSnapshot.isDragging
-                      //   ? `2px 2px 1px #675`
-                      //   : "none",
-                    }}
-                    is-dragging={dragSnapshot.isDragging}
-                    data-is-dragging={dragSnapshot.isDragging}
-                    data-testid={note._id}
-                    data-index={index}
                     className={noteItemStyle}
                   >
                     <Box
-                      pl={1}
-                      pr={1}
                       pb={1}
                       onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                         handleNote(event, note)
@@ -816,12 +803,6 @@ const NoteList = (props: any) => {
                         className={`${paperStyle} ${
                           dragSnapshot.isDragging ? hightlightNoteStyle : ""
                         }`}
-                        // style={{ background: getStickyColor(sectionIndex) }}
-                        // style={{
-                        //   border: `2px solid ${getRandomBGColor()}`,
-                        //   borderImage: getRandomBGColor(),
-                        //   borderImageSlice: 1,
-                        // }}
                       >
                         <Box display="flex" justifyContent="space-between">
                           <ColoredLine index={sectionIndex} />
@@ -834,13 +815,13 @@ const NoteList = (props: any) => {
                         <Box style={{ minHeight: 40 }}>
                           <Typography
                             variant="h6"
-                            style={{ color: "#172b4d", fontWeight: 400 }}
+                            style={{ color: "#172B4D", fontWeight: 400 }}
                           >
                             {note.description}
                           </Typography>
                         </Box>
                         <Box
-                          pt={2}
+                          pt={1}
                           display="flex"
                           justifyContent="space-between"
                         >
@@ -884,11 +865,6 @@ const NoteList = (props: any) => {
               </Draggable>
             ))
           : null}
-        {!notes?.length && !showNote && dropProvided?.placeholder && (
-          <Box py={2}>
-            <NoRecords message="Notes are empty" hideImage={true} />
-          </Box>
-        )}
         {dropProvided?.placeholder}
       </div>
     </React.Fragment>

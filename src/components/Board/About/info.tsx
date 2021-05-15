@@ -6,7 +6,8 @@ import SummaryField from "../../common/SummaryField";
 import { Suspense } from "react";
 // import { getBoardDetails } from "../../../redux/actions";
 import { useBoard } from "../../../redux/state/board";
-
+import CopyToClipboard from "../../common/Copy";
+import { Typography, Divider } from "@material-ui/core";
 // import { useDispatch } from "react-redux";
 
 const AboutBoardInfo = () => {
@@ -20,7 +21,7 @@ const AboutBoardInfo = () => {
   return (
     <Suspense fallback={<div></div>}>
       <Box p={2}>
-        <Box mb={1}>
+        <Box my={1}>
           <SummaryField
             title="Description"
             value={board?.description || "--"}
@@ -80,6 +81,16 @@ const AboutBoardInfo = () => {
           <SummaryField
             title="Updated At"
             value={getHumanReadableDate(board?.updatedAt)}
+          />
+        </Box>
+        <Divider />
+        <Box mt={1}>
+          <Box mb={1}>
+            <Typography variant="subtitle1">Link to this board</Typography>
+          </Box>
+          <CopyToClipboard
+            url={process.env.REACT_APP_PORT + "/board/" + board?._id}
+            hintMessage="Anyone on the internet (including Google) can see this board. Only board members can edit."
           />
         </Box>
       </Box>

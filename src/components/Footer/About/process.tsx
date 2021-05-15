@@ -10,7 +10,7 @@ import useStyles from "../../styles";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   hintTextStyle: {
-    color: "#172b4d3d",
+    color: "#172B4D3d",
     fontWeight: 700,
   },
 }));

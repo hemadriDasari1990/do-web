@@ -16,10 +16,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   iconStyle: {
-    fill: "#172b4d",
+    fill: "#172B4D",
   },
   sortIconStyle: {
-    fill: "#172b4d",
+    fill: "#172B4D",
     marginLeft: 20,
     height: 15,
     width: 15,

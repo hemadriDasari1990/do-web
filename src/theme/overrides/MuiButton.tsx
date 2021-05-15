@@ -3,14 +3,14 @@ export default {
     boxShadow: "none",
   },
   outlined: {
-    color: "#172b4d",
+    color: "#172B4D",
     border: "unset",
     "&:hover": {
       border: "unset",
     },
   },
   outlinedPrimary: {
-    color: "#172b4d",
+    color: "#172B4D",
     border: "unset",
     "&:hover": {
       border: "unset",
@@ -56,7 +56,7 @@ export default {
     appearance: "none",
     textalign: "left",
     padding: "0 24px !important",
-    backgroundColor: "#f3f4f6",
+    backgroundColor: "#EBECF0",
     cursor: "pointer",
     boxSizing: "border-box",
     width: "fit-content",
@@ -68,24 +68,24 @@ export default {
     zIndex: 0,
     boxShadow: "none",
     "&:hover": {
-      backgroundColor: "#f3f4f6",
+      backgroundColor: "#EBECF0",
       boxShadow: "none",
       "&$disabled": {
-        backgroundColor: "#f3f4f6",
+        backgroundColor: "#EBECF0",
       },
     },
     "&:active": {
       boxShadow: "none",
-      backgroundColor: "#f3f4f6",
+      backgroundColor: "#EBECF0",
       "&$disabled": {
-        backgroundColor: "#f3f4f6",
+        backgroundColor: "#EBECF0",
       },
     },
     "&:focus": {
       boxShadow: "none",
-      backgroundColor: "#f3f4f6",
+      backgroundColor: "#EBECF0",
       "&$disabled": {
-        backgroundColor: "#f3f4f6",
+        backgroundColor: "#EBECF0",
       },
     },
   },

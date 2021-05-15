@@ -37,6 +37,7 @@ import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
+import getRandomBGColor from "../../util/getRandomColor";
 
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -51,28 +52,40 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     width: "fit-content",
   },
   sectionStyle: (props: any) => ({
-    minHeight: "100vh",
     /* like display:flex but will allow bleeding over the window width */
-    minWidth: "100vw",
-    display: "inline-flex", // Change this to flex for window scroll
+    display: "flex", // Change this to flex for window scroll
     flexWrap: props?.viewType, // nowrap is row wrap is next line
-    transform: "translateZ(0)",
+    overflowX: "auto",
+    height: "100%",
+    whiteSpace: "nowrap",
   }),
   listItemStyle: {
     cursor: "pointer",
   },
-  parentContainer: {
-    height: "90vh",
-    overflow: "auto",
-  },
   sectionContainer: {
     margin: 4,
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "#f3f4f6",
-    width: 420,
+    backgroundColor: "#EBECF0",
+    [theme.breakpoints.only("xl")]: {
+      minWidth: 440,
+      maxWidth: 440,
+    },
+    [theme.breakpoints.only("lg")]: {
+      minWidth: 440,
+      maxWidth: 440,
+    },
+    // "@media (min-width: 1280px)": {
+    //   minWidth: 440,
+    //   maxWidth: 440,
+    // },
     borderRadius: 6,
+    display: "inline-block",
+    flex: "0 0 272px",
+    height: "fit-content",
   },
+  sectionHeaderStyle: (props: any) => ({
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+  }),
 }));
 
 const SectionList = (props: any) => {
@@ -81,9 +94,9 @@ const SectionList = (props: any) => {
     sectionHeader,
     titleStyle,
     listItemStyle,
-    parentContainer,
     sectionStyle,
     sectionContainer,
+    sectionHeaderStyle,
   } = useLocalStyles(props);
 
   const dispatch = useDispatch();
@@ -348,7 +361,7 @@ const SectionList = (props: any) => {
             }
           >
             <Zoom in={true} timeout={2000}>
-              <MoreHorizIcon />
+              <MoreHorizIcon color="secondary" />
             </Zoom>
           </IconButton>
         </Tooltip>
@@ -491,7 +504,7 @@ const SectionList = (props: any) => {
 
   const renderAnalytics = (section: { [Key: string]: any }) => {
     return (
-      <Tooltip arrow title="View Analytics" placement="bottom">
+      <Tooltip arrow title="View Reactions Summary" placement="bottom">
         <IconButton
           aria-label="reaction-menu"
           size="small"
@@ -499,7 +512,7 @@ const SectionList = (props: any) => {
             handleViewAnalytics(section)
           }
         >
-          <PieChartOutlinedIcon />
+          <PieChartOutlinedIcon color="secondary" />
         </IconButton>
       </Tooltip>
     );
@@ -514,96 +527,92 @@ const SectionList = (props: any) => {
       {!loading && (
         <List disablePadding>
           <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-            <div className={parentContainer}>
-              <Droppable
-                droppableId="section"
-                type="SECTION"
-                direction="horizontal"
-                ignoreContainerClipping={true}
-                isCombineEnabled={false}
-              >
-                {(droppableProvided: DroppableProvided) => (
-                  <div
-                    ref={droppableProvided.innerRef}
-                    {...droppableProvided.droppableProps}
-                    className={sectionStyle}
-                  >
-                    {Array.isArray(sections) &&
-                      sections.map(
-                        (item: { [Key: string]: any }, index: number) => (
-                          <div key={item._id}>
-                            <Draggable
-                              draggableId={item._id}
-                              index={index}
-                              isDragDisabled={!authenticated}
+            <Droppable
+              droppableId="section"
+              type="SECTION"
+              direction="horizontal"
+              ignoreContainerClipping={true}
+              isCombineEnabled={false}
+            >
+              {(droppableProvided: DroppableProvided) => (
+                <div
+                  ref={droppableProvided.innerRef}
+                  {...droppableProvided.droppableProps}
+                  className={sectionStyle}
+                >
+                  {Array.isArray(sections) &&
+                    sections.map(
+                      (item: { [Key: string]: any }, index: number) => (
+                        <Draggable
+                          draggableId={item._id}
+                          index={index}
+                          isDragDisabled={!authenticated}
+                          key={item._id}
+                        >
+                          {(
+                            draggableProvided: DraggableProvided,
+                            draggableSnapshot: DraggableStateSnapshot
+                          ) => (
+                            <div
+                              ref={draggableProvided.innerRef}
+                              {...draggableProvided.draggableProps}
+                              className={`${sectionContainer}`}
                             >
-                              {(
-                                draggableProvided: DraggableProvided,
-                                draggableSnapshot: DraggableStateSnapshot
-                              ) => (
-                                <div
-                                  ref={draggableProvided.innerRef}
-                                  {...draggableProvided.draggableProps}
-                                  className={`${sectionContainer}`}
-                                >
-                                  <div
-                                    is-dragging={draggableSnapshot.isDragging}
-                                  >
-                                    <ListItem
-                                      {...draggableProvided.dragHandleProps}
-                                      is-dragging={draggableSnapshot.isDragging}
-                                      disableGutters
+                              <ListItem
+                                {...draggableProvided.dragHandleProps}
+                                is-dragging={draggableSnapshot.isDragging}
+                                disableGutters
+                                className={`${sectionHeaderStyle}`}
+                                style={{
+                                  background: getRandomBGColor(index),
+                                  position: "relative",
+                                }}
+                              >
+                                <ListItemText
+                                  primary={
+                                    <Box
+                                      display="flex"
+                                      justifyContent="space-between"
+                                      className={`${titleStyle}`}
                                     >
-                                      <ListItemText
-                                        primary={
-                                          <Box
-                                            display="flex"
-                                            justifyContent="space-between"
-                                            className={`${titleStyle}`}
-                                          >
-                                            <Box>
-                                              <Typography
-                                                className={sectionHeader}
-                                                variant="h5"
-                                              >
-                                                {item.name}&nbsp;(
-                                                {formateNumber(
-                                                  item.totalNotes
-                                                ) || 0}
-                                                )
-                                              </Typography>
-                                            </Box>
-                                          </Box>
-                                        }
-                                      />
-                                      <ListItemSecondaryAction>
-                                        {item.totalNotes
-                                          ? renderAnalytics(item)
-                                          : null}
-                                        {authenticated
-                                          ? renderMenuAction(item)
-                                          : null}
-                                      </ListItemSecondaryAction>
-                                    </ListItem>
-                                  </div>
-                                  {renderMenu(item)}
-                                  <Note
-                                    sectionIndex={index}
-                                    startSession={startSession}
-                                    key={item._id}
-                                    sectionId={item._id}
-                                  />
-                                </div>
-                              )}
-                            </Draggable>
-                          </div>
-                        )
-                      )}
-                    {droppableProvided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </div>
+                                      <Box>
+                                        <Typography
+                                          className={sectionHeader}
+                                          variant="h5"
+                                          color="secondary"
+                                        >
+                                          {item.name}&nbsp;(
+                                          {formateNumber(item.totalNotes) || 0})
+                                        </Typography>
+                                      </Box>
+                                    </Box>
+                                  }
+                                />
+                                <ListItemSecondaryAction>
+                                  {item.totalNotes
+                                    ? renderAnalytics(item)
+                                    : null}
+                                  {authenticated
+                                    ? renderMenuAction(item)
+                                    : null}
+                                </ListItemSecondaryAction>
+                              </ListItem>
+                              {renderMenu(item)}
+                              <Note
+                                sectionIndex={index}
+                                startSession={startSession}
+                                key={item._id}
+                                sectionId={item._id}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      )
+                    )}
+                  {droppableProvided.placeholder}
+                </div>
+              )}
+            </Droppable>
           </DragDropContext>
         </List>
       )}

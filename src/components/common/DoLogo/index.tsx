@@ -19,7 +19,7 @@ const useLocalStyles = makeStyles(() => ({
   },
 }));
 const DoLogo = (props: any) => {
-  const { color, ...boxProps } = props;
+  const { color, hideBadge, ...boxProps } = props;
   const { logoTextStyle, cursor } = useStyles();
   const { badgeStyle } = useLocalStyles();
 
@@ -62,16 +62,20 @@ const DoLogo = (props: any) => {
         </Typography>
       </Box>
       <Box mt={2} ml={0.2}>
-        <Badge
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          className={badgeStyle}
-          badgeContent="Beta"
-        >
+        {!hideBadge ? (
+          <Badge
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            className={badgeStyle}
+            badgeContent="Beta"
+          >
+            <DoLogoIcon />
+          </Badge>
+        ) : (
           <DoLogoIcon />
-        </Badge>
+        )}
       </Box>
     </Box>
   );

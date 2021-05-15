@@ -1,9 +1,9 @@
 export default {
   root: {
-    // background: "-webkit-linear-gradient(90deg, #172b4d 0%, #0095ffba 100%)"
+    // background: "-webkit-linear-gradient(90deg, #172B4D 0%, #0095ffba 100%)"
   },
   // input: {
-  //   color: '#172b4d',
+  //   color: '#172B4D',
   //   fontSize: 12,
   //   fontFamily: 'inherit',
   //   marginTop: 3,

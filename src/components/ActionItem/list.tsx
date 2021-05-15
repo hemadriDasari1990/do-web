@@ -483,7 +483,7 @@ const ActionItemList = (props: any) => {
                           {renderName(actionItem)}
                         </Box>
                         <Box style={{ minHeight: 40 }}>
-                          <Typography variant="h6" style={{ color: "#172b4d" }}>
+                          <Typography variant="h6" style={{ color: "#172B4D" }}>
                             {actionItem.description}
                           </Typography>
                         </Box>

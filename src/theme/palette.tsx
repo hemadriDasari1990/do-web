@@ -11,9 +11,9 @@ const palette = {
   },
   primary: {
     contrastText: white,
-    dark: "#172b4d",
-    main: "#172b4d",
-    light: "#172b4d",
+    dark: "#172B4D",
+    main: "#172B4D",
+    light: "#172B4D",
   },
   secondary: {
     contrastText: white,

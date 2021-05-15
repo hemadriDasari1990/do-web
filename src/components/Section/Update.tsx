@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     "& .MuiFilledInput-root": {
       background: "#fff",
       borderRadius: 6,
-      border: "2px solid #172b4d",
+      border: "2px solid #172B4D",
       paddingTop: "0px !important",
     },
   },

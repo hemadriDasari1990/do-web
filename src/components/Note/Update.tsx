@@ -27,7 +27,6 @@ const useStyles = makeStyles(() => ({
     "& .MuiFilledInput-root": {
       background: "#fff",
       borderRadius: 6,
-      border: "2px solid #172b4d",
       paddingTop: "0px !important",
     },
   },
@@ -109,6 +108,7 @@ export default function NoteUpdate(props: any) {
           multiline
           onChange={handleNote}
           className={textfieldStyle}
+          placeholder="Your comments"
           value={description}
           InputProps={{
             disableUnderline: true,
