@@ -1,5 +1,5 @@
 import {
-  ALPHABET_NUMIREC_AND_SOME_SPECIAL_CHARACTERS,
+  ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
 import Fab from "@material-ui/core/Fab";
@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function NoteUpdate(props: any) {
-  const { sectionId, selectedNote, handleCancel } = props;
+  const { sectionId, selectedNote, handleCancel, totalNotes } = props;
   const { textfieldStyle } = useStyles();
   const { memberId } = useLogin();
   const { socket } = useSocket();
@@ -80,6 +80,7 @@ export default function NoteUpdate(props: any) {
       description: description,
       sectionId,
       isAnnonymous: isAnnonymous,
+      position: totalNotes ? totalNotes : 0,
       ...(!isAnnonymous
         ? { createdById: creatorId, updatedById: creatorId }
         : { createdById: null, updatedById: null }),
@@ -88,10 +89,6 @@ export default function NoteUpdate(props: any) {
 
   const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, isAnnonymous: !isAnnonymous });
-  };
-
-  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
-    event.preventDefault();
   };
 
   return (
@@ -117,13 +114,10 @@ export default function NoteUpdate(props: any) {
           onKeyPress={(event: React.KeyboardEvent<any>) =>
             allow(
               event,
-              ALPHABET_NUMIREC_AND_SOME_SPECIAL_CHARACTERS,
+              ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
               MAX_CHAR_COUNT
             )
           }
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
         />
         <Box mt={1} ml={1} display="flex" justifyContent="space-between">
           <Box>

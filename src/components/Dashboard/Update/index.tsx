@@ -253,7 +253,7 @@ const Update = () => {
         {project && (
           <Box mt={3}>
             <HintMessage
-              message={`The board name will be Retro ${
+              message={`The board name will be Board ${
                 project?.boards?.length ? project?.boards?.length + 1 : 1
               }`}
             />

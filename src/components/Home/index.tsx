@@ -88,7 +88,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Let's experience the
+                    Let's do retro
                   </Typography>
                 </Box>
                 <Box>
@@ -97,7 +97,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Difference
+                    With next generation
                   </Typography>
                 </Box>
                 <Box mb={2}>
@@ -106,15 +106,14 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    With our retrospective tool
+                    retrospective tool
                   </Typography>
                 </Box>
                 <Box mb={5}>
                   <Typography variant="body1" color="secondary">
                     Identify how to improve teamwork by reflecting on what
-                    worked, what didn’t, and why. We recommend running a
-                    Retrospective with your team every couple of weeks or at the
-                    end of a project milestone.
+                    worked, what didn’t, and why. Our mission is to help
+                    Professionals and Students create the next big thing.
                   </Typography>
                 </Box>
                 <Box>

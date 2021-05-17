@@ -38,7 +38,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function Note(props: any) {
-  const { sectionId, startSession, sectionIndex } = props;
+  const { sectionId, startSession, sectionIndex, totalNotes } = props;
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
@@ -159,6 +159,7 @@ function Note(props: any) {
             selectedNote={note}
             sectionId={sectionId}
             handleCancel={handleCancel}
+            totalNotes={totalNotes}
           />
         </ClickAwayListener>
       </Box>

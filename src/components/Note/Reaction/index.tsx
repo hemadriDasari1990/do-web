@@ -74,7 +74,7 @@ function ReactionPopover(props: any) {
           <Box display="flex" justifyContent="space-between">
             <Box mr={1}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="+1" placement="top">
+                <Tooltip arrow title="Agree" placement="top">
                   <IconButton
                     className={plusIconStyle}
                     color="secondary"
@@ -138,7 +138,7 @@ function ReactionPopover(props: any) {
             </Box>
             <Box>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="-1" placement="top">
+                <Tooltip arrow title="Disagree" placement="top">
                   <IconButton
                     className={minusOneIconStyle}
                     color="secondary"

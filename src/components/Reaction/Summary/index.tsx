@@ -40,7 +40,7 @@ const Summary = (props: any) => {
     if (summary?.plusOne) {
       data.push({
         color: hovered === 0 ? "#3333" : "#57f",
-        title: "Plus One",
+        title: "Agree",
         value: summary?.plusOne,
         shortValue: noFormatter(summary?.plusOne),
         abbrevateLabel: makeFriendly(summary?.plusOne),
@@ -50,7 +50,7 @@ const Summary = (props: any) => {
     if (summary?.minusOne) {
       data.push({
         color: hovered === 1 ? "#3333" : getRandomColor(6),
-        title: "Minus One",
+        title: "Disagree",
         value: summary?.minusOne,
         shortValue: noFormatter(summary?.minusOne),
         abbrevateLabel: makeFriendly(summary?.minusOne),
@@ -122,7 +122,7 @@ const Summary = (props: any) => {
                 </IconButton>
 
                 <Box ml={1}>
-                  <Typography variant="h6">Plus One</Typography>
+                  <Typography variant="h6">Agree</Typography>
                 </Box>
               </Box>
 
@@ -161,7 +161,7 @@ const Summary = (props: any) => {
                   <MinusOneIcon color="secondary" fontSize="small" />
                 </IconButton>
                 <Box ml={1}>
-                  <Typography variant="h6">Minus One</Typography>
+                  <Typography variant="h6">Disagree</Typography>
                 </Box>
               </Box>
             </Box>

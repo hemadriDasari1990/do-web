@@ -35,6 +35,7 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 import useTableStyles from "../styles/table";
+import { reorder } from "../../util";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -205,11 +206,26 @@ const NoteList = (props: any) => {
       }
     );
 
+    socket.on(
+      `update-note-position-response-${sectionId}`,
+      (response: { [Key: string]: any }) => {
+        if (response?.updated) {
+          const newNotes: Array<{ [Key: string]: any }> = reorder(
+            notes,
+            response?.sourceIndex,
+            response?.destinationIndex
+          );
+          setNotes(newNotes);
+        }
+      }
+    );
+
     return () => {
       socket.off(`create-note-response-${sectionId}`);
       socket.off(`update-note-response-${sectionId}`);
       socket.off(`delete-note-response-${sectionId}`);
       socket.off(`mark-note-read-response--${sectionId}`);
+      socket.off(`update-note-position-response-${sectionId}`);
     };
   }, [notes]);
 

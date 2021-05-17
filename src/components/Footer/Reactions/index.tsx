@@ -24,14 +24,14 @@ function Reactions() {
               Reactions are an extension of the Like Button to give people more
               ways to share their reaction to a note in a quick and easy way.
               The collection of Reactions includes{" "}
-              <b>+1, Love, Highlight, Deserve and -1</b>.
+              <b>Agree, Love, Highlight, Deserve and Disagree</b>.
             </Typography>
             <Box mt={2}>
               <Typography variant="body1">
                 A reaction is a response to a retrospective note in which a
                 person chooses one of several emoticons{" "}
-                <b>+1, Love, Highlight, Deserve and -1</b> to indicate their
-                feelings about the content of a note.
+                <b>Agree, Love, Highlight, Deserve and Disagree</b> to indicate
+                their feelings about the content of a note.
               </Typography>
             </Box>
           </Box>
@@ -51,7 +51,7 @@ function Reactions() {
             <Typography variant="body1">
               To add a reaction, click on smiley icon on each note to see the
               reaction image options, then tap either{" "}
-              <b>+1, Love, Highlight, Deserve and -1</b>.
+              <b>Agree, Love, Highlight, Deserve and Disagree</b>.
             </Typography>
             <Box mt={2}>
               <Typography variant="body1">

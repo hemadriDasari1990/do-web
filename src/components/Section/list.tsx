@@ -191,10 +191,27 @@ const SectionList = (props: any) => {
         updateSections(newSection);
       }
     );
+
+    /* Update section position */
+    socket.on(
+      "update-section-position-response",
+      (response: { [Key: string]: any }) => {
+        if (response?.updated) {
+          const newSections: Array<{ [Key: string]: any }> = reorder(
+            sections,
+            response.sourceIndex,
+            response.destinationIndex
+          );
+          setSections([...newSections]);
+        }
+      }
+    );
+
     return () => {
       socket.off("update-section-response");
       socket.off("create-section-response");
       socket.off("delete-section-response");
+      socket.off("update-section-position-response");
     };
   }, [sections]);
 
@@ -377,30 +394,6 @@ const SectionList = (props: any) => {
     );
   };
 
-  const reorderNotesList = (
-    source: DraggableLocation,
-    destination: DraggableLocation
-  ) => {
-    /* Clone original sections */
-    const newSections: Array<{ [Key: string]: any }> = [...sections];
-    /* Find source section index */
-    const currentSectionIndex: number = sections.findIndex(
-      (newSection: { [Key: string]: any }) =>
-        newSection?._id === source.droppableId
-    );
-    /* Find source notes */
-    const currentSectionNotes: Array<{ [Key: string]: any }> =
-      sections[currentSectionIndex]?.notes;
-    /* Reorder notes */
-    const reorderedNotes = reorder(
-      currentSectionNotes,
-      source.index,
-      destination.index
-    );
-    newSections[currentSectionIndex].notes = reorderedNotes;
-    return newSections;
-  };
-
   const handleDelete = () => {
     socket.emit("delete-section", {
       id: selectedSection?._id,
@@ -469,19 +462,14 @@ const SectionList = (props: any) => {
     if (result.type === "SECTION") {
       // if the list is scrolled it looks like there is some strangeness going on
       // with react-window. It looks to be scrolling back to scroll: 0
-      // I should log an issue with the project
-      const newSections: Array<{ [Key: string]: any }> = reorder(
-        sections,
-        source.index,
-        destination.index
-      );
-      setSections([...newSections]);
       const sourceSection: { [Key: string]: any } = sections[source.index];
       const destinationSection: { [Key: string]: any } =
         sections[destination.index];
       socket.emit("update-section-position", {
         sourceSection,
         destinationSection,
+        sourceIndex: source.index,
+        destinationIndex: destination.index,
       });
       return;
     }
@@ -491,9 +479,11 @@ const SectionList = (props: any) => {
       result.type === "NOTE" &&
       source.droppableId === destination.droppableId
     ) {
-      // socket.emit("update-note-position", )
-      const newSections = reorderNotesList(source, destination);
-      setSections(newSections);
+      socket.emit(`update-note-position`, {
+        sourceIndex: source.index,
+        destinationIndex: destination.index,
+        sectionId: source.droppableId,
+      });
       return;
     }
     // moving notes between sections
@@ -617,6 +607,7 @@ const SectionList = (props: any) => {
                                 startSession={startSession}
                                 key={item._id}
                                 sectionId={item._id}
+                                totalNotes={item.totalNotes}
                               />
                             </div>
                           )}

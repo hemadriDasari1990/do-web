@@ -35,7 +35,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="-1">
+                <Tooltip arrow title="Disagree">
                   <IconButton
                     className={minusOneIconStyle}
                     color="secondary"
@@ -79,7 +79,7 @@ function ReactionView(props: any) {
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
-                <Tooltip arrow title="+1">
+                <Tooltip arrow title="Agree">
                   <IconButton
                     className={plusIconStyle}
                     color="secondary"

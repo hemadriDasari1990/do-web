@@ -10,6 +10,8 @@ import updateSection from "../../assets/section.svg";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
+import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
+import { MAX_CHAR_COUNT } from "../../util/constants";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 
@@ -90,6 +92,9 @@ export default function SectionUpdate(props: any) {
             handleInput(event)
           }
           className={textfieldStyle}
+          onKeyPress={(event: React.KeyboardEvent<any>) =>
+            allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
+          }
         />
       </Box>
     </ResponsiveDialog>

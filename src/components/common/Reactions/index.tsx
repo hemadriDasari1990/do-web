@@ -49,7 +49,7 @@ export default function ReactionsList(props: any) {
             </Paper>
             <Box mt={1}>
               <Typography variant="h2" className={titleStyle}>
-                Plus one
+                Agree
               </Typography>
             </Box>
           </Grid>
@@ -90,7 +90,7 @@ export default function ReactionsList(props: any) {
             </Paper>
             <Box mt={1}>
               <Typography variant="h2" className={titleStyle}>
-                Minus one
+                Disagree
               </Typography>
             </Box>
           </Grid>
