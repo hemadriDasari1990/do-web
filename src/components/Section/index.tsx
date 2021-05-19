@@ -129,7 +129,7 @@ export default function Section() {
   const { boardId } = useParams<{ boardId: string }>();
   const { totalSections: totalSectionsCount, board } = useBoard();
   const { loading } = useBoardLoading();
-  const { userId, memberId } = useLogin();
+  const { memberId } = useLogin();
   const history = useHistory();
   const { loading: boardLoading } = useBoardLoading();
   const { socket } = useSocket();
@@ -306,24 +306,24 @@ export default function Section() {
         if (!deletedSection?.deleted) {
           return;
         }
-        setTotalSections(totalSections + 1);
+        setTotalSections(totalSections - 1);
       }
     );
-    /* Add sectisection count responseon  */
+    /* Add section count responseon  */
     socket.on(
       `plus-total-section-response`,
       (newSection: { [Key: string]: any }) => {
         if (!newSection?._id) {
           return;
         }
-        setTotalSections(totalSections - 1);
+        setTotalSections(totalSections + 1);
       }
     );
     return () => {
       socket.off("plus-total-section-response");
       socket.off("minus-total-section-response");
     };
-  }, [boardDetails]);
+  }, [totalSections]);
 
   useEffect(() => {
     socket.on(
@@ -346,7 +346,8 @@ export default function Section() {
   useEffect(() => {
     if (
       !loading &&
-      (board?.status === "draft" || (board?.status === "new" && !userId)) &&
+      (board?.status === "draft" ||
+        (board?.status === "new" && !authenticated)) &&
       !board?.isInstant
     ) {
       setMessage(
@@ -354,13 +355,18 @@ export default function Section() {
       );
       setShowDialog(true);
     }
-    if (!userId && !loading && board?.isPrivate && !board?.isInstant) {
+    if (!authenticated && !loading && board?.isPrivate && !board?.isInstant) {
       setMessage(
         "The board isn't public. Please request organizer to make it public"
       );
       setShowDialog(true);
     }
-    if (!loading && board?.status === "completed" && !userId) {
+    if (
+      !loading &&
+      board?.status === "completed" &&
+      !authenticated &&
+      !board?.isInstant
+    ) {
       setMessage(
         "The session has been completed. The board is on readonly mode"
       );
@@ -408,13 +414,14 @@ export default function Section() {
       <Box>
         <ResponsiveDialog
           open={showDialog}
-          title={board?.status === "completed" && !userId ? "Hey!" : ""}
+          title={board?.status === "completed" && !authenticated ? "Hey!" : ""}
           handleSave={handleDialogClose}
           pcta="Ok"
           maxWidth={440}
           hideSecondary={true}
           hideButton={
-            board?.status === "draft" || (board?.status === "new" && !userId)
+            board?.status === "draft" ||
+            (board?.status === "new" && !authenticated)
           }
           hideClose={true}
         >

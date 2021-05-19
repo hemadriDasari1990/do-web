@@ -38,6 +38,7 @@ import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
 import getRandomBGColor from "../../util/getRandomColor";
+import DoSnackbar from "../Snackbar/components";
 
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -124,6 +125,7 @@ const SectionList = (props: any) => {
   const [selectedSection, setSelectedSection] = useState<any>(null);
   const [sections, setSections] = useState<Array<{ [Key: string]: any }>>([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [serverResponse, setServerResponse] = useState<any>(null);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -185,9 +187,15 @@ const SectionList = (props: any) => {
     socket.on(
       `create-section-response`,
       (newSection: { [Key: string]: any }) => {
-        if (!newSection?._id) {
+        if (!newSection?._id && !newSection?.errorId) {
           return;
         }
+
+        if (newSection?.errorId) {
+          setServerResponse(newSection);
+          return;
+        }
+
         updateSections(newSection);
       }
     );
@@ -522,9 +530,28 @@ const SectionList = (props: any) => {
     );
   };
 
+  const handleErrorClose = () => {
+    setServerResponse({});
+  };
+
+  const renderError = () => {
+    return (
+      <DoSnackbar
+        open={serverResponse?.errorId}
+        status={"error"}
+        handleClose={handleErrorClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {serverResponse?.message}
+        </Typography>
+      </DoSnackbar>
+    );
+  };
+
   return (
     <Suspense fallback={<div />}>
       {/* <Loader enable={loading} /> */}
+      {renderError()}
       {renderReactionsummaryDialog()}
       {renderDeleteDialog()}
       {renderUpdateDialog()}
