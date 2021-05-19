@@ -6,6 +6,7 @@ import {
   GET_BOARD_REQUEST,
   STORE_MENU_ITEM,
   UPDATE_BOARD_REQUEST,
+  CREATE_INSTANT_BOARD_REQUEST,
 } from "./types";
 
 export const getBoardDetails = (boarId: string) => {
@@ -49,6 +50,14 @@ export const updateBoard = (payload: { [Key: string]: any }) => {
   return {
     type: UPDATE_BOARD_REQUEST,
     url: `/board`,
+    payload: payload,
+  };
+};
+
+export const createInstantBoard = (payload: { [Key: string]: any }) => {
+  return {
+    type: CREATE_INSTANT_BOARD_REQUEST,
+    url: `/board/instant`,
     payload: payload,
   };
 };

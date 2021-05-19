@@ -16,6 +16,9 @@ import {
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
+  CREATE_INSTANT_BOARD_FAILED,
+  CREATE_INSTANT_BOARD_REQUEST,
+  CREATE_INSTANT_BOARD_SUCCESS,
 } from "../../actions/board/types";
 
 import { Action } from "redux";
@@ -136,6 +139,24 @@ const board = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         response: null,
+      };
+
+    case CREATE_INSTANT_BOARD_REQUEST:
+      return {
+        ...state,
+        updateLoading: true,
+      };
+    case CREATE_INSTANT_BOARD_FAILED:
+      return {
+        ...state,
+        response: action.payload,
+        updateLoading: false,
+      };
+    case CREATE_INSTANT_BOARD_SUCCESS:
+      return {
+        ...state,
+        response: action.payload,
+        updateLoading: false,
       };
     default:
       return state;

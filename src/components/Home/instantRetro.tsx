@@ -2,35 +2,30 @@ import {
   ALPHA_NUMERIC_WITH_SPACE,
   ONLY_NUMBERS,
   allow,
-} from "../../../util/regex";
-import React, { useEffect, useState } from "react";
+} from "../../util/regex";
+import React, { useState, useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-
-import BoardIcon from "../../../assets/board";
+import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Hidden from "@material-ui/core/Hidden";
-import Link from "@material-ui/core/Link";
-import Loader from "../../Loader/components";
-import { MAX_CHAR_COUNT } from "../../../util/constants";
-import { TEAM } from "../../../routes/config";
+import Loader from "../Loader/components";
+import { MAX_CHAR_COUNT } from "../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import { getRemainingCharLength } from "../../../util";
-import { getTeams } from "../../../redux/actions/team";
-import { updateBoard } from "../../../redux/actions/board";
-import { useBoardUpdateLoading } from "../../../redux/state/board";
+import { getRemainingCharLength } from "../../util";
+import { createInstantBoard } from "../../redux/actions/board";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { useLogin } from "../../../redux/state/login";
-import { useProject } from "../../../redux/state/project";
-import { useTeam } from "../../../redux/state/team";
+import { useBoard, useBoardUpdateLoading } from "../../redux/state/board";
+import { useHistory } from "react-router-dom";
+import { replaceStr } from "../../util";
+import { BOARD_DASHBOARD } from "../../routes/config";
+import DoSnackbar from "../Snackbar/components";
 
-const HintMessage = React.lazy(() => import("../../HintMessage"));
-const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
-const DoAutoComplete = React.lazy(() => import("../../common/DoAutoComplete"));
+const HintMessage = React.lazy(() => import("../HintMessage"));
+const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
@@ -45,65 +40,40 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Update = (props: any) => {
-  const {
-    openDialog,
-    handleUpdateForm,
-    selectedBoard,
-    title: boardName,
-    totalBoards,
-  } = props;
-  const { textFieldStyle, dropdownInputStyle } = useStyles();
+const InstantRetro = (props: any) => {
+  const { openDialog, handleCloseDialog } = props;
+  const { textFieldStyle } = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  const { project } = useProject();
 
   /* Redux hooks */
-  const { userId, accountType } = useLogin();
+  const { board } = useBoard();
   const { loading } = useBoardUpdateLoading();
-  const { teams: teamsList } = useTeam();
+  const history = useHistory();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: "",
     noOfSections: 0,
-    status: "",
-    team: null,
     isDefaultBoard: false,
-    isAnnonymous: false,
+    name: "",
   });
   const [count, setCount] = useState(0);
-  const {
-    description,
-    noOfSections,
-    status,
-    team,
-    isDefaultBoard,
-    isAnnonymous,
-  } = formData;
+  const [apiCalled, setApiCalled] = useState(false);
+  const [showError, setShowError] = useState(false);
 
-  /* React Hooks */
+  const { description, noOfSections, isDefaultBoard, name } = formData;
+
   useEffect(() => {
-    if (selectedBoard && selectedBoard._id) {
-      setFormData({
-        ...formData,
-        description: selectedBoard.description,
-        boardId: selectedBoard._id,
-        status: selectedBoard.status,
-        noOfSections: selectedBoard.totalSections,
-        team: selectedBoard.teams?.length ? selectedBoard.teams[0] : null,
-        isDefaultBoard: selectedBoard.isDefaultBoard,
-        isAnnonymous: selectedBoard.isAnnonymous,
-      });
-    }
-    if (!selectedBoard?._id) {
+    if (!loading && board && board._id) {
+      history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
       setFormData({});
+      setApiCalled(false);
+      setShowError(false);
     }
-  }, [selectedBoard]);
-
-  useEffect(() => {
-    dispatch(getTeams(userId, "", 0, 5));
-  }, []);
+    if (!loading && board && board.errorId && apiCalled) {
+      setShowError(true);
+    }
+  }, [loading, board, apiCalled]);
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +86,7 @@ const Update = (props: any) => {
   };
 
   const handleClose = () => {
-    handleUpdateForm();
+    handleCloseDialog();
     resetFormData();
   };
 
@@ -124,29 +94,20 @@ const Update = (props: any) => {
     setFormData({
       description: "",
       noOfSections: 0,
-      status: "",
-      team: [],
       isDefaultBoard: false,
-      isAnnonymous: false,
     });
   };
 
   const handleSubmit = () => {
     dispatch(
-      updateBoard({
+      createInstantBoard({
         description,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        status: status || "new",
-        teams: [team?._id],
         isDefaultBoard,
-        projectId: project?._id,
-        accountType,
-        name: "Board " + (totalBoards + 1),
-        boardId: selectedBoard?._id,
-        isAnnonymous,
+        name,
+        isInstant: true,
       })
     );
-    // resetFormData();
   };
 
   const disableButton = () => {
@@ -154,15 +115,28 @@ const Update = (props: any) => {
       return true;
     }
 
+    if (!name || !name?.trim()) {
+      return true;
+    }
     return false;
   };
 
-  const handleTeams = (data: { [Key: string]: any }) => {
-    setFormData({ ...formData, team: data });
+  const handleSnackbarClose = () => {
+    setShowError(false);
   };
 
-  const handleViewTeams = () => {
-    history.push(TEAM);
+  const renderSnackbar = () => {
+    return (
+      <DoSnackbar
+        open={showError}
+        status="error"
+        handleClose={handleSnackbarClose}
+      >
+        <Typography variant="h6" color="secondary">
+          {board?.message}
+        </Typography>
+      </DoSnackbar>
+    );
   };
 
   const handleDefaultRetroBoard = (
@@ -175,35 +149,13 @@ const Update = (props: any) => {
     event.preventDefault();
   };
 
-  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
-  };
-
-  const renderAnnonymous = () => {
-    return (
-      <Box mt={1} mb={-3}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isAnnonymous}
-              onChange={handleIsAnnonymous}
-              value="false"
-              color="primary"
-              name="isAnnonymous"
-            />
-          }
-          label={<Typography variant="h6">Create annonymous board</Typography>}
-        />
-      </Box>
-    );
-  };
-
   return (
     <React.Fragment>
+      {renderSnackbar()}
       <ResponsiveDialog
         open={openDialog}
-        title={boardName || "Create or Update Board"}
-        pcta="Save"
+        title={"Create Instant Board"}
+        pcta="Create"
         handleSave={handleSubmit}
         handleClose={handleClose}
         disablePrimaryCTA={disableButton()}
@@ -233,17 +185,22 @@ const Update = (props: any) => {
           </Box>
         </Hidden>
         <Box mt={3}>
-          <HintMessage
-            message={
-              selectedBoard?._id
-                ? `System generated name ${selectedBoard?.name}`
-                : `System will generate name Board ${
-                    totalBoards ? totalBoards + 1 : 1
-                  }`
+          <TextField
+            name="name"
+            id="name"
+            label="Name"
+            placeholder="Enter name of the board"
+            value={name}
+            onChange={handleInput}
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_CHAR_COUNT)
             }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
           />
         </Box>
-        {renderAnnonymous()}
         {!isDefaultBoard && (
           <Box>
             <TextField
@@ -253,7 +210,6 @@ const Update = (props: any) => {
               placeholder="Enter no of senctions"
               value={noOfSections}
               onChange={handleInput}
-              disabled={!!selectedBoard?.totalSections}
               required
               className={textFieldStyle}
               onKeyPress={(event: React.KeyboardEvent<any>) =>
@@ -279,13 +235,12 @@ const Update = (props: any) => {
                 value="false"
                 color="primary"
                 name="isDefaultBoard"
-                disabled={selectedBoard?._id && isDefaultBoard}
               />
             }
             label={<Typography variant="h6">Create default Board</Typography>}
           />
         </Box>
-        {!selectedBoard?._id && isDefaultBoard && (
+        {isDefaultBoard && (
           <Box mt={3}>
             <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
           </Box>
@@ -308,43 +263,9 @@ const Update = (props: any) => {
           />
           <Typography variant="subtitle2">{count} chars</Typography>
         </Box>
-        {!isAnnonymous && (
-          <Box>
-            <DoAutoComplete
-              defaultValue={team}
-              // multiple={true}
-              textInputLabel="Invite Team"
-              textInputPlaceholder="Select team"
-              optionKey="name"
-              options={teamsList}
-              onChange={(e: any, data: Array<{ [Key: string]: any }>) =>
-                handleTeams(data)
-              }
-              customClass={dropdownInputStyle}
-              // disabled={selectedBoard?._id}
-            />
-          </Box>
-        )}
-
-        {!selectedBoard && (
-          <Box mt={3}>
-            <Typography variant="h5">
-              If you want to create a team please{" "}
-              <Link
-                component="button"
-                variant="body2"
-                onClick={() => handleViewTeams()}
-              >
-                <Typography variant="h5" color="primary">
-                  &nbsp;Click here
-                </Typography>
-              </Link>
-            </Typography>
-          </Box>
-        )}
       </ResponsiveDialog>
     </React.Fragment>
   );
 };
 
-export default Update;
+export default InstantRetro;

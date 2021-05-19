@@ -27,9 +27,14 @@ const AboutBoardInfo = () => {
             value={board?.description || "--"}
           />
         </Box>
-        <Box mb={1}>
-          <SummaryField title="Project" value={board?.project?.name || "--"} />
-        </Box>
+        {!board?.isInstant && (
+          <Box mb={1}>
+            <SummaryField
+              title="Project"
+              value={board?.project?.name || "--"}
+            />
+          </Box>
+        )}
         <Box mb={1}>
           <SummaryField
             title="Visibility"

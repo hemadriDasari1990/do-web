@@ -15,7 +15,10 @@ import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 // import ClearIcon from "@material-ui/icons/Clear";
-import { DOWNLOAD_BOARD_REPORT } from "../../network/endpoints";
+import {
+  DOWNLOAD_BOARD_REPORT,
+  DOWNLOAD_INSTANT_BOARD_REPORT,
+} from "../../network/endpoints";
 import DoSnackbar from "../Snackbar/components";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
@@ -250,6 +253,7 @@ export default function Section() {
       !loading &&
       !board?.isPrivate &&
       !board?.isAnnonymous &&
+      !board?.isInstant &&
       !!board?.startedAt
     ) {
       setOpenAddGuestDialog(true);
@@ -342,14 +346,15 @@ export default function Section() {
   useEffect(() => {
     if (
       !loading &&
-      (board?.status === "draft" || (board?.status === "new" && !userId))
+      (board?.status === "draft" || (board?.status === "new" && !userId)) &&
+      !board?.isInstant
     ) {
       setMessage(
         "The Retro session isn't started yet. Please contact organisor."
       );
       setShowDialog(true);
     }
-    if (!userId && !loading && board?.isPrivate) {
+    if (!userId && !loading && board?.isPrivate && !board?.isInstant) {
       setMessage(
         "The board isn't public. Please request organizer to make it public"
       );
@@ -606,14 +611,18 @@ export default function Section() {
   }, [boardLoading, authenticated]);
 
   const handleDownloadReport = async () => {
-    const response: any = await API(
-      replaceStr(DOWNLOAD_BOARD_REPORT, "{boardId}", boardDetails._id),
-      {
-        method: "GET",
-        credentials: "include",
-        responseType: "blob", // Important
-      }
+    const url = replaceStr(
+      boardDetails?.isInstant
+        ? DOWNLOAD_INSTANT_BOARD_REPORT
+        : DOWNLOAD_BOARD_REPORT,
+      "{boardId}",
+      boardDetails._id
     );
+    const response: any = await API(url, {
+      method: "GET",
+      credentials: "include",
+      responseType: "blob", // Important
+    });
     await getDownloadFile(response, `${boardDetails.name}.xlsx`);
   };
 
@@ -980,13 +989,13 @@ export default function Section() {
                 ) : null}
                 <Box>
                   {!boardLoading &&
-                  authenticated &&
+                  (authenticated || boardDetails?.isInstant) &&
                   boardDetails &&
                   !boardDetails.startedAt ? (
                     <>{renderStartSession()}</>
                   ) : null}
                   {!boardLoading &&
-                  authenticated &&
+                  (authenticated || boardDetails?.isInstant) &&
                   boardDetails?.startedAt &&
                   !boardDetails.completedAt ? (
                     <>{renderEndSession()}</>
@@ -995,7 +1004,8 @@ export default function Section() {
                 {!boardLoading && authenticated ? (
                   <>{renderGoBackToBoards()}</>
                 ) : null}
-                {boardDetails?.completedAt && (
+                {((authenticated && boardDetails?.completedAt) ||
+                  boardDetails?.inInstant) && (
                   <Box mr={1}>
                     <Tooltip title="Download to Excel" placement="bottom" arrow>
                       <Button
@@ -1013,7 +1023,7 @@ export default function Section() {
                   </Box>
                 )}
 
-                {!boardLoading && authenticated ? (
+                {!boardLoading && (authenticated || boardDetails?.isInstant) ? (
                   <>{renderCreateNewSection()}</>
                 ) : null}
                 {/* {!boardLoading && authenticated ? (

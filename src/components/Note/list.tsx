@@ -131,7 +131,7 @@ const NoteList = (props: any) => {
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const { userId, memberId } = useLogin();
-  const enableActions = !board?.isLocked || authenticated;
+  const enableActions = !board?.isLocked || authenticated || board.isInstant;
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
   const { boardId } = useParams<{ boardId: string }>();
@@ -623,7 +623,7 @@ const NoteList = (props: any) => {
               secondary="Update the note"
             />
           </ListItem>
-          {authenticated && (
+          {(authenticated || board?.isInstant) && (
             <ListItem button={true} onClick={() => handleMenuItem("delete")}>
               <ListItemAvatar style={{ minWidth: 35 }}>
                 <DeleteOutlineIcon />
@@ -795,7 +795,7 @@ const NoteList = (props: any) => {
                 key={note._id}
                 draggableId={note._id}
                 index={index}
-                isDragDisabled={!authenticated}
+                isDragDisabled={!authenticated && !board?.isInstant}
                 disableInteractiveElementBlocking={true}
               >
                 {(
@@ -861,7 +861,9 @@ const NoteList = (props: any) => {
                                         </IconButton>
                                       </Tooltip>
                                     )} */}
-                            {authenticated && <>{renderMarkRead(note)}</>}
+                            {authenticated && !board?.isInstant && (
+                              <>{renderMarkRead(note)}</>
+                            )}
                             {!authenticated && <>{renderRead(note)}</>}
                             {enableActions && <>{renderMenuIcon(note)}</>}
                           </Box>

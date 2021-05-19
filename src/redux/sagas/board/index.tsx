@@ -14,6 +14,9 @@ import {
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
+  CREATE_INSTANT_BOARD_SUCCESS,
+  CREATE_INSTANT_BOARD_REQUEST,
+  CREATE_INSTANT_BOARD_FAILED,
 } from "../../actions/board/types";
 import {
   deleteBoard,
@@ -21,6 +24,7 @@ import {
   getBoardDetails,
   getBoards,
   updateBoard,
+  createInstantBoard,
 } from "../../network/board";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -75,6 +79,25 @@ function* callUpdateBoard(action: { [Key: string]: any }) {
 
 export function* watchUpdateBoard() {
   yield takeLatest(UPDATE_BOARD_REQUEST, callUpdateBoard);
+}
+
+function* callCreateInstantBoard(action: { [Key: string]: any }) {
+  try {
+    const result = yield createInstantBoard(action.payload);
+    const { status, data } = result;
+    if (status === 200 && data?._id) {
+      yield put({ type: CREATE_INSTANT_BOARD_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: CREATE_INSTANT_BOARD_FAILED,
+      payload: err.response.data,
+    });
+  }
+}
+
+export function* watchCreateInstantBoard() {
+  yield takeLatest(CREATE_INSTANT_BOARD_REQUEST, callCreateInstantBoard);
 }
 
 function* callDeleteBoard(action: { [Key: string]: any }) {

@@ -53,6 +53,10 @@ function Note(props: any) {
     if (!authenticated && board?.status === "inprogress" && !board?.isPrivate) {
       return true;
     }
+
+    if (board?.isInstant && (startSession || board?.startedAt)) {
+      return true;
+    }
     return false;
   };
 

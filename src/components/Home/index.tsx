@@ -1,5 +1,5 @@
 import { FEATURES, GETTING_STARTED, RETROSPECTIVE } from "../../routes/config";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import BoardIcon from "../../assets/board";
@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
 import useStyles from "../styles";
+import InstantRetro from "./instantRetro";
 
 const FeedbackList = React.lazy(() => import("../Feedback/list"));
 const CreateAccount = React.lazy(() => import("./create"));
@@ -45,6 +46,8 @@ const Home = () => {
   const { skeletonImageStyle } = useLocalStyles();
   const { titleStyle, bannerStyle, boxGridStyle } = useStyles();
 
+  const [openRetroDialog, setOpenRetroDialog] = useState(false);
+
   useEffect(() => {
     // if(authenticated){
     //   history.push(DASHBOARD);
@@ -66,8 +69,20 @@ const Home = () => {
     win.focus();
   };
 
+  const handleStartInstantRetro = () => {
+    setOpenRetroDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenRetroDialog(false);
+  };
+
   return (
     <React.Fragment>
+      <InstantRetro
+        openDialog={openRetroDialog}
+        handleCloseDialog={handleCloseDialog}
+      />
       <Hidden only={["xs"]}>
         <AdContainer />
       </Hidden>
@@ -118,8 +133,9 @@ const Home = () => {
                 </Box>
                 <Box>
                   <CreateAccount
-                    title="Start a retroboard"
+                    title="Start Instant Retro"
                     subTitle="Free forever — no credit card required"
+                    handleButton={handleStartInstantRetro}
                   />
                 </Box>
               </Grid>

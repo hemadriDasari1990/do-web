@@ -36,6 +36,7 @@ import {
   watchGetBoardDetails,
   watchGetBoards,
   watchUpdateBoard,
+  watchCreateInstantBoard,
 } from "./board";
 import {
   watchDeleteMember,
@@ -123,6 +124,7 @@ function* rootSaga() {
   yield fork(watchGetBoardDetails);
   yield fork(watchGetBoards);
   yield fork(watchGetBoardActivities);
+  yield fork(watchCreateInstantBoard);
 
   /* Section sagas */
   yield fork(watchGetSectionsByBoard);

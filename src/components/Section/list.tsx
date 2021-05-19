@@ -550,7 +550,7 @@ const SectionList = (props: any) => {
                         <Draggable
                           draggableId={item._id}
                           index={index}
-                          isDragDisabled={!authenticated}
+                          isDragDisabled={!authenticated && !board?.isInstant}
                           key={item._id}
                         >
                           {(
@@ -596,7 +596,7 @@ const SectionList = (props: any) => {
                                   {item.totalNotes
                                     ? renderAnalytics(item)
                                     : null}
-                                  {authenticated
+                                  {authenticated || board?.isInstant
                                     ? renderMenuAction(item)
                                     : null}
                                 </ListItemSecondaryAction>

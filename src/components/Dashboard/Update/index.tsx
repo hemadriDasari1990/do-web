@@ -340,7 +340,7 @@ const Update = () => {
         {!isDefaultBoard && renderNoOfSections()}
         {!isDefaultBoard && noOfSections ? (
           <Box mt={3}>
-            <HintMessage message="Please note System will generate default sections with name 'Section name' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
+            <HintMessage message="Please note System will generate default sections with name 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
 

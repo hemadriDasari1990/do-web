@@ -25,9 +25,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 const CreateAccount = (props: any) => {
   const { buttonStyle } = useStyles();
   const history = useHistory();
-  const { title, subTitle } = props;
+  const { title, subTitle, handleButton } = props;
+
   const handleCreateUser = () => {
-    history.push(SIGNUP);
+    if (typeof handleButton === "function") {
+      handleButton();
+    } else {
+      history.push(SIGNUP);
+    }
   };
 
   return (

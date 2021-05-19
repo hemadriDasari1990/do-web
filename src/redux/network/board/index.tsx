@@ -4,6 +4,7 @@ import {
   GET_BOARD_ACTIVITIES,
   GET_BOARD_DETAILS,
   UPDATE_BOARD,
+  CREATE_INSTANT_BOARD,
 } from "../../../network/endpoints";
 
 import API from "../../../network";
@@ -15,6 +16,10 @@ export const getBoardDetails = (id: string): Generator<any> => {
 
 export const updateBoard = (payload: { [Key: string]: any }) => {
   return API(UPDATE_BOARD, { method: "PUT", data: payload });
+};
+
+export const createInstantBoard = (payload: { [Key: string]: any }) => {
+  return API(CREATE_INSTANT_BOARD, { method: "PUT", data: payload });
 };
 
 export const deleteBoard = (id: string) => {

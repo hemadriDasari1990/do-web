@@ -59,6 +59,7 @@ export const UPDATE_PROJECT = "/project";
 export const DELETE_BOARD = "/board/{id}";
 export const GET_BOARD_DETAILS = "/board/{id}";
 export const UPDATE_BOARD = "/board";
+export const CREATE_INSTANT_BOARD = "/board/instant";
 export const GET_BOARDS = "/board";
 
 /* Section Endpoints */
@@ -105,3 +106,5 @@ export const CREATE_SECURITY_QUESTION_ANSWER = "/security-question/answer";
 export const GET_SECURITY_QUESTIONS = "/security-question";
 export const VERIFY_SECURITY_QUESTION_ANSWER = "/security-question/verify";
 export const DOWNLOAD_BOARD_REPORT = "/board/{boardId}/download-report";
+export const DOWNLOAD_INSTANT_BOARD_REPORT =
+  "/board/{boardId}/download-instant-report";
