@@ -135,7 +135,7 @@ function FeedbackList() {
 
   return (
     <Box>
-      <Loader enable={loading} />
+      <Loader enable={loading} backdrop={true} />
       {!loading && feedback?.length ? (
         <>
           <Box textAlign="center" pb={3}>

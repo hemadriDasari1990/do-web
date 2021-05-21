@@ -29,7 +29,7 @@ import useMainStyles from "../../styles";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles";
 import { getAvatar } from "../../../util/getAvatar";
-import { getRandomAvatarColor } from "../../../util/getRandomColor";
+// import { getRandomAvatarColor } from "../../../util/getRandomColor";
 
 const ActivityList = () => {
   const dispatch = useDispatch();
@@ -133,14 +133,10 @@ const ActivityList = () => {
                       ) : (
                         <Avatar
                           className={`${avatarStyle}`}
-                          style={{ background: getRandomAvatarColor() }}
+                          // style={{ background: getRandomAvatarColor() }}
                           color="primary"
                         >
-                          <Typography
-                            variant="subtitle1"
-                            className={nameStyle}
-                            color="secondary"
-                          >
+                          <Typography variant="subtitle1" className={nameStyle}>
                             {getInitials(activity?.member?.name) || "TM"}
                           </Typography>
                         </Avatar>

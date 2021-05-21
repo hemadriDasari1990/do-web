@@ -3,7 +3,7 @@ export default {
     borderRadius: "0.65rem",
   },
   colorDefault: {
-    color: "#192a4d",
-    // backgroundColor: "#e8e8ee",
+    color: "#57f",
+    backgroundColor: "#0072ff14",
   },
 };
