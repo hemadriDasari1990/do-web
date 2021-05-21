@@ -81,11 +81,11 @@ function Feedback(props: any) {
   /* Local state */
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [rating, setRating] = useState<any>(null);
+  const [rating, setRating] = useState<number | null>(0);
   const [apiTriggered, setApiTriggered] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [count, setCount] = useState(0);
-  const [hover, setHover] = React.useState(-1);
+  const [hover, setHover] = useState(-1);
 
   /* React Hooks */
   useEffect(() => {
@@ -263,20 +263,20 @@ function Feedback(props: any) {
           </Box>
           <Box display="flex">
             <StyledRating
-              name="rating"
               value={rating}
-              onChange={(
-                event: React.ChangeEvent<{}>,
-                newValue: number | null
-              ) => {
+              precision={1}
+              onChange={(event, newValue) => {
                 setRating(newValue);
               }}
               onChangeActive={(event, newHover) => {
                 setHover(newHover);
               }}
+              size="large"
             />
             {rating !== null && (
-              <Box ml={2}>{feedbackLabels[hover !== -1 ? hover : rating]}</Box>
+              <Box ml={2} mt={0.8}>
+                {feedbackLabels[hover !== -1 ? hover : rating]}
+              </Box>
             )}
           </Box>
         </Box>
