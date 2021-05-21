@@ -43,7 +43,6 @@ API.interceptors.response.use(
     //"UNAUTHORIZED"
     const originalRequest = error.config;
     const refreshToken = localStorage.getItem("refreshToken");
-    const token = localStorage.getItem("token");
     if (
       error.response.status === 401 &&
       !originalRequest._retry &&
@@ -61,41 +60,17 @@ API.interceptors.response.use(
         await localStorage.setItem("token", res.data.token);
         API.defaults.headers.common["Authorization"] = res.data.token;
         return API(originalRequest);
+      } else {
+        localStorage.clear();
+        window.location.href = "/login";
+        return Promise.reject(error);
       }
-      return API(originalRequest);
-    }
-    if (!(token || refreshToken) && error?.response?.status === 401) {
+    } else if (error?.response?.status === 401) {
       localStorage.clear();
-      window.location.href = "/login/";
+      window.location.href = "/login";
       return Promise.reject(error);
     }
     return Promise.reject(error);
-
-    // if (refreshToken && error?.response?.status === 401) {
-    //   try {
-    //     const res = await API_WITHOUT_INTERCEPTOR(REFRESH_TOKEN, {
-    //       method: "POST",
-    //       data: { refreshToken: refreshToken },
-    //     });
-
-    //     if (res.status === 200) {
-    //       await localStorage.removeItem("refreshToken");
-    //       await localStorage.setItem("token", res.data.token);
-    //       API.defaults.headers["Authorization"] = res.data.token;
-    //       originalRequest.headers["Authorization"] = res.data.token;
-    //       return API(originalRequest);
-    //     }
-    //   } catch (err) {
-    //     localStorage.clear();
-    //     window.location.href = "/login/";
-    //     return Promise.reject(error);
-    //   }
-    // } else {
-    //   // window.location.href = "/login/";
-    //   // return Promise.reject(error);
-    // }
-
-    // return Promise.reject(error);
   }
 );
 
