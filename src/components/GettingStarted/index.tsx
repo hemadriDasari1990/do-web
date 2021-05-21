@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Education from "../../assets/education.svg";
 import Grid from "@material-ui/core/Grid";
-import Process from "./process";
+import GettingStartedTabs from "./Tabs";
 import ReactionsList from "../common/Reactions";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
@@ -100,7 +100,7 @@ const GettingStarted = () => {
         </Container>
       </Box>
       <Box py={3}>
-        <Process />
+        <GettingStartedTabs />
       </Box>
       <Box py={3}>
         <Container>

@@ -40,7 +40,7 @@ export default function ReactionsList(props: any) {
   } = useStyles();
 
   return (
-    <Box mt={5}>
+    <Box>
       <Container>
         <Grid container spacing={10}>
           <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>

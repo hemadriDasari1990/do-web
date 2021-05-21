@@ -1,5 +1,5 @@
 import { FEATURES, GETTING_STARTED, RETROSPECTIVE } from "../../routes/config";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import BoardIcon from "../../assets/board";
@@ -15,10 +15,11 @@ import Typography from "@material-ui/core/Typography";
 import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
 import useStyles from "../styles";
-import InstantRetro from "./instantRetro";
+import { useDispatch } from "react-redux";
+import { getDefaultSections } from "../../redux/actions/common";
+import InstantRetroGrid from "./instantRetroGrid";
 
 const FeedbackList = React.lazy(() => import("../Feedback/list"));
-const CreateAccount = React.lazy(() => import("./create"));
 const CreateAccountGrid = React.lazy(() => import("./createAccountGrid"));
 const Summary = React.lazy(() => import("./summary"));
 const AdContainer = React.lazy(() => import("./adContainer"));
@@ -45,13 +46,13 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 const Home = () => {
   const { skeletonImageStyle } = useLocalStyles();
   const { titleStyle, bannerStyle, boxGridStyle } = useStyles();
-
-  const [openRetroDialog, setOpenRetroDialog] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // if(authenticated){
     //   history.push(DASHBOARD);
     // }
+    dispatch(getDefaultSections());
   }, []);
 
   const handleRetrospective = () => {
@@ -69,20 +70,8 @@ const Home = () => {
     win.focus();
   };
 
-  const handleStartInstantRetro = () => {
-    setOpenRetroDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenRetroDialog(false);
-  };
-
   return (
     <React.Fragment>
-      <InstantRetro
-        openDialog={openRetroDialog}
-        handleCloseDialog={handleCloseDialog}
-      />
       <Hidden only={["xs"]}>
         <AdContainer />
       </Hidden>
@@ -132,10 +121,9 @@ const Home = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <CreateAccount
+                  <InstantRetroGrid
                     title="Start Instant Retro"
-                    subTitle="Free forever — no credit card required"
-                    handleButton={handleStartInstantRetro}
+                    subTitle="Free forever — no signup required"
                   />
                 </Box>
               </Grid>
@@ -213,7 +201,6 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
-
       <Container>
         <Box mt={2} className={boxGridStyle}>
           <Summary />
@@ -229,7 +216,7 @@ const Home = () => {
               <Box pt={2}>
                 <Box mt={2}>
                   <InfoCard
-                    title="How to get started? Take a look at our five step process to get started"
+                    title="How to get started? Take a look at our 5 step process to get started"
                     icon={CallMadeIcon}
                     handleButton={() => handleGettingStarted()}
                     index={0}

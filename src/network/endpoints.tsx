@@ -108,3 +108,6 @@ export const VERIFY_SECURITY_QUESTION_ANSWER = "/security-question/verify";
 export const DOWNLOAD_BOARD_REPORT = "/board/{boardId}/download-report";
 export const DOWNLOAD_INSTANT_BOARD_REPORT =
   "/board/{boardId}/download-instant-report";
+
+/* Get default sections */
+export const GET_DEFAULT_SECTIONS = "/default-sections";

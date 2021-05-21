@@ -15,6 +15,7 @@ import { useHistory, useLocation } from "react-router";
 import { useParams } from "react-router";
 import TeamDetails from "../components/Team/Details";
 import MemberDetails from "../components/Members/Details";
+import WhyLetsdoretro from "../components/Footer/why";
 
 const Header = React.lazy(() => import("../components/Header"));
 const Footer = React.lazy(() => import("../components/Footer"));
@@ -156,6 +157,10 @@ const routes = () => {
     {
       path: routePath.GETTING_STARTED,
       component: GettingStarted,
+    },
+    {
+      path: routePath.WHY_LETSDORETRO,
+      component: WhyLetsdoretro,
     },
     { path: routePath.APPS, component: Apps },
     { path: routePath.REACTIONS, component: Reactions },

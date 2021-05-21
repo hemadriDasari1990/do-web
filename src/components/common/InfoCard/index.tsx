@@ -8,12 +8,12 @@ import { getRandomColor } from "../../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
-  paperStyle: {
+  paperStyle: (props: any) => ({
     borderRadius: 16,
-    height: 200,
+    height: props.height || 200,
     boxShadow: "0 4px 12px rgb(5 0 56 / 8%)",
-    padding: "24px 24px 24px",
-  },
+    padding: "24px 24px 24px 24px",
+  }),
   iconStyle: (props: any) => ({
     background: getRandomColor(props.index),
     "&:hover": {
@@ -32,23 +32,29 @@ const useStyles = makeStyles(() => ({
 }));
 
 const InfoCard = (props: any) => {
-  const { icon, title, handleButton } = props;
+  const { icon, title, handleButton, description, titleMinHeight } = props;
   const { paperStyle, iconStyle, titleStyle } = useStyles(props);
 
   return (
     <React.Fragment>
       <Paper className={paperStyle}>
-        <Box minHeight={110}>
+        <Box minHeight={titleMinHeight || 110}>
           <Typography variant="h2" className={titleStyle}>
             {title}
           </Typography>
         </Box>
-
-        <Box display="flex" justifyContent="flex-end" mt={3}>
-          <IconButton onClick={handleButton} className={iconStyle}>
-            <SvgIcon component={icon} color="secondary" />
-          </IconButton>
-        </Box>
+        {description && (
+          <Box minHeight={110} height="auto">
+            <Typography variant="body1">{description}</Typography>
+          </Box>
+        )}
+        {icon && (
+          <Box display="flex" justifyContent="flex-end" mt={3}>
+            <IconButton onClick={handleButton} className={iconStyle}>
+              <SvgIcon component={icon} color="secondary" />
+            </IconButton>
+          </Box>
+        )}
       </Paper>
     </React.Fragment>
   );

@@ -73,6 +73,7 @@ import { watchGetInvitedMembers } from "./invite";
 import { watchGetJoinedMembers } from "./join";
 import { watchGetNotesBySection } from "./note";
 import { watchGetSectionsByBoard } from "./section";
+import { watchGetDefaultSections } from "./common";
 
 function* rootSaga() {
   /* Login sagas */
@@ -162,6 +163,9 @@ function* rootSaga() {
 
   /* Joined sagas */
   yield fork(watchGetJoinedMembers);
+
+  /* Common sagas */
+  yield fork(watchGetDefaultSections);
 }
 
 export default rootSaga;

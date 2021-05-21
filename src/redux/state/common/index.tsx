@@ -15,3 +15,12 @@ export function useAction() {
     action,
   };
 }
+
+export function useDefaultSections() {
+  const { defaultSections } = useSelector((state: { [Key: string]: any }) => ({
+    defaultSections: state.common.defaultSections,
+  }));
+  return {
+    defaultSections,
+  };
+}

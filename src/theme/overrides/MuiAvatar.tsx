@@ -4,6 +4,6 @@ export default {
   },
   colorDefault: {
     color: "#192a4d",
-    backgroundColor: "#e8e8ee",
+    // backgroundColor: "#e8e8ee",
   },
 };

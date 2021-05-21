@@ -111,13 +111,13 @@ export default function NoteUpdate(props: any) {
               paddingTop: 40,
             },
           }}
-          onKeyPress={(event: React.KeyboardEvent<any>) =>
+          onKeyPress={(event: React.KeyboardEvent<any>) => {
             allow(
               event,
               ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
               MAX_CHAR_COUNT
-            )
-          }
+            );
+          }}
         />
         <Box mt={1} ml={1} display="flex" justifyContent="space-between">
           <Box>

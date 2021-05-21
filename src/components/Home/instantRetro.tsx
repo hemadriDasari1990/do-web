@@ -7,8 +7,6 @@ import React, { useState, useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Hidden from "@material-ui/core/Hidden";
 import Loader from "../Loader/components";
 import { MAX_CHAR_COUNT } from "../../util/constants";
@@ -23,6 +21,8 @@ import { useHistory } from "react-router-dom";
 import { replaceStr } from "../../util";
 import { BOARD_DASHBOARD } from "../../routes/config";
 import DoSnackbar from "../Snackbar/components";
+import DoAutoComplete from "../common/DoAutoComplete";
+import { useDefaultSections } from "../../redux/state/common";
 
 const HintMessage = React.lazy(() => import("../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -30,10 +30,10 @@ const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
     width: "100% !important",
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   dropdownInputStyle: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
     [theme.breakpoints.down("xs")]: {
       width: "53%",
     },
@@ -42,26 +42,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const InstantRetro = (props: any) => {
   const { openDialog, handleCloseDialog } = props;
-  const { textFieldStyle } = useStyles();
+  const { textFieldStyle, dropdownInputStyle } = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   /* Redux hooks */
   const { board } = useBoard();
   const { loading } = useBoardUpdateLoading();
-  const history = useHistory();
+  const { defaultSections } = useDefaultSections();
 
   /* Local state */
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: "",
-    noOfSections: 0,
-    isDefaultBoard: false,
+    noOfSections: null,
     name: "",
+    defaultSection: "",
   });
   const [count, setCount] = useState(0);
   const [apiCalled, setApiCalled] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  const { description, noOfSections, isDefaultBoard, name } = formData;
+  const { description, noOfSections, defaultSection, name } = formData;
 
   useEffect(() => {
     if (!loading && board && board._id) {
@@ -94,7 +95,7 @@ const InstantRetro = (props: any) => {
     setFormData({
       description: "",
       noOfSections: 0,
-      isDefaultBoard: false,
+      defaultSection: "",
     });
   };
 
@@ -103,7 +104,7 @@ const InstantRetro = (props: any) => {
       createInstantBoard({
         description,
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
-        isDefaultBoard,
+        defaultSection,
         name,
         isInstant: true,
       })
@@ -111,7 +112,7 @@ const InstantRetro = (props: any) => {
   };
 
   const disableButton = () => {
-    if (!isDefaultBoard && (!noOfSections || noOfSections === 0)) {
+    if (!defaultSection && (!noOfSections || noOfSections === 0)) {
       return true;
     }
 
@@ -139,10 +140,8 @@ const InstantRetro = (props: any) => {
     );
   };
 
-  const handleDefaultRetroBoard = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData({ ...formData, isDefaultBoard: !isDefaultBoard });
+  const handleDefaultSection = (data: { [Key: string]: any }) => {
+    setFormData({ ...formData, defaultSection: data?.name });
   };
 
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
@@ -201,7 +200,8 @@ const InstantRetro = (props: any) => {
             onPaste={handlePrevent}
           />
         </Box>
-        {!isDefaultBoard && (
+
+        {!defaultSection && (
           <Box>
             <TextField
               name="noOfSections"
@@ -221,28 +221,24 @@ const InstantRetro = (props: any) => {
             />
           </Box>
         )}
-        {!isDefaultBoard && noOfSections ? (
+        {noOfSections ? (
           <Box mt={3}>
-            <HintMessage message="Please note System will generate default sections with name 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
+            <HintMessage message="Please note System will generate default title as 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
-        <Box mt={1} mb={-3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isDefaultBoard}
-                onChange={handleDefaultRetroBoard}
-                value="false"
-                color="primary"
-                name="isDefaultBoard"
-              />
-            }
-            label={<Typography variant="h6">Create default Board</Typography>}
-          />
-        </Box>
-        {isDefaultBoard && (
-          <Box mt={3}>
-            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
+        {!noOfSections && (
+          <Box>
+            <DoAutoComplete
+              textInputLabel="Select Default Template"
+              textInputPlaceholder="Select Default Template"
+              optionKey="name"
+              options={defaultSections}
+              onChange={(e: any, data: { [Key: string]: any }) =>
+                handleDefaultSection(data)
+              }
+              className={dropdownInputStyle}
+              // disabled={selectedBoard?._id}
+            />
           </Box>
         )}
         <Box>

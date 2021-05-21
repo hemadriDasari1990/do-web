@@ -10,13 +10,13 @@ import {
   TERMS,
   // WHATS_NEXT,
   REACTIONS,
+  WHY_LETSDORETRO,
 } from "../../routes/config";
 import { useHistory, useLocation } from "react-router";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import CreateAccount from "../Home/create";
 import Divider from "@material-ui/core/Divider";
 import DoLogoIcon from "../common/DoLogoIcon";
 import EmailIcon from "@material-ui/icons/Email";
@@ -34,6 +34,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
+import InstantRetroGrid from "../Home/instantRetroGrid";
 
 const BottomIllustrations = React.lazy(() => import("./BottomIllustrations"));
 
@@ -120,6 +121,10 @@ export default function Footer() {
     history.push(REACTIONS);
   };
 
+  const handleWhyLetsdoretro = () => {
+    history.push(WHY_LETSDORETRO);
+  };
+
   return (
     <Box>
       {(pathname.includes("/signup") || pathname.includes("/login")) && (
@@ -147,7 +152,9 @@ export default function Footer() {
             </Grid>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
-                <CreateAccount title="Sign up free" />
+                <Box>
+                  <InstantRetroGrid title="Start Instant Retro" />
+                </Box>
               </Box>
             </Grid>
           </Grid>
@@ -184,12 +191,23 @@ export default function Footer() {
                     }
                   />
                 </ListItem>
-
                 <ListItem className={listStyle} onClick={() => handleApps()}>
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
                         Apps
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleWhyLetsdoretro()}
+                >
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        Why Letsdoretro?
                       </Typography>
                     }
                   />

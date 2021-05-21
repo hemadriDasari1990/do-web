@@ -75,8 +75,7 @@ export default function Features() {
                   Powering a productive team means using a powerful tool with
                   great fun. From projects to boards, adding section, notes and
                   reactions, letdoretro’s intuitive features give any team/group
-                  the ability to quickly set up and run retrospectives
-                  differently.
+                  the ability to quickly set up and run retrospectives.
                 </Typography>
               </Box>
             </Grid>
@@ -96,26 +95,31 @@ export default function Features() {
       </Box>
       <Box py={5}>
         <Container>
+          <Box mb={5} textAlign="center">
+            <Typography variant="h1">
+              You can run awesome & totally free retrospectives with
+              letsdoretro.com
+            </Typography>
+          </Box>
           <Grid container spacing={4}>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={TeamIcon} />
               <FeatureContent
-                title="Create teams"
+                title="Create a team"
                 description="Create teams and invite unlimited people to collaborate on boards."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={JoinTeamIcon} />
               <FeatureContent
-                title="Add Members to the team"
-                description="Add members with just a click."
+                title="Invite team members"
+                description="Run your retrospectives with unlimited team members and empower your users."
               />
             </Grid>
-
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={ProjectIcon} />
               <FeatureContent
-                title="Create a Project"
+                title="Create a project"
                 description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards."
               />
             </Grid>

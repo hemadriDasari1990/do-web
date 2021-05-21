@@ -140,7 +140,7 @@ const GettingStartedActions = (props: any) => {
         <Divider />
         <ListItem
           alignItems="flex-start"
-          onClick={() => handleFeatures()}
+          onClick={() => handleReactions()}
           className={cursor}
         >
           <ListItemAvatar>

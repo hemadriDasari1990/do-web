@@ -32,6 +32,7 @@ import { useHistory } from "react-router-dom";
 import { useLogin } from "../../../redux/state/login";
 import { useSocket } from "../../../redux/state/socket";
 import { useTeam } from "../../../redux/state/team";
+import { useDefaultSections } from "../../../redux/state/common";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const DoAutoComplete = React.lazy(() => import("../../common/DoAutoComplete"));
@@ -69,6 +70,7 @@ const Update = () => {
   const { board } = useBoard();
   const history = useHistory();
   const { socket } = useSocket();
+  const { defaultSections } = useDefaultSections();
 
   /* Local state */
   const [apiCalled, setApiCalled] = useState(false);
@@ -81,7 +83,7 @@ const Update = () => {
     noOfSections: "",
     status: "",
     teams: [],
-    isDefaultBoard: false,
+    defaultSection: "",
     project: "",
     projectDescription: "",
     isAnnonymous: false,
@@ -94,7 +96,7 @@ const Update = () => {
     description,
     noOfSections,
     teams,
-    isDefaultBoard,
+    defaultSection,
     project,
     projectDescription,
     isAnnonymous,
@@ -157,7 +159,7 @@ const Update = () => {
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
         status: "new",
         teams: teams?.map((team: { [Key: string]: any }) => team?._id),
-        isDefaultBoard,
+        defaultSection,
         isAnnonymous,
         name:
           "Board " +
@@ -174,10 +176,8 @@ const Update = () => {
     setFormData({ ...formData, teams: [data] });
   };
 
-  const handleDefaultRetroBoard = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData({ ...formData, isDefaultBoard: !isDefaultBoard });
+  const handleDefaultSection = (data: { [Key: string]: any }) => {
+    setFormData({ ...formData, defaultSection: data?.name });
   };
 
   const removeItem = (items: Array<string>, i: number) =>
@@ -337,35 +337,25 @@ const Update = () => {
     return (
       <>
         {renderAnnonymous()}
-        {!isDefaultBoard && renderNoOfSections()}
-        {!isDefaultBoard && noOfSections ? (
+        {!defaultSection && renderNoOfSections()}
+        {noOfSections ? (
           <Box mt={3}>
             <HintMessage message="Please note System will generate default sections with name 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
 
-        {!noOfSections ? (
-          <Box mt={1} mb={-3}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isDefaultBoard}
-                  onChange={handleDefaultRetroBoard}
-                  value="false"
-                  color="primary"
-                  name="isDefaultBoard"
-                />
+        {!noOfSections && (
+          <Box>
+            <DoAutoComplete
+              textInputLabel="Select Default Template"
+              textInputPlaceholder="Select Default Template"
+              optionKey="name"
+              options={defaultSections}
+              onChange={(e: any, data: { [Key: string]: any }) =>
+                handleDefaultSection(data)
               }
-              label={<Typography variant="h6">Create default Board</Typography>}
-            />
-          </Box>
-        ) : null}
-        {isDefaultBoard && (
-          <Box mt={3}>
-            <HintMessage
-              message={
-                "System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items."
-              }
+              className={dropdownInputStyle}
+              // disabled={selectedBoard?._id}
             />
           </Box>
         )}
@@ -411,9 +401,13 @@ const Update = () => {
     if (activeStep === 0 && !project) {
       return true;
     }
+    console.log(
+      "defaultSection",
+      activeStep === 1 && !defaultSection && !noOfSections
+    );
     if (
       activeStep === 1 &&
-      !isDefaultBoard &&
+      !defaultSection &&
       (!noOfSections || noOfSections === 0)
     ) {
       return true;
@@ -454,7 +448,7 @@ const Update = () => {
                     color="primary"
                     onClick={() => handleStartRetro()}
                     startIcon={<PlayArrowIcon color="secondary" />}
-                    // disabled={disableButton()}
+                    disabled={disableButton()}
                   >
                     <Typography variant="h6" color="secondary">
                       Start

@@ -36,7 +36,8 @@ const CreateAccountGrid = () => {
           </Box>
           <Box>
             <Typography>
-              Join thousands of teams who already enjoy our retrospective tool
+              Join thousands of agile teams and students who already enjoy our
+              retrospective tool
             </Typography>
           </Box>
           <Box mt={3}>

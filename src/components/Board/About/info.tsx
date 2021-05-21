@@ -36,6 +36,9 @@ const AboutBoardInfo = () => {
           </Box>
         )}
         <Box mb={1}>
+          <SummaryField title="Status" value={board?.status?.toUpperCase()} />
+        </Box>
+        <Box mb={1}>
           <SummaryField
             title="Visibility"
             value={board?.isPrivate ? "Private" : "Public"}
@@ -64,7 +67,7 @@ const AboutBoardInfo = () => {
         {board?.startedAt && (
           <Box mb={1}>
             <SummaryField
-              title="Session started at "
+              title="Session started on"
               value={getHumanReadableDate(board?.startedAt)}
             />
           </Box>
@@ -72,7 +75,7 @@ const AboutBoardInfo = () => {
         {board?.completedAt && (
           <Box mb={1}>
             <SummaryField
-              title="Session ended at "
+              title="Session completed on"
               value={getHumanReadableDate(board?.completedAt)}
             />
           </Box>

@@ -27,6 +27,7 @@ import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useProject } from "../../../redux/state/project";
 import { useTeam } from "../../../redux/state/team";
+import { useDefaultSections } from "../../../redux/state/common";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -57,6 +58,7 @@ const Update = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { project } = useProject();
+  const { defaultSections } = useDefaultSections();
 
   /* Redux hooks */
   const { userId, accountType } = useLogin();
@@ -69,7 +71,7 @@ const Update = (props: any) => {
     noOfSections: 0,
     status: "",
     team: null,
-    isDefaultBoard: false,
+    defaultSection: "",
     isAnnonymous: false,
   });
   const [count, setCount] = useState(0);
@@ -78,7 +80,7 @@ const Update = (props: any) => {
     noOfSections,
     status,
     team,
-    isDefaultBoard,
+    defaultSection,
     isAnnonymous,
   } = formData;
 
@@ -92,7 +94,7 @@ const Update = (props: any) => {
         status: selectedBoard.status,
         noOfSections: selectedBoard.totalSections,
         team: selectedBoard.teams?.length ? selectedBoard.teams[0] : null,
-        isDefaultBoard: selectedBoard.isDefaultBoard,
+        defaultSection: selectedBoard.defaultSection,
         isAnnonymous: selectedBoard.isAnnonymous,
       });
     }
@@ -126,7 +128,7 @@ const Update = (props: any) => {
       noOfSections: 0,
       status: "",
       team: [],
-      isDefaultBoard: false,
+      defaultSection: false,
       isAnnonymous: false,
     });
   };
@@ -138,7 +140,7 @@ const Update = (props: any) => {
         noOfSections: noOfSections ? parseInt(noOfSections) : 0,
         status: status || "new",
         teams: [team?._id],
-        isDefaultBoard,
+        defaultSection,
         projectId: project?._id,
         accountType,
         name: "Board " + (totalBoards + 1),
@@ -150,7 +152,7 @@ const Update = (props: any) => {
   };
 
   const disableButton = () => {
-    if (!isDefaultBoard && (!noOfSections || noOfSections === 0)) {
+    if (!defaultSection && (!noOfSections || noOfSections === 0)) {
       return true;
     }
 
@@ -165,10 +167,8 @@ const Update = (props: any) => {
     history.push(TEAM);
   };
 
-  const handleDefaultRetroBoard = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData({ ...formData, isDefaultBoard: !isDefaultBoard });
+  const handleDefaultSection = (data: { [Key: string]: any }) => {
+    setFormData({ ...formData, defaultSection: data?.name });
   };
 
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
@@ -244,7 +244,7 @@ const Update = (props: any) => {
           />
         </Box>
         {renderAnnonymous()}
-        {!isDefaultBoard && (
+        {!defaultSection && (
           <Box>
             <TextField
               name="noOfSections"
@@ -265,29 +265,24 @@ const Update = (props: any) => {
             />
           </Box>
         )}
-        {!isDefaultBoard && noOfSections ? (
+        {noOfSections ? (
           <Box mt={3}>
             <HintMessage message="Please note System will generate default sections with name 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
-        <Box mt={1} mb={-3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isDefaultBoard}
-                onChange={handleDefaultRetroBoard}
-                value="false"
-                color="primary"
-                name="isDefaultBoard"
-                disabled={selectedBoard?._id && isDefaultBoard}
-              />
-            }
-            label={<Typography variant="h6">Create default Board</Typography>}
-          />
-        </Box>
-        {!selectedBoard?._id && isDefaultBoard && (
-          <Box mt={3}>
-            <HintMessage message="System will generate default board with sections like What went well, What could have been better, What to stop, What to start, New Learnings, Recognitions and action items." />
+        {!noOfSections && (
+          <Box>
+            <DoAutoComplete
+              textInputLabel="Select Default Template"
+              textInputPlaceholder="Select Default Template"
+              optionKey="name"
+              options={defaultSections}
+              onChange={(e: any, data: { [Key: string]: any }) =>
+                handleDefaultSection(data)
+              }
+              className={dropdownInputStyle}
+              // disabled={selectedBoard?._id}
+            />
           </Box>
         )}
         <Box>

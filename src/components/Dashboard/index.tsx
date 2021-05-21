@@ -46,6 +46,8 @@ import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
 import Tour from "reactour";
 import AdminUser from "../common/User";
+import { getDefaultSections } from "../../redux/actions/common";
+import { useDefaultSections } from "../../redux/state/common";
 
 // import Zoom from "@material-ui/core/Zoom";
 
@@ -66,7 +68,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   drawerPaper: {
     // marginTop: 60,
     zIndex: 1,
-    padding: "10px 30px",
+    padding: "10px 10px",
     borderRadius: 6,
     border: "none",
     width: drawerWidth,
@@ -87,7 +89,7 @@ const Dashboard = () => {
   const { breakText, tourStyle } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  // const { name } = useUser();
+  const { defaultSections } = useDefaultSections();
 
   /* React states */
   const [showSuccess, setShowSuccess] = useState(false);
@@ -110,6 +112,9 @@ const Dashboard = () => {
     if (loginSuccess) {
       setShowSuccess(true);
       dispatch(clearLogin());
+    }
+    if (!defaultSections?.length) {
+      dispatch(getDefaultSections());
     }
   }, [loginSuccess]);
 
@@ -399,7 +404,7 @@ const Dashboard = () => {
                   startIcon={<CardTravelIcon color="secondary" />}
                 >
                   <Typography variant="h6" color="secondary">
-                    Start Tour
+                    Welcome Tour
                   </Typography>
                 </Button>
               </Box>
@@ -535,7 +540,7 @@ const Dashboard = () => {
                     <Typography variant="h2">Get to Know More</Typography>
                     <Box mt={2}>
                       <InfoCard
-                        title="How to get started? Take a look at our five step process"
+                        title="How to get started? Take a look at our 5 step process"
                         icon={CallMadeIcon}
                         index={0}
                         handleButton={() => handleGettingStarted()}
