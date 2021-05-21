@@ -88,7 +88,10 @@ const AdContainer = () => {
             unmountOnExit
           >
             <Box>
-              <DialogTitle id="responsive-dialog-title">
+              <DialogTitle
+                id="responsive-dialog-title"
+                style={{ background: "none" }}
+              >
                 <Typography variant="h2">Let's Get Started</Typography>
               </DialogTitle>
               <DialogContent>
@@ -96,7 +99,7 @@ const AdContainer = () => {
                   <Box mt={-1}>
                     <Typography variant="h5" style={{ lineHeight: 1.2 }}>
                       Sign up and get started with Letsdoretro today. A world of
-                      productive teamwork awaits!
+                      fun retrospective awaits!
                     </Typography>
                   </Box>
                 </DialogContentText>

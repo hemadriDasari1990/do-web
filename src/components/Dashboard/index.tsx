@@ -2,8 +2,8 @@ import {
   FEATURES,
   GETTING_STARTED,
   PROJECTS,
-  RETROSPECTIVE,
   REACTIONS,
+  RETROSPECTIVE,
 } from "../../routes/config";
 import React, { Suspense, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
@@ -12,9 +12,11 @@ import {
   getUserDetails,
   getUserSummary,
 } from "../../redux/actions/user";
+import { useAuthenticated, useDefaultSections } from "../../redux/state/common";
 import { useUser, useUserSummary } from "../../redux/state/user";
-import CardTravelIcon from "@material-ui/icons/CardTravel";
+
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
+import AdminUser from "../common/User";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import Banner from "../common/Banner";
 import BoardList from "../Board/List";
@@ -24,8 +26,9 @@ import BoardList from "../Board/List";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CallMadeIcon from "@material-ui/icons/CallMade";
+import CardTravelIcon from "@material-ui/icons/CardTravel";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
-import { Divider, Hidden } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import Grid from "@material-ui/core/Grid";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
@@ -33,22 +36,19 @@ import InfoCard from "../common/InfoCard";
 import Loader from "../Loader/components";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import ProjectList from "../Project/List";
+import Tour from "reactour";
 // import PollOutlinedIcon from "@material-ui/icons/PollOutlined";
 import Typography from "@material-ui/core/Typography";
 import UpdateBoard from "./Update";
 import WelcomeBanner from "../common/WelcomeBanner";
 import { clearLogin } from "../../redux/actions/login";
+import { getDefaultSections } from "../../redux/actions/common";
 import { getProjects } from "../../redux/actions/project";
 import { useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
-import Tour from "reactour";
-import AdminUser from "../common/User";
-import { getDefaultSections } from "../../redux/actions/common";
-import { useDefaultSections, useAuthenticated } from "../../redux/state/common";
-import PersistentDrawerLeft from "../Drawer/DrawerLeft";
 
 // import Zoom from "@material-ui/core/Zoom";
 
@@ -92,8 +92,6 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const { defaultSections } = useDefaultSections();
   const authenticated: boolean = useAuthenticated();
-  const location = useLocation();
-  const pathname = location.pathname as string;
 
   /* React states */
   const [showSuccess, setShowSuccess] = useState(false);
@@ -377,15 +375,7 @@ const Dashboard = () => {
         accentColor="#57f"
         className={tourStyle}
       />
-      {authenticated &&
-        pathname?.toLowerCase() !== "/getting-started" &&
-        pathname?.toLowerCase() !== "/retrospective" &&
-        pathname?.toLowerCase() !== "/features" &&
-        pathname?.toLowerCase() !== "/reactions" && (
-          <Hidden only={["xs"]}>
-            <PersistentDrawerLeft />
-          </Hidden>
-        )}
+
       <Box pt={2} pb={2} pl={2}>
         <DoSnackbar
           open={showSuccess}

@@ -3,19 +3,21 @@ import * as routePath from "./config";
 import React, { Suspense, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useHistory, useLocation } from "react-router";
 
 import Apps from "../components/Footer/Apps";
 import Box from "@material-ui/core/Box";
 import { DASHBOARD } from "./config";
 import { DRAWER_WIDTH } from "../util/constants";
+import { Hidden } from "@material-ui/core";
+import MemberDetails from "../components/Members/Details";
+import PersistentDrawerLeft from "../components/Drawer/DrawerLeft";
 import PrivateRoute from "./PrivateRoute";
 import Profile from "../components/Drawer/Profile";
-import { useAuthenticated } from "../redux/state/common";
-import { useHistory, useLocation } from "react-router";
-import { useParams } from "react-router";
 import TeamDetails from "../components/Team/Details";
-import MemberDetails from "../components/Members/Details";
 import WhyLetsdoretro from "../components/Footer/why";
+import { useAuthenticated } from "../redux/state/common";
+import { useParams } from "react-router";
 
 const Header = React.lazy(() => import("../components/Header"));
 const Footer = React.lazy(() => import("../components/Footer"));
@@ -172,18 +174,16 @@ const Routes = () => {
   const { boardId } = useParams<{ boardId: string }>();
   const location = useLocation();
   const pathname = location.pathname as string;
-
+  const isRedirect =
+    pathname?.toLowerCase() !== "/getting-started" &&
+    pathname?.toLowerCase() !== "/retrospective" &&
+    pathname?.toLowerCase() !== "/features" &&
+    pathname?.toLowerCase() !== "/reactions";
   const history = useHistory();
   const { boxStyle, content } = useStyles({ authenticated });
 
   useEffect(() => {
-    if (
-      authenticated &&
-      pathname?.toLowerCase() !== "/getting-started" &&
-      pathname?.toLowerCase() !== "/retrospective" &&
-      pathname?.toLowerCase() !== "/features" &&
-      pathname?.toLowerCase() !== "/reactions"
-    ) {
+    if (authenticated && isRedirect) {
       history.push(DASHBOARD);
     }
   }, [authenticated]);
@@ -207,6 +207,11 @@ const Routes = () => {
           {/* Route without header and footer */}
           <React.Fragment>
             <Header />
+            {authenticated && isRedirect && (
+              <Hidden only={["xs"]}>
+                <PersistentDrawerLeft />
+              </Hidden>
+            )}
             <main className={content}>
               {protectedRoutes().map(
                 (route: { [Key: string]: any }, index: number) => (

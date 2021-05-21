@@ -9,12 +9,10 @@ import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
 import DoLogo from "../common/DoLogo";
 import DoLogoIcon from "../common/DoLogo";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import { useAuthenticated } from "../../redux/state/common";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
-
-const PersistentDrawerLeft = React.lazy(() => import("../Drawer/DrawerLeft"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -119,15 +117,6 @@ const Header = () => {
         </AppBar>
       ) : null}
       <Box className={toolbar} />
-      {authenticated &&
-        pathname?.toLowerCase() !== "/getting-started" &&
-        pathname?.toLowerCase() !== "/retrospective" &&
-        pathname?.toLowerCase() !== "/features" &&
-        pathname?.toLowerCase() !== "/reactions" && (
-          <Hidden only={["xs"]}>
-            <PersistentDrawerLeft />
-          </Hidden>
-        )}
     </Box>
   );
 };
