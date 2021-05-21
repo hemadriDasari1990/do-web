@@ -10,7 +10,6 @@ import Divider from "@material-ui/core/Divider";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import MobileStepper from "@material-ui/core/MobileStepper";
-import Slide from "@material-ui/core/Slide";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { getFeedbacks } from "../../redux/actions/feedback";
@@ -122,7 +121,7 @@ function FeedbackList() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   useEffect(() => {
-    dispatch(getFeedbacks(5, 5, true));
+    dispatch(getFeedbacks(5, 4, true));
   }, []);
 
   const handleNext = () => {
@@ -149,46 +148,38 @@ function FeedbackList() {
                   key={feedback[activeStep]?._id}
                   cols={12}
                 >
-                  <Slide
-                    direction="left"
-                    in={true}
-                    timeout={2000}
-                    mountOnEnter
-                    unmountOnExit
-                  >
-                    <Box px={5}>
-                      <Box className={imageBoxStyle}>
-                        <Box
-                          className={imageBoxGridStyle}
-                          style={{
-                            background: getRandomBGColor(activeStep),
-                          }}
+                  <Box px={5}>
+                    <Box className={imageBoxStyle}>
+                      <Box
+                        className={imageBoxGridStyle}
+                        style={{
+                          background: getRandomBGColor(activeStep),
+                        }}
+                      >
+                        <Avatar
+                          color="secondary"
+                          classes={{ root: avatarStyle }}
                         >
-                          <Avatar
+                          <Typography
+                            variant="h1"
+                            className={avatarTextStyle}
                             color="secondary"
-                            classes={{ root: avatarStyle }}
                           >
-                            <Typography
-                              variant="h1"
-                              className={avatarTextStyle}
-                              color="secondary"
-                            >
-                              {getInitials(feedback[activeStep]?.user?.name)}
-                            </Typography>
-                          </Avatar>
-                        </Box>
-                      </Box>
-                      <Box>
-                        <Typography
-                          variant="h2"
-                          style={{ fontWeight: "normal" }}
-                        >
-                          <b>{feedback[activeStep]?.title} - </b>
-                          {feedback[activeStep]?.description}
-                        </Typography>
+                            {getInitials(feedback[activeStep]?.user?.name)}
+                          </Typography>
+                        </Avatar>
                       </Box>
                     </Box>
-                  </Slide>
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        style={{ fontWeight: "normal" }}
+                      >
+                        <b>{feedback[activeStep]?.title} - </b>
+                        {feedback[activeStep]?.description}
+                      </Typography>
+                    </Box>
+                  </Box>
                 </GridListTile>
               </GridList>
             </Box>

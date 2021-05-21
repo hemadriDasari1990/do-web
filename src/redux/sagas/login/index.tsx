@@ -30,7 +30,8 @@ import {
   validateForgotPassword,
   verifyToken,
 } from "../../network/login";
-import { put, takeLatest } from "redux-saga/effects";
+import { put, takeLatest, call } from "redux-saga/effects";
+import { delay } from "../../../util";
 
 function* callLogin(action: { [Key: string]: any }) {
   try {
@@ -40,6 +41,7 @@ function* callLogin(action: { [Key: string]: any }) {
     if (status === 200 && data?.token) {
       localStorage.setItem("token", data?.token);
       localStorage.setItem("refreshToken", data?.refreshToken);
+      yield call(delay, 2000);
       yield put({ type: LOGIN_SUCCESS, payload: data });
     }
   } catch (err) {
@@ -57,8 +59,7 @@ function* callLogout() {
     const status = result?.status;
     const data = result?.data;
     if (status === 200) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("refreshToken");
+      localStorage.clear();
       yield put({ type: LOGOUT_SUCCESS, payload: data });
     }
   } catch (err) {

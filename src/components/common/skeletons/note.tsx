@@ -17,6 +17,25 @@ export default function NoteSkeleton() {
 
   return (
     <Card>
+      <Box display="flex" justifyContent="space-between" pl={1} pr={0.5}>
+        <Box mt={0.7} mr={1}>
+          <Skeleton animation="wave" height={15} width={60} />
+        </Box>
+        <Box display="flex" mt={0.7}>
+          <Box mr={1} mt={0.7}>
+            <Skeleton animation="wave" height={10} width={40} />
+          </Box>
+          <Box mr={1}>
+            <Skeleton
+              animation="wave"
+              variant="circle"
+              width={20}
+              height={20}
+              style={{ borderRadius: "50%" }}
+            />
+          </Box>
+        </Box>
+      </Box>
       <CardContent>
         <Skeleton animation="wave" variant="rect" className={contentStyle} />
       </CardContent>

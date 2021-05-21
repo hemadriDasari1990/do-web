@@ -183,3 +183,6 @@ export const getHumanReadableDate = (value: string) => {
       }) || "--";
   return output;
 };
+
+export const delay = (time: number) =>
+  new Promise((resolve) => setTimeout(resolve, time));

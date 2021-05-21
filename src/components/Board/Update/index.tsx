@@ -254,7 +254,6 @@ const Update = (props: any) => {
               value={noOfSections}
               onChange={handleInput}
               disabled={!!selectedBoard?.totalSections}
-              required
               className={textFieldStyle}
               onKeyPress={(event: React.KeyboardEvent<any>) =>
                 allow(event, ONLY_NUMBERS, 2)

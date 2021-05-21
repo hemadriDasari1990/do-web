@@ -54,8 +54,14 @@ const AboutBoardInfo = () => {
         )}
         <Box mb={1}>
           <SummaryField
-            title="No of sections"
+            title="Total sections"
             value={formatNumberWithCommas(board?.totalSections || 0)}
+          />
+        </Box>
+        <Box mb={1}>
+          <SummaryField
+            title="Total notes"
+            value={formatNumberWithCommas(board?.totalNotes || 0)}
           />
         </Box>
         <Box mb={1}>

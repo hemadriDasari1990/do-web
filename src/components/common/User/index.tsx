@@ -12,13 +12,13 @@ const AdminUser = () => {
     <Box display="flex">
       <Avatar classes={{ root: avatarStyle }} src={HemadriIcon}></Avatar>
       <Box mx={1}>
-        <Typography variant="h5">Hemadri</Typography>
+        <Typography variant="body1">Hemadri</Typography>
       </Box>
-      <Box mt={0.6}>
-        <Typography variant="h6">from</Typography>
+      <Box>
+        <Typography variant="body1">from</Typography>
       </Box>
       <Box mx={1}>
-        <Typography variant="h5">letsdoretro.com</Typography>
+        <Typography variant="body1">letsdoretro.com</Typography>
       </Box>
     </Box>
   );

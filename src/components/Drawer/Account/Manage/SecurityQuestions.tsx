@@ -17,6 +17,7 @@ import DoSnackbar from "../../../Snackbar/components";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import { storeAction } from "../../../../redux/actions/common";
 
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
@@ -41,6 +42,7 @@ const SecurityQuestions = (props: any) => {
   const { value, password } = formData;
   const [questionId, setQuestionId] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [apiCalled, setApiCalled] = useState(false);
 
   useEffect(() => {
     dispatch(getSecurityQuestions());
@@ -49,14 +51,20 @@ const SecurityQuestions = (props: any) => {
   useEffect(() => {
     if (
       !loading &&
-      (securityQuestionResponse?.errorId || securityQuestionResponse?.code)
+      (securityQuestionResponse?.errorId ||
+        (securityQuestionResponse?.code && apiCalled))
     ) {
       setOpenSnackbar(true);
+      setApiCalled(false);
     }
-    if (!loading && securityQuestionResponse?.message) {
+    if (!loading && securityQuestionResponse?.message && apiCalled) {
       setOpenSnackbar(true);
+      setTimeout(() => {
+        dispatch(storeAction(""));
+        setApiCalled(false);
+      }, 2000);
     }
-  }, [loading, securityQuestionResponse]);
+  }, [loading, securityQuestionResponse, apiCalled]);
 
   /* Handler functions */
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +72,7 @@ const SecurityQuestions = (props: any) => {
   };
 
   const handleSave = () => {
+    setApiCalled(false);
     if (verify) {
       dispatch(
         verifySecurityQuestionAnswer({
@@ -79,6 +88,7 @@ const SecurityQuestions = (props: any) => {
         ...formData,
       })
     );
+    setApiCalled(true);
   };
 
   const handleQuestion = (data: { [Key: string]: any }) => {

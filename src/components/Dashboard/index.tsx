@@ -25,7 +25,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CallMadeIcon from "@material-ui/icons/CallMade";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
-import { Divider } from "@material-ui/core";
+import { Divider, Hidden } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import Grid from "@material-ui/core/Grid";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
@@ -40,14 +40,15 @@ import WelcomeBanner from "../common/WelcomeBanner";
 import { clearLogin } from "../../redux/actions/login";
 import { getProjects } from "../../redux/actions/project";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
 import Tour from "reactour";
 import AdminUser from "../common/User";
 import { getDefaultSections } from "../../redux/actions/common";
-import { useDefaultSections } from "../../redux/state/common";
+import { useDefaultSections, useAuthenticated } from "../../redux/state/common";
+import PersistentDrawerLeft from "../Drawer/DrawerLeft";
 
 // import Zoom from "@material-ui/core/Zoom";
 
@@ -90,6 +91,9 @@ const Dashboard = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { defaultSections } = useDefaultSections();
+  const authenticated: boolean = useAuthenticated();
+  const location = useLocation();
+  const pathname = location.pathname as string;
 
   /* React states */
   const [showSuccess, setShowSuccess] = useState(false);
@@ -102,21 +106,25 @@ const Dashboard = () => {
   const { boards, name } = useUser();
 
   useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
     dispatch(getUserDetails(userId));
     dispatch(getUserSummary(userId));
     dispatch(getProjects(userId, "", 0, 3));
     dispatch(getBoardsByUser(userId, 3));
-  }, []);
+  };
 
   useEffect(() => {
-    if (loginSuccess) {
+    if (loginSuccess && authenticated) {
       setShowSuccess(true);
       dispatch(clearLogin());
     }
     if (!defaultSections?.length) {
       dispatch(getDefaultSections());
     }
-  }, [loginSuccess]);
+  }, [loginSuccess, authenticated]);
 
   /* Handler functions */
   const handleSuccessClose = () => {
@@ -166,12 +174,12 @@ const Dashboard = () => {
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               We're thrilled to count you in the lets do retro community.{" "}
             </Typography>
           </Box>
           <Box>
-            <Typography variant="h6">
+            <Typography variant="body1">
               My name is Hemadri (but please, call me Hemanth), and I'm going to
               show you everything that letsdoretro.com can offer to your team.
               In just 2 mins, you will be able to launch your first
@@ -187,19 +195,19 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               We're currently on your <b>team dashboard.</b>
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               This is the place where you can see the summary of your account,
               recent projects, boards and most importantly quick retro launch in
               seconds.
             </Typography>
           </Box>
           <Box>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You will also be able to{" "}
               <b>access your recent projects or boards</b> from there.
             </Typography>
@@ -213,12 +221,12 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               We'd love your feedback on your experience with our Retro tool
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You can access this feature to share us the feedback about what
               you like, dis like about the tool and suggestions to improve the
               system.
@@ -233,13 +241,13 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               Your team members do not need to create a retro account to join a
               retrospective board.
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You can access this feature to manage teams, members and team
               members.
             </Typography>
@@ -253,7 +261,7 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You can use this feature to manage your account like you can
               change password, email address, name and security questions
               anytime.
@@ -268,7 +276,7 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You can use this feature to explore more about retrospectives and
               help you get started.
             </Typography>
@@ -282,7 +290,7 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You can use this feature to change your avatar. We have plenty of
               cool avatars.
             </Typography>
@@ -296,13 +304,13 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               Okay, this is cool, but I would like to launch my first
               retrospective now!
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               Start quick retro is the awesome feature to launch a retrospective
               board in just 3 steps but, we would recommend to create your team
               first and add your team members to the team. If this is already
@@ -310,19 +318,19 @@ const Dashboard = () => {
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               As a step, select the project or if you havent created a project
               then just type your project name or select from the drop down and
               enter description about your project.
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               In the 2nd step, choose no of sections.
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               In the 3rd step, select the team that you would like to invite to
               join the restrospective session. That's it click on start retro
               button to create the board.
@@ -337,13 +345,13 @@ const Dashboard = () => {
         <Box>
           <AdminUser />
           <Box mt={3}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               You're all set! Now all you have to do is to start your first
               retrospective!
             </Typography>
           </Box>
           <Box my={1}>
-            <Typography variant="h6">
+            <Typography variant="body1">
               Any questions? Hit me up via the chat module on the bottom right
               corner of the page.
             </Typography>
@@ -369,13 +377,22 @@ const Dashboard = () => {
         accentColor="#57f"
         className={tourStyle}
       />
+      {authenticated &&
+        pathname?.toLowerCase() !== "/getting-started" &&
+        pathname?.toLowerCase() !== "/retrospective" &&
+        pathname?.toLowerCase() !== "/features" &&
+        pathname?.toLowerCase() !== "/reactions" && (
+          <Hidden only={["xs"]}>
+            <PersistentDrawerLeft />
+          </Hidden>
+        )}
       <Box pt={2} pb={2} pl={2}>
         <DoSnackbar
           open={showSuccess}
           handleClose={handleSuccessClose}
           status="success"
         >
-          <Typography variant="h6" color="secondary">
+          <Typography variant="body1" color="secondary">
             Login successfull
           </Typography>
         </DoSnackbar>
@@ -403,7 +420,7 @@ const Dashboard = () => {
                   onClick={() => openTour()}
                   startIcon={<CardTravelIcon color="secondary" />}
                 >
-                  <Typography variant="h6" color="secondary">
+                  <Typography variant="body1" color="secondary">
                     Welcome Tour
                   </Typography>
                 </Button>

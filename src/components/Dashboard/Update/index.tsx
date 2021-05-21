@@ -295,7 +295,6 @@ const Update = () => {
           placeholder="Enter no of senctions"
           value={noOfSections}
           onChange={handleInput}
-          required
           className={textFieldStyle}
           onKeyPress={(event: React.KeyboardEvent<any>) =>
             allow(event, ONLY_NUMBERS, 1)

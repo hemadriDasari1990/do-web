@@ -6,7 +6,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useLocalStyles = makeStyles(() => ({
   createNoteStyle: {
-    height: 40,
     borderRadius: 6,
     background: "#fff",
   },
@@ -17,11 +16,16 @@ export default function NoteListSkeleton() {
   return (
     <>
       <Box p={1}>
-        <Skeleton animation="wave" variant="rect" className={createNoteStyle} />
+        <NoteSkeleton />
+        <NoteSkeleton />
       </Box>
-      <Box p={1}>
-        <NoteSkeleton />
-        <NoteSkeleton />
+      <Box ml={1} mb={1}>
+        <Skeleton
+          animation="wave"
+          height={15}
+          width={150}
+          className={createNoteStyle}
+        />
       </Box>
     </>
   );

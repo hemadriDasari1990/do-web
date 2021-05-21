@@ -6,7 +6,7 @@ export default function BoardHeaderSkeleton() {
   const { contentColor } = useStyles();
   return (
     <>
-      <Box display="flex" justifyContent="space-between" mt={3}>
+      <Box display="flex" justifyContent="space-between" mt={1}>
         <Box display="flex">
           <Box mt={0.2} mx={2}>
             <Skeleton

@@ -40,7 +40,7 @@ export default function NoteUpdate(props: any) {
   const { boardId, token } = useParams<{ boardId: string; token?: string }>();
   const { board } = useBoard();
   const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
-  const creatorId = memberId || descodedData?.memberId;
+  const creatorId = descodedData?.memberId ? descodedData?.memberId : memberId;
 
   /* Local states */
   const [count, setCount] = useState(0);

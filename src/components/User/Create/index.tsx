@@ -286,7 +286,7 @@ const Create = () => {
               <Typography variant="h6">Already have an account?</Typography>
             </Box>
             <Box>
-              <Link component="button" onClick={handleLogin}>
+              <Link component="button" onClick={() => handleLogin()}>
                 <Typography variant="subtitle2" color="primary">
                   Login
                 </Typography>

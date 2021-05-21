@@ -1,4 +1,4 @@
-import { DASHBOARD, FORGOT_PASSWORD, SIGNUP } from "../../../routes/config";
+import { FORGOT_PASSWORD, SIGNUP } from "../../../routes/config";
 import { EMAIL_PATTERN } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
@@ -55,8 +55,8 @@ const Login = () => {
   /* React Hooks */
   useEffect(() => {
     if (!loading && apiTriggered && token) {
-      history.push(DASHBOARD);
       setApiTriggered(false);
+      // history.push(DASHBOARD);
     }
     if (!loading && apiTriggered && !token) {
       setShowError(true);
