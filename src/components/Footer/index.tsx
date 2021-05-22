@@ -22,7 +22,6 @@ import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
-import InstagramIcon from "@material-ui/icons/Instagram";
 import InstantRetroGrid from "../Home/instantRetroGrid";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import List from "@material-ui/core/List";
@@ -35,7 +34,6 @@ import React from "react";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 
 const BottomIllustrations = React.lazy(() => import("./BottomIllustrations"));
@@ -395,30 +393,6 @@ export default function Footer() {
                     primary={
                       <Typography variant="overline" color="secondary">
                         Twitter
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem className={listStyle}>
-                  <ListItemIcon className={listIconStyle}>
-                    <InstagramIcon color="secondary" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography variant="overline" color="secondary">
-                        Instagram
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem className={listStyle}>
-                  <ListItemIcon className={listIconStyle}>
-                    <YouTubeIcon color="secondary" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography variant="overline" color="secondary">
-                        Youtube
                       </Typography>
                     }
                   />
