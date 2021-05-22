@@ -58,7 +58,8 @@ const useLocalStyles = makeStyles(() => ({
     transform: "translateZ(0)",
   },
   gridListTileStyle: {
-    height: "270px !important",
+    minHeight: "180px !important",
+    maxHeight: "180px !important",
     overflowY: "scroll",
     scrollBehavior: "smooth",
     marginRight: 10,
@@ -149,35 +150,37 @@ function FeedbackList() {
                   cols={12}
                 >
                   <Box px={5}>
-                    <Box className={imageBoxStyle}>
-                      <Box
-                        className={imageBoxGridStyle}
-                        style={{
-                          background: getRandomBGColor(activeStep),
-                        }}
-                      >
-                        <Avatar
-                          color="secondary"
-                          classes={{ root: avatarStyle }}
+                    <Box display="flex">
+                      <Box className={imageBoxStyle}>
+                        <Box
+                          className={imageBoxGridStyle}
+                          style={{
+                            background: getRandomBGColor(activeStep),
+                          }}
                         >
-                          <Typography
-                            variant="h1"
-                            className={avatarTextStyle}
+                          <Avatar
                             color="secondary"
+                            classes={{ root: avatarStyle }}
                           >
-                            {getInitials(feedback[activeStep]?.user?.name)}
-                          </Typography>
-                        </Avatar>
+                            <Typography
+                              variant="h1"
+                              className={avatarTextStyle}
+                              color="secondary"
+                            >
+                              {getInitials(feedback[activeStep]?.user?.name)}
+                            </Typography>
+                          </Avatar>
+                        </Box>
                       </Box>
-                    </Box>
-                    <Box>
-                      <Typography
-                        variant="body1"
-                        style={{ fontWeight: "normal" }}
-                      >
-                        <b>{feedback[activeStep]?.title} - </b>
-                        {feedback[activeStep]?.description}
-                      </Typography>
+                      <Box m={3}>
+                        <Typography
+                          variant="body1"
+                          style={{ fontWeight: "normal" }}
+                        >
+                          <b>{feedback[activeStep]?.title} - </b>
+                          {feedback[activeStep]?.description}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </GridListTile>

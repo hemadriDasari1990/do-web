@@ -314,7 +314,7 @@ const ProjectDashboard = () => {
         </Box>
         {!loading && (!projects || !projects?.length) ? (
           <Box className={alignCenterStyle}>
-            <NoRecords message="No Projects found to display! Please add" />
+            <NoRecords message="No Projects found to display." />
             <Box mt={3} textAlign="center">
               {renderCreateNewProject()}
             </Box>

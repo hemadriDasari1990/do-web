@@ -97,8 +97,7 @@ export default function Features() {
         <Container>
           <Box mb={5} textAlign="center">
             <Typography variant="h1">
-              You can run awesome & totally free retrospectives with
-              letsdoretro.com
+              Features to help your team succeed
             </Typography>
           </Box>
           <Grid container spacing={4}>

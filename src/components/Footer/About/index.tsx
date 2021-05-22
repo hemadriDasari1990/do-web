@@ -8,11 +8,11 @@ import Typography from "@material-ui/core/Typography";
 import UnderlineText from "../../common/UnderlineText";
 import Wave from "../../../assets/wave.svg";
 import hemadri from "../../../assets/hemadri.jpg";
+import lokeshPemmasani from "../../../assets/lokesh-pemmasani.jpeg";
 import { makeStyles } from "@material-ui/core/styles";
+import rajeshPemmasani from "../../../assets/rajesh-pemmasani.jpeg";
 import sreesha from "../../../assets/sreesha.jpeg";
 import useStyles from "../../styles";
-import rajeshPemmasani from "../../../assets/rajesh-pemmasani.jpeg";
-import lokeshPemmasani from "../../../assets/lokesh-pemmasani.jpeg";
 
 const CreateAccountGrid = React.lazy(
   () => import("../../Home/createAccountGrid")
@@ -67,12 +67,12 @@ export default function About() {
                         remote teams to discuss what worked and what didn't.
                       </Typography>
                       <Typography
-                        variant="h2"
+                        variant="h3"
                         // className={titleStyle}
                         color="secondary"
                       >
-                        Our mission is to empower teams to create the next big
-                        thing.
+                        Our mission is to Empower professionals and students to
+                        create the next big thing.
                       </Typography>
                     </Box>
                   </Box>
@@ -89,11 +89,25 @@ export default function About() {
         <Box>
           <Container>
             <Box p={5} textAlign="center">
-              <Typography variant="h1">Contributors</Typography>
+              <Typography variant="h1" className={titleStyle}>
+                The faces behind Letsdoretro.
+              </Typography>
               <Typography component="p" className={parahStyle}>
-                Behind every great human achievement, there is a team.
+                Letsdoretro team is lightweight, 100% remote and backed by
+                Techstars.
               </Typography>
             </Box>
+            <Box p={5} textAlign="center">
+              <Typography variant="h1">Our team</Typography>
+              <Typography component="p" className={parahStyle}>
+                We are a team of 2 humans across 2 cities, working hard (and
+                remotely) to make your life easier. From banking to e-commerce
+                or Telecommunications, we have different skills, but the one we
+                have in common is our entrepreneurial spirit that runs through
+                the team and sparks lots of innovation and fun.
+              </Typography>
+            </Box>
+
             <Grid container spacing={2}>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
                 <ProfileCardSecondary
@@ -146,15 +160,15 @@ export default function About() {
                   <UnderlineText title="Work Experience" />
                   <Box mt={2}>
                     <Typography variant="h5">
-                      Hemadri Dasari currently working as a Senior Full Stack
-                      Developer at Farah Experiences, Abu Dhabi, United Arab
-                      Emirates. Prior to Farah. he served as Senior Front end
-                      developer at Mashreq Bank, Dubai. He’s also worked as
-                      Senior Full Stack Developer at Emirates NBD Bank, Dubai
-                      and has also had multiple roles in Verizon Communications
-                      Inc, Cognizant Technology Solutions and Barclays Shared
-                      Services. Hemadri has completed his B.E Computer Science &
-                      Enginerring from Anna University.
+                      Hemadri Dasari currently working as a Senior Lead
+                      Developer in Abu Dhabi, United Arab Emirates. Prior to
+                      this, he served as Senior Front end developer at Mashreq
+                      Bank, Dubai. He’s also worked as Senior Full Stack
+                      Developer at Emirates NBD Bank, Dubai and has also had
+                      multiple roles in Verizon Communications Inc, Cognizant
+                      Technology Solutions and Barclays Shared Services. Hemadri
+                      has completed his B.E Computer Science & Enginerring from
+                      Anna University.
                     </Typography>
                   </Box>
                 </Box>
@@ -169,6 +183,9 @@ export default function About() {
                       A quality assurance specialist and a key advisor, she is a
                       key contributor in developing and implementing quality
                       assurance policies.
+                    </Typography>
+                    <Typography variant="h5">
+                      Got a bug? Blame Sreesha (she’s very sorry 🤷).
                     </Typography>
                   </Box>
                 </Box>

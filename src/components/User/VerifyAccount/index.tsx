@@ -3,13 +3,13 @@ import {
   NOT_FOUND,
   TOKEN_EXPIRED,
 } from "../../../util/constants";
+import { CREATE, LOGIN } from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useLoading, useVerifyToken } from "../../../redux/state/login";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { CREATE, LOGIN } from "../../../routes/config";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import VerifiedIcon from "../../../assets/verified.svg";
@@ -143,7 +143,7 @@ const VerifyAccount = () => {
                     variant="contained"
                   >
                     <Typography variant="h6" color="secondary">
-                      Start a retroboard
+                      Sign Up Free
                     </Typography>
                   </Button>
                 </Box>

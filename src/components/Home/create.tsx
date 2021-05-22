@@ -2,12 +2,12 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 import React from "react";
 import { SIGNUP } from "../../routes/config";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {

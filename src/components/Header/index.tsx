@@ -11,7 +11,6 @@ import DoLogo from "../common/DoLogo";
 import DoLogoIcon from "../common/DoLogo";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import Hidden from "@material-ui/core/Hidden";
-import Typography from "@material-ui/core/Typography";
 import { useAuthenticated } from "../../redux/state/common";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
@@ -97,9 +96,7 @@ const Header = () => {
                 variant="contained"
                 startIcon={<FlashOnIcon color="secondary" />}
               >
-                <Typography variant="h6" color="secondary">
-                  Sign up free
-                </Typography>
+                Sign up free
               </Button>
             </Box>
           </Box>

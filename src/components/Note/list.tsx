@@ -497,7 +497,6 @@ const NoteList = (props: any) => {
     socket.emit("add-reaction", {
       noteId: note._id,
       type,
-      reactedBy: memberId,
       sectionId: note.sectionId,
       boardId,
       isAnnonymous: board?.isAnnonymous,

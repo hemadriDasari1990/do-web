@@ -1,7 +1,9 @@
 import React, { Suspense, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import getRandomBGColor, { getRandomColor } from "../../../util/getRandomColor";
 
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
+import Avatar from "@material-ui/core/Avatar";
 import AvatarGroupList from "../../common/AvatarGroupList";
 import { BOARD_DASHBOARD } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
@@ -26,7 +28,7 @@ import Loader from "../../Loader/components";
 import Menu from "@material-ui/core/Menu";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import Status from "../../common/Status";
-import Avatar from "@material-ui/core/Avatar";
+import SummaryField from "../../common/SummaryField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -39,10 +41,8 @@ import { useBoardLoading } from "../../../redux/state/board";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
-import { useTeamLoading } from "../../../redux/state/team";
-import getRandomBGColor, { getRandomColor } from "../../../util/getRandomColor";
-import SummaryField from "../../common/SummaryField";
 import useTableStyles from "../../styles/table";
+import { useTeamLoading } from "../../../redux/state/team";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   buttonStyle: {
@@ -61,14 +61,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 }));
 
 const BoardList = (props: any) => {
-  const {
-    boards,
-    handleMenu,
-    setSelectedBoard,
-    selectedBoard,
-    hideMenu,
-    showProject,
-  } = props;
+  const { boards, handleMenu, setSelectedBoard, hideMenu, showProject } = props;
   const {} = useLocalStyles();
   const { loading: projectLoading } = useProjectLoading();
   const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
@@ -91,7 +84,8 @@ const BoardList = (props: any) => {
 
   const handleCopy = (
     event: React.MouseEvent<HTMLButtonElement>,
-    board: { [Key: string]: any }
+    board: { [Key: string]: any },
+    index: number
   ) => {
     event.stopPropagation();
     event.preventDefault();
@@ -99,10 +93,7 @@ const BoardList = (props: any) => {
       return;
     }
     setClipboardText("Copied");
-    if (typeof setSelectedBoard === "function") {
-      setSelectedBoard(board);
-    }
-
+    setSelectedIndex(index);
     navigator.clipboard.writeText(
       (((process.env.REACT_APP_PROTOCOL as string) +
         process.env.REACT_APP_SERVER) as string) +
@@ -336,7 +327,7 @@ const BoardList = (props: any) => {
               <Tooltip
                 arrow
                 title={
-                  selectedBoard?._id === board?._id && clipboardText
+                  selectedIndex === index && clipboardText
                     ? clipboardText
                     : "Copy board URL"
                 }
@@ -346,7 +337,7 @@ const BoardList = (props: any) => {
                     size="small"
                     color="primary"
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleCopy(event, board)
+                      handleCopy(event, board, index)
                     }
                   >
                     <FilterNoneOutlinedIcon fontSize="small" />

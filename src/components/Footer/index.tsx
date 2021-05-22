@@ -20,6 +20,7 @@ import Divider from "@material-ui/core/Divider";
 import DoLogoIcon from "../common/DoLogoIcon";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import InstantRetroGrid from "../Home/instantRetroGrid";
@@ -32,6 +33,7 @@ import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
 import React from "react";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -145,7 +147,8 @@ export default function Footer() {
               </Box>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">
-                  Empower teams to create the next big thing
+                  Empower professionals and students to create the next big
+                  thing!
                 </Typography>
               </Box>
             </Grid>
@@ -445,7 +448,24 @@ export default function Footer() {
             </Grid>
           </Grid>
           <Divider />
-          <Box py={3}>
+          <Box py={3} display="flex" justifyContent="space-between">
+            <Box display="flex">
+              <Typography variant="body2" color="secondary">
+                Made with
+              </Typography>
+              <Box mx={0.5}>
+                <WhatshotIcon fontSize="small" style={{ color: "#ffc800" }} />
+              </Box>
+              <Typography variant="body2" color="secondary">
+                +
+              </Typography>
+              <Box mx={0.5} mt={0.2}>
+                <FavoriteIcon style={{ color: "#ff0000" }} fontSize="small" />
+              </Box>
+              <Typography variant="body2" color="secondary">
+                by our team in UAE.
+              </Typography>
+            </Box>
             <Typography variant="body2" color="secondary">
               Copyright © 2021 Letsdoretro.com. All rights reserved.
             </Typography>

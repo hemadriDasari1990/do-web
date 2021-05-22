@@ -10,6 +10,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
 import { SIGNUP } from "../../routes/config";
@@ -108,8 +109,9 @@ const AdContainer = () => {
                     onClick={() => handleGetStarted()}
                     variant="contained"
                     color="primary"
+                    startIcon={<FlashOnIcon color="secondary" />}
                   >
-                    Start a retroboard
+                    Sign Up Free
                   </Button>
                 </Box>
               </DialogContent>
