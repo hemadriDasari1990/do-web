@@ -10,8 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   imageStyle: {
     verticalAlign: "bottom",
-    width: 75,
-    height: 75,
+    width: 100,
+    height: 100,
     // borderRadius: 6,
   },
   specialText: {

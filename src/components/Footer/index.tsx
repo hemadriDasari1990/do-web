@@ -24,6 +24,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import InstantRetroGrid from "../Home/instantRetroGrid";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -124,6 +125,22 @@ export default function Footer() {
 
   const handleWhyLetsdoretro = () => {
     history.push(WHY_LETSDORETRO);
+  };
+
+  const handleFacebook = () => {
+    const win: any = window.open(
+      process.env.REACT_APP_LETSDORETROL_FB_URL,
+      "_blank"
+    );
+    win.focus();
+  };
+
+  const handleLinkedin = () => {
+    const win: any = window.open(
+      process.env.REACT_APP_LETSDORETROL_LINKEDIN_URL,
+      "_blank"
+    );
+    win.focus();
   };
 
   return (
@@ -340,7 +357,10 @@ export default function Footer() {
                 </Typography>
               </Box>
               <List>
-                <ListItem className={listStyle}>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleFacebook()}
+                >
                   <ListItemIcon className={listIconStyle}>
                     <FacebookIcon color="secondary" />
                   </ListItemIcon>
@@ -348,6 +368,21 @@ export default function Footer() {
                     primary={
                       <Typography variant="overline" color="secondary">
                         Facebook
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleLinkedin()}
+                >
+                  <ListItemIcon className={listIconStyle}>
+                    <LinkedInIcon color="secondary" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography variant="overline" color="secondary">
+                        Linkedin
                       </Typography>
                     }
                   />
