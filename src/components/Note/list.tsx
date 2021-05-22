@@ -4,6 +4,7 @@ import {
   DraggableStateSnapshot,
 } from "react-beautiful-dnd";
 import React, { useCallback, useEffect, useState } from "react";
+import { getInitials, reorder } from "../../util";
 
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
@@ -35,7 +36,6 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 import useTableStyles from "../styles/table";
-import { reorder } from "../../util";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 const ReactionPopover = React.lazy(() => import("./Reaction"));
@@ -774,7 +774,13 @@ const NoteList = (props: any) => {
         <Avatar
           src={getAvatar(note?.createdBy?.avatarId)}
           className={avatarStyle}
-        ></Avatar>
+        >
+          {!note?.createdBy?.avatarId && (
+            <Typography variant="subtitle1" style={{ color: "#57f" }}>
+              {getInitials(note?.createdBy?.name || "Team member")}
+            </Typography>
+          )}
+        </Avatar>
       </Tooltip>
     );
   };

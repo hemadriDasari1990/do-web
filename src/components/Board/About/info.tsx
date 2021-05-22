@@ -1,13 +1,14 @@
+import { Divider, Typography } from "@material-ui/core";
 import { formatNumberWithCommas, getHumanReadableDate } from "../../../util";
 
 import Box from "@material-ui/core/Box";
+import CopyToClipboard from "../../common/Copy";
 import React from "react";
 import SummaryField from "../../common/SummaryField";
 import { Suspense } from "react";
 // import { getBoardDetails } from "../../../redux/actions";
 import { useBoard } from "../../../redux/state/board";
-import CopyToClipboard from "../../common/Copy";
-import { Typography, Divider } from "@material-ui/core";
+
 // import { useDispatch } from "react-redux";
 
 const AboutBoardInfo = () => {
@@ -55,19 +56,19 @@ const AboutBoardInfo = () => {
         <Box mb={1}>
           <SummaryField
             title="Total sections"
-            value={formatNumberWithCommas(board?.totalSections || 0)}
+            value={formatNumberWithCommas(board?.totalSections)}
           />
         </Box>
         <Box mb={1}>
           <SummaryField
             title="Total notes"
-            value={formatNumberWithCommas(board?.totalNotes || 0)}
+            value={formatNumberWithCommas(board?.totalNotes)}
           />
         </Box>
         <Box mb={1}>
           <SummaryField
             title="Views"
-            value={formatNumberWithCommas(board?.views) || 0}
+            value={formatNumberWithCommas(board?.views)}
           />
         </Box>
         {board?.startedAt && (

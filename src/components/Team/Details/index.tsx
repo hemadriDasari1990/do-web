@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useMemberLoading } from "../../../redux/state/member";
 
-import { TEAM_MEMBERS_PER_PAGE } from "../../../util/constants";
 import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -16,6 +14,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
+import { TEAM_MEMBERS_PER_PAGE } from "../../../util/constants";
+import TeamIcon from "../../../assets/team.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import formateNumber from "../../../util/formateNumber";
@@ -26,8 +26,8 @@ import getRandomBGColor from "../../../util/getRandomColor";
 import { useDispatch } from "react-redux";
 import useMainStyles from "../../styles";
 import { useMember } from "../../../redux/state/member";
+import { useMemberLoading } from "../../../redux/state/member";
 import useTableStyles from "../../styles/table";
-import TeamIcon from "../../../assets/team.svg";
 
 const Loader = React.lazy(() => import("../../Loader/components"));
 const NoRecords = React.lazy(() => import("../../NoRecords"));
@@ -196,7 +196,7 @@ const TeamDetails = () => {
       <Loader enable={loading} backdrop={true} />
       {!loading && (!members || !members.length) ? (
         <Box className={alignCenterStyle}>
-          <NoRecords message="No members found" icon={TeamIcon} />
+          <NoRecords message="No records found" icon={TeamIcon} />
         </Box>
       ) : null}
     </Box>

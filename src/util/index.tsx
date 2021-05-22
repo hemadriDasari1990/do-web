@@ -82,7 +82,7 @@ export const getStickyColor = (index: number) => {
 
 export function formatNumberWithCommas(num: number) {
   if (!num) {
-    return;
+    return 0;
   }
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }

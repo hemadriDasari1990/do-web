@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import { MEMBERS_PER_PAGE } from "../../../util/constants";
+import NoRecords from "../../NoRecords";
 import { Suspense } from "react";
 import Typography from "@material-ui/core/Typography";
 import { getActivities } from "../../../redux/actions/board";
@@ -18,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { useInvitedMembers } from "../../../redux/state/invite";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles";
-import NoRecords from "../../NoRecords";
 
 const InvitedMembersList = () => {
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const InvitedMembersList = () => {
             ))
           ) : (
             <Box>
-              <NoRecords message="No members found" hideImage={true} />
+              <NoRecords message="No records found" hideImage={true} />
             </Box>
           )}
         </List>
