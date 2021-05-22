@@ -1,15 +1,15 @@
+import AddNoteIcon from "../../../assets/add-note.svg";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import CreateAccount from "../../Home/create";
 import Grid from "@material-ui/core/Grid";
+import InfoCard from "../../common/InfoCard";
+import InstantRetroGrid from "../../Home/instantRetroGrid";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import useStyles from "../../styles";
-import AddNoteIcon from "../../../assets/add-note.svg";
-import CreateAccount from "../../Home/create";
-import InstantRetroGrid from "../../Home/instantRetroGrid";
-import InfoCard from "../../common/InfoCard";
 
 const useLocalStyles = makeStyles({
   iconStyle: {
@@ -47,7 +47,7 @@ export default function WhyLetsdoretro() {
                 <Box display="flex" mt={3}>
                   <Box mr={5}>
                     <InstantRetroGrid
-                      title="Start Instant Retro"
+                      title="Start Quick Retro"
                       subTitle="Free forever — no signup required"
                     />
                   </Box>

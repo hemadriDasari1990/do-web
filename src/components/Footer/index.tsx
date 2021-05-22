@@ -5,11 +5,10 @@ import {
   FEATURES,
   GETTING_STARTED,
   PRIVACY_POLICY,
+  REACTIONS,
   RETROSPECTIVE,
   SECURITY,
   TERMS,
-  // WHATS_NEXT,
-  REACTIONS,
   WHY_LETSDORETRO,
 } from "../../routes/config";
 import { useHistory, useLocation } from "react-router";
@@ -23,6 +22,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import Grid from "@material-ui/core/Grid";
 import InstagramIcon from "@material-ui/icons/Instagram";
+import InstantRetroGrid from "../Home/instantRetroGrid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -34,7 +34,6 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
-import InstantRetroGrid from "../Home/instantRetroGrid";
 
 const BottomIllustrations = React.lazy(() => import("./BottomIllustrations"));
 
@@ -153,7 +152,7 @@ export default function Footer() {
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
                 <Box>
-                  <InstantRetroGrid title="Start Instant Retro" />
+                  <InstantRetroGrid title="Start Quick Retro" />
                 </Box>
               </Box>
             </Grid>

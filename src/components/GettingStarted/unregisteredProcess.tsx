@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
+import InstantRetroGrid from "../Home/instantRetroGrid";
 // import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../styles";
-import InstantRetroGrid from "../Home/instantRetroGrid";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
@@ -40,7 +40,7 @@ const UnregisteredProcess = () => {
           </Typography>
         </Box>
         <InstantRetroGrid
-          title="Start Instant Retro"
+          title="Start Quick Retro"
           subTitle="Free forever — no signup required"
         />
       </Box>

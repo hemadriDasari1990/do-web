@@ -9,15 +9,15 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import InfoCard from "../common/InfoCard";
+import InstantRetroGrid from "./instantRetroGrid";
 import ScrumBoardSkeleton from "../../assets/scrum-real-board.png";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
-import useStyles from "../styles";
-import { useDispatch } from "react-redux";
 import { getDefaultSections } from "../../redux/actions/common";
-import InstantRetroGrid from "./instantRetroGrid";
+import { useDispatch } from "react-redux";
+import useStyles from "../styles";
 
 const FeedbackList = React.lazy(() => import("../Feedback/list"));
 const CreateAccountGrid = React.lazy(() => import("./createAccountGrid"));
@@ -122,7 +122,7 @@ const Home = () => {
                 </Box>
                 <Box>
                   <InstantRetroGrid
-                    title="Start Instant Retro"
+                    title="Start Quick Retro"
                     subTitle="Free forever — no signup required"
                   />
                 </Box>

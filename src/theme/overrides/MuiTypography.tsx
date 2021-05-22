@@ -84,7 +84,7 @@ export default {
     fontWeight: 500,
     letterSpacing: "-0.04px",
     whiteSpace: "pre-line",
-    color: textSecondary,
+    color: textPrimary,
   },
   button: {
     fontFamily: fontFamily,
