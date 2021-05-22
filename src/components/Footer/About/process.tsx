@@ -23,8 +23,8 @@ const Process = () => {
   return (
     <Box>
       <Container>
-        <Box mb={5} textAlign="center">
-          <Typography variant="h1">Our history</Typography>
+        <Box mb={5}>
+          <Typography variant="h2">Our history</Typography>
         </Box>
       </Container>
       <Box className={dotBannerStyle}>

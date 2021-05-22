@@ -71,7 +71,7 @@ export default function About() {
                         // className={titleStyle}
                         color="secondary"
                       >
-                        Our mission is to Empower professionals and students to
+                        Our mission is to empower professionals and students to
                         create the next big thing.
                       </Typography>
                     </Box>
@@ -88,8 +88,8 @@ export default function About() {
         </Box>
         <Box>
           <Container>
-            <Box p={5} textAlign="center">
-              <Typography variant="h1" className={titleStyle}>
+            <Box my={5}>
+              <Typography variant="h2" className={titleStyle}>
                 The faces behind Letsdoretro.
               </Typography>
               <Typography component="p" className={parahStyle}>
@@ -97,8 +97,8 @@ export default function About() {
                 Techstars.
               </Typography>
             </Box>
-            <Box p={5} textAlign="center">
-              <Typography variant="h1">Our team</Typography>
+            <Box my={5}>
+              <Typography variant="h2">Our team</Typography>
               <Typography component="p" className={parahStyle}>
                 We are a team of 2 humans across 2 cities, working hard (and
                 remotely) to make your life easier. From banking to e-commerce
@@ -133,10 +133,10 @@ export default function About() {
           </Container>
         </Box>
         <Container>
-          <Box mt={5} textAlign="center">
-            <Typography variant="h1">Individual Stories</Typography>
+          <Box mt={5} mb={3}>
+            <Typography variant="h2">Individual Stories</Typography>
           </Box>
-          <Box mt={3}>
+          <Box>
             <Grid container spacing={2}>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <Box>
@@ -196,8 +196,8 @@ export default function About() {
       </Box>
       <Box>
         <Container>
-          <Box p={5} textAlign="center">
-            <Typography variant="h1">Our Key Advisors</Typography>
+          <Box my={5}>
+            <Typography variant="h2">Our Key Advisors</Typography>
           </Box>
           <Grid container spacing={2}>
             <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>

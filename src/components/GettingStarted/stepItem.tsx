@@ -52,11 +52,6 @@ const StepItem = (props: any) => {
               {
                 step: "06",
                 index: 5,
-                title: "Enter description about the team",
-              },
-              {
-                step: "07",
-                index: 6,
                 title: "Click on Save button",
               },
             ]}
@@ -110,21 +105,26 @@ const StepItem = (props: any) => {
               {
                 step: "03",
                 index: 2,
-                title: "Enter member full name",
+                title: "Enter full name",
               },
               {
                 step: "04",
                 index: 3,
-                title: "PEnter member email address",
+                title: "Enter email address",
               },
               {
                 step: "05",
                 index: 4,
-                title: "Click on Save button",
+                title: "Select teams and member will be added to teams",
               },
               {
                 step: "06",
                 index: 5,
+                title: "Click on Save button",
+              },
+              {
+                step: "07",
+                index: 6,
                 title: "Repeat from step 2 to create more members",
               },
             ]}
@@ -153,12 +153,12 @@ const StepItem = (props: any) => {
               {
                 step: "03",
                 index: 2,
-                title: "Click on Add Member icon displayed under actions",
+                title: "Click on Add Member icon next to members column",
               },
               {
                 step: "04",
                 index: 3,
-                title: "Click on member avatar to add",
+                title: "Click on member add icon",
               },
               {
                 step: "05",
@@ -264,52 +264,31 @@ const StepItem = (props: any) => {
               {
                 step: "01",
                 index: 0,
-                title: "Goto Dashboard",
+                title: "Select/Add project name",
               },
               {
                 step: "02",
                 index: 1,
-                title:
-                  "Look for Start quick retro section on the top right side",
+                title: "Enter Project description (Optional)",
               },
               {
                 step: "03",
                 index: 2,
-                title: "Select/Add project name",
+                title: "Enter no of sections or select default template",
               },
               {
                 step: "04",
                 index: 3,
-                title: "Enter Project description (Optional step)",
+                title: "Enter description about board (Optional)",
               },
               {
                 step: "05",
                 index: 4,
-                title: "Board name will be auto generated",
+                title: "Invite team",
               },
               {
                 step: "06",
                 index: 5,
-                title: "Enter no of sections or choose step 7",
-              },
-              {
-                step: "07",
-                index: 0,
-                title: "Click on create default board",
-              },
-              {
-                step: "08",
-                index: 1,
-                title: "Enter description about board",
-              },
-              {
-                step: "09",
-                index: 2,
-                title: "Select one/more teams from dropdown",
-              },
-              {
-                step: "10",
-                index: 3,
                 title: "Click on Start Retro button",
               },
             ]}
@@ -317,7 +296,9 @@ const StepItem = (props: any) => {
         </Grid>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">Steps to launch quick retro</Typography>
+            <Typography variant="h1">
+              Steps to launch retro with team
+            </Typography>
           </Box>
           <Box mt={5}>
             <Typography variant="h5">
@@ -326,6 +307,64 @@ const StepItem = (props: any) => {
               5 clicks to start the retro session.
             </Typography>
           </Box>
+        </Grid>
+      </Grid>
+      <Grid container spacing={6}>
+        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+          <Box my={7}>
+            <Typography variant="h1">
+              Steps to quick annonymous retro
+            </Typography>
+          </Box>
+          <Box mt={5}>
+            <Box mb={2}>
+              <Typography variant="h3">
+                Let them speak fearlessly: Collect feedback annonymously and see
+                the magic of honest feedback.
+              </Typography>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+          <Box>
+            <Typography variant="h3">
+              Some things about a quick annonymous retrospective:
+            </Typography>
+          </Box>
+          <SubStepItem
+            items={[
+              {
+                step: "01",
+                index: 0,
+                title: "Select/Add project name",
+              },
+              {
+                step: "02",
+                index: 1,
+                title: "Enter Project description (Optional)",
+              },
+              {
+                step: "03",
+                index: 2,
+                title: "Choose Create annonymous board",
+              },
+              {
+                step: "04",
+                index: 3,
+                title: "Enter no of sections or select default template",
+              },
+              {
+                step: "05",
+                index: 4,
+                title: "Enter description about board (Optional)",
+              },
+              {
+                step: "06",
+                index: 5,
+                title: "Click on Start Retro button",
+              },
+            ]}
+          />
         </Grid>
       </Grid>
     </Box>

@@ -122,7 +122,7 @@ export default function WhyLetsdoretro() {
             </Grid>
           </Grid>
           <Box my={3}>
-            <Box textAlign="center">
+            <Box ml={3}>
               <Typography variant="h1">Questions</Typography>
             </Box>
             <Grid container spacing={2}>

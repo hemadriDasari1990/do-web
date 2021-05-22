@@ -1,14 +1,16 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import ActivityIcon from "../../../assets/board-activity.svg";
 import AddNoteIcon from "../../../assets/add-note.svg";
 import AnnonymousIcon from "../../../assets/annonymous.svg";
 import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import DragIcon from "../../../assets/drag.svg";
+import ExportDataIcon from "../../../assets/export-data.svg";
 import FeaturesOverview from "../../../assets/features-overview.svg";
 import Grid from "@material-ui/core/Grid";
 import JoinTeamIcon from "../../../assets/join-team.svg";
+import PiechartIcon from "../../../assets/pie-chart.svg";
 import ProjectIcon from "../../../assets/department.svg";
 import PublicDiscussionIcon from "../../../assets/public-discussion.svg";
 import React from "react";
@@ -158,7 +160,7 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={AddNoteIcon} />
               <FeatureContent
-                title="Add a note"
+                title="Smart comment notes"
                 description="Collect thoughts, ideas and feedback as notes, with realtime update everything is instantly visible to everyone."
               />
             </Grid>
@@ -184,10 +186,51 @@ export default function Features() {
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={DragIcon} />
+              <Box textAlign="center">
+                <Zoom in={true} timeout={2000}>
+                  <BoardIcon
+                    stickyNoteColor="#ffc800"
+                    stickyNoteColor1="#fd7171"
+                    stickyNoteColor2="#7b68ee"
+                    stickyNoteColor3="#49ccf9"
+                    stickyNoteColor4="#00b884"
+                    hairColor="#2f2e41"
+                    borderColor="#2f2e41"
+                    primarySkinColor="#ffb8b8"
+                    secondarySkinColor="#a0616a"
+                    shoeColor="#2f2e41"
+                    shirtColor="#cccccc"
+                    cornerCircleColor="#cccccc"
+                    width={281}
+                    height={180}
+                  />
+                </Zoom>
+              </Box>
               <FeatureContent
                 title="Move notes across the board"
                 description="Drag and drop notes to move them across the board, your board your rules."
+              />
+            </Grid>
+
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <FeatureImage image={ExportDataIcon} />
+              <FeatureContent
+                title="Export to Excel"
+                description="Single click export all your board data to an excel."
+              />
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <FeatureImage image={ActivityIcon} />
+              <FeatureContent
+                title="Activity on board"
+                description="Reetro makes it possible for you to track all the activities on the board."
+              />
+            </Grid>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <FeatureImage image={PiechartIcon} />
+              <FeatureContent
+                title="Reactions in Pie chart view"
+                description="A summary of reactions of each note, section and board are visible in pie chart view"
               />
             </Grid>
           </Grid>
