@@ -25,7 +25,6 @@ import useStyles from "../../styles";
 const UserAccount = (props: any) => {
   const { handleDrawerClose, openAccount } = props;
   const { iconGridStyle, iconStyle } = useIconStyles();
-  // const { name } = useUser();
   const history = useHistory();
   const dispatch = useDispatch();
   const { itemName } = useMenuItem();

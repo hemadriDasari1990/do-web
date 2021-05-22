@@ -3,26 +3,27 @@ import {
   ONLY_NUMBERS,
   allow,
 } from "../../util/regex";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { useBoard, useBoardUpdateLoading } from "../../redux/state/board";
+
+import { BOARD_DASHBOARD } from "../../routes/config";
 import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
+import DoAutoComplete from "../common/DoAutoComplete";
+import DoSnackbar from "../Snackbar/components";
 import Hidden from "@material-ui/core/Hidden";
 import Loader from "../Loader/components";
 import { MAX_CHAR_COUNT } from "../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import { getRemainingCharLength } from "../../util";
 import { createInstantBoard } from "../../redux/actions/board";
-import { useDispatch } from "react-redux";
-import { useBoard, useBoardUpdateLoading } from "../../redux/state/board";
-import { useHistory } from "react-router-dom";
+import { getRemainingCharLength } from "../../util";
 import { replaceStr } from "../../util";
-import { BOARD_DASHBOARD } from "../../routes/config";
-import DoSnackbar from "../Snackbar/components";
-import DoAutoComplete from "../common/DoAutoComplete";
 import { useDefaultSections } from "../../redux/state/common";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const HintMessage = React.lazy(() => import("../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -65,7 +66,7 @@ const InstantRetro = (props: any) => {
   const { description, noOfSections, defaultSection, name } = formData;
 
   useEffect(() => {
-    if (!loading && board && board._id) {
+    if (!loading && board && board._id && apiCalled) {
       history.push(replaceStr(BOARD_DASHBOARD, ":boardId", board?._id));
       setFormData({});
       setApiCalled(false);
