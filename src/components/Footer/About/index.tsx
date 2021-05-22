@@ -93,8 +93,7 @@ export default function About() {
                 The faces behind Letsdoretro.
               </Typography>
               <Typography component="p" className={parahStyle}>
-                Letsdoretro team is lightweight, 100% remote and backed by
-                Techstars.
+                Letsdoretro team is lightweight, 100% remote.
               </Typography>
             </Box>
             <Box my={5}>
