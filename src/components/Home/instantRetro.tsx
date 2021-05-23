@@ -101,6 +101,7 @@ const InstantRetro = (props: any) => {
   };
 
   const handleSubmit = () => {
+    setApiCalled(false);
     dispatch(
       createInstantBoard({
         description,
@@ -110,6 +111,7 @@ const InstantRetro = (props: any) => {
         isInstant: true,
       })
     );
+    setApiCalled(true);
   };
 
   const disableButton = () => {

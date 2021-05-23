@@ -53,7 +53,7 @@ export default function WhyLetsdoretro() {
                   </Box>
                   <Box>
                     <CreateAccount
-                      title="Signup free"
+                      title="Sign Up Free"
                       subTitle="Free forever — no credit card required"
                     />
                   </Box>

@@ -178,19 +178,21 @@ const WelcomeTour = (props: any) => {
           </Box>
           <Box my={1}>
             <Typography variant="body2">
-              As a step, select the project or if you havent created a project
+              As a first step, select project or if you havent created a project
               then just type your project name or select from the drop down and
               enter description about your project.
             </Typography>
           </Box>
           <Box my={1}>
             <Typography variant="body2">
-              In the 2nd step, choose no of sections.
+              In the 2nd step, Choose default board template and choose
+              annonymous board if you want to run retrospective annonymously.
             </Typography>
           </Box>
           <Box my={1}>
             <Typography variant="body2">
-              In the 3rd step, select the team that you would like to invite to
+              In the 3rd step, This step is optional if you've choose annonymous
+              board otherwise select the team that you would like to invite to
               join the restrospective session. That's it click on start retro
               button to create the board.
             </Typography>

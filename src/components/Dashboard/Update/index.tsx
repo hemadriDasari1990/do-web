@@ -27,12 +27,12 @@ import { Typography } from "@material-ui/core";
 import { addProjectToStore } from "../../../redux/actions/project";
 import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
+import { useDefaultSections } from "../../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLogin } from "../../../redux/state/login";
 import { useSocket } from "../../../redux/state/socket";
 import { useTeam } from "../../../redux/state/team";
-import { useDefaultSections } from "../../../redux/state/common";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const DoAutoComplete = React.lazy(() => import("../../common/DoAutoComplete"));
