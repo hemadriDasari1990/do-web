@@ -72,7 +72,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   boxMainStyle: {
     borderRadius: 6,
-    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
     color: "inherit",
     display: "block",
     height: "100%",

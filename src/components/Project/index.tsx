@@ -67,6 +67,10 @@ const ProjectDashboard = () => {
   };
 
   useEffect(() => {
+    loadProjects(page, "");
+  }, []);
+
+  useEffect(() => {
     loadProjects(page, debouncedValue);
   }, [debouncedValue]);
 
@@ -111,7 +115,7 @@ const ProjectDashboard = () => {
         setProjects((currentProjects: Array<{ [Key: string]: any }>) =>
           currentProjects?.length ? [project, ...currentProjects] : [project]
         );
-        setTotalProjects(totalProjects + 1);
+        setTotalProjects(totalProjects ? totalProjects + 1 : 1);
       }
       setSelectedProject({});
       setShowProjectForm(false);

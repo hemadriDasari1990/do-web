@@ -2,7 +2,7 @@ export default {
   root: {},
   elevation1: {
     borderRadius: 6,
-    boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",
+    boxShadow: "none",
   },
   elevation4: {
     boxShadow: "none",

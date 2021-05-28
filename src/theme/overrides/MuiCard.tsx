@@ -1,6 +1,8 @@
 export default {
   root: {
+    boxShadow: "rgba(0, 0, 0, 0.1) -4px 9px 25px -6px",
     "&:hover": {
+      boxShadow: "rgba(0, 0, 0, 0.2) 0px 18px 50px -10px",
       // '-webkit-box-shadow': '0 4px 8px 0 rgba(0,0,0,.16)',
       // 'boxShadow': '0 4px 8px 0 rgba(0,0,0,.16)',
       // cursor: 'pointer',

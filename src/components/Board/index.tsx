@@ -73,6 +73,10 @@ const BoardDashboard = () => {
   };
 
   useEffect(() => {
+    loadBoards(page, "");
+  }, []);
+
+  useEffect(() => {
     loadBoards(page, debouncedValue);
   }, [debouncedValue]);
 
@@ -117,7 +121,7 @@ const BoardDashboard = () => {
           board,
           ...currentBoards,
         ]);
-        setTotalBoards(totalBoards + 1);
+        setTotalBoards(totalBoards ? totalBoards + 1 : 1);
       }
       setSelectedBoard(null);
       setShowBoardForm(false);
