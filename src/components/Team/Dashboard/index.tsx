@@ -22,7 +22,6 @@ import { useLogin } from "../../../redux/state/login";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
 import { useTeam } from "../../../redux/state/team";
-import { useUser } from "../../../redux/state/user";
 
 const TeamList = React.lazy(() => import("../List"));
 const UpdateTeam = React.lazy(() => import("../Update"));
@@ -34,7 +33,6 @@ const TeamDashboard = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { team, teams: teamsList } = useTeam();
-  const { user } = useUser();
   const { loading } = useProjectLoading();
   const { userId } = useLogin();
   const { totalTeams: totalTeamsCount } = useTeam();
@@ -265,12 +263,12 @@ const TeamDashboard = () => {
               <Box display="flex">
                 <Hidden only={["xs"]}>
                   <Typography variant="h2">
-                    {user?.name}&nbsp;({formateNumber(totalTeams) || 0})
+                    Teams &nbsp;({formateNumber(totalTeams) || 0})
                   </Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">
-                    {user?.name}&nbsp;({formateNumber(totalTeams) || 0})
+                    Teams &nbsp;({formateNumber(totalTeams) || 0})
                   </Typography>
                 </Hidden>
               </Box>

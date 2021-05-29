@@ -21,7 +21,6 @@ import { useLogin } from "../../redux/state/login";
 import { useMember } from "../../redux/state/member";
 import { useMemberLoading } from "../../redux/state/member";
 import useStyles from "../styles";
-import { useUser } from "../../redux/state/user";
 
 const MemberList = React.lazy(() => import("./List"));
 const UpdateMember = React.lazy(() => import("./Update"));
@@ -36,7 +35,6 @@ const MemberDashboard = () => {
   const { member } = useMember();
   const { members: membersList, totalMembers: totalMembersCount } = useMember();
   const { loading } = useMemberLoading();
-  const { user } = useUser();
   const { userId } = useLogin();
 
   /* React local states */
@@ -231,12 +229,12 @@ const MemberDashboard = () => {
               <Box display="flex">
                 <Hidden only={["xs"]}>
                   <Typography variant="h2">
-                    {user?.name}&nbsp;({formateNumber(totalMembers) || 0})
+                    Members&nbsp;({formateNumber(totalMembers) || 0})
                   </Typography>
                 </Hidden>
                 <Hidden only={["xl", "lg", "md", "sm"]}>
                   <Typography variant="h4">
-                    {user?.name}&nbsp;({formateNumber(totalMembers) || 0})
+                    Members&nbsp;({formateNumber(totalMembers) || 0})
                   </Typography>
                 </Hidden>
               </Box>
