@@ -5,7 +5,7 @@ import axios from "axios";
 
 /* Set Axios config */
 const axiosConfig = {
-  baseURL: config.BASE_URL,
+  baseURL: process.env.REACT_APP_SERVER_URL,
   timeout: 60000,
   headers: config.HEADERS,
 };
