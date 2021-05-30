@@ -866,10 +866,13 @@ const NoteList = (props: any) => {
                                         </IconButton>
                                       </Tooltip>
                                     )} */}
-                            {(authenticated || board?.isInstant) && (
+                            {(authenticated ||
+                              (!authenticated && board?.isInstant)) && (
                               <>{renderMarkRead(note)}</>
                             )}
-                            {!authenticated && <>{renderRead(note)}</>}
+                            {!authenticated && !board?.isInstant && (
+                              <>{renderRead(note)}</>
+                            )}
                             {enableActions && <>{renderMenuIcon(note)}</>}
                           </Box>
                         </Box>

@@ -34,10 +34,12 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { formatNumberWithCommas } from "../../../util";
 import formateNumber from "../../../util/formateNumber";
+import { getBoardDetails } from "../../../redux/actions/board";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getMembers } from "../../../util/member";
 import { replaceStr } from "../../../util";
 import { useBoardLoading } from "../../../redux/state/board";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
@@ -67,6 +69,7 @@ const BoardList = (props: any) => {
   const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
   const { smallAvatarStyle } = useTableStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Redux hooks */
   const { loading } = useBoardLoading();
@@ -384,6 +387,7 @@ const BoardList = (props: any) => {
     if (board?.status === "draft") {
       return;
     }
+    dispatch(getBoardDetails(board?._id));
     return history.replace({
       pathname: replaceStr(BOARD_DASHBOARD, ":boardId", board?._id),
       state: {

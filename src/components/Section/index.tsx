@@ -1,24 +1,26 @@
+// import ClearIcon from "@material-ui/icons/Clear";
+import {
+  DOWNLOAD_BOARD_REPORT,
+  DOWNLOAD_INSTANT_BOARD_REPORT,
+} from "../../network/endpoints";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { clearBoard, getBoardDetails } from "../../redux/actions/board";
 import {
+  formatNumberWithCommas,
   getDownloadFile,
   replaceStr,
-  formatNumberWithCommas,
 } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
+
 import API from "../../network";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import { BOARDS } from "../../routes/config";
 import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-// import ClearIcon from "@material-ui/icons/Clear";
-import {
-  DOWNLOAD_BOARD_REPORT,
-  DOWNLOAD_INSTANT_BOARD_REPORT,
-} from "../../network/endpoints";
+import DoLogoIcon from "../common/DoLogoIcon";
 import DoSnackbar from "../Snackbar/components";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
@@ -36,6 +38,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PublicIcon from "@material-ui/icons/Public";
 import { ROOT } from "../../routes/config";
+import Recommendation from "../Recommendation";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import Slide from "@material-ui/core/Slide";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -55,8 +58,6 @@ import { useJoinedMembers } from "../../redux/state/join";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
-import Recommendation from "../Recommendation";
-import DoLogoIcon from "../common/DoLogoIcon";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
