@@ -44,7 +44,7 @@ const Create = (props: any) => {
     if (selectedProject?._id) {
       setFormData({
         ...formData,
-        name: selectedProject.name,
+        name: selectedProject?.name,
         description: selectedProject.description,
         projectId: selectedProject._id,
       });

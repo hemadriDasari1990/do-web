@@ -254,7 +254,7 @@ const Members = () => {
                       </ListItemAvatar>
                       <Tooltip
                         arrow
-                        title={member.name}
+                        title={member?.name}
                         placement="bottom-start"
                       >
                         <ListItemText

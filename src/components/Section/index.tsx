@@ -643,7 +643,7 @@ export default function Section() {
       credentials: "include",
       responseType: "blob", // Important
     });
-    await getDownloadFile(response, `${boardDetails.name}.xlsx`);
+    await getDownloadFile(response, `${boardDetails?.name}.xlsx`);
   };
 
   const handleDrawerClose = () => {

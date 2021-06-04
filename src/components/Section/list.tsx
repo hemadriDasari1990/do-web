@@ -612,8 +612,9 @@ const SectionList = (props: any) => {
                                           variant="h5"
                                           color="secondary"
                                         >
-                                          {item.name}&nbsp;(
-                                          {formateNumber(item.totalNotes) || 0})
+                                          {item?.name}&nbsp;(
+                                          {formateNumber(item?.totalNotes) || 0}
+                                          )
                                         </Typography>
                                       </Box>
                                     </Box>

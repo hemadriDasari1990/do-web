@@ -46,7 +46,7 @@ const UserAvatar = (props: any) => {
                 ) : (
                   <Avatar classes={{ root: iconStyle }}>
                     <Typography variant="h2" color="secondary">
-                      {user?.name ? user?.name.substring(0, 1) : ""}
+                      {user?.name ? user?.name?.substring(0, 1) : ""}
                     </Typography>
                   </Avatar>
                 )}
