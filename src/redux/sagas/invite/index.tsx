@@ -22,7 +22,7 @@ function* callGetInvitedMembers(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_INVITED_MEMBERS_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

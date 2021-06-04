@@ -29,7 +29,7 @@ function* callGetProjects(action: { [Key: string]: any }) {
       yield put({ type: GET_PROJECTS_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_PROJECTS_FAILED, payload: err.response.data });
+    yield put({ type: GET_PROJECTS_FAILED, payload: err.response?.data });
   }
 }
 
@@ -45,7 +45,7 @@ function* callUpdateProject(action: { [Key: string]: any }) {
       yield put({ type: UPDATE_PROJECT_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: UPDATE_PROJECT_FAILED, payload: err.response.data });
+    yield put({ type: UPDATE_PROJECT_FAILED, payload: err.response?.data });
   }
 }
 
@@ -61,7 +61,7 @@ function* callDeleteProject(action: { [Key: string]: any }) {
       yield put({ type: DELETE_PROJECT_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: DELETE_PROJECT_FAILED, payload: err.response.data });
+    yield put({ type: DELETE_PROJECT_FAILED, payload: err.response?.data });
   }
 }
 

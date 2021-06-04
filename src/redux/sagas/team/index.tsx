@@ -5,6 +5,9 @@ import {
   DELETE_TEAM_FAILED,
   DELETE_TEAM_REQUEST,
   DELETE_TEAM_SUCCESS,
+  GET_TEAMS_BY_MEMBER_FAILED,
+  GET_TEAMS_BY_MEMBER_REQUEST,
+  GET_TEAMS_BY_MEMBER_SUCCESS,
   GET_TEAMS_FAILED,
   GET_TEAMS_REQUEST,
   GET_TEAMS_SUCCESS,
@@ -17,18 +20,15 @@ import {
   UPDATE_TEAM_FAILED,
   UPDATE_TEAM_REQUEST,
   UPDATE_TEAM_SUCCESS,
-  GET_TEAMS_BY_MEMBER_FAILED,
-  GET_TEAMS_BY_MEMBER_REQUEST,
-  GET_TEAMS_BY_MEMBER_SUCCESS,
 } from "../../actions/team/types";
 import {
   addOrRemoveMemberFromTeam,
   deleteTeam,
   getTeamDetails,
   getTeams,
+  getTeamsByMember,
   sendInvitationToTeams,
   updateTeam,
-  getTeamsByMember,
 } from "../../network/team";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -40,7 +40,7 @@ function* callGetTeamDetails(action: { [Key: string]: any }) {
       yield put({ type: GET_TEAM_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_TEAM_FAILED, payload: err.response.data });
+    yield put({ type: GET_TEAM_FAILED, payload: err.response?.data });
   }
 }
 
@@ -61,7 +61,7 @@ function* callGetTeams(action: { [Key: string]: any }) {
       yield put({ type: GET_TEAMS_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_TEAMS_FAILED, payload: err.response.data });
+    yield put({ type: GET_TEAMS_FAILED, payload: err.response?.data });
   }
 }
 
@@ -77,7 +77,7 @@ function* callUpdateTeam(action: { [Key: string]: any }) {
       yield put({ type: UPDATE_TEAM_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: UPDATE_TEAM_FAILED, payload: err.response.data });
+    yield put({ type: UPDATE_TEAM_FAILED, payload: err.response?.data });
   }
 }
 
@@ -93,7 +93,7 @@ function* callDeleteTeam(action: { [Key: string]: any }) {
       yield put({ type: DELETE_TEAM_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: DELETE_TEAM_FAILED, payload: err.response.data });
+    yield put({ type: DELETE_TEAM_FAILED, payload: err.response?.data });
   }
 }
 
@@ -111,7 +111,7 @@ function* callAddOrRemoveMemberFromTeam(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: ADD_OR_REMOVE_TEAM_MEMBER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -133,7 +133,7 @@ function* callSendInvitationToTeams(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: SEND_INVITE_TO_TEAMS_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -157,7 +157,7 @@ function* callGetTeamsByMember(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_TEAMS_BY_MEMBER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

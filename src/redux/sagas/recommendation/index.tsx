@@ -22,7 +22,7 @@ function* callCreateRecommendation(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: CREATE_RECOMMENDATION_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -43,7 +43,10 @@ function* callGetRecommendations(action: { [Key: string]: any }) {
       yield put({ type: GET_RECOMMENDATIONS_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_RECOMMENDATIONS_FAILED, payload: err.response.data });
+    yield put({
+      type: GET_RECOMMENDATIONS_FAILED,
+      payload: err.response?.data,
+    });
   }
 }
 

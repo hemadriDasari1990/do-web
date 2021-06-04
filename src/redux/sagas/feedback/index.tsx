@@ -17,7 +17,7 @@ function* callCreateFeedback(action: { [Key: string]: any }) {
       yield put({ type: CREATE_FEEDBACK_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: CREATE_FEEDBACK_FAILED, payload: err.response.data });
+    yield put({ type: CREATE_FEEDBACK_FAILED, payload: err.response?.data });
   }
 }
 
@@ -37,7 +37,7 @@ function* callGetFeedbacks(action: { [Key: string]: any }) {
       yield put({ type: GET_FEEDBACKS_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_FEEDBACKS_FAILED, payload: err.response.data });
+    yield put({ type: GET_FEEDBACKS_FAILED, payload: err.response?.data });
   }
 }
 

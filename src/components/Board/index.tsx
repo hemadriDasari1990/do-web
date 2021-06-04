@@ -112,7 +112,7 @@ const BoardDashboard = () => {
       );
       const boardData = boards[boardIndex];
       if (boardData) {
-        boardData.name = board.name;
+        boardData.name = board?.name;
         boardData.description = board.description;
         boardsList[boardIndex] = boardData;
         setBoards(boardsList);

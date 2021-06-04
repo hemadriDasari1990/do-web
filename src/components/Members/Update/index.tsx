@@ -59,8 +59,8 @@ const Create = (props: any) => {
     if (selectedMember?._id) {
       setFormData({
         ...formData,
-        name: selectedMember.name,
-        email: selectedMember.email,
+        name: selectedMember?.name,
+        email: selectedMember?.email,
         memberId: selectedMember._id,
       });
     }

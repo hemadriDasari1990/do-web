@@ -4,6 +4,7 @@ import {
   GET_ACTION_BY_BOARD_SUCCESS,
 } from "../../actions/action/types";
 import { put, takeLatest } from "redux-saga/effects";
+
 import { getActionByBoard } from "../../network/action";
 
 function* callGetActionByBoard(action: { [Key: string]: any }) {
@@ -16,7 +17,7 @@ function* callGetActionByBoard(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_ACTION_BY_BOARD_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

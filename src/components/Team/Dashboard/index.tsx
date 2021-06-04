@@ -91,8 +91,8 @@ const TeamDashboard = () => {
       );
       const teamData = teams[teamIndex];
       if (teamData) {
-        teamData.name = team.name;
-        teamData.description = team.description;
+        teamData.name = team?.name;
+        teamData.description = team?.description;
         teamsList[teamIndex] = teamData;
         setTeams(teamsList);
       } else {

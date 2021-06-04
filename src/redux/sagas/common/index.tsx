@@ -1,10 +1,11 @@
 import {
-  GET_DEFAULT_SECTIONS_SUCCESS,
-  GET_DEFAULT_SECTIONS_REQUEST,
   GET_DEFAULT_SECTIONS_FAILED,
+  GET_DEFAULT_SECTIONS_REQUEST,
+  GET_DEFAULT_SECTIONS_SUCCESS,
 } from "../../actions/common/types";
-import { getDefaultSections } from "../../network/common";
 import { put, takeLatest } from "redux-saga/effects";
+
+import { getDefaultSections } from "../../network/common";
 
 function* callGetDefaultSections() {
   try {
@@ -19,7 +20,7 @@ function* callGetDefaultSections() {
   } catch (err) {
     yield put({
       type: GET_DEFAULT_SECTIONS_FAILED,
-      data: err.response.data,
+      data: err.response?.data,
     });
   }
 }

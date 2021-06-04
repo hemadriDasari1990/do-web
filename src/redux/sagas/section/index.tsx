@@ -17,7 +17,7 @@ function* callGetSectionsByBoard(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_SECTIONS_BY_BOARD_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

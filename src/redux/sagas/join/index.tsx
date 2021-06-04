@@ -22,7 +22,7 @@ function* callGetJoinedMembers(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_JOINED_MEMBERS_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

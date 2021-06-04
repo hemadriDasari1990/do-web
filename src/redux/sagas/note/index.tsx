@@ -1,7 +1,7 @@
 import {
-  GET_NOTES_BY_SECTION_SUCCESS,
-  GET_NOTES_BY_SECTION_REQUEST,
   GET_NOTES_BY_SECTION_FAILED,
+  GET_NOTES_BY_SECTION_REQUEST,
+  GET_NOTES_BY_SECTION_SUCCESS,
 } from "../../actions/note/types";
 import { put, takeEvery } from "redux-saga/effects";
 
@@ -21,7 +21,7 @@ function* callGetNotesBySection(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_NOTES_BY_SECTION_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
       sectionKey: action.sectionKey,
     });
   }

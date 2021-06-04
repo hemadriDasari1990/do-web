@@ -107,7 +107,7 @@ const ProjectDashboard = () => {
       );
       const projectData = projects[projectIndex];
       if (projectData) {
-        projectData.name = project.name;
+        projectData.name = project?.name;
         projectData.description = project.description;
         projectsList[projectIndex] = projectData;
         setProjects(projectsList);

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useTeamLoading } from "../../../redux/state/team";
 
-import { TEAM_MEMBERS_PER_PAGE } from "../../../util/constants";
 import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -15,17 +13,19 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
+import { TEAM_MEMBERS_PER_PAGE } from "../../../util/constants";
+import TeamIcon from "../../../assets/team.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
-import { getTeamsByMember } from "../../../redux/actions/team";
 import getRandomBGColor from "../../../util/getRandomColor";
+import { getTeamsByMember } from "../../../redux/actions/team";
 import { useDispatch } from "react-redux";
 import useMainStyles from "../../styles";
-import { useTeam } from "../../../redux/state/team";
 import useTableStyles from "../../styles/table";
-import TeamIcon from "../../../assets/team.svg";
+import { useTeam } from "../../../redux/state/team";
+import { useTeamLoading } from "../../../redux/state/team";
 
 const Loader = React.lazy(() => import("../../Loader/components"));
 const NoRecords = React.lazy(() => import("../../NoRecords"));
@@ -118,7 +118,7 @@ const MemberDetails = () => {
                         </Typography>
                       </Avatar>
                     </ListItemAvatar>
-                    <Tooltip arrow title={team.name} placement="bottom-start">
+                    <Tooltip arrow title={team?.name} placement="bottom-start">
                       <ListItemText
                         primary={
                           <Box display="flex">

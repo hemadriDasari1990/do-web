@@ -33,7 +33,7 @@ function* callGetReactionsSummaryByBoard(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_REACTIONS_SUMMARY_BY_BOARD_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -58,7 +58,7 @@ function* callGetReactionsSummaryBySection(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_REACTIONS_SUMMARY_BY_SECTION_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -83,7 +83,7 @@ function* callGetReactionsSummaryByNote(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_REACTIONS_SUMMARY_BY_NOTE_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -108,7 +108,7 @@ function* callGetReactions(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_REACTIONS_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

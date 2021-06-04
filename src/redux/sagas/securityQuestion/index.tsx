@@ -29,7 +29,7 @@ function* callGetSecurityQuestions() {
   } catch (err) {
     yield put({
       type: GET_SECURITY_QUESTIONS_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -51,7 +51,7 @@ function* callCreateSecurityQuestionAnswer(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: CREATE_SECURITY_QUESTION_ANSWER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -76,7 +76,7 @@ function* callVerifySecurityQuestionAnswer(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: VERIFY_SECURITY_QUESTION_ANSWER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

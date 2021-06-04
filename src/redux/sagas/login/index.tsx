@@ -21,6 +21,7 @@ import {
   VERIFY_TOKEN_REQUEST,
   VERIFY_TOKEN_SUCCESS,
 } from "../../actions/login/types";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   forgotPassword,
   login,
@@ -30,7 +31,7 @@ import {
   validateForgotPassword,
   verifyToken,
 } from "../../network/login";
-import { put, takeLatest, call } from "redux-saga/effects";
+
 import { delay } from "../../../util";
 
 function* callLogin(action: { [Key: string]: any }) {
@@ -45,7 +46,7 @@ function* callLogin(action: { [Key: string]: any }) {
       yield put({ type: LOGIN_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: LOGIN_FAILED, payload: err.response.data });
+    yield put({ type: LOGIN_FAILED, payload: err.response?.data });
   }
 }
 
@@ -63,7 +64,7 @@ function* callLogout() {
       yield put({ type: LOGOUT_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: LOGOUT_FAILED, payload: err.response.data });
+    yield put({ type: LOGOUT_FAILED, payload: err.response?.data });
   }
 }
 
@@ -80,7 +81,7 @@ function* callVerifyToken(action: { [Key: string]: any }) {
       yield put({ type: VERIFY_TOKEN_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: VERIFY_TOKEN_FAILED, payload: err.response.data });
+    yield put({ type: VERIFY_TOKEN_FAILED, payload: err.response?.data });
   }
 }
 
@@ -97,7 +98,7 @@ function* callResendToken(action: { [Key: string]: any }) {
       yield put({ type: RESEND_TOKEN_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: RESEND_TOKEN_FAILED, payload: err.response.data });
+    yield put({ type: RESEND_TOKEN_FAILED, payload: err.response?.data });
   }
 }
 
@@ -114,7 +115,7 @@ function* callForgotPassword(action: { [Key: string]: any }) {
       yield put({ type: FORGOT_PASSWORD_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: FORGOT_PASSWORD_FAILED, payload: err.response.data });
+    yield put({ type: FORGOT_PASSWORD_FAILED, payload: err.response?.data });
   }
 }
 
@@ -133,7 +134,7 @@ function* callValidateForgotPassword(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: VALIDATE_FORGOT_PASSWORD_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -154,7 +155,7 @@ function* callResetPassword(action: { [Key: string]: any }) {
       yield put({ type: RESET_PASSWORD_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: RESET_PASSWORD_FAILED, payload: err.response.data });
+    yield put({ type: RESET_PASSWORD_FAILED, payload: err.response?.data });
   }
 }
 

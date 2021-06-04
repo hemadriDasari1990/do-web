@@ -2,6 +2,9 @@ import {
   DELETE_MEMBER_FAILED,
   DELETE_MEMBER_REQUEST,
   DELETE_MEMBER_SUCCESS,
+  GET_MEMBERS_BY_TEAM_FAILED,
+  GET_MEMBERS_BY_TEAM_REQUEST,
+  GET_MEMBERS_BY_TEAM_SUCCESS,
   GET_MEMBERS_BY_USER_FAILED,
   GET_MEMBERS_BY_USER_REQUEST,
   GET_MEMBERS_BY_USER_SUCCESS,
@@ -11,16 +14,13 @@ import {
   UPDATE_MEMBER_FAILED,
   UPDATE_MEMBER_REQUEST,
   UPDATE_MEMBER_SUCCESS,
-  GET_MEMBERS_BY_TEAM_SUCCESS,
-  GET_MEMBERS_BY_TEAM_FAILED,
-  GET_MEMBERS_BY_TEAM_REQUEST,
 } from "../../actions/member/types";
 import {
   deleteMember,
   getMemberDetails,
+  getMembersByTeam,
   getMembersByUser,
   updateMember,
-  getMembersByTeam,
 } from "../../network/member";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -32,7 +32,7 @@ function* callGetMemberDetails(action: { [Key: string]: any }) {
       yield put({ type: GET_MEMBER_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_MEMBER_FAILED, payload: err.response.data });
+    yield put({ type: GET_MEMBER_FAILED, payload: err.response?.data });
   }
 }
 
@@ -56,7 +56,7 @@ function* callGetMembersByUser(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_MEMBERS_BY_USER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -80,7 +80,7 @@ function* callGetMembersByTeam(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_MEMBERS_BY_TEAM_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -97,7 +97,7 @@ function* callUpdateMember(action: { [Key: string]: any }) {
       yield put({ type: UPDATE_MEMBER_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: UPDATE_MEMBER_FAILED, payload: err.response.data });
+    yield put({ type: UPDATE_MEMBER_FAILED, payload: err.response?.data });
   }
 }
 
@@ -113,7 +113,7 @@ function* callDeleteMember(action: { [Key: string]: any }) {
       yield put({ type: DELETE_MEMBER_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: DELETE_MEMBER_FAILED, payload: err.response.data });
+    yield put({ type: DELETE_MEMBER_FAILED, payload: err.response?.data });
   }
 }
 

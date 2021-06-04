@@ -15,6 +15,7 @@ import { useLoading, useSection } from "../../redux/state/section";
 
 import Box from "@material-ui/core/Box";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
+import DoSnackbar from "../Snackbar/components";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import { List } from "@material-ui/core";
@@ -30,6 +31,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import formateNumber from "../../util/formateNumber";
+import getRandomBGColor from "../../util/getRandomColor";
 import { getSectionsByBoard } from "../../redux/actions/section";
 import { reorder } from "../../util";
 import { useAuthenticated } from "../../redux/state/common";
@@ -37,8 +39,6 @@ import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
-import getRandomBGColor from "../../util/getRandomColor";
-import DoSnackbar from "../Snackbar/components";
 
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
@@ -298,7 +298,7 @@ const SectionList = (props: any) => {
     if (!sectionData) {
       return;
     }
-    sectionData.name = section.name;
+    sectionData.name = section?.name;
     newSections[sectionIndex] = sectionData;
     setSections(newSections);
     setSelectedSection(null);

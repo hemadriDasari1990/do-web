@@ -161,7 +161,7 @@ const DoTable = (props: TableProps & any) => {
                         variant="body2"
                         onClick={() => handleViewItem(td)}
                       >
-                        {td.name}
+                        {td?.name}
                       </Link>
                       {td.isAuthor && (
                         <Box ml={1}>

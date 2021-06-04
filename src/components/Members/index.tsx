@@ -85,8 +85,8 @@ const MemberDashboard = () => {
       );
       const memberData = members[memberIndex];
       if (memberData) {
-        memberData.name = member.name;
-        memberData.email = member.email;
+        memberData.name = member?.name;
+        memberData.email = member?.email;
         membersList[memberIndex] = memberData;
         setMembers(membersList);
       } else {

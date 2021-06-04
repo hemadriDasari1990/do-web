@@ -1,4 +1,7 @@
 import {
+  CREATE_INSTANT_BOARD_FAILED,
+  CREATE_INSTANT_BOARD_REQUEST,
+  CREATE_INSTANT_BOARD_SUCCESS,
   DELETE_BOARD_FAILED,
   DELETE_BOARD_REQUEST,
   DELETE_BOARD_SUCCESS,
@@ -14,17 +17,14 @@ import {
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
-  CREATE_INSTANT_BOARD_SUCCESS,
-  CREATE_INSTANT_BOARD_REQUEST,
-  CREATE_INSTANT_BOARD_FAILED,
 } from "../../actions/board/types";
 import {
+  createInstantBoard,
   deleteBoard,
   getBoardActivities,
   getBoardDetails,
   getBoards,
   updateBoard,
-  createInstantBoard,
 } from "../../network/board";
 import { put, takeLatest } from "redux-saga/effects";
 
@@ -36,7 +36,7 @@ function* callGetBoardDetails(action: { [Key: string]: any }) {
       yield put({ type: GET_BOARD_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_BOARD_FAILED, payload: err.response.data });
+    yield put({ type: GET_BOARD_FAILED, payload: err.response?.data });
   }
 }
 
@@ -57,7 +57,7 @@ function* callGetBoards(action: { [Key: string]: any }) {
       yield put({ type: GET_BOARDS_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_BOARDS_FAILED, payload: err.response.data });
+    yield put({ type: GET_BOARDS_FAILED, payload: err.response?.data });
   }
 }
 
@@ -73,7 +73,7 @@ function* callUpdateBoard(action: { [Key: string]: any }) {
       yield put({ type: UPDATE_BOARD_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: UPDATE_BOARD_FAILED, payload: err.response.data });
+    yield put({ type: UPDATE_BOARD_FAILED, payload: err.response?.data });
   }
 }
 
@@ -91,7 +91,7 @@ function* callCreateInstantBoard(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: CREATE_INSTANT_BOARD_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -108,7 +108,7 @@ function* callDeleteBoard(action: { [Key: string]: any }) {
       yield put({ type: DELETE_BOARD_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: DELETE_BOARD_FAILED, payload: err.response.data });
+    yield put({ type: DELETE_BOARD_FAILED, payload: err.response?.data });
   }
 }
 
@@ -131,7 +131,7 @@ function* callGetBoardActivities(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_BOARD_ACTIVITIES_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

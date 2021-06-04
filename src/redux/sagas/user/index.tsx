@@ -56,7 +56,7 @@ function* callGetUserDetails(action: { [Key: string]: any }) {
       yield put({ type: GET_USER_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_USER_FAILED, payload: err.response.data });
+    yield put({ type: GET_USER_FAILED, payload: err.response?.data });
   }
 }
 
@@ -72,7 +72,7 @@ function* callGetBoardsByUser(action: { [Key: string]: any }) {
       yield put({ type: GET_BOARDS_BY_USER_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_BOARDS_BY_USER_FAILED, payload: err.response.data });
+    yield put({ type: GET_BOARDS_BY_USER_FAILED, payload: err.response?.data });
   }
 }
 
@@ -90,7 +90,7 @@ function* callGetUserSummary(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: GET_USER_SUMMARY_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -109,7 +109,7 @@ function* callCreateUser(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: CREATE_USER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -128,7 +128,7 @@ function* callUpdateEmail(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: UPDATE_EMAIL_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -150,7 +150,7 @@ function* callUpdateName(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: UPDATE_NAME_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -169,7 +169,7 @@ function* callUpdatePassword(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: UPDATE_PASSWORD_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -188,7 +188,7 @@ function* callDeleteUser(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: DELETE_USER_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -205,7 +205,7 @@ function* callGetAllSummary() {
       yield put({ type: GET_ALL_SUMMARY_SUCCESS, payload: data });
     }
   } catch (err) {
-    yield put({ type: GET_ALL_SUMMARY_FAILED, payload: err.response.data });
+    yield put({ type: GET_ALL_SUMMARY_FAILED, payload: err.response?.data });
   }
 }
 
@@ -223,7 +223,7 @@ function* callGetUsers() {
   } catch (err) {
     yield put({
       type: GET_USERS_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }
@@ -242,7 +242,7 @@ function* callUpdateAvatar(action: { [Key: string]: any }) {
   } catch (err) {
     yield put({
       type: UPDATE_AVATAR_FAILED,
-      payload: err.response.data,
+      payload: err.response?.data,
     });
   }
 }

@@ -146,7 +146,11 @@ const TeamDetails = () => {
                         </Avatar>
                       )}
                     </ListItemAvatar>
-                    <Tooltip arrow title={member.name} placement="bottom-start">
+                    <Tooltip
+                      arrow
+                      title={member?.name}
+                      placement="bottom-start"
+                    >
                       <ListItemText
                         primary={
                           <Box display="flex">
