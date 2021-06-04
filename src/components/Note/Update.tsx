@@ -42,10 +42,11 @@ export default function NoteUpdate(props: any) {
   const { board } = useBoard();
   const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
   const joinedMemberId = getMemberId();
-  const creatorId =
-    descodedData?.memberId || memberId
-      ? descodedData?.memberId || memberId
-      : joinedMemberId;
+  const creatorId = descodedData?.memberId
+    ? descodedData?.memberId
+    : memberId
+    ? memberId
+    : joinedMemberId;
 
   /* Local states */
   const [count, setCount] = useState(MAX_CHAR_COUNT);
@@ -69,7 +70,6 @@ export default function NoteUpdate(props: any) {
   const saveNote = () => {
     if (selectedNote?._id) {
       socket.emit(`update-note`, {
-        memberId: !isAnnonymous ? creatorId : null,
         boardId,
         description: description,
         previousDescription: selectedNote?.description,
@@ -77,13 +77,12 @@ export default function NoteUpdate(props: any) {
         noteId: selectedNote?._id,
         isAnnonymous: isAnnonymous ? isAnnonymous : selectedNote?.isAnnonymous,
         createdById: selectedNote?.createdById,
-        ...(!isAnnonymous ? { updatedById: creatorId } : {}),
+        ...(!isAnnonymous ? { updatedById: creatorId } : { updatedById: null }),
       });
       return;
     }
 
     socket.emit(`create-note`, {
-      memberId: !isAnnonymous ? creatorId : null,
       boardId,
       description: description,
       sectionId,

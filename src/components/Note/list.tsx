@@ -286,6 +286,7 @@ const NoteList = (props: any) => {
     }
     noteData.read = updatedNote.read;
     noteData.description = updatedNote.description;
+    noteData.updatedById = updatedNote.updatedById;
     newNotes[noteIndex] = noteData;
     setNotes(newNotes);
   };
