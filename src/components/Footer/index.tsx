@@ -138,6 +138,11 @@ export default function Footer() {
     win.focus();
   };
 
+  const handleBoard = () => {
+    const win: any = window.open(process.env.REACT_APP_BOARD_URL, "_blank");
+    win.focus();
+  };
+
   const handleLinkedin = () => {
     const win: any = window.open(
       process.env.REACT_APP_LETSDORETROL_LINKEDIN_URL,
@@ -204,7 +209,7 @@ export default function Footer() {
                     }
                   />
                 </ListItem>
-                <ListItem className={listStyle} onClick={() => handleCareers()}>
+                <ListItem className={listStyle} onClick={() => handleBoard()}>
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
