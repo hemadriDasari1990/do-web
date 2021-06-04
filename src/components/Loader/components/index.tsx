@@ -2,8 +2,8 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Backdrop from "@material-ui/core/Backdrop";
 import Box from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import React from "react";
+import loader from "../../../assets/loader.svg";
 
 /* Inspired by the Facebook spinners. */
 const useStyles = makeStyles((theme: Theme) => ({
@@ -30,7 +30,7 @@ const Loader = (props: any) => {
           alignItems="center"
           flexDirection="column"
         >
-          <CircularProgress />
+          <img src={loader} />
         </Box>
       </Backdrop>
     );
@@ -38,7 +38,7 @@ const Loader = (props: any) => {
   if (enable && !backdrop && showInline) {
     return (
       <Box>
-        <CircularProgress size={20} disableShrink variant="indeterminate" />
+        <img src={loader} />
       </Box>
     );
   }
@@ -51,7 +51,7 @@ const Loader = (props: any) => {
         alignItems="center"
         className={loaderStyle}
       >
-        <CircularProgress />
+        <img src={loader} />
       </Box>
     );
   }

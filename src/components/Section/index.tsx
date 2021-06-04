@@ -997,7 +997,7 @@ export default function Section() {
                 {!boardLoading &&
                 boardDetails?.startedAt &&
                 !boardDetails?.completedAt ? (
-                  <Box>{renderTimer()}</Box>
+                  <Box mr={1}>{renderTimer()}</Box>
                 ) : null}
                 {!boardLoading &&
                 boardDetails?.startedAt &&

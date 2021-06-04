@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
 import {
   Box,
+  Button,
+  Container,
+  IconButton,
   TextField,
   Typography,
-  IconButton,
-  Container,
-  Button,
 } from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
-import ClearIcon from "@material-ui/icons/Clear";
-import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
-import { MAX_CHAR_COUNT } from "../../util/constants";
-import { useDispatch } from "react-redux";
-import { createRecommendation } from "../../redux/actions/recommendation";
-import { useLogin } from "../../redux/state/login";
+import React, { useEffect, useState } from "react";
 import {
-  useRecommendation,
   useLoading,
+  useRecommendation,
 } from "../../redux/state/recommendation";
-import Loader from "../Loader/components";
+
+import ClearIcon from "@material-ui/icons/Clear";
 import DoSnackbar from "../Snackbar/components";
+import Loader from "../Loader/components";
+import { MAX_CHAR_COUNT } from "../../util/constants";
+import Rating from "@material-ui/lab/Rating";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import { createRecommendation } from "../../redux/actions/recommendation";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { useLogin } from "../../redux/state/login";
 
 const useStyles = makeStyles({});
 
@@ -62,6 +63,7 @@ export default function Recommendation(props: any) {
     ) {
       return;
     }
+    localStorage.removeItem("memberId");
     handleClose();
   };
 
@@ -70,6 +72,7 @@ export default function Recommendation(props: any) {
   };
 
   const handleSend = () => {
+    localStorage.removeItem("memberId");
     setApiTriggered(false);
     dispatch(
       createRecommendation({
