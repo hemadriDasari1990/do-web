@@ -373,7 +373,9 @@ const ActionItemList = (props: any) => {
       return (
         <Tooltip
           arrow
-          title={actionItem.read ? "Mark as unread" : "Mark as read"}
+          title={
+            actionItem.read ? "Mark as not discussed" : "Mark as discussed"
+          }
         >
           <IconButton
             size="small"

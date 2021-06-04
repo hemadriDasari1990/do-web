@@ -700,7 +700,10 @@ const NoteList = (props: any) => {
   const renderMarkRead = useCallback(
     (note: { [Key: string]: any }) => {
       return (
-        <Tooltip arrow title={note.read ? "Mark as unread" : "Mark as read"}>
+        <Tooltip
+          arrow
+          title={note.read ? "Mark as not discussed" : "Mark as discussed"}
+        >
           <IconButton
             size="small"
             aria-label="note-menu"

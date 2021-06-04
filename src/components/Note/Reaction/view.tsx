@@ -143,7 +143,7 @@ function ReactionView(props: any) {
         ) : null}
         {!note?.totalReactions ? (
           <Box mr={2}>
-            <Typography variant="h6">No reactions yet</Typography>
+            <Typography variant="h6">Be the first to react</Typography>
           </Box>
         ) : null}
       </Box>
