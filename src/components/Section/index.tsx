@@ -5,12 +5,15 @@ import {
 } from "../../network/endpoints";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { clearBoard, getBoardDetails } from "../../redux/actions/board";
 import {
+  addMemberToLocalStorage,
   formatNumberWithCommas,
   getDownloadFile,
+  getMemberId,
+  getMemberIdByToken,
   replaceStr,
 } from "../../util";
+import { clearBoard, getBoardDetails } from "../../redux/actions/board";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
 
@@ -138,6 +141,8 @@ export default function Section() {
   const { members: joinedMembersList } = useJoinedMembers();
   // const emailFromLS = localStorage.getItem(`${boardId}`) as string;
   const { token } = useParams<{ token: string }>();
+  const joinedMemberId = getMemberId();
+  const invitedMemberId = getMemberIdByToken(token);
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -170,11 +175,12 @@ export default function Section() {
     if (boardId) {
       dispatch(getBoardDetails(boardId));
       dispatch(getJoinedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
-      if (!authenticated && token) {
-        socket.emit("check-if-member-joined-board", {
-          token,
-          boardId: boardId,
-        });
+      if (!authenticated && token && joinedMemberId !== invitedMemberId) {
+        setOpenAddGuestDialog(true);
+        // socket.emit("check-if-member-joined-board", {
+        //   token,
+        //   boardId: boardId,
+        // });
       }
     }
   }, []);
@@ -195,6 +201,7 @@ export default function Section() {
           return;
         }
         if (response?.memberId) {
+          addMemberToLocalStorage(response?.memberId);
           updateJoinedMember(response);
         } else {
           setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
@@ -203,8 +210,12 @@ export default function Section() {
           ]);
         }
         setJoinedMember(response);
-        setOpenSnackbar(true);
-        setOpenAddGuestDialog(false);
+        if (invitedMemberId !== response.memberId) {
+          setOpenSnackbar(true);
+        }
+        if (invitedMemberId === response.memberId) {
+          setOpenAddGuestDialog(false);
+        }
       }
     );
 
@@ -213,30 +224,30 @@ export default function Section() {
     };
   }, [joinedMembers]);
 
-  useEffect(() => {
-    /* Add if member already joined */
-    socket.on(
-      `check-if-member-joined-board-response`,
-      (response: { [Key: string]: any }) => {
-        // if (response?._id) {
-        //   setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
-        //     ...currentMembers,
-        //     response,
-        //   ]);
-        // } else {
-        //   /* ask user to choose avatar */
-        //   setOpenAddGuestDialog(true);
-        // }
-        if (!authenticated && !response?._id) {
-          setOpenAddGuestDialog(true);
-        }
-      }
-    );
+  // useEffect(() => {
+  //   /* Add if member already joined */
+  //   socket.on(
+  //     `check-if-member-joined-board-response`,
+  //     (response: { [Key: string]: any }) => {
+  //       // if (response?._id) {
+  //       //   setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
+  //       //     ...currentMembers,
+  //       //     response,
+  //       //   ]);
+  //       // } else {
+  //       //   /* ask user to choose avatar */
+  //       //   setOpenAddGuestDialog(true);
+  //       // }
+  //       if (!authenticated && !response?._id) {
+  //         setOpenAddGuestDialog(true);
+  //       }
+  //     }
+  //   );
 
-    return () => {
-      socket.off("check-if-member-joined-board-response");
-    };
-  }, [authenticated, joinedMembers]);
+  //   return () => {
+  //     socket.off("check-if-member-joined-board-response");
+  //   };
+  // }, [authenticated, joinedMembers]);
 
   useEffect(() => {
     setBoardDetails(board);
@@ -248,17 +259,17 @@ export default function Section() {
     //   });
     // }
     /* Ask for guest name and avatar only when board is not annonymous */
-    if (
-      !authenticated &&
-      !token &&
-      !loading &&
-      !board?.isPrivate &&
-      !board?.isAnnonymous &&
-      !board?.isInstant &&
-      !!board?.startedAt
-    ) {
-      setOpenAddGuestDialog(true);
-    }
+    // if (
+    //   !authenticated &&
+    //   !token &&
+    //   !loading &&
+    //   !board?.isPrivate &&
+    //   !board?.isAnnonymous &&
+    //   !board?.isInstant &&
+    //   !!board?.startedAt
+    // ) {
+    //   setOpenAddGuestDialog(true);
+    // }
   }, [board]);
 
   useEffect(() => {
@@ -278,7 +289,6 @@ export default function Section() {
           return;
         }
         setBoardDetails(updatedBoard);
-        console.log("updatedBoard", updatedBoard);
         setJoinedMembers(updatedBoard.joinedMembers);
         setStartSession(true);
       }
@@ -384,21 +394,21 @@ export default function Section() {
     }
   };
 
-  const updateJoinedMember = (existingMember: { [Key: string]: any }) => {
-    if (!existingMember || !joinedMembers?.length) {
+  const updateJoinedMember = (jMember: { [Key: string]: any }) => {
+    if (!jMember || !joinedMembers?.length) {
       return;
     }
     const newJoinedMembers: Array<{ [Key: string]: any }> = [...joinedMembers];
     const memberIndex: number = newJoinedMembers.findIndex(
       (newJoinedMember: { [Key: string]: any }) =>
-        newJoinedMember._id === existingMember._id
+        newJoinedMember?._id === jMember?._id
     );
     const joinedMember: { [Key: string]: any } = newJoinedMembers[memberIndex];
     if (!joinedMember) {
-      setJoinedMembers([joinedMember, joinedMembers]);
+      setJoinedMembers([jMember, ...newJoinedMembers]);
       return;
     }
-    joinedMember.avatarId = existingMember.avatarId;
+    joinedMember.avatarId = jMember?.avatarId;
     newJoinedMembers[memberIndex] = joinedMember;
 
     setJoinedMembers(newJoinedMembers);
@@ -838,7 +848,6 @@ export default function Section() {
       />
     );
   };
-
   return (
     <Suspense fallback={<div />}>
       {renderDialog()}

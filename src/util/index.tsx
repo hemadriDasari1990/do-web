@@ -105,6 +105,25 @@ export function getRemainingCharLength(maxCount: number, actualLength: number) {
   return maxCount === actualLength ? maxCount : maxCount - actualLength;
 }
 
+export const addMemberToLocalStorage = (memberId: string) => {
+  if (!memberId) {
+    return;
+  }
+  localStorage.setItem("memberId", memberId);
+};
+
+export const getMemberId = () => {
+  return localStorage.getItem("memberId");
+};
+
+export const getMemberIdByToken = (token: string) => {
+  if (!token) {
+    return;
+  }
+  const descodedData: { [Key: string]: any } = parseJwt(token);
+  return descodedData?.memberId;
+};
+
 export const getActivityText = (action: string) => {
   let text = "";
   switch (action) {

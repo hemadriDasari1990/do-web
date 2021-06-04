@@ -4,7 +4,7 @@ import {
   DraggableStateSnapshot,
 } from "react-beautiful-dnd";
 import React, { useCallback, useEffect, useState } from "react";
-import { getInitials, reorder } from "../../util";
+import { getInitials, getMemberId, reorder } from "../../util";
 
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
@@ -136,6 +136,7 @@ const NoteList = (props: any) => {
   const { noteList } = useNote(sectionId);
   const { boardId } = useParams<{ boardId: string }>();
   const { avatarStyle } = useTableStyles();
+  const joinedMemberId = getMemberId();
 
   /* Redux hooks */
 
@@ -500,6 +501,7 @@ const NoteList = (props: any) => {
       sectionId: note.sectionId,
       boardId,
       isAnnonymous: board?.isAnnonymous,
+      joinedMemberId: joinedMemberId,
     });
     setAnchorEl(null);
   };
@@ -507,7 +509,7 @@ const NoteList = (props: any) => {
   const handleDelete = () => {
     socket.emit(`delete-note`, {
       id: selectedNote._id,
-      memberId: memberId,
+      memberId: memberId || joinedMemberId,
       sectionId: selectedNote?.sectionId,
       description: selectedNote?.description,
       boardId,

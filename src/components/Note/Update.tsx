@@ -2,7 +2,7 @@ import {
   ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
-import { getRemainingCharLength, parseJwt } from "../../util";
+import { getMemberId, getRemainingCharLength, parseJwt } from "../../util";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -41,7 +41,11 @@ export default function NoteUpdate(props: any) {
   const { boardId, token } = useParams<{ boardId: string; token?: string }>();
   const { board } = useBoard();
   const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
-  const creatorId = descodedData?.memberId ? descodedData?.memberId : memberId;
+  const joinedMemberId = getMemberId();
+  const creatorId =
+    descodedData?.memberId || memberId
+      ? descodedData?.memberId || memberId
+      : joinedMemberId;
 
   /* Local states */
   const [count, setCount] = useState(MAX_CHAR_COUNT);
