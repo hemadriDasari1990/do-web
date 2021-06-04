@@ -615,16 +615,22 @@ const NoteList = (props: any) => {
           getContentAnchorEl={null}
           TransitionComponent={Zoom}
         >
-          <ListItem button={true} onClick={() => handleMenuItem("edit")}>
-            <ListItemAvatar style={{ minWidth: 35 }}>
-              <EditIcon />
-            </ListItemAvatar>
-            <ListItemText
-              primary={<b>Edit Note</b>}
-              secondary="Update the note"
-            />
-          </ListItem>
-          {(authenticated || board?.isInstant) && (
+          {(authenticated ||
+            joinedMemberId === selectedNote?.createdById ||
+            board?.isInstant) && (
+            <ListItem button={true} onClick={() => handleMenuItem("edit")}>
+              <ListItemAvatar style={{ minWidth: 35 }}>
+                <EditIcon />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<b>Edit Note</b>}
+                secondary="Update the note"
+              />
+            </ListItem>
+          )}
+          {(authenticated ||
+            joinedMemberId === selectedNote?.createdById ||
+            board?.isInstant) && (
             <ListItem button={true} onClick={() => handleMenuItem("delete")}>
               <ListItemAvatar style={{ minWidth: 35 }}>
                 <DeleteOutlineIcon />
