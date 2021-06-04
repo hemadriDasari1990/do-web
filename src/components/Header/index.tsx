@@ -8,9 +8,9 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
 import DoLogo from "../common/DoLogo";
-import DoLogoIcon from "../common/DoLogo";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import Hidden from "@material-ui/core/Hidden";
+import doLogo from "../../assets/do-logo.svg";
 import { useAuthenticated } from "../../redux/state/common";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
@@ -66,7 +66,7 @@ const Header = () => {
     return (
       <Box mt={1} display="flex" justifyContent="space-between">
         <Hidden only={["xl", "lg", "md"]}>
-          <DoLogoIcon />
+          <img src={doLogo} width={45} height={45} />
         </Hidden>
         {showLogo && (
           <Hidden only={["xs", "sm"]}>
@@ -96,7 +96,7 @@ const Header = () => {
                 variant="contained"
                 startIcon={<FlashOnIcon color="secondary" />}
               >
-                Sign up free
+                Sign up for free
               </Button>
             </Box>
           </Box>

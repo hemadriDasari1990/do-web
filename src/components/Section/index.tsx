@@ -20,7 +20,6 @@ import { BOARDS } from "../../routes/config";
 import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import DoLogoIcon from "../common/DoLogoIcon";
 import DoSnackbar from "../Snackbar/components";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
@@ -48,6 +47,7 @@ import ViewStreamIcon from "@material-ui/icons/ViewStream";
 import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
+import doLogo from "../../assets/do-logo.svg";
 import formateNumber from "../../util/formateNumber";
 import { getJoinedMembers } from "../../redux/actions/join";
 // import { getMembers } from "../../util/member";
@@ -278,6 +278,8 @@ export default function Section() {
           return;
         }
         setBoardDetails(updatedBoard);
+        console.log("updatedBoard", updatedBoard);
+        setJoinedMembers(updatedBoard.joinedMembers);
         setStartSession(true);
       }
     );
@@ -862,8 +864,8 @@ export default function Section() {
           >
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
-                <Box mt={1} mr={1}>
-                  <DoLogoIcon />
+                <Box mr={1}>
+                  <img src={doLogo} width={40} height={40} />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">
@@ -1012,24 +1014,30 @@ export default function Section() {
                 {!boardLoading && authenticated ? (
                   <>{renderGoBackToBoards()}</>
                 ) : null}
-                {((authenticated && boardDetails?.completedAt) ||
-                  boardDetails?.inInstant) && (
-                  <Box mr={1}>
-                    <Tooltip title="Download to Excel" placement="bottom" arrow>
-                      <Button
-                        color="primary"
-                        onClick={() => handleDownloadReport()}
-                        startIcon={
-                          <SaveAltIcon style={{ color: getRandomColor(4) }} />
-                        }
+                {(authenticated ||
+                  boardDetails?.inInstant ||
+                  boardDetails?.inAnnonymous) &&
+                  boardDetails?.completedAt && (
+                    <Box mr={1}>
+                      <Tooltip
+                        title="Download to Excel"
+                        placement="bottom"
+                        arrow
                       >
-                        <Typography variant="subtitle1">
-                          Download to Excel
-                        </Typography>
-                      </Button>
-                    </Tooltip>
-                  </Box>
-                )}
+                        <Button
+                          color="primary"
+                          onClick={() => handleDownloadReport()}
+                          startIcon={
+                            <SaveAltIcon style={{ color: getRandomColor(4) }} />
+                          }
+                        >
+                          <Typography variant="subtitle1">
+                            Download to Excel
+                          </Typography>
+                        </Button>
+                      </Tooltip>
+                    </Box>
+                  )}
 
                 {!boardLoading && (authenticated || boardDetails?.isInstant) ? (
                   <>{renderCreateNewSection()}</>

@@ -141,15 +141,15 @@ export default function About() {
                 <Box>
                   <UnderlineText title="Hemadri Dasari" />
                   <Box mt={2}>
-                    <Typography variant="h5">
+                    <Typography variant="body1">
                       He is a Founder & Developer of Let's do retro Inc. He
                       started as side project in the middle of Jan 2021. He is
                       currently working in a team and not very pleased with the
-                      current retrospective board. So he decided to create his
-                      own modern respective tool and see if that could make it
-                      better than the one which they are currently using. He
-                      worked hard for 3 months to built this platform in his
-                      offline time.
+                      current retrospective board & other tools out there in the
+                      market. So he decided to create his own next genration
+                      respective tool and see if that could make it better than
+                      what is currently available in the market. He worked hard
+                      for 3 months to built this platform in his offline time.
                     </Typography>
                   </Box>
                 </Box>
@@ -158,7 +158,7 @@ export default function About() {
                 <Box>
                   <UnderlineText title="Work Experience" />
                   <Box mt={2}>
-                    <Typography variant="h5">
+                    <Typography variant="body1">
                       Hemadri Dasari currently working as a Senior Lead
                       Developer in Abu Dhabi, United Arab Emirates. Prior to
                       this, he served as Senior Front end developer at Mashreq
@@ -178,7 +178,7 @@ export default function About() {
                 <Box>
                   <UnderlineText title="Sreesha Venkita krishnan" />
                   <Box mt={2}>
-                    <Typography variant="h5">
+                    <Typography variant="body1">
                       A quality assurance specialist and a key advisor, she is a
                       key contributor in developing and implementing quality
                       assurance policies.

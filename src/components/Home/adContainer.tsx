@@ -111,7 +111,7 @@ const AdContainer = () => {
                     color="primary"
                     startIcon={<FlashOnIcon color="secondary" />}
                   >
-                    Sign Up Free
+                    Sign up for free
                   </Button>
                 </Box>
               </DialogContent>

@@ -47,13 +47,13 @@ export default function WhyLetsdoretro() {
                 <Box display="flex" mt={3}>
                   <Box mr={5}>
                     <InstantRetroGrid
-                      title="Start Quick Retro"
+                      title="Quick Start Retro"
                       subTitle="Free forever — no signup required"
                     />
                   </Box>
                   <Box>
                     <CreateAccount
-                      title="Sign Up Free"
+                      title="Sign up for free"
                       subTitle="Free forever — no credit card required"
                     />
                   </Box>
@@ -217,7 +217,7 @@ export default function WhyLetsdoretro() {
                       titleMinHeight={50}
                       height={230}
                       title={`Q. Is letsdoretro.com really free?`}
-                      description={`Yes! 95% of the features are free and will always remain free. This is our guarantee and commitment to you. Letsdoretro is also working on an Enterprise plan with features like SSO.`}
+                      description={`Yes! 95% of the features are free and will always remain free. This is our guarantee and commitment to you.`}
                     />
                   </Box>
                 </Box>

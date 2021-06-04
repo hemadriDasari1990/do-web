@@ -50,6 +50,9 @@ const Members = React.lazy(() => import("../components/Members/Members"));
 const Projects = React.lazy(() => import("../components/Project"));
 const GettingStarted = React.lazy(() => import("../components/GettingStarted"));
 const Reactions = React.lazy(() => import("../components/Footer/Reactions"));
+const Templates = React.lazy(
+  () => import("../components/Footer/Product/Templates")
+);
 
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
@@ -166,6 +169,7 @@ const routes = () => {
     },
     { path: routePath.APPS, component: Apps },
     { path: routePath.REACTIONS, component: Reactions },
+    { path: routePath.TEMPLATES, component: Templates },
   ];
 };
 

@@ -170,7 +170,7 @@ const WelcomeTour = (props: any) => {
           </Box>
           <Box my={1}>
             <Typography variant="body2">
-              Start quick retro is the awesome feature to launch a retrospective
+              Quick start retro is the awesome feature to launch a retrospective
               board in just 3 steps but, we would recommend to create your team
               first and add your team members to the team. If this is already
               done then you're in right place.

@@ -726,7 +726,7 @@ const NoteList = (props: any) => {
   const renderRead = useCallback(
     (note: { [Key: string]: any }) => {
       return (
-        <Tooltip arrow title={note.read ? "Read" : "Not read yet"}>
+        <Tooltip arrow title={note.read ? "Discussed" : "Not discussed yet"}>
           <IconButton
             size="small"
             onClick={(event: React.MouseEvent<HTMLButtonElement>) =>

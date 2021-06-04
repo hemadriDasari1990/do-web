@@ -6,7 +6,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import { DRAWER_WIDTH } from "../../util/constants";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
-import DoLogoIcon from "../common/DoLogoIcon";
 import Drawer from "@material-ui/core/Drawer";
 import Feedback from "../Feedback";
 import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
@@ -22,6 +21,7 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
+import doLogo from "../../assets/do-logo.svg";
 import { getAvatar } from "../../util/getAvatar";
 import { getInitials } from "../../util";
 import { logout } from "../../redux/actions/login";
@@ -169,7 +169,9 @@ export default function PersistentDrawerLeft() {
         anchor="left"
       >
         {/* <Box className={toolbar} flexDirection="column"/> */}
-        <DoLogoIcon display="flex" justifyContent="center" my={2} />
+        <Box display="flex" justifyContent="center" my={2}>
+          <img src={doLogo} width={45} height={45} />
+        </Box>
         <Box textAlign="center">
           <Box mb={2}>
             <Tooltip arrow title="Dashbaord" placement="right">

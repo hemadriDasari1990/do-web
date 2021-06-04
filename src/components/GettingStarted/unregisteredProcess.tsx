@@ -40,7 +40,7 @@ const UnregisteredProcess = () => {
           </Typography>
         </Box>
         <InstantRetroGrid
-          title="Start Quick Retro"
+          title="Quick Start Retro"
           subTitle="Free forever — no signup required"
         />
       </Box>

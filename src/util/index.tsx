@@ -102,7 +102,7 @@ export function getRemainingCharLength(maxCount: number, actualLength: number) {
   if (!maxCount || !actualLength) {
     return 0;
   }
-  return maxCount - actualLength;
+  return maxCount === actualLength ? maxCount : maxCount - actualLength;
 }
 
 export const getActivityText = (action: string) => {

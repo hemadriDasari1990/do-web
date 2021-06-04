@@ -25,12 +25,12 @@ const CreateAccountGrid = () => {
           <Box>
             <Hidden only={["xl", "lg", "md"]}>
               <Typography variant="h1">
-                Try Letsdoretro.com for your teams
+                Get started with Let's do retro today
               </Typography>
             </Hidden>
             <Hidden only={["sm", "xs"]}>
               <Typography variant="h1" className={titleStyle}>
-                Try letsdoretro.com for your teams
+                Get started with Let's do retro today
               </Typography>
             </Hidden>
           </Box>
@@ -42,7 +42,7 @@ const CreateAccountGrid = () => {
           </Box>
           <Box mt={3}>
             <CreateAccount
-              title="Sign up Free"
+              title="Sign up for free"
               subTitle="Free forever — no credit card required"
             />
           </Box>

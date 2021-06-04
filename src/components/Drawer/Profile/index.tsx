@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import ProfileSummary from "./Summary";
 import { Suspense } from "react";
+import Tooltip from "@material-ui/core/Tooltip";
 import UserAvatar from "../Account/userAvatar";
 import { getAvatar } from "../../../util/getAvatar";
 import { useUser } from "../../../redux/state/user";
@@ -17,9 +18,11 @@ const Profile = () => {
   const { user } = useUser();
 
   const [openAvatarDialog, setOpenAvatarDialog] = useState(false);
+  const [openTooltip, setOpenTooltip] = useState(true);
 
   const handleAvatar = () => {
     setOpenAvatarDialog(true);
+    setOpenTooltip(false);
   };
 
   const handleCloseDialog = () => {
@@ -45,21 +48,35 @@ const Profile = () => {
                   title="Avatar:"
                   value={
                     user?.avatarId ? (
-                      <IconButton onClick={handleAvatar} size="small">
-                        <img
-                          src={getAvatar(user?.avatarId)}
-                          width={40}
-                          height={40}
-                        />
-                      </IconButton>
+                      <Tooltip
+                        title="Change your avatar"
+                        open={openTooltip}
+                        placement="top"
+                        arrow
+                      >
+                        <IconButton onClick={handleAvatar} size="small">
+                          <img
+                            src={getAvatar(user?.avatarId)}
+                            width={40}
+                            height={40}
+                          />
+                        </IconButton>
+                      </Tooltip>
                     ) : (
-                      <IconButton onClick={handleAvatar}>
-                        <Avatar>
-                          <Typography variant="h5">
-                            {getInitials(user?.name)}
-                          </Typography>
-                        </Avatar>
-                      </IconButton>
+                      <Tooltip
+                        title="Set your avatar"
+                        open={openTooltip}
+                        placement="top"
+                        arrow
+                      >
+                        <IconButton onClick={handleAvatar} size="small">
+                          <Avatar>
+                            <Typography variant="h5">
+                              {getInitials(user?.name)}
+                            </Typography>
+                          </Avatar>
+                        </IconButton>
+                      </Tooltip>
                     )
                   }
                 />

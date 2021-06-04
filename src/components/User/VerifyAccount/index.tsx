@@ -143,7 +143,7 @@ const VerifyAccount = () => {
                     variant="contained"
                   >
                     <Typography variant="h6" color="secondary">
-                      Sign Up Free
+                      Sign up for free
                     </Typography>
                   </Button>
                 </Box>

@@ -1,14 +1,13 @@
 import { DASHBOARD, ROOT } from "../../../routes/config";
 
-import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
+import doLogo from "../../../assets/do-logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
-import DoLogoIcon from "../DoLogoIcon";
 
 const useLocalStyles = makeStyles(() => ({
   badgeStyle: {
@@ -21,7 +20,7 @@ const useLocalStyles = makeStyles(() => ({
 const DoLogo = (props: any) => {
   const { color, hideBadge, ...boxProps } = props;
   const { logoTextStyle, cursor } = useStyles();
-  const { badgeStyle } = useLocalStyles();
+  const {} = useLocalStyles();
 
   /* Redux hooks */
   const authenticated = useAuthenticated();
@@ -42,40 +41,13 @@ const DoLogo = (props: any) => {
       onClick={() => refreshDashboard()}
       {...boxProps}
     >
-      <Box mr={1}>
+      <Box mt={0.5}>
+        <img src={doLogo} width={45} height={45} />
+      </Box>
+      <Box mx={1}>
         <Typography color={color} className={logoTextStyle}>
-          let's
+          lets do retro
         </Typography>
-      </Box>
-      <Box>
-        <Typography color={color} className={logoTextStyle}>
-          d
-        </Typography>
-      </Box>
-      <Box mt={2} mr={1} ml={0.2}>
-        <DoLogoIcon />
-      </Box>
-      <Box>
-        <Typography color={color} className={logoTextStyle}>
-          {" "}
-          retr
-        </Typography>
-      </Box>
-      <Box mt={2} ml={0.2}>
-        {!hideBadge ? (
-          <Badge
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            className={badgeStyle}
-            badgeContent="Beta"
-          >
-            <DoLogoIcon />
-          </Badge>
-        ) : (
-          <DoLogoIcon />
-        )}
       </Box>
     </Box>
   );

@@ -22,7 +22,7 @@ export const NAME_REGEX = /^([a-zA-Z ])*$/;
 export const PERCENTAGE_REGEX = /^([1-9]([0-9])?|0)(\.[0-9]{1,2})?$/;
 export const ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS = /^[ A-z\n\d_@.#$=!%^)(\]:\*;\?\/\,}{\|\[\+-]*$/; // eslint-disable-line
 export const INPUT_STARTS_WITH_ZERO = /^0[0-9]*$/;
-export const ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE = /^[ A-z\n\d_@.#$=!^)(\]:\*;\?\/\,}{\|\[\+-]*$/; // eslint-disable-line
+export const ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE = /^[ A-z\n\d_@.#$'"=!^)(\]:\*;\?\/\,}{\|\[\+-]*$/; // eslint-disable-line
 export const FILE_NAME_REGEX = /^[A-Za-z0-9_ -]*$/;
 
 export const allow = (

@@ -8,6 +8,7 @@ import {
   REACTIONS,
   RETROSPECTIVE,
   SECURITY,
+  TEMPLATES,
   TERMS,
   WHY_LETSDORETRO,
 } from "../../routes/config";
@@ -17,7 +18,6 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
-import DoLogoIcon from "../common/DoLogoIcon";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -34,6 +34,7 @@ import React from "react";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
+import doLogo from "../../assets/do-logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 
 const BottomIllustrations = React.lazy(() => import("./BottomIllustrations"));
@@ -125,6 +126,10 @@ export default function Footer() {
     history.push(WHY_LETSDORETRO);
   };
 
+  const handleTemplates = () => {
+    history.push(TEMPLATES);
+  };
+
   const handleFacebook = () => {
     const win: any = window.open(
       process.env.REACT_APP_LETSDORETROL_FB_URL,
@@ -158,7 +163,7 @@ export default function Footer() {
           <Grid container spacing={2}>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3}>
-                <DoLogoIcon />
+                <img src={doLogo} width={45} height={45} />
               </Box>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">
@@ -170,12 +175,46 @@ export default function Footer() {
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
                 <Box>
-                  <InstantRetroGrid title="Start Quick Retro" />
+                  <InstantRetroGrid title="Quick Start Retro" />
                 </Box>
               </Box>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
+              <Box>
+                <Typography
+                  variant="h3"
+                  className={titleStyle}
+                  color="secondary"
+                >
+                  Product
+                </Typography>
+              </Box>
+              <List>
+                <ListItem
+                  className={listStyle}
+                  onClick={() => handleTemplates()}
+                >
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        Templates
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem className={listStyle} onClick={() => handleCareers()}>
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        Retrospective Board
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Grid>
             <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
               <Box>
                 <Typography
@@ -399,7 +438,7 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={3} lg={3} md={3} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={2} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
@@ -417,7 +456,7 @@ export default function Footer() {
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
-                        Dubai, United Arab Emirates
+                        Dubai, UAE
                       </Typography>
                     }
                   />

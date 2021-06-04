@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import DoLogo from "../../common/DoLogo";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import HintMessage from "../../HintMessage";
 import Link from "@material-ui/core/Link";
 import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
@@ -20,7 +21,6 @@ import Typography from "@material-ui/core/Typography";
 import { createUser } from "../../../redux/actions/user";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import HintMessage from "../../HintMessage";
 
 const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
 const Loader = React.lazy(() => import("../../Loader/components"));

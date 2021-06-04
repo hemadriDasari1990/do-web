@@ -400,7 +400,10 @@ const ActionItemList = (props: any) => {
   const renderRead = useCallback(
     (actionItem: { [Key: string]: any }) => {
       return (
-        <Tooltip arrow title={actionItem.read ? "Read" : "Not read yet"}>
+        <Tooltip
+          arrow
+          title={actionItem.read ? "Discussed" : "Not discussed yet"}
+        >
           <IconButton
             size="small"
             onClick={(event: React.MouseEvent<HTMLButtonElement>) =>

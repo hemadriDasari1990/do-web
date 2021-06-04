@@ -2,9 +2,13 @@ import {
   ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
-import Fab from "@material-ui/core/Fab";
+import { getRemainingCharLength, parseJwt } from "../../util";
+
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
+import ClearIcon from "@material-ui/icons/Clear";
+import DoneIcon from "@material-ui/icons/Done";
+import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { MAX_CHAR_COUNT } from "../../util/constants";
 import React from "react";
@@ -12,15 +16,12 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import { getRemainingCharLength, parseJwt } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
+import { useBoard } from "../../redux/state/board";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import { useState } from "react";
-import { useBoard } from "../../redux/state/board";
-import ClearIcon from "@material-ui/icons/Clear";
-import DoneIcon from "@material-ui/icons/Done";
 
 const useStyles = makeStyles(() => ({
   textfieldStyle: {
@@ -43,7 +44,7 @@ export default function NoteUpdate(props: any) {
   const creatorId = descodedData?.memberId ? descodedData?.memberId : memberId;
 
   /* Local states */
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(MAX_CHAR_COUNT);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: selectedNote?.description || "",
     isAnnonymous: selectedNote?.isAnnonymous || false,
@@ -54,7 +55,10 @@ export default function NoteUpdate(props: any) {
   const handleNote = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
     const charCount = event.target.value.length;
-    const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
+    const charLeft = getRemainingCharLength(
+      MAX_CHAR_COUNT,
+      !charCount ? MAX_CHAR_COUNT : charCount
+    );
     setCount(charLeft);
   };
 
@@ -117,6 +121,9 @@ export default function NoteUpdate(props: any) {
               ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
               MAX_CHAR_COUNT
             );
+            if (event.key === "Enter" || event.keyCode == 13) {
+              saveNote();
+            }
           }}
         />
         <Box mt={1} ml={1} display="flex" justifyContent="space-between">
