@@ -5,6 +5,7 @@ import {
 } from "react-beautiful-dnd";
 import React, { useCallback, useEffect, useState } from "react";
 
+import AddIcon from "@material-ui/icons/Add";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -20,7 +21,6 @@ import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useLoading } from "../../redux/state/note";
 import { useSocket } from "../../redux/state/socket";
-import AddIcon from "@material-ui/icons/Add";
 
 const NotesList = React.lazy(() => import("./list"));
 
@@ -79,8 +79,9 @@ function Note(props: any) {
     socket.on(
       `update-note-response-${sectionId}`,
       (newNote: { [Key: string]: any }) => {
-        setNote(null);
-        setShowNote(false);
+        if (note) {
+          setNote(null);
+        }
       }
     );
 
@@ -89,7 +90,6 @@ function Note(props: any) {
       `create-note-response-${sectionId}`,
       (newNote: { [Key: string]: any }) => {
         if (sectionId === newNote?.sectionId) {
-          setShowNote(false);
           setSelectedSectionId(null);
         }
       }
@@ -164,6 +164,7 @@ function Note(props: any) {
             sectionId={sectionId}
             handleCancel={handleCancel}
             totalNotes={totalNotes}
+            setShowNote={setShowNote}
           />
         </ClickAwayListener>
       </Box>

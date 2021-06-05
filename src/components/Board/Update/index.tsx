@@ -18,16 +18,15 @@ import { TEAM } from "../../../routes/config";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import { getRemainingCharLength } from "../../../util";
 import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
 import { useBoardUpdateLoading } from "../../../redux/state/board";
+import { useDefaultSections } from "../../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useProject } from "../../../redux/state/project";
 import { useTeam } from "../../../redux/state/team";
-import { useDefaultSections } from "../../../redux/state/common";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
@@ -74,7 +73,7 @@ const Update = (props: any) => {
     defaultSection: "",
     isAnnonymous: false,
   });
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(selectedBoard?.description?.length || 0);
   const {
     description,
     noOfSections,
@@ -111,9 +110,8 @@ const Update = (props: any) => {
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
     if (event.target.name === "description") {
-      const charCount = event.target.value.length;
-      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
-      setCount(charLeft);
+      const charCount = event.target.value?.length;
+      setCount(charCount);
     }
   };
 
@@ -300,7 +298,9 @@ const Update = (props: any) => {
             onCopy={handlePrevent}
             onPaste={handlePrevent}
           />
-          <Typography variant="subtitle2">{count} chars</Typography>
+          <Typography variant="subtitle2">
+            {count}/{MAX_CHAR_COUNT} chars
+          </Typography>
         </Box>
         {!isAnnonymous && (
           <Box>

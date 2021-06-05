@@ -54,32 +54,23 @@ export default function About() {
                         color="secondary"
                         className={titleStyle}
                       >
-                        Lets do retro is the online collaborative retrospective
-                        platform
+                        Good Software takes hard work.
                       </Typography>
                       <Typography
                         component="p"
                         className={parahStyle}
                         color="secondary"
                       >
-                        At Lets do retro, we’ve built a platform for modern
+                        At Lets do retro, we’ve built a platform for
                         retrospectives, enabling collocated, distributed, and
                         remote teams to discuss what worked and what didn't.
-                      </Typography>
-                      <Typography
-                        variant="h3"
-                        // className={titleStyle}
-                        color="secondary"
-                      >
-                        Our mission is to empower professionals and students to
-                        create the next big thing.
                       </Typography>
                     </Box>
                   </Box>
                 </Grid>
                 <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                   <Box mt={-3} textAlign="center">
-                    <img src={Team} height="400px" width="300px" />
+                    <img src={Team} height="300px" width="300px" />
                   </Box>
                 </Grid>
               </Grid>

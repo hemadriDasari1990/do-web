@@ -19,7 +19,6 @@ import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import { createInstantBoard } from "../../redux/actions/board";
-import { getRemainingCharLength } from "../../util";
 import { replaceStr } from "../../util";
 import { useDefaultSections } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
@@ -82,8 +81,7 @@ const InstantRetro = (props: any) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
     if (event.target.name === "description") {
       const charCount = event.target.value.length;
-      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
-      setCount(charLeft);
+      setCount(charCount);
     }
   };
 
@@ -259,7 +257,9 @@ const InstantRetro = (props: any) => {
             onCopy={handlePrevent}
             onPaste={handlePrevent}
           />
-          <Typography variant="subtitle2">{count} chars</Typography>
+          <Typography variant="subtitle2">
+            {count}/{MAX_CHAR_COUNT} chars
+          </Typography>
         </Box>
       </ResponsiveDialog>
     </React.Fragment>

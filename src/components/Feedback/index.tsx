@@ -19,17 +19,16 @@ import { useFeedback, useLoading } from "../../redux/state/feedback";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Rating from "@material-ui/lab/Rating";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import Divider from "@material-ui/core/Divider";
 import DoSnackbar from "../Snackbar/components";
 import Drawer from "@material-ui/core/Drawer";
 import FeedbackIcon from "../../assets/feedback.svg";
 import IconButton from "@material-ui/core/IconButton";
+import Rating from "@material-ui/lab/Rating";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { createFeedback } from "../../redux/actions/feedback";
-import { getRemainingCharLength } from "../../util";
 import { useDispatch } from "react-redux";
 
 const drawerWidth = 339;
@@ -108,8 +107,7 @@ function Feedback(props: any) {
   const handleComment = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
     const charCount = event.target.value.length;
-    const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
-    setCount(charLeft);
+    setCount(charCount);
   };
 
   const handleAbout = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -253,7 +251,9 @@ function Feedback(props: any) {
             onCopy={handlePrevent}
             onPaste={handlePrevent}
           />
-          <Typography variant="subtitle2">{count} chars</Typography>
+          <Typography variant="subtitle2">
+            {count}/{MAX_CHAR_COUNT} chars
+          </Typography>
         </Box>
         <Box mt={1}>
           <Box>

@@ -786,9 +786,9 @@ const NoteList = (props: any) => {
           src={getAvatar(note?.createdBy?.avatarId)}
           className={avatarStyle}
         >
-          {!note?.createdBy?.avatarId && (
+          {note?.createdBy?.name && (
             <Typography variant="subtitle1" style={{ color: "#57f" }}>
-              {getInitials(note?.createdBy?.name || "Team member")}
+              {getInitials(note?.createdBy?.name)}
             </Typography>
           )}
         </Avatar>

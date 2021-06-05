@@ -25,17 +25,6 @@ const Summary = React.lazy(() => import("./summary"));
 const AdContainer = React.lazy(() => import("./adContainer"));
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
-  imageStyle: {
-    height: 270,
-    [theme.breakpoints.down("xs")]: {
-      height: 230,
-      textAlign: "center",
-      marginLeft: 0,
-    },
-  },
-  boxStyle: {
-    backgroundColor: "#fff",
-  },
   skeletonImageStyle: {
     maxWidth: "100%",
     height: "auto",
@@ -199,11 +188,9 @@ const Home = () => {
         </Grid>
       </Container>
       <Container>
-        <Box mt={2} className={boxGridStyle}>
+        <Box mt={2}>
           <Summary />
         </Box>
-      </Container>
-      <Container>
         <Box my={3}>
           <Box textAlign="center">
             <Typography variant="h1">Discover</Typography>
@@ -248,7 +235,7 @@ const Home = () => {
           </Grid>
         </Box>
       </Container>
-      <Box p={5}>
+      <Box>
         <Container>
           <FeedbackList />
         </Container>

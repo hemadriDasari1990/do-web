@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
+import { useLoading, useReactions } from "../../../redux/state/reaction";
 
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
@@ -12,6 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import Loader from "../../Loader/components";
 import LoveIcon from "@material-ui/icons/Favorite";
 import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import NoRecords from "../../NoRecords";
@@ -26,7 +28,6 @@ import { getAvatar } from "../../../util/getAvatar";
 import getPastTime from "../../../util/getPastTime";
 import { getReactions } from "../../../redux/actions/reaction";
 import { useDispatch } from "react-redux";
-import { useReactions } from "../../../redux/state/reaction";
 import useStyles from "../../styles";
 
 const ReactionsView = (props: any) => {
@@ -44,6 +45,7 @@ const ReactionsView = (props: any) => {
 
   const dispatch = useDispatch();
   const { reactions, totalReactions } = useReactions();
+  const { loading } = useLoading();
   const [newReactions, setNewReactions] = useState([]);
   const [page, setPage] = useState<number>(0);
 
@@ -108,6 +110,7 @@ const ReactionsView = (props: any) => {
       {!newReactions || !newReactions?.length ? (
         <NoRecords message="No Reactions found!" hideImage={true} />
       ) : null}
+      <Loader enable={loading} backdrop={true} />
       <List disablePadding>
         <Grid container spacing={2}>
           {newReactions?.map((reaction: { [Key: string]: any }) => (

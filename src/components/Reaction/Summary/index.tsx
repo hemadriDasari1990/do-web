@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
 import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
+import Loader from "../../Loader/components";
 import LoveIcon from "@material-ui/icons/Favorite";
 import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import { PieChart } from "react-minimal-pie-chart";
@@ -88,6 +89,7 @@ const Summary = (props: any) => {
 
   return (
     <Suspense fallback={<div></div>}>
+      <Loader enable={loading} backdrop={true} />
       <Box p={2}>
         {!loading && summary?.totalReactions ? (
           <>

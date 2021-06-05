@@ -12,7 +12,6 @@ import CreateNewProject from "../../../assets/create.svg";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import { getRemainingCharLength } from "../../../util";
 import { updateProject } from "../../../redux/actions/project";
 import { useDispatch } from "react-redux";
 
@@ -35,7 +34,7 @@ const Create = (props: any) => {
     description: "",
     projectId: selectedProject._id,
   });
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(selectedProject?.description?.length || 0);
   const { name, description } = formData;
 
   useEffect(() => {}, []);
@@ -59,8 +58,7 @@ const Create = (props: any) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
     if (event.target.name === "description") {
       const charCount = event.target.value.length;
-      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
-      setCount(charLeft);
+      setCount(charCount);
     }
   };
 
@@ -141,7 +139,9 @@ const Create = (props: any) => {
           onPaste={handlePrevent}
         />
         <Box mt={1}>
-          <Typography variant="subtitle2">{count} chars</Typography>
+          <Typography variant="subtitle2">
+            {count}/{MAX_CHAR_COUNT} chars
+          </Typography>
         </Box>
       </ResponsiveDialog>
     );

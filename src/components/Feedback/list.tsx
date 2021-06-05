@@ -134,7 +134,7 @@ function FeedbackList() {
   };
 
   return (
-    <Box>
+    <Box p={5}>
       <Loader enable={loading} backdrop={true} />
       {!loading && feedback?.length ? (
         <>

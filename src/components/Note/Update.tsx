@@ -2,7 +2,7 @@ import {
   ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
-import { getMemberId, getRemainingCharLength, parseJwt } from "../../util";
+import { getMemberId, parseJwt } from "../../util";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -34,7 +34,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function NoteUpdate(props: any) {
-  const { sectionId, selectedNote, handleCancel, totalNotes } = props;
+  const {
+    sectionId,
+    selectedNote,
+    handleCancel,
+    totalNotes,
+    setShowNote,
+  } = props;
   const { textfieldStyle } = useStyles();
   const { memberId } = useLogin();
   const { socket } = useSocket();
@@ -49,7 +55,7 @@ export default function NoteUpdate(props: any) {
     : joinedMemberId;
 
   /* Local states */
-  const [count, setCount] = useState(MAX_CHAR_COUNT);
+  const [count, setCount] = useState(selectedNote?.description?.length || 0);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: selectedNote?.description || "",
     isAnnonymous: selectedNote?.isAnnonymous || false,
@@ -60,11 +66,7 @@ export default function NoteUpdate(props: any) {
   const handleNote = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
     const charCount = event.target.value.length;
-    const charLeft = getRemainingCharLength(
-      MAX_CHAR_COUNT,
-      !charCount ? MAX_CHAR_COUNT : charCount
-    );
-    setCount(charLeft);
+    setCount(charCount);
   };
 
   const saveNote = () => {
@@ -79,6 +81,7 @@ export default function NoteUpdate(props: any) {
         createdById: selectedNote?.createdById,
         ...(!isAnnonymous ? { updatedById: creatorId } : { updatedById: null }),
       });
+      setShowNote(false);
       return;
     }
 
@@ -92,6 +95,7 @@ export default function NoteUpdate(props: any) {
         ? { createdById: creatorId, updatedById: creatorId }
         : { createdById: null, updatedById: null }),
     });
+    setShowNote(false);
   };
 
   const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,7 +135,9 @@ export default function NoteUpdate(props: any) {
         />
         <Box mt={1} ml={1} display="flex" justifyContent="space-between">
           <Box>
-            <Typography variant="subtitle2">{count} chars</Typography>
+            <Typography variant="subtitle2">
+              {count}/{MAX_CHAR_COUNT} chars
+            </Typography>
           </Box>
           <Box display="flex">
             <Box mt={-1}>

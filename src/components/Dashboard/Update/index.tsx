@@ -5,7 +5,6 @@ import {
 } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { getRemainingCharLength, replaceStr } from "../../../util";
 import { useBoard, useBoardUpdateLoading } from "../../../redux/state/board";
 
 import { BOARD_DASHBOARD } from "../../../routes/config";
@@ -26,6 +25,7 @@ import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import { addProjectToStore } from "../../../redux/actions/project";
 import { getTeams } from "../../../redux/actions/team";
+import { replaceStr } from "../../../util";
 import { updateBoard } from "../../../redux/actions/board";
 import { useDefaultSections } from "../../../redux/state/common";
 import { useDispatch } from "react-redux";
@@ -139,14 +139,12 @@ const Update = () => {
 
     if (event.target.name === "description") {
       const charCount = event.target.value.length;
-      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
-      setDescriptionCount(charLeft);
+      setDescriptionCount(charCount);
     }
 
     if (event.target.name === "projectDescription") {
       const charCount = event.target.value.length;
-      const charLeft = getRemainingCharLength(MAX_CHAR_COUNT, charCount);
-      setProjectDescriptionCount(charLeft);
+      setProjectDescriptionCount(charCount);
     }
   };
 
@@ -277,7 +275,7 @@ const Update = () => {
               onPaste={handlePrevent}
             />
             <Typography variant="subtitle2">
-              {projectDescriptionCount} chars
+              {projectDescriptionCount}/{MAX_CHAR_COUNT} chars
             </Typography>
           </Box>
         )}
@@ -374,7 +372,10 @@ const Update = () => {
             onCopy={handlePrevent}
             onPaste={handlePrevent}
           />
-          <Typography variant="subtitle2">{descriptionCount} chars</Typography>
+          <Typography variant="subtitle2">
+            {" "}
+            {descriptionCount}/{MAX_CHAR_COUNT} chars
+          </Typography>
         </Box>
       </>
     );

@@ -2,7 +2,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    minHeight: "90vh",
+    minHeight: "100%",
   },
   buttonStyle: {
     textAlign: "end",

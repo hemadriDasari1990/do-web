@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Education from "../../assets/education.svg";
-import Grid from "@material-ui/core/Grid";
 import GettingStartedTabs from "./Tabs";
+import Grid from "@material-ui/core/Grid";
+import Loader from "../Loader/components";
 import ReactionsList from "../common/Reactions";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
@@ -33,7 +34,7 @@ const GettingStarted = () => {
   useEffect(() => {}, []);
 
   return (
-    <React.Fragment>
+    <Suspense fallback={<Loader enable={true} backdrp={true} />}>
       <Box py={3} className={bannerStyle}>
         <Container>
           <Grid container spacing={2}>
@@ -112,7 +113,7 @@ const GettingStarted = () => {
           <ReactionsList />
         </Container>
       </Box>
-    </React.Fragment>
+    </Suspense>
   );
 };
 
