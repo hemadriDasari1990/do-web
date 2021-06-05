@@ -46,7 +46,7 @@ export const getMembers = (teams: Array<{ [Key: string]: any }>) => {
   return members.filter(
     (elem: { [Key: string]: any }, index: number, self) =>
       self.findIndex((t: { [Key: string]: any }) => {
-        return t.name === elem?.name;
+        return t?.name === elem?.name;
       }) === index
   );
 };
@@ -78,7 +78,7 @@ export const getMemberIds = (teams: Array<{ [Key: string]: any }>) => {
   return members.filter(
     (elem: { [Key: string]: any }, index: number, self) =>
       self.findIndex((t: { [Key: string]: any }) => {
-        return t.name === elem?.name;
+        return t?.name === elem?.name;
       }) === index
   );
 };
