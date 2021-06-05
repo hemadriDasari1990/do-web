@@ -152,11 +152,6 @@ const NoteList = (props: any) => {
   const [showDialog, setShowDialog] = React.useState(false);
   const [notes, setNotes] = useState(noteList || []);
 
-  const enableMenu =
-    authenticated ||
-    joinedMemberId === selectedNote?.createdById ||
-    board?.isInstant;
-
   /* React Hooks */
   useEffect(() => {
     setNotes(noteList);
@@ -797,7 +792,10 @@ const NoteList = (props: any) => {
     <React.Fragment>
       {renderDeleteDialog()}
       {renderNoteViewDialog()}
-      {enableMenu && renderMenu()}
+      {(authenticated ||
+        joinedMemberId === selectedNote?.createdById ||
+        board?.isInstant) &&
+        renderMenu()}
       <div
         ref={dropProvided?.innerRef}
         className={`${dropZoneStyle}`}
@@ -882,7 +880,9 @@ const NoteList = (props: any) => {
                             {!authenticated && !board?.isInstant && (
                               <>{renderRead(note)}</>
                             )}
-                            {enableMenu && <>{renderMenuIcon(note)}</>}
+                            {(authenticated ||
+                              joinedMemberId === selectedNote?.createdById ||
+                              board?.isInstant) && <>{renderMenuIcon(note)}</>}
                           </Box>
                         </Box>
                       </Paper>

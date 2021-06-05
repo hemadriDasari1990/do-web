@@ -96,7 +96,8 @@ const Summary = (props: any) => {
             {!hideTitle && (
               <Box mb={2}>
                 <Typography variant="h4">
-                  Total Reactions ({noFormatter(summary?.totalReactions)})
+                  Total Reactions (
+                  {!loading ? noFormatter(summary?.totalReactions) : 0})
                 </Typography>
               </Box>
             )}

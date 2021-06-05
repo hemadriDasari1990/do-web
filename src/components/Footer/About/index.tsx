@@ -137,7 +137,7 @@ export default function About() {
                       started as side project in the middle of Jan 2021. He is
                       currently working in a team and not very pleased with the
                       current retrospective board & other tools out there in the
-                      market. So he decided to create his own next genration
+                      market. So he decided to create his own next generation
                       respective tool and see if that could make it better than
                       what is currently available in the market. He worked hard
                       for 3 months to built this platform in his offline time.
