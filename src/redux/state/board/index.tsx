@@ -39,3 +39,9 @@ export function useActivities() {
     totalActivities: state.board?.totalActivities,
   }));
 }
+
+export function useActivitiesLoading() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    loading: state.board?.activitiesLoading,
+  }));
+}

@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
 import { getActivityText, getInitials } from "../../../util";
+import {
+  useActivities,
+  useActivitiesLoading,
+} from "../../../redux/state/board";
 
 import { ACTIVITIES_PER_PAGE } from "../../../util/constants";
 import { Avatar } from "@material-ui/core";
@@ -13,6 +17,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import Loader from "../../Loader/components";
 import LoveIcon from "@material-ui/icons/Favorite";
 import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
@@ -22,13 +27,13 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { getActivities } from "../../../redux/actions/board";
+import { getAvatar } from "../../../util/getAvatar";
 import getPastTime from "../../../util/getPastTime";
-import { useActivities } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import useMainStyles from "../../styles";
 import { useParams } from "react-router-dom";
 import useStyles from "../../styles";
-import { getAvatar } from "../../../util/getAvatar";
+
 // import { getRandomAvatarColor } from "../../../util/getRandomColor";
 
 const ActivityList = () => {
@@ -36,6 +41,7 @@ const ActivityList = () => {
   const { cursor } = useMainStyles();
   const { boardId } = useParams<{ boardId: string }>();
   const { activities, totalActivities } = useActivities();
+  const { loading } = useActivitiesLoading();
   const {
     avatarStyle,
     breakText,
@@ -105,6 +111,7 @@ const ActivityList = () => {
 
   return (
     <Suspense fallback={<div></div>}>
+      <Loader enable={loading} />
       <Box>
         <List>
           {activities?.length

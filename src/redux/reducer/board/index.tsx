@@ -1,5 +1,8 @@
 import {
   CLEAR_BOARD,
+  CREATE_INSTANT_BOARD_FAILED,
+  CREATE_INSTANT_BOARD_REQUEST,
+  CREATE_INSTANT_BOARD_SUCCESS,
   DELETE_BOARD_FAILED,
   DELETE_BOARD_REQUEST,
   DELETE_BOARD_SUCCESS,
@@ -16,9 +19,6 @@ import {
   UPDATE_BOARD_FAILED,
   UPDATE_BOARD_REQUEST,
   UPDATE_BOARD_SUCCESS,
-  CREATE_INSTANT_BOARD_FAILED,
-  CREATE_INSTANT_BOARD_REQUEST,
-  CREATE_INSTANT_BOARD_SUCCESS,
 } from "../../actions/board/types";
 
 import { Action } from "redux";
@@ -41,6 +41,7 @@ const initialState = {
   totalBoards: 0,
   activities: [],
   totalActivities: 0,
+  activitiesLoading: false,
 };
 
 const board = (state = initialState, action: ReduxAction) => {
@@ -116,19 +117,20 @@ const board = (state = initialState, action: ReduxAction) => {
     case GET_BOARD_ACTIVITIES_REQUEST:
       return {
         ...state,
+        activitiesLoading: true,
       };
     case GET_BOARD_ACTIVITIES_FAILED:
       return {
         ...state,
         activities: action.payload,
-        loading: false,
+        activitiesLoading: false,
       };
     case GET_BOARD_ACTIVITIES_SUCCESS:
       return {
         ...state,
         activities: action.payload?.data,
         totalActivities: action.payload?.total[0]?.count,
-        loading: false,
+        activitiesLoading: false,
       };
     case STORE_MENU_ITEM:
       return {

@@ -128,6 +128,8 @@ const NoteList = (props: any) => {
     noteItemStyle,
   } = useLocalStyles();
   const { cursor } = useStyles();
+
+  /* Redux hooks */
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const { userId, memberId } = useLogin();
@@ -137,8 +139,6 @@ const NoteList = (props: any) => {
   const { boardId } = useParams<{ boardId: string }>();
   const { avatarStyle } = useTableStyles();
   const joinedMemberId = getMemberId();
-
-  /* Redux hooks */
 
   /* Local state */
   const [selectedNote, setSelectedNote] = useState<any>(null);
@@ -151,6 +151,11 @@ const NoteList = (props: any) => {
   const [open, setOpen] = React.useState(false);
   const [showDialog, setShowDialog] = React.useState(false);
   const [notes, setNotes] = useState(noteList || []);
+
+  const enableMenu =
+    authenticated ||
+    joinedMemberId === selectedNote?.createdById ||
+    board?.isInstant;
 
   /* React Hooks */
   useEffect(() => {
@@ -792,10 +797,7 @@ const NoteList = (props: any) => {
     <React.Fragment>
       {renderDeleteDialog()}
       {renderNoteViewDialog()}
-      {(authenticated ||
-        joinedMemberId === selectedNote?.createdById ||
-        board?.isInstant) &&
-        renderMenu()}
+      {enableMenu && renderMenu()}
       <div
         ref={dropProvided?.innerRef}
         className={`${dropZoneStyle}`}
@@ -880,7 +882,7 @@ const NoteList = (props: any) => {
                             {!authenticated && !board?.isInstant && (
                               <>{renderRead(note)}</>
                             )}
-                            {enableActions && <>{renderMenuIcon(note)}</>}
+                            {enableMenu && <>{renderMenuIcon(note)}</>}
                           </Box>
                         </Box>
                       </Paper>

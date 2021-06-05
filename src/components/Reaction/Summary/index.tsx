@@ -17,7 +17,7 @@ import { getRandomColor } from "../../../util/getRandomColor";
 import useStyles from "../../styles";
 
 const Summary = (props: any) => {
-  const { hideTitle, hideNoSummary } = props;
+  const { hideTitle, hideNoSummary, hideLoader } = props;
   const {
     plusIconStyle,
     minusOneIconStyle,
@@ -89,7 +89,7 @@ const Summary = (props: any) => {
 
   return (
     <Suspense fallback={<div></div>}>
-      <Loader enable={loading} backdrop={true} />
+      {!hideLoader && <Loader enable={loading} />}
       <Box p={2}>
         {!loading && summary?.totalReactions ? (
           <>

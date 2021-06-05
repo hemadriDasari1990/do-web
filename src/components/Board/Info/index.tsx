@@ -10,9 +10,9 @@ import Summary from "../../Reaction/Summary";
 import { Suspense } from "react";
 import { getReactionsSummaryByBoard } from "../../../redux/actions/reaction";
 import { useAuthenticated } from "../../../redux/state/common";
+import { useBoard } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useBoard } from "../../../redux/state/board";
 
 const BoardInfo = (props: any) => {
   const { openBoardInfo } = props;
@@ -57,7 +57,7 @@ const BoardInfo = (props: any) => {
 
         {boardId && (
           <Box mt={2}>
-            <Summary hideNoSummary={true} />
+            <Summary hideNoSummary={true} hideLoader={true} />
           </Box>
         )}
       </Box>
