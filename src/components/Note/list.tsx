@@ -616,32 +616,24 @@ const NoteList = (props: any) => {
           getContentAnchorEl={null}
           TransitionComponent={Zoom}
         >
-          {(authenticated ||
-            joinedMemberId === selectedNote?.createdById ||
-            board?.isInstant) && (
-            <ListItem button={true} onClick={() => handleMenuItem("edit")}>
-              <ListItemAvatar style={{ minWidth: 35 }}>
-                <EditIcon />
-              </ListItemAvatar>
-              <ListItemText
-                primary={<b>Edit Note</b>}
-                secondary="Update the note"
-              />
-            </ListItem>
-          )}
-          {(authenticated ||
-            joinedMemberId === selectedNote?.createdById ||
-            board?.isInstant) && (
-            <ListItem button={true} onClick={() => handleMenuItem("delete")}>
-              <ListItemAvatar style={{ minWidth: 35 }}>
-                <DeleteOutlineIcon />
-              </ListItemAvatar>
-              <ListItemText
-                primary={<b>Delete Note</b>}
-                secondary="Once deleted can't be done"
-              />
-            </ListItem>
-          )}
+          <ListItem button={true} onClick={() => handleMenuItem("edit")}>
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <EditIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Edit Note</b>}
+              secondary="Update the note"
+            />
+          </ListItem>
+          <ListItem button={true} onClick={() => handleMenuItem("delete")}>
+            <ListItemAvatar style={{ minWidth: 35 }}>
+              <DeleteOutlineIcon />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<b>Delete Note</b>}
+              secondary="Once deleted can't be done"
+            />
+          </ListItem>
         </Menu>
       </ClickAwayListener>
     );
@@ -800,7 +792,10 @@ const NoteList = (props: any) => {
     <React.Fragment>
       {renderDeleteDialog()}
       {renderNoteViewDialog()}
-      {renderMenu()}
+      {(authenticated ||
+        joinedMemberId === selectedNote?.createdById ||
+        board?.isInstant) &&
+        renderMenu()}
       <div
         ref={dropProvided?.innerRef}
         className={`${dropZoneStyle}`}
