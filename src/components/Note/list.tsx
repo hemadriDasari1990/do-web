@@ -799,7 +799,7 @@ const NoteList = (props: any) => {
       <div
         ref={dropProvided?.innerRef}
         className={`${dropZoneStyle}`}
-        style={{ padding: "10px 10px 0px 10px" }}
+        style={{ padding: "8px 8px 0px 8px" }}
       >
         {Array.isArray(notes) && notes?.length
           ? notes.map((note: { [Key: string]: any }, index: number) => (

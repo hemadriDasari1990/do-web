@@ -102,6 +102,11 @@ export default function NoteUpdate(props: any) {
     setFormData({ ...formData, isAnnonymous: !isAnnonymous });
   };
 
+  const handleAlt = () => {
+    const newDescription = description + "\r\n";
+    setFormData({ ...formData, description: newDescription });
+  };
+
   return (
     <React.Fragment>
       <Box mb={1}>
@@ -128,7 +133,17 @@ export default function NoteUpdate(props: any) {
               ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
               MAX_CHAR_COUNT
             );
-            if (event.key === "Enter" || event.keyCode == 13) {
+            if (
+              (event.key === "Enter" || event.keyCode == 13) &&
+              (event.altKey || event.shiftKey)
+            ) {
+              handleAlt();
+            }
+            if (
+              (event.key === "Enter" || event.keyCode == 13) &&
+              !event.altKey &&
+              !event.shiftKey
+            ) {
               saveNote();
             }
           }}

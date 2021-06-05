@@ -17,8 +17,8 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import useDebounce from "../useDebounce";
-import { useSocket } from "../../../redux/state/socket";
 import { useLogin } from "../../../redux/state/login";
+import { useSocket } from "../../../redux/state/socket";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -81,6 +81,13 @@ export default function Invite(props: any) {
       createMember,
     });
   };
+
+  useEffect(() => {
+    setMember({
+      name: "",
+      email: "",
+    });
+  }, [openDialog]);
 
   useEffect(() => {
     socket.on(
