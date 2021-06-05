@@ -848,6 +848,7 @@ export default function Section() {
       />
     );
   };
+
   return (
     <Suspense fallback={<div />}>
       {renderDialog()}
@@ -1024,8 +1025,8 @@ export default function Section() {
                   <>{renderGoBackToBoards()}</>
                 ) : null}
                 {(authenticated ||
-                  boardDetails?.inInstant ||
-                  boardDetails?.inAnnonymous) &&
+                  boardDetails?.isInstant ||
+                  boardDetails?.isAnnonymous) &&
                   boardDetails?.completedAt && (
                     <Box mr={1}>
                       <Tooltip
