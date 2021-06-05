@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTeam, useTeamLoading } from "../../../redux/state/team";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -8,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
 import Hidden from "@material-ui/core/Hidden";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import Loader from "../../Loader/components";
 import { MEMBERS_LIST } from "../../../routes/config";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -19,9 +21,7 @@ import useDebounce from "../../common/useDebounce";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
-import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
-import { useTeam } from "../../../redux/state/team";
 
 const TeamList = React.lazy(() => import("../List"));
 const UpdateTeam = React.lazy(() => import("../Update"));
@@ -32,10 +32,9 @@ const TeamDashboard = () => {
   const { root, buttonStyle } = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { team, teams: teamsList } = useTeam();
-  const { loading } = useProjectLoading();
+  const { team, teams: teamsList, totalTeams: totalTeamsCount } = useTeam();
   const { userId } = useLogin();
-  const { totalTeams: totalTeamsCount } = useTeam();
+  const { loading } = useTeamLoading();
 
   /* React local states */
   const [showTeamForm, setShowTeamForm] = useState(false);
@@ -256,6 +255,7 @@ const TeamDashboard = () => {
       {renderDeleteDialog()}
       {renderSnackbar()}
       {renderAddMembersModal()}
+      <Loader enable={loading} />
       <Box className={root}>
         <Box pb={2}>
           <Grid container spacing={2}>
