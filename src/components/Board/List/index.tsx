@@ -24,7 +24,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSkeleton from "../../common/skeletons/list";
-import Loader from "../../Loader/components";
 import Menu from "@material-ui/core/Menu";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import Status from "../../common/Status";
@@ -38,6 +37,7 @@ import { getBoardDetails } from "../../../redux/actions/board";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getMembers } from "../../../util/member";
 import { replaceStr } from "../../../util";
+import spinner from "../../../assets/Spinner.svg";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -117,12 +117,11 @@ const BoardList = (props: any) => {
             {board?.views === 1 ? "View" : "Views"}
           </Typography>
         </Box>
-        <Box ml={1} mt={0.4}>
-          <Loader
-            enable={selectedIndex === index && sendInviteLoading}
-            showInline
-          />
-        </Box>
+        {selectedIndex === index && sendInviteLoading ? (
+          <Box ml={1} mt={-0.4}>
+            <img src={spinner} />
+          </Box>
+        ) : null}
 
         {!hideMenu && !sendInviteLoading && (
           <Box>

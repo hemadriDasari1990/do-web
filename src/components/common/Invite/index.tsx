@@ -4,11 +4,9 @@ import {
   allow,
 } from "../../../util/regex";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
-import DoAutoComplete from "../DoAutoComplete";
 import DoSnackbar from "../../Snackbar/components";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
@@ -16,19 +14,12 @@ import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import useDebounce from "../useDebounce";
-import { useLogin } from "../../../redux/state/login";
+import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
 const useStyles = makeStyles((theme: Theme) => ({
-  dropdownInputStyle: {
-    marginTop: theme.spacing(3),
-    [theme.breakpoints.down("xs")]: {
-      width: "53%",
-    },
-  },
   primaryButtonStyle: {
     minWidth: "93%",
     margin: "0px 15px",
@@ -44,19 +35,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Invite(props: any) {
   const { openDialog, selectedBoard, handleClose } = props;
-  const { userId, email: emailAddress } = useLogin();
-  const {
-    dropdownInputStyle,
-    primaryButtonStyle,
-    textFieldStyle,
-  } = useStyles();
+  const { primaryButtonStyle, textFieldStyle } = useStyles();
   const { socket } = useSocket();
 
   /* Local states */
-  const [queryString, setQueryString] = useState("");
-  const [members, setMembers] = useState<Array<{ [Key: string]: any }>>([]);
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string>("");
   const [showCreateMember, setShowCreateMember] = React.useState<boolean>(
     false
   );
@@ -69,11 +52,10 @@ export default function Invite(props: any) {
     email: "",
   });
   const { name, email } = member;
-  const membersLoading = open && fetching;
-  const debouncedValue = useDebounce(queryString, 500);
 
   /* Handler functions */
   const handleSendInvite = () => {
+    setError("");
     setFetching(true);
     socket.emit("invite-member-to-board", {
       id: selectedBoard?._id,
@@ -93,12 +75,19 @@ export default function Invite(props: any) {
     socket.on(
       "invite-member-to-board-response",
       (response: { [Key: string]: any }) => {
-        setFetching(false);
-        setShowSnackbar(true);
-        setTimeout(() => {
-          handleClose();
-          setShowSnackbar(false);
-        }, 2000);
+        if (!response?.error) {
+          setError("");
+          setFetching(false);
+          setShowSnackbar(true);
+          setTimeout(() => {
+            handleClose();
+            setShowSnackbar(false);
+          }, 2000);
+        } else {
+          setFetching(false);
+          setError(response?.message?.toString());
+          setShowSnackbar(true);
+        }
       }
     );
     return () => {
@@ -106,46 +95,9 @@ export default function Invite(props: any) {
     };
   }, [fetching]);
 
-  useEffect(() => {
-    socket.emit("search-members", {
-      queryString: debouncedValue,
-      userId,
-      email: emailAddress,
-    });
-    setFetching(true);
-  }, [debouncedValue]);
-
-  useEffect(() => {
-    socket.on(
-      "search-members-response",
-      (members: Array<{ [Key: string]: any }>) => {
-        setMembers(members);
-        setFetching(false);
-      }
-    );
-    return () => {
-      // socket.off("search-members-response");
-    };
-  }, [members]);
-
-  const handleMember = (newMember: { [Key: string]: any } | string) => {
-    if (typeof newMember === "string") {
-      if (!newMember.trim().length || !EMAIL_PATTERN.test(newMember)) {
-        setError(true);
-      } else {
-        setError(false);
-        setMember({ email: newMember });
-        setShowCreateMember(true);
-      }
-    }
-    if (typeof newMember === "object") {
-      setShowCreateMember(false);
-      setMember({ ...member, ...newMember });
-    }
-  };
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryString(event.target.value);
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const emailInput = event.target.value;
+    setMember({ ...member, email: emailInput });
   };
 
   const disableButton = () => {
@@ -163,6 +115,7 @@ export default function Invite(props: any) {
 
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMember({ ...member, [event.target.name]: event.target.value });
+    setShowCreateMember(true);
   };
 
   const handleCreateMember = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,15 +127,22 @@ export default function Invite(props: any) {
   };
 
   const renderSnackbar = () => {
+    const isError = Boolean(error);
     return (
       <DoSnackbar
         open={showSnackbar}
-        status="success"
+        status={isError ? "error" : "success"}
         handleClose={handleSnackbarClose}
       >
-        <Typography variant="h6" color="secondary">
-          Invite Sent Successfully
-        </Typography>
+        {isError ? (
+          <Typography variant="h6" color="secondary">
+            {error}
+          </Typography>
+        ) : (
+          <Typography variant="h6" color="secondary">
+            Invite Sent Successfully
+          </Typography>
+        )}
       </DoSnackbar>
     );
   };
@@ -201,32 +161,20 @@ export default function Invite(props: any) {
     >
       <Loader enable={fetching} backdrop={true} />
       {renderSnackbar()}
-      <DoAutoComplete
-        defaultValue={members}
-        textInputLabel="Select/Add member"
-        textInputPlaceholder="Search by name/Add by email"
-        optionKey={"name"}
-        options={members}
-        isFreeSolo={true}
-        autoHighlight
-        onInputChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          handleInput(e)
-        }
-        onChange={(e: React.ChangeEvent<HTMLInputElement>, input: any) =>
-          handleMember(input)
-        }
-        onOpen={() => {
-          setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-        }}
-        error={error}
-        helperText="Invalid email address"
-        loading={membersLoading}
-        customClass={dropdownInputStyle}
-      />
-      {email && !member?._id ? (
+      <Box>
+        <TextField
+          name="email"
+          id="email"
+          label="Email Address"
+          placeholder="Enter email address"
+          value={email}
+          onChange={handleEmail}
+          className={textFieldStyle}
+          // error={Boolean(error)}
+          // helperText={error}
+        />
+      </Box>
+      {EMAIL_PATTERN.test(email) && !member?._id ? (
         <Box>
           <TextField
             name="name"

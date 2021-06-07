@@ -42,6 +42,8 @@ import WelcomeTour from "../WelcomeTour";
 import { clearLogin } from "../../redux/actions/login";
 import { getDefaultSections } from "../../redux/actions/common";
 import { getProjects } from "../../redux/actions/project";
+import { initiateSocketConnection } from "../../socket";
+import { storeSocketInstance } from "../../redux/actions/socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
@@ -102,6 +104,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadData();
+    if (authenticated) {
+      const socket: any = initiateSocketConnection();
+      dispatch(storeSocketInstance(socket));
+    }
   }, []);
 
   const loadData = () => {

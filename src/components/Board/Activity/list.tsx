@@ -158,11 +158,7 @@ const ActivityList = () => {
                           <span className={actionStyle}>
                             {getActivityText(activity?.action)}
                           </span>
-                          <span
-                            className={` ${actionStyle} ${userdelineStyle}`}
-                          >
-                            {activity?.title}
-                          </span>
+                          <span>{activity?.title}</span>
                           <span className={actionStyle}>
                             &nbsp;{activity?.primaryAction}&nbsp;
                           </span>

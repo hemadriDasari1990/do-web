@@ -169,6 +169,9 @@ export const getActivityText = (action: string) => {
     case "view":
       text = " viewed ";
       break;
+    case "invite":
+      text = " invited ";
+      break;
     default:
       break;
   }

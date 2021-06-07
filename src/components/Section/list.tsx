@@ -205,12 +205,14 @@ const SectionList = (props: any) => {
       "update-section-position-response",
       (response: { [Key: string]: any }) => {
         if (response?.updated) {
-          const newSections: Array<{ [Key: string]: any }> = reorder(
-            sections,
-            response.sourceIndex,
-            response.destinationIndex
-          );
-          setSections([...newSections]);
+          if (boardId === response?.boardId) {
+            const newSections: Array<{ [Key: string]: any }> = reorder(
+              sections,
+              response.sourceIndex,
+              response.destinationIndex
+            );
+            setSections([...newSections]);
+          }
         }
       }
     );
