@@ -1,16 +1,31 @@
 import React, { useState } from "react";
+import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import AdminUser from "../common/User";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
+import IconButton from "@material-ui/core/IconButton";
 import Tour from "reactour";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../styles";
 
-const WelcomeTour = (props: any) => {
+const useLocalStyles = makeStyles((theme: Theme) => ({
+  iconButtonStyle: {
+    background: "#eaeaf121",
+    borderRadius: 6,
+    padding: 8,
+    "&:hover": {
+      background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
+      borderRadius: 6,
+      padding: 8,
+    },
+  },
+}));
+
+const WelcomeTour = React.memo((props: any) => {
   const {} = props;
   const { tourStyle } = useStyles();
+  const { iconButtonStyle } = useLocalStyles();
 
   /* React local states */
   const [tourOpen, setTourOpen] = useState(false);
@@ -229,16 +244,13 @@ const WelcomeTour = (props: any) => {
 
   return (
     <React.Fragment>
-      <Button
-        variant="contained"
-        color="primary"
+      <IconButton
+        size="medium"
+        classes={{ root: iconButtonStyle }}
         onClick={() => openTour()}
-        startIcon={<CardTravelIcon color="secondary" />}
       >
-        <Typography variant="body2" color="secondary">
-          Welcome Tour
-        </Typography>
-      </Button>
+        <CardTravelIcon id="drawer-welcome-tour" color="secondary" />
+      </IconButton>
       <Tour
         onRequestClose={closeTour}
         steps={tourConfig}
@@ -250,6 +262,6 @@ const WelcomeTour = (props: any) => {
       />
     </React.Fragment>
   );
-};
+});
 
 export default WelcomeTour;

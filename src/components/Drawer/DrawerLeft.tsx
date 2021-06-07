@@ -20,6 +20,7 @@ import ManageAccount from "./Account/Manage";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import WelcomeTour from "../WelcomeTour";
 import Zoom from "@material-ui/core/Zoom";
 import doLogo from "../../assets/do-logo.svg";
 import { getAvatar } from "../../util/getAvatar";
@@ -204,6 +205,13 @@ export default function PersistentDrawerLeft() {
                     className={iconStyle}
                   />
                 </IconButton>
+              </Zoom>
+            </Tooltip>
+          </Box>
+          <Box mb={2}>
+            <Tooltip arrow title="Welcome tour" placement="right">
+              <Zoom in={true} timeout={2000}>
+                <WelcomeTour />
               </Zoom>
             </Tooltip>
           </Box>

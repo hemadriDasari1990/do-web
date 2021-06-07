@@ -13,10 +13,12 @@ import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import ColorlibStepIcon from "./StepLibIcon";
 import DoSnackbar from "../../Snackbar/components";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
 import { MAX_CHAR_COUNT } from "../../../util/constants";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import Popover from "@material-ui/core/Popover";
 import Step from "@material-ui/core/Step";
 import StepContent from "@material-ui/core/StepContent";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -50,8 +52,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   stepperStyle: {
     "&.MuiPaper-root": {
-      backgroundColor: "#f8f9fa",
+      // backgroundColor: "#f8f9fa",
     },
+  },
+  popoverStyle: {
+    pointerEvents: "auto",
+  },
+  paperStyle: {
+    marginTop: 10,
+    width: 350,
+    padding: theme.spacing(1),
   },
 }));
 
@@ -59,8 +69,14 @@ function getSteps() {
   return ["Select Project", "Board details", "Invite Team"];
 }
 
-const Update = () => {
-  const { textFieldStyle, dropdownInputStyle, stepperStyle } = useStyles();
+const Update = React.memo(() => {
+  const {
+    textFieldStyle,
+    dropdownInputStyle,
+    stepperStyle,
+    popoverStyle,
+    paperStyle,
+  } = useStyles();
   const dispatch = useDispatch();
 
   /* Redux hooks */
@@ -90,7 +106,7 @@ const Update = () => {
   });
   const [descriptionCount, setDescriptionCount] = useState(0);
   const [projectDescriptionCount, setProjectDescriptionCount] = useState(0);
-
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [projects, setProjects] = useState<Array<{ [Key: string]: any }>>([]);
   const {
     description,
@@ -401,10 +417,6 @@ const Update = () => {
     if (activeStep === 0 && !project) {
       return true;
     }
-    console.log(
-      "defaultSection",
-      activeStep === 1 && !defaultSection && !noOfSections
-    );
     if (
       activeStep === 1 &&
       !defaultSection &&
@@ -415,63 +427,116 @@ const Update = () => {
     return false;
   };
 
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "quick-start-popover" : undefined;
+
   return (
     <React.Fragment>
-      <Loader enable={loading} backdrop={true} />
-      {renderSnackbar()}
-      <Box mb={2}>
-        <Typography variant="h3">Quick Start Retro</Typography>
-      </Box>
-      <Stepper
-        activeStep={activeStep}
-        orientation="vertical"
-        className={stepperStyle}
-        id="start-quick-retro"
+      <QuickRetroButton handlePopoverOpen={handlePopoverOpen} id={id} />
+      <Popover
+        id={id}
+        className={popoverStyle}
+        classes={{
+          paper: paperStyle,
+        }}
+        disableEnforceFocus={true}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
       >
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>
-              <Typography variant="h5">{label}</Typography>
-            </StepLabel>
-            <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
-              <Box display="flex" mt={2}>
-                {activeStep !== 0 ? (
-                  <Box mr={1}>
-                    <Button onClick={handleBack}>Back</Button>
-                  </Box>
-                ) : null}
-                {activeStep === steps.length - 1 ||
-                (activeStep === steps.length - 1 && isAnnonymous) ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleStartRetro()}
-                    startIcon={<PlayArrowIcon color="secondary" />}
-                    disabled={disableButton()}
-                  >
-                    <Typography variant="h6" color="secondary">
-                      Start
-                    </Typography>
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    disabled={disableButton()}
-                  >
-                    Next
-                  </Button>
-                )}
-              </Box>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      <Box mt={5} display="flex" justifyContent="flex-end"></Box>
+        <Loader enable={loading} backdrop={true} />
+        {renderSnackbar()}
+        <Box mb={2}>
+          <Typography variant="h3">Quick Start Retro</Typography>
+        </Box>
+        <Stepper
+          activeStep={activeStep}
+          orientation="vertical"
+          className={stepperStyle}
+          id="start-quick-retro"
+        >
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                <Typography variant="h5">{label}</Typography>
+              </StepLabel>
+              <StepContent>
+                <Typography>{getStepContent(index)}</Typography>
+                <Box display="flex" mt={2}>
+                  {activeStep !== 0 ? (
+                    <Box mr={1}>
+                      <Button onClick={handleBack}>Back</Button>
+                    </Box>
+                  ) : null}
+                  {activeStep === steps.length - 1 ||
+                  (activeStep === steps.length - 1 && isAnnonymous) ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleStartRetro()}
+                      startIcon={<PlayArrowIcon color="secondary" />}
+                      disabled={disableButton()}
+                    >
+                      <Typography variant="h6" color="secondary">
+                        Start
+                      </Typography>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      disabled={disableButton()}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </Box>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </Popover>
     </React.Fragment>
   );
-};
+});
+
+const QuickRetroButton = React.memo((props: any) => {
+  const { handlePopoverOpen, id } = props;
+
+  return (
+    <Button
+      id={id}
+      variant="contained"
+      color="primary"
+      startIcon={<FlightTakeoffIcon />}
+      onClick={handlePopoverOpen}
+      // onMouseLeave={handlePopoverClose}
+      aria-owns="quick-start-popover"
+      aria-haspopup="true"
+    >
+      <Typography variant="subtitle1" color="secondary">
+        Quick Start Retro
+      </Typography>
+    </Button>
+  );
+});
 
 export default Update;

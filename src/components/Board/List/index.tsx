@@ -418,15 +418,7 @@ const BoardList = (props: any) => {
       <Grid container spacing={2}>
         {!loading && Array.isArray(boards)
           ? boards.map((b: { [Key: string]: any }, index: number) => (
-              <Grid
-                key={b?._id}
-                item
-                xl={hideMenu ? 4 : 3}
-                lg={hideMenu ? 4 : 3}
-                md={hideMenu ? 6 : 6}
-                sm={12}
-                xs={12}
-              >
+              <Grid key={b?._id} item xl={3} lg={3} md={6} sm={12} xs={12}>
                 <Card
                   className={`${boxMainStyle} ${cursor}`}
                   onClick={(event: React.MouseEvent<HTMLDivElement>) =>

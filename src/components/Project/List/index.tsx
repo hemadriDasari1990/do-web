@@ -20,6 +20,7 @@ import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import React from "react";
+import SummaryField from "../../common/SummaryField";
 import { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -27,12 +28,11 @@ import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../../redux/actions/project";
 import formateNumber from "../../../util/formateNumber";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
+import getRandomBGColor from "../../../util/getRandomColor";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
-import getRandomBGColor from "../../../util/getRandomColor";
-import SummaryField from "../../common/SummaryField";
 
 const ProjectList = (props: any) => {
   const { projects, handleMenu, setSelectedProject, hideMenu } = props;
@@ -268,9 +268,9 @@ const ProjectList = (props: any) => {
               <Grid
                 key={project?._id}
                 item
-                xl={hideMenu ? 4 : 3}
-                lg={hideMenu ? 4 : 3}
-                md={hideMenu ? 6 : 6}
+                xl={3}
+                lg={3}
+                md={6}
                 sm={12}
                 xs={12}
               >

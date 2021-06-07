@@ -19,26 +19,20 @@ import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import Banner from "../common/Banner";
 import BoardList from "../Board/List";
-// import Avatar from "@material-ui/core/Avatar";
-// import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
-// import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CallMadeIcon from "@material-ui/icons/CallMade";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import { Divider } from "@material-ui/core";
-import Drawer from "@material-ui/core/Drawer";
 import Grid from "@material-ui/core/Grid";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 import InfoCard from "../common/InfoCard";
 import Loader from "../Loader/components";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import ProjectList from "../Project/List";
-// import PollOutlinedIcon from "@material-ui/icons/PollOutlined";
+import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import Typography from "@material-ui/core/Typography";
 import UpdateBoard from "./Update";
-import WelcomeBanner from "../common/WelcomeBanner";
-import WelcomeTour from "../WelcomeTour";
 import { clearLogin } from "../../redux/actions/login";
 import { getDefaultSections } from "../../redux/actions/common";
 import { getProjects } from "../../redux/actions/project";
@@ -49,8 +43,6 @@ import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
 import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
-
-// import Zoom from "@material-ui/core/Zoom";
 
 const drawerWidth = 339;
 
@@ -86,7 +78,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Dashboard = () => {
-  const { summaryGridStyle, drawer, drawerPaper } = useLocalStyles();
+  const { summaryGridStyle } = useLocalStyles();
   const { breakText } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -113,8 +105,8 @@ const Dashboard = () => {
   const loadData = () => {
     dispatch(getUserDetails(userId));
     dispatch(getUserSummary(userId));
-    dispatch(getProjects(userId, "", 0, 3));
-    dispatch(getBoardsByUser(userId, 3));
+    dispatch(getProjects(userId, "", 0, 4));
+    dispatch(getBoardsByUser(userId, 4));
   };
 
   useEffect(() => {
@@ -169,7 +161,7 @@ const Dashboard = () => {
           </Typography>
         </DoSnackbar>
         <Grid container spacing={2}>
-          <Grid item xl={9} lg={9} md={8} sm={12} xs={12}>
+          <Grid item xl={8} lg={8} md={6} sm={12} xs={12}>
             <Box display="flex" justifyContent="space-between">
               <Box>
                 <Box display="flex">
@@ -178,25 +170,42 @@ const Dashboard = () => {
                   </Typography>
                   <Typography variant="h1">{name || ""}</Typography>
                 </Box>
-                <Box p={0.5}>
-                  <Typography variant="h5" className={breakText}>
-                    We’re so glad you’re here. This is the very beginning of
-                    your retrospective journey to exceptional retrospectives.
-                  </Typography>
-                </Box>
               </Box>
-              <Box mt={3}>
-                <WelcomeTour />
+            </Box>
+          </Grid>
+          <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
+            <Box display="flex" justifyContent="flex-end">
+              <Box mr={1}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleProjects()}
+                  startIcon={<ProjectOutlinedIcon />}
+                >
+                  <Typography variant="subtitle1" color="secondary">
+                    Create Project
+                  </Typography>
+                </Button>
+              </Box>
+              <Box>
+                <UpdateBoard />
               </Box>
             </Box>
           </Grid>
         </Grid>
-
+        <Grid container spacing={2}>
+          <Grid item xl={8} lg={8} md={6} sm={12} xs={12}>
+            <Typography variant="h5" className={breakText}>
+              We’re so glad you’re here. This is the very beginning of your
+              retrospective journey to exceptional retrospectives.
+            </Typography>
+          </Grid>
+        </Grid>
         <Box px={2} pt={2}>
           <Typography variant="h2">Overall Summary</Typography>
         </Box>
         <Grid container spacing={2}>
-          <Grid item xl={9} lg={9} md={8} sm={12} xs={12}>
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Box className={summaryGridStyle}>
               <Grid container spacing={2}>
                 <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
@@ -364,7 +373,7 @@ const Dashboard = () => {
                   <Box mb={1} display="flex" justifyContent="space-between">
                     <Typography variant="h2">Recent Projects</Typography>
 
-                    <Box mt={1}>
+                    <Box mt={1} mr={1}>
                       <Button
                         // variant="outlined"
                         color="primary"
@@ -396,43 +405,6 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             ) : null}
-          </Grid>
-          <Grid item xl={3} lg={3} md={5} sm={12} xs={12}>
-            <Drawer
-              className={drawer}
-              variant="persistent"
-              anchor="right"
-              open={true}
-              classes={{
-                paper: drawerPaper,
-              }}
-            >
-              {/* <Box>
-                <Typography variant="h3">Profile</Typography>
-              </Box>
-              <Box py={5}>
-                <Box display="flex" justifyContent="center">
-                  <Zoom in={true} timeout={2000}>
-                    <Avatar className={avatarStyle}>
-                      <Typography variant="h1" color="secondary">
-                        {name?.substring(0, 1)}
-                      </Typography>
-                    </Avatar>
-                  </Zoom>
-                </Box>
-                <Box textAlign="center" mt={3}>
-                  <Typography variant="h3">{name}</Typography>
-                </Box>
-              </Box> */}
-
-              <UpdateBoard />
-              <Box mt="auto">
-                <WelcomeBanner />
-              </Box>
-            </Drawer>
-            {/* <Box mt={1} className={retroBannerStyle}>
-              <UpdateBoard />
-            </Box> */}
           </Grid>
         </Grid>
       </Box>
