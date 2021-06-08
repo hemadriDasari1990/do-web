@@ -5,7 +5,7 @@ import SummaryField from "../../../common/SummaryField";
 import { Suspense } from "react";
 import { getHumanReadableDate } from "../../../../util";
 
-const Summary = (props: any) => {
+const Summary = React.memo((props: any) => {
   const { note } = props;
 
   return (
@@ -31,6 +31,6 @@ const Summary = (props: any) => {
       </Grid>
     </Suspense>
   );
-};
+});
 
 export default Summary;

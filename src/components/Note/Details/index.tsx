@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const NoteDetails = (props: any) => {
+const NoteDetails = React.memo((props: any) => {
   const { note } = props;
   const { listIconStyle } = useStyles();
   const [page, setPage] = useState(1);
@@ -134,6 +134,6 @@ const NoteDetails = (props: any) => {
       {page === 3 && <Box></Box>}
     </Suspense>
   );
-};
+});
 
 export default NoteDetails;

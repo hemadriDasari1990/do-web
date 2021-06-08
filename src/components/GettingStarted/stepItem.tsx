@@ -8,7 +8,7 @@ import { Typography } from "@material-ui/core";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
-const StepItem = (props: any) => {
+const StepItem = React.memo((props: any) => {
   const {} = props;
   const {} = useLocalStyles();
   useEffect(() => {}, []);
@@ -369,6 +369,6 @@ const StepItem = (props: any) => {
       </Grid>
     </Box>
   );
-};
+});
 
 export default StepItem;

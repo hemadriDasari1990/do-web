@@ -5,9 +5,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import { MEMBER_DASHBOARD } from "../../../routes/config";
 import Menu from "@material-ui/core/Menu";
 import React from "react";
-import { MEMBER_DASHBOARD } from "../../../routes/config";
 import Zoom from "@material-ui/core/Zoom";
 import { getMembersByUser } from "../../../redux/actions/member";
 import { headerColumns } from "../../../util/member";
@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useMemberLoading } from "../../../redux/state/member";
-const GroupList = (props: any) => {
+const GroupList = React.memo((props: any) => {
   const { members, handleMenu, setSelectedMember } = props;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -140,6 +140,6 @@ const GroupList = (props: any) => {
       </Box>
     </React.Fragment>
   );
-};
+});
 
 export default GroupList;

@@ -2,7 +2,7 @@ import Box from "@material-ui/core/Box";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStatusStyles from "../../styles/status";
-const Status = (props: any) => {
+const Status = React.memo((props: any) => {
   const { value } = props;
   const {
     inProgressStyle,
@@ -81,6 +81,6 @@ const Status = (props: any) => {
       </Typography>
     </Box>
   );
-};
+});
 
 export default Status;

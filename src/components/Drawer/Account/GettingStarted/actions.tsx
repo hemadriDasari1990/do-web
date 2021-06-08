@@ -1,29 +1,30 @@
-import React from "react";
-import { Suspense } from "react";
 import {
   FEATURES,
   GETTING_STARTED,
-  RETROSPECTIVE,
   REACTIONS,
+  RETROSPECTIVE,
 } from "../../../../routes/config";
+
+import Avatar from "@material-ui/core/Avatar";
+import CallMadeIcon from "@material-ui/icons/CallMade";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import Divider from "@material-ui/core/Divider";
+import FeaturedVideoIcon from "@material-ui/icons/FeaturedVideo";
+import IconButton from "@material-ui/core/IconButton";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import React from "react";
 import Slide from "@material-ui/core/Slide";
-import Avatar from "@material-ui/core/Avatar";
-import Divider from "@material-ui/core/Divider";
+import { Suspense } from "react";
+import TelegramIcon from "@material-ui/icons/Telegram";
 import useIconStyles from "../../../styles/iconStyle";
 import useStyles from "../../../styles";
-import TelegramIcon from "@material-ui/icons/Telegram";
-import FeaturedVideoIcon from "@material-ui/icons/FeaturedVideo";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
-import CallMadeIcon from "@material-ui/icons/CallMade";
-import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 
-const GettingStartedActions = (props: any) => {
+const GettingStartedActions = React.memo((props: any) => {
   const {} = props;
   const { iconGridStyle, iconStyle } = useIconStyles();
   const { cursor } = useStyles();
@@ -169,6 +170,6 @@ const GettingStartedActions = (props: any) => {
       </List>
     </Suspense>
   );
-};
+});
 
 export default GettingStartedActions;

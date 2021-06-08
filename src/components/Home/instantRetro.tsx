@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const InstantRetro = (props: any) => {
+const InstantRetro = React.memo((props: any) => {
   const { openDialog, handleCloseDialog } = props;
   const { textFieldStyle, dropdownInputStyle } = useStyles();
   const dispatch = useDispatch();
@@ -264,6 +264,6 @@ const InstantRetro = (props: any) => {
       </ResponsiveDialog>
     </React.Fragment>
   );
-};
+});
 
 export default InstantRetro;

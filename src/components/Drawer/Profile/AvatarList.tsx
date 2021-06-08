@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ChangeAvatarModel = (props: any) => {
+const ChangeAvatarModel = React.memo((props: any) => {
   const { handleAvatar, selectedAvatarId } = props;
   const { avatarStyle, iconStyle } = useStyles();
   return (
@@ -265,6 +265,6 @@ const ChangeAvatarModel = (props: any) => {
       </IconButton>
     </Box>
   );
-};
+});
 
 export default ChangeAvatarModel;

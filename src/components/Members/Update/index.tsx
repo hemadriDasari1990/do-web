@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Create = (props: any) => {
+const Create = React.memo((props: any) => {
   const { openDialog, handleUpdateForm, selectedMember } = props;
   const { textFieldStyle, dropdownInputStyle } = useStyles();
   const { userId } = useLogin();
@@ -159,6 +159,6 @@ const Create = (props: any) => {
   };
 
   return <React.Fragment>{renderDialog()}</React.Fragment>;
-};
+});
 
 export default Create;

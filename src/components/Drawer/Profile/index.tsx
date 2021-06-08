@@ -89,7 +89,7 @@ const Profile = () => {
               </Box>
               <Box mb={1}>
                 <ProfileSummary
-                  title="Account Cereated:"
+                  title="Account Created:"
                   value={getHumanReadableDate(user?.createdAt)}
                 />
               </Box>

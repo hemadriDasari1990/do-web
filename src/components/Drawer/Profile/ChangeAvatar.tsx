@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 const AvatarList = React.lazy(() => import("./AvatarList"));
 
-const ChangeAvatarModel = (props: any) => {
+const ChangeAvatarModel = React.memo((props: any) => {
   const { openDialog, handleCloseDialog } = props;
   const dispatch = useDispatch();
   const { user } = useUser();
@@ -46,6 +46,6 @@ const ChangeAvatarModel = (props: any) => {
   };
 
   return <React.Fragment>{renderDialog()}</React.Fragment>;
-};
+});
 
 export default ChangeAvatarModel;

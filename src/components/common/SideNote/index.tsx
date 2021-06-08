@@ -4,7 +4,7 @@ import Link from "@material-ui/core/Link";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../../styles";
-const SideNote = (props: any) => {
+const SideNote = React.memo((props: any) => {
   const { title, description, showLink, link, linkURL } = props;
   const { n30, sideNoteStyle, sideNoteTitleStyle } = useStyles();
 
@@ -38,6 +38,6 @@ const SideNote = (props: any) => {
       )}
     </Box>
   );
-};
+});
 
 export default SideNote;

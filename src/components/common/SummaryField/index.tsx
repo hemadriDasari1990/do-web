@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SummaryField = (props: any) => {
+const SummaryField = React.memo((props: any) => {
   const { title, value } = props;
   const { titleStyle, valueStyle } = useStyles();
   return (
@@ -33,6 +33,6 @@ const SummaryField = (props: any) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default SummaryField;

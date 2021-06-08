@@ -115,7 +115,7 @@ const useLocalStyles = makeStyles(() => ({
   noteItemStyle: {},
 }));
 
-const NoteList = (props: any) => {
+const NoteList = React.memo((props: any) => {
   const { sectionId, editNote, dropProvided, deleteNote, sectionIndex } = props;
   const {
     paperStyle,
@@ -903,6 +903,6 @@ const NoteList = (props: any) => {
       </div>
     </React.Fragment>
   );
-};
+});
 
 export default NoteList;

@@ -9,7 +9,7 @@ import { getAvatar } from "../../../util/getAvatar";
 import getRandomBGColor from "../../../util/getRandomColor";
 import useStyles from "../../styles/table";
 
-const AvatarGroupList = (props: any) => {
+const AvatarGroupList = React.memo((props: any) => {
   const { dataList, keyName, noDataMessage } = props;
   const { avatarStyle, avatarGroupStyle } = useStyles();
 
@@ -63,6 +63,6 @@ const AvatarGroupList = (props: any) => {
       )}
     </>
   );
-};
+});
 
 export default AvatarGroupList;

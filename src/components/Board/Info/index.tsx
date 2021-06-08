@@ -14,7 +14,7 @@ import { useBoard } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const BoardInfo = (props: any) => {
+const BoardInfo = React.memo((props: any) => {
   const { openBoardInfo } = props;
   const dispatch = useDispatch();
   const { boardId } = useParams<{ boardId: string }>();
@@ -63,6 +63,6 @@ const BoardInfo = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default BoardInfo;

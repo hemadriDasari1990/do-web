@@ -95,7 +95,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const SectionList = (props: any) => {
+const SectionList = React.memo((props: any) => {
   const { startSession } = props;
   const {
     sectionHeader,
@@ -656,6 +656,6 @@ const SectionList = (props: any) => {
       )}
     </Suspense>
   );
-};
+});
 
 export default SectionList;

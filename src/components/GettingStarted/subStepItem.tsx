@@ -37,7 +37,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const SubStepItem = (props: any) => {
+const SubStepItem = React.memo((props: any) => {
   const { items } = props;
   const {
     paperStyle,
@@ -78,6 +78,6 @@ const SubStepItem = (props: any) => {
         : null}
     </Box>
   );
-};
+});
 
 export default SubStepItem;

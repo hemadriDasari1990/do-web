@@ -22,7 +22,7 @@ import useIconStyles from "../../styles/iconStyle";
 import { useMenuItem } from "../../../redux/state/board";
 import useStyles from "../../styles";
 
-const UserAccount = (props: any) => {
+const UserAccount = React.memo((props: any) => {
   const { handleDrawerClose, openAccount } = props;
   const { iconGridStyle, iconStyle } = useIconStyles();
   const history = useHistory();
@@ -73,6 +73,6 @@ const UserAccount = (props: any) => {
       ) : null}
     </Suspense>
   );
-};
+});
 
 export default UserAccount;

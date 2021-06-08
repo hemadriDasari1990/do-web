@@ -34,7 +34,7 @@ import { useHistory } from "react-router";
 import { useProjectLoading } from "../../../redux/state/project";
 import useStyles from "../../styles";
 
-const ProjectList = (props: any) => {
+const ProjectList = React.memo((props: any) => {
   const { projects, handleMenu, setSelectedProject, hideMenu } = props;
   const { cursor, boxMainStyle, avatarBoxStyle } = useStyles();
   const history = useHistory();
@@ -306,6 +306,6 @@ const ProjectList = (props: any) => {
       </Grid>
     </Suspense>
   );
-};
+});
 
 export default ProjectList;

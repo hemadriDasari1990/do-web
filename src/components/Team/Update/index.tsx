@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Create = (props: any) => {
+const Create = React.memo((props: any) => {
   const { openDialog, handleUpdateForm, selectedTeam } = props;
   const { textFieldStyle } = useStyles();
   const dispatch = useDispatch();
@@ -105,6 +105,6 @@ const Create = (props: any) => {
   };
 
   return <React.Fragment>{renderDialog()}</React.Fragment>;
-};
+});
 
 export default Create;

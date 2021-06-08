@@ -16,8 +16,8 @@ import DoAutoComplete from "../../../common/DoAutoComplete";
 import DoSnackbar from "../../../Snackbar/components";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import { storeAction } from "../../../../redux/actions/common";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const SecurityQuestions = (props: any) => {
+const SecurityQuestions = React.memo((props: any) => {
   const { verify } = props;
   const { textFieldStyle } = useStyles();
   const dispatch = useDispatch();
@@ -195,6 +195,6 @@ const SecurityQuestions = (props: any) => {
       </Box>
     </React.Fragment>
   );
-};
+});
 
 export default SecurityQuestions;

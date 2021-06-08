@@ -224,7 +224,7 @@ const Home = () => {
               <Box pt={2}>
                 <Box mt={2}>
                   <InfoCard
-                    title="What features are offered by letdoretro.com?"
+                    title="What features are offered by letsdoretro.com?"
                     icon={CallMadeIcon}
                     handleButton={() => handleFeatures()}
                     index={3}

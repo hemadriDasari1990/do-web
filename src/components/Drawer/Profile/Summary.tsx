@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ProfileSummary = (props: any) => {
+const ProfileSummary = React.memo((props: any) => {
   const { title, value } = props;
   const { titleStyle, dlStyle, dtStyle, ddStyle } = useStyles();
   return (
@@ -41,6 +41,6 @@ const ProfileSummary = (props: any) => {
       </dd>
     </dl>
   );
-};
+});
 
 export default ProfileSummary;

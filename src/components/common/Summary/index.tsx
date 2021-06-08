@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Summary = (props: any) => {
+const Summary = React.memo((props: any) => {
   const { title } = props;
   const { paperStyle } = useStyles();
   return (
@@ -31,6 +31,6 @@ const Summary = (props: any) => {
       </Box>
     </Paper>
   );
-};
+});
 
 export default Summary;

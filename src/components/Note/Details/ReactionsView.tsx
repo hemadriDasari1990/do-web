@@ -30,7 +30,7 @@ import { getReactions } from "../../../redux/actions/reaction";
 import { useDispatch } from "react-redux";
 import useStyles from "../../styles";
 
-const ReactionsView = (props: any) => {
+const ReactionsView = React.memo((props: any) => {
   const { note } = props;
   const {
     highlightIconStyle,
@@ -169,6 +169,6 @@ const ReactionsView = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default ReactionsView;

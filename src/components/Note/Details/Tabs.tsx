@@ -56,7 +56,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-const DoTabs = (props: any) => {
+const DoTabs = React.memo((props: any) => {
   const { note } = props;
   const { tabStyle } = useStyles();
   const [value, setValue] = useState(0);
@@ -110,6 +110,6 @@ const DoTabs = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default DoTabs;

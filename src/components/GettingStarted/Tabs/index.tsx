@@ -1,14 +1,14 @@
 import React, { Suspense, useState } from "react";
 
+import Container from "@material-ui/core/Container";
 import PersonIcon from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
+import StepProcess from "../process";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import StepProcess from "../process";
-import UnregisteredProcess from "../unregisteredProcess";
 import Typography from "@material-ui/core/Typography";
+import UnregisteredProcess from "../unregisteredProcess";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(() => ({
   tabStyle: {
@@ -40,7 +40,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-const GettingStartedTabs = (props: any) => {
+const GettingStartedTabs = React.memo((props: any) => {
   const {} = props;
   const { tabStyle } = useStyles();
 
@@ -97,6 +97,6 @@ const GettingStartedTabs = (props: any) => {
       </Container>
     </Suspense>
   );
-};
+});
 
 export default GettingStartedTabs;

@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const InfoCard = (props: any) => {
+const InfoCard = React.memo((props: any) => {
   const { icon, title, handleButton, description, titleMinHeight } = props;
   const { paperStyle, iconStyle, titleStyle } = useStyles(props);
 
@@ -58,6 +58,6 @@ const InfoCard = (props: any) => {
       </Paper>
     </React.Fragment>
   );
-};
+});
 
 export default InfoCard;

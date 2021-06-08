@@ -16,7 +16,7 @@ import { Typography } from "@material-ui/core";
 import { getRandomColor } from "../../../util/getRandomColor";
 import useStyles from "../../styles";
 
-const Summary = (props: any) => {
+const Summary = React.memo((props: any) => {
   const { hideTitle, hideNoSummary, hideLoader } = props;
   const {
     plusIconStyle,
@@ -210,6 +210,6 @@ const Summary = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default Summary;

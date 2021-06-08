@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import getRandomBGColor from "../../../util/getRandomColor";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   hrStyle: (props: any) => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   }),
 }));
 
-const ColoredLine = (props: any) => {
+const ColoredLine = React.memo((props: any) => {
   const { index } = props;
   const { hrStyle } = useStyles({ index });
 
@@ -22,6 +22,6 @@ const ColoredLine = (props: any) => {
       <hr className={hrStyle} />
     </div>
   );
-};
+});
 
 export default ColoredLine;

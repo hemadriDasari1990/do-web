@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../../styles";
 
-const Caption = (props: any) => {
+const Caption = React.memo((props: any) => {
   const { title } = props;
   const { n40, captionTextStyle } = useStyles();
 
@@ -14,6 +14,6 @@ const Caption = (props: any) => {
       </Typography>
     </Box>
   );
-};
+});
 
 export default Caption;

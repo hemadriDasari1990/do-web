@@ -337,7 +337,7 @@ const Dashboard = () => {
                     </Box>
                     <Box mt={2}>
                       <InfoCard
-                        title="What features are offered by letdoretro.com?"
+                        title="What features are offered by letsdoretro.com?"
                         icon={CallMadeIcon}
                         index={5}
                         handleButton={() => handleFeatures()}

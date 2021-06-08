@@ -1,9 +1,10 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box, Tooltip } from "@material-ui/core";
+import { Box, Tooltip, Typography } from "@material-ui/core";
+
 import HintMessage from "../../HintMessage";
 // import FileCopyIcon from "@material-ui/icons/FileCopy";
 import InsertLinkIcon from "@material-ui/icons/InsertLink";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
   boxStyle: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CopyToClipboard = (props: any) => {
+const CopyToClipboard = React.memo((props: any) => {
   const { url, hintMessage } = props;
   const { boxStyle, copyButtonStyle } = useStyles();
   const [copied, setCopied] = React.useState(false);
@@ -65,6 +66,6 @@ const CopyToClipboard = (props: any) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default CopyToClipboard;

@@ -1,5 +1,6 @@
 import { DASHBOARD, ROOT } from "../../../routes/config";
 
+import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
@@ -12,15 +13,16 @@ import useStyles from "../../styles";
 const useLocalStyles = makeStyles(() => ({
   badgeStyle: {
     "& .MuiBadge-badge": {
-      left: 10,
+      top: 5,
       color: "#ffc800",
+      fontSize: 15,
     },
   },
 }));
-const DoLogo = (props: any) => {
+const DoLogo = React.memo((props: any) => {
   const { color, hideBadge, ...boxProps } = props;
   const { logoTextStyle, cursor } = useStyles();
-  const {} = useLocalStyles();
+  const { badgeStyle } = useLocalStyles();
 
   /* Redux hooks */
   const authenticated = useAuthenticated();
@@ -45,12 +47,21 @@ const DoLogo = (props: any) => {
         <img src={doLogo} width={45} height={45} />
       </Box>
       <Box mx={1}>
-        <Typography color={color} className={logoTextStyle}>
-          lets do retro
-        </Typography>
+        <Badge
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          className={badgeStyle}
+          badgeContent="Beta"
+        >
+          <Typography color={color} className={logoTextStyle}>
+            lets do retro
+          </Typography>
+        </Badge>
       </Box>
     </Box>
   );
-};
+});
 
 export default DoLogo;

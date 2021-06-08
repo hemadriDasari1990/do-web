@@ -1,23 +1,23 @@
 import { ListItem, ListItemIcon, ListItemText, Paper } from "@material-ui/core";
 
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
+import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import React from "react";
+import { TEAM } from "../../../routes/config";
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../../util/getRandomColor";
-import useStyles from "../../styles";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
 import { useHistory } from "react-router";
-import { TEAM } from "../../../routes/config";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import useStyles from "../../styles";
 
-const Banner = (props: any) => {
+const Banner = React.memo((props: any) => {
   const { title, subTitle } = props;
   const { gettingStartedBanner, smallAvatarStyle } = useStyles();
   const history = useHistory();
@@ -136,6 +136,6 @@ const Banner = (props: any) => {
       </Box> */}
     </Paper>
   );
-};
+});
 
 export default Banner;

@@ -18,7 +18,7 @@ import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
 import { useTeamLoading } from "../../../redux/state/team";
 
-const GroupList = (props: any) => {
+const GroupList = React.memo((props: any) => {
   const {
     teams,
     handleMenu,
@@ -163,6 +163,6 @@ const GroupList = (props: any) => {
       </Box>
     </React.Fragment>
   );
-};
+});
 
 export default GroupList;

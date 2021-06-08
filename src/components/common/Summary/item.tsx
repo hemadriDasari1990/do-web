@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SummaryItem = (props: any) => {
+const SummaryItem = React.memo((props: any) => {
   const { title, icon, value } = props;
   const { avatarStyle, itemStyle, iconStyle } = useStyles(props);
   return (
@@ -43,6 +43,6 @@ const SummaryItem = (props: any) => {
       </ListItemSecondaryAction>
     </ListItem>
   );
-};
+});
 
 export default SummaryItem;

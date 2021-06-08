@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Loader = (props: any) => {
+const Loader = React.memo((props: any) => {
   const { backdropStyle, loaderStyle } = useStyles();
   const { backdrop, enable, showInline } = props;
 
@@ -56,6 +56,6 @@ const Loader = (props: any) => {
     );
   }
   return null;
-};
+});
 
 export default Loader;

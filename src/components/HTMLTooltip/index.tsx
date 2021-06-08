@@ -17,8 +17,8 @@ const CustomHtmlTooltip = withStyles((theme: Theme) => ({
   },
 }))(Tooltip);
 
-const HtmlTooltip = (props: any) => {
+const HtmlTooltip = React.memo((props: any) => {
   return <CustomHtmlTooltip {...props} />;
-};
+});
 
 export default HtmlTooltip;

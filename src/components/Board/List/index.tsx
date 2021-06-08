@@ -62,7 +62,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const BoardList = (props: any) => {
+const BoardList = React.memo((props: any) => {
   const { boards, handleMenu, setSelectedBoard, hideMenu, showProject } = props;
   const {} = useLocalStyles();
   const { loading: projectLoading } = useProjectLoading();
@@ -451,6 +451,6 @@ const BoardList = (props: any) => {
       </Grid>
     </Suspense>
   );
-};
+});
 
 export default BoardList;

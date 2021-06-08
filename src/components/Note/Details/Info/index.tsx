@@ -5,7 +5,7 @@ import Summary from "./Summary";
 import { getReactionsSummaryByNote } from "../../../../redux/actions/reaction";
 import { useDispatch } from "react-redux";
 
-const Info = (props: any) => {
+const Info = React.memo((props: any) => {
   const { note } = props;
   const dispatch = useDispatch();
 
@@ -22,6 +22,6 @@ const Info = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default Info;

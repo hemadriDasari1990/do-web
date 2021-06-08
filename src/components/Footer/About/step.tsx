@@ -23,7 +23,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Step = (props: any) => {
+const Step = React.memo((props: any) => {
   const { title, subTitle, description, index } = props;
   const { paperStyle, titleStyle, subTitleStyle } = useLocalStyles();
 
@@ -53,6 +53,6 @@ const Step = (props: any) => {
       </Paper>
     </React.Fragment>
   );
-};
+});
 
 export default Step;

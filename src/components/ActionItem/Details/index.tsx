@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ActionItemDetails = (props: any) => {
+const ActionItemDetails = React.memo((props: any) => {
   const { actionItem } = props;
   const { listIconStyle } = useStyles();
 
@@ -107,6 +107,6 @@ const ActionItemDetails = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default ActionItemDetails;

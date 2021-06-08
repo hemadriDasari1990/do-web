@@ -26,7 +26,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const GridItem = (props: any) => {
+const GridItem = React.memo((props: any) => {
   const { item } = props;
   const { paperStyle, titleStyle, stepStyle, subTitleStyle } = useLocalStyles();
 
@@ -57,6 +57,6 @@ const GridItem = (props: any) => {
       </Paper>
     </Box>
   );
-};
+});
 
 export default GridItem;

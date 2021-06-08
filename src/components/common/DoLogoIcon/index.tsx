@@ -1,13 +1,13 @@
 import { DASHBOARD, ROOT } from "../../../routes/config";
 
 import Box from "@material-ui/core/Box";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 import React from "react";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
 
-const DoLogoIcon = (props: any) => {
+const DoLogoIcon = React.memo((props: any) => {
   const { ...boxProps } = props;
   const { logoIconStyle, cursor } = useStyles();
 
@@ -33,6 +33,6 @@ const DoLogoIcon = (props: any) => {
       <FlashOnIcon className={logoIconStyle} color="secondary" />
     </Box>
   );
-};
+});
 
 export default DoLogoIcon;

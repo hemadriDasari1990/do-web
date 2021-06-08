@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const CreateAccount = (props: any) => {
+const CreateAccount = React.memo((props: any) => {
   const { buttonStyle } = useStyles();
   const history = useHistory();
   const { title, subTitle, handleButton } = props;
@@ -54,6 +54,6 @@ const CreateAccount = (props: any) => {
       </Box>
     </React.Fragment>
   );
-};
+});
 
 export default CreateAccount;

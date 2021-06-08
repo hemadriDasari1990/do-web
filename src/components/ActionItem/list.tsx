@@ -68,7 +68,7 @@ const useLocalStyles = makeStyles(() => ({
   },
 }));
 
-const ActionItemList = (props: any) => {
+const ActionItemList = React.memo((props: any) => {
   const {
     actionId,
     editActionItem,
@@ -520,6 +520,6 @@ const ActionItemList = (props: any) => {
       </div>
     </React.Fragment>
   );
-};
+});
 
 export default ActionItemList;

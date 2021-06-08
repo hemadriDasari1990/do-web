@@ -22,7 +22,7 @@ const useLocalStyles = makeStyles(() => ({
   },
 }));
 
-const UserAvatar = (props: any) => {
+const UserAvatar = React.memo((props: any) => {
   const { handleAccount } = props;
   const { user } = useUser();
   const { iconStyle, boxStyle } = useLocalStyles();
@@ -64,6 +64,6 @@ const UserAvatar = (props: any) => {
       </Box>
     </Suspense>
   );
-};
+});
 
 export default UserAvatar;

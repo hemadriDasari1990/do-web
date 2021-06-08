@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Update = (props: any) => {
+const Update = React.memo((props: any) => {
   const {
     openDialog,
     handleUpdateForm,
@@ -339,6 +339,6 @@ const Update = (props: any) => {
       </ResponsiveDialog>
     </React.Fragment>
   );
-};
+});
 
 export default Update;
