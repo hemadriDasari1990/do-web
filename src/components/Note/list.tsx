@@ -20,6 +20,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import OpenWithIcon from "@material-ui/icons/OpenWith";
 import Paper from "@material-ui/core/Paper";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -602,7 +603,12 @@ const NoteList = React.memo((props: any) => {
     setOpen(false);
   };
 
-  const renderMenu = useCallback(() => {
+  const renderMenu = (note: { [Key: string]: any }) => {
+    const canAccess =
+      authenticated ||
+      joinedMemberId === selectedNote?.createdById ||
+      board?.isInstant ||
+      !note?.createdBy;
     return (
       <ClickAwayListener onClickAway={handleClickAwayClose}>
         <Menu
@@ -616,30 +622,63 @@ const NoteList = React.memo((props: any) => {
           getContentAnchorEl={null}
           TransitionComponent={Zoom}
         >
-          <ListItem button={true} onClick={() => handleMenuItem("edit")}>
+          {canAccess && (
+            <ListItem
+              button={true}
+              onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                handleMenuItem(event, "edit", note)
+              }
+            >
+              <ListItemAvatar style={{ minWidth: 35 }}>
+                <EditIcon />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<b>Edit Note</b>}
+                secondary="Update the note"
+              />
+            </ListItem>
+          )}
+          {canAccess && (
+            <ListItem
+              button={true}
+              onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                handleMenuItem(event, "delete", note)
+              }
+            >
+              <ListItemAvatar style={{ minWidth: 35 }}>
+                <DeleteOutlineIcon />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<b>Delete Note</b>}
+                secondary="Once deleted can't be done"
+              />
+            </ListItem>
+          )}
+          <ListItem
+            button={true}
+            onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+              handleMenuItem(event, "view", note)
+            }
+          >
             <ListItemAvatar style={{ minWidth: 35 }}>
-              <EditIcon />
+              <OpenWithIcon />
             </ListItemAvatar>
             <ListItemText
-              primary={<b>Edit Note</b>}
-              secondary="Update the note"
-            />
-          </ListItem>
-          <ListItem button={true} onClick={() => handleMenuItem("delete")}>
-            <ListItemAvatar style={{ minWidth: 35 }}>
-              <DeleteOutlineIcon />
-            </ListItemAvatar>
-            <ListItemText
-              primary={<b>Delete Note</b>}
-              secondary="Once deleted can't be done"
+              primary={<b>Open Note</b>}
+              secondary="View notes details"
             />
           </ListItem>
         </Menu>
       </ClickAwayListener>
     );
-  }, [open]);
+  };
 
-  const handleMenuItem = async (action: string) => {
+  const handleMenuItem = async (
+    event: React.MouseEvent<HTMLDivElement>,
+    action: string,
+    note: { [Key: string]: any }
+  ) => {
+    event.stopPropagation();
     switch (action) {
       case "edit":
         editNote(selectedNote);
@@ -647,6 +686,11 @@ const NoteList = React.memo((props: any) => {
       case "delete":
         deleteNote(selectedNote);
         setOpenDeleteDialog(true);
+        break;
+      case "view":
+        setShowDialog(true);
+        setSelectedNote(note);
+        setAnchorEl(null);
         break;
       default:
         break;
@@ -750,26 +794,23 @@ const NoteList = React.memo((props: any) => {
     [authenticated]
   );
 
-  const renderMenuIcon = useCallback(
-    (note: { [Key: string]: any }) => {
-      return (
-        <Tooltip arrow title="Action">
-          <IconButton
-            size="small"
-            aria-label="note-menu"
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-              handleButton(event, note)
-            }
-          >
-            <Zoom in={true} timeout={2000}>
-              <MoreHorizIcon className={svgIconStyle} />
-            </Zoom>
-          </IconButton>
-        </Tooltip>
-      );
-    },
-    [enableActions]
-  );
+  const renderMenuIcon = (note: { [Key: string]: any }) => {
+    return (
+      <Tooltip arrow title="Action">
+        <IconButton
+          size="small"
+          aria-label="note-menu"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+            handleButton(event, note)
+          }
+        >
+          <Zoom in={true} timeout={2000}>
+            <MoreHorizIcon className={svgIconStyle} />
+          </Zoom>
+        </IconButton>
+      </Tooltip>
+    );
+  };
 
   const renderName = (note: { [Key: string]: any }) => {
     return (
@@ -792,10 +833,6 @@ const NoteList = React.memo((props: any) => {
     <React.Fragment>
       {renderDeleteDialog()}
       {renderNoteViewDialog()}
-      {(authenticated ||
-        joinedMemberId === selectedNote?.createdById ||
-        board?.isInstant) &&
-        renderMenu()}
       <div
         ref={dropProvided?.innerRef}
         className={`${dropZoneStyle}`}
@@ -842,7 +879,7 @@ const NoteList = React.memo((props: any) => {
                         <Box style={{ minHeight: 40 }}>
                           <Typography
                             variant="h6"
-                            style={{ color: "#172B4D", fontWeight: 400 }}
+                            style={{ color: "#113561", fontWeight: 400 }}
                           >
                             {note.description}
                           </Typography>
@@ -880,9 +917,7 @@ const NoteList = React.memo((props: any) => {
                             {!authenticated && !board?.isInstant && (
                               <>{renderRead(note)}</>
                             )}
-                            {(authenticated ||
-                              joinedMemberId === selectedNote?.createdById ||
-                              board?.isInstant) && <>{renderMenuIcon(note)}</>}
+                            {renderMenuIcon(note)}
                           </Box>
                         </Box>
                       </Paper>
@@ -893,6 +928,7 @@ const NoteList = React.memo((props: any) => {
                         handlePopoverClose={handlePopoverClose}
                         setAnchorEl={setAnchorEl}
                       />
+                      {renderMenu(note)}
                     </Box>
                   </div>
                 )}

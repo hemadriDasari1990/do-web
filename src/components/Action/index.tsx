@@ -37,7 +37,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     width: "fit-content",
   },
   sectionGridStyle: {
-    border: "2px solid #172B4D",
+    border: "2px solid #113561",
     borderRadius: 6,
   },
   sectionStyle: {

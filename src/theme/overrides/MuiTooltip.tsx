@@ -1,6 +1,6 @@
 export default {
   tooltip: {
-    color: "#172B4D",
+    color: "#113561",
     zIndex: 1,
     backgroundColor: "#fff",
     boxShadow: "rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px",

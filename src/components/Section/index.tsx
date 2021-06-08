@@ -11,6 +11,7 @@ import {
   getDownloadFile,
   getMemberId,
   getMemberIdByToken,
+  removeMemberFromLocalStorage,
   replaceStr,
 } from "../../util";
 import { clearBoard, getBoardDetails } from "../../redux/actions/board";
@@ -182,6 +183,11 @@ export default function Section() {
         //   boardId: boardId,
         // });
       }
+    }
+
+    /* Remove member id from localstorage if there is no token in the board url */
+    if (!authenticated && !token) {
+      removeMemberFromLocalStorage();
     }
   }, []);
 

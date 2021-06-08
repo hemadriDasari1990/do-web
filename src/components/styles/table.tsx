@@ -65,7 +65,7 @@ const useStyles = makeStyles(() => ({
   },
   authorStyle: {
     padding: "0 6px",
-    backgroundColor: "#172B4D",
+    backgroundColor: "#113561",
     borderRadius: 6,
   },
 }));

@@ -3,14 +3,14 @@ export default {
     boxShadow: "none",
   },
   outlined: {
-    color: "#172B4D",
+    color: "#113561",
     border: "unset",
     "&:hover": {
       border: "unset",
     },
   },
   outlinedPrimary: {
-    color: "#172B4D",
+    color: "#113561",
     border: "unset",
     "&:hover": {
       border: "unset",

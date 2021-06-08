@@ -1,6 +1,6 @@
 const fontFamily =
   "Charlie Display,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif";
-const textPrimary = "#172B4D";
+const textPrimary = "#113561";
 const textSecondary = "#6f7588";
 export default {
   gutterBottom: {

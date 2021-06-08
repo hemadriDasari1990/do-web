@@ -112,6 +112,10 @@ export const addMemberToLocalStorage = (memberId: string) => {
   localStorage.setItem("memberId", memberId);
 };
 
+export const removeMemberFromLocalStorage = () => {
+  localStorage.removeItem("memberId");
+};
+
 export const getMemberId = () => {
   return localStorage.getItem("memberId");
 };
@@ -149,10 +153,10 @@ export const getActivityText = (action: string) => {
       text = " Marked ";
       break;
     case "react":
-      text = " added ";
+      text = " added reaction ";
       break;
     case "un-react":
-      text = " removed ";
+      text = " withdrawn reaction ";
       break;
     case "move":
       text = " moved ";

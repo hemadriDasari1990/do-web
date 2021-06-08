@@ -1,7 +1,9 @@
+import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
 import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
 import Hidden from "@material-ui/core/Hidden";
+import { MAX_CHAR_COUNT } from "../../util/constants";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
@@ -10,8 +12,6 @@ import updateSection from "../../assets/section.svg";
 import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
-import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
-import { MAX_CHAR_COUNT } from "../../util/constants";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
     "& .MuiFilledInput-root": {
       background: "#fff",
       borderRadius: 6,
-      border: "2px solid #172B4D",
+      border: "2px solid #113561",
       paddingTop: "0px !important",
     },
   },

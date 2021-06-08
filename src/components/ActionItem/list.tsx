@@ -488,7 +488,7 @@ const ActionItemList = React.memo((props: any) => {
                           {renderName(actionItem)}
                         </Box>
                         <Box style={{ minHeight: 40 }}>
-                          <Typography variant="h6" style={{ color: "#172B4D" }}>
+                          <Typography variant="h6" style={{ color: "#113561" }}>
                             {actionItem.description}
                           </Typography>
                         </Box>

@@ -49,7 +49,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   logoIconStyle: {
     padding: 3,
     borderRadius: "50%",
-    backgroundColor: "#172B4D",
+    backgroundColor: "#113561",
     width: 25,
     height: 25,
   },

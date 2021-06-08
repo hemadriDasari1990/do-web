@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
     fontSize: 15,
   },
   listIconStyle: {
-    color: "#172B4D",
+    color: "#113561",
   },
 }));
 
