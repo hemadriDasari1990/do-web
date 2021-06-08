@@ -511,7 +511,7 @@ const NoteList = React.memo((props: any) => {
   const handleDelete = () => {
     socket.emit(`delete-note`, {
       id: selectedNote._id,
-      memberId: memberId || joinedMemberId,
+      memberId: memberId ? memberId : joinedMemberId,
       sectionId: selectedNote?.sectionId,
       description: selectedNote?.description,
       boardId,
@@ -679,6 +679,7 @@ const NoteList = React.memo((props: any) => {
     note: { [Key: string]: any }
   ) => {
     event.stopPropagation();
+    setSelectedNote(note);
     switch (action) {
       case "edit":
         editNote(selectedNote);
@@ -689,7 +690,6 @@ const NoteList = React.memo((props: any) => {
         break;
       case "view":
         setShowDialog(true);
-        setSelectedNote(note);
         setAnchorEl(null);
         break;
       default:
