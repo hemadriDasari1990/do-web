@@ -10,7 +10,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import DoneIcon from "@material-ui/icons/Done";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { MAX_CHAR_COUNT } from "../../util/constants";
+import { MAX_NOTE_CHAR_COUNT } from "../../util/constants";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -107,6 +107,10 @@ export default function NoteUpdate(props: any) {
     setFormData({ ...formData, description: newDescription });
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
       <Box mb={1}>
@@ -120,6 +124,7 @@ export default function NoteUpdate(props: any) {
           className={textfieldStyle}
           placeholder="Your comments"
           value={description}
+          onPaste={handlePrevent}
           InputProps={{
             disableUnderline: true,
             style: {
@@ -131,7 +136,7 @@ export default function NoteUpdate(props: any) {
             allow(
               event,
               ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
-              MAX_CHAR_COUNT
+              MAX_NOTE_CHAR_COUNT
             );
             if (
               (event.key === "Enter" || event.keyCode == 13) &&
@@ -151,7 +156,7 @@ export default function NoteUpdate(props: any) {
         <Box mt={1} ml={1} display="flex" justifyContent="space-between">
           <Box>
             <Typography variant="subtitle2">
-              {count}/{MAX_CHAR_COUNT} chars
+              {count}/{MAX_NOTE_CHAR_COUNT} chars
             </Typography>
           </Box>
           <Box display="flex">
