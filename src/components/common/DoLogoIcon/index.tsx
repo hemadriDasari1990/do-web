@@ -1,15 +1,15 @@
 import { DASHBOARD, ROOT } from "../../../routes/config";
 
 import Box from "@material-ui/core/Box";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
 import React from "react";
+import doLogo from "../../assets/do-logo.svg";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
 
 const DoLogoIcon = React.memo((props: any) => {
   const { ...boxProps } = props;
-  const { logoIconStyle, cursor } = useStyles();
+  const { cursor } = useStyles();
 
   /* Redux hooks */
   const authenticated = useAuthenticated();
@@ -30,7 +30,7 @@ const DoLogoIcon = React.memo((props: any) => {
       onClick={() => refreshDashboard()}
       {...boxProps}
     >
-      <FlashOnIcon className={logoIconStyle} color="secondary" />
+      <img src={doLogo} width={40} height={40} />
     </Box>
   );
 });

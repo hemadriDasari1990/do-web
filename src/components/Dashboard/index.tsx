@@ -156,7 +156,7 @@ const Dashboard = () => {
           handleClose={handleSuccessClose}
           status="success"
         >
-          <Typography variant="body1" color="secondary">
+          <Typography variant="h6" color="secondary">
             Login successfull
           </Typography>
         </DoSnackbar>
