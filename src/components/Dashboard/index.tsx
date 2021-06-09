@@ -376,7 +376,7 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             ) : null}
-            {!projectLoading && totalProjects ? (
+            {totalProjects ? (
               <Grid container spacing={2}>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                   <Box mb={1} display="flex" justifyContent="space-between">
@@ -399,7 +399,7 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             ) : null}
-            {!loading && boards?.length ? (
+            {boards?.length ? (
               <Grid container spacing={2}>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                   <Box mb={1} display="flex" justifyContent="space-between">
