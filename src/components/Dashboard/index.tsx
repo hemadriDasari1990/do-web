@@ -32,6 +32,7 @@ import { Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 import InfoCard from "../common/InfoCard";
+import ListSkeleton from "../common/skeletons/list";
 import Loader from "../Loader/components";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import ProjectList from "../Project/List";
@@ -376,44 +377,45 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             ) : null}
-            {totalProjects ? (
-              <Grid container spacing={2}>
-                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                  <Box mb={1} display="flex" justifyContent="space-between">
-                    <Typography variant="h2">Recent Projects</Typography>
-
-                    <Box mt={1} mr={1}>
-                      <Button
-                        // variant="outlined"
-                        color="primary"
-                        onClick={() => handleProjects()}
-                        endIcon={<ArrowForwardOutlinedIcon />}
-                      >
-                        <Typography variant="subtitle1">
-                          View All ({totalProjects})
-                        </Typography>
-                      </Button>
-                    </Box>
+            <Grid container spacing={2}>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <Box mb={1} display="flex" justifyContent="space-between">
+                  <Typography variant="h2">Recent Projects</Typography>
+                  <Box mt={1} mr={1}>
+                    <Button
+                      // variant="outlined"
+                      color="primary"
+                      onClick={() => handleProjects()}
+                      endIcon={<ArrowForwardOutlinedIcon />}
+                    >
+                      <Typography variant="subtitle1">
+                        View All ({totalProjects || 0})
+                      </Typography>
+                    </Button>
                   </Box>
+                </Box>
+                {projectLoading && <ListSkeleton />}
+                {!projectLoading && totalProjects ? (
                   <ProjectList projects={projects} hideMenu={true} />
-                </Grid>
+                ) : null}
               </Grid>
-            ) : null}
-            {boards?.length ? (
-              <Grid container spacing={2}>
-                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                  <Box mb={1} display="flex" justifyContent="space-between">
-                    <Typography variant="h2">Recent Boards</Typography>
-                  </Box>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <Box mb={1} display="flex" justifyContent="space-between">
+                  <Typography variant="h2">Recent Boards</Typography>
+                </Box>
+                {loading && <ListSkeleton />}
+                {!loading && boards?.length ? (
                   <BoardList
                     boards={boards}
                     hideMenu={true}
                     showProject={true}
                     // lastBoard={lastBoard}
                   />
-                </Grid>
+                ) : null}
               </Grid>
-            ) : null}
+            </Grid>
           </Grid>
         </Grid>
       </Box>
