@@ -1,5 +1,4 @@
 import { FORGOT_PASSWORD, SIGNUP } from "../../../routes/config";
-import { EMAIL_PATTERN } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
@@ -7,6 +6,7 @@ import { useLoading, useLogin } from "../../../redux/state/login";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DoLogo from "../../common/DoLogo";
+import { EMAIL_PATTERN } from "../../../util/regex";
 import Link from "@material-ui/core/Link";
 import Loader from "../../Loader/components";
 import TextField from "@material-ui/core/TextField";

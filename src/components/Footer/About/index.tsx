@@ -138,9 +138,10 @@ export default function About() {
                       currently working in a team and not very pleased with the
                       current retrospective board & other tools out there in the
                       market. So he decided to create his own next generation
-                      respective tool and see if that could make it better than
-                      what is currently available in the market. He worked hard
-                      for 3 months to built this platform in his offline time.
+                      retrospective tool and see if that could make it better
+                      than what is currently available in the market. He worked
+                      hard for 3 months to built this platform in his offline
+                      time.
                     </Typography>
                   </Box>
                 </Box>
@@ -153,12 +154,11 @@ export default function About() {
                       Hemadri Dasari currently working as a Senior Lead
                       Developer in Abu Dhabi, United Arab Emirates. Prior to
                       this, he served as Senior Front end developer at Mashreq
-                      Bank, Dubai. He’s also worked as Senior Full Stack
-                      Developer at Emirates NBD Bank, Dubai and has also had
-                      multiple roles in Verizon Communications Inc, Cognizant
-                      Technology Solutions and Barclays Shared Services. Hemadri
-                      has completed his B.E Computer Science & Enginerring from
-                      Anna University.
+                      Bank, Dubai. He also worked as Senior Full Stack Developer
+                      at Emirates NBD Bank, Dubai and also had multiple roles in
+                      Verizon Communications Inc, Cognizant Technology Solutions
+                      and Barclays Shared Services. Hemadri has completed his
+                      B.E Computer Science & Enginerring from Anna University.
                     </Typography>
                   </Box>
                 </Box>

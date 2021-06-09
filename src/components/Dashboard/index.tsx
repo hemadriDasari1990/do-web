@@ -13,7 +13,12 @@ import {
   getUserSummary,
 } from "../../redux/actions/user";
 import { useAuthenticated, useDefaultSections } from "../../redux/state/common";
-import { useUser, useUserSummary } from "../../redux/state/user";
+import { useProject, useProjectLoading } from "../../redux/state/project";
+import {
+  useUser,
+  useUserLoading,
+  useUserSummary,
+} from "../../redux/state/user";
 
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
@@ -41,7 +46,6 @@ import { storeSocketInstance } from "../../redux/actions/socket";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../redux/state/login";
-import { useProject } from "../../redux/state/project";
 import useStyles from "../styles";
 
 const drawerWidth = 339;
@@ -92,7 +96,9 @@ const Dashboard = () => {
   const { loginSuccess, userId } = useLogin();
   const { summary } = useUserSummary();
   const { projects, totalProjects } = useProject();
+  const { loading: projectLoading } = useProjectLoading();
   const { boards, name } = useUser();
+  const { loading } = useUserLoading();
 
   useEffect(() => {
     loadData();
@@ -311,7 +317,10 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             </Box>
-            {!totalProjects && !boards?.length ? (
+            {!totalProjects &&
+            !boards?.length &&
+            !projectLoading &&
+            !loading ? (
               <Grid container spacing={2}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                   <Box pt={2}>
@@ -367,7 +376,7 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             ) : null}
-            {totalProjects ? (
+            {!projectLoading && totalProjects ? (
               <Grid container spacing={2}>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                   <Box mb={1} display="flex" justifyContent="space-between">
@@ -390,7 +399,7 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             ) : null}
-            {boards?.length ? (
+            {!loading && boards?.length ? (
               <Grid container spacing={2}>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                   <Box mb={1} display="flex" justifyContent="space-between">
