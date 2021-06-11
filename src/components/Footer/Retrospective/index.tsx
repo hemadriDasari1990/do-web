@@ -367,7 +367,7 @@ export default function Retrospective() {
                 <GridListTile cols={1} rows={2.3}>
                   <GridItem
                     item={{
-                      step: "1. Use quick start retro feature",
+                      step: "1. Use Start Quick Retro feature",
                       index: 1,
                       title: `You don’t need to start from scratch. Lets do retrospective will help you discuss positive and negative feedback and plan improvements. We recommend using default board feature.`,
                     }}

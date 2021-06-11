@@ -197,7 +197,7 @@ const Login = () => {
         <Box mt={3} display="flex">
           <Box>
             <Typography variant="subtitle2">
-              Activation confirmation link expired?{" "}
+              Account confirmation link expired?{" "}
               <Link component="button" onClick={handleActivationLink}>
                 <Typography variant="subtitle2" color="primary">
                   click here
