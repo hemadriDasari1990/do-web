@@ -36,10 +36,14 @@ const DoSnackbar = React.lazy(() => import("../Snackbar/components"));
 const ProjectDashboard = () => {
   const { root, buttonStyle, alignCenterStyle } = useStyles();
   const dispatch = useDispatch();
-  const { project, projects: projectsList } = useProject();
+  const {
+    project,
+    projects: projectsList,
+    totalProjects: totalProjectsCount,
+  } = useProject();
   const history = useHistory();
   const { loading } = useProjectLoading();
-  const { totalProjects: totalProjectsCount, user } = useUser();
+  const { user } = useUser();
   const { userId } = useLogin();
 
   /* React local states */
