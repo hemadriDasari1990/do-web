@@ -2,7 +2,6 @@ import {
   ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
-import { getMemberId, parseJwt } from "../../util";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -16,9 +15,9 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
+import { getFinalMemberId } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
 import { useBoard } from "../../redux/state/board";
-import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import { useState } from "react";
@@ -42,17 +41,10 @@ export default function NoteUpdate(props: any) {
     setShowNote,
   } = props;
   const { textfieldStyle } = useStyles();
-  const { memberId } = useLogin();
   const { socket } = useSocket();
   const { boardId, token } = useParams<{ boardId: string; token?: string }>();
   const { board } = useBoard();
-  const descodedData: { [Key: string]: any } = token ? parseJwt(token) : null;
-  const joinedMemberId = getMemberId();
-  const creatorId = descodedData?.memberId
-    ? descodedData?.memberId
-    : memberId
-    ? memberId
-    : joinedMemberId;
+  const creatorId = getFinalMemberId(token);
 
   /* Local states */
   const [count, setCount] = useState(selectedNote?.description?.length || 0);

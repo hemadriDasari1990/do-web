@@ -212,3 +212,15 @@ export const getHumanReadableDate = (value: string) => {
 
 export const delay = (time: number) =>
   new Promise((resolve) => setTimeout(resolve, time));
+
+export const getFinalMemberId = (token?: string) => {
+  const loggedInUserToken = localStorage.getItem("token");
+  const descodedData: { [Key: string]: any } = token
+    ? parseJwt(token)
+    : loggedInUserToken
+    ? parseJwt(loggedInUserToken)
+    : null;
+  const joinedMemberId = getMemberId();
+  const id = descodedData?.memberId ? descodedData?.memberId : joinedMemberId;
+  return id;
+};

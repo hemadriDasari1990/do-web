@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 import BackIcon from "@material-ui/icons/ArrowBack";
 import Box from "@material-ui/core/Box";
@@ -40,9 +40,15 @@ const NoteDetails = React.memo((props: any) => {
   const { listIconStyle } = useStyles();
   const [page, setPage] = useState(1);
 
+  const [noteDetails, setNoteDetails] = useState<any>(null);
+
   const goBack = () => {
     setPage(1);
   };
+
+  useEffect(() => {
+    setNoteDetails(note);
+  }, [note]);
 
   return (
     <Suspense fallback={<Loader enable={true} backdrop={true} />}>
@@ -79,14 +85,14 @@ const NoteDetails = React.memo((props: any) => {
                 <Box display="flex">
                   <Typography variant="subtitle1">Created By &nbsp;</Typography>
                   <Typography variant="subtitle1" style={{ color: "#57f" }}>
-                    {note?.createdBy?.name || "Team Member"}
+                    {noteDetails?.createdBy?.name || "Team Member"}
                   </Typography>
                 </Box>
               }
               secondary={
                 <React.Fragment>
                   <Typography variant="subtitle2">
-                    {getPastTime(note?.createdAt)}
+                    {getPastTime(noteDetails?.createdAt)}
                   </Typography>
                 </React.Fragment>
               }
@@ -99,14 +105,14 @@ const NoteDetails = React.memo((props: any) => {
                 <Box display="flex">
                   <Typography variant="subtitle1">Updated By &nbsp;</Typography>
                   <Typography variant="subtitle1" style={{ color: "#57f" }}>
-                    {note?.updatedBy?.name || "Team Member"}
+                    {noteDetails?.updatedBy?.name || "Team Member"}
                   </Typography>
                 </Box>
               }
               secondary={
                 <React.Fragment>
                   <Typography component="span" variant="subtitle2">
-                    {getPastTime(note?.updatedAt)}
+                    {getPastTime(noteDetails?.updatedAt)}
                   </Typography>
                 </React.Fragment>
               }

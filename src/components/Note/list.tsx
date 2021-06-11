@@ -288,7 +288,9 @@ const NoteList = React.memo((props: any) => {
     noteData.read = updatedNote.read;
     noteData.description = updatedNote.description;
     noteData.updatedById = updatedNote.updatedById;
+    noteData.updatedBy = updatedNote.updatedBy;
     newNotes[noteIndex] = noteData;
+    setSelectedNote(noteData);
     setNotes(newNotes);
   };
 

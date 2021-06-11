@@ -10,6 +10,7 @@ import {
 } from "react-beautiful-dnd";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { getFinalMemberId, reorder } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
 
@@ -33,7 +34,6 @@ import Zoom from "@material-ui/core/Zoom";
 import formateNumber from "../../util/formateNumber";
 import getRandomBGColor from "../../util/getRandomColor";
 import { getSectionsByBoard } from "../../redux/actions/section";
-import { reorder } from "../../util";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
@@ -130,6 +130,7 @@ const SectionList = React.memo((props: any) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openAnalytics, setOpenAnalytics] = useState(false);
+  const creatorId = getFinalMemberId();
 
   /* React Hooks */
   useEffect(() => {
@@ -493,6 +494,7 @@ const SectionList = React.memo((props: any) => {
         sourceIndex: source.index,
         destinationIndex: destination.index,
         sectionId: source.droppableId,
+        memberId: creatorId,
       });
       return;
     }
@@ -505,6 +507,7 @@ const SectionList = React.memo((props: any) => {
       destinationSectionId: destination.droppableId,
       source,
       destination,
+      memberId: creatorId,
     });
   };
 
