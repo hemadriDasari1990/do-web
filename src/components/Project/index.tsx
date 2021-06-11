@@ -122,6 +122,10 @@ const ProjectDashboard = () => {
     }
   }, [loading, project]);
 
+  useEffect(() => {
+    setTotalProjects(totalProjectsCount);
+  }, [totalProjectsCount]);
+
   /* Handler functions */
 
   const handleCloseDeleteDialog = () => {
@@ -158,11 +162,12 @@ const ProjectDashboard = () => {
       <Box>
         <ResponsiveDialog
           open={openDeleteDialog}
-          title="Delete Note"
+          title="Delete Project"
           pcta="Delete"
           scta="Cancel"
           handleSave={handleDelete}
           handleClose={handleClose}
+          handleSecondarySubmit={handleClose}
           maxWidth={440}
         >
           <Typography variant="h4">

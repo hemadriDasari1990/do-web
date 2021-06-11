@@ -47,6 +47,7 @@ const Create = React.memo((props: any) => {
         description: selectedProject.description,
         projectId: selectedProject._id,
       });
+      setCount(selectedProject?.description?.length);
     }
     if (!selectedProject?._id) {
       setFormData({});

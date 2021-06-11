@@ -190,11 +190,12 @@ const BoardDashboard = () => {
       <Box>
         <ResponsiveDialog
           open={openDeleteDialog}
-          title="Delete Note"
+          title="Delete Board"
           pcta="Delete"
           scta="Cancel"
           handleSave={handleDelete}
           handleClose={handleClose}
+          handleSecondarySubmit={handleClose}
           maxWidth={440}
           loading={loading}
         >

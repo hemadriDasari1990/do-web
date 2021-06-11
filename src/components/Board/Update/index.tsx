@@ -96,6 +96,7 @@ const Update = React.memo((props: any) => {
         defaultSection: selectedBoard.defaultSection,
         isAnnonymous: selectedBoard.isAnnonymous,
       });
+      setCount(selectedBoard?.description?.length);
     }
     if (!selectedBoard?._id) {
       setFormData({});

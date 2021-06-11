@@ -25,7 +25,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSkeleton from "../../common/skeletons/list";
 import Menu from "@material-ui/core/Menu";
-import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Status from "../../common/Status";
 import SummaryField from "../../common/SummaryField";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -134,7 +134,7 @@ const BoardList = React.memo((props: any) => {
                 }
               >
                 <Zoom in={true} timeout={2000}>
-                  <MoreVertOutlinedIcon />
+                  <MoreHorizIcon />
                 </Zoom>
               </IconButton>
             </Tooltip>
