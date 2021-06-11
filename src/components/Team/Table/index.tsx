@@ -298,6 +298,7 @@ const DoTable = (props: TableProps & any) => {
         <TableFooter>
           <TableRow>
             <TablePagination
+              rowsPerPageOptions={[]}
               colSpan={9}
               count={totalCount || 0}
               rowsPerPage={rowsPerPage}
