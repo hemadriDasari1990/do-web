@@ -81,7 +81,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Let's Do Retro
+                    Lets do retro
                   </Typography>
                 </Box>
                 <Box>
