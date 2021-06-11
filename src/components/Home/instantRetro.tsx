@@ -201,7 +201,21 @@ const InstantRetro = React.memo((props: any) => {
             onPaste={handlePrevent}
           />
         </Box>
-
+        {!noOfSections && (
+          <Box>
+            <DoAutoComplete
+              textInputLabel="Select Default Template"
+              textInputPlaceholder="Select Default Template"
+              optionKey="name"
+              options={defaultSections}
+              onChange={(e: any, data: { [Key: string]: any }) =>
+                handleDefaultSection(data)
+              }
+              className={dropdownInputStyle}
+              // disabled={selectedBoard?._id}
+            />
+          </Box>
+        )}
         {!defaultSection && (
           <Box>
             <TextField
@@ -226,21 +240,7 @@ const InstantRetro = React.memo((props: any) => {
             <HintMessage message="Please note System will generate default title as 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
-        {!noOfSections && (
-          <Box>
-            <DoAutoComplete
-              textInputLabel="Select Default Template"
-              textInputPlaceholder="Select Default Template"
-              optionKey="name"
-              options={defaultSections}
-              onChange={(e: any, data: { [Key: string]: any }) =>
-                handleDefaultSection(data)
-              }
-              className={dropdownInputStyle}
-              // disabled={selectedBoard?._id}
-            />
-          </Box>
-        )}
+
         <Box>
           <TextField
             name="description"

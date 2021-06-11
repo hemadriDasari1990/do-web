@@ -85,7 +85,7 @@ const VerifyAccount = () => {
   return (
     <React.Fragment>
       <Container>
-        <Box minHeight="100%">
+        <Box minHeight="60vh">
           <Loader enable={loading} backdrop={true} />
           <DoSnackbar
             open={showSnackbar}

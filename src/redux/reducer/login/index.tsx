@@ -9,6 +9,9 @@ import {
   LOGOUT_FAILED,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
+  RESEND_ACTIVATION_LINK_FAILED,
+  RESEND_ACTIVATION_LINK_REQUEST,
+  RESEND_ACTIVATION_LINK_SUCCESS,
   RESEND_TOKEN_FAILED,
   RESEND_TOKEN_REQUEST,
   RESEND_TOKEN_SUCCESS,
@@ -165,6 +168,24 @@ const login = (state = initialState, action: ReduxAction) => {
       return {
         ...state,
         loginSuccess: false,
+      };
+
+    case RESEND_ACTIVATION_LINK_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case RESEND_ACTIVATION_LINK_FAILED:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
+      };
+    case RESEND_ACTIVATION_LINK_SUCCESS:
+      return {
+        ...state,
+        response: action.payload,
+        loading: false,
       };
     default:
       return state;

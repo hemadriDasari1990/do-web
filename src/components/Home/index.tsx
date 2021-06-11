@@ -81,7 +81,7 @@ const Home = () => {
                     variant="h1"
                     color="secondary"
                   >
-                    Let's do retro
+                    Let's Do Retro
                   </Typography>
                 </Box>
                 <Box>
@@ -200,7 +200,7 @@ const Home = () => {
               <Box pt={2}>
                 <Box mt={2}>
                   <InfoCard
-                    title="How to get started? Take a look at our 5 step process to get started"
+                    title="How to get started? Take a look at our getting started guide"
                     icon={CallMadeIcon}
                     handleButton={() => handleGettingStarted()}
                     index={0}

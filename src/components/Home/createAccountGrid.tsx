@@ -25,12 +25,12 @@ const CreateAccountGrid = () => {
           <Box>
             <Hidden only={["xl", "lg", "md"]}>
               <Typography variant="h1">
-                Get started with Let's do retro today
+                Get started with Let's Do Retro today
               </Typography>
             </Hidden>
             <Hidden only={["sm", "xs"]}>
               <Typography variant="h1" className={titleStyle}>
-                Get started with Let's do retro today
+                Get started with Let's Do Retro today
               </Typography>
             </Hidden>
           </Box>

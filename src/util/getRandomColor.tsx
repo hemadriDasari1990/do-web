@@ -1,4 +1,4 @@
-const bgColorValues = [
+const primaryColors = [
   "linear-gradient(180deg,#ff9ec9 0,#fd71af 100%)",
   "linear-gradient(180deg,#7997ff 0,#57f 100%)",
   "linear-gradient(180deg,#5ddd93 .03%,#00b884 99.97%)",
@@ -10,6 +10,7 @@ const bgColorValues = [
   "linear-gradient(180deg,#5ddd93 .03%,#00b884 99.97%)",
   "linear-gradient(180deg,#ffdb58 0,#ffc800 100%)",
 ];
+const bgColorValues = [...primaryColors, ...primaryColors];
 
 const getRandomBGColor = (index: number) => {
   return index < bgColorValues?.length

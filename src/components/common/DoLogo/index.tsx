@@ -56,7 +56,7 @@ const DoLogo = React.memo((props: any) => {
           badgeContent="Beta"
         >
           <Typography color={color} className={logoTextStyle}>
-            lets do retro
+            Let's Do Retro
           </Typography>
         </Badge>
       </Box>

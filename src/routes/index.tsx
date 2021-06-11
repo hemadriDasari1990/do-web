@@ -37,6 +37,9 @@ const VerifyAccount = React.lazy(
 const ForgotPassword = React.lazy(
   () => import("../components/User/ForgotPassword")
 );
+const ResendActivation = React.lazy(
+  () => import("../components/User/ResendActivation")
+);
 const ResetPassword = React.lazy(
   () => import("../components/User/ResetPassword")
 );
@@ -170,6 +173,7 @@ const routes = () => {
     { path: routePath.APPS, component: Apps },
     { path: routePath.REACTIONS, component: Reactions },
     { path: routePath.TEMPLATES, component: Templates },
+    { path: routePath.RESEND_ACTIVATION, component: ResendActivation },
   ];
 };
 

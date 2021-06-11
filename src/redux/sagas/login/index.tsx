@@ -8,6 +8,9 @@ import {
   LOGOUT_FAILED,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
+  RESEND_ACTIVATION_LINK_FAILED,
+  RESEND_ACTIVATION_LINK_REQUEST,
+  RESEND_ACTIVATION_LINK_SUCCESS,
   RESEND_TOKEN_FAILED,
   RESEND_TOKEN_REQUEST,
   RESEND_TOKEN_SUCCESS,
@@ -26,6 +29,7 @@ import {
   forgotPassword,
   login,
   logout,
+  resendActivationLink,
   resendToken,
   resetPassword,
   validateForgotPassword,
@@ -161,4 +165,24 @@ function* callResetPassword(action: { [Key: string]: any }) {
 
 export function* watchResetPassword() {
   yield takeLatest(RESET_PASSWORD_REQUEST, callResetPassword);
+}
+
+function* callResendActivationLink(action: { [Key: string]: any }) {
+  try {
+    const result = yield resendActivationLink(action.payload);
+    const status = result?.status;
+    const data = result?.data;
+    if (status === 200) {
+      yield put({ type: RESEND_ACTIVATION_LINK_SUCCESS, payload: data });
+    }
+  } catch (err) {
+    yield put({
+      type: RESEND_ACTIVATION_LINK_FAILED,
+      payload: err.response?.data,
+    });
+  }
+}
+
+export function* watchResendActivationLink() {
+  yield takeLatest(RESEND_ACTIVATION_LINK_REQUEST, callResendActivationLink);
 }

@@ -51,3 +51,10 @@ export function useForgotPassword() {
     response: state.login.response,
   }));
 }
+
+export function useResendActivation() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    errorId: state.login.response?.errorId,
+    response: state.login.response,
+  }));
+}

@@ -98,7 +98,7 @@ const Dashboard = () => {
   const { summary } = useUserSummary();
   const { projects, totalProjects } = useProject();
   const { loading: projectLoading } = useProjectLoading();
-  const { boards, name } = useUser();
+  const { boards, name, isStarted } = useUser();
   const { loading } = useUserLoading();
 
   useEffect(() => {
@@ -318,28 +318,27 @@ const Dashboard = () => {
                 </Grid>
               </Grid>
             </Box>
-            {!totalProjects &&
-            !boards?.length &&
-            !projectLoading &&
-            !loading ? (
+            {!isStarted ? (
               <Grid container spacing={2}>
-                <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                <Grid item xl={5} lg={5} md={4} sm={4} xs={4}>
                   <Box pt={2}>
                     <Typography variant="h2">Getting Started</Typography>
                     <Box mt={2}>
                       <Banner
-                        title="Do these tasks to get started"
+                        title="For non-annonymous"
                         subTitle="0 of 4 complete (About 2 minutes total)"
+                        titleSecondary="For annonymous"
+                        subTitleSecondary="About 30-45 seconds total"
                       />
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                <Grid item xl={3} lg={3} md={4} sm={4} xs={4}>
                   <Box pt={2}>
                     <Typography variant="h2">Get to Know More</Typography>
                     <Box mt={2}>
                       <InfoCard
-                        title="How to get started? Take a look at our 5 step process"
+                        title="How to get started? Take a look at our getting started guide"
                         icon={CallMadeIcon}
                         index={0}
                         handleButton={() => handleGettingStarted()}
@@ -355,7 +354,7 @@ const Dashboard = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                <Grid item xl={3} lg={3} md={4} sm={4} xs={4}>
                   <Box pt={7.6}>
                     <Box mt={2}>
                       <InfoCard
@@ -376,46 +375,59 @@ const Dashboard = () => {
                   </Box>
                 </Grid>
               </Grid>
-            ) : null}
-            <Grid container spacing={2}>
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <Box mb={1} display="flex" justifyContent="space-between">
-                  <Typography variant="h2">Recent Projects</Typography>
-                  <Box mt={1} mr={1}>
-                    <Button
-                      // variant="outlined"
-                      color="primary"
-                      onClick={() => handleProjects()}
-                      endIcon={<ArrowForwardOutlinedIcon />}
-                    >
-                      <Typography variant="subtitle1">
-                        View All ({totalProjects || 0})
-                      </Typography>
-                    </Button>
-                  </Box>
-                </Box>
-                {projectLoading && <ListSkeleton />}
-                {!projectLoading && totalProjects ? (
-                  <ProjectList projects={projects} hideMenu={true} />
-                ) : null}
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <Box mb={1} display="flex" justifyContent="space-between">
-                  <Typography variant="h2">Recent Boards</Typography>
-                </Box>
-                {loading && <ListSkeleton />}
-                {!loading && boards?.length ? (
-                  <BoardList
-                    boards={boards}
-                    hideMenu={true}
-                    showProject={true}
-                    // lastBoard={lastBoard}
-                  />
-                ) : null}
-              </Grid>
-            </Grid>
+            ) : (
+              <>
+                <Grid container spacing={2}>
+                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                    {projectLoading && <ListSkeleton />}
+                    {!projectLoading && totalProjects ? (
+                      <>
+                        <Box
+                          mb={1}
+                          display="flex"
+                          justifyContent="space-between"
+                        >
+                          <Typography variant="h2">Recent Projects</Typography>
+                          <Box mt={1} mr={1}>
+                            <Button
+                              // variant="outlined"
+                              color="primary"
+                              onClick={() => handleProjects()}
+                              endIcon={<ArrowForwardOutlinedIcon />}
+                            >
+                              <Typography variant="subtitle1">
+                                View All ({totalProjects || 0})
+                              </Typography>
+                            </Button>
+                          </Box>
+                        </Box>
+                        <ProjectList projects={projects} hideMenu={true} />
+                      </>
+                    ) : null}
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                    <Box mb={1} display="flex" justifyContent="space-between">
+                      <Typography variant="h2">Recent Boards</Typography>
+                    </Box>
+                    {loading && <ListSkeleton />}
+                    {!loading && boards?.length ? (
+                      <BoardList
+                        boards={boards}
+                        hideMenu={true}
+                        showProject={true}
+                        // lastBoard={lastBoard}
+                      />
+                    ) : (
+                      <Box my={5} display="flex" justifyContent="center">
+                        <Typography variant="h3">No recent boards</Typography>
+                      </Box>
+                    )}
+                  </Grid>
+                </Grid>
+              </>
+            )}
           </Grid>
         </Grid>
       </Box>

@@ -41,7 +41,7 @@ export default function Security() {
         <Box pt={5}>
           <Box>
             <Typography variant="h1">
-              Let's do retro commitment to trust & security
+              Let's Do Retro commitment to trust & security
             </Typography>
             <Box mt={3}>
               <Typography variant="body1">
@@ -52,9 +52,9 @@ export default function Security() {
             </Box>
             <Box mt={3}>
               <Typography variant="body1">
-                At Let's do retro, nothing is more important to us than the
+                At Let's Do Retro, nothing is more important to us than the
                 privacy of our customer’s data. Trust is a core principle of
-                Let's do retro. It’s this commitment to customer privacy and
+                Let's Do Retro. It’s this commitment to customer privacy and
                 inspiring trust that directs the decisions we make on a daily
                 basis. Trust is the responsibility of each and every employee
                 and supplier and we take it seriously.
@@ -94,13 +94,13 @@ export default function Security() {
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Let's do retro application servers are hosted on Goodle
+                        Let's Do Retro application servers are hosted on Goodle
                         cloud and are located in Dubai, United Arab Emirates.
                       </Typography>
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Let's do retro physical infrastructure is hosted and
+                        Let's Do Retro physical infrastructure is hosted and
                         managed within Amazon's secure data centers and utilizes
                         the Google's cloud technology. Google's Cloud
                         continually manages risk and undergoes recurring
@@ -191,7 +191,7 @@ export default function Security() {
                     </Box>
                     <Box mb={5} display="flex">
                       <Typography variant="body1">
-                        Your data is yours. Let's do retro does not sell or rent
+                        Your data is yours. Let's Do Retro does not sell or rent
                         any customer data or information to anyone. It is our
                         guarantee that we will never share or sell your data or
                         information. For more information, please review our
@@ -219,7 +219,7 @@ export default function Security() {
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Let's do retro physical infrastructure is hosted and
+                        Let's Do Retro physical infrastructure is hosted and
                         managed within Google's's secure data centers and
                         utilizes the Google's cloud technology. Google's Cloud
                         continually manages risk and undergoes recurring
@@ -321,12 +321,12 @@ export default function Security() {
                       <Typography variant="body1">
                         We use Agile development methodology and apply coding
                         standards along with the latest best practices in
-                        security to develop Let's do retro.
+                        security to develop Let's Do Retro.
                       </Typography>
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Let's do retro physical infrastructure is hosted and
+                        Let's Do Retro physical infrastructure is hosted and
                         managed within Google's's secure data centers and
                         utilizes the Google's cloud technology. Google's Cloud
                         continually manages risk and undergoes recurring

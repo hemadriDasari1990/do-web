@@ -18,7 +18,7 @@ function Careers() {
           </Zoom>
           <Box my={3}>
             <Typography variant="h6" color="textPrimary">
-              Help us build/improve Let's do retro platform.
+              Help us build/improve Let's Do Retro platform.
             </Typography>
           </Box>
           <Box>
@@ -26,7 +26,7 @@ function Careers() {
           </Box>
           <Box my={3}>
             <Typography variant="h6" color="textPrimary">
-              People rely on let's do retro platform to organize and run
+              People rely on Let's Do Retro platform to organize and run
               retrospectives. Living up to such great responsibility starts with
               hiring excellent people and providing them with an environment in
               which they can do their best work.

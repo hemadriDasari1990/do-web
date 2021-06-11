@@ -3,11 +3,19 @@ import {
   watchDeleteTeam,
   watchGetTeamDetails,
   watchGetTeams,
+  watchGetTeamsByMember,
   watchSendInvitationToTeams,
   watchUpdateTeam,
-  watchGetTeamsByMember,
 } from "./team";
 import { watchCreateFeedback, watchGetFeedbacks } from "./feedback";
+import {
+  watchCreateInstantBoard,
+  watchDeleteBoard,
+  watchGetBoardActivities,
+  watchGetBoardDetails,
+  watchGetBoards,
+  watchUpdateBoard,
+} from "./board";
 import {
   watchCreateRecommendation,
   watchGetRecommendations,
@@ -31,19 +39,11 @@ import {
   watchUpdatePassword,
 } from "./user";
 import {
-  watchDeleteBoard,
-  watchGetBoardActivities,
-  watchGetBoardDetails,
-  watchGetBoards,
-  watchUpdateBoard,
-  watchCreateInstantBoard,
-} from "./board";
-import {
   watchDeleteMember,
   watchGetMemberDetails,
+  watchGetMembersByTeam,
   watchGetMembersByUser,
   watchUpdateMember,
-  watchGetMembersByTeam,
 } from "./member";
 import {
   watchDeleteProject,
@@ -54,6 +54,7 @@ import {
   watchForgotPassword,
   watchLogin,
   watchLogout,
+  watchResendActivationLink,
   watchResendToken,
   watchResetPassword,
   watchValidateForgotPassword,
@@ -69,11 +70,11 @@ import {
 import { fork } from "redux-saga/effects";
 import { watchGetActionByBoard } from "./action";
 import { watchGetActionItemsByAction } from "./actionItem";
+import { watchGetDefaultSections } from "./common";
 import { watchGetInvitedMembers } from "./invite";
 import { watchGetJoinedMembers } from "./join";
 import { watchGetNotesBySection } from "./note";
 import { watchGetSectionsByBoard } from "./section";
-import { watchGetDefaultSections } from "./common";
 
 function* rootSaga() {
   /* Login sagas */
@@ -84,6 +85,7 @@ function* rootSaga() {
   yield fork(watchValidateForgotPassword);
   yield fork(watchForgotPassword);
   yield fork(watchLogout);
+  yield fork(watchResendActivationLink);
 
   /* User sagas */
   yield fork(watchCreateUser);

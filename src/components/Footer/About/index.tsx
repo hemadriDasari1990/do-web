@@ -133,7 +133,7 @@ export default function About() {
                   <UnderlineText title="Hemadri Dasari" />
                   <Box mt={2}>
                     <Typography variant="body1">
-                      He is a Founder & Developer of Let's do retro Inc. He
+                      He is a Founder & Developer of Let's Do Retro Inc. He
                       started as side project in the middle of Jan 2021. He is
                       currently working in a team and not very pleased with the
                       current retrospective board & other tools out there in the

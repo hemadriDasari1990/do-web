@@ -1,4 +1,8 @@
-import { FORGOT_PASSWORD, SIGNUP } from "../../../routes/config";
+import {
+  FORGOT_PASSWORD,
+  RESEND_ACTIVATION,
+  SIGNUP,
+} from "../../../routes/config";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useLoading, useLogin } from "../../../redux/state/login";
@@ -105,6 +109,10 @@ const Login = () => {
     history.push(FORGOT_PASSWORD);
   };
 
+  const handleActivationLink = () => {
+    history.push(RESEND_ACTIVATION);
+  };
+
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
@@ -181,6 +189,18 @@ const Login = () => {
               <Link component="button" onClick={handleForgotPassword}>
                 <Typography variant="subtitle2" color="primary">
                   reset your password
+                </Typography>
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
+        <Box mt={3} display="flex">
+          <Box>
+            <Typography variant="subtitle2">
+              Activation confirmation link expired?{" "}
+              <Link component="button" onClick={handleActivationLink}>
+                <Typography variant="subtitle2" color="primary">
+                  click here
                 </Typography>
               </Link>
             </Typography>

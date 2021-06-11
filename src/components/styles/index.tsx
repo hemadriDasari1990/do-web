@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   gettingStartedBanner: {
     minHeight: 300,
     borderRadius: 6,
-    padding: 20,
+    padding: "20px 10px",
   },
   cursor: {
     cursor: "pointer",

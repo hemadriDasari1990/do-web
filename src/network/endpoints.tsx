@@ -11,6 +11,7 @@ export const RESEND_TOKEN = "/auth/resend-token";
 export const FORGOT_PASSWORD = "/auth/forgot-password";
 export const VALIDATE_FORGOT_PASSWORD = "/auth/validate-forgot-password";
 export const RESET_PASSWORD = "/auth/reset-password";
+export const RESEND_ACTIVATION = "/auth/resend-activation";
 
 /* User Endpoints */
 export const CREATE_USER = "/user";

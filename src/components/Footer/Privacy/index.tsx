@@ -38,10 +38,10 @@ export default function Privacy() {
             <Typography variant="h1">Privacy policy</Typography>
             <Box mt={3}>
               <Typography component="p" variant="body1">
-                Thank you for visiting/using Let's do retro. In order to protect
+                Thank you for visiting/using Let's Do Retro. In order to protect
                 your privacy we provide this notice explaining our best
                 practices. This privacy policy applies between you, the User of
-                this Website and Let's do retro App, the owner and provider of
+                this Website and Let's Do Retro App, the owner and provider of
                 this Website.
               </Typography>
             </Box>
@@ -73,8 +73,8 @@ export default function Privacy() {
               </Typography>
               <PrivacyList
                 list={[
-                  `This privacy policy applies only to the actions of Let's do retro and users with respect to this Website. It does not extend to any websites that can be accessed from this Website including, but not limited to, any links we may provide to social media websites. For purposes of the applicable Data Protection Laws, Let's do retro ApS is the “data controller”.`,
-                  "This means that Let's do retro ApS determines the purposes for which, and the manner in which, your Data is processed.",
+                  `This privacy policy applies only to the actions of Let's Do Retro and users with respect to this Website. It does not extend to any websites that can be accessed from this Website including, but not limited to, any links we may provide to social media websites. For purposes of the applicable Data Protection Laws, Let's Do Retro ApS is the “data controller”.`,
+                  "This means that Let's Do Retro ApS determines the purposes for which, and the manner in which, your Data is processed.",
                 ]}
               />
             </Box>
@@ -271,12 +271,12 @@ export default function Privacy() {
               <UnderlineText title="Changes to this privacy policy" />
               <Box mt={2}>
                 <Typography variant="body1">
-                  Let's do retro App reserves the right to change this privacy
+                  Let's Do Retro App reserves the right to change this privacy
                   policy as we may deem necessary from time to time or as may be
                   required by law. Any changes will be immediately posted on the
                   Website and you are deemed to have accepted the terms of the
                   privacy policy on your first use of the Website following the
-                  alterations.You may contact Let's do retro App by email at
+                  alterations.You may contact Let's Do Retro App by email at
                   letsdoretro@gmail.com.
                 </Typography>
               </Box>

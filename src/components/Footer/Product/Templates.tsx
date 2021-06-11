@@ -6,7 +6,6 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Zoom from "@material-ui/core/Zoom";
 import { getDefaultSections } from "../../../redux/actions/common";
 import { makeStyles } from "@material-ui/core";
 import { useDefaultSections } from "../../../redux/state/common";
@@ -37,9 +36,7 @@ function Templates() {
     <React.Fragment>
       <Container>
         <Box py={5}>
-          <Zoom in={true} timeout={2000}>
-            <Typography variant="h1">Templates</Typography>
-          </Zoom>
+          <Typography variant="h1">Templates</Typography>
           <Box my={3}>
             <Typography variant="body1" color="textPrimary">
               Lets do retro templates are designed to help our customers create

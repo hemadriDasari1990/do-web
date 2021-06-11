@@ -4,6 +4,7 @@ export function useUser() {
   return useSelector((state: { [Key: string]: any }) => ({
     user: state.user.response,
     name: state.user.response?.name,
+    isStarted: state.user.response?.isStarted,
     description: state.user.response?.description,
     message: state.user.response?.message,
     totalTeams: state.user.response?.totalTeams,

@@ -122,7 +122,7 @@ const ForgotPassword = () => {
               name="email"
               id="email"
               label="User Email Address"
-              placeholder="Enter User Email Address"
+              placeholder="Enter Your Email Address"
               value={email}
               onChange={handleInput}
               autoComplete="off"

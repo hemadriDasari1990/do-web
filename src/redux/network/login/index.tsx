@@ -2,6 +2,7 @@ import {
   FORGOT_PASSWORD,
   LOGIN,
   LOGOUT,
+  RESEND_ACTIVATION,
   RESEND_TOKEN,
   RESET_PASSWORD,
   VALIDATE_FORGOT_PASSWORD,
@@ -36,4 +37,8 @@ export const validateForgotPassword = (payload: { [Key: string]: any }) => {
 
 export const resetPassword = (payload: { [Key: string]: any }) => {
   return API(RESET_PASSWORD, { method: "POST", data: payload });
+};
+
+export const resendActivationLink = (payload: { [Key: string]: any }) => {
+  return API(RESEND_ACTIVATION, { method: "POST", data: payload });
 };

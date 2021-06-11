@@ -133,11 +133,11 @@ export default function Recommendation(props: any) {
             {!rating ? (
               <Typography variant="h5">
                 Based on your experience so far, how likely are you to recommend
-                Let's do retro to a friend or colleague?
+                Let's Do Retro to a friend or colleague?
               </Typography>
             ) : (
               <Typography variant="h5">
-                We love that you love Let's do retro. Let's work together to
+                We love that you love Let's Do Retro. Let's work together to
                 make it even better.
               </Typography>
             )}

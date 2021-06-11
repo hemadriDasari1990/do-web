@@ -13,6 +13,7 @@ export const NOTIFICATIONS = "/notifications";
 export const TERMS = "/terms";
 export const LOGIN = "/login";
 export const FORGOT_PASSWORD = "/forgot-password";
+export const RESEND_ACTIVATION = "/resend-activation-link";
 export const VERIFY = "/verify/:token";
 export const RESET_PASSWORD = "/reset-password/:token";
 export const RESEND = "/resend/:token";

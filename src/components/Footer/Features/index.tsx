@@ -168,7 +168,7 @@ export default function Features() {
               <FeatureImage image={ReactionsIcon} />
               <FeatureContent
                 title="Add reactions"
-                description="Let's do retro allows you to express different types of reactions on each note like Agree, Love, Highlight, Deserve and Disagree. With this make decisions democratically and improve along the way."
+                description="Let's Do Retro allows you to express different types of reactions on each note like Agree, Love, Highlight, Deserve and Disagree. With this make decisions democratically and improve along the way."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
