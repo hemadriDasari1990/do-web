@@ -32,6 +32,7 @@ import Hidden from "@material-ui/core/Hidden";
 // import { IconButton } from "@material-ui/core";
 import Invite from "../common/Invite";
 import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import Loader from "../Loader/components";
 import LockIcon from "@material-ui/icons/Lock";
 import { MEMBERS_PER_PAGE } from "../../util/constants";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -858,7 +859,7 @@ export default function Section() {
   };
 
   return (
-    <Suspense fallback={<div />}>
+    <Suspense fallback={<Loader enable={true} backdrop={true} />}>
       {renderDialog()}
       {renderCreateSection()}
       {/* {renderCreateAction()} */}
