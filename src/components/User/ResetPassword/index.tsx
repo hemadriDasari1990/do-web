@@ -83,7 +83,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    dispatch(resetPassword({ ...formData, userId: response?.user._id }));
+    dispatch(resetPassword({ ...formData, token: token }));
   };
 
   const handleClose = () => {

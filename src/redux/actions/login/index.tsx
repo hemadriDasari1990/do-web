@@ -4,7 +4,6 @@ import {
   LOGIN_REQUEST,
   LOGOUT_REQUEST,
   RESEND_ACTIVATION_LINK_REQUEST,
-  RESEND_TOKEN_REQUEST,
   RESET_PASSWORD_REQUEST,
   VALIDATE_FORGOT_PASSWORD_REQUEST,
   VERIFY_TOKEN_REQUEST,
@@ -33,13 +32,6 @@ export const clearLogin = () => {
 export const verifyToken = (payload: { [Key: string]: any }) => {
   return {
     type: VERIFY_TOKEN_REQUEST,
-    payload: payload,
-  };
-};
-
-export const resendToken = (payload: { [Key: string]: any }) => {
-  return {
-    type: RESEND_TOKEN_REQUEST,
     payload: payload,
   };
 };

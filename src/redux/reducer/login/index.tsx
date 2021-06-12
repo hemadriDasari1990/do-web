@@ -12,9 +12,6 @@ import {
   RESEND_ACTIVATION_LINK_FAILED,
   RESEND_ACTIVATION_LINK_REQUEST,
   RESEND_ACTIVATION_LINK_SUCCESS,
-  RESEND_TOKEN_FAILED,
-  RESEND_TOKEN_REQUEST,
-  RESEND_TOKEN_SUCCESS,
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
@@ -61,24 +58,6 @@ const login = (state = initialState, action: ReduxAction) => {
         response: action.payload,
         loading: false,
         loginSuccess: true,
-      };
-
-    case RESEND_TOKEN_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case RESEND_TOKEN_FAILED:
-      return {
-        ...state,
-        response: action.payload,
-        loading: false,
-      };
-    case RESEND_TOKEN_SUCCESS:
-      return {
-        ...state,
-        response: action.payload,
-        loading: false,
       };
 
     case VERIFY_TOKEN_REQUEST:

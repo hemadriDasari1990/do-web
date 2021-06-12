@@ -6,10 +6,8 @@ import {
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
-import Checkbox from "@material-ui/core/Checkbox";
 import DoAutoComplete from "../DoAutoComplete";
 import DoSnackbar from "../../Snackbar/components";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
 import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import React from "react";
@@ -50,9 +48,8 @@ export default function Invite(props: any) {
     name: "",
     email: "",
     teams: [],
-    createMember: false,
   });
-  const { name, email, teams, createMember } = formData;
+  const { name, email, teams } = formData;
 
   /* Handler functions */
   const handleSendInvite = () => {
@@ -62,7 +59,6 @@ export default function Invite(props: any) {
       id: selectedBoard?._id,
       name,
       email,
-      createMember,
       teams,
     });
   };
@@ -72,7 +68,6 @@ export default function Invite(props: any) {
       name: "",
       email: "",
       teams: [],
-      createMember: false,
     });
   }, [openDialog]);
 
@@ -102,7 +97,7 @@ export default function Invite(props: any) {
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const emailInput = event.target.value;
-    setFormData({ name: "", createMember: false, email: emailInput });
+    setFormData({ name: "", email: emailInput });
   };
 
   const disableButton = () => {
@@ -126,10 +121,6 @@ export default function Invite(props: any) {
 
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
-
-  const handleCreateMember = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, createMember: !createMember });
   };
 
   const handleSnackbarClose = () => {
@@ -216,24 +207,6 @@ export default function Invite(props: any) {
                 className={textFieldStyle}
                 onKeyPress={(event: React.KeyboardEvent<any>) =>
                   allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
-                }
-              />
-            </Box>
-          ) : null}
-          {name?.trim()?.length ? (
-            <Box mt={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={createMember}
-                    onChange={handleCreateMember}
-                    value="false"
-                    color="primary"
-                    name="createMember"
-                  />
-                }
-                label={
-                  <Typography variant="h6">Also create as member</Typography>
                 }
               />
             </Box>

@@ -3,7 +3,6 @@ import {
   LOGIN,
   LOGOUT,
   RESEND_ACTIVATION,
-  RESEND_TOKEN,
   RESET_PASSWORD,
   VALIDATE_FORGOT_PASSWORD,
   VERIFY_TOKEN,
@@ -21,10 +20,6 @@ export const logout = () => {
 
 export const verifyToken = (payload: { [Key: string]: any }) => {
   return API(VERIFY_TOKEN, { method: "POST", data: payload });
-};
-
-export const resendToken = (payload: { [Key: string]: any }) => {
-  return API(RESEND_TOKEN, { method: "POST", data: payload });
 };
 
 export const forgotPassword = (payload: { [Key: string]: any }) => {

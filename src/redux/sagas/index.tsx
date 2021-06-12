@@ -55,7 +55,6 @@ import {
   watchLogin,
   watchLogout,
   watchResendActivationLink,
-  watchResendToken,
   watchResetPassword,
   watchValidateForgotPassword,
   watchVerifyToken,
@@ -79,7 +78,6 @@ import { watchGetSectionsByBoard } from "./section";
 function* rootSaga() {
   /* Login sagas */
   yield fork(watchLogin);
-  yield fork(watchResendToken);
   yield fork(watchVerifyToken);
   yield fork(watchResetPassword);
   yield fork(watchValidateForgotPassword);

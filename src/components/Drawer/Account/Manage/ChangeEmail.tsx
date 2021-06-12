@@ -1,15 +1,17 @@
-import { EMAIL_PATTERN, allow } from "../../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import { clearUserState, updateEmail } from "../../../../redux/actions/user";
 import { useUser, useUserLoading } from "../../../../redux/state/user";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DoSnackbar from "../../../Snackbar/components";
+import { EMAIL_PATTERN } from "../../../../util/regex";
+import Loader from "../../../Loader/components";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
+import { logout } from "../../../../redux/actions/login";
 import { storeAction } from "../../../../redux/actions/common";
-import { updateEmail } from "../../../../redux/actions/user";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,6 +48,9 @@ const ChangeEmail = () => {
       setOpenSnackbar(true);
       setApiCalled(false);
       setTimeout(() => {
+        dispatch(logout());
+        dispatch(clearUserState());
+        localStorage.clear();
         dispatch(storeAction(""));
       }, 2000);
     }
@@ -103,8 +108,13 @@ const ChangeEmail = () => {
     );
   };
 
+  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <React.Fragment>
+      <Loader enable={loading} backdrop={true} />
       {renderSnackbar()}
       <Box>
         <Box>
@@ -118,9 +128,9 @@ const ChangeEmail = () => {
             autoComplete="off"
             required
             className={textFieldStyle}
-            onKeyPress={(event: React.KeyboardEvent<any>) =>
-              allow(event, EMAIL_PATTERN)
-            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
           />
         </Box>
         <Box>
@@ -136,6 +146,9 @@ const ChangeEmail = () => {
             }
             required
             className={textFieldStyle}
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
           />
         </Box>
         <Box>
@@ -149,9 +162,9 @@ const ChangeEmail = () => {
             autoComplete="off"
             required
             className={textFieldStyle}
-            onKeyPress={(event: React.KeyboardEvent<any>) =>
-              allow(event, EMAIL_PATTERN)
-            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
           />
         </Box>
 

@@ -11,9 +11,6 @@ import {
   RESEND_ACTIVATION_LINK_FAILED,
   RESEND_ACTIVATION_LINK_REQUEST,
   RESEND_ACTIVATION_LINK_SUCCESS,
-  RESEND_TOKEN_FAILED,
-  RESEND_TOKEN_REQUEST,
-  RESEND_TOKEN_SUCCESS,
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
@@ -30,7 +27,6 @@ import {
   login,
   logout,
   resendActivationLink,
-  resendToken,
   resetPassword,
   validateForgotPassword,
   verifyToken,
@@ -91,23 +87,6 @@ function* callVerifyToken(action: { [Key: string]: any }) {
 
 export function* watchVerifyToken() {
   yield takeLatest(VERIFY_TOKEN_REQUEST, callVerifyToken);
-}
-
-function* callResendToken(action: { [Key: string]: any }) {
-  try {
-    const result = yield resendToken(action.payload);
-    const status = result?.status;
-    const data = result?.data;
-    if (status === 200) {
-      yield put({ type: RESEND_TOKEN_SUCCESS, payload: data });
-    }
-  } catch (err) {
-    yield put({ type: RESEND_TOKEN_FAILED, payload: err.response?.data });
-  }
-}
-
-export function* watchResendToken() {
-  yield takeLatest(RESEND_TOKEN_REQUEST, callResendToken);
 }
 
 function* callForgotPassword(action: { [Key: string]: any }) {
