@@ -3,7 +3,7 @@ import {
   ONLY_NUMBERS,
   allow,
 } from "../../util/regex";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useBoard, useBoardUpdateLoading } from "../../redux/state/board";
 
@@ -149,6 +149,57 @@ const InstantRetro = React.memo((props: any) => {
     event.preventDefault();
   };
 
+  const renderNoOfSections = useCallback(
+    () => (
+      <>
+        {!defaultSection ? (
+          <TextField
+            name="noOfSections"
+            id="noOfSections"
+            label="Number Of Sections"
+            placeholder="Enter no of senctions"
+            value={noOfSections}
+            onChange={handleInput}
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ONLY_NUMBERS, 2)
+            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+          />
+        ) : null}
+      </>
+    ),
+    [defaultSection, noOfSections]
+  );
+
+  const renderDefaultTemplate = useCallback(
+    () => (
+      <>
+        {!noOfSections ? (
+          <DoAutoComplete
+            textInputLabel="Select Default Template"
+            textInputPlaceholder="Select Default Template"
+            optionKey="name"
+            options={defaultSections}
+            onChange={(e: any, data: { [Key: string]: any }) =>
+              handleDefaultSection(data)
+            }
+            className={dropdownInputStyle}
+            // disabled={selectedBoard?._id}
+          />
+        ) : null}
+        {noOfSections ? (
+          <Box mt={3}>
+            <HintMessage message="Please note System will generate default title as 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
+          </Box>
+        ) : null}
+      </>
+    ),
+    [noOfSections, defaultSections]
+  );
+
   return (
     <React.Fragment>
       {renderSnackbar()}
@@ -201,46 +252,8 @@ const InstantRetro = React.memo((props: any) => {
             onPaste={handlePrevent}
           />
         </Box>
-        {!noOfSections && (
-          <Box>
-            <DoAutoComplete
-              textInputLabel="Select Default Template"
-              textInputPlaceholder="Select Default Template"
-              optionKey="name"
-              options={defaultSections}
-              onChange={(e: any, data: { [Key: string]: any }) =>
-                handleDefaultSection(data)
-              }
-              className={dropdownInputStyle}
-              // disabled={selectedBoard?._id}
-            />
-          </Box>
-        )}
-        {!defaultSection && (
-          <Box>
-            <TextField
-              name="noOfSections"
-              id="noOfSections"
-              label="Number Of Sections"
-              placeholder="Enter no of senctions"
-              value={noOfSections}
-              onChange={handleInput}
-              className={textFieldStyle}
-              onKeyPress={(event: React.KeyboardEvent<any>) =>
-                allow(event, ONLY_NUMBERS, 2)
-              }
-              onCut={handlePrevent}
-              onCopy={handlePrevent}
-              onPaste={handlePrevent}
-            />
-          </Box>
-        )}
-        {noOfSections ? (
-          <Box mt={3}>
-            <HintMessage message="Please note System will generate default title as 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
-          </Box>
-        ) : null}
-
+        {renderDefaultTemplate()}
+        {renderNoOfSections()}
         <Box>
           <TextField
             name="description"
