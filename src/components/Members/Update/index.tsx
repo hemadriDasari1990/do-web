@@ -52,7 +52,7 @@ const Create = React.memo((props: any) => {
   const { name, email, teams } = formData;
 
   useEffect(() => {
-    dispatch(getTeams(userId, "", 0, 5));
+    dispatch(getTeams(userId, "", 0, 100));
   }, []);
 
   useEffect(() => {

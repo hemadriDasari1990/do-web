@@ -120,7 +120,7 @@ const Update = React.memo(() => {
 
   /* React Hooks */
   useEffect(() => {
-    dispatch(getTeams(userId, "", 0, 5));
+    dispatch(getTeams(userId, "", 0, 100));
     socket.emit("get-projects", userId);
   }, []);
 

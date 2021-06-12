@@ -104,7 +104,7 @@ const Update = React.memo((props: any) => {
   }, [selectedBoard]);
 
   useEffect(() => {
-    dispatch(getTeams(userId, "", 0, 5));
+    dispatch(getTeams(userId, "", 0, 100));
   }, []);
 
   /* Handler functions */

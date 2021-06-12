@@ -56,6 +56,7 @@ import formateNumber from "../../util/formateNumber";
 import { getJoinedMembers } from "../../redux/actions/join";
 // import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
+import { getTeams } from "../../redux/actions/team";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useJoinedMembers } from "../../redux/state/join";
@@ -134,7 +135,7 @@ export default function Section() {
   const { boardId } = useParams<{ boardId: string }>();
   const { totalSections: totalSectionsCount, board } = useBoard();
   const { loading } = useBoardLoading();
-  const { memberId } = useLogin();
+  const { memberId, userId } = useLogin();
   const history = useHistory();
   const { loading: boardLoading } = useBoardLoading();
   const { socket } = useSocket();
@@ -657,6 +658,7 @@ export default function Section() {
   };
 
   const inviteMember = () => {
+    dispatch(getTeams(userId, "", 0, 100));
     setOpenInviteDialog(true);
   };
 

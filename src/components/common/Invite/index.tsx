@@ -7,6 +7,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
+import DoAutoComplete from "../DoAutoComplete";
 import DoSnackbar from "../../Snackbar/components";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
@@ -16,6 +17,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
+import { useTeam } from "../../../redux/state/team";
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -37,21 +39,20 @@ export default function Invite(props: any) {
   const { openDialog, selectedBoard, handleClose } = props;
   const { primaryButtonStyle, textFieldStyle } = useStyles();
   const { socket } = useSocket();
+  const { teams: teamsList } = useTeam();
 
   /* Local states */
   const [error, setError] = React.useState<string>("");
-  const [showCreateMember, setShowCreateMember] = React.useState<boolean>(
-    false
-  );
 
   const [showSnackbar, setShowSnackbar] = React.useState<boolean>(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [createMember, setCreateMember] = React.useState<boolean>(false);
-  const [member, setMember] = React.useState<{ [Key: string]: any }>({
+  const [formData, setFormData] = React.useState<{ [Key: string]: any }>({
     name: "",
     email: "",
+    teams: [],
+    createMember: false,
   });
-  const { name, email } = member;
+  const { name, email, teams, createMember } = formData;
 
   /* Handler functions */
   const handleSendInvite = () => {
@@ -59,15 +60,19 @@ export default function Invite(props: any) {
     setFetching(true);
     socket.emit("invite-member-to-board", {
       id: selectedBoard?._id,
-      member: member,
+      name,
+      email,
       createMember,
+      teams,
     });
   };
 
   useEffect(() => {
-    setMember({
+    setFormData({
       name: "",
       email: "",
+      teams: [],
+      createMember: false,
     });
   }, [openDialog]);
 
@@ -97,14 +102,20 @@ export default function Invite(props: any) {
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const emailInput = event.target.value;
-    setMember({ ...member, email: emailInput });
+    setFormData({ name: "", createMember: false, email: emailInput });
   };
 
   const disableButton = () => {
-    if (!member) {
+    if (!formData) {
       return true;
     }
-    if (!member.name?.trim().length || !EMAIL_PATTERN.test(member?.email)) {
+    if (
+      !teams?.length &&
+      (!name?.trim().length || !EMAIL_PATTERN.test(email))
+    ) {
+      return true;
+    }
+    if (teams?.length && email?.length) {
       return true;
     }
     if (showSnackbar) {
@@ -114,12 +125,11 @@ export default function Invite(props: any) {
   };
 
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMember({ ...member, [event.target.name]: event.target.value });
-    setShowCreateMember(true);
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const handleCreateMember = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateMember(!createMember);
+    setFormData({ ...formData, createMember: !createMember });
   };
 
   const handleSnackbarClose = () => {
@@ -147,6 +157,10 @@ export default function Invite(props: any) {
     );
   };
 
+  const handleTeam = (data: { [Key: string]: any }) => {
+    setFormData({ teams: data ? [data] : [] });
+  };
+
   return (
     <ResponsiveDialog
       disablePrimaryCTA={disableButton()}
@@ -161,50 +175,70 @@ export default function Invite(props: any) {
     >
       <Loader enable={fetching} backdrop={true} />
       {renderSnackbar()}
-      <Box>
-        <TextField
-          name="email"
-          id="email"
-          label="Email Address"
-          placeholder="Enter email address"
-          value={email}
-          onChange={handleEmail}
-          className={textFieldStyle}
-          // error={Boolean(error)}
-          // helperText={error}
-        />
-      </Box>
-      {EMAIL_PATTERN.test(email) && !member?._id ? (
+      {!email && (
         <Box>
-          <TextField
-            name="name"
-            id="name"
-            label="Name"
-            placeholder="Enter Fullname"
-            value={name}
-            onChange={handleName}
-            className={textFieldStyle}
-            onKeyPress={(event: React.KeyboardEvent<any>) =>
-              allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
+          <DoAutoComplete
+            textInputLabel="Invite Team"
+            textInputPlaceholder="Select team"
+            optionKey="name"
+            options={teamsList}
+            onChange={(e: any, data: { [Key: string]: any }) =>
+              handleTeam(data)
             }
+            // customClass={dropdownInputStyle}
           />
         </Box>
-      ) : null}
-      {showCreateMember && name?.trim()?.length ? (
-        <Box mt={2}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={createMember}
-                onChange={handleCreateMember}
-                value="false"
-                color="primary"
-                name="createMember"
+      )}
+      {!teams?.length ? (
+        <>
+          <Box>
+            <TextField
+              name="email"
+              id="email"
+              label="Email Address"
+              placeholder="Enter email address"
+              value={email}
+              onChange={handleEmail}
+              className={textFieldStyle}
+              // error={Boolean(error)}
+              // helperText={error}
+            />
+          </Box>
+          {EMAIL_PATTERN.test(email) && !formData?._id ? (
+            <Box>
+              <TextField
+                name="name"
+                id="name"
+                label="Name"
+                placeholder="Enter Fullname"
+                value={name}
+                onChange={handleName}
+                className={textFieldStyle}
+                onKeyPress={(event: React.KeyboardEvent<any>) =>
+                  allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
+                }
               />
-            }
-            label={<Typography variant="h6">Also create as member</Typography>}
-          />
-        </Box>
+            </Box>
+          ) : null}
+          {name?.trim()?.length ? (
+            <Box mt={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={createMember}
+                    onChange={handleCreateMember}
+                    value="false"
+                    color="primary"
+                    name="createMember"
+                  />
+                }
+                label={
+                  <Typography variant="h6">Also create as member</Typography>
+                }
+              />
+            </Box>
+          ) : null}
+        </>
       ) : null}
     </ResponsiveDialog>
   );
