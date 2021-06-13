@@ -172,8 +172,7 @@ export default function Footer() {
               </Box>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">
-                  Empower professionals and students to create the next big
-                  thing!
+                  Empower agile teams and students to create the next big thing!
                 </Typography>
               </Box>
             </Grid>

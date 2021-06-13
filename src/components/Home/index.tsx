@@ -105,8 +105,8 @@ const Home = () => {
                 <Box mb={5}>
                   <Typography variant="body1" color="secondary">
                     Identify how to improve teamwork by reflecting on what
-                    worked, what didn’t, and why. Our mission is to help
-                    Professionals and Students create the next big thing.
+                    worked, what didn’t, and why. Our mission is to help Agile
+                    teams and Students create the next big thing.
                   </Typography>
                 </Box>
                 <Box>
@@ -168,8 +168,8 @@ const Home = () => {
               </Box>
               <Box>
                 <Typography variant="body1">
-                  The next generation retrospective tool for professionals,
-                  students, collaborate with your team and get better in what
+                  The next generation retrospective tool for Agile teams,
+                  Students, collaborate with your team and get better in what
                   you do with a simple, powerful and beautiful tool.
                 </Typography>
               </Box>

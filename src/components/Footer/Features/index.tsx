@@ -106,8 +106,8 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={TeamIcon} />
               <FeatureContent
-                title="Create a team"
-                description="Create teams and invite unlimited people to collaborate on boards."
+                title="Teams"
+                description="Create teams and add/invite unlimited developers, managers, and team leaders to collaborate on the Letsdoretro boards"
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -120,8 +120,8 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={ProjectIcon} />
               <FeatureContent
-                title="Create a project"
-                description="Create unlimited prjects, manage individual projects or 100's at once with unlimited retro boards."
+                title="Projects"
+                description="Create unlimited projects, manage individual projects or 100's at once with unlimited retro boards."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -146,8 +146,8 @@ export default function Features() {
                 </Zoom>
               </Box>
               <FeatureContent
-                title="Create a retrospective board"
-                description="A retrospective is a meeting where a team examines how it’s working together with the goal of improving their future collaborations."
+                title="Boards"
+                description="Create unlimited retro boards with your dev team using our preconfigured templates or customize your own"
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
@@ -167,7 +167,7 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={ReactionsIcon} />
               <FeatureContent
-                title="Add reactions"
+                title="Reactions"
                 description="Let's Do Retro allows you to express different types of reactions on each note like Agree, Love, Highlight, Deserve and Disagree. With this make decisions democratically and improve along the way."
               />
             </Grid>
@@ -207,7 +207,7 @@ export default function Features() {
                 </Zoom>
               </Box>
               <FeatureContent
-                title="Move notes across the board"
+                title="Drag & Drop"
                 description="Drag and drop notes to move them across the board, your board your rules."
               />
             </Grid>
@@ -216,7 +216,7 @@ export default function Features() {
               <FeatureImage image={ExportDataIcon} />
               <FeatureContent
                 title="Export to Excel"
-                description="Single click export all your board data to an excel."
+                description="Export any board to excel for external use, reporting, or presentation"
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
