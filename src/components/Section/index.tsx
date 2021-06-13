@@ -65,6 +65,8 @@ import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 
+const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
+
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
 const AvatarGroupList = React.lazy(() => import("../common/AvatarGroupList"));
@@ -146,6 +148,7 @@ export default function Section() {
   const { token } = useParams<{ token: string }>();
   const joinedMemberId = getMemberId();
   const invitedMemberId = getMemberIdByToken(token);
+  const sessionAudio = new Audio(sessionSound.default);
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -400,6 +403,10 @@ export default function Section() {
     if (board?.status !== "completed") {
       history.push(ROOT);
     }
+  };
+
+  const playSound = (audioFile: any) => {
+    audioFile.play();
   };
 
   const updateJoinedMember = (jMember: { [Key: string]: any }) => {
@@ -673,6 +680,7 @@ export default function Section() {
   };
 
   const handleStartSessionDialog = () => {
+    playSound(sessionAudio);
     setOpenStartSessionDialog(true);
   };
 
@@ -740,6 +748,7 @@ export default function Section() {
   };
 
   const handleEndSession = () => {
+    playSound(sessionAudio);
     socket.emit("end-session", {
       action: "end",
       id: boardDetails?._id,

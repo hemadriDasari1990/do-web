@@ -10,6 +10,8 @@ import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
+const lockSound = require("../../../assets/sounds/ui_lock.wav");
+const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -22,13 +24,27 @@ const useStyles = makeStyles((e) => ({
 export default function Visibility(props: any) {
   const { openDialog, handleClose, selectedBoard } = props;
   const { publicIconStyle } = useStyles();
+  const lockAudio = new Audio(lockSound.default);
+  const unlockAudio = new Audio(unlockSound.default);
+
   /* Local states */
   const [checked, setChecked] = React.useState(
     selectedBoard?.isPrivate ? "private" : "public"
   );
   const { socket } = useSocket();
 
-  const handleToggle = (value: string) => () => {
+  const playSound = (audioFile: any) => {
+    audioFile.play();
+  };
+
+  const handleToggle = (value: string) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.checked) {
+      playSound(unlockAudio);
+    } else {
+      playSound(lockAudio);
+    }
     setChecked(value);
     socket.emit("change-visibility", {
       id: selectedBoard?._id,

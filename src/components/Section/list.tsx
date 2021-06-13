@@ -40,6 +40,8 @@ import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
 
+const dropSound = require("../../assets/sounds/ui_camera-shutter.wav");
+
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -108,6 +110,7 @@ const SectionList = React.memo((props: any) => {
   } = useLocalStyles(props);
 
   const dispatch = useDispatch();
+  const dropAudio = new Audio(dropSound.default);
 
   const { boardId } = useParams<{ boardId: string }>();
   const { socket } = useSocket();
@@ -238,6 +241,10 @@ const SectionList = React.memo((props: any) => {
     setAnchorEl(null);
     setOpen(false);
     setOpenDialog(true);
+  };
+
+  const playSound = (audioFile: any) => {
+    audioFile.play();
   };
 
   const handleDeleteSection = () => {
@@ -468,7 +475,7 @@ const SectionList = React.memo((props: any) => {
     ) {
       return;
     }
-
+    playSound(dropAudio);
     // reordering column
     if (result.type === "SECTION") {
       // if the list is scrolled it looks like there is some strangeness going on
