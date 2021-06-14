@@ -172,22 +172,11 @@ export default function Section() {
   const [joinedMembers, setJoinedMembers] = useState<
     Array<{ [Key: string]: any }>
   >([]);
-  // const [openInviteTooltip, setOpenInviteTootltip] = useState(true);
-  // const [openVisibilityTooltip, setOpenVisibilityTootltip] = useState(true);
-  // const [openSessionTooltip, setOpenSessionTootltip] = useState(true);
-  // const [openSectionTooltip, setOpenSectionTootltip] = useState(true);
 
   useEffect(() => {
     if (boardId) {
       dispatch(getBoardDetails(boardId));
       dispatch(getJoinedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
-      if (!authenticated && token && joinedMemberId !== invitedMemberId) {
-        setOpenAddGuestDialog(true);
-        // socket.emit("check-if-member-joined-board", {
-        //   token,
-        //   boardId: boardId,
-        // });
-      }
     }
 
     /* Remove member id from localstorage if there is no token in the board url */
@@ -205,7 +194,7 @@ export default function Section() {
           return;
         }
 
-        if (response?.errorId) {
+        if (response?.errorId && invitedMemberId === response?.memberId) {
           setOpenSnackbar(true);
           setOpenAddGuestDialog(false);
           setJoinedMember(response);
@@ -221,10 +210,10 @@ export default function Section() {
           ]);
         }
         setJoinedMember(response);
-        if (invitedMemberId !== response.memberId) {
+        if (invitedMemberId !== response?.memberId) {
           setOpenSnackbar(true);
         }
-        if (invitedMemberId === response.memberId) {
+        if (invitedMemberId === response?.memberId) {
           setOpenAddGuestDialog(false);
         }
       }
@@ -235,52 +224,20 @@ export default function Section() {
     };
   }, [joinedMembers]);
 
-  // useEffect(() => {
-  //   /* Add if member already joined */
-  //   socket.on(
-  //     `check-if-member-joined-board-response`,
-  //     (response: { [Key: string]: any }) => {
-  //       // if (response?._id) {
-  //       //   setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
-  //       //     ...currentMembers,
-  //       //     response,
-  //       //   ]);
-  //       // } else {
-  //       //   /* ask user to choose avatar */
-  //       //   setOpenAddGuestDialog(true);
-  //       // }
-  //       if (!authenticated && !response?._id) {
-  //         setOpenAddGuestDialog(true);
-  //       }
-  //     }
-  //   );
-
-  //   return () => {
-  //     socket.off("check-if-member-joined-board-response");
-  //   };
-  // }, [authenticated, joinedMembers]);
-
   useEffect(() => {
     setBoardDetails(board);
     dispatch(addProjectToStore(board?.project));
-    // if (board?.startedAt && email) {
-    //   socket.emit("join-member-to-board", {
-    //     boardId: boardId,
-    //     email,
-    //   });
-    // }
-    /* Ask for guest name and avatar only when board is not annonymous */
-    // if (
-    //   !authenticated &&
-    //   !token &&
-    //   !loading &&
-    //   !board?.isPrivate &&
-    //   !board?.isAnnonymous &&
-    //   !board?.isInstant &&
-    //   !!board?.startedAt
-    // ) {
-    //   setOpenAddGuestDialog(true);
-    // }
+    if (
+      !authenticated &&
+      token &&
+      joinedMemberId !== invitedMemberId &&
+      board &&
+      !board?.isPrivate &&
+      board?.startedAt &&
+      !board?.completedAt
+    ) {
+      setOpenAddGuestDialog(true);
+    }
   }, [board]);
 
   useEffect(() => {
@@ -311,8 +268,10 @@ export default function Section() {
         if (!updatedBoard) {
           return;
         }
+
         setBoardDetails(updatedBoard);
         setBoardCompleted(true);
+        removeMemberFromLocalStorage();
       }
     );
 
@@ -680,7 +639,6 @@ export default function Section() {
   };
 
   const handleStartSessionDialog = () => {
-    playSound(sessionAudio);
     setOpenStartSessionDialog(true);
   };
 
@@ -759,6 +717,7 @@ export default function Section() {
   };
 
   const handleStartSession = () => {
+    playSound(sessionAudio);
     socket.emit("start-session", {
       action: "start",
       id: boardDetails?._id,

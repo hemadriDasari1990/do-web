@@ -174,7 +174,7 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
               <FeatureImage image={AnnonymousIcon} />
               <FeatureContent
-                title="Run anonymous retrospectives"
+                title="Anonymous retrospectives"
                 description="Let them speak fearlessly: Collect feedback annonymously and see the magic of honest feedback."
               />
             </Grid>
