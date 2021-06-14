@@ -36,13 +36,13 @@ const BoardInfo = React.memo((props: any) => {
             <Divider />
           </>
         )}
-        {authenticated && boardId && !board?.isAnnonymous && (
+        {authenticated && boardId && !board?.isAnnonymous && !board?.isInstant && (
           <>
             <InvitedMembers />
             <Divider />
           </>
         )}
-        {authenticated && boardId && !board?.isAnnonymous && (
+        {boardId && !board?.isAnnonymous && !board?.isInstant && (
           <>
             <JoinedMembers />
             <Divider />

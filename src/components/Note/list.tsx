@@ -114,6 +114,9 @@ const useLocalStyles = makeStyles(() => ({
     minHeight: 5,
   },
   noteItemStyle: {},
+  cursorNone: {
+    cursor: "none",
+  },
 }));
 
 const NoteList = React.memo((props: any) => {
@@ -127,6 +130,7 @@ const NoteList = React.memo((props: any) => {
     svgIconStyle,
     dropZoneStyle,
     noteItemStyle,
+    cursorNone,
   } = useLocalStyles();
   const { cursor } = useStyles();
 
@@ -706,7 +710,6 @@ const NoteList = React.memo((props: any) => {
     note: { [Key: string]: any }
   ) => {
     event.stopPropagation();
-    setShowDialog(true);
     setSelectedNote(note);
     setAnchorEl(null);
   };
@@ -726,11 +729,11 @@ const NoteList = React.memo((props: any) => {
 
   const renderEdited = (note: { [Key: string]: any }) => {
     return (
-      <>
+      <Box mt={0.4}>
         {note?.updatedById ? (
-          <Typography variant="h6">edited</Typography>
+          <Typography variant="h6">Edited</Typography>
         ) : null}
-      </>
+      </Box>
     );
   };
 
@@ -794,6 +797,7 @@ const NoteList = React.memo((props: any) => {
               handleMarkReadOnly(event)
             }
             disabled
+            className={cursorNone}
           >
             <DoneAllOutlinedIcon
               style={{
@@ -886,8 +890,8 @@ const NoteList = React.memo((props: any) => {
                         <Box display="flex" justifyContent="space-between">
                           <ColoredLine index={sectionIndex} />
                           <Box display="flex">
-                            <Box mr={1}>{renderEdited(note)}</Box>
                             <Box mr={1}>{renderPastTime(note)}</Box>
+                            <Box mr={1}>{renderEdited(note)}</Box>
                             {renderName(note)}
                           </Box>
                         </Box>

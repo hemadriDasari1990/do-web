@@ -227,6 +227,10 @@ export default function Section() {
   useEffect(() => {
     setBoardDetails(board);
     dispatch(addProjectToStore(board?.project));
+    openGuestDialog(board);
+  }, [board]);
+
+  const openGuestDialog = (board: { [Key: string]: any }) => {
     if (
       !authenticated &&
       token &&
@@ -238,7 +242,7 @@ export default function Section() {
     ) {
       setOpenAddGuestDialog(true);
     }
-  }, [board]);
+  };
 
   useEffect(() => {
     setJoinedMembers(joinedMembersList);
@@ -257,6 +261,7 @@ export default function Section() {
           return;
         }
         setShowDialog(false);
+        openGuestDialog(board);
         setBoardDetails(updatedBoard);
         setJoinedMembers(updatedBoard.joinedMembers);
         setStartSession(true);
@@ -954,11 +959,6 @@ export default function Section() {
                     dataList={joinedMembers}
                     keyName="guestName"
                   />
-                </Box>
-                <Box ml={1} mt={0.5}>
-                  <Typography variant="h5">
-                    {formatNumberWithCommas(boardDetails?.views) || 0} views
-                  </Typography>
                 </Box>
               </Box>
             </Grid>
