@@ -7,7 +7,6 @@ import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import {
   addMemberToLocalStorage,
-  formatNumberWithCommas,
   getDownloadFile,
   getMemberId,
   getMemberIdByToken,
