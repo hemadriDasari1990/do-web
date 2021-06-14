@@ -256,6 +256,7 @@ export default function Section() {
         if (!updatedBoard) {
           return;
         }
+        setShowDialog(false);
         setBoardDetails(updatedBoard);
         setJoinedMembers(updatedBoard.joinedMembers);
         setStartSession(true);
@@ -334,7 +335,7 @@ export default function Section() {
       !board?.isInstant
     ) {
       setMessage(
-        "The Retro session isn't started yet. Please contact organisor or please refresh if it's started."
+        "It looks like the session isn't started yet. Please contact organisor."
       );
       setShowDialog(true);
     }

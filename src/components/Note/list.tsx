@@ -600,7 +600,10 @@ const NoteList = React.memo((props: any) => {
     event.stopPropagation();
   };
 
-  const handleClickAwayClose = () => {
+  const handleClickAwayClose = (
+    event: React.MouseEvent<Document, MouseEvent>
+  ) => {
+    event.preventDefault();
     setClickAwayAnchorEl(null);
     setOpen(false);
   };
@@ -680,7 +683,6 @@ const NoteList = React.memo((props: any) => {
     note: { [Key: string]: any }
   ) => {
     event.stopPropagation();
-    setSelectedNote(note);
     switch (action) {
       case "edit":
         editNote(selectedNote);
@@ -719,6 +721,16 @@ const NoteList = React.memo((props: any) => {
           <Typography variant="h6">{getPastTime(note?.createdAt)}</Typography>
         </Box>
       </Box>
+    );
+  };
+
+  const renderEdited = (note: { [Key: string]: any }) => {
+    return (
+      <>
+        {note?.updatedById ? (
+          <Typography variant="h6">edited</Typography>
+        ) : null}
+      </>
     );
   };
 
@@ -781,6 +793,7 @@ const NoteList = React.memo((props: any) => {
             onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
               handleMarkReadOnly(event)
             }
+            disabled
           >
             <DoneAllOutlinedIcon
               style={{
@@ -873,6 +886,7 @@ const NoteList = React.memo((props: any) => {
                         <Box display="flex" justifyContent="space-between">
                           <ColoredLine index={sectionIndex} />
                           <Box display="flex">
+                            <Box mr={1}>{renderEdited(note)}</Box>
                             <Box mr={1}>{renderPastTime(note)}</Box>
                             {renderName(note)}
                           </Box>
