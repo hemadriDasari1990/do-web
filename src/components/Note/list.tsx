@@ -505,7 +505,7 @@ const NoteList = React.memo((props: any) => {
       sectionId: note.sectionId,
       boardId,
       isAnnonymous: board?.isAnnonymous,
-      joinedMemberId: joinedMemberId,
+      joinedMemberId: authenticated ? memberId : joinedMemberId,
     });
     setAnchorEl(null);
   };
@@ -609,8 +609,7 @@ const NoteList = React.memo((props: any) => {
     const canAccess =
       authenticated ||
       joinedMemberId === selectedNote?.createdById ||
-      board?.isInstant ||
-      !note?.createdBy;
+      board?.isInstant;
     return (
       <ClickAwayListener onClickAway={handleClickAwayClose}>
         <Menu

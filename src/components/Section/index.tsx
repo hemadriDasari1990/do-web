@@ -334,7 +334,7 @@ export default function Section() {
       !board?.isInstant
     ) {
       setMessage(
-        "The Retro session isn't started yet. Please contact organisor."
+        "The Retro session isn't started yet. Please contact organisor or please refresh if it's started."
       );
       setShowDialog(true);
     }
