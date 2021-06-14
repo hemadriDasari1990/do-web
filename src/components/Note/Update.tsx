@@ -2,7 +2,6 @@ import {
   ALPHA_NUMERIC_AND_SPECIAL_CHARACTERS_WITHOUT_PERCENTAGE,
   allow,
 } from "../../util/regex";
-import { getFinalMemberId, getMemberId } from "../../util";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -16,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
+import { getMemberId } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
