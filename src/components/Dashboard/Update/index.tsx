@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 function getSteps() {
-  return ["Select Project", "Board details", "Invite Team"];
+  return ["Select Project", "Board details", "Invite Team (Optional)"];
 }
 
 const Update = React.memo(() => {
@@ -278,7 +278,7 @@ const Update = React.memo(() => {
             <TextField
               name="projectDescription"
               id="projectDescription"
-              label="Project Description"
+              label="Project Description (Optional)"
               placeholder="Enter description about project"
               value={projectDescription}
               onChange={handleInput}
@@ -376,7 +376,7 @@ const Update = React.memo(() => {
           <TextField
             name="description"
             id="description"
-            label="Description"
+            label="Description (Optional)"
             placeholder="Enter description about this board"
             value={description}
             onChange={handleInput}
@@ -468,7 +468,9 @@ const Update = React.memo(() => {
         <>
           <Loader enable={loading} backdrop={true} />
           <Box mb={2} ml={1.5}>
-            <Typography variant="h3">Quick Start Retro</Typography>
+            <Typography variant="h3">
+              Quick Start Retro (2 or 3 steps)
+            </Typography>
           </Box>
           <Stepper
             activeStep={activeStep}

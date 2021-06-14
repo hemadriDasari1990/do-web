@@ -243,6 +243,21 @@ const Update = React.memo((props: any) => {
           />
         </Box>
         {renderAnnonymous()}
+        {!noOfSections && (
+          <Box>
+            <DoAutoComplete
+              textInputLabel="Select Default Template"
+              textInputPlaceholder="Select Default Template"
+              optionKey="name"
+              options={defaultSections}
+              onChange={(e: any, data: { [Key: string]: any }) =>
+                handleDefaultSection(data)
+              }
+              className={dropdownInputStyle}
+              // disabled={selectedBoard?._id}
+            />
+          </Box>
+        )}
         {!defaultSection && (
           <Box>
             <TextField
@@ -268,26 +283,11 @@ const Update = React.memo((props: any) => {
             <HintMessage message="Please note System will generate default sections with name 'Section Title' based on number of sections you specify and you need to update them manually once board is created and before starting the session." />
           </Box>
         ) : null}
-        {!noOfSections && (
-          <Box>
-            <DoAutoComplete
-              textInputLabel="Select Default Template"
-              textInputPlaceholder="Select Default Template"
-              optionKey="name"
-              options={defaultSections}
-              onChange={(e: any, data: { [Key: string]: any }) =>
-                handleDefaultSection(data)
-              }
-              className={dropdownInputStyle}
-              // disabled={selectedBoard?._id}
-            />
-          </Box>
-        )}
         <Box>
           <TextField
             name="description"
             id="description"
-            label="Description"
+            label="Description (Optional)"
             placeholder="Enter description about this board"
             value={description}
             onChange={handleInput}
@@ -308,7 +308,7 @@ const Update = React.memo((props: any) => {
             <DoAutoComplete
               defaultValue={team}
               // multiple={true}
-              textInputLabel="Invite Team"
+              textInputLabel="Invite Team (Optional)"
               textInputPlaceholder="Select team"
               optionKey="name"
               options={teamsList}

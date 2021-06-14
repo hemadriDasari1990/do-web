@@ -250,6 +250,7 @@ const InstantRetro = React.memo((props: any) => {
             onCut={handlePrevent}
             onCopy={handlePrevent}
             onPaste={handlePrevent}
+            required
           />
         </Box>
         {renderDefaultTemplate()}
@@ -258,7 +259,7 @@ const InstantRetro = React.memo((props: any) => {
           <TextField
             name="description"
             id="description"
-            label="Description"
+            label="Description (Optional)"
             placeholder="Enter description about this board"
             value={description}
             onChange={handleInput}
