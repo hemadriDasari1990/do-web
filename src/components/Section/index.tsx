@@ -509,7 +509,7 @@ export default function Section() {
 
   const renderEndSession = useCallback(() => {
     return (
-      <Box mx={1} className={buttonStyle}>
+      <Box mr={1} className={buttonStyle}>
         <Button
           variant="outlined"
           color="default"

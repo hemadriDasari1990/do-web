@@ -35,7 +35,6 @@ import { useLogin } from "../../redux/state/login";
 import { useNote } from "../../redux/state/note";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
-import useStyles from "../styles";
 import useTableStyles from "../styles/table";
 
 const ResponsiveDialog = React.lazy(() => import("../Dialog"));
@@ -132,7 +131,6 @@ const NoteList = React.memo((props: any) => {
     noteItemStyle,
     cursorNone,
   } = useLocalStyles();
-  const { cursor } = useStyles();
 
   /* Redux hooks */
   const authenticated = useAuthenticated();
@@ -880,7 +878,6 @@ const NoteList = React.memo((props: any) => {
                       onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                         handleNote(event, note)
                       }
-                      className={cursor}
                     >
                       <Paper
                         className={`${paperStyle} ${
