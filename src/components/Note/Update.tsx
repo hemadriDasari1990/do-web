@@ -17,9 +17,8 @@ import { Typography } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import { getMemberId } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
-import { useAuthenticated } from "../../redux/state/common";
+// import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
-import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
 import { useState } from "react";
@@ -46,9 +45,8 @@ export default function NoteUpdate(props: any) {
   const { socket } = useSocket();
   const { boardId } = useParams<{ boardId: string; token?: string }>();
   const { board } = useBoard();
-  const joinedMemberId = getMemberId();
-  const { memberId } = useLogin();
-  const authenticated = useAuthenticated();
+  const joinedMemberId = getMemberId(boardId);
+  // const authenticated = useAuthenticated();
 
   /* Local states */
   const [count, setCount] = useState(selectedNote?.description?.length || 0);
@@ -76,13 +74,12 @@ export default function NoteUpdate(props: any) {
         isAnnonymous: isAnnonymous ? isAnnonymous : selectedNote?.isAnnonymous,
         createdById: selectedNote?.createdById,
         ...(!isAnnonymous
-          ? { updatedById: authenticated ? memberId : joinedMemberId }
+          ? { updatedById: joinedMemberId }
           : { updatedById: null }),
       });
       setShowNote(false);
       return;
     }
-
     socket.emit(`create-note`, {
       boardId,
       description: description,
@@ -91,8 +88,8 @@ export default function NoteUpdate(props: any) {
       position: totalNotes ? totalNotes : 0,
       ...(!isAnnonymous
         ? {
-            createdById: authenticated ? memberId : joinedMemberId,
-            updatedById: authenticated ? memberId : joinedMemberId,
+            createdById: joinedMemberId,
+            updatedById: joinedMemberId,
           }
         : { createdById: null, updatedById: null }),
     });

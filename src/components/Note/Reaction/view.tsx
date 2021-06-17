@@ -1,12 +1,12 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import AgreeIcon from "@material-ui/icons/ExposurePlus1";
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import DisagreeIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
-import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -20,7 +20,7 @@ function ReactionView(props: any) {
   const { note } = props;
   const {
     highlightIconStyle,
-    minusOneIconStyle,
+    disagreeIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
@@ -31,24 +31,24 @@ function ReactionView(props: any) {
   return (
     <React.Fragment>
       <Box display="flex" justifyContent="space-between">
-        {note?.totalMinusOne ? (
+        {note?.totalDisagree ? (
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
                 <Tooltip arrow title="Disagree">
                   <IconButton
-                    className={minusOneIconStyle}
+                    className={disagreeIconStyle}
                     color="secondary"
                     size="small"
                   >
-                    <MinusOneIcon className={reactionStyle} />
+                    <DisagreeIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
             </Box>
             <Box mr={1}>
               <Typography variant="h6">
-                {formateNumber(note?.totalMinusOne)}
+                {formateNumber(note?.totalDisagree)}
               </Typography>
             </Box>
           </Box>
@@ -75,7 +75,7 @@ function ReactionView(props: any) {
             </Box>
           </Box>
         ) : null}
-        {note?.totalPlusOne ? (
+        {note?.totalAgree ? (
           <Box display="flex">
             <Box mr={0.5}>
               <Zoom in={true} timeout={1500}>
@@ -85,14 +85,14 @@ function ReactionView(props: any) {
                     color="secondary"
                     size="small"
                   >
-                    <PlusOneIcon className={reactionStyle} />
+                    <AgreeIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
             </Box>
             <Box mr={1}>
               <Typography variant="h6">
-                {formateNumber(note?.totalPlusOne)}
+                {formateNumber(note?.totalAgree)}
               </Typography>
             </Box>
           </Box>

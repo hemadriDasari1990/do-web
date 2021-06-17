@@ -31,7 +31,6 @@ import getPastTime from "../../util/getPastTime";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
 import { useBoard } from "../../redux/state/board";
-import { useLogin } from "../../redux/state/login";
 import { useNote } from "../../redux/state/note";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
@@ -129,19 +128,17 @@ const NoteList = React.memo((props: any) => {
     svgIconStyle,
     dropZoneStyle,
     noteItemStyle,
-    cursorNone,
   } = useLocalStyles();
 
   /* Redux hooks */
   const authenticated = useAuthenticated();
   const { board } = useBoard();
-  const { userId, memberId } = useLogin();
   const enableActions = !board?.isLocked || authenticated || board.isInstant;
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
   const { boardId } = useParams<{ boardId: string }>();
   const { avatarStyle } = useTableStyles();
-  const joinedMemberId = getMemberId();
+  const joinedMemberId = getMemberId(boardId);
 
   /* Local state */
   const [selectedNote, setSelectedNote] = useState<any>(null);
@@ -349,9 +346,9 @@ const NoteList = React.memo((props: any) => {
     }
     if (newReaction?.removed) {
       switch (newReaction?.type) {
-        case "plusOne":
-          noteData.totalPlusOne =
-            parseInt(noteData.totalPlusOne) > 0 ? noteData.totalPlusOne - 1 : 0;
+        case "agree":
+          noteData.totalAgree =
+            parseInt(noteData.totalAgree) > 0 ? noteData.totalAgree - 1 : 0;
           break;
         case "highlight":
           noteData.totalHighlight =
@@ -359,10 +356,10 @@ const NoteList = React.memo((props: any) => {
               ? noteData.totalHighlight - 1
               : 0;
           break;
-        case "minusOne":
-          noteData.totalMinusOne =
-            parseInt(noteData.totalMinusOne) > 0
-              ? noteData.totalMinusOne - 1
+        case "disagree":
+          noteData.totalDisagree =
+            parseInt(noteData.totalDisagree) > 0
+              ? noteData.totalDisagree - 1
               : 1;
           break;
         case "love":
@@ -386,11 +383,9 @@ const NoteList = React.memo((props: any) => {
       );
       if (oldReaction) {
         switch (oldReaction?.type) {
-          case "plusOne":
-            noteData.totalPlusOne =
-              parseInt(noteData.totalPlusOne) > 0
-                ? noteData.totalPlusOne - 1
-                : 0;
+          case "agree":
+            noteData.totalAgree =
+              parseInt(noteData.totalAgree) > 0 ? noteData.totalAgree - 1 : 0;
             break;
           case "highlight":
             noteData.totalHighlight =
@@ -398,10 +393,10 @@ const NoteList = React.memo((props: any) => {
                 ? noteData.totalHighlight - 1
                 : 0;
             break;
-          case "minusOne":
-            noteData.totalMinusOne =
-              parseInt(noteData.totalMinusOne) > 0
-                ? noteData.totalMinusOne - 1
+          case "disagree":
+            noteData.totalDisagree =
+              parseInt(noteData.totalDisagree) > 0
+                ? noteData.totalDisagree - 1
                 : 1;
             break;
           case "love":
@@ -418,11 +413,9 @@ const NoteList = React.memo((props: any) => {
             break;
         }
         switch (newReaction?.type) {
-          case "plusOne":
-            noteData.totalPlusOne =
-              parseInt(noteData.totalPlusOne) > 0
-                ? noteData.totalPlusOne + 1
-                : 1;
+          case "agree":
+            noteData.totalAgree =
+              parseInt(noteData.totalAgree) > 0 ? noteData.totalAgree + 1 : 1;
             break;
           case "highlight":
             noteData.totalHighlight =
@@ -430,10 +423,10 @@ const NoteList = React.memo((props: any) => {
                 ? noteData.totalHighlight + 1
                 : 1;
             break;
-          case "minusOne":
-            noteData.totalMinusOne =
-              parseInt(noteData.totalMinusOne) > 0
-                ? noteData.totalMinusOne + 1
+          case "disagree":
+            noteData.totalDisagree =
+              parseInt(noteData.totalDisagree) > 0
+                ? noteData.totalDisagree + 1
                 : 1;
             break;
           case "love":
@@ -456,11 +449,9 @@ const NoteList = React.memo((props: any) => {
         noteData.reactions[reactionIndex] = newReaction;
       } else {
         switch (newReaction?.type) {
-          case "plusOne":
-            noteData.totalPlusOne =
-              parseInt(noteData.totalPlusOne) > 0
-                ? noteData.totalPlusOne + 1
-                : 1;
+          case "agree":
+            noteData.totalAgree =
+              parseInt(noteData.totalAgree) > 0 ? noteData.totalAgree + 1 : 1;
             break;
           case "highlight":
             noteData.totalHighlight =
@@ -468,17 +459,17 @@ const NoteList = React.memo((props: any) => {
                 ? noteData.totalHighlight + 1
                 : 1;
             break;
-          case "minusOne":
-            noteData.totalMinusOne =
-              parseInt(noteData.totalMinusOne) > 0
-                ? noteData.totalMinusOne + 1
+          case "disagree":
+            noteData.totalDisagree =
+              parseInt(noteData.totalDisagree) > 0
+                ? noteData.totalDisagree + 1
                 : 1;
             break;
           case "love":
             noteData.totalLove =
               parseInt(noteData.totalLove) > 0 ? noteData.totalLove + 1 : 1;
             break;
-          case "deserve":
+          case "disagree":
             noteData.totalDeserve =
               parseInt(noteData.totalDeserve) > 0
                 ? noteData.totalDeserve + 1
@@ -507,7 +498,7 @@ const NoteList = React.memo((props: any) => {
       sectionId: note.sectionId,
       boardId,
       isAnnonymous: board?.isAnnonymous,
-      joinedMemberId: authenticated ? memberId : joinedMemberId,
+      joinedMemberId: joinedMemberId,
     });
     setAnchorEl(null);
   };
@@ -515,7 +506,7 @@ const NoteList = React.memo((props: any) => {
   const handleDelete = () => {
     socket.emit(`delete-note`, {
       id: selectedNote._id,
-      memberId: memberId ? memberId : joinedMemberId,
+      joinedMemberId,
       sectionId: selectedNote?.sectionId,
       description: selectedNote?.description,
       boardId,
@@ -591,15 +582,11 @@ const NoteList = React.memo((props: any) => {
     event.stopPropagation();
     // setSelectedNote(note);
     socket.emit("mark-note-read", {
-      userId,
+      joinedMemberId,
       id: note._id,
       read: !note.read,
       boardId,
     });
-  };
-
-  const handleMarkReadOnly = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
   };
 
   const handleClickAwayClose = (
@@ -773,7 +760,7 @@ const NoteList = React.memo((props: any) => {
             <Zoom in={true} timeout={2000}>
               <DoneAllOutlinedIcon
                 style={{
-                  color: note.read ? "#57f" : "inherit",
+                  color: note.read ? "#57f" : "#0000008a",
                 }}
                 className={svgIconStyle}
               />
@@ -788,23 +775,16 @@ const NoteList = React.memo((props: any) => {
   const renderRead = useCallback(
     (note: { [Key: string]: any }) => {
       return (
-        <Tooltip arrow title={note.read ? "Discussed" : "Not discussed yet"}>
-          <IconButton
-            size="small"
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-              handleMarkReadOnly(event)
-            }
-            disabled
-            className={cursorNone}
-          >
+        <Box mt={0.5}>
+          <Tooltip arrow title={note.read ? "Discussed" : "Not Discussed"}>
             <DoneAllOutlinedIcon
               style={{
                 color: note.read ? "#57f" : "inherit",
               }}
               className={svgIconStyle}
             />
-          </IconButton>
-        </Tooltip>
+          </Tooltip>
+        </Box>
       );
     },
     [authenticated]

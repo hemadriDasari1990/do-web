@@ -66,7 +66,7 @@ const Header = () => {
     return (
       <Box mt={1} display="flex" justifyContent="space-between">
         <Hidden only={["xl", "lg", "md"]}>
-          <img src={doLogo} width={45} height={45} />
+          <img src={doLogo} width={35} height={35} />
         </Hidden>
         {showLogo && (
           <Hidden only={["xs", "sm"]}>

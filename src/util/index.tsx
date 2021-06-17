@@ -105,81 +105,30 @@ export function getRemainingCharLength(maxCount: number, actualLength: number) {
   return maxCount === actualLength ? maxCount : maxCount - actualLength;
 }
 
-export const addMemberToLocalStorage = (memberId: string) => {
-  if (!memberId) {
+export const addJoinedMemberToLocalStorage = (
+  boardId: string,
+  joinedMemberId: string
+) => {
+  if (!boardId) {
     return;
   }
-  localStorage.setItem("memberId", memberId);
+  localStorage.setItem(boardId, joinedMemberId);
 };
 
-export const removeMemberFromLocalStorage = () => {
-  localStorage.removeItem("memberId");
+export const removeJoinedMemberFromLocalStorage = (boardId: string) => {
+  localStorage.removeItem(boardId);
 };
 
-export const getMemberId = () => {
-  return localStorage.getItem("memberId");
+export const getMemberId = (boardId: string) => {
+  return localStorage.getItem(boardId);
 };
 
 export const getMemberIdByToken = (token: string) => {
   if (!token) {
     return;
   }
-  const descodedData: { [Key: string]: any } = parseJwt(token);
-  return descodedData?.memberId;
-};
-
-export const getActivityText = (action: string) => {
-  let text = "";
-  switch (action) {
-    case "create":
-      text = " created ";
-      break;
-    case "update":
-      text = " updated ";
-      break;
-    case "delete":
-      text = " deleted ";
-      break;
-    case "session-start":
-      text = " started ";
-      break;
-    case "session-stop":
-      text = " ended ";
-      break;
-    case "read":
-      text = " Marked ";
-      break;
-    case "un-read":
-      text = " Marked ";
-      break;
-    case "react":
-      text = " added reaction ";
-      break;
-    case "un-react":
-      text = " withdrawn reaction ";
-      break;
-    case "move":
-      text = " moved ";
-      break;
-    case "move":
-      text = " moved ";
-      break;
-    case "private":
-      text = " changed ";
-      break;
-    case "public":
-      text = " changed ";
-      break;
-    case "view":
-      text = " viewed ";
-      break;
-    case "invite":
-      text = " invited ";
-      break;
-    default:
-      break;
-  }
-  return text;
+  const decodedData: { [Key: string]: any } = parseJwt(token);
+  return decodedData?.memberId;
 };
 
 export const getInitials = (value: string) => {
@@ -220,7 +169,6 @@ export const getFinalMemberId = (token?: string) => {
     : loggedInUserToken
     ? parseJwt(loggedInUserToken)
     : null;
-  const joinedMemberId = getMemberId();
-  const id = descodedData?.memberId ? descodedData?.memberId : joinedMemberId;
+  const id = descodedData?.memberId ? descodedData?.memberId : null;
   return id;
 };

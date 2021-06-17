@@ -171,7 +171,7 @@ export default function PersistentDrawerLeft() {
       >
         {/* <Box className={toolbar} flexDirection="column"/> */}
         <Box display="flex" justifyContent="center" my={2}>
-          <img src={doLogo} width={45} height={45} />
+          <img src={doLogo} width={35} height={35} />
         </Box>
         <Box textAlign="center">
           <Box mb={2}>

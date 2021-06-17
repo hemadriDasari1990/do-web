@@ -10,7 +10,7 @@ import {
 } from "react-beautiful-dnd";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
-import { getFinalMemberId, reorder } from "../../util";
+import { getMemberId, reorder } from "../../util";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useLoading, useSection } from "../../redux/state/section";
 
@@ -122,6 +122,7 @@ const SectionList = React.memo((props: any) => {
   const { userId } = useLogin();
   const { board } = useBoard();
   const { loading: boardLoading } = useBoardLoading();
+  const joinedMemberId = getMemberId(boardId);
 
   /* Local state */
   const [action, setAction] = useState(false);
@@ -133,7 +134,6 @@ const SectionList = React.memo((props: any) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openAnalytics, setOpenAnalytics] = useState(false);
-  const creatorId = getFinalMemberId();
 
   /* React Hooks */
   useEffect(() => {
@@ -416,6 +416,8 @@ const SectionList = React.memo((props: any) => {
     socket.emit("delete-section", {
       id: selectedSection?._id,
       boardId: boardId,
+      name: selectedSection?.name,
+      joinedMemberId,
     });
     setOpenDeleteDialog(false);
   };
@@ -501,7 +503,7 @@ const SectionList = React.memo((props: any) => {
         sourceIndex: source.index,
         destinationIndex: destination.index,
         sectionId: source.droppableId,
-        memberId: creatorId,
+        joinedMemberId: joinedMemberId,
       });
       return;
     }
@@ -514,7 +516,7 @@ const SectionList = React.memo((props: any) => {
       destinationSectionId: destination.droppableId,
       source,
       destination,
-      memberId: creatorId,
+      joinedMemberId: joinedMemberId,
     });
   };
 

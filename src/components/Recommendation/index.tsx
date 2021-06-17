@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { getMemberId, removeJoinedMemberFromLocalStorage } from "../../util";
 import {
   useLoading,
   useRecommendation,
@@ -22,7 +23,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { createRecommendation } from "../../redux/actions/recommendation";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
-import { useLogin } from "../../redux/state/login";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles({});
 
@@ -32,11 +33,12 @@ export default function Recommendation(props: any) {
   const [rating, setRating] = React.useState<number | null>(0);
   const [description, setDescription] = React.useState("");
   const dispatch = useDispatch();
-  const { memberId } = useLogin();
   const { recommendation } = useRecommendation();
   const { loading } = useLoading();
   const [apiTriggered, setApiTriggered] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { boardId } = useParams<{ boardId: string }>();
+  const joinedMemberId = getMemberId(boardId);
 
   useEffect(() => {
     if (!loading && apiTriggered && recommendation?.success) {
@@ -63,7 +65,7 @@ export default function Recommendation(props: any) {
     ) {
       return;
     }
-    localStorage.removeItem("memberId");
+    removeJoinedMemberFromLocalStorage(boardId);
     handleClose();
   };
 
@@ -72,13 +74,13 @@ export default function Recommendation(props: any) {
   };
 
   const handleSend = () => {
-    localStorage.removeItem("memberId");
+    removeJoinedMemberFromLocalStorage(boardId);
     setApiTriggered(false);
     dispatch(
       createRecommendation({
         description,
         rating,
-        memberId,
+        joinedMemberId: joinedMemberId,
       })
     );
     setApiTriggered(true);

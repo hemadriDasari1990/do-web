@@ -56,7 +56,7 @@ const InvitedMembersList = () => {
                   ) : (
                     <Avatar className={`${avatarStyle}`}>
                       <Typography variant="subtitle1" className={nameStyle}>
-                        {getInitials(member?.guestName) || "TM"}
+                        {getInitials(member?.name) || "TM"}
                       </Typography>
                     </Avatar>
                   )}
@@ -69,7 +69,7 @@ const InvitedMembersList = () => {
                         color="primary"
                         className={nameStyle}
                       >
-                        {member?.guestName}
+                        {member?.name || member?.email}
                       </Typography>
                     </Box>
                   }

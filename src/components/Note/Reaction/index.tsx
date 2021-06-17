@@ -1,18 +1,18 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import AgreeIcon from "@material-ui/icons/ExposurePlus1";
 import Box from "@material-ui/core/Box";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import DisagreeIcon from "@material-ui/icons/ExposureNeg1Outlined";
+import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
 import LoveIcon from "@material-ui/icons/Favorite";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
-import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import Popover from "@material-ui/core/Popover";
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import useStyles from "../../styles";
-import HighlightIcon from "@material-ui/icons/Highlight";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
   popover: {
@@ -39,7 +39,7 @@ function ReactionPopover(props: any) {
   } = props;
   const { popover, paper, reactionStyle } = useLocalStyles();
   const {
-    minusOneIconStyle,
+    disagreeIconStyle,
     highlightIconStyle,
     loveIconStyle,
     plusIconStyle,
@@ -79,11 +79,11 @@ function ReactionPopover(props: any) {
                     className={plusIconStyle}
                     color="secondary"
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleReaction(event, "plusOne", note)
+                      handleReaction(event, "agree", note)
                     }
                     size="small"
                   >
-                    <PlusOneIcon className={reactionStyle} />
+                    <AgreeIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>
@@ -140,14 +140,14 @@ function ReactionPopover(props: any) {
               <Zoom in={true} timeout={1500}>
                 <Tooltip arrow title="Disagree" placement="top">
                   <IconButton
-                    className={minusOneIconStyle}
+                    className={disagreeIconStyle}
                     color="secondary"
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      handleReaction(event, "minusOne", note)
+                      handleReaction(event, "disagree", note)
                     }
                     size="small"
                   >
-                    <MinusOneIcon className={reactionStyle} />
+                    <DisagreeIcon className={reactionStyle} />
                   </IconButton>
                 </Tooltip>
               </Zoom>

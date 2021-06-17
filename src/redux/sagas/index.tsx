@@ -59,6 +59,7 @@ import {
   watchValidateForgotPassword,
   watchVerifyToken,
 } from "./login";
+import { watchGetJoinedMembers, watchJoinMember } from "./join";
 import {
   watchGetReactions,
   watchGetReactionsSummaryByBoard,
@@ -71,7 +72,6 @@ import { watchGetActionByBoard } from "./action";
 import { watchGetActionItemsByAction } from "./actionItem";
 import { watchGetDefaultSections } from "./common";
 import { watchGetInvitedMembers } from "./invite";
-import { watchGetJoinedMembers } from "./join";
 import { watchGetNotesBySection } from "./note";
 import { watchGetSectionsByBoard } from "./section";
 
@@ -163,6 +163,7 @@ function* rootSaga() {
 
   /* Joined sagas */
   yield fork(watchGetJoinedMembers);
+  yield fork(watchJoinMember);
 
   /* Common sagas */
   yield fork(watchGetDefaultSections);

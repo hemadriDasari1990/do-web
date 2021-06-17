@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { getActivityText, getInitials } from "../../../util";
 import {
   useActivities,
   useActivitiesLoading,
 } from "../../../redux/state/board";
 
 import { ACTIVITIES_PER_PAGE } from "../../../util/constants";
+import AgreeIcon from "@material-ui/icons/ExposurePlus1";
 import { Avatar } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import DisagreeIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import DoPagination from "../../common/Pagination";
 import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
@@ -19,8 +20,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Loader from "../../Loader/components";
 import LoveIcon from "@material-ui/icons/Favorite";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
-import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import { Suspense } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -28,6 +27,7 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import { getActivities } from "../../../redux/actions/board";
 import { getAvatar } from "../../../util/getAvatar";
+import { getInitials } from "../../../util";
 import getPastTime from "../../../util/getPastTime";
 import { useDispatch } from "react-redux";
 import useMainStyles from "../../styles";
@@ -45,11 +45,9 @@ const ActivityList = () => {
   const {
     avatarStyle,
     breakText,
-    userdelineStyle,
     nameStyle,
-    actionStyle,
     highlightIconStyle,
-    minusOneIconStyle,
+    disagreeIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
@@ -75,13 +73,13 @@ const ActivityList = () => {
         iconStyle = loveIconStyle;
         ReactionIcon = LoveIcon;
         break;
-      case "minusOne":
-        iconStyle = minusOneIconStyle;
-        ReactionIcon = MinusOneIcon;
+      case "disagree":
+        iconStyle = disagreeIconStyle;
+        ReactionIcon = DisagreeIcon;
         break;
-      case "plusOne":
+      case "agree":
         iconStyle = plusIconStyle;
-        ReactionIcon = PlusOneIcon;
+        ReactionIcon = AgreeIcon;
         break;
       case "highlight":
         iconStyle = highlightIconStyle;
@@ -126,8 +124,13 @@ const ActivityList = () => {
                       classes={{ badge: customBadge }}
                       overlap="circle"
                       badgeContent={
-                        activity.action === "react" ||
-                        activity.action === "un-react"
+                        [
+                          "agree",
+                          "highlight",
+                          "disagree",
+                          "love",
+                          "deserve",
+                        ].includes(activity.type)
                           ? getReactionIcon(activity.type)
                           : null
                       }
@@ -153,33 +156,20 @@ const ActivityList = () => {
                   <ListItemText
                     primary={
                       <Box className={`${breakText}`}>
-                        <Typography variant="subtitle1" className={nameStyle}>
-                          {activity?.member?.name || "Team Member"}
-                          <span className={actionStyle}>
-                            {getActivityText(activity?.action)}
-                          </span>
-                          <span>{activity?.title}</span>
-                          <span className={actionStyle}>
-                            &nbsp;{activity?.primaryAction}&nbsp;
+                        <Typography variant="subtitle2">
+                          <span className={nameStyle}>
+                            {activity?.member?.name || "Team Member"}
                           </span>
                           <span
-                            className={` ${actionStyle} ${userdelineStyle}`}
-                          >
-                            {activity?.primaryTitle}
-                          </span>
-                          <span className={actionStyle}>
-                            &nbsp;{activity?.secondaryAction}&nbsp;
-                          </span>
-                          <span
-                            className={` ${actionStyle} ${userdelineStyle}`}
-                          >
-                            {activity?.secondaryTitle}
-                          </span>
+                            dangerouslySetInnerHTML={{
+                              __html: activity?.message,
+                            }}
+                          ></span>
                         </Typography>
                       </Box>
                     }
                     secondary={
-                      <Typography variant="subtitle2">
+                      <Typography variant="body2">
                         {getPastTime(activity?.createdAt)}
                       </Typography>
                     }

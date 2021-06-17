@@ -62,7 +62,7 @@ export default function PersistentDrawerRight(props: any) {
     let title = "Menu";
     switch (itemName) {
       case "activity":
-        title = `Activity (${formateNumber(totalActivities)})`;
+        title = `Activity (${formateNumber(totalActivities || 0)})`;
         break;
       case "teams":
         title = "Teams";

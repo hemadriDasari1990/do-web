@@ -6,16 +6,16 @@ import {
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import {
-  addMemberToLocalStorage,
+  addJoinedMemberToLocalStorage,
   getDownloadFile,
   getMemberId,
-  getMemberIdByToken,
-  removeMemberFromLocalStorage,
   replaceStr,
 } from "../../util";
 import { clearBoard, getBoardDetails } from "../../redux/actions/board";
+import { clearJoinState, getJoinedMembers } from "../../redux/actions/join";
 import { useBoard, useBoardLoading } from "../../redux/state/board";
 import { useHistory, useParams } from "react-router";
+import { useJoinedMember, useJoinedMembers } from "../../redux/state/join";
 
 import API from "../../network";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
@@ -53,13 +53,11 @@ import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
 import doLogo from "../../assets/do-logo.svg";
 import formateNumber from "../../util/formateNumber";
-import { getJoinedMembers } from "../../redux/actions/join";
 // import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
 import { getTeams } from "../../redux/actions/team";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
-import { useJoinedMembers } from "../../redux/state/join";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
@@ -143,10 +141,10 @@ export default function Section() {
   const { socket } = useSocket();
   const authenticated = useAuthenticated();
   const { members: joinedMembersList } = useJoinedMembers();
+  const { joinedMember: newJoinedMember } = useJoinedMember();
   // const emailFromLS = localStorage.getItem(`${boardId}`) as string;
-  const { token } = useParams<{ token: string }>();
-  const joinedMemberId = getMemberId();
-  const invitedMemberId = getMemberIdByToken(token);
+  // const { token } = useParams<{ token: string }>();
+  const joinedMemberId = getMemberId(boardId);
   const sessionAudio = new Audio(sessionSound.default);
 
   /* React state */
@@ -177,12 +175,20 @@ export default function Section() {
       dispatch(getBoardDetails(boardId));
       dispatch(getJoinedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
     }
-
-    /* Remove member id from localstorage if there is no token in the board url */
-    if (!authenticated && !token) {
-      removeMemberFromLocalStorage();
-    }
   }, []);
+
+  useEffect(() => {
+    if (newJoinedMember?._id) {
+      addJoinedMemberToLocalStorage(boardId, newJoinedMember?._id);
+      setOpenAddGuestDialog(false);
+      dispatch(clearJoinState());
+    }
+    if (newJoinedMember?.errorId) {
+      setOpenSnackbar(true);
+      setOpenAddGuestDialog(false);
+      dispatch(clearJoinState());
+    }
+  }, [newJoinedMember]);
 
   useEffect(() => {
     /* join memeber to board response */
@@ -192,28 +198,10 @@ export default function Section() {
         if (!response) {
           return;
         }
-
-        if (response?.errorId && invitedMemberId === response?.memberId) {
-          setOpenSnackbar(true);
-          setOpenAddGuestDialog(false);
+        if (response?._id) {
           setJoinedMember(response);
-          return;
-        }
-        if (response?.memberId) {
-          addMemberToLocalStorage(response?.memberId);
           updateJoinedMember(response);
-        } else {
-          setJoinedMembers((currentMembers: Array<{ [Key: string]: any }>) => [
-            ...currentMembers,
-            response,
-          ]);
-        }
-        setJoinedMember(response);
-        if (invitedMemberId !== response?.memberId) {
           setOpenSnackbar(true);
-        }
-        if (invitedMemberId === response?.memberId) {
-          setOpenAddGuestDialog(false);
         }
       }
     );
@@ -232,12 +220,11 @@ export default function Section() {
   const openGuestDialog = (board: { [Key: string]: any }) => {
     if (
       !authenticated &&
-      token &&
-      joinedMemberId !== invitedMemberId &&
       board &&
       !board?.isPrivate &&
       board?.startedAt &&
-      !board?.completedAt
+      !board?.completedAt &&
+      !joinedMemberId
     ) {
       setOpenAddGuestDialog(true);
     }
@@ -259,6 +246,7 @@ export default function Section() {
         if (!updatedBoard) {
           return;
         }
+        localStorage.setItem(boardId, updatedBoard?.joinedMemberId);
         setShowDialog(false);
         openGuestDialog(board);
         setBoardDetails(updatedBoard);
@@ -273,10 +261,8 @@ export default function Section() {
         if (!updatedBoard) {
           return;
         }
-
         setBoardDetails(updatedBoard);
         setBoardCompleted(true);
-        removeMemberFromLocalStorage();
       }
     );
 
@@ -389,7 +375,6 @@ export default function Section() {
     }
     joinedMember.avatarId = jMember?.avatarId;
     newJoinedMembers[memberIndex] = joinedMember;
-
     setJoinedMembers(newJoinedMembers);
   };
 
@@ -459,7 +444,7 @@ export default function Section() {
         <Typography variant="h6" color="secondary">
           {joinedMember?.errorId ? joinedMember?.message : ""}
           {!joinedMember?.errorId
-            ? `${joinedMember?.guestName} joined the session`
+            ? `${joinedMember?.name} joined the session`
             : ""}
         </Typography>
       </DoSnackbar>
@@ -729,6 +714,7 @@ export default function Section() {
       startedAt: Date.now(),
       memberId,
     });
+    localStorage.removeItem(boardId);
     handleClose();
   };
 
@@ -857,7 +843,7 @@ export default function Section() {
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
                 <Box mr={1}>
-                  <img src={doLogo} width={40} height={40} />
+                  <img src={doLogo} width={35} height={35} />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">
@@ -954,10 +940,7 @@ export default function Section() {
                   </Box>
                 )}
                 <Box ml={1} mt={0.5}>
-                  <AvatarGroupList
-                    dataList={joinedMembers}
-                    keyName="guestName"
-                  />
+                  <AvatarGroupList dataList={joinedMembers} keyName="name" />
                 </Box>
               </Box>
             </Grid>

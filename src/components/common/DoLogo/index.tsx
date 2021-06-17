@@ -44,7 +44,7 @@ const DoLogo = React.memo((props: any) => {
       {...boxProps}
     >
       <Box mt={0.5}>
-        <img src={doLogo} width={45} height={45} />
+        <img src={doLogo} width={35} height={35} />
       </Box>
       <Box mx={1}>
         <Badge

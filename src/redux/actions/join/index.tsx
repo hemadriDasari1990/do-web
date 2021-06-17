@@ -1,4 +1,8 @@
-import { GET_JOINED_MEMBERS_REQUEST } from "./types";
+import {
+  CLEAR_JOIN_STATE,
+  GET_JOINED_MEMBERS_REQUEST,
+  JOIN_MEMBER_TO_BOARD_REQUEST,
+} from "./types";
 
 export const getJoinedMembers = (
   boardId: string,
@@ -12,5 +16,18 @@ export const getJoinedMembers = (
     queryString,
     page,
     size,
+  };
+};
+
+export const joinMemberToBoard = (payload: { [Key: string]: any }) => {
+  return {
+    type: JOIN_MEMBER_TO_BOARD_REQUEST,
+    payload: payload,
+  };
+};
+
+export const clearJoinState = () => {
+  return {
+    type: CLEAR_JOIN_STATE,
   };
 };

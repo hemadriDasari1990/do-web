@@ -1,15 +1,10 @@
-import {
-  ALPHA_NUMERIC_WITH_SPACE,
-  EMAIL_PATTERN,
-  allow,
-} from "../../../util/regex";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import DoAutoComplete from "../DoAutoComplete";
 import DoSnackbar from "../../Snackbar/components";
+import { EMAIL_PATTERN } from "../../../util/regex";
 import Loader from "../../Loader/components";
-import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -45,11 +40,10 @@ export default function Invite(props: any) {
   const [showSnackbar, setShowSnackbar] = React.useState<boolean>(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [formData, setFormData] = React.useState<{ [Key: string]: any }>({
-    name: "",
     email: "",
     teams: [],
   });
-  const { name, email, teams } = formData;
+  const { email, teams } = formData;
 
   /* Handler functions */
   const handleSendInvite = () => {
@@ -57,7 +51,6 @@ export default function Invite(props: any) {
     setFetching(true);
     socket.emit("invite-member-to-board", {
       id: selectedBoard?._id,
-      name,
       email,
       teams,
     });
@@ -65,7 +58,6 @@ export default function Invite(props: any) {
 
   useEffect(() => {
     setFormData({
-      name: "",
       email: "",
       teams: [],
     });
@@ -104,10 +96,7 @@ export default function Invite(props: any) {
     if (!formData) {
       return true;
     }
-    if (
-      !teams?.length &&
-      (!name?.trim().length || !EMAIL_PATTERN.test(email))
-    ) {
+    if (!teams?.length && !EMAIL_PATTERN.test(email)) {
       return true;
     }
     if (teams?.length && email?.length) {
@@ -117,10 +106,6 @@ export default function Invite(props: any) {
       return true;
     }
     return false;
-  };
-
-  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const handleSnackbarClose = () => {
@@ -195,22 +180,6 @@ export default function Invite(props: any) {
               // helperText={error}
             />
           </Box>
-          {EMAIL_PATTERN.test(email) && !formData?._id ? (
-            <Box>
-              <TextField
-                name="name"
-                id="name"
-                label="Name"
-                placeholder="Enter Fullname"
-                value={name}
-                onChange={handleName}
-                className={textFieldStyle}
-                onKeyPress={(event: React.KeyboardEvent<any>) =>
-                  allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
-                }
-              />
-            </Box>
-          ) : null}
         </>
       ) : null}
     </ResponsiveDialog>

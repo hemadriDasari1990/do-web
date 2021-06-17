@@ -1,10 +1,12 @@
 import { Suspense, useEffect, useState } from "react";
 import { useLoading, useReactions } from "../../../redux/state/reaction";
 
+import AgreeIcon from "@material-ui/icons/ExposurePlus1";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import DisagreeIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import DoPagination from "../../common/Pagination";
 import Grid from "@material-ui/core/Grid";
 import HighlightIcon from "@material-ui/icons/Highlight";
@@ -15,9 +17,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Loader from "../../Loader/components";
 import LoveIcon from "@material-ui/icons/Favorite";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import NoRecords from "../../NoRecords";
-import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import { REACTIONS_PER_PAGE } from "../../../util/constants";
 import React from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
@@ -34,7 +34,7 @@ const ReactionsView = React.memo((props: any) => {
   const { note } = props;
   const {
     highlightIconStyle,
-    minusOneIconStyle,
+    disagreeIconStyle,
     loveIconStyle,
     plusIconStyle,
     deserveIconStyle,
@@ -57,13 +57,13 @@ const ReactionsView = React.memo((props: any) => {
         iconStyle = loveIconStyle;
         ReactionIcon = LoveIcon;
         break;
-      case "minusOne":
-        iconStyle = minusOneIconStyle;
-        ReactionIcon = MinusOneIcon;
+      case "disagree":
+        iconStyle = disagreeIconStyle;
+        ReactionIcon = DisagreeIcon;
         break;
-      case "plusOne":
+      case "agree":
         iconStyle = plusIconStyle;
-        ReactionIcon = PlusOneIcon;
+        ReactionIcon = AgreeIcon;
         break;
       case "highlight":
         iconStyle = highlightIconStyle;

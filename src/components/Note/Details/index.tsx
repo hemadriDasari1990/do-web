@@ -105,7 +105,11 @@ const NoteDetails = React.memo((props: any) => {
                 <Box display="flex">
                   <Typography variant="subtitle1">Updated By &nbsp;</Typography>
                   <Typography variant="subtitle1" style={{ color: "#57f" }}>
-                    {noteDetails?.updatedBy?.name || "Team Member"}
+                    {noteDetails?.updatedBy?.name
+                      ? noteDetails?.updatedBy?.name
+                      : noteDetails?.isAnnonymous
+                      ? "Team Member"
+                      : "--"}
                   </Typography>
                 </Box>
               }

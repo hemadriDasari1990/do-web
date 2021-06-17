@@ -7,9 +7,9 @@ import { MAX_CHAR_COUNT } from "../../util/constants";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
+import { getMemberId } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
 import updateSection from "../../assets/section.svg";
-import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
 
@@ -29,9 +29,9 @@ const useStyles = makeStyles(() => ({
 export default function SectionUpdate(props: any) {
   const { openDialog, selectedSection, handleClose } = props;
   const { textfieldStyle } = useStyles();
-  const { memberId } = useLogin();
   const { boardId } = useParams<{ boardId: string }>();
   const { socket } = useSocket();
+  const joinedMemberId = getMemberId(boardId);
 
   /* Local states */
   const [name, setName] = useState("");
@@ -51,7 +51,7 @@ export default function SectionUpdate(props: any) {
       previousTitle: selectedSection?.name,
       sectionId: selectedSection?._id,
       boardId: selectedSection?.boardId,
-      memberId,
+      joinedMemberId,
     });
     handleClose();
   };
@@ -60,7 +60,7 @@ export default function SectionUpdate(props: any) {
     socket.emit("create-section", {
       name: name,
       boardId: boardId,
-      memberId,
+      joinedMemberId,
     });
     handleClose();
   };

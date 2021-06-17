@@ -100,6 +100,7 @@ export const GET_INVITED_MEMBERS = "/invite";
 
 /* Get joined members */
 export const GET_JOINED_MEMBERS = "/join";
+export const JOIN_MEMBER_TO_BOARD = "/join/member";
 
 /* Security Question */
 export const CREATE_SECURITY_QUESTION_ANSWER = "/security-question/answer";

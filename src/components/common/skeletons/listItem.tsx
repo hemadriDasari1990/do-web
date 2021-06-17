@@ -11,7 +11,7 @@ export default function ListItemSkeleton() {
     avatarBoxStyle,
     boxMainStyle,
     highlightIconStyle,
-    minusOneIconStyle,
+    disagreeIconStyle,
     loveIconStyle,
     deserveIconStyle,
   } = useStyles();
@@ -74,7 +74,7 @@ export default function ListItemSkeleton() {
               width={20}
               height={20}
               style={{ borderRadius: "50%" }}
-              className={minusOneIconStyle}
+              className={disagreeIconStyle}
             />
           </Box>
           <Box mr={1}>

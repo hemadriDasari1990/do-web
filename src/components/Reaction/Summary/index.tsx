@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { makeFriendly, noFormatter } from "../../../util/formateNumber";
 import { useLoading, useReactionSummary } from "../../../redux/state/reaction";
 
+import AgreeIcon from "@material-ui/icons/ExposurePlus1";
 import Box from "@material-ui/core/Box";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import DisagreeIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import HighlightIcon from "@material-ui/icons/Highlight";
 import IconButton from "@material-ui/core/IconButton";
 import Loader from "../../Loader/components";
 import LoveIcon from "@material-ui/icons/Favorite";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import { PieChart } from "react-minimal-pie-chart";
-import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import { Suspense } from "react";
 import { Typography } from "@material-ui/core";
 import { getRandomColor } from "../../../util/getRandomColor";
@@ -20,7 +20,7 @@ const Summary = React.memo((props: any) => {
   const { hideTitle, hideNoSummary, hideLoader } = props;
   const {
     plusIconStyle,
-    minusOneIconStyle,
+    disagreeIconStyle,
     highlightIconStyle,
     deserveIconStyle,
     loveIconStyle,
@@ -38,23 +38,23 @@ const Summary = React.memo((props: any) => {
 
   const getReactionSummaryData = () => {
     const data = [];
-    if (summary?.plusOne) {
+    if (summary?.agree) {
       data.push({
         color: hovered === 0 ? "#3333" : "#57f",
         title: "Agree",
-        value: summary?.plusOne,
-        shortValue: noFormatter(summary?.plusOne),
-        abbrevateLabel: makeFriendly(summary?.plusOne),
+        value: summary?.agree,
+        shortValue: noFormatter(summary?.agree),
+        abbrevateLabel: makeFriendly(summary?.agree),
       });
     }
 
-    if (summary?.minusOne) {
+    if (summary?.disagree) {
       data.push({
         color: hovered === 1 ? "#3333" : getRandomColor(6),
         title: "Disagree",
-        value: summary?.minusOne,
-        shortValue: noFormatter(summary?.minusOne),
-        abbrevateLabel: makeFriendly(summary?.minusOne),
+        value: summary?.disagree,
+        shortValue: noFormatter(summary?.disagree),
+        abbrevateLabel: makeFriendly(summary?.disagree),
       });
     }
     if (summary?.love) {
@@ -89,8 +89,8 @@ const Summary = React.memo((props: any) => {
 
   return (
     <Suspense fallback={<div></div>}>
-      {!hideLoader && <Loader enable={loading} />}
-      <Box p={2}>
+      <Box p={2} height={300}>
+        {!hideLoader && <Loader enable={loading} />}
         {!loading && summary?.totalReactions ? (
           <>
             {!hideTitle && (
@@ -121,7 +121,7 @@ const Summary = React.memo((props: any) => {
                   color="secondary"
                   size="small"
                 >
-                  <PlusOneIcon color="secondary" fontSize="small" />
+                  <AgreeIcon color="secondary" fontSize="small" />
                 </IconButton>
 
                 <Box ml={1}>
@@ -157,11 +157,11 @@ const Summary = React.memo((props: any) => {
               </Box>
               <Box display="flex">
                 <IconButton
-                  className={minusOneIconStyle}
+                  className={disagreeIconStyle}
                   color="secondary"
                   size="small"
                 >
-                  <MinusOneIcon color="secondary" fontSize="small" />
+                  <DisagreeIcon color="secondary" fontSize="small" />
                 </IconButton>
                 <Box ml={1}>
                   <Typography variant="h6">Disagree</Typography>

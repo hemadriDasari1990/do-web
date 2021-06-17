@@ -168,7 +168,7 @@ export default function Footer() {
           <Grid container spacing={2}>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3}>
-                <img src={doLogo} width={45} height={45} />
+                <img src={doLogo} width={35} height={35} />
               </Box>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">

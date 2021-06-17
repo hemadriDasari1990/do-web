@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "#f7fafd",
     borderRadius: 6,
   },
-  minusOneIconStyle: {
+  disagreeIconStyle: {
     background: "linear-gradient(90deg, #4e0eea 0%, #b400ff 100%)",
   },
   highlightIconStyle: {
@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 600,
   },
   logoTextStyle: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 600,
   },
   primaryAvatarStyle: {
@@ -166,6 +166,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   breakText: {
     whiteSpace: "initial",
+    display: "block",
+    margin: 0,
+    wordWrap: "break-word",
   },
   avatarStyle: {
     width: "30px !important",

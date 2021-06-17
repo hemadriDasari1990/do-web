@@ -11,3 +11,9 @@ export function useJoinedMembersLoading() {
     loading: state.join?.loading,
   }));
 }
+
+export function useJoinedMember() {
+  return useSelector((state: { [Key: string]: any }) => ({
+    joinedMember: state.join?.response,
+  }));
+}

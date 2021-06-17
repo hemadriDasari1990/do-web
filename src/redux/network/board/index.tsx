@@ -1,10 +1,10 @@
 import {
+  CREATE_INSTANT_BOARD,
   DELETE_BOARD,
   GET_BOARDS,
   GET_BOARD_ACTIVITIES,
   GET_BOARD_DETAILS,
   UPDATE_BOARD,
-  CREATE_INSTANT_BOARD,
 } from "../../../network/endpoints";
 
 import API from "../../../network";

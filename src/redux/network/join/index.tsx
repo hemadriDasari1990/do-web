@@ -1,5 +1,9 @@
+import {
+  GET_JOINED_MEMBERS,
+  JOIN_MEMBER_TO_BOARD,
+} from "../../../network/endpoints";
+
 import API from "../../../network";
-import { GET_JOINED_MEMBERS } from "../../../network/endpoints";
 
 export const getJoinedMembers = (
   boardId: string,
@@ -9,4 +13,11 @@ export const getJoinedMembers = (
 ) => {
   const url: string = `${GET_JOINED_MEMBERS}?boardId=${boardId}&queryString=${queryString}&page=${page}&size=${size}`;
   return API(url, { method: "GET" });
+};
+
+export const joinMemberToBoard = (payload: { [Key: string]: any }) => {
+  return API(JOIN_MEMBER_TO_BOARD, {
+    method: "POST",
+    data: payload,
+  });
 };

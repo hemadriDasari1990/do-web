@@ -30,7 +30,7 @@ const DoLogoIcon = React.memo((props: any) => {
       onClick={() => refreshDashboard()}
       {...boxProps}
     >
-      <img src={doLogo} width={40} height={40} />
+      <img src={doLogo} width={35} height={35} />
     </Box>
   );
 });

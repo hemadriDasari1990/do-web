@@ -1,14 +1,14 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
+import AgreeIcon from "@material-ui/icons/ExposurePlus1";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import DeserveIcon from "@material-ui/icons/EmojiEvents";
+import DisagreeIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import Grid from "@material-ui/core/Grid";
 import HighlightIcon from "@material-ui/icons/Highlight";
 import LoveIcon from "@material-ui/icons/Favorite";
-import MinusOneIcon from "@material-ui/icons/ExposureNeg1Outlined";
 import Paper from "@material-ui/core/Paper";
-import PlusOneIcon from "@material-ui/icons/ExposurePlus1";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../../styles";
@@ -33,7 +33,7 @@ export default function ReactionsList(props: any) {
   const { titleStyle, paperStyle, iconStyle } = useLocalStyles();
   const {
     plusIconStyle,
-    minusOneIconStyle,
+    disagreeIconStyle,
     highlightIconStyle,
     deserveIconStyle,
     loveIconStyle,
@@ -45,7 +45,7 @@ export default function ReactionsList(props: any) {
         <Grid container spacing={10}>
           <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
             <Paper className={`${plusIconStyle} ${paperStyle}`}>
-              <PlusOneIcon color="secondary" className={iconStyle} />
+              <AgreeIcon color="secondary" className={iconStyle} />
             </Paper>
             <Box mt={1}>
               <Typography variant="h2" className={titleStyle}>
@@ -85,8 +85,8 @@ export default function ReactionsList(props: any) {
             </Box>
           </Grid>
           <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-            <Paper className={`${minusOneIconStyle} ${paperStyle}`}>
-              <MinusOneIcon color="secondary" className={iconStyle} />
+            <Paper className={`${disagreeIconStyle} ${paperStyle}`}>
+              <DisagreeIcon color="secondary" className={iconStyle} />
             </Paper>
             <Box mt={1}>
               <Typography variant="h2" className={titleStyle}>
