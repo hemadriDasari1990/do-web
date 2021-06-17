@@ -197,7 +197,7 @@ const InstantRetro = React.memo((props: any) => {
         ) : null}
       </>
     ),
-    [noOfSections, defaultSections]
+    [name, noOfSections, defaultSections]
   );
 
   return (

@@ -222,7 +222,7 @@ export default function Section() {
       !authenticated &&
       board &&
       !board?.isPrivate &&
-      board?.startedAt &&
+      (board?.startedAt || board?.isInstant) &&
       !board?.completedAt &&
       !joinedMemberId
     ) {
@@ -231,7 +231,9 @@ export default function Section() {
   };
 
   useEffect(() => {
-    setJoinedMembers(joinedMembersList);
+    if (joinedMembersList?.length) {
+      setJoinedMembers(joinedMembersList);
+    }
   }, [joinedMembersList]);
 
   useEffect(() => {
@@ -246,9 +248,14 @@ export default function Section() {
         if (!updatedBoard) {
           return;
         }
-        localStorage.setItem(boardId, updatedBoard?.joinedMemberId);
+
+        /* This is applicable only if user is authenticated and starting the session */
+        if (authenticated && !board?.isAnnonymous) {
+          addJoinedMemberToLocalStorage(boardId, updatedBoard?.joinedMemberId);
+          openGuestDialog(board);
+        }
+
         setShowDialog(false);
-        openGuestDialog(board);
         setBoardDetails(updatedBoard);
         setJoinedMembers(updatedBoard.joinedMembers);
         setStartSession(true);
@@ -360,21 +367,30 @@ export default function Section() {
   };
 
   const updateJoinedMember = (jMember: { [Key: string]: any }) => {
-    if (!jMember || !joinedMembers?.length) {
+    if (!jMember) {
       return;
     }
-    const newJoinedMembers: Array<{ [Key: string]: any }> = [...joinedMembers];
-    const memberIndex: number = newJoinedMembers.findIndex(
+    const newJoinedMembers: Array<{
+      [Key: string]: any;
+    }> = joinedMembers?.length ? [...joinedMembers] : [];
+    const memberIndex: number = newJoinedMembers?.findIndex(
       (newJoinedMember: { [Key: string]: any }) =>
         newJoinedMember?._id === jMember?._id
     );
-    const joinedMember: { [Key: string]: any } = newJoinedMembers[memberIndex];
-    if (!joinedMember) {
+    const existingJoinedMember: { [Key: string]: any } =
+      newJoinedMembers[memberIndex];
+
+    if (!existingJoinedMember && newJoinedMembers?.length) {
       setJoinedMembers([jMember, ...newJoinedMembers]);
       return;
     }
-    joinedMember.avatarId = jMember?.avatarId;
-    newJoinedMembers[memberIndex] = joinedMember;
+
+    if (!existingJoinedMember && !newJoinedMembers?.length) {
+      setJoinedMembers([jMember]);
+      return;
+    }
+    existingJoinedMember.avatarId = jMember?.avatarId;
+    newJoinedMembers[memberIndex] = existingJoinedMember;
     setJoinedMembers(newJoinedMembers);
   };
 
@@ -714,7 +730,9 @@ export default function Section() {
       startedAt: Date.now(),
       memberId,
     });
-    localStorage.removeItem(boardId);
+    if (authenticated) {
+      localStorage.removeItem(boardId);
+    }
     handleClose();
   };
 
@@ -816,7 +834,7 @@ export default function Section() {
       />
     );
   };
-
+  console.log("joinedMembers", joinedMembers);
   return (
     <Suspense fallback={<Loader enable={true} backdrop={true} />}>
       {renderDialog()}
