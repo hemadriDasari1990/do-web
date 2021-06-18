@@ -198,7 +198,7 @@ export default function Section() {
         if (!response) {
           return;
         }
-        if (response?._id) {
+        if (boardId === response?.boardId && response?._id) {
           setJoinedMember(response);
           updateJoinedMember(response);
           setOpenSnackbar(true);
@@ -250,15 +250,20 @@ export default function Section() {
         }
 
         /* This is applicable only if user is authenticated and starting the session */
-        if (authenticated && !board?.isAnnonymous) {
+        if (
+          authenticated &&
+          !board?.isAnnonymous &&
+          boardId === updatedBoard?._id
+        ) {
           addJoinedMemberToLocalStorage(boardId, updatedBoard?.joinedMemberId);
           openGuestDialog(board);
         }
-
-        setShowDialog(false);
-        setBoardDetails(updatedBoard);
-        setJoinedMembers(updatedBoard.joinedMembers);
-        setStartSession(true);
+        if (authenticated && boardId === updatedBoard?._id) {
+          setShowDialog(false);
+          setBoardDetails(updatedBoard);
+          setJoinedMembers(updatedBoard.joinedMembers);
+          setStartSession(true);
+        }
       }
     );
     /* End session */
@@ -268,8 +273,10 @@ export default function Section() {
         if (!updatedBoard) {
           return;
         }
-        setBoardDetails(updatedBoard);
-        setBoardCompleted(true);
+        if (boardId === updatedBoard?._id) {
+          setBoardDetails(updatedBoard);
+          setBoardCompleted(true);
+        }
       }
     );
 

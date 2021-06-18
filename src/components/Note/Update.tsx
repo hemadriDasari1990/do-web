@@ -159,7 +159,7 @@ export default function NoteUpdate(props: any) {
           </Box>
           <Box display="flex">
             <Box mt={-1}>
-              {!board?.isAnnonymous && !board.isInstant && (
+              {!board?.isAnnonymous && (
                 <FormControlLabel
                   control={
                     <Checkbox
