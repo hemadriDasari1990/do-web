@@ -270,6 +270,15 @@ export default function Section() {
           setBoardDetails(updatedBoard);
           setStartSession(true);
         }
+
+        /* Close other opened session not started yet popups for all connected clients */
+        if (
+          updatedBoard?.status === "new" &&
+          !authenticated &&
+          !updatedBoard?.isInstant
+        ) {
+          setShowDialog(true);
+        }
       }
     );
     /* End session */
