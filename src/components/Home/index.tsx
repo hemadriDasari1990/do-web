@@ -6,6 +6,7 @@ import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
 import CallMadeIcon from "@material-ui/icons/CallMade";
 import Container from "@material-ui/core/Container";
+import DoImage from "../common/Image";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import InfoCard from "../common/InfoCard";
@@ -175,11 +176,13 @@ const Home = () => {
               </Box>
               <Box mt={5}>
                 <Zoom in={true} timeout={2000}>
-                  <img
+                  <DoImage
                     src={ScrumBoardSkeleton}
                     className={skeletonImageStyle}
                     height="1334"
                     width="1902"
+                    placeholderImg={ScrumBoardSkeleton}
+                    errorImg={ScrumBoardSkeleton}
                   />
                 </Zoom>
               </Box>
@@ -241,7 +244,7 @@ const Home = () => {
         </Container>
       </Box>
       <Box mb={-0.9}>
-        <img src={Wave} />
+        <DoImage src={Wave} placeholderImg={Wave} errorImg={Wave} />
       </Box>
       <Box className={boxGridStyle}>
         <CreateAccountGrid />

@@ -1,5 +1,6 @@
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
+import DoImage from "../../common/Image";
 import Hidden from "@material-ui/core/Hidden";
 import React from "react";
 import { Suspense } from "react";
@@ -42,7 +43,13 @@ const UserAvatar = React.memo((props: any) => {
             <Tooltip arrow title={user?.name}>
               <Zoom in={true} timeout={1500}>
                 {user?.avatarId ? (
-                  <img src={getAvatar(user?.avatarId)} width={45} height={45} />
+                  <DoImage
+                    src={getAvatar(user?.avatarId)}
+                    width={45}
+                    height={45}
+                    placeholderImg={getAvatar(user?.avatarId)}
+                    errorImg={getAvatar(user?.avatarId)}
+                  />
                 ) : (
                   <Avatar classes={{ root: iconStyle }}>
                     <Typography variant="h2" color="secondary">

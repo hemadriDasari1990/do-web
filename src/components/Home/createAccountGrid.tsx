@@ -3,6 +3,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import CreateAccount from "./create";
 import CreateNewTeam from "../../assets/team.svg";
+import DoImage from "../common/Image";
 import GoodTeam from "../../assets/good-team.svg";
 import Hidden from "@material-ui/core/Hidden";
 import React from "react";
@@ -20,7 +21,13 @@ const CreateAccountGrid = () => {
   return (
     <Box textAlign="center">
       <Box display="flex" justifyContent="space-between">
-        <img src={GoodTeam} height="300px" width="300px" />
+        <DoImage
+          src={GoodTeam}
+          height="300px"
+          width="300px"
+          placeholderImg={GoodTeam}
+          errorImg={GoodTeam}
+        />
         <Box mt="3%">
           <Box>
             <Hidden only={["xl", "lg", "md"]}>
@@ -47,7 +54,13 @@ const CreateAccountGrid = () => {
             />
           </Box>
         </Box>
-        <img src={CreateNewTeam} height="300px" width="300px" />
+        <DoImage
+          src={CreateNewTeam}
+          height="300px"
+          width="300px"
+          placeholderImg={CreateNewTeam}
+          errorImg={CreateNewTeam}
+        />
       </Box>
     </Box>
   );

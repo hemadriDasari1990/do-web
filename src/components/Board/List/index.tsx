@@ -15,6 +15,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Divider } from "@material-ui/core";
+import DoImage from "../../common/Image";
 import EditIcon from "@material-ui/icons/Edit";
 import FilterNoneOutlinedIcon from "@material-ui/icons/FilterNoneOutlined";
 import Grid from "@material-ui/core/Grid";
@@ -119,7 +120,11 @@ const BoardList = React.memo((props: any) => {
         </Box>
         {selectedIndex === index && sendInviteLoading ? (
           <Box ml={1} mt={-0.4}>
-            <img src={spinner} />
+            <DoImage
+              src={spinner}
+              placeholderImg={spinner}
+              errorImg={spinner}
+            />
           </Box>
         ) : null}
 

@@ -1,5 +1,6 @@
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
 import Process from "./process";
 import React from "react";
@@ -70,7 +71,13 @@ export default function About() {
                 </Grid>
                 <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                   <Box mt={-3} textAlign="center">
-                    <img src={Team} height="300px" width="300px" />
+                    <DoImage
+                      src={Team}
+                      height="300px"
+                      width="300px"
+                      placeholderImg={Team}
+                      errorImg={Team}
+                    />
                   </Box>
                 </Grid>
               </Grid>
@@ -221,7 +228,7 @@ export default function About() {
         <Process />
       </Box>
       <Box mb={-0.9}>
-        <img src={Wave} />
+        <DoImage src={Wave} placeholderImg={Wave} errorImg={Wave} />
       </Box>
       <Box className={createAccountStyle}>
         <CreateAccountGrid />

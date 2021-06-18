@@ -4,6 +4,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import CreateNewTeam from "../../../assets/team.svg";
+import DoImage from "../../common/Image";
 import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
 import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
@@ -82,7 +83,13 @@ const Create = React.memo((props: any) => {
         <Loader enable={loading} backdrop={true} />
         <Box mt={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
-            <img src={CreateNewTeam} height="150px" width="fit-content" />
+            <DoImage
+              src={CreateNewTeam}
+              height="150px"
+              width="fit-content"
+              placeholderImg={CreateNewTeam}
+              errorImg={CreateNewTeam}
+            />
           </Zoom>
         </Box>
         <TextField

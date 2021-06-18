@@ -1,4 +1,5 @@
 import Box from "@material-ui/core/Box";
+import DoImage from "../common/Image";
 // import FacebookIcon from "@material-ui/icons/Facebook";
 import IconButton from "@material-ui/core/IconButton";
 // import LinkedInIcon from "@material-ui/icons/LinkedIn";
@@ -30,12 +31,14 @@ function ProfileCard(props: any) {
   return (
     <React.Fragment>
       <Box>
-        <img
+        <DoImage
           src={path}
           height="100%"
           width="300px"
           className={imageStyle}
           loading="lazy"
+          placeholderImg={path}
+          errorImg={path}
         />
       </Box>
       <Box mt={3}>

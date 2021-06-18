@@ -6,6 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import { DRAWER_WIDTH } from "../../util/constants";
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
+import DoImage from "../common/Image";
 import Drawer from "@material-ui/core/Drawer";
 import Feedback from "../Feedback";
 import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
@@ -171,7 +172,13 @@ export default function PersistentDrawerLeft() {
       >
         {/* <Box className={toolbar} flexDirection="column"/> */}
         <Box display="flex" justifyContent="center" my={2}>
-          <img src={doLogo} width={35} height={35} />
+          <DoImage
+            src={doLogo}
+            width={35}
+            height={35}
+            placeholderImg={doLogo}
+            errorImg={doLogo}
+          />
         </Box>
         <Box textAlign="center">
           <Box mb={2}>
@@ -288,11 +295,13 @@ export default function PersistentDrawerLeft() {
             <Zoom in={true} timeout={2000}>
               {user?.avatarId ? (
                 <IconButton onClick={handleProfile} size="small">
-                  <img
+                  <DoImage
                     src={getAvatar(user?.avatarId)}
                     id="drawer-user"
                     width={40}
                     height={40}
+                    placeholderImg={getAvatar(user?.avatarId)}
+                    errorImg={getAvatar(user?.avatarId)}
                   />
                 </IconButton>
               ) : (

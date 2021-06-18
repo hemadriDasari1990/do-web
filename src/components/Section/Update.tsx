@@ -2,6 +2,7 @@ import { ALPHA_NUMERIC_WITH_SPACE, allow } from "../../util/regex";
 import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
+import DoImage from "../common/Image";
 import Hidden from "@material-ui/core/Hidden";
 import { MAX_CHAR_COUNT } from "../../util/constants";
 import React from "react";
@@ -77,7 +78,13 @@ export default function SectionUpdate(props: any) {
       <Hidden only={["xs"]}>
         <Box my={1} textAlign="center">
           <Zoom in={true} timeout={2000}>
-            <img src={updateSection} height="200px" width="fit-content" />
+            <DoImage
+              src={updateSection}
+              height="200px"
+              width="fit-content"
+              placeholderImg={updateSection}
+              errorImg={updateSection}
+            />
           </Zoom>
         </Box>
       </Hidden>

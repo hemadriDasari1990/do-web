@@ -23,6 +23,7 @@ import { BOARDS } from "../../routes/config";
 import BoardHeaderSkeleton from "../common/skeletons/boardHeader";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import DoImage from "../common/Image";
 import DoSnackbar from "../Snackbar/components";
 import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
@@ -443,7 +444,13 @@ export default function Section() {
           <Hidden only={["xs"]}>
             <Box my={5} textAlign="center">
               <Zoom in={true} timeout={2000}>
-                <img src={Notify} height="200px" width="fit-content" />
+                <DoImage
+                  src={Notify}
+                  height="200px"
+                  width="fit-content"
+                  placeholderImg={Notify}
+                  errorImg={Notify}
+                />
               </Zoom>
             </Box>
           </Hidden>
@@ -885,7 +892,13 @@ export default function Section() {
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box display="flex">
                 <Box mr={1}>
-                  <img src={doLogo} width={35} height={35} />
+                  <DoImage
+                    src={doLogo}
+                    width={35}
+                    height={35}
+                    placeholderImg={doLogo}
+                    errorImg={doLogo}
+                  />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">

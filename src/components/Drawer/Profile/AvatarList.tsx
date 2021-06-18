@@ -1,6 +1,7 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
+import DoImage from "../../common/Image";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
 import avatar1 from "../../../assets/avatars/1.svg";
@@ -48,219 +49,273 @@ const ChangeAvatarModel = React.memo((props: any) => {
   return (
     <Box>
       <IconButton onClick={() => handleAvatar(1)}>
-        <img
+        <DoImage
           src={avatar1}
           className={`${avatarStyle} ${
             selectedAvatarId === 1 ? iconStyle : ""
           }`}
+          placeholderImg={avatar1}
+          errorImg={avatar1}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(2)}>
-        <img
+        <DoImage
           src={avatar2}
           className={`${avatarStyle} ${
             selectedAvatarId === 2 ? iconStyle : ""
           }`}
+          placeholderImg={avatar2}
+          errorImg={avatar2}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(3)}>
-        <img
+        <DoImage
           src={avatar3}
           className={`${avatarStyle} ${
             selectedAvatarId === 3 ? iconStyle : ""
           }`}
+          placeholderImg={avatar3}
+          errorImg={avatar3}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(4)}>
-        <img
+        <DoImage
           src={avatar4}
           className={`${avatarStyle} ${
             selectedAvatarId === 4 ? iconStyle : ""
           }`}
+          placeholderImg={avatar4}
+          errorImg={avatar4}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(5)}>
-        <img
+        <DoImage
           src={avatar5}
           className={`${avatarStyle} ${
             selectedAvatarId === 5 ? iconStyle : ""
           }`}
+          placeholderImg={avatar5}
+          errorImg={avatar5}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(6)}>
-        <img
+        <DoImage
           src={avatar6}
           className={`${avatarStyle} ${
             selectedAvatarId === 6 ? iconStyle : ""
           }`}
+          placeholderImg={avatar6}
+          errorImg={avatar6}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(7)}>
-        <img
+        <DoImage
           src={avatar7}
           className={`${avatarStyle} ${
             selectedAvatarId === 7 ? iconStyle : ""
           }`}
+          placeholderImg={avatar7}
+          errorImg={avatar7}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(8)}>
-        <img
+        <DoImage
           src={avatar8}
           className={`${avatarStyle} ${
             selectedAvatarId === 8 ? iconStyle : ""
           }`}
+          placeholderImg={avatar8}
+          errorImg={avatar8}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(9)}>
-        <img
+        <DoImage
           src={avatar9}
           className={`${avatarStyle} ${
             selectedAvatarId === 9 ? iconStyle : ""
           }`}
+          placeholderImg={avatar9}
+          errorImg={avatar9}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(10)}>
-        <img
+        <DoImage
           src={avatar10}
           className={`${avatarStyle} ${
             selectedAvatarId === 10 ? iconStyle : ""
           }`}
+          placeholderImg={avatar10}
+          errorImg={avatar10}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(11)}>
-        <img
+        <DoImage
           src={avatar11}
           className={`${avatarStyle} ${
             selectedAvatarId === 11 ? iconStyle : ""
           }`}
+          placeholderImg={avatar11}
+          errorImg={avatar11}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(12)}>
-        <img
+        <DoImage
           src={avatar12}
           className={`${avatarStyle} ${
             selectedAvatarId === 12 ? iconStyle : ""
           }`}
+          placeholderImg={avatar12}
+          errorImg={avatar12}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(13)}>
-        <img
+        <DoImage
           src={avatar13}
           className={`${avatarStyle} ${
             selectedAvatarId === 13 ? iconStyle : ""
           }`}
+          placeholderImg={avatar13}
+          errorImg={avatar13}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(14)}>
-        <img
+        <DoImage
           src={avatar14}
           className={`${avatarStyle} ${
             selectedAvatarId === 14 ? iconStyle : ""
           }`}
+          placeholderImg={avatar14}
+          errorImg={avatar14}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(15)}>
-        <img
+        <DoImage
           src={avatar15}
           className={`${avatarStyle} ${
             selectedAvatarId === 15 ? iconStyle : ""
           }`}
+          placeholderImg={avatar15}
+          errorImg={avatar15}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(16)}>
-        <img
+        <DoImage
           src={avatar16}
           className={`${avatarStyle} ${
             selectedAvatarId === 16 ? iconStyle : ""
           }`}
+          placeholderImg={avatar16}
+          errorImg={avatar16}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(17)}>
-        <img
+        <DoImage
           src={avatar17}
           className={`${avatarStyle} ${
             selectedAvatarId === 17 ? iconStyle : ""
           }`}
+          placeholderImg={avatar17}
+          errorImg={avatar17}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(18)}>
-        <img
+        <DoImage
           src={avatar18}
           className={`${avatarStyle} ${
             selectedAvatarId === 18 ? iconStyle : ""
           }`}
+          placeholderImg={avatar18}
+          errorImg={avatar18}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(19)}>
-        <img
+        <DoImage
           src={avatar19}
           className={`${avatarStyle} ${
             selectedAvatarId === 19 ? iconStyle : ""
           }`}
+          placeholderImg={avatar19}
+          errorImg={avatar19}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(20)}>
-        <img
+        <DoImage
           src={avatar20}
           className={`${avatarStyle} ${
             selectedAvatarId === 20 ? iconStyle : ""
           }`}
+          placeholderImg={avatar20}
+          errorImg={avatar20}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(21)}>
-        <img
+        <DoImage
           src={avatar21}
           className={`${avatarStyle} ${
             selectedAvatarId === 21 ? iconStyle : ""
           }`}
+          placeholderImg={avatar21}
+          errorImg={avatar21}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(22)}>
-        <img
+        <DoImage
           src={avatar22}
           className={`${avatarStyle} ${
             selectedAvatarId === 22 ? iconStyle : ""
           }`}
+          placeholderImg={avatar22}
+          errorImg={avatar22}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(23)}>
-        <img
+        <DoImage
           src={avatar23}
           className={`${avatarStyle} ${
             selectedAvatarId === 23 ? iconStyle : ""
           }`}
+          placeholderImg={avatar23}
+          errorImg={avatar23}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(24)}>
-        <img
+        <DoImage
           src={avatar24}
           className={`${avatarStyle} ${
             selectedAvatarId === 24 ? iconStyle : ""
           }`}
+          placeholderImg={avatar24}
+          errorImg={avatar24}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(25)}>
-        <img
+        <DoImage
           src={avatar25}
           className={`${avatarStyle} ${
             selectedAvatarId === 25 ? iconStyle : ""
           }`}
+          placeholderImg={avatar25}
+          errorImg={avatar25}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(26)}>
-        <img
+        <DoImage
           src={avatar26}
           className={`${avatarStyle} ${
             selectedAvatarId === 26 ? iconStyle : ""
           }`}
+          placeholderImg={avatar26}
+          errorImg={avatar26}
         />
       </IconButton>
       <IconButton onClick={() => handleAvatar(27)}>
-        <img
+        <DoImage
           src={avatar27}
           className={`${avatarStyle} ${
             selectedAvatarId === 27 ? iconStyle : ""
           }`}
+          placeholderImg={avatar27}
+          errorImg={avatar27}
         />
       </IconButton>
     </Box>

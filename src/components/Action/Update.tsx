@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Box from "@material-ui/core/Box";
+import DoImage from "../common/Image";
 import Hidden from "@material-ui/core/Hidden";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
@@ -74,7 +75,13 @@ export default function ActionUpdate(props: any) {
       <Hidden only={["xs"]}>
         <Box my={1} textAlign="center">
           <Zoom in={true} timeout={2000}>
-            <img src={updateSection} height="200px" width="fit-content" />
+            <DoImage
+              src={updateSection}
+              height="200px"
+              width="fit-content"
+              placeholderImg={updateSection}
+              errorImg={updateSection}
+            />
           </Zoom>
         </Box>
       </Hidden>

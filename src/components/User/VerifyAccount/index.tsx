@@ -11,6 +11,7 @@ import { useLoading, useVerifyToken } from "../../../redux/state/login";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import Typography from "@material-ui/core/Typography";
 import VerifiedIcon from "../../../assets/verified.svg";
 import Zoom from "@material-ui/core/Zoom";
@@ -103,7 +104,13 @@ const VerifyAccount = () => {
           {!loading && (
             <Box my={10} textAlign="center">
               <Zoom in={true} timeout={2000}>
-                <img src={VerifiedIcon} height="200px" width="fit-content" />
+                <DoImage
+                  src={VerifiedIcon}
+                  height="200px"
+                  width="fit-content"
+                  placeholderImg={VerifiedIcon}
+                  errorImg={VerifiedIcon}
+                />
               </Zoom>
             </Box>
           )}

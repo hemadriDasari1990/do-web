@@ -18,6 +18,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
+import DoImage from "../common/Image";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -168,7 +169,13 @@ export default function Footer() {
           <Grid container spacing={2}>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3}>
-                <img src={doLogo} width={35} height={35} />
+                <DoImage
+                  src={doLogo}
+                  width={35}
+                  height={35}
+                  placeholderImg={doLogo}
+                  errorImg={doLogo}
+                />
               </Box>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">

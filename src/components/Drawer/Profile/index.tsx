@@ -5,6 +5,7 @@ import { getHumanReadableDate, getInitials } from "../../../util";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import ChangeAvatarModel from "./ChangeAvatar";
+import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import ProfileSummary from "./Summary";
@@ -55,10 +56,12 @@ const Profile = () => {
                         arrow
                       >
                         <IconButton onClick={handleAvatar} size="small">
-                          <img
+                          <DoImage
                             src={getAvatar(user?.avatarId)}
                             width={40}
                             height={40}
+                            placeholderImg={getAvatar(user?.avatarId)}
+                            errorImg={getAvatar(user?.avatarId)}
                           />
                         </IconButton>
                       </Tooltip>

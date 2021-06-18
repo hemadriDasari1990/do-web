@@ -1,6 +1,7 @@
 import { DASHBOARD, ROOT } from "../../../routes/config";
 
 import Box from "@material-ui/core/Box";
+import DoImage from "../Image";
 import React from "react";
 import doLogo from "../../assets/do-logo.svg";
 import { useAuthenticated } from "../../../redux/state/common";
@@ -30,7 +31,13 @@ const DoLogoIcon = React.memo((props: any) => {
       onClick={() => refreshDashboard()}
       {...boxProps}
     >
-      <img src={doLogo} width={35} height={35} />
+      <DoImage
+        src={doLogo}
+        width={35}
+        height={35}
+        placeholderImg={doLogo}
+        errorImg={doLogo}
+      />
     </Box>
   );
 });

@@ -7,6 +7,7 @@ import ChangeEmail from "./ChangeEmail";
 import ChangeName from "./ChangeName";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DoImage from "../../../common/Image";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import ManageAccountIcon from "../../../../assets/manage-account.svg";
@@ -118,7 +119,13 @@ export default function ManageAccount(props: any) {
         </Box>
         <Divider />
         <Box mt={5}>
-          <img src={ManageAccountIcon} height={200} width={350} />
+          <DoImage
+            src={ManageAccountIcon}
+            height={200}
+            width={350}
+            placeholderImg={ManageAccountIcon}
+            errorImg={ManageAccountIcon}
+          />
         </Box>
         {action === "update-password" && <UpdatePassword />}
         {action === "change-email" && <ChangeEmail />}

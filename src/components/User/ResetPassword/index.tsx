@@ -10,6 +10,7 @@ import { useHistory, useParams } from "react-router";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import { LOGIN } from "../../../routes/config";
 import ResetPasswordIcon from "../../../assets/reset-password.svg";
 import TextField from "@material-ui/core/TextField";
@@ -124,7 +125,13 @@ const ForgotPassword = () => {
         <Box textAlign="center" pb={5}>
           <Box mt={8}>
             <Zoom in={true} timeout={2000}>
-              <img src={ResetPasswordIcon} height="200px" width="fit-content" />
+              <DoImage
+                src={ResetPasswordIcon}
+                height="200px"
+                width="fit-content"
+                placeholderImg={ResetPasswordIcon}
+                errorImg={ResetPasswordIcon}
+              />
             </Zoom>
           </Box>
           <Box mt={2} ml="auto" mr="auto">

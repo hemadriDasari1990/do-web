@@ -1,4 +1,5 @@
 import Box from "@material-ui/core/Box";
+import DoImage from "../common/Image";
 import Empty from "../../assets/empty.svg";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
@@ -10,7 +11,13 @@ function NoRecords(props: any) {
     <Box style={{ textAlign: "center" }}>
       {!hideImage && (
         <Zoom in={true} timeout={2000}>
-          <img src={icon || Empty} height="200px" width="fit-content" />
+          <DoImage
+            src={icon || Empty}
+            height="200px"
+            width="fit-content"
+            placeholderImg={icon || Empty}
+            errorImg={icon || Empty}
+          />
         </Zoom>
       )}
       <Box mt={3}>

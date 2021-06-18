@@ -2,6 +2,7 @@ import { PRIVACY_POLICY, TERMS } from "../../../routes/config";
 
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import PrivacyIcon from "../../../assets/privacy.svg";
@@ -72,10 +73,12 @@ export default function Security() {
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
-                        <img
+                        <DoImage
                           src={SecureServerIcon}
                           height="200px"
                           width="fit-content"
+                          placeholderImg={SecureServerIcon}
+                          errorImg={SecureServerIcon}
                         />
                       </Zoom>
                     </Box>
@@ -146,10 +149,12 @@ export default function Security() {
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
-                        <img
+                        <DoImage
                           src={PrivacyIcon}
                           height="200px"
                           width="fit-content"
+                          placeholderImg={PrivacyIcon}
+                          errorImg={PrivacyIcon}
                         />
                       </Zoom>
                     </Box>
@@ -169,10 +174,12 @@ export default function Security() {
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
-                        <img
+                        <DoImage
                           src={PrivateDataIcon}
                           height="200px"
                           width="fit-content"
+                          placeholderImg={PrivateDataIcon}
+                          errorImg={PrivateDataIcon}
                         />
                       </Zoom>
                     </Box>
@@ -272,10 +279,12 @@ export default function Security() {
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
-                        <img
+                        <DoImage
                           src={SecureDataIcon}
                           height="200px"
                           width="fit-content"
+                          placeholderImg={SecureDataIcon}
+                          errorImg={SecureDataIcon}
                         />
                       </Zoom>
                     </Box>
@@ -295,10 +304,12 @@ export default function Security() {
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
-                        <img
+                        <DoImage
                           src={SecureDevelopmentIcon}
                           height="200px"
                           width="fit-content"
+                          placeholderImg={SecureDevelopmentIcon}
+                          errorImg={SecureDevelopmentIcon}
                         />
                       </Zoom>
                     </Box>

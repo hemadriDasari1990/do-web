@@ -7,6 +7,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
+import DoImage from "../common/Image";
 import DoLogo from "../common/DoLogo";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import Hidden from "@material-ui/core/Hidden";
@@ -66,7 +67,13 @@ const Header = () => {
     return (
       <Box mt={1} display="flex" justifyContent="space-between">
         <Hidden only={["xl", "lg", "md"]}>
-          <img src={doLogo} width={35} height={35} />
+          <DoImage
+            src={doLogo}
+            width={35}
+            height={35}
+            placeholderImg={doLogo}
+            errorImg={doLogo}
+          />
         </Hidden>
         {showLogo && (
           <Hidden only={["xs", "sm"]}>

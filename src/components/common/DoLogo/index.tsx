@@ -2,6 +2,7 @@ import { DASHBOARD, ROOT } from "../../../routes/config";
 
 import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
+import DoImage from "../Image";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import doLogo from "../../../assets/do-logo.svg";
@@ -44,7 +45,13 @@ const DoLogo = React.memo((props: any) => {
       {...boxProps}
     >
       <Box mt={0.5}>
-        <img src={doLogo} width={35} height={35} />
+        <DoImage
+          src={doLogo}
+          width={35}
+          height={35}
+          placeholderImg={doLogo}
+          errorImg={doLogo}
+        />
       </Box>
       <Box mx={1}>
         <Badge

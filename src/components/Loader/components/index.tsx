@@ -2,6 +2,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Backdrop from "@material-ui/core/Backdrop";
 import Box from "@material-ui/core/Box";
+import DoImage from "../../common/Image";
 import React from "react";
 import loader from "../../../assets/loader.svg";
 
@@ -30,7 +31,7 @@ const Loader = React.memo((props: any) => {
           alignItems="center"
           flexDirection="column"
         >
-          <img src={loader} />
+          <DoImage src={loader} placeholderImg={loader} errorImg={loader} />
         </Box>
       </Backdrop>
     );
@@ -38,7 +39,7 @@ const Loader = React.memo((props: any) => {
   if (enable && !backdrop && showInline) {
     return (
       <Box>
-        <img src={loader} />
+        <DoImage src={loader} placeholderImg={loader} errorImg={loader} />
       </Box>
     );
   }
@@ -51,7 +52,7 @@ const Loader = React.memo((props: any) => {
         alignItems="center"
         className={loaderStyle}
       >
-        <img src={loader} />
+        <DoImage src={loader} placeholderImg={loader} errorImg={loader} />
       </Box>
     );
   }

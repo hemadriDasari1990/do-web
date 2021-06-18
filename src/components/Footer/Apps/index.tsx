@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
@@ -79,7 +80,13 @@ export default function Apps() {
             <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={webIcon} width={200} height={200} />
+                  <DoImage
+                    src={webIcon}
+                    width={200}
+                    height={200}
+                    placeholderImg={webIcon}
+                    errorImg={webIcon}
+                  />
                 </Zoom>
               </Box>
               <Box display="flex" justifyContent="center">
@@ -94,7 +101,13 @@ export default function Apps() {
             <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={mobileIcon} width={200} height={200} />
+                  <DoImage
+                    src={mobileIcon}
+                    width={200}
+                    height={200}
+                    placeholderImg={mobileIcon}
+                    errorImg={mobileIcon}
+                  />
                 </Zoom>
               </Box>
               <Box display="flex" justifyContent="center">
@@ -112,7 +125,13 @@ export default function Apps() {
             <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={desktopIcon} width={200} height={200} />
+                  <DoImage
+                    src={desktopIcon}
+                    width={200}
+                    height={200}
+                    placeholderImg={desktopIcon}
+                    errorImg={desktopIcon}
+                  />
                 </Zoom>
               </Box>
               <Box display="flex" justifyContent="center">
@@ -139,7 +158,13 @@ export default function Apps() {
             <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={chromeIcon} width={60} height={60} />
+                  <DoImage
+                    src={chromeIcon}
+                    width={60}
+                    height={60}
+                    placeholderImg={chromeIcon}
+                    errorImg={chromeIcon}
+                  />
                 </Zoom>
               </Box>
               <Box textAlign="center">
@@ -162,7 +187,13 @@ export default function Apps() {
             <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={firefoxIcon} width={60} height={60} />
+                  <DoImage
+                    src={firefoxIcon}
+                    width={60}
+                    height={60}
+                    placeholderImg={firefoxIcon}
+                    errorImg={firefoxIcon}
+                  />
                 </Zoom>
               </Box>
               <Box textAlign="center">
@@ -185,7 +216,13 @@ export default function Apps() {
             <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={edgeIcon} width={60} height={60} />
+                  <DoImage
+                    src={edgeIcon}
+                    width={60}
+                    height={60}
+                    placeholderImg={edgeIcon}
+                    errorImg={edgeIcon}
+                  />
                 </Zoom>
               </Box>
               <Box textAlign="center">
@@ -208,14 +245,19 @@ export default function Apps() {
             <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
-                  <img src={safariIcon} width={60} height={60} />
+                  <DoImage
+                    src={safariIcon}
+                    width={60}
+                    height={60}
+                    placeholderImg={safariIcon}
+                    errorImg={safariIcon}
+                  />
                 </Zoom>
               </Box>
               <Box textAlign="center">
                 <Typography variant="h2" className={titleStyle}>
                   Safari
                 </Typography>
-
                 <Typography variant="h3">Latest</Typography>
                 <Box mt={1}>
                   <Button

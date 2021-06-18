@@ -5,6 +5,7 @@ import { useForgotPassword, useLoading } from "../../../redux/state/login";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import { EMAIL_PATTERN } from "../../../util/regex";
 import ForgotPasswordIcon from "../../../assets/forgot-password.svg";
 import TextField from "@material-ui/core/TextField";
@@ -101,10 +102,12 @@ const ForgotPassword = () => {
         <Box textAlign="center" py={5}>
           <Box mt={8}>
             <Zoom in={true} timeout={2000}>
-              <img
+              <DoImage
                 src={ForgotPasswordIcon}
                 height="200px"
                 width="fit-content"
+                placeholderImg={ForgotPasswordIcon}
+                errorImg={ForgotPasswordIcon}
               />
             </Zoom>
           </Box>

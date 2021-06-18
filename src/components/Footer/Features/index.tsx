@@ -6,6 +6,7 @@ import AnnonymousIcon from "../../../assets/annonymous.svg";
 import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import DoImage from "../../common/Image";
 import ExportDataIcon from "../../../assets/export-data.svg";
 import FeaturesOverview from "../../../assets/features-overview.svg";
 import Grid from "@material-ui/core/Grid";
@@ -84,10 +85,12 @@ export default function Features() {
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box>
                 <Zoom in={true} timeout={2000}>
-                  <img
+                  <DoImage
                     src={FeaturesOverview}
                     className={imageStyle}
                     width="fit-content"
+                    placeholderImg={FeaturesOverview}
+                    errorImg={FeaturesOverview}
                   />
                 </Zoom>
               </Box>

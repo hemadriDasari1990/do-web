@@ -2,6 +2,7 @@ import AddNoteIcon from "../../../assets/add-note.svg";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import CreateAccount from "../../Home/create";
+import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
 import InfoCard from "../../common/InfoCard";
 import InstantRetroGrid from "../../Home/instantRetroGrid";
@@ -63,7 +64,13 @@ export default function WhyLetsdoretro() {
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box textAlign="center" mt={8}>
                 <Zoom in={true} timeout={2000}>
-                  <img src={AddNoteIcon} height="200px" width="fit-content" />
+                  <DoImage
+                    src={AddNoteIcon}
+                    height="200px"
+                    width="fit-content"
+                    placeholderImg={AddNoteIcon}
+                    errorImg={AddNoteIcon}
+                  />
                 </Zoom>
               </Box>
             </Grid>

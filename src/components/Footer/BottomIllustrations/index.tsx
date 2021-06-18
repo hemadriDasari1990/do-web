@@ -1,5 +1,6 @@
 import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
+import DoImage from "../../common/Image";
 import Hidden from "@material-ui/core/Hidden";
 import ProjectIcon from "../../../assets/add-note.svg";
 import React from "react";
@@ -34,7 +35,13 @@ const BottomIllustrations = () => {
         <Hidden only={["xs"]}>
           <Box pb={-3}>
             <Zoom in={true} timeout={2000}>
-              <img src={ProjectIcon} height={300} width={550} />
+              <DoImage
+                src={ProjectIcon}
+                height={300}
+                width={550}
+                placeholderImg={ProjectIcon}
+                errorImg={ProjectIcon}
+              />
             </Zoom>
           </Box>
         </Hidden>

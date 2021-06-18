@@ -8,6 +8,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
 import DoAutoComplete from "../../common/DoAutoComplete";
+import DoImage from "../../common/Image";
 import JoinTeam from "../../../assets/join-team.svg";
 import Loader from "../../Loader/components";
 import { NAME_MAX_CHAR_COUNT } from "../../../util/constants";
@@ -111,7 +112,13 @@ const Create = React.memo((props: any) => {
         <Loader enable={loading} backdrop={true} />
         <Box mt={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
-            <img src={JoinTeam} height="150px" width="fit-content" />
+            <DoImage
+              src={JoinTeam}
+              height="150px"
+              width="fit-content"
+              placeholderImg={JoinTeam}
+              errorImg={JoinTeam}
+            />
           </Zoom>
         </Box>
         <TextField
