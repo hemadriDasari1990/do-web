@@ -133,7 +133,7 @@ const NoteList = React.memo((props: any) => {
   /* Redux hooks */
   const authenticated = useAuthenticated();
   const { board } = useBoard();
-  const enableActions = !board?.isLocked || authenticated || board.isInstant;
+  const enableActions = !board?.isLocked || authenticated;
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
   const { boardId } = useParams<{ boardId: string }>();
@@ -203,7 +203,7 @@ const NoteList = React.memo((props: any) => {
     socket.on(
       `mark-note-read-response-${sectionId}`,
       (updatedNote: { [Key: string]: any }) => {
-        updateNote(updatedNote);
+        updateMarkDiscussed(updatedNote);
       }
     );
 
@@ -286,10 +286,32 @@ const NoteList = React.memo((props: any) => {
     }
     noteData.read = updatedNote.read;
     noteData.description = updatedNote.description;
+    noteData.isAnnonymous = updatedNote.isAnnonymous;
     noteData.updatedById = updatedNote.updatedById;
     noteData.updatedBy = updatedNote.updatedBy;
     newNotes[noteIndex] = noteData;
     setSelectedNote(noteData);
+    setNotes(newNotes);
+  };
+
+  const updateMarkDiscussed = (updatedNote: { [Key: string]: any }) => {
+    if (!updatedNote || sectionId !== updatedNote?.sectionId) {
+      return;
+    }
+
+    const newNotes: Array<{ [Key: string]: any }> = notes?.length
+      ? [...notes]
+      : [];
+    const noteIndex: number = newNotes.findIndex(
+      (newNote: { [Key: string]: any }) => newNote._id === updatedNote._id
+    );
+    const noteData: { [Key: string]: any } = newNotes[noteIndex];
+    if (!noteData) {
+      return;
+    }
+    noteData.read = updatedNote.read;
+    newNotes[noteIndex] = noteData;
+    // setSelectedNote(noteData);
     setNotes(newNotes);
   };
 
@@ -469,7 +491,7 @@ const NoteList = React.memo((props: any) => {
             noteData.totalLove =
               parseInt(noteData.totalLove) > 0 ? noteData.totalLove + 1 : 1;
             break;
-          case "disagree":
+          case "deserve":
             noteData.totalDeserve =
               parseInt(noteData.totalDeserve) > 0
                 ? noteData.totalDeserve + 1
@@ -597,11 +619,25 @@ const NoteList = React.memo((props: any) => {
     setOpen(false);
   };
 
+  const canIAccess = () => {
+    if (authenticated) {
+      return true;
+    }
+    if (!authenticated && joinedMemberId === selectedNote?.createdById) {
+      return true;
+    }
+
+    if (!authenticated && selectedNote?.isAnnonymous && board?.isInstant) {
+      return true;
+    }
+    if (!authenticated && board?.isAnnonymous && board?.isInstant) {
+      return true;
+    }
+    return false;
+  };
+
   const renderMenu = (note: { [Key: string]: any }) => {
-    const canAccess =
-      authenticated ||
-      joinedMemberId === selectedNote?.createdById ||
-      board?.isInstant;
+    const canAccess = canIAccess();
     return (
       <ClickAwayListener onClickAway={handleClickAwayClose}>
         <Menu
@@ -715,7 +751,7 @@ const NoteList = React.memo((props: any) => {
   const renderEdited = (note: { [Key: string]: any }) => {
     return (
       <Box mt={0.4}>
-        {note?.updatedById ? (
+        {note?.createdById !== note?.updatedById ? (
           <Typography variant="h6">Edited</Typography>
         ) : null}
       </Box>
@@ -810,17 +846,27 @@ const NoteList = React.memo((props: any) => {
 
   const renderName = (note: { [Key: string]: any }) => {
     return (
-      <Tooltip title={note?.createdBy?.name || "Team member"}>
-        <Avatar
-          src={getAvatar(note?.createdBy?.avatarId)}
-          className={avatarStyle}
-        >
-          {note?.createdBy?.name && (
-            <Typography variant="subtitle1" style={{ color: "#57f" }}>
-              {getInitials(note?.createdBy?.name)}
-            </Typography>
-          )}
-        </Avatar>
+      <Tooltip
+        title={
+          !note?.isAnnonymous
+            ? note?.updatedBy?.name || "Team member"
+            : "Team member"
+        }
+      >
+        {!note?.isAnnonymous ? (
+          <Avatar
+            src={getAvatar(note?.updatedBy?.avatarId)}
+            className={avatarStyle}
+          >
+            {note?.updatedBy?.name && (
+              <Typography variant="subtitle1" style={{ color: "#57f" }}>
+                {getInitials(note?.updatedBy?.name)}
+              </Typography>
+            )}
+          </Avatar>
+        ) : (
+          <Avatar className={avatarStyle}></Avatar>
+        )}
       </Tooltip>
     );
   };

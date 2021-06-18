@@ -105,6 +105,10 @@ export default function Recommendation(props: any) {
     );
   };
 
+  const handleRating = (value: any) => {
+    setRating(value);
+  };
+
   const disableButton = () => {
     if (!description || description?.length <= 10) {
       return true;
@@ -186,9 +190,7 @@ export default function Recommendation(props: any) {
                 max={10}
                 size="large"
                 value={rating}
-                onChange={(event, newValue) => {
-                  setRating(newValue);
-                }}
+                onChange={(event, newValue: any) => handleRating(newValue)}
               />
             </Box>
             <Box mt={0.5}>

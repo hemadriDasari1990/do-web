@@ -63,6 +63,7 @@ import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 
 const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
+const joinSound = require("../../assets/sounds/join.wav");
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
@@ -146,6 +147,7 @@ export default function Section() {
   // const { token } = useParams<{ token: string }>();
   const joinedMemberId = getMemberId(boardId);
   const sessionAudio = new Audio(sessionSound.default);
+  const joinAudio = new Audio(joinSound.default);
 
   /* React state */
   const [showDialog, setShowDialog] = useState(false);
@@ -202,6 +204,7 @@ export default function Section() {
           setJoinedMember(response);
           updateJoinedMember(response);
           setOpenSnackbar(true);
+          playSound(joinAudio);
         }
       }
     );
@@ -223,6 +226,7 @@ export default function Section() {
       board &&
       !board?.isPrivate &&
       (board?.startedAt || board?.isInstant) &&
+      !board?.isAnnonymous &&
       !board?.completedAt &&
       !joinedMemberId
     ) {
@@ -260,8 +264,10 @@ export default function Section() {
         }
         if (authenticated && boardId === updatedBoard?._id) {
           setShowDialog(false);
-          setBoardDetails(updatedBoard);
           setJoinedMembers(updatedBoard.joinedMembers);
+        }
+        if (boardId === updatedBoard?._id) {
+          setBoardDetails(updatedBoard);
           setStartSession(true);
         }
       }
@@ -334,8 +340,8 @@ export default function Section() {
   useEffect(() => {
     if (
       !loading &&
-      (board?.status === "draft" ||
-        (board?.status === "new" && !authenticated)) &&
+      board?.status === "new" &&
+      !authenticated &&
       !board?.isInstant
     ) {
       setMessage(
@@ -725,6 +731,7 @@ export default function Section() {
       id: boardDetails?._id,
       completedAt: Date.now(),
       memberId,
+      joinedMemberId,
     });
     handleClose();
   };
@@ -736,6 +743,7 @@ export default function Section() {
       id: boardDetails?._id,
       startedAt: Date.now(),
       memberId,
+      joinedMemberId,
     });
     if (authenticated) {
       localStorage.removeItem(boardId);
@@ -841,7 +849,7 @@ export default function Section() {
       />
     );
   };
-  console.log("joinedMembers", joinedMembers);
+
   return (
     <Suspense fallback={<Loader enable={true} backdrop={true} />}>
       {renderDialog()}
@@ -980,14 +988,10 @@ export default function Section() {
           >
             <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
               <Box display="flex" justifyContent="flex-end">
-                {!boardLoading &&
-                boardDetails?.startedAt &&
-                !boardDetails?.completedAt ? (
+                {!boardLoading && boardDetails?.status === "inprogress" ? (
                   <Box mr={1}>{renderTimer()}</Box>
                 ) : null}
-                {!boardLoading &&
-                boardDetails?.startedAt &&
-                boardDetails?.completedAt ? (
+                {!boardLoading && boardDetails?.status === "completed" ? (
                   <Box mt={0.3} mr={1}>
                     {renderDiffInDays()}
                   </Box>
@@ -996,23 +1000,20 @@ export default function Section() {
                   {!boardLoading &&
                   (authenticated || boardDetails?.isInstant) &&
                   boardDetails &&
-                  !boardDetails.startedAt ? (
+                  boardDetails?.status === "new" ? (
                     <>{renderStartSession()}</>
                   ) : null}
                   {!boardLoading &&
                   (authenticated || boardDetails?.isInstant) &&
-                  boardDetails?.startedAt &&
-                  !boardDetails.completedAt ? (
+                  boardDetails?.status === "inprogress" ? (
                     <>{renderEndSession()}</>
                   ) : null}
                 </Box>
                 {!boardLoading && authenticated ? (
                   <>{renderGoBackToBoards()}</>
                 ) : null}
-                {(authenticated ||
-                  boardDetails?.isInstant ||
-                  boardDetails?.isAnnonymous) &&
-                  boardDetails?.completedAt && (
+                {(authenticated || boardDetails?.isInstant) &&
+                  boardDetails?.status === "completed" && (
                     <Box mr={1}>
                       <Tooltip
                         title="Download to Excel"

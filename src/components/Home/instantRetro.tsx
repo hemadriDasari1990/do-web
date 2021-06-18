@@ -10,8 +10,10 @@ import { useBoard, useBoardUpdateLoading } from "../../redux/state/board";
 import { BOARD_DASHBOARD } from "../../routes/config";
 import BoardIcon from "../../assets/board";
 import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
 import DoAutoComplete from "../common/DoAutoComplete";
 import DoSnackbar from "../Snackbar/components";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Hidden from "@material-ui/core/Hidden";
 import Loader from "../Loader/components";
 import { MAX_CHAR_COUNT } from "../../util/constants";
@@ -57,12 +59,19 @@ const InstantRetro = React.memo((props: any) => {
     noOfSections: null,
     name: "",
     defaultSection: "",
+    isAnnonymous: false,
   });
   const [count, setCount] = useState(0);
   const [apiCalled, setApiCalled] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  const { description, noOfSections, defaultSection, name } = formData;
+  const {
+    description,
+    noOfSections,
+    defaultSection,
+    name,
+    isAnnonymous,
+  } = formData;
 
   useEffect(() => {
     if (!loading && board && board._id && apiCalled) {
@@ -95,6 +104,7 @@ const InstantRetro = React.memo((props: any) => {
       description: "",
       noOfSections: 0,
       defaultSection: "",
+      isAnnonymous: false,
     });
   };
 
@@ -107,6 +117,7 @@ const InstantRetro = React.memo((props: any) => {
         defaultSection,
         name,
         isInstant: true,
+        isAnnonymous,
       })
     );
     setApiCalled(true);
@@ -143,6 +154,10 @@ const InstantRetro = React.memo((props: any) => {
 
   const handleDefaultSection = (data: { [Key: string]: any }) => {
     setFormData({ ...formData, defaultSection: data?.name });
+  };
+
+  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
   };
 
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
@@ -197,8 +212,27 @@ const InstantRetro = React.memo((props: any) => {
         ) : null}
       </>
     ),
-    [name, noOfSections, defaultSections]
+    [isAnnonymous, name, noOfSections, defaultSections]
   );
+
+  const renderAnnonymous = () => {
+    return (
+      <Box mt={1}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isAnnonymous}
+              onChange={handleIsAnnonymous}
+              value="false"
+              color="primary"
+              name="isAnnonymous"
+            />
+          }
+          label={<Typography variant="h6">Create annonymous board</Typography>}
+        />
+      </Box>
+    );
+  };
 
   return (
     <React.Fragment>
@@ -253,6 +287,7 @@ const InstantRetro = React.memo((props: any) => {
             required
           />
         </Box>
+        {renderAnnonymous()}
         {renderDefaultTemplate()}
         {renderNoOfSections()}
         <Box>

@@ -145,12 +145,16 @@ function Feedback(props: any) {
     return false;
   };
 
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false);
+  const handleRating = (value: number | null) => {
+    setRating(value);
   };
 
-  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  const handleChangeActive = (newHover: number) => {
+    setHover(newHover);
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
   };
 
   const renderSnackbar = () => {
@@ -224,9 +228,6 @@ function Feedback(props: any) {
                 TITLE_MAX_CHAR_COUNT
               )
             }
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
           />
         </Box>
         <Box mt={1}>
@@ -247,9 +248,6 @@ function Feedback(props: any) {
                 MAX_CHAR_COUNT
               )
             }
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
           />
           <Typography variant="subtitle2">
             {count}/{MAX_CHAR_COUNT} chars
@@ -265,12 +263,10 @@ function Feedback(props: any) {
             <StyledRating
               value={rating}
               precision={1}
-              onChange={(event, newValue) => {
-                setRating(newValue);
-              }}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }}
+              onChange={(event, newValue: number | null) =>
+                handleRating(newValue)
+              }
+              onChangeActive={(event, newHover) => handleChangeActive(newHover)}
               size="large"
             />
             {rating !== null && (

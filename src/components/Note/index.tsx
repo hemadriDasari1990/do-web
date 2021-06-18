@@ -54,7 +54,7 @@ function Note(props: any) {
       return true;
     }
 
-    if (board?.isInstant && (startSession || board?.startedAt)) {
+    if (startSession || board?.startedAt) {
       return true;
     }
     return false;

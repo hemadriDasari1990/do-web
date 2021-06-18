@@ -45,14 +45,12 @@ const AboutBoardInfo = () => {
             value={board?.isPrivate ? "Private" : "Public"}
           />
         </Box>
-        {!board?.isInstant && (
-          <Box mb={1}>
-            <SummaryField
-              title="Is Annonymous"
-              value={board?.isAnnonymous ? "Yes" : "No"}
-            />
-          </Box>
-        )}
+        <Box mb={1}>
+          <SummaryField
+            title="Is Annonymous"
+            value={board?.isAnnonymous ? "Yes" : "No"}
+          />
+        </Box>
         <Box mb={1}>
           <SummaryField
             title="Total sections"

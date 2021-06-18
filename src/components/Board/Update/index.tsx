@@ -5,6 +5,10 @@ import {
 } from "../../../util/regex";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
+import {
+  useAuthenticated,
+  useDefaultSections,
+} from "../../../redux/state/common";
 
 import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
@@ -21,7 +25,6 @@ import Zoom from "@material-ui/core/Zoom";
 import { getTeams } from "../../../redux/actions/team";
 import { updateBoard } from "../../../redux/actions/board";
 import { useBoardUpdateLoading } from "../../../redux/state/board";
-import { useDefaultSections } from "../../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useLogin } from "../../../redux/state/login";
@@ -58,6 +61,7 @@ const Update = React.memo((props: any) => {
   const history = useHistory();
   const { project } = useProject();
   const { defaultSections } = useDefaultSections();
+  const authenticated = useAuthenticated();
 
   /* Redux hooks */
   const { userId, accountType } = useLogin();
@@ -104,7 +108,9 @@ const Update = React.memo((props: any) => {
   }, [selectedBoard]);
 
   useEffect(() => {
-    dispatch(getTeams(userId, "", 0, 100));
+    if (authenticated) {
+      dispatch(getTeams(userId, "", 0, 100));
+    }
   }, []);
 
   /* Handler functions */
@@ -303,7 +309,7 @@ const Update = React.memo((props: any) => {
             {count}/{MAX_CHAR_COUNT} chars
           </Typography>
         </Box>
-        {!isAnnonymous && (
+        {!isAnnonymous && authenticated && (
           <Box>
             <DoAutoComplete
               defaultValue={team}
@@ -321,7 +327,7 @@ const Update = React.memo((props: any) => {
           </Box>
         )}
 
-        {!selectedBoard && (
+        {!selectedBoard && authenticated && (
           <Box mt={3}>
             <Typography variant="h5">
               If you want to create a team please{" "}

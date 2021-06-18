@@ -71,7 +71,7 @@ export default function NoteUpdate(props: any) {
         previousDescription: selectedNote?.description,
         sectionId,
         noteId: selectedNote?._id,
-        isAnnonymous: isAnnonymous ? isAnnonymous : selectedNote?.isAnnonymous,
+        isAnnonymous: isAnnonymous,
         createdById: selectedNote?.createdById,
         ...(!isAnnonymous
           ? { updatedById: joinedMemberId }
@@ -159,23 +159,25 @@ export default function NoteUpdate(props: any) {
           </Box>
           <Box display="flex">
             <Box mt={-1}>
-              {!board?.isAnnonymous && (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={isAnnonymous}
-                      onChange={handleIsAnnonymous}
-                      value="false"
-                      color="primary"
-                      name="isAnnonymous"
-                      // disabled={selectedBoard?._id && isDefaultBoard}
-                    />
-                  }
-                  label={
-                    <Typography variant="h6">Post as annonymous</Typography>
-                  }
-                />
-              )}
+              {!board?.isAnnonymous &&
+                (selectedNote?.createdById === joinedMemberId ||
+                  !selectedNote) && (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isAnnonymous}
+                        onChange={handleIsAnnonymous}
+                        value="false"
+                        color="primary"
+                        name="isAnnonymous"
+                        // disabled={selectedBoard?._id && isDefaultBoard}
+                      />
+                    }
+                    label={
+                      <Typography variant="h6">Post as annonymous</Typography>
+                    }
+                  />
+                )}
             </Box>
             <Box display="flex">
               <Box mr={1}>
