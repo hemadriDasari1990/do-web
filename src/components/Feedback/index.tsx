@@ -24,7 +24,6 @@ import Divider from "@material-ui/core/Divider";
 import DoImage from "../common/Image";
 import DoSnackbar from "../Snackbar/components";
 import Drawer from "@material-ui/core/Drawer";
-import FeedbackIcon from "../../assets/feedback.svg";
 import IconButton from "@material-ui/core/IconButton";
 import Rating from "@material-ui/lab/Rating";
 import TextField from "@material-ui/core/TextField";
@@ -207,11 +206,11 @@ function Feedback(props: any) {
       <Box p={3} width={drawerWidth}>
         <Box>
           <DoImage
-            src={FeedbackIcon}
+            src="feedback.svg"
             height={200}
             width={350}
-            placeholderImg={FeedbackIcon}
-            errorImg={FeedbackIcon}
+            placeholderImg="feedback.svg"
+            errorImg="feedback.svg"
           />
         </Box>
         <Box mt={2}>

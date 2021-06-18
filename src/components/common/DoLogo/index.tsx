@@ -5,7 +5,6 @@ import Box from "@material-ui/core/Box";
 import DoImage from "../Image";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import doLogo from "../../../assets/do-logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
@@ -46,11 +45,11 @@ const DoLogo = React.memo((props: any) => {
     >
       <Box mt={0.5}>
         <DoImage
-          src={doLogo}
+          src="do-logo.svg"
           width={35}
           height={35}
-          placeholderImg={doLogo}
-          errorImg={doLogo}
+          placeholderImg="do-logo.svg"
+          errorImg="do-logo.svg"
         />
       </Box>
       <Box mx={1}>

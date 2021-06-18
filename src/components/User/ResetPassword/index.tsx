@@ -12,7 +12,6 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import DoImage from "../../common/Image";
 import { LOGIN } from "../../../routes/config";
-import ResetPasswordIcon from "../../../assets/reset-password.svg";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -126,11 +125,11 @@ const ForgotPassword = () => {
           <Box mt={8}>
             <Zoom in={true} timeout={2000}>
               <DoImage
-                src={ResetPasswordIcon}
+                src="reset-password.svg"
                 height="200px"
                 width="fit-content"
-                placeholderImg={ResetPasswordIcon}
-                errorImg={ResetPasswordIcon}
+                placeholderImg="reset-password.svg"
+                errorImg="reset-password.svg"
               />
             </Zoom>
           </Box>

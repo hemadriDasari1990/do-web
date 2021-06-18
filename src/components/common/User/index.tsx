@@ -1,16 +1,19 @@
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import HemadriIcon from "../../../assets/hemadri.jpg";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../../styles";
 
 const AdminUser = () => {
   const { avatarStyle } = useStyles();
+  const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
 
   return (
     <Box display="flex">
-      <Avatar classes={{ root: avatarStyle }} src={HemadriIcon}></Avatar>
+      <Avatar
+        classes={{ root: avatarStyle }}
+        src={assetUrl + "hemadri.jpg"}
+      ></Avatar>
       <Box mx={1} mt={0.5}>
         <Typography variant="body2">
           <b>Hemadri</b>

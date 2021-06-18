@@ -3,7 +3,6 @@ import { DASHBOARD, ROOT } from "../../../routes/config";
 import Box from "@material-ui/core/Box";
 import DoImage from "../Image";
 import React from "react";
-import doLogo from "../../assets/do-logo.svg";
 import { useAuthenticated } from "../../../redux/state/common";
 import { useHistory } from "react-router-dom";
 import useStyles from "../../styles";
@@ -32,11 +31,11 @@ const DoLogoIcon = React.memo((props: any) => {
       {...boxProps}
     >
       <DoImage
-        src={doLogo}
+        src="do-logo.svg"
         width={35}
         height={35}
-        placeholderImg={doLogo}
-        errorImg={doLogo}
+        placeholderImg="do-logo.svg"
+        errorImg="do-logo.svg"
       />
     </Box>
   );

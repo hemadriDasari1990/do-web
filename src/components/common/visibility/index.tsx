@@ -10,8 +10,11 @@ import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
-const lockSound = require("../../../assets/sounds/ui_lock.wav");
-const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
+
+const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
+
+const lockSound = require(assetUrl + "sounds/ui_lock.wav");
+const unlockSound = require(assetUrl + "sounds/ui_unlock.wav");
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 

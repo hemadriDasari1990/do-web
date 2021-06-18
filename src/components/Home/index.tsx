@@ -11,10 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import InfoCard from "../common/InfoCard";
 import InstantRetroGrid from "./instantRetroGrid";
-import ScrumBoardSkeleton from "../../assets/scrum-real-board.png";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
-import Wave from "../../assets/wave.svg";
 import Zoom from "@material-ui/core/Zoom";
 import { getDefaultSections } from "../../redux/actions/common";
 import { useDispatch } from "react-redux";
@@ -177,12 +175,12 @@ const Home = () => {
               <Box mt={5}>
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={ScrumBoardSkeleton}
+                    src="scrum-real-board.png"
                     className={skeletonImageStyle}
                     height="1334"
                     width="1902"
-                    placeholderImg={ScrumBoardSkeleton}
-                    errorImg={ScrumBoardSkeleton}
+                    placeholderImg="scrum-real-board.png"
+                    errorImg="scrum-real-board.png"
                   />
                 </Zoom>
               </Box>
@@ -244,7 +242,7 @@ const Home = () => {
         </Container>
       </Box>
       <Box mb={-0.9}>
-        <DoImage src={Wave} placeholderImg={Wave} errorImg={Wave} />
+        <DoImage src="wave.svg" placeholderImg="wave.svg" errorImg="wave.svg" />
       </Box>
       <Box className={boxGridStyle}>
         <CreateAccountGrid />

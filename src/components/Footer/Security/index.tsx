@@ -5,12 +5,7 @@ import Container from "@material-ui/core/Container";
 import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
-import PrivacyIcon from "../../../assets/privacy.svg";
-import PrivateDataIcon from "../../../assets/private-data.svg";
 import React from "react";
-import SecureDataIcon from "../../../assets/secure-data.svg";
-import SecureDevelopmentIcon from "../../../assets/secure-development.svg";
-import SecureServerIcon from "../../../assets/secure-server.svg";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -74,11 +69,11 @@ export default function Security() {
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
                         <DoImage
-                          src={SecureServerIcon}
+                          src="secure-server.svg"
                           height="200px"
                           width="fit-content"
-                          placeholderImg={SecureServerIcon}
-                          errorImg={SecureServerIcon}
+                          placeholderImg="secure-server.svg"
+                          errorImg="secure-server.svg"
                         />
                       </Zoom>
                     </Box>
@@ -150,11 +145,11 @@ export default function Security() {
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
                         <DoImage
-                          src={PrivacyIcon}
+                          src="privacy.svg"
                           height="200px"
                           width="fit-content"
-                          placeholderImg={PrivacyIcon}
-                          errorImg={PrivacyIcon}
+                          placeholderImg="privacy.svg"
+                          errorImg="privacy.svg"
                         />
                       </Zoom>
                     </Box>
@@ -175,11 +170,11 @@ export default function Security() {
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
                         <DoImage
-                          src={PrivateDataIcon}
+                          src="private-data.svg"
                           height="200px"
                           width="fit-content"
-                          placeholderImg={PrivateDataIcon}
-                          errorImg={PrivateDataIcon}
+                          placeholderImg="private-data.svg"
+                          errorImg="private-data.svg"
                         />
                       </Zoom>
                     </Box>
@@ -280,11 +275,11 @@ export default function Security() {
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
                         <DoImage
-                          src={SecureDataIcon}
+                          src="secure-data.svg"
                           height="200px"
                           width="fit-content"
-                          placeholderImg={SecureDataIcon}
-                          errorImg={SecureDataIcon}
+                          placeholderImg="secure-data.svg"
+                          errorImg="secure-data.svg"
                         />
                       </Zoom>
                     </Box>
@@ -305,11 +300,11 @@ export default function Security() {
                     <Box textAlign="center">
                       <Zoom in={true} timeout={2000}>
                         <DoImage
-                          src={SecureDevelopmentIcon}
+                          src="secure-development.svg"
                           height="200px"
                           width="fit-content"
-                          placeholderImg={SecureDevelopmentIcon}
-                          errorImg={SecureDevelopmentIcon}
+                          placeholderImg="secure-development.svg"
+                          errorImg="secure-development.svg"
                         />
                       </Zoom>
                     </Box>

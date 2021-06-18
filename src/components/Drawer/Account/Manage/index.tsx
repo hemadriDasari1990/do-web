@@ -10,7 +10,6 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DoImage from "../../../common/Image";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
-import ManageAccountIcon from "../../../../assets/manage-account.svg";
 import ManageActions from "./ManageActions";
 import SecurityQuestions from "./SecurityQuestions";
 import UpdatePassword from "./UpdatePassword";
@@ -120,11 +119,11 @@ export default function ManageAccount(props: any) {
         <Divider />
         <Box mt={5}>
           <DoImage
-            src={ManageAccountIcon}
+            src="manage-account.svg"
             height={200}
             width={350}
-            placeholderImg={ManageAccountIcon}
-            errorImg={ManageAccountIcon}
+            placeholderImg="manage-account.svg"
+            errorImg="manage-account.svg"
           />
         </Box>
         {action === "update-password" && <UpdatePassword />}

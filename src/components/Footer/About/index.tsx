@@ -4,15 +4,9 @@ import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
 import Process from "./process";
 import React from "react";
-import Team from "../../../assets/team.svg";
 import Typography from "@material-ui/core/Typography";
 import UnderlineText from "../../common/UnderlineText";
-import Wave from "../../../assets/wave.svg";
-import hemadri from "../../../assets/hemadri.jpg";
-import lokeshPemmasani from "../../../assets/lokesh-pemmasani.jpeg";
 import { makeStyles } from "@material-ui/core/styles";
-import rajeshPemmasani from "../../../assets/rajesh-pemmasani.jpeg";
-import sreesha from "../../../assets/sreesha.jpeg";
 import useStyles from "../../styles";
 
 const CreateAccountGrid = React.lazy(
@@ -40,6 +34,8 @@ const useLocalStyles = makeStyles({
 export default function About() {
   const { parahStyle, createAccountStyle } = useLocalStyles();
   const { bannerStyle, titleStyle } = useStyles();
+  const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
+
   return (
     <React.Fragment>
       <Box>
@@ -72,11 +68,11 @@ export default function About() {
                 <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                   <Box mt={-3} textAlign="center">
                     <DoImage
-                      src={Team}
+                      src="team.svg"
                       height="300px"
                       width="300px"
-                      placeholderImg={Team}
-                      errorImg={Team}
+                      placeholderImg="team.svg"
+                      errorImg="team.svg"
                     />
                   </Box>
                 </Grid>
@@ -108,7 +104,7 @@ export default function About() {
             <Grid container spacing={2}>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
                 <ProfileCardSecondary
-                  path={hemadri}
+                  path={assetUrl + "hemadri.jpg"}
                   title="Hemadri Dasari"
                   subTitle="Founder and Senior Developer"
                   fbPath={process.env.REACT_APP_HEMADRI_FB_URL}
@@ -118,7 +114,7 @@ export default function About() {
               </Grid>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
                 <ProfileCardSecondary
-                  path={sreesha}
+                  path={assetUrl + "sreesha.jpeg"}
                   title="Sreesha Venkita Krishnan"
                   subTitle="Senior QA Professional"
                   fbPath={process.env.REACT_APP_SREESHA_FB_URL}
@@ -199,7 +195,7 @@ export default function About() {
           <Grid container spacing={2}>
             <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
               <ProfileCardSecondary
-                path={rajeshPemmasani}
+                path={assetUrl + "rajesh-pemmasani.jpeg"}
                 title="Rajesh Pemmasani"
                 subTitle="Assistant Vice President"
                 fbPath={process.env.REACT_APP_RAJESH_PEMMASANI_FB_URL}
@@ -211,7 +207,7 @@ export default function About() {
             </Grid>
             <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
               <ProfileCardSecondary
-                path={lokeshPemmasani}
+                path={assetUrl + "lokesh-pemmasani.jpeg"}
                 title="Lokesh Pemmasani"
                 subTitle="Principal Solution Architect"
                 fbPath={process.env.REACT_APP_LOKESH_PEMMASANI_FB_URL}
@@ -228,7 +224,7 @@ export default function About() {
         <Process />
       </Box>
       <Box mb={-0.9}>
-        <DoImage src={Wave} placeholderImg={Wave} errorImg={Wave} />
+        <DoImage src="wave.svg" placeholderImg="wave.svg" errorImg="wave.svg" />
       </Box>
       <Box className={createAccountStyle}>
         <CreateAccountGrid />

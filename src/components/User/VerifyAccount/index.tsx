@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import DoImage from "../../common/Image";
 import Typography from "@material-ui/core/Typography";
-import VerifiedIcon from "../../../assets/verified.svg";
 import Zoom from "@material-ui/core/Zoom";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
@@ -105,11 +104,11 @@ const VerifyAccount = () => {
             <Box my={10} textAlign="center">
               <Zoom in={true} timeout={2000}>
                 <DoImage
-                  src={VerifiedIcon}
+                  src="verified.svg"
                   height="200px"
                   width="fit-content"
-                  placeholderImg={VerifiedIcon}
-                  errorImg={VerifiedIcon}
+                  placeholderImg="verified.svg"
+                  errorImg="verified.svg"
                 />
               </Zoom>
             </Box>

@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import DoImage from "../../common/Image";
 import { EMAIL_PATTERN } from "../../../util/regex";
-import ForgotPasswordIcon from "../../../assets/forgot-password.svg";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -103,11 +102,11 @@ const ForgotPassword = () => {
           <Box mt={8}>
             <Zoom in={true} timeout={2000}>
               <DoImage
-                src={ForgotPasswordIcon}
+                src="forgot-password.svg"
                 height="200px"
                 width="fit-content"
-                placeholderImg={ForgotPasswordIcon}
-                errorImg={ForgotPasswordIcon}
+                placeholderImg="forgot-password.svg"
+                errorImg="forgot-password.svg"
               />
             </Zoom>
           </Box>

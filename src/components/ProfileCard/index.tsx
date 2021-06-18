@@ -1,8 +1,6 @@
 import Box from "@material-ui/core/Box";
 import DoImage from "../common/Image";
-// import FacebookIcon from "@material-ui/icons/Facebook";
 import IconButton from "@material-ui/core/IconButton";
-// import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";

@@ -35,7 +35,6 @@ import React from "react";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import doLogo from "../../assets/do-logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 
 const BottomIllustrations = React.lazy(() => import("./BottomIllustrations"));
@@ -170,11 +169,11 @@ export default function Footer() {
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3}>
                 <DoImage
-                  src={doLogo}
+                  src="do-logo.svg"
                   width={35}
                   height={35}
-                  placeholderImg={doLogo}
-                  errorImg={doLogo}
+                  placeholderImg="do-logo.svg"
+                  errorImg="do-logo.svg"
                 />
               </Box>
               <Box>

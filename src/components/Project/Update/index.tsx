@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
-import CreateNewProject from "../../../assets/create.svg";
 import DoImage from "../../common/Image";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -100,11 +99,11 @@ const Create = React.memo((props: any) => {
         <Box mt={5} textAlign="center">
           <Zoom in={true} timeout={2000}>
             <DoImage
-              src={CreateNewProject}
+              src="create.svg"
               height="130px"
               width="fit-content"
-              placeholderImg={CreateNewProject}
-              errorImg={CreateNewProject}
+              placeholderImg="create.svg"
+              errorImg="create.svg"
             />
           </Zoom>
         </Box>

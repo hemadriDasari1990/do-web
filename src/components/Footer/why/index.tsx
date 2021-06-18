@@ -1,4 +1,3 @@
-import AddNoteIcon from "../../../assets/add-note.svg";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import CreateAccount from "../../Home/create";
@@ -65,11 +64,11 @@ export default function WhyLetsdoretro() {
               <Box textAlign="center" mt={8}>
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={AddNoteIcon}
+                    src="add-note.svg"
                     height="200px"
                     width="fit-content"
-                    placeholderImg={AddNoteIcon}
-                    errorImg={AddNoteIcon}
+                    placeholderImg="add-note.svg"
+                    errorImg="add-note.svg"
                   />
                 </Zoom>
               </Box>

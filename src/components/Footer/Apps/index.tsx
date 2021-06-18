@@ -9,15 +9,8 @@ import Grid from "@material-ui/core/Grid";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import chromeIcon from "../../../assets/chrome.png";
-import desktopIcon from "../../../assets/desktop.svg";
-import edgeIcon from "../../../assets/edge.png";
-import firefoxIcon from "../../../assets/firefox.png";
 import { makeStyles } from "@material-ui/core/styles";
-import mobileIcon from "../../../assets/mobile.svg";
-import safariIcon from "../../../assets/safari.png";
 import useStyles from "../../styles";
-import webIcon from "../../../assets/web.svg";
 
 const useLocalStyles = makeStyles({
   greenStyle: {
@@ -34,6 +27,7 @@ const useLocalStyles = makeStyles({
 export default function Apps() {
   const { greenStyle, redStyle, titleStyle } = useLocalStyles();
   const {} = useStyles();
+  const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
 
   const handleChrome = () => {
     const win: any = window.open(
@@ -81,11 +75,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={webIcon}
+                    src={assetUrl + "web.svg"}
                     width={200}
                     height={200}
-                    placeholderImg={webIcon}
-                    errorImg={webIcon}
+                    placeholderImg={assetUrl + "web.svg"}
+                    errorImg={assetUrl + "web.svg"}
                   />
                 </Zoom>
               </Box>
@@ -102,11 +96,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={mobileIcon}
+                    src={assetUrl + "mobile.svg"}
                     width={200}
                     height={200}
-                    placeholderImg={mobileIcon}
-                    errorImg={mobileIcon}
+                    placeholderImg={assetUrl + "mobile.svg"}
+                    errorImg={assetUrl + "mobile.svg"}
                   />
                 </Zoom>
               </Box>
@@ -126,11 +120,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={desktopIcon}
+                    src={assetUrl + "desktop.svg"}
                     width={200}
                     height={200}
-                    placeholderImg={desktopIcon}
-                    errorImg={desktopIcon}
+                    placeholderImg={assetUrl + "desktop.svg"}
+                    errorImg={assetUrl + "desktop.svg"}
                   />
                 </Zoom>
               </Box>
@@ -159,11 +153,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={chromeIcon}
+                    src={assetUrl + "chrome.png"}
                     width={60}
                     height={60}
-                    placeholderImg={chromeIcon}
-                    errorImg={chromeIcon}
+                    placeholderImg={assetUrl + "chrome.png"}
+                    errorImg={assetUrl + "chrome.png"}
                   />
                 </Zoom>
               </Box>
@@ -188,11 +182,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={firefoxIcon}
+                    src={assetUrl + "firefox.png"}
                     width={60}
                     height={60}
-                    placeholderImg={firefoxIcon}
-                    errorImg={firefoxIcon}
+                    placeholderImg={assetUrl + "firefox.png"}
+                    errorImg={assetUrl + "firefox.png"}
                   />
                 </Zoom>
               </Box>
@@ -217,11 +211,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={edgeIcon}
+                    src={assetUrl + "edge.png"}
                     width={60}
                     height={60}
-                    placeholderImg={edgeIcon}
-                    errorImg={edgeIcon}
+                    placeholderImg={assetUrl + "edge.png"}
+                    errorImg={assetUrl + "edge.png"}
                   />
                 </Zoom>
               </Box>
@@ -246,11 +240,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={safariIcon}
+                    src={assetUrl + "safari.png"}
                     width={60}
                     height={60}
-                    placeholderImg={safariIcon}
-                    errorImg={safariIcon}
+                    placeholderImg={assetUrl + "safari.png"}
+                    errorImg={assetUrl + "safari.png"}
                   />
                 </Zoom>
               </Box>

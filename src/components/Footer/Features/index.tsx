@@ -1,23 +1,11 @@
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import ActivityIcon from "../../../assets/board-activity.svg";
-import AddNoteIcon from "../../../assets/add-note.svg";
-import AnnonymousIcon from "../../../assets/annonymous.svg";
 import BoardIcon from "../../../assets/board";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import DoImage from "../../common/Image";
-import ExportDataIcon from "../../../assets/export-data.svg";
-import FeaturesOverview from "../../../assets/features-overview.svg";
 import Grid from "@material-ui/core/Grid";
-import JoinTeamIcon from "../../../assets/join-team.svg";
-import PiechartIcon from "../../../assets/pie-chart.svg";
-import ProjectIcon from "../../../assets/department.svg";
-import PublicDiscussionIcon from "../../../assets/public-discussion.svg";
 import React from "react";
-import ReactionsIcon from "../../../assets/reactions.svg";
-import TeamIcon from "../../../assets/team.svg";
-import TimeManagementIcon from "../../../assets/time-management.svg";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import useStyles from "../../styles";
@@ -86,11 +74,11 @@ export default function Features() {
               <Box>
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={FeaturesOverview}
+                    src="features-overview.svg"
                     className={imageStyle}
                     width="fit-content"
-                    placeholderImg={FeaturesOverview}
-                    errorImg={FeaturesOverview}
+                    placeholderImg="features-overview.svg"
+                    errorImg="features-overview.svg"
                   />
                 </Zoom>
               </Box>
@@ -107,21 +95,21 @@ export default function Features() {
           </Box>
           <Grid container spacing={4}>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={TeamIcon} />
+              <FeatureImage image="team.svg" />
               <FeatureContent
                 title="Teams"
                 description="Create teams and add/invite unlimited developers, managers, and team leaders to collaborate on the Letsdoretro boards"
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={JoinTeamIcon} />
+              <FeatureImage image="join-team.svg" />
               <FeatureContent
                 title="Invite team members"
                 description="Run your retrospectives with unlimited team members and empower your users."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={ProjectIcon} />
+              <FeatureImage image="department.svg" />
               <FeatureContent
                 title="Projects"
                 description="Create unlimited projects, manage individual projects or 100's at once with unlimited retro boards."
@@ -154,35 +142,35 @@ export default function Features() {
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={TimeManagementIcon} />
+              <FeatureImage image="time-management.svg" />
               <FeatureContent
                 title="Timebox the meeting"
                 description="A swiss timer to help you timebox your meetings, start or stop the timer anytime you want."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={AddNoteIcon} />
+              <FeatureImage image="add-note.svg" />
               <FeatureContent
                 title="Smart comment notes"
                 description="Collect thoughts, ideas and feedback as notes, with realtime update everything is instantly visible to everyone."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={ReactionsIcon} />
+              <FeatureImage image="reactions.svg" />
               <FeatureContent
                 title="Reactions"
                 description="Let's Do Retro allows you to express different types of reactions on each note like Agree, Love, Highlight, Deserve and Disagree. With this make decisions democratically and improve along the way."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={AnnonymousIcon} />
+              <FeatureImage image="annonymous.svg" />
               <FeatureContent
                 title="Anonymous retrospectives"
                 description="Let them speak fearlessly: Collect feedback annonymously and see the magic of honest feedback."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={PublicDiscussionIcon} />
+              <FeatureImage image="public-discussion.svg" />
               <FeatureContent
                 title="Public or private"
                 description="Designed to give you flexibility to change the board visibility at any time. Blazing fast performance for public boards even with 2000+ concurrent sessions."
@@ -216,21 +204,21 @@ export default function Features() {
             </Grid>
 
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={ExportDataIcon} />
+              <FeatureImage image="export-data.svg" />
               <FeatureContent
                 title="Export to Excel"
                 description="Export any board to excel for external use, reporting, or presentation"
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={ActivityIcon} />
+              <FeatureImage image="board-activity.svg" />
               <FeatureContent
                 title="Activity on board"
                 description="Reetro makes it possible for you to track all the activities on the board."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
-              <FeatureImage image={PiechartIcon} />
+              <FeatureImage image="pie-chart.svg" />
               <FeatureContent
                 title="Reactions in Pie chart view"
                 description="A summary of reactions of each note, section and board are visible in pie chart view"

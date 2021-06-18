@@ -11,7 +11,6 @@ import DoImage from "../common/Image";
 import DoLogo from "../common/DoLogo";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import Hidden from "@material-ui/core/Hidden";
-import doLogo from "../../assets/do-logo.svg";
 import { useAuthenticated } from "../../redux/state/common";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({
@@ -68,11 +67,11 @@ const Header = () => {
       <Box mt={1} display="flex" justifyContent="space-between">
         <Hidden only={["xl", "lg", "md"]}>
           <DoImage
-            src={doLogo}
+            src="do-logo.svg"
             width={35}
             height={35}
-            placeholderImg={doLogo}
-            errorImg={doLogo}
+            placeholderImg="do-logo.svg"
+            errorImg="do-logo.svg"
           />
         </Hidden>
         {showLogo && (

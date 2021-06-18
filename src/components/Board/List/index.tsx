@@ -38,7 +38,6 @@ import { getBoardDetails } from "../../../redux/actions/board";
 import getCardSubHeaderText from "../../../util/getCardSubHeaderText";
 import { getMembers } from "../../../util/member";
 import { replaceStr } from "../../../util";
-import spinner from "../../../assets/Spinner.svg";
 import { useBoardLoading } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -121,9 +120,9 @@ const BoardList = React.memo((props: any) => {
         {selectedIndex === index && sendInviteLoading ? (
           <Box ml={1} mt={-0.4}>
             <DoImage
-              src={spinner}
-              placeholderImg={spinner}
-              errorImg={spinner}
+              src="Spinner.svg"
+              placeholderImg="Spinner.svg"
+              errorImg="Spinner.svg"
             />
           </Box>
         ) : null}

@@ -40,7 +40,9 @@ import { useLogin } from "../../redux/state/login";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
 
-const dropSound = require("../../assets/sounds/ui_camera-shutter.wav");
+const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
+
+const dropSound = require(assetUrl + "sounds/ui_camera-shutter.wav");
 
 const Note = React.lazy(() => import("../Note"));
 const NoRecords = React.lazy(() => import("../NoRecords"));

@@ -4,7 +4,6 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Box from "@material-ui/core/Box";
 import DoImage from "../../common/Image";
 import React from "react";
-import loader from "../../../assets/loader.svg";
 
 /* Inspired by the Facebook spinners. */
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,7 +30,11 @@ const Loader = React.memo((props: any) => {
           alignItems="center"
           flexDirection="column"
         >
-          <DoImage src={loader} placeholderImg={loader} errorImg={loader} />
+          <DoImage
+            src="loader.svg"
+            placeholderImg="loader.svg"
+            errorImg="loader.svg"
+          />
         </Box>
       </Backdrop>
     );
@@ -39,7 +42,11 @@ const Loader = React.memo((props: any) => {
   if (enable && !backdrop && showInline) {
     return (
       <Box>
-        <DoImage src={loader} placeholderImg={loader} errorImg={loader} />
+        <DoImage
+          src="loader.svg"
+          placeholderImg="loader.svg"
+          errorImg="loader.svg"
+        />
       </Box>
     );
   }
@@ -52,7 +59,11 @@ const Loader = React.memo((props: any) => {
         alignItems="center"
         className={loaderStyle}
       >
-        <DoImage src={loader} placeholderImg={loader} errorImg={loader} />
+        <DoImage
+          src="loader.svg"
+          placeholderImg="loader.svg"
+          errorImg="loader.svg"
+        />
       </Box>
     );
   }

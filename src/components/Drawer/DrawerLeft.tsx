@@ -23,7 +23,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import WelcomeTour from "../WelcomeTour";
 import Zoom from "@material-ui/core/Zoom";
-import doLogo from "../../assets/do-logo.svg";
 import { getAvatar } from "../../util/getAvatar";
 import { getInitials } from "../../util";
 import { logout } from "../../redux/actions/login";
@@ -173,11 +172,11 @@ export default function PersistentDrawerLeft() {
         {/* <Box className={toolbar} flexDirection="column"/> */}
         <Box display="flex" justifyContent="center" my={2}>
           <DoImage
-            src={doLogo}
+            src="do-logo.svg"
             width={35}
             height={35}
-            placeholderImg={doLogo}
-            errorImg={doLogo}
+            placeholderImg="do-logo.svg"
+            errorImg="do-logo.svg"
           />
         </Box>
         <Box textAlign="center">

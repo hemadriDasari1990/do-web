@@ -21,7 +21,6 @@ import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import TeamIcon from "../../../assets/team.svg";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -324,7 +323,7 @@ const Members = () => {
         {!loading && (!filteredMembers || !filteredMembers.length) ? (
           <Box className={alignCenterStyle}>
             <NoRecords
-              icon={TeamIcon}
+              icon="team.svg"
               message="No records found to display! Please add"
             />
           </Box>

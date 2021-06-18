@@ -10,7 +10,6 @@ import TextField from "@material-ui/core/TextField";
 import Zoom from "@material-ui/core/Zoom";
 import { getMemberId } from "../../util";
 import { makeStyles } from "@material-ui/core/styles";
-import updateSection from "../../assets/section.svg";
 import { useParams } from "react-router";
 import { useSocket } from "../../redux/state/socket";
 
@@ -79,11 +78,11 @@ export default function SectionUpdate(props: any) {
         <Box my={1} textAlign="center">
           <Zoom in={true} timeout={2000}>
             <DoImage
-              src={updateSection}
+              src="section.svg"
               height="200px"
               width="fit-content"
-              placeholderImg={updateSection}
-              errorImg={updateSection}
+              placeholderImg="section.svg"
+              errorImg="section.svg"
             />
           </Zoom>
         </Box>

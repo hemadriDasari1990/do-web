@@ -15,7 +15,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
 import { TEAM_MEMBERS_PER_PAGE } from "../../../util/constants";
-import TeamIcon from "../../../assets/team.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import formateNumber from "../../../util/formateNumber";
@@ -200,7 +199,7 @@ const TeamDetails = () => {
       <Loader enable={loading} backdrop={true} />
       {!loading && (!members || !members.length) ? (
         <Box className={alignCenterStyle}>
-          <NoRecords message="No records found" icon={TeamIcon} />
+          <NoRecords message="No records found" icon="team.svg" />
         </Box>
       ) : null}
     </Box>

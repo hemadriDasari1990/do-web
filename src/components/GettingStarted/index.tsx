@@ -4,7 +4,6 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import DoImage from "../common/Image";
-import Education from "../../assets/education.svg";
 import GettingStartedTabs from "./Tabs";
 import Grid from "@material-ui/core/Grid";
 import Loader from "../Loader/components";
@@ -90,11 +89,11 @@ const GettingStarted = () => {
                 <Box>
                   <Zoom in={true} timeout={2000}>
                     <DoImage
-                      src={Education}
+                      src="education.svg"
                       className={imageStyle}
                       width="fit-content"
-                      placeholderImg={Education}
-                      errorImg={Education}
+                      placeholderImg="education.svg"
+                      errorImg="education.svg"
                     />
                   </Zoom>
                 </Box>

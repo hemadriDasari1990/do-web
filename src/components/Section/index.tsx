@@ -36,7 +36,6 @@ import Loader from "../Loader/components";
 import LockIcon from "@material-ui/icons/Lock";
 import { MEMBERS_PER_PAGE } from "../../util/constants";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import Notify from "../../assets/notify.svg";
 import PauseIcon from "@material-ui/icons/Pause";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
@@ -52,7 +51,6 @@ import ViewStreamIcon from "@material-ui/icons/ViewStream";
 import Visibility from "../common/visibility";
 import Zoom from "@material-ui/core/Zoom";
 import { addProjectToStore } from "../../redux/actions/project";
-import doLogo from "../../assets/do-logo.svg";
 import formateNumber from "../../util/formateNumber";
 // import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
@@ -63,8 +61,11 @@ import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 
-const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
-const joinSound = require("../../assets/sounds/join.wav");
+const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
+
+const sessionSound = require(assetUrl +
+  "sounds/navigation_transition-right.wav");
+const joinSound = require(assetUrl + "sounds/join.wav");
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
@@ -445,11 +446,11 @@ export default function Section() {
             <Box my={5} textAlign="center">
               <Zoom in={true} timeout={2000}>
                 <DoImage
-                  src={Notify}
+                  src="notify.svg"
                   height="200px"
                   width="fit-content"
-                  placeholderImg={Notify}
-                  errorImg={Notify}
+                  placeholderImg="notify.svg"
+                  errorImg="notify.svg"
                 />
               </Zoom>
             </Box>
@@ -893,11 +894,11 @@ export default function Section() {
               <Box display="flex">
                 <Box mr={1}>
                   <DoImage
-                    src={doLogo}
+                    src="do-logo.svg"
                     width={35}
                     height={35}
-                    placeholderImg={doLogo}
-                    errorImg={doLogo}
+                    placeholderImg="do-logo.svg"
+                    errorImg="do-logo.svg"
                   />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>

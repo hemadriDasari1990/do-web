@@ -1,6 +1,5 @@
 import Box from "@material-ui/core/Box";
 import DoImage from "../common/Image";
-import Empty from "../../assets/empty.svg";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -12,11 +11,11 @@ function NoRecords(props: any) {
       {!hideImage && (
         <Zoom in={true} timeout={2000}>
           <DoImage
-            src={icon || Empty}
+            src={icon || "empty.svg"}
             height="200px"
             width="fit-content"
-            placeholderImg={icon || Empty}
-            errorImg={icon || Empty}
+            placeholderImg={icon || "empty.svg"}
+            errorImg={icon || "empty.svg"}
           />
         </Zoom>
       )}

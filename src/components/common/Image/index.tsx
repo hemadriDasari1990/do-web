@@ -5,7 +5,12 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   errorImg?: string;
 }
 
-const DoImage = ({ src, placeholderImg, errorImg, ...props }: ImageProps) => {
+const DoImage = (props: ImageProps) => {
+  const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
+  const src = assetUrl + props.src;
+  const placeholderImg = assetUrl + props.placeholderImg;
+  const errorImg = assetUrl + props.errorImg;
+
   const [imgSrc, setSrc] = useState(placeholderImg || src);
 
   const onLoad = useCallback(() => {

@@ -1,7 +1,6 @@
 import DoImage from "../Image";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import underlineIcon from "../../../assets/underline.svg";
 const UnderlineText = React.memo((props: any) => {
   const { title } = props;
 
@@ -11,9 +10,9 @@ const UnderlineText = React.memo((props: any) => {
         {title?.toUpperCase()}
       </Typography>
       <DoImage
-        src={underlineIcon}
-        placeholderImg={underlineIcon}
-        errorImg={underlineIcon}
+        src="underline.svg"
+        placeholderImg="underline.svg"
+        errorImg="underline.svg"
       />
     </>
   );
