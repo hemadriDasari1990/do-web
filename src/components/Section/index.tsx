@@ -229,7 +229,14 @@ function Section() {
     if (authenticated) {
       addJoinedMemberToLocalStorage(boardId, board?.joinedMemberId);
     }
-    if (!authenticated && board?.isAnnonymous && !board?.isInstant) {
+
+    /* Add member to joined member list if board is annonymous */
+    if (
+      !authenticated &&
+      board?.isAnnonymous &&
+      !board?.isInstant &&
+      !joinedMemberId
+    ) {
       dispatch(
         joinMemberToBoard({
           boardId: boardId,
