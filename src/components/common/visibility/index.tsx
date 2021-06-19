@@ -11,15 +11,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
 
-// const lockSound = require("../../../assets/sounds/ui_lock.wav");
-// const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
-const unlockSound: any = React.lazy(() =>
-  require("../../../assets/sounds/ui_unlock.wav")
-);
+const lockSound = require("../../../assets/sounds/ui_lock.wav");
+const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
+// const unlockSound: any = React.lazy(() =>
+//   require("../../../assets/sounds/ui_unlock.wav")
+// );
 
-const lockSound: any = React.lazy(() =>
-  require("../../../assets/sounds/ui_lock.wav")
-);
+// const lockSound: any = React.lazy(() =>
+//   require("../../../assets/sounds/ui_lock.wav")
+// );
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
