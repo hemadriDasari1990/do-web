@@ -23,7 +23,7 @@ const useLocalStyles = makeStyles(() => ({
   },
   imageBoxStyle: {
     height: 110,
-    width: 155,
+    width: 90,
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
     justifyContent: "center",
     alignItems: "center",

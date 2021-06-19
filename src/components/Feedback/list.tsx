@@ -10,6 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import MobileStepper from "@material-ui/core/MobileStepper";
+import Rating from "@material-ui/lab/Rating";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { getFeedbacks } from "../../redux/actions/feedback";
@@ -26,7 +27,7 @@ const useLocalStyles = makeStyles(() => ({
   },
   imageBoxStyle: {
     height: 110,
-    width: 155,
+    width: 90,
     clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
     justifyContent: "center",
     alignItems: "center",
@@ -172,7 +173,13 @@ function FeedbackList() {
                           </Avatar>
                         </Box>
                       </Box>
-                      <Box m={3}>
+                      <Box mx={3} mb={3} mt={1}>
+                        <Rating
+                          name="half-rating-read"
+                          defaultValue={5}
+                          precision={0.5}
+                          readOnly
+                        />
                         <Typography
                           variant="body1"
                           style={{ fontWeight: "normal" }}
