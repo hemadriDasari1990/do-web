@@ -61,8 +61,15 @@ import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 
-const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
-const joinSound = require("../../assets/sounds/join.wav");
+// const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
+// const joinSound = require("../../assets/sounds/join.wav");
+
+const joinSound: any = React.lazy(() =>
+  require("../../assets/sounds/join.wav")
+);
+const sessionSound: any = React.lazy(() =>
+  require("../../assets/sounds/navigation_transition-right.wav")
+);
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
@@ -119,7 +126,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function Section() {
+function Section() {
   const {
     startSessionIconStyle,
     buttonOutlinedStartStyle,
@@ -1109,3 +1116,5 @@ export default function Section() {
     </Suspense>
   );
 }
+
+export default React.memo(Section);

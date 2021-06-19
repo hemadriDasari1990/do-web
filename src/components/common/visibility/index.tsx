@@ -11,8 +11,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
 
-const lockSound = require("../../../assets/sounds/ui_lock.wav");
-const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
+// const lockSound = require("../../../assets/sounds/ui_lock.wav");
+// const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
+const unlockSound: any = React.lazy(() =>
+  require("../../../assets/sounds/ui_unlock.wav")
+);
+
+const lockSound: any = React.lazy(() =>
+  require("../../../assets/sounds/ui_lock.wav")
+);
 
 const ResponsiveDialog = React.lazy(() => import("../../Dialog"));
 
@@ -22,7 +29,7 @@ const useStyles = makeStyles((e) => ({
   },
 }));
 
-export default function Visibility(props: any) {
+function Visibility(props: any) {
   const { openDialog, handleClose, selectedBoard } = props;
   const { publicIconStyle } = useStyles();
   const lockAudio = new Audio(lockSound.default);
@@ -113,3 +120,5 @@ export default function Visibility(props: any) {
     </ResponsiveDialog>
   );
 }
+
+export default React.memo(Visibility);
