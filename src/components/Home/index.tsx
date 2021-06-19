@@ -189,7 +189,11 @@ const Home = () => {
         </Grid>
       </Container>
       <Container>
-        <Box mt={2}>
+        <Box
+          p={3}
+          style={{ backgroundColor: "#f0f8ff" }}
+          className={boxGridStyle}
+        >
           <Summary />
         </Box>
         <Box my={3}>
