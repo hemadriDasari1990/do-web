@@ -19,6 +19,35 @@ const AboutBoardInfo = () => {
   //   dispatch(getBoardDetails(board?._id));
   // }, []);
 
+  const dateDiffInDays = () => {
+    // Discard the time and time-zone information.
+    const completedDateTime: any = new Date(board?.completedAt).getTime();
+    const startDateTime: any = new Date(board?.startedAt).getTime();
+
+    let milisec_diff = null;
+    if (startDateTime < completedDateTime) {
+      milisec_diff = completedDateTime - startDateTime;
+    } else {
+      milisec_diff = startDateTime - completedDateTime;
+    }
+    const dd = Math.floor(milisec_diff / 1000 / 60 / 60 / 24);
+    milisec_diff -= dd * 1000 * 60 * 60 * 24;
+    const hh = Math.floor(milisec_diff / 1000 / 60 / 60);
+    milisec_diff -= hh * 1000 * 60 * 60;
+    const mm = Math.floor(milisec_diff / 1000 / 60);
+    milisec_diff -= mm * 1000 * 60;
+    const ss = Math.floor(milisec_diff / 1000);
+    milisec_diff -= ss * 1000;
+
+    return (
+      <>
+        {`${dd ? dd + " days" : ""} ${hh ? hh + " hrs" : ""} ${mm} ${
+          mm === 1 ? "min" : "mins"
+        } ${ss} secs`}
+      </>
+    );
+  };
+
   return (
     <Suspense fallback={<div></div>}>
       <Box p={2}>
@@ -83,6 +112,11 @@ const AboutBoardInfo = () => {
               title="Session completed on"
               value={getHumanReadableDate(board?.completedAt)}
             />
+          </Box>
+        )}
+        {board?.completedAt && (
+          <Box mb={1}>
+            <SummaryField title="Session time" value={dateDiffInDays()} />
           </Box>
         )}
         <Box mb={1}>

@@ -593,10 +593,6 @@ function Section() {
     return <Timer startDateTime={boardDetails?.startedAt} interval={1000} />;
   }, [boardLoading, boardDetails]);
 
-  const renderDiffInDays = useCallback(() => {
-    return <Box>{dateDiffInDays()}</Box>;
-  }, [boardLoading, boardDetails]);
-
   const renderCreateNewSection = useCallback(() => {
     return (
       <Box mr={1}>
@@ -707,39 +703,6 @@ function Section() {
 
   const handleStopSession = () => {
     setEndSessionDialog(true);
-  };
-
-  const dateDiffInDays = () => {
-    // Discard the time and time-zone information.
-    const completedDateTime: any = new Date(
-      boardDetails?.completedAt
-    ).getTime();
-    const startDateTime: any = new Date(boardDetails?.startedAt).getTime();
-
-    let milisec_diff = null;
-    if (startDateTime < completedDateTime) {
-      milisec_diff = completedDateTime - startDateTime;
-    } else {
-      milisec_diff = startDateTime - completedDateTime;
-    }
-    const dd = Math.floor(milisec_diff / 1000 / 60 / 60 / 24);
-    milisec_diff -= dd * 1000 * 60 * 60 * 24;
-    const hh = Math.floor(milisec_diff / 1000 / 60 / 60);
-    milisec_diff -= hh * 1000 * 60 * 60;
-    const mm = Math.floor(milisec_diff / 1000 / 60);
-    milisec_diff -= mm * 1000 * 60;
-    const ss = Math.floor(milisec_diff / 1000);
-    milisec_diff -= ss * 1000;
-
-    return (
-      <Box className={boxStyle}>
-        <Typography variant="subtitle1" className={boxTextStyle}>
-          Session Completed in{" "}
-          {`${dd ? dd + " days" : ""} ${hh ? hh + " hrs" : ""}`} {mm}{" "}
-          {mm === 1 ? "min" : "mins"} {ss} secs
-        </Typography>
-      </Box>
-    );
   };
 
   // const handleCreateAction = () => {
@@ -1040,11 +1003,6 @@ function Section() {
               <Box display="flex" justifyContent="flex-end">
                 {!boardLoading && boardDetails?.status === "inprogress" ? (
                   <Box mr={1}>{renderTimer()}</Box>
-                ) : null}
-                {!boardLoading && boardDetails?.status === "completed" ? (
-                  <Box mt={0.3} mr={1}>
-                    {renderDiffInDays()}
-                  </Box>
                 ) : null}
                 <Box>
                   {!boardLoading &&
