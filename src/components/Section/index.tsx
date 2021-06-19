@@ -55,6 +55,7 @@ import formateNumber from "../../util/formateNumber";
 // import { getMembers } from "../../util/member";
 import { getRandomColor } from "../../util/getRandomColor";
 import { getTeams } from "../../redux/actions/team";
+import { joinMemberToBoard } from "../../redux/actions/join";
 import { useAuthenticated } from "../../redux/state/common";
 import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
@@ -227,6 +228,16 @@ function Section() {
     /* This is required whenever logged in user revisit the board and make changes */
     if (authenticated) {
       addJoinedMemberToLocalStorage(boardId, board?.joinedMemberId);
+    }
+    if (!authenticated && board?.isAnnonymous && !board?.isInstant) {
+      dispatch(
+        joinMemberToBoard({
+          boardId: boardId,
+          name: "Team Member",
+          avatarId: 0,
+          token: "",
+        })
+      );
     }
   }, [board]);
 

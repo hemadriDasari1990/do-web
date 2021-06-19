@@ -105,10 +105,6 @@ export default function NoteUpdate(props: any) {
     setFormData({ ...formData, description: newDescription });
   };
 
-  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <React.Fragment>
       <Box mb={1}>
@@ -122,7 +118,6 @@ export default function NoteUpdate(props: any) {
           className={textfieldStyle}
           placeholder="Your comments"
           value={description}
-          onPaste={handlePrevent}
           InputProps={{
             disableUnderline: true,
             style: {
