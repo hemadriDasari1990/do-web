@@ -7,7 +7,6 @@ import { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import { getAvatar } from "../../../util/getAvatar";
 import { makeStyles } from "@material-ui/core/styles";
 import useStyles from "../../styles";
 import { useUser } from "../../../redux/state/user";
@@ -44,11 +43,11 @@ const UserAvatar = React.memo((props: any) => {
               <Zoom in={true} timeout={1500}>
                 {user?.avatarId ? (
                   <DoImage
-                    src={getAvatar(user?.avatarId)}
+                    src={`avatars/${user?.avatarId}.svg`}
                     width={45}
                     height={45}
-                    placeholderImg={getAvatar(user?.avatarId)}
-                    errorImg={getAvatar(user?.avatarId)}
+                    placeholderImg={`avatars/${user?.avatarId}.svg`}
+                    errorImg={`avatars/${user?.avatarId}.svg`}
                   />
                 ) : (
                   <Avatar classes={{ root: iconStyle }}>

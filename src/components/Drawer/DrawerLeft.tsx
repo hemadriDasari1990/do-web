@@ -23,7 +23,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import WelcomeTour from "../WelcomeTour";
 import Zoom from "@material-ui/core/Zoom";
-import { getAvatar } from "../../util/getAvatar";
 import { getInitials } from "../../util";
 import { logout } from "../../redux/actions/login";
 import { storeMenuItem } from "../../redux/actions";
@@ -295,12 +294,12 @@ export default function PersistentDrawerLeft() {
               {user?.avatarId ? (
                 <IconButton onClick={handleProfile} size="small">
                   <DoImage
-                    src={getAvatar(user?.avatarId)}
+                    src={`avatars/${user?.avatarId}.svg`}
                     id="drawer-user"
                     width={40}
                     height={40}
-                    placeholderImg={getAvatar(user?.avatarId)}
-                    errorImg={getAvatar(user?.avatarId)}
+                    placeholderImg={`avatars/${user?.avatarId}.svg`}
+                    errorImg={`avatars/${user?.avatarId}.svg`}
                   />
                 </IconButton>
               ) : (

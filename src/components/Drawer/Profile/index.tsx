@@ -12,7 +12,6 @@ import ProfileSummary from "./Summary";
 import { Suspense } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import UserAvatar from "../Account/userAvatar";
-import { getAvatar } from "../../../util/getAvatar";
 import { useUser } from "../../../redux/state/user";
 
 const Profile = () => {
@@ -57,11 +56,11 @@ const Profile = () => {
                       >
                         <IconButton onClick={handleAvatar} size="small">
                           <DoImage
-                            src={getAvatar(user?.avatarId)}
+                            src={`avatars/${user?.avatarId}.svg`}
                             width={40}
                             height={40}
-                            placeholderImg={getAvatar(user?.avatarId)}
-                            errorImg={getAvatar(user?.avatarId)}
+                            placeholderImg={`avatars/${user?.avatarId}.svg`}
+                            errorImg={`avatars/${user?.avatarId}.svg`}
                           />
                         </IconButton>
                       </Tooltip>
