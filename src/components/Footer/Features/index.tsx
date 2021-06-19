@@ -214,7 +214,7 @@ export default function Features() {
               <FeatureImage image="board-activity.svg" />
               <FeatureContent
                 title="Activity on board"
-                description="Reetro makes it possible for you to track all the activities on the board."
+                description="Let's Do Retro makes it possible for you to track all the activities on the board."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>

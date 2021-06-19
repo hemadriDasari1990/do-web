@@ -92,18 +92,17 @@ export default function Security() {
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Let's Do Retro application servers are hosted on Goodle
-                        cloud and are located in Dubai, United Arab Emirates.
+                        Let's Do Retro application servers are hosted on Amazon
+                        Web Services(AWS) and Mongodb Atlas cloud.
                       </Typography>
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
                         Let's Do Retro physical infrastructure is hosted and
                         managed within Amazon's secure data centers and utilizes
-                        the Google's cloud technology. Google's Cloud
-                        continually manages risk and undergoes recurring
-                        assessments to ensure compliance with industry
-                        standards.
+                        the AWS cloud technology. AWS Cloud continually manages
+                        risk and undergoes recurring assessments to ensure
+                        compliance with industry standards.
                       </Typography>
                     </Box>
                   </Grid>
@@ -127,9 +126,10 @@ export default function Security() {
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        When you visit the Reetro website or use Reetro the app,
-                        the transmission of information between your device and
-                        our servers is protected using 256-bit TLS encryption.
+                        When you visit the Let's Do Retro website or use Let's
+                        Do Retro the app, the transmission of information
+                        between your device and our servers is protected using
+                        256-bit TLS encryption.
                       </Typography>
                     </Box>
                   </Grid>
@@ -222,11 +222,10 @@ export default function Security() {
                     <Box mb={5}>
                       <Typography variant="body1">
                         Let's Do Retro physical infrastructure is hosted and
-                        managed within Google's's secure data centers and
-                        utilizes the Google's cloud technology. Google's Cloud
-                        continually manages risk and undergoes recurring
-                        assessments to ensure compliance with industry
-                        standards.
+                        managed within AWS secure data centers and utilizes the
+                        AWS cloud technology. AWS Cloud continually manages risk
+                        and undergoes recurring assessments to ensure compliance
+                        with industry standards.
                       </Typography>
                     </Box>
                   </Grid>
@@ -250,15 +249,16 @@ export default function Security() {
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Each company's data on the Reetro platform is saved
-                        within its own block, and cannot be accessed or mixed
-                        with another customers data or areas of the system.
+                        Each company's data on the Let's Do Retro platform is
+                        saved within its own block, and cannot be accessed or
+                        mixed with another customers data or areas of the
+                        system.
                       </Typography>
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        All the rest API calls are protected by user specific
-                        JWT (JASON web token). No unauthorized user can access
+                        All rest API calls are protected by user specific JWT
+                        (JASON web token). No unauthorized user can access
                         another users data.
                       </Typography>
                     </Box>
@@ -325,19 +325,19 @@ export default function Security() {
                     </Box>
                     <Box mb={5} display="flex">
                       <Typography variant="body1">
-                        We use Agile development methodology and apply coding
-                        standards along with the latest best practices in
-                        security to develop Let's Do Retro.
+                        We use Agile development methodology, latest
+                        technologies and apply coding standards along with the
+                        latest best practices in security to develop Let's Do
+                        Retro.
                       </Typography>
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
-                        Let's Do Retro physical infrastructure is hosted and
-                        managed within Google's's secure data centers and
-                        utilizes the Google's cloud technology. Google's Cloud
-                        continually manages risk and undergoes recurring
-                        assessments to ensure compliance with industry
-                        standards.
+                        We've built Let's Do Retro app using latest technologies
+                        with best development practices. Our Frontend is written
+                        in react.js with Typescript. Backend is written in
+                        node.js with Typescript in more secured way and the
+                        database is mongodb.
                       </Typography>
                     </Box>
                   </Grid>
