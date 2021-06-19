@@ -224,6 +224,10 @@ function Section() {
     setBoardDetails(board);
     dispatch(addProjectToStore(board?.project));
     openGuestDialog(board);
+    /* This is required whenever logged in user revisit the board and make changes */
+    if (authenticated) {
+      addJoinedMemberToLocalStorage(boardId, board?.joinedMemberId);
+    }
   }, [board]);
 
   const openGuestDialog = (board: { [Key: string]: any }) => {
