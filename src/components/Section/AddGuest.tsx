@@ -53,6 +53,17 @@ export default function AddGuest(props: any) {
     );
   };
 
+  const handleClose = () => {
+    dispatch(
+      joinMemberToBoard({
+        boardId: boardId,
+        name: "Team Member",
+        avatarId,
+        token,
+      })
+    );
+  };
+
   const handleAvatar = (avatarId: number) => {
     setAvatarId(avatarId);
   };
@@ -70,7 +81,7 @@ export default function AddGuest(props: any) {
       title="Join Session"
       pcta={"Save"}
       handleSave={handleCreate}
-      handleClose={handleCreate}
+      handleClose={handleClose}
       maxWidth={700}
       disablePrimaryCTA={disableButton()}
     >
