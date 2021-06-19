@@ -27,7 +27,6 @@ const useLocalStyles = makeStyles({
 export default function Apps() {
   const { greenStyle, redStyle, titleStyle } = useLocalStyles();
   const {} = useStyles();
-  const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
 
   const handleChrome = () => {
     const win: any = window.open(
@@ -75,11 +74,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "web.svg"}
+                    src={"web.svg"}
                     width={200}
                     height={200}
-                    placeholderImg={assetUrl + "web.svg"}
-                    errorImg={assetUrl + "web.svg"}
+                    placeholderImg={"web.svg"}
+                    errorImg={"web.svg"}
                   />
                 </Zoom>
               </Box>
@@ -96,11 +95,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "mobile.svg"}
+                    src={"mobile.svg"}
                     width={200}
                     height={200}
-                    placeholderImg={assetUrl + "mobile.svg"}
-                    errorImg={assetUrl + "mobile.svg"}
+                    placeholderImg={"mobile.svg"}
+                    errorImg={"mobile.svg"}
                   />
                 </Zoom>
               </Box>
@@ -120,11 +119,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "desktop.svg"}
+                    src={"desktop.svg"}
                     width={200}
                     height={200}
-                    placeholderImg={assetUrl + "desktop.svg"}
-                    errorImg={assetUrl + "desktop.svg"}
+                    placeholderImg={"desktop.svg"}
+                    errorImg={"desktop.svg"}
                   />
                 </Zoom>
               </Box>
@@ -153,11 +152,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "chrome.png"}
+                    src={"chrome.png"}
                     width={60}
                     height={60}
-                    placeholderImg={assetUrl + "chrome.png"}
-                    errorImg={assetUrl + "chrome.png"}
+                    placeholderImg={"chrome.png"}
+                    errorImg={"chrome.png"}
                   />
                 </Zoom>
               </Box>
@@ -182,11 +181,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "firefox.png"}
+                    src={"firefox.png"}
                     width={60}
                     height={60}
-                    placeholderImg={assetUrl + "firefox.png"}
-                    errorImg={assetUrl + "firefox.png"}
+                    placeholderImg={"firefox.png"}
+                    errorImg={"firefox.png"}
                   />
                 </Zoom>
               </Box>
@@ -211,11 +210,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "edge.png"}
+                    src={"edge.png"}
                     width={60}
                     height={60}
-                    placeholderImg={assetUrl + "edge.png"}
-                    errorImg={assetUrl + "edge.png"}
+                    placeholderImg={"edge.png"}
+                    errorImg={"edge.png"}
                   />
                 </Zoom>
               </Box>
@@ -240,11 +239,11 @@ export default function Apps() {
               <Box textAlign="center">
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src={assetUrl + "safari.png"}
+                    src={"safari.png"}
                     width={60}
                     height={60}
-                    placeholderImg={assetUrl + "safari.png"}
-                    errorImg={assetUrl + "safari.png"}
+                    placeholderImg={"safari.png"}
+                    errorImg={"safari.png"}
                   />
                 </Zoom>
               </Box>
