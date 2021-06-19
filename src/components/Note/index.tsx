@@ -139,6 +139,7 @@ function Note(props: any) {
   };
 
   const handleCancel = () => {
+    setNote(null);
     setShowNote(false);
   };
 
@@ -169,7 +170,7 @@ function Note(props: any) {
         </ClickAwayListener>
       </Box>
     );
-  }, [selectedSectionId, sectionId, showNote]);
+  }, [selectedSectionId, sectionId, showNote, note]);
 
   const renderCreateNoteButton = useCallback(() => {
     return (
