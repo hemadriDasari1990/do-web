@@ -235,6 +235,7 @@ function Section() {
       !authenticated &&
       board?.isAnnonymous &&
       !board?.isInstant &&
+      board?.status === "inprogress" &&
       !joinedMemberId
     ) {
       dispatch(

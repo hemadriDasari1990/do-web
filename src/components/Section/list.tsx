@@ -202,7 +202,6 @@ const SectionList = React.memo((props: any) => {
           setServerResponse(newSection);
           return;
         }
-
         updateSections(newSection);
       }
     );
