@@ -185,7 +185,10 @@ export default function Footer() {
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
                 <Box>
-                  <InstantRetroGrid title="Quick Start Retro" />
+                  <InstantRetroGrid
+                    title="Quick Start Retro"
+                    subTitle="Free forever — no signup required"
+                  />
                 </Box>
               </Box>
             </Grid>
