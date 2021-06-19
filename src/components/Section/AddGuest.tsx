@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function AddGuest(props: any) {
-  const { openDialog, handleClose } = props;
+  const { openDialog } = props;
   const { textfieldStyle } = useStyles();
   const { boardId, token } = useParams<{ boardId: string; token: string }>();
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ export default function AddGuest(props: any) {
       title="Join Session"
       pcta={"Save"}
       handleSave={handleCreate}
-      handleClose={handleClose}
+      handleClose={handleCreate}
       maxWidth={700}
       disablePrimaryCTA={disableButton()}
     >
