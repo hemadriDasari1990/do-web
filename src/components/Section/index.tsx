@@ -61,11 +61,8 @@ import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
 
-const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
-
-const sessionSound = require(assetUrl +
-  "sounds/navigation_transition-right.wav");
-const joinSound = require(assetUrl + "sounds/join.wav");
+const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
+const joinSound = require("../../assets/sounds/join.wav");
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("../Drawer/Account"));
