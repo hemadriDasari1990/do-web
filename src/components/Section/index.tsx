@@ -117,14 +117,6 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     color: "#ff0000",
     fontWeight: 600,
   },
-  boxStyle: {
-    borderRadius: 6,
-  },
-  boxTextStyle: {
-    padding: "5px 15px 5px 15px",
-    color: "#57f",
-    fontWeight: 500,
-  },
 }));
 
 function Section() {
@@ -135,8 +127,6 @@ function Section() {
     stopSessionIconStyle,
     buttonOutlinedStopStyle,
     stopSessionTextStyle,
-    boxStyle,
-    boxTextStyle,
   } = useLocalStyles();
   const { buttonStyle, titleBoxStyle } = useStyles();
   const dispatch = useDispatch();
