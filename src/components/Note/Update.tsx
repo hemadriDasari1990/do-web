@@ -52,9 +52,9 @@ export default function NoteUpdate(props: any) {
   const [count, setCount] = useState(selectedNote?.description?.length || 0);
   const [formData, setFormData] = useState<{ [Key: string]: any }>({
     description: selectedNote?.description || "",
-    isAnnonymous: selectedNote?.isAnnonymous || false,
+    isAnonymous: selectedNote?.isAnonymous || false,
   });
-  const { description, isAnnonymous } = formData;
+  const { description, isAnonymous } = formData;
 
   /* Handler functions */
   const handleNote = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,9 +71,9 @@ export default function NoteUpdate(props: any) {
         previousDescription: selectedNote?.description,
         sectionId,
         noteId: selectedNote?._id,
-        isAnnonymous: isAnnonymous,
+        isAnonymous: isAnonymous,
         createdById: selectedNote?.createdById,
-        ...(!isAnnonymous
+        ...(!isAnonymous
           ? { updatedById: joinedMemberId }
           : { updatedById: null }),
       });
@@ -84,9 +84,9 @@ export default function NoteUpdate(props: any) {
       boardId,
       description: description,
       sectionId,
-      isAnnonymous: isAnnonymous,
+      isAnonymous: isAnonymous,
       position: totalNotes ? totalNotes : 0,
-      ...(!isAnnonymous
+      ...(!isAnonymous
         ? {
             createdById: joinedMemberId,
             updatedById: joinedMemberId,
@@ -96,8 +96,8 @@ export default function NoteUpdate(props: any) {
     setShowNote(false);
   };
 
-  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
+  const handleIsAnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isAnonymous: !isAnonymous });
   };
 
   const handleAlt = () => {
@@ -154,22 +154,22 @@ export default function NoteUpdate(props: any) {
           </Box>
           <Box display="flex">
             <Box mt={-1}>
-              {!board?.isAnnonymous &&
+              {!board?.isAnonymous &&
                 (selectedNote?.createdById === joinedMemberId ||
                   !selectedNote) && (
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={isAnnonymous}
-                        onChange={handleIsAnnonymous}
+                        checked={isAnonymous}
+                        onChange={handleIsAnonymous}
                         value="false"
                         color="primary"
-                        name="isAnnonymous"
+                        name="isAnonymous"
                         // disabled={selectedBoard?._id && isDefaultBoard}
                       />
                     }
                     label={
-                      <Typography variant="h6">Post as annonymous</Typography>
+                      <Typography variant="h6">Post as anonymous</Typography>
                     }
                   />
                 )}

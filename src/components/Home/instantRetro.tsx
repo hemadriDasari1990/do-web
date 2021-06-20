@@ -59,7 +59,7 @@ const InstantRetro = React.memo((props: any) => {
     noOfSections: null,
     name: "",
     defaultSection: "",
-    isAnnonymous: false,
+    isAnonymous: false,
   });
   const [count, setCount] = useState(0);
   const [apiCalled, setApiCalled] = useState(false);
@@ -70,7 +70,7 @@ const InstantRetro = React.memo((props: any) => {
     noOfSections,
     defaultSection,
     name,
-    isAnnonymous,
+    isAnonymous,
   } = formData;
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const InstantRetro = React.memo((props: any) => {
       description: "",
       noOfSections: 0,
       defaultSection: "",
-      isAnnonymous: false,
+      isAnonymous: false,
     });
   };
 
@@ -117,7 +117,7 @@ const InstantRetro = React.memo((props: any) => {
         defaultSection,
         name,
         isInstant: true,
-        isAnnonymous,
+        isAnonymous,
       })
     );
     setApiCalled(true);
@@ -156,8 +156,8 @@ const InstantRetro = React.memo((props: any) => {
     setFormData({ ...formData, defaultSection: data?.name });
   };
 
-  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
+  const handleIsAnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isAnonymous: !isAnonymous });
   };
 
   const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
@@ -212,23 +212,23 @@ const InstantRetro = React.memo((props: any) => {
         ) : null}
       </>
     ),
-    [isAnnonymous, name, noOfSections, defaultSections]
+    [isAnonymous, name, noOfSections, defaultSections]
   );
 
-  const renderAnnonymous = () => {
+  const renderAnonymous = () => {
     return (
       <Box mt={1}>
         <FormControlLabel
           control={
             <Checkbox
-              checked={isAnnonymous}
-              onChange={handleIsAnnonymous}
+              checked={isAnonymous}
+              onChange={handleIsAnonymous}
               value="false"
               color="primary"
-              name="isAnnonymous"
+              name="isAnonymous"
             />
           }
-          label={<Typography variant="h6">Create annonymous board</Typography>}
+          label={<Typography variant="h6">Create anonymous board</Typography>}
         />
       </Box>
     );
@@ -287,7 +287,7 @@ const InstantRetro = React.memo((props: any) => {
             required
           />
         </Box>
-        {renderAnnonymous()}
+        {renderAnonymous()}
         {renderDefaultTemplate()}
         {renderNoOfSections()}
         <Box>

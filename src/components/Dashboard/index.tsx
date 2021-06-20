@@ -325,9 +325,9 @@ const Dashboard = () => {
                     <Typography variant="h2">Getting Started</Typography>
                     <Box mt={2}>
                       <Banner
-                        title="For non-annonymous"
+                        title="Anonymous"
                         subTitle="0 of 4 complete (About 2 minutes total)"
-                        titleSecondary="For annonymous"
+                        titleSecondary="Non Anonymous"
                         subTitleSecondary="About 30-45 seconds total"
                       />
                     </Box>

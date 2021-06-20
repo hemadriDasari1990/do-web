@@ -75,7 +75,7 @@ const Update = React.memo((props: any) => {
     status: "",
     team: null,
     defaultSection: "",
-    isAnnonymous: false,
+    isAnonymous: false,
   });
   const [count, setCount] = useState(selectedBoard?.description?.length || 0);
   const {
@@ -84,7 +84,7 @@ const Update = React.memo((props: any) => {
     status,
     team,
     defaultSection,
-    isAnnonymous,
+    isAnonymous,
   } = formData;
 
   /* React Hooks */
@@ -98,7 +98,7 @@ const Update = React.memo((props: any) => {
         noOfSections: selectedBoard.totalSections,
         team: selectedBoard.teams?.length ? selectedBoard.teams[0] : null,
         defaultSection: selectedBoard.defaultSection,
-        isAnnonymous: selectedBoard.isAnnonymous,
+        isAnonymous: selectedBoard.isAnonymous,
       });
       setCount(selectedBoard?.description?.length);
     }
@@ -134,7 +134,7 @@ const Update = React.memo((props: any) => {
       status: "",
       team: [],
       defaultSection: false,
-      isAnnonymous: false,
+      isAnonymous: false,
     });
   };
 
@@ -150,7 +150,7 @@ const Update = React.memo((props: any) => {
         accountType,
         name: "Board " + (totalBoards + 1),
         boardId: selectedBoard?._id,
-        isAnnonymous,
+        isAnonymous,
       })
     );
     // resetFormData();
@@ -180,24 +180,24 @@ const Update = React.memo((props: any) => {
     event.preventDefault();
   };
 
-  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
+  const handleIsAnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, isAnonymous: !isAnonymous });
   };
 
-  const renderAnnonymous = () => {
+  const renderAnonymous = () => {
     return (
       <Box mt={1} mb={-3}>
         <FormControlLabel
           control={
             <Checkbox
-              checked={isAnnonymous}
-              onChange={handleIsAnnonymous}
+              checked={isAnonymous}
+              onChange={handleIsAnonymous}
               value="false"
               color="primary"
-              name="isAnnonymous"
+              name="isAnonymous"
             />
           }
-          label={<Typography variant="h6">Create annonymous board</Typography>}
+          label={<Typography variant="h6">Create anonymous board</Typography>}
         />
       </Box>
     );
@@ -248,7 +248,7 @@ const Update = React.memo((props: any) => {
             }
           />
         </Box>
-        {renderAnnonymous()}
+        {renderAnonymous()}
         {!noOfSections && (
           <Box>
             <DoAutoComplete
@@ -309,7 +309,7 @@ const Update = React.memo((props: any) => {
             {count}/{MAX_CHAR_COUNT} chars
           </Typography>
         </Box>
-        {!isAnnonymous && authenticated && (
+        {!isAnonymous && authenticated && (
           <Box>
             <DoAutoComplete
               defaultValue={team}

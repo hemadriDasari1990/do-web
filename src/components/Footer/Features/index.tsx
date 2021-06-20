@@ -166,7 +166,7 @@ export default function Features() {
               <FeatureImage image="annonymous.svg" />
               <FeatureContent
                 title="Anonymous retrospectives"
-                description="Let them speak fearlessly: Collect feedback annonymously and see the magic of honest feedback."
+                description="Let them speak fearlessly: Collect feedback anonymously and see the magic of honest feedback."
               />
             </Grid>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>

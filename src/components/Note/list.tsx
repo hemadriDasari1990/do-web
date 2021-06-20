@@ -286,7 +286,7 @@ const NoteList = React.memo((props: any) => {
     }
     noteData.read = updatedNote.read;
     noteData.description = updatedNote.description;
-    noteData.isAnnonymous = updatedNote.isAnnonymous;
+    noteData.isAnonymous = updatedNote.isAnonymous;
     noteData.updatedById = updatedNote.updatedById;
     noteData.updatedBy = updatedNote.updatedBy;
     newNotes[noteIndex] = noteData;
@@ -519,7 +519,7 @@ const NoteList = React.memo((props: any) => {
       type,
       sectionId: note.sectionId,
       boardId,
-      isAnnonymous: board?.isAnnonymous,
+      isAnonymous: board?.isAnonymous,
       joinedMemberId: joinedMemberId,
     });
     setAnchorEl(null);
@@ -627,10 +627,10 @@ const NoteList = React.memo((props: any) => {
       return true;
     }
 
-    if (!authenticated && selectedNote?.isAnnonymous && board?.isInstant) {
+    if (!authenticated && selectedNote?.isAnonymous && board?.isInstant) {
       return true;
     }
-    if (!authenticated && board?.isAnnonymous && board?.isInstant) {
+    if (!authenticated && board?.isAnonymous && board?.isInstant) {
       return true;
     }
     return false;
@@ -848,12 +848,12 @@ const NoteList = React.memo((props: any) => {
     return (
       <Tooltip
         title={
-          !note?.isAnnonymous
+          !note?.isAnonymous
             ? note?.updatedBy?.name || "Team member"
             : "Team member"
         }
       >
-        {!note?.isAnnonymous ? (
+        {!note?.isAnonymous ? (
           <Avatar
             src={getAvatar(note?.updatedBy?.avatarId)}
             className={avatarStyle}

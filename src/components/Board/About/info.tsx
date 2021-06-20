@@ -76,8 +76,8 @@ const AboutBoardInfo = () => {
         </Box>
         <Box mb={1}>
           <SummaryField
-            title="Is Annonymous"
-            value={board?.isAnnonymous ? "Yes" : "No"}
+            title="Is Anonymous"
+            value={board?.isAnonymous ? "Yes" : "No"}
           />
         </Box>
         <Box mb={1}>

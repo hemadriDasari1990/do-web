@@ -220,10 +220,10 @@ function Section() {
       addJoinedMemberToLocalStorage(boardId, board?.joinedMemberId);
     }
 
-    /* Add member to joined member list if board is annonymous */
+    /* Add member to joined member list if board is anonymous */
     if (
       !authenticated &&
-      board?.isAnnonymous &&
+      board?.isAnonymous &&
       !board?.isInstant &&
       board?.status === "inprogress" &&
       !joinedMemberId
@@ -245,7 +245,7 @@ function Section() {
       board &&
       !board?.isPrivate &&
       (board?.startedAt || board?.isInstant) &&
-      !board?.isAnnonymous &&
+      !board?.isAnonymous &&
       !board?.completedAt &&
       !joinedMemberId
     ) {
@@ -275,7 +275,7 @@ function Section() {
         /* This is applicable only if user is authenticated and starting the session */
         if (
           authenticated &&
-          !board?.isAnnonymous &&
+          !board?.isAnonymous &&
           boardId === updatedBoard?._id
         ) {
           addJoinedMemberToLocalStorage(boardId, updatedBoard?.joinedMemberId);
@@ -892,7 +892,7 @@ function Section() {
                   </Typography>
                 </Box>
 
-                {authenticated && !board?.isAnnonymous && (
+                {authenticated && !board?.isAnonymous && (
                   <Box ml={1} mt={0.3}>
                     {/* <HtmlTooltip
                       open={openInviteTooltip}

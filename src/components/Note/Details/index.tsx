@@ -107,7 +107,7 @@ const NoteDetails = React.memo((props: any) => {
                   <Typography variant="subtitle1" style={{ color: "#57f" }}>
                     {noteDetails?.updatedBy?.name
                       ? noteDetails?.updatedBy?.name
-                      : noteDetails?.isAnnonymous
+                      : noteDetails?.isAnonymous
                       ? "Team Member"
                       : "--"}
                   </Typography>

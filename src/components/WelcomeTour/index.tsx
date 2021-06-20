@@ -201,15 +201,15 @@ const WelcomeTour = React.memo((props: any) => {
           <Box my={1}>
             <Typography variant="body2">
               In the 2nd step, Choose default board template and choose
-              annonymous board if you want to run retrospective annonymously.
+              anonymous board if you want to run retrospective anonymously.
             </Typography>
           </Box>
           <Box my={1}>
             <Typography variant="body2">
-              In the 3rd step, This step is optional if you've choose annonymous
-              board otherwise select the team that you would like to invite to
-              join the restrospective session. That's it click on start retro
-              button to create the board.
+              In the 3rd step, This step is optional if you've choose
+              anonymously. board otherwise select the team that you would like
+              to invite to join the restrospective session. That's it click on
+              start retro button to create the board.
             </Typography>
           </Box>
         </Box>

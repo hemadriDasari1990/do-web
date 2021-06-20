@@ -307,7 +307,7 @@ const BoardList = React.memo((props: any) => {
         <Box>
           <AvatarGroupList
             dataList={board?.joinedMembers}
-            noDataMessage={board?.isAnnonymous ? "Annonymous" : "No Members"}
+            noDataMessage={board?.isAnonymous ? "Anonymous" : "No Members"}
           />
         </Box>
         <Box display="flex">

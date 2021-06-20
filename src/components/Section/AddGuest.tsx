@@ -87,7 +87,7 @@ export default function AddGuest(props: any) {
     >
       <Loader enable={loading} backdrop={true} />
       <Box>
-        <HintMessage message="Please close this popup if you wish to join as annonymous." />
+        <HintMessage message="Please close this popup if you wish to join anonymously." />
       </Box>
       <Box mb={1}>
         <TextField

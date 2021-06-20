@@ -177,7 +177,7 @@ const Banner = React.memo((props: any) => {
             </ListItemIcon>
             <ListItemText
               primary={
-                <Typography variant="h5">Select Annonymous board</Typography>
+                <Typography variant="h5">Select Anonymous board</Typography>
               }
               secondary="About few seconds"
             />

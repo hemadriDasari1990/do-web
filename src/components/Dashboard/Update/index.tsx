@@ -102,7 +102,7 @@ const Update = React.memo(() => {
     defaultSection: "",
     project: "",
     projectDescription: "",
-    isAnnonymous: false,
+    isAnonymous: false,
   });
   const [descriptionCount, setDescriptionCount] = useState(0);
   const [projectDescriptionCount, setProjectDescriptionCount] = useState(0);
@@ -115,7 +115,7 @@ const Update = React.memo(() => {
     defaultSection,
     project,
     projectDescription,
-    isAnnonymous,
+    isAnonymous,
   } = formData;
 
   /* React Hooks */
@@ -174,7 +174,7 @@ const Update = React.memo(() => {
         status: "new",
         teams: teams?.map((team: { [Key: string]: any }) => team?._id),
         defaultSection,
-        isAnnonymous,
+        isAnonymous,
         name:
           "Board " +
           (project?.boards?.length ? project?.boards?.length + 1 : 1),
@@ -197,14 +197,14 @@ const Update = React.memo(() => {
   const removeItem = (items: Array<string>, i: number) =>
     items.slice(0, i - 1).concat(items.slice(i, items.length));
 
-  const handleIsAnnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isAnnonymous) {
+  const handleIsAnonymous = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isAnonymous) {
       setSteps(removeItem(steps, 3));
     }
-    if (isAnnonymous) {
+    if (isAnonymous) {
       setSteps(stepsList);
     }
-    setFormData({ ...formData, isAnnonymous: !isAnnonymous });
+    setFormData({ ...formData, isAnonymous: !isAnonymous });
   };
 
   const handleProject = (data: { [Key: string]: any }) => {
@@ -229,20 +229,20 @@ const Update = React.memo(() => {
     );
   };
 
-  const renderAnnonymous = () => {
+  const renderAnonymous = () => {
     return (
       <Box mt={1} mb={-3}>
         <FormControlLabel
           control={
             <Checkbox
-              checked={isAnnonymous}
-              onChange={handleIsAnnonymous}
+              checked={isAnonymous}
+              onChange={handleIsAnonymous}
               value="false"
               color="primary"
-              name="isAnnonymous"
+              name="isAnonymous"
             />
           }
-          label={<Typography variant="h6">Create annonymous board</Typography>}
+          label={<Typography variant="h6">Create anonymous board</Typography>}
         />
       </Box>
     );
@@ -349,7 +349,7 @@ const Update = React.memo(() => {
   const renderBoard = () => {
     return (
       <>
-        {renderAnnonymous()}
+        {renderAnonymous()}
 
         {!noOfSections && (
           <Box>
@@ -492,7 +492,7 @@ const Update = React.memo(() => {
                       </Box>
                     ) : null}
                     {activeStep === steps.length - 1 ||
-                    (activeStep === steps.length - 1 && isAnnonymous) ? (
+                    (activeStep === steps.length - 1 && isAnonymous) ? (
                       <Button
                         variant="contained"
                         color="primary"

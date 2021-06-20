@@ -312,14 +312,12 @@ const StepItem = React.memo((props: any) => {
       <Grid container spacing={6}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">
-              Steps to quick annonymous retro
-            </Typography>
+            <Typography variant="h1">Steps to quick anonymous retro</Typography>
           </Box>
           <Box mt={5}>
             <Box mb={2}>
               <Typography variant="h3">
-                Let them speak fearlessly: Collect feedback annonymously and see
+                Let them speak fearlessly: Collect feedback anonymously and see
                 the magic of honest feedback.
               </Typography>
             </Box>
@@ -328,7 +326,7 @@ const StepItem = React.memo((props: any) => {
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box>
             <Typography variant="h3">
-              Some things about a quick annonymous retrospective:
+              Some things about a quick anonymous retrospective:
             </Typography>
           </Box>
           <SubStepItem
@@ -346,7 +344,7 @@ const StepItem = React.memo((props: any) => {
               {
                 step: "03",
                 index: 2,
-                title: "Choose Create annonymous board",
+                title: "Choose Create anonymous board",
               },
               {
                 step: "04",
