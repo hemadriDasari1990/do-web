@@ -481,7 +481,7 @@ export default function Footer() {
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
-                        +971-545678591
+                        +91-9652491346
                       </Typography>
                     }
                   />
