@@ -104,7 +104,7 @@ export default function About() {
             <Grid container spacing={2}>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
                 <ProfileCardSecondary
-                  path={assetUrl + "avatars/20.svg"}
+                  path={assetUrl + "avatars/21.svg"}
                   title="Lakshmi V"
                   subTitle="Founder"
                   fbPath={process.env.REACT_APP_HEMADRI_FB_URL}
