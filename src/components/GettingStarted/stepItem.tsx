@@ -344,7 +344,7 @@ const StepItem = React.memo((props: any) => {
               {
                 step: "03",
                 index: 2,
-                title: "Choose Create anonymous board",
+                title: "Choose Create Anonymous Board",
               },
               {
                 step: "04",

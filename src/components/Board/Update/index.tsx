@@ -197,7 +197,7 @@ const Update = React.memo((props: any) => {
               name="isAnonymous"
             />
           }
-          label={<Typography variant="h6">Create anonymous board</Typography>}
+          label={<Typography variant="h6">Create Anonymous Board</Typography>}
         />
       </Box>
     );
