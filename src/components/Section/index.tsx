@@ -870,7 +870,7 @@ function Section() {
             mountOnEnter
             unmountOnExit
           >
-            <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
+            <Grid item xl={5} lg={5} md={4} sm={12} xs={12}>
               <Box display="flex">
                 <Box mr={1}>
                   <DoImage
@@ -989,7 +989,7 @@ function Section() {
             mountOnEnter
             unmountOnExit
           >
-            <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
+            <Grid item xl={7} lg={7} md={8} sm={12} xs={12}>
               <Box display="flex" justifyContent="flex-end">
                 {!boardLoading && boardDetails?.status === "inprogress" ? (
                   <Box mr={1}>{renderTimer()}</Box>
