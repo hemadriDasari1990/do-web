@@ -104,9 +104,9 @@ export default function About() {
             <Grid container spacing={2}>
               <Grid item lg={3} xl={3} md={3} sm={8} xs={12}>
                 <ProfileCardSecondary
-                  path={assetUrl + "hemadri.jpg"}
-                  title="Hemadri Dasari"
-                  subTitle="Founder and Senior Developer"
+                  path={assetUrl + "avatars/1.svg"}
+                  title="Lakshmi V"
+                  subTitle="Founder"
                   fbPath={process.env.REACT_APP_HEMADRI_FB_URL}
                   linkedinPath={process.env.REACT_APP_HEMADRI_LINKEDIN_URL}
                   button={true}
@@ -133,35 +133,16 @@ export default function About() {
             <Grid container spacing={2}>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <Box>
-                  <UnderlineText title="Hemadri Dasari" />
+                  <UnderlineText title="Lakshmi V" />
                   <Box mt={2}>
                     <Typography variant="body1">
-                      He is a Founder & Developer of Let's Do Retro Inc. He
-                      started as side project in the middle of Jan 2021. He is
-                      currently working in a team and not very pleased with the
-                      current retrospective board & other tools out there in the
-                      market. So he decided to create his own next generation
-                      retrospective tool and see if that could make it better
-                      than what is currently available in the market. He worked
-                      hard for 3 months to built this platform in his offline
-                      time.
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <Box>
-                  <UnderlineText title="Work Experience" />
-                  <Box mt={2}>
-                    <Typography variant="body1">
-                      Hemadri Dasari currently working as a Senior Lead
-                      Developer in Abu Dhabi, United Arab Emirates. Prior to
-                      this, he served as Senior Front end developer at Mashreq
-                      Bank, Dubai. He also worked as Senior Full Stack Developer
-                      at Emirates NBD Bank, Dubai and also had multiple roles in
-                      Verizon Communications Inc, Cognizant Technology Solutions
-                      and Barclays Shared Services. Hemadri has completed his
-                      B.E Computer Science & Enginerring from Anna University.
+                      She is the Founder of Let's Do Retro Inc. She started as a
+                      side project in the middle of Jan 2021. She is not very
+                      pleased with the current retrospective tools out there in
+                      the market. So she decided to create her own next
+                      generation retrospective tool and see if that could make
+                      it better than what is currently available in the market.
+                      She worked hard for 3 months to built this platform.
                     </Typography>
                   </Box>
                 </Box>
