@@ -469,7 +469,7 @@ export default function Footer() {
                   <ListItemText
                     secondary={
                       <Typography variant="overline" color="secondary">
-                        Dubai, UAE
+                        Chennai, India
                       </Typography>
                     }
                   />
@@ -524,7 +524,7 @@ export default function Footer() {
                 <FavoriteIcon style={{ color: "#ff0000" }} fontSize="small" />
               </Box>
               <Typography variant="body2" color="secondary">
-                by our team in UAE.
+                by our team in India.
               </Typography>
             </Box>
             <Typography variant="body2" color="secondary">
