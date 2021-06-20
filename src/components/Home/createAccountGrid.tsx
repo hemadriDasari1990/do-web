@@ -34,7 +34,7 @@ const CreateAccountGrid = () => {
               </Typography>
             </Hidden>
             <Hidden only={["xl", "lg"]}>
-              <Typography variant="h2">
+              <Typography variant="h3">
                 Get started with Let's Do Retro today
               </Typography>
             </Hidden>

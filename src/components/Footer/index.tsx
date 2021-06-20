@@ -194,7 +194,7 @@ export default function Footer() {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xl={2} lg={2} md={4} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
@@ -228,7 +228,7 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={4} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
@@ -283,7 +283,7 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={4} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
@@ -353,7 +353,7 @@ export default function Footer() {
                 </ListItem> */}
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={4} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
@@ -396,7 +396,7 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={4} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
@@ -451,7 +451,7 @@ export default function Footer() {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xl={2} lg={2} md={4} sm={4} xs={12}>
+            <Grid item xl={2} lg={2} md={3} sm={4} xs={12}>
               <Box>
                 <Typography
                   variant="h3"
