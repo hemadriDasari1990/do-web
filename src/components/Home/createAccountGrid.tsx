@@ -46,7 +46,7 @@ const CreateAccountGrid = () => {
             </Typography>
           </Hidden>
           <Hidden only={["xl", "lg"]}>
-            <Typography variant="body1">
+            <Typography variant="body2">
               Join thousands of agile teams and students who already enjoy our
               retrospective tool
             </Typography>
