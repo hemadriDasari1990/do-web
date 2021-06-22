@@ -500,7 +500,7 @@ export default function Footer() {
                           width: "fit-content",
                         }}
                       >
-                        letsdoretro@gmail.com
+                        info@letsdoretro.com
                       </Typography>
                     }
                   />
