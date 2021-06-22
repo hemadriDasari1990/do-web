@@ -39,12 +39,18 @@ const CreateAccountGrid = () => {
               </Typography>
             </Hidden>
           </Box>
-          <Box>
+          <Hidden only={["md", "sm", "xs"]}>
             <Typography>
               Join thousands of agile teams and students who already enjoy our
               retrospective tool
             </Typography>
-          </Box>
+          </Hidden>
+          <Hidden only={["xl", "lg"]}>
+            <Typography variant="body1">
+              Join thousands of agile teams and students who already enjoy our
+              retrospective tool
+            </Typography>
+          </Hidden>
           <Box mt={3}>
             <CreateAccount
               title="Sign up for free"
