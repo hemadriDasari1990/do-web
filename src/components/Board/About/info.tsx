@@ -138,7 +138,7 @@ const AboutBoardInfo = () => {
             <Typography variant="subtitle1">Link to this board</Typography>
           </Box>
           <CopyToClipboard
-            url={process.env.REACT_APP_PORT + "/board/" + board?._id}
+            url={"/board/" + board?._id}
             hintMessage="Anyone on the internet (including Google) can see this board. Only board members can edit."
           />
         </Box>

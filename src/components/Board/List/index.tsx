@@ -100,8 +100,6 @@ const BoardList = React.memo((props: any) => {
     navigator.clipboard.writeText(
       (((process.env.REACT_APP_PROTOCOL as string) +
         process.env.REACT_APP_SERVER) as string) +
-        ":" +
-        process.env.REACT_APP_PORT +
         "/board/" +
         board?._id
     );
