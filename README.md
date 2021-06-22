@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [https://www.letsdoretro.com](https://www.letsdoretro.com) to view it in the browser.
+Open [https://letsdoretro.com](https://letsdoretro.com) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
