@@ -31,7 +31,7 @@ const CopyToClipboard = React.memo((props: any) => {
   const [copied, setCopied] = React.useState(false);
   const hostName = `${process.env.REACT_APP_PROTOCOL as string}${
     process.env.REACT_APP_SERVER as string
-  }:`;
+  }`;
   const handleCopy = () => {
     setCopied(!copied);
     navigator.clipboard.writeText(hostName + url);
