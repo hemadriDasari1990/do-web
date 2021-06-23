@@ -94,7 +94,6 @@ const useLocalStyles = makeStyles(() => ({
 
 const Users = () => {
   const {
-    imageBoxStyle,
     imageBoxGridStyle,
     avatarTextStyle,
     avatarStyle,
@@ -146,7 +145,7 @@ const Users = () => {
                       key={"Key-" + index}
                     >
                       <Box>
-                        <Box m="auto" className={imageBoxStyle}>
+                        <Box m="auto">
                           <Box
                             className={imageBoxGridStyle}
                             style={{
