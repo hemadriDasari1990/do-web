@@ -7,6 +7,7 @@ import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import {
   addJoinedMemberToLocalStorage,
+  elipseName,
   getDownloadFile,
   getMemberId,
   replaceStr,
@@ -44,6 +45,8 @@ import { ROOT } from "../../routes/config";
 import Recommendation from "../Recommendation";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import Slide from "@material-ui/core/Slide";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
@@ -117,6 +120,12 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     color: "#ff0000",
     fontWeight: 600,
   },
+  toggleStyle: {
+    border: "none",
+    "&:hover": {
+      backgroundColor: "#ebecf0",
+    },
+  },
 }));
 
 function Section() {
@@ -127,6 +136,7 @@ function Section() {
     stopSessionIconStyle,
     buttonOutlinedStopStyle,
     stopSessionTextStyle,
+    toggleStyle,
   } = useLocalStyles();
   const { buttonStyle, titleBoxStyle } = useStyles();
   const dispatch = useDispatch();
@@ -439,8 +449,11 @@ function Section() {
     setOpenAccount(!openAccount);
   };
 
-  const handleView = (type: string) => {
-    setViewType(type);
+  const handleView = (
+    event: React.MouseEvent<HTMLElement>,
+    newViewType: string
+  ) => {
+    setViewType(newViewType);
   };
 
   const renderDialog = () => {
@@ -617,17 +630,26 @@ function Section() {
 
   const renderView = () => {
     return (
-      <Box display="flex">
-        <Box mr={1} className={buttonStyle}>
-          <Fab color="primary" onClick={() => handleView("wrap")}>
-            <ViewStreamIcon style={{ color: getRandomColor(0) }} />
-          </Fab>
-        </Box>
-        <Box mr={1} className={buttonStyle}>
-          <Fab color="primary" onClick={() => handleView("nowrap")}>
-            <ViewColumnIcon style={{ color: getRandomColor(3) }} />
-          </Fab>
-        </Box>
+      <Box mr={1}>
+        <ToggleButtonGroup
+          size="small"
+          value={viewType}
+          exclusive
+          onChange={handleView}
+        >
+          <ToggleButton value="wrap" className={toggleStyle}>
+            <ViewStreamIcon
+              fontSize="small"
+              style={{ color: getRandomColor(0) }}
+            />
+          </ToggleButton>
+          <ToggleButton value="nowrap" className={toggleStyle}>
+            <ViewColumnIcon
+              fontSize="small"
+              style={{ color: getRandomColor(3) }}
+            />
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
     );
   };
@@ -883,7 +905,7 @@ function Section() {
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Typography variant="subtitle1" color="primary">
-                    {boardDetails?.name}
+                    {elipseName(boardDetails?.name, 14)}
                   </Typography>
                 </Box>
                 <Box mt={0.3} className={titleBoxStyle}>

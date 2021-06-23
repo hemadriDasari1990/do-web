@@ -56,6 +56,7 @@ const Reactions = React.lazy(() => import("../components/Footer/Reactions"));
 const Templates = React.lazy(
   () => import("../components/Footer/Product/Templates")
 );
+const Pricing = React.lazy(() => import("../components/Pricing"));
 
 const useStyles = makeStyles((theme: Theme) => ({
   boxStyle: (props: any) => ({
@@ -165,6 +166,10 @@ const routes = () => {
     {
       path: routePath.GETTING_STARTED,
       component: GettingStarted,
+    },
+    {
+      path: routePath.PRICING,
+      component: Pricing,
     },
     {
       path: routePath.WHY_LETSDORETRO,

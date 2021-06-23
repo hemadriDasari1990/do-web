@@ -4,6 +4,7 @@ import {
   CAREERS,
   FEATURES,
   GETTING_STARTED,
+  PRICING,
   PRIVACY_POLICY,
   REACTIONS,
   RETROSPECTIVE,
@@ -130,6 +131,10 @@ export default function Footer() {
     history.push(TEMPLATES);
   };
 
+  const handlePricing = () => {
+    history.push(PRICING);
+  };
+
   const handleFacebook = () => {
     const win: any = window.open(
       process.env.REACT_APP_LETSDORETROL_FB_URL,
@@ -222,6 +227,15 @@ export default function Footer() {
                     secondary={
                       <Typography variant="overline" color="secondary">
                         Retrospective Board
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem className={listStyle} onClick={() => handlePricing()}>
+                  <ListItemText
+                    secondary={
+                      <Typography variant="overline" color="secondary">
+                        Pricing
                       </Typography>
                     }
                   />

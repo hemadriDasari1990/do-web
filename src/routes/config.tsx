@@ -38,3 +38,4 @@ export const WHATS_NEXT = "/whats-next";
 export const REACTIONS = "/reactions";
 export const WHY_LETSDORETRO = "/why-letsdoretro";
 export const TEMPLATES = "/templates";
+export const PRICING = "/pricing";
