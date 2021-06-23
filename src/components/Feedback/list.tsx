@@ -25,16 +25,6 @@ const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     fontSize: 80,
   },
-  imageBoxStyle: {
-    height: 110,
-    width: 140,
-    clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex",
-    background: "#f5f6f8",
-    borderRadius: 6,
-  },
   imageBoxGridStyle: {
     height: 90,
     width: 75,
@@ -111,7 +101,6 @@ function FeedbackList() {
     iconButtonStyle,
     mainBoxStyle,
     iconButtonSecondaryStyle,
-    imageBoxStyle,
     imageBoxGridStyle,
     avatarTextStyle,
     avatarStyle,
@@ -152,7 +141,7 @@ function FeedbackList() {
                 >
                   <Box px={5}>
                     <Box display="flex">
-                      <Box className={imageBoxStyle}>
+                      <Box>
                         <Box
                           className={imageBoxGridStyle}
                           style={{
