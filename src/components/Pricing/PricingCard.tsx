@@ -19,7 +19,7 @@ const useLocalStyles = makeStyles({
     backgroundColor: "#fff",
     backgroundClip: "border-box",
     padding: 10,
-    height: 490,
+    height: 500,
   },
   greenStyle: {
     color: "#27ae60",
@@ -47,7 +47,7 @@ const PricingCard = () => {
       <Grid container spacing={2}>
         <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
           <Paper className={paperStyle}>
-            <Box display="flex" justifyContent="space-between" px={5} pb={2}>
+            <Box display="flex" justifyContent="space-between" px={2} pb={2}>
               <Typography variant="h1">Free</Typography>
               <Typography variant="h1">$0</Typography>
             </Box>
@@ -154,7 +154,7 @@ export const PricingList = (props: any) => {
   const { message } = props;
   const { greenStyle } = useLocalStyles();
   return (
-    <Box display="flex" mt={1.5} mx={3}>
+    <Box display="flex" mt={1.5} mx={2}>
       <Box mx={1}>
         <CheckCircleIcon className={greenStyle} />
       </Box>
