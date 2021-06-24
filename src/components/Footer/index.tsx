@@ -24,7 +24,6 @@ import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
-import InstantRetroGrid from "../Home/instantRetroGrid";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -187,14 +186,21 @@ export default function Footer() {
                 </Typography>
               </Box>
             </Grid>
+
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
               <Box mt={3} display="flex" justifyContent="flex-end">
-                <Box>
-                  <InstantRetroGrid
-                    title="Quick Start Retro"
-                    subTitle="Free forever — no signup required"
+                <a
+                  href="https://www.producthunt.com/posts/lets-do-retro?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lets-do-retro"
+                  target="_blank"
+                >
+                  <img
+                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=301631&theme=light"
+                    alt="Lets do retro - The next generation retrospective tool | Product Hunt"
+                    style={{ width: 250, height: 54 }}
+                    width={250}
+                    height={54}
                   />
-                </Box>
+                </a>
               </Box>
             </Grid>
           </Grid>
