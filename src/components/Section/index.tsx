@@ -904,14 +904,18 @@ function Section() {
                   />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
-                  <Typography variant="subtitle1" color="primary">
-                    {elipseName(boardDetails?.name, 14)}
-                  </Typography>
+                  <Tooltip title="Board Name">
+                    <Typography variant="subtitle1" color="primary">
+                      {elipseName(boardDetails?.name, 14)}
+                    </Typography>
+                  </Tooltip>
                 </Box>
                 <Box mt={0.3} className={titleBoxStyle}>
-                  <Typography variant="subtitle1" color="primary">
-                    {formateNumber(totalSections)}
-                  </Typography>
+                  <Tooltip title="Total Sections">
+                    <Typography variant="subtitle1" color="primary">
+                      {formateNumber(totalSections)}
+                    </Typography>
+                  </Tooltip>
                 </Box>
 
                 {authenticated && !board?.isAnonymous && (

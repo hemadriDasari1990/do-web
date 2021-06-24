@@ -19,7 +19,7 @@ const useLocalStyles = makeStyles({
     backgroundColor: "#fff",
     backgroundClip: "border-box",
     padding: 10,
-    height: 470,
+    height: 490,
   },
   greenStyle: {
     color: "#27ae60",
@@ -56,14 +56,14 @@ const PricingCard = () => {
             </Box>
             <Box mt={3}>
               <PricingList message="Unlimited Notes" />
-              <PricingList message="upto 20 members" />
+              <PricingList message="Upto 20 members" />
               <PricingList message="Unlimited activity log" />
               <PricingList message="Upto 2 projects" />
               <PricingList message="Unlimited boards on 2 projects" />
               <PricingList message="Upto 10 sections" />
               <PricingList message="Upto 2 teams" />
 
-              <Box textAlign="center" mt={5}>
+              <Box textAlign="center" mt={7}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -96,7 +96,7 @@ const PricingCard = () => {
               <PricingList message="Upto 10 sections" />
               <PricingList message="Invite teams" />
               <PricingList message="Board Customizations" />
-              <Box textAlign="center" mt={5}>
+              <Box textAlign="center" mt={7}>
                 <Button
                   color="primary"
                   className={buttonStyle}
@@ -128,7 +128,7 @@ const PricingCard = () => {
               <PricingList message="Organization wide permissions" />
               <PricingList message="Organization visible boards" />
               <PricingList message="Priority Support & Onboarding" />
-              <Box textAlign="center" mt={5}>
+              <Box textAlign="center" mt={7}>
                 <Button
                   color="primary"
                   className={buttonStyle}

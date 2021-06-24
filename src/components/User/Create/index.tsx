@@ -136,10 +136,6 @@ const Create = () => {
     win.focus();
   };
 
-  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
@@ -165,9 +161,6 @@ const Create = () => {
             onKeyPress={(event: React.KeyboardEvent<any>) =>
               allow(event, ALPHA_NUMERIC_WITH_SPACE, NAME_MAX_CHAR_COUNT)
             }
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
           />
           <TextField
             name="email"
@@ -180,9 +173,6 @@ const Create = () => {
             required
             fullWidth
             className={textFieldStyle}
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
           />
           <TextField
             type="password"
@@ -196,9 +186,6 @@ const Create = () => {
             required
             fullWidth
             className={textFieldStyle}
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
           />
           <TextField
             type="password"
@@ -212,9 +199,6 @@ const Create = () => {
             required
             fullWidth
             className={textFieldStyle}
-            onCut={handlePrevent}
-            onCopy={handlePrevent}
-            onPaste={handlePrevent}
           />
           <Box mt={1}>
             <HintMessage

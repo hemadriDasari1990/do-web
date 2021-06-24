@@ -113,10 +113,6 @@ const Login = () => {
     history.push(RESEND_ACTIVATION);
   };
 
-  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
@@ -137,9 +133,6 @@ const Login = () => {
           autoComplete="off"
           required
           className={textFieldStyle}
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
         />
         <TextField
           type="password"
@@ -152,9 +145,6 @@ const Login = () => {
           autoComplete="off"
           required
           className={textFieldStyle}
-          onCut={handlePrevent}
-          onCopy={handlePrevent}
-          onPaste={handlePrevent}
         />
         <Box mt={3} display="flex">
           <Box mr={2}>

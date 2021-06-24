@@ -104,10 +104,6 @@ const ForgotPassword = () => {
     return false;
   };
 
-  const handlePrevent = (event: React.ClipboardEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <React.Fragment>
       <Container>
@@ -149,9 +145,6 @@ const ForgotPassword = () => {
               required
               fullWidth
               className={textFieldStyle}
-              onCut={handlePrevent}
-              onCopy={handlePrevent}
-              onPaste={handlePrevent}
             />
             <TextField
               type="password"
@@ -165,9 +158,6 @@ const ForgotPassword = () => {
               required
               fullWidth
               className={textFieldStyle}
-              onCut={handlePrevent}
-              onCopy={handlePrevent}
-              onPaste={handlePrevent}
             />
             <Box mt={3}>
               <Button
