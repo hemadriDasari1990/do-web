@@ -19,7 +19,7 @@ const useLocalStyles = makeStyles({
     backgroundColor: "#fff",
     backgroundClip: "border-box",
     padding: 10,
-    height: 540,
+    height: 570,
   },
   greenStyle: {
     color: "#27ae60",
@@ -115,7 +115,7 @@ const PricingCard = () => {
           <Paper className={paperStyle}>
             <Box display="flex" justifyContent="space-between" px={5} pb={2}>
               <Typography variant="h1">Enterprise</Typography>
-              <Typography variant="h1">--</Typography>
+              <Typography variant="h1">$$</Typography>
             </Box>
             <Box>
               <Divider />

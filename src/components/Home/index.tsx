@@ -175,7 +175,7 @@ const Home = () => {
               <Box mt={5}>
                 <Zoom in={true} timeout={2000}>
                   <DoImage
-                    src="scrum-real-board.png"
+                    src="scrum-real-board.jpg"
                     className={skeletonImageStyle}
                     height="1334"
                     width="1902"

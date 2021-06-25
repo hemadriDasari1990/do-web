@@ -904,14 +904,14 @@ function Section() {
                   />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
-                  <Tooltip title="Board Name">
+                  <Tooltip title="Board Name" arrow>
                     <Typography variant="subtitle1" color="primary">
                       {elipseName(boardDetails?.name, 14)}
                     </Typography>
                   </Tooltip>
                 </Box>
                 <Box mt={0.3} className={titleBoxStyle}>
-                  <Tooltip title="Total Sections">
+                  <Tooltip title="Total Sections" arrow>
                     <Typography variant="subtitle1" color="primary">
                       {formateNumber(totalSections)}
                     </Typography>
