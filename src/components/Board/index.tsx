@@ -286,7 +286,6 @@ const BoardDashboard = () => {
         selectedBoard={selectedBoard}
         openDialog={showBoardForm}
         handleUpdateForm={handleUpdateForm}
-        totalBoards={totalBoards}
       />
     );
   }, [selectedBoard, showBoardForm]);

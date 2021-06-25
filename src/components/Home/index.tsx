@@ -179,8 +179,8 @@ const Home = () => {
                     className={skeletonImageStyle}
                     height="1334"
                     width="1902"
-                    placeholderImg="scrum-real-board.png"
-                    errorImg="scrum-real-board.png"
+                    placeholderImg="scrum-real-board.jpg"
+                    errorImg="scrum-real-board.jpg"
                   />
                 </Zoom>
               </Box>

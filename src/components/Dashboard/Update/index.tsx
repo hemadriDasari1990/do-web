@@ -3,6 +3,7 @@ import {
   ONLY_NUMBERS,
   allow,
 } from "../../../util/regex";
+import { MAX_CHAR_COUNT, MAX_NAME_COUNT } from "../../../util/constants";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useBoard, useBoardUpdateLoading } from "../../../redux/state/board";
@@ -16,7 +17,6 @@ import DoSnackbar from "../../Snackbar/components";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
-import { MAX_CHAR_COUNT } from "../../../util/constants";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Popover from "@material-ui/core/Popover";
 import Step from "@material-ui/core/Step";
@@ -103,6 +103,7 @@ const Update = React.memo(() => {
     project: "",
     projectDescription: "",
     isAnonymous: false,
+    name: "",
   });
   const [descriptionCount, setDescriptionCount] = useState(0);
   const [projectDescriptionCount, setProjectDescriptionCount] = useState(0);
@@ -116,6 +117,7 @@ const Update = React.memo(() => {
     project,
     projectDescription,
     isAnonymous,
+    name,
   } = formData;
 
   /* React Hooks */
@@ -175,9 +177,7 @@ const Update = React.memo(() => {
         teams: teams?.map((team: { [Key: string]: any }) => team?._id),
         defaultSection,
         isAnonymous,
-        name:
-          "Board " +
-          (project?.boards?.length ? project?.boards?.length + 1 : 1),
+        name: name,
         ...(project?._id
           ? { projectId: project?._id }
           : { projectTitle: project }),
@@ -264,15 +264,6 @@ const Update = React.memo(() => {
           }
           customClass={dropdownInputStyle}
         />
-        {project && (
-          <Box mt={3}>
-            <HintMessage
-              message={`The board name will be Board ${
-                project?.boards?.length ? project?.boards?.length + 1 : 1
-              }`}
-            />
-          </Box>
-        )}
         {!project?._id && (
           <Box>
             <TextField
@@ -349,8 +340,25 @@ const Update = React.memo(() => {
   const renderBoard = () => {
     return (
       <>
+        <Box>
+          <TextField
+            name="name"
+            id="name"
+            label="Name"
+            placeholder="Enter name of the board"
+            value={name}
+            onChange={handleInput}
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_NAME_COUNT)
+            }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+            required
+          />
+        </Box>
         {renderAnonymous()}
-
         {!noOfSections && (
           <Box>
             <DoAutoComplete

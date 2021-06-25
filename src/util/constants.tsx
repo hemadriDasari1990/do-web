@@ -21,6 +21,8 @@ export const TEAM_MEMBERS_PER_PAGE = 30;
 export const REACTIONS_PER_PAGE = 15;
 export const DRAWER_WIDTH = 70;
 
+export const MAX_NAME_COUNT = 50;
+
 export const MAX_CHAR_COUNT = 350;
 export const MAX_NOTE_CHAR_COUNT = 1000;
 export const TITLE_MAX_CHAR_COUNT = 70;

@@ -3,6 +3,7 @@ import {
   ONLY_NUMBERS,
   allow,
 } from "../../../util/regex";
+import { MAX_CHAR_COUNT, MAX_NAME_COUNT } from "../../../util/constants";
 import React, { useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import {
@@ -17,7 +18,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Hidden from "@material-ui/core/Hidden";
 import Link from "@material-ui/core/Link";
 import Loader from "../../Loader/components";
-import { MAX_CHAR_COUNT } from "../../../util/constants";
 import { TEAM } from "../../../routes/config";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
@@ -54,7 +54,6 @@ const Update = React.memo((props: any) => {
     handleUpdateForm,
     selectedBoard,
     title: boardName,
-    totalBoards,
   } = props;
   const { textFieldStyle, dropdownInputStyle } = useStyles();
   const dispatch = useDispatch();
@@ -76,6 +75,7 @@ const Update = React.memo((props: any) => {
     team: null,
     defaultSection: "",
     isAnonymous: false,
+    name: "",
   });
   const [count, setCount] = useState(selectedBoard?.description?.length || 0);
   const {
@@ -85,6 +85,7 @@ const Update = React.memo((props: any) => {
     team,
     defaultSection,
     isAnonymous,
+    name,
   } = formData;
 
   /* React Hooks */
@@ -135,6 +136,7 @@ const Update = React.memo((props: any) => {
       team: [],
       defaultSection: false,
       isAnonymous: false,
+      name,
     });
   };
 
@@ -148,7 +150,7 @@ const Update = React.memo((props: any) => {
         defaultSection,
         projectId: project?._id,
         accountType,
-        name: "Board " + (totalBoards + 1),
+        name,
         boardId: selectedBoard?._id,
         isAnonymous,
       })
@@ -158,6 +160,10 @@ const Update = React.memo((props: any) => {
 
   const disableButton = () => {
     if (!defaultSection && (!noOfSections || noOfSections === 0)) {
+      return true;
+    }
+
+    if (!name || !name?.trim()) {
       return true;
     }
 
@@ -238,14 +244,21 @@ const Update = React.memo((props: any) => {
           </Box>
         </Hidden>
         <Box mt={3}>
-          <HintMessage
-            message={
-              selectedBoard?._id
-                ? `System generated name ${selectedBoard?.name}`
-                : `System will generate name Board ${
-                    totalBoards ? totalBoards + 1 : 1
-                  }`
+          <TextField
+            name="name"
+            id="name"
+            label="Name"
+            placeholder="Enter name of the board"
+            value={name}
+            onChange={handleInput}
+            className={textFieldStyle}
+            onKeyPress={(event: React.KeyboardEvent<any>) =>
+              allow(event, ALPHA_NUMERIC_WITH_SPACE, MAX_NAME_COUNT)
             }
+            onCut={handlePrevent}
+            onCopy={handlePrevent}
+            onPaste={handlePrevent}
+            required
           />
         </Box>
         {renderAnonymous()}
