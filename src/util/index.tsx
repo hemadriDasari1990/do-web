@@ -172,3 +172,18 @@ export const getFinalMemberId = (token?: string) => {
   const id = descodedData?.memberId ? descodedData?.memberId : null;
   return id;
 };
+
+export const changeViewport = (input: string) => {
+  let viewport: any = document.querySelector("meta[name=viewport]");
+  if (!viewport) {
+    // in case there is no view port meta tag creates one and add it to the head
+    viewport = document.createElement("meta");
+    viewport.name = "viewport";
+    document.getElementsByTagName("head")[0].appendChild(viewport);
+  }
+
+  const content = input;
+
+  // this is where the magic happens by changing the vewport meta tag
+  viewport.setAttribute("content", content);
+};

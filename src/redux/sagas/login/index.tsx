@@ -22,6 +22,7 @@ import {
   VERIFY_TOKEN_SUCCESS,
 } from "../../actions/login/types";
 import { call, put, takeLatest } from "redux-saga/effects";
+import { changeViewport, delay } from "../../../util";
 import {
   forgotPassword,
   login,
@@ -31,8 +32,6 @@ import {
   validateForgotPassword,
   verifyToken,
 } from "../../network/login";
-
-import { delay } from "../../../util";
 
 function* callLogin(action: { [Key: string]: any }) {
   try {
@@ -60,6 +59,7 @@ function* callLogout() {
     const status = result?.status;
     const data = result?.data;
     if (status === 200) {
+      changeViewport("width=device-width, initial-scale=1.0");
       localStorage.clear();
       yield put({ type: LOGOUT_SUCCESS, payload: data });
     }

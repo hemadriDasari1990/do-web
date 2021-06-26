@@ -7,6 +7,7 @@ import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import {
   addJoinedMemberToLocalStorage,
+  changeViewport,
   elipseName,
   getDownloadFile,
   getMemberId,
@@ -183,6 +184,9 @@ function Section() {
     if (boardId) {
       dispatch(getBoardDetails(boardId));
       dispatch(getJoinedMembers(boardId, "", 0, MEMBERS_PER_PAGE));
+      changeViewport(
+        "width=1024, initial-scale=1, minimum-scale: 1, maximum-scale: 1"
+      );
     }
   }, []);
 

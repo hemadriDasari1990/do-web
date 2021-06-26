@@ -125,70 +125,83 @@ function FeedbackList() {
     );
   };
 
-  return (
-    <Box height={feedback?.length ? 580 : 0}>
-      <Loader enable={loading} backdrop={true} />
-      {!loading && feedback?.length ? (
-        <Box>
-          <Box textAlign="center" pb={3}>
-            <Typography variant="h1">What people say about us</Typography>
-          </Box>
-          <Grid container spacing={2}>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Hidden only={["xl", "lg", "md"]}>
-                <Box ml={3}>{renderInitials()}</Box>
-                {renderRating()}
-              </Hidden>
-              <Hidden only={["xs", "sm"]}>
-                <Box display="flex" p={5}>
-                  {renderInitials()}
+  const renderFeebackList = () => {
+    return (
+      <>
+        <Loader enable={loading} backdrop={true} />
+        {!loading && feedback?.length ? (
+          <Box>
+            <Box textAlign="center" pb={3}>
+              <Typography variant="h1">What people say about us</Typography>
+            </Box>
+            <Grid container spacing={2}>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <Hidden only={["xl", "lg", "md"]}>
+                  <Box ml={3}>{renderInitials()}</Box>
                   {renderRating()}
-                </Box>
-              </Hidden>
+                </Hidden>
+                <Hidden only={["xs", "sm"]}>
+                  <Box display="flex" p={5}>
+                    {renderInitials()}
+                    {renderRating()}
+                  </Box>
+                </Hidden>
+              </Grid>
             </Grid>
-          </Grid>
-          <Divider />
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            style={{ float: "right" }}
-            mt={1.5}
-          >
-            <MobileStepper
-              variant="dots"
-              steps={feedback?.length}
-              position="static"
-              activeStep={activeStep}
-              className={stepperStyle}
-              nextButton={
-                <Tooltip arrow title="Scroll Right" placement="right">
-                  <IconButton
-                    size="small"
-                    className={iconButtonSecondaryStyle}
-                    onClick={() => handleNext()}
-                    disabled={activeStep === feedback?.length - 1}
-                  >
-                    <ArrowForwardIcon color="secondary" />
-                  </IconButton>
-                </Tooltip>
-              }
-              backButton={
-                <Tooltip arrow title="Scroll Left" placement="left">
-                  <IconButton
-                    size="small"
-                    className={iconButtonStyle}
-                    onClick={() => handleBack()}
-                    disabled={activeStep === 0}
-                  >
-                    <ArrowBackIcon color="secondary" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
+            <Divider />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              style={{ float: "right" }}
+              mt={1.5}
+            >
+              <MobileStepper
+                variant="dots"
+                steps={feedback?.length}
+                position="static"
+                activeStep={activeStep}
+                className={stepperStyle}
+                nextButton={
+                  <Tooltip arrow title="Scroll Right" placement="right">
+                    <IconButton
+                      size="small"
+                      className={iconButtonSecondaryStyle}
+                      onClick={() => handleNext()}
+                      disabled={activeStep === feedback?.length - 1}
+                    >
+                      <ArrowForwardIcon color="secondary" />
+                    </IconButton>
+                  </Tooltip>
+                }
+                backButton={
+                  <Tooltip arrow title="Scroll Left" placement="left">
+                    <IconButton
+                      size="small"
+                      className={iconButtonStyle}
+                      onClick={() => handleBack()}
+                      disabled={activeStep === 0}
+                    >
+                      <ArrowBackIcon color="secondary" />
+                    </IconButton>
+                  </Tooltip>
+                }
+              />
+            </Box>
           </Box>
-        </Box>
-      ) : null}
-    </Box>
+        ) : null}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <Hidden only={["xl", "lg", "md"]}>
+        <Box height={feedback?.length ? 580 : 0}>{renderFeebackList()}</Box>
+      </Hidden>
+      <Hidden only={["xs", "sm"]}>
+        <Box>{renderFeebackList()}</Box>
+      </Hidden>
+    </>
   );
 }
 

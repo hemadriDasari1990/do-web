@@ -39,6 +39,7 @@ import ProjectList from "../Project/List";
 import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import Typography from "@material-ui/core/Typography";
 import UpdateBoard from "./Update";
+import { changeViewport } from "../../util";
 import { clearLogin } from "../../redux/actions/login";
 import { getDefaultSections } from "../../redux/actions/common";
 import { getProjects } from "../../redux/actions/project";
@@ -106,6 +107,9 @@ const Dashboard = () => {
     if (authenticated) {
       const socket: any = initiateSocketConnection();
       dispatch(storeSocketInstance(socket));
+      changeViewport(
+        "width=1024, initial-scale=1, minimum-scale: 1, maximum-scale: 1"
+      );
     }
   }, []);
 
