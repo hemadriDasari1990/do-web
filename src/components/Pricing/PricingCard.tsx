@@ -62,7 +62,6 @@ const PricingCard = () => {
               <PricingList message="Unlimited boards on 2 projects" />
               <PricingList message="Upto 10 sections" />
               <PricingList message="Upto 2 teams" />
-
               <Box textAlign="center" mt={7}>
                 <Button
                   variant="contained"
@@ -81,7 +80,7 @@ const PricingCard = () => {
         </Grid>
         <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
           <Paper className={paperStyle}>
-            <Box display="flex" justifyContent="space-between" px={5} pb={2}>
+            <Box display="flex" justifyContent="space-between" px={2} pb={2}>
               <Typography variant="h1">Unlimited</Typography>
               <Typography variant="h1">$7</Typography>
             </Box>
@@ -113,7 +112,7 @@ const PricingCard = () => {
         </Grid>
         <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
           <Paper className={paperStyle}>
-            <Box display="flex" justifyContent="space-between" px={5} pb={2}>
+            <Box display="flex" justifyContent="space-between" px={2} pb={2}>
               <Typography variant="h1">Enterprise</Typography>
               <Typography variant="h1">$$</Typography>
             </Box>
