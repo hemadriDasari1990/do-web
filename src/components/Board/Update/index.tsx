@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   dropdownInputStyle: {
     marginTop: theme.spacing(3),
     [theme.breakpoints.down("xs")]: {
-      width: "53%",
+      width: "100%",
     },
   },
 }));
