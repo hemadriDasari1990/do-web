@@ -67,6 +67,9 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     paddingLeft: 0,
     paddingRight: 0,
   },
+  listItemStyle: {
+    height: 60,
+  },
 }));
 
 const Header = () => {
@@ -88,6 +91,7 @@ const Header = () => {
     drawerPaper,
     drawerHeader,
     toolbarStyle,
+    listItemStyle,
   } = useLocalStyles({ authenticated });
   const [open, setOpen] = React.useState(false);
 
@@ -135,7 +139,11 @@ const Header = () => {
         </div>
         <Divider />
         <List>
-          <ListItem onClick={() => handleCreateUser()} button>
+          <ListItem
+            onClick={() => handleCreateUser()}
+            className={listItemStyle}
+            button
+          >
             <ListItemIcon>
               <FlashOnIcon color="primary" />{" "}
             </ListItemIcon>
@@ -144,7 +152,11 @@ const Header = () => {
             />
           </ListItem>
           <Divider />
-          <ListItem onClick={() => handleLogin()} button>
+          <ListItem
+            onClick={() => handleLogin()}
+            className={listItemStyle}
+            button
+          >
             <ListItemIcon>
               <FlashOnIcon color="primary" />{" "}
             </ListItemIcon>
