@@ -752,7 +752,6 @@ function Section() {
     socket.emit("end-session", {
       action: "end",
       id: boardDetails?._id,
-      completedAt: Date.now(),
       memberId,
       joinedMemberId,
     });
@@ -764,7 +763,6 @@ function Section() {
     socket.emit("start-session", {
       action: "start",
       id: boardDetails?._id,
-      startedAt: Date.now(),
       memberId,
       joinedMemberId,
     });
