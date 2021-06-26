@@ -14,6 +14,10 @@ import AvatarGroupList from "../../common/AvatarGroupList";
 import Header from "./header";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
+// import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
 import MoreVertOutlinedIcon from "@material-ui/icons/MoreVertOutlined";
 import React from "react";
 import Table from "@material-ui/core/Table";
@@ -123,7 +127,7 @@ const DoTable = (props: TableProps & any) => {
         <TableBody className={tableBodyStyle}>
           {loading && (
             <TableRow>
-              <TableCell align="center" colSpan={9}></TableCell>
+              <TableCell align="center" colSpan={8}></TableCell>
             </TableRow>
           )}
           {!loading &&
@@ -131,7 +135,7 @@ const DoTable = (props: TableProps & any) => {
               !Array.isArray(updatedData) ||
               !updatedData.length) && (
               <TableRow>
-                <TableCell align="center" colSpan={9}>
+                <TableCell align="center" colSpan={8}>
                   No records found
                 </TableCell>
               </TableRow>
@@ -145,7 +149,7 @@ const DoTable = (props: TableProps & any) => {
                 key={td?._id}
                 classes={{ root: rowStyle }}
               >
-                <TableCell
+                {/* <TableCell
                   align="left"
                   component="td"
                   scope="row"
@@ -176,7 +180,7 @@ const DoTable = (props: TableProps & any) => {
                       )}
                     </Box>
                   </Tooltip>
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell
                   className={tableCellStyle}
@@ -187,7 +191,45 @@ const DoTable = (props: TableProps & any) => {
                   // padding="none"
                   colSpan={1}
                 >
-                  {td?.email}
+                  <ListItem alignItems="flex-start" disableGutters>
+                    <ListItemAvatar style={{ minWidth: 45 }}>
+                      <Avatar
+                        src={getAvatar(td?.avatarId)}
+                        className={avatarStyle}
+                      ></Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <Tooltip arrow title={`View ${td?.name}`}>
+                          <Box display="flex">
+                            <Link
+                              component="button"
+                              variant="body2"
+                              onClick={() => handleViewItem(td)}
+                            >
+                              {td?.name}
+                            </Link>
+                            {td.isAuthor && (
+                              <Box ml={1}>
+                                <Typography
+                                  variant="h6"
+                                  className={authorStyle}
+                                  color="secondary"
+                                >
+                                  Author
+                                </Typography>
+                              </Box>
+                            )}
+                          </Box>
+                        </Tooltip>
+                      }
+                      secondary={
+                        <Box>
+                          <Typography variant="h6">{td?.email}</Typography>
+                        </Box>
+                      }
+                    />
+                  </ListItem>
                 </TableCell>
                 <TableCell
                   className={tableCellStyle}
@@ -250,21 +292,6 @@ const DoTable = (props: TableProps & any) => {
                     "0 Teams"
                   )}
                 </TableCell>
-                <TableCell
-                  className={tableCellStyle}
-                  align="left"
-                  component="td"
-                  scope="row"
-                  size="small"
-                  // padding="none"
-                  colSpan={1}
-                >
-                  <Avatar
-                    src={getAvatar(td?.avatarId)}
-                    className={avatarStyle}
-                  ></Avatar>
-                </TableCell>
-
                 <TableCell
                   className={tableCellStyle}
                   align="left"
