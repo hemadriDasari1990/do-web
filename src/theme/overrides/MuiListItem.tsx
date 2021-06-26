@@ -18,6 +18,7 @@ export default {
     paddingBottom: 0,
   },
   button: {
+    height: 60,
     "&:hover": {},
   },
 };

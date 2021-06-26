@@ -24,6 +24,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -171,37 +172,63 @@ export default function Footer() {
         <Container>
           <Grid container spacing={2}>
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-              <Box mt={3}>
-                <DoImage
-                  src="do-logo.svg"
-                  width={35}
-                  height={35}
-                  placeholderImg="do-logo.svg"
-                  errorImg="do-logo.svg"
-                />
-              </Box>
+              <Hidden only={["xl", "lg", "md"]}>
+                <Box mt={1} display="flex" justifyContent="space-between">
+                  <DoImage
+                    src="do-logo.svg"
+                    width={35}
+                    height={35}
+                    placeholderImg="do-logo.svg"
+                    errorImg="do-logo.svg"
+                  />
+                  <a
+                    href="https://www.producthunt.com/posts/lets-do-retro?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lets-do-retro"
+                    target="_blank"
+                  >
+                    <img
+                      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=301631&theme=light"
+                      alt="Lets do retro - The next generation retrospective tool | Product Hunt"
+                      style={{ width: 250, height: 54 }}
+                      width={250}
+                      height={54}
+                    />
+                  </a>
+                </Box>
+              </Hidden>
+              <Hidden only={["xs", "sm"]}>
+                <Box mt={3}>
+                  <DoImage
+                    src="do-logo.svg"
+                    width={35}
+                    height={35}
+                    placeholderImg="do-logo.svg"
+                    errorImg="do-logo.svg"
+                  />
+                </Box>
+              </Hidden>
               <Box>
                 <Typography component="h3" variant="h3" color="secondary">
                   Empower agile teams and students to create the next big thing!
                 </Typography>
               </Box>
             </Grid>
-
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-              <Box mt={3} display="flex" justifyContent="flex-end">
-                <a
-                  href="https://www.producthunt.com/posts/lets-do-retro?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lets-do-retro"
-                  target="_blank"
-                >
-                  <img
-                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=301631&theme=light"
-                    alt="Lets do retro - The next generation retrospective tool | Product Hunt"
-                    style={{ width: 250, height: 54 }}
-                    width={250}
-                    height={54}
-                  />
-                </a>
-              </Box>
+              <Hidden only={["xs", "sm"]}>
+                <Box mt={3} display="flex" justifyContent="flex-end">
+                  <a
+                    href="https://www.producthunt.com/posts/lets-do-retro?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lets-do-retro"
+                    target="_blank"
+                  >
+                    <img
+                      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=301631&theme=light"
+                      alt="Lets do retro - The next generation retrospective tool | Product Hunt"
+                      style={{ width: 250, height: 54 }}
+                      width={250}
+                      height={54}
+                    />
+                  </a>
+                </Box>
+              </Hidden>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
@@ -529,28 +556,34 @@ export default function Footer() {
             </Grid>
           </Grid>
           <Divider />
-          <Box py={3} display="flex" justifyContent="space-between">
-            <Box display="flex">
-              <Typography variant="body2" color="secondary">
-                Made with
-              </Typography>
-              <Box mx={0.5}>
-                <WhatshotIcon fontSize="small" style={{ color: "#ffc800" }} />
+          <Grid container spacing={2}>
+            <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+              <Box display="flex">
+                <Typography variant="body2" color="secondary">
+                  Made with
+                </Typography>
+                <Box mx={0.5}>
+                  <WhatshotIcon fontSize="small" style={{ color: "#ffc800" }} />
+                </Box>
+                <Typography variant="body2" color="secondary">
+                  +
+                </Typography>
+                <Box mx={0.5} mt={0.2}>
+                  <FavoriteIcon style={{ color: "#ff0000" }} fontSize="small" />
+                </Box>
+                <Typography variant="body2" color="secondary">
+                  by our team in India.
+                </Typography>
               </Box>
-              <Typography variant="body2" color="secondary">
-                +
-              </Typography>
-              <Box mx={0.5} mt={0.2}>
-                <FavoriteIcon style={{ color: "#ff0000" }} fontSize="small" />
+            </Grid>
+            <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+              <Box display="flex" justifyContent="flex-end">
+                <Typography variant="body2" color="secondary">
+                  Copyright © 2021 Letsdoretro.com. All rights reserved.
+                </Typography>
               </Box>
-              <Typography variant="body2" color="secondary">
-                by our team in India.
-              </Typography>
-            </Box>
-            <Typography variant="body2" color="secondary">
-              Copyright © 2021 Letsdoretro.com. All rights reserved.
-            </Typography>
-          </Box>
+            </Grid>
+          </Grid>
         </Container>
       </BottomNavigation>
     </Box>

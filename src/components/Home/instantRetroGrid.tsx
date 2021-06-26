@@ -4,6 +4,7 @@ import { Theme, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
+import Hidden from "@material-ui/core/Hidden";
 import InstantRetro from "./instantRetro";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Typography } from "@material-ui/core";
@@ -52,9 +53,16 @@ const InstantRetroGrid = React.memo((props: any) => {
           {title}
         </Button>
       </Tooltip>
-      <Box mt={1}>
-        <Typography variant="h6">{subTitle}</Typography>
-      </Box>
+      <Hidden only={["xs", "sm"]}>
+        <Box mt={1}>
+          <Typography variant="h6">{subTitle}</Typography>
+        </Box>
+      </Hidden>
+      <Hidden only={["xl", "lg", "md"]}>
+        <Box mt={1} textAlign="center">
+          <Typography variant="h6">{subTitle}</Typography>
+        </Box>
+      </Hidden>
     </React.Fragment>
   );
 });

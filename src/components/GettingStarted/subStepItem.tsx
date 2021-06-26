@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
+import Hidden from "@material-ui/core/Hidden";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../util/getRandomColor";
@@ -9,7 +10,7 @@ import { getRandomColor } from "../../util/getRandomColor";
 const useLocalStyles = makeStyles((theme: Theme) => ({
   paperStyle: {
     width: "fit-content",
-    height: 60,
+    height: "100%",
     padding: "5px 15px 5px 5px",
     marginBottom: 10,
   },
@@ -67,11 +68,14 @@ const SubStepItem = React.memo((props: any) => {
                     {item?.step}
                   </Typography>
                 </Box>
-                <Box>
+                <Hidden only={["xs", "sm"]}>
                   <Typography variant="h3" className={subTitleStyle}>
                     {item?.title}
                   </Typography>
-                </Box>
+                </Hidden>
+                <Hidden only={["xl", "lg", "md"]}>
+                  <Typography variant="subtitle1">{item?.title}</Typography>
+                </Hidden>
               </Box>
             </Paper>
           ))

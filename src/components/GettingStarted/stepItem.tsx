@@ -15,7 +15,7 @@ const StepItem = React.memo((props: any) => {
 
   return (
     <Box mt={5}>
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box>
             <Typography variant="h3">
@@ -70,7 +70,7 @@ const StepItem = React.memo((props: any) => {
           </Box>
         </Grid>
       </Grid>
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
             <Typography variant="h1">Steps to create members</Typography>
@@ -131,7 +131,7 @@ const StepItem = React.memo((props: any) => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box>
             <Typography variant="h3">
@@ -183,7 +183,7 @@ const StepItem = React.memo((props: any) => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
             <Typography variant="h1">Steps to create a Project</Typography>
@@ -252,7 +252,7 @@ const StepItem = React.memo((props: any) => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box>
             <Typography variant="h3">
@@ -309,7 +309,7 @@ const StepItem = React.memo((props: any) => {
           </Box>
         </Grid>
       </Grid>
-      <Grid container spacing={6}>
+      <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
             <Typography variant="h1">Steps to quick anonymous retro</Typography>

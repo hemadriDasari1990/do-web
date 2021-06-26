@@ -42,8 +42,8 @@ export default function ReactionsList(props: any) {
   return (
     <Box>
       <Container>
-        <Grid container spacing={10}>
-          <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+        <Grid container spacing={2}>
+          <Grid item xl={2} lg={2} md={2} sm={4} xs={4}>
             <Paper className={`${plusIconStyle} ${paperStyle}`}>
               <AgreeIcon color="secondary" className={iconStyle} />
             </Paper>
@@ -54,7 +54,7 @@ export default function ReactionsList(props: any) {
             </Box>
           </Grid>
 
-          <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+          <Grid item xl={2} lg={2} md={2} sm={4} xs={4}>
             <Paper className={`${loveIconStyle} ${paperStyle}`}>
               <LoveIcon color="secondary" className={iconStyle} />
             </Paper>
@@ -64,7 +64,7 @@ export default function ReactionsList(props: any) {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+          <Grid item xl={2} lg={2} md={2} sm={4} xs={2}>
             <Paper className={`${deserveIconStyle} ${paperStyle}`}>
               <DeserveIcon color="secondary" className={iconStyle} />
             </Paper>
@@ -74,7 +74,7 @@ export default function ReactionsList(props: any) {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+          <Grid item xl={2} lg={2} md={2} sm={4} xs={4}>
             <Paper className={`${highlightIconStyle} ${paperStyle}`}>
               <HighlightIcon color="secondary" className={iconStyle} />
             </Paper>
@@ -84,7 +84,7 @@ export default function ReactionsList(props: any) {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+          <Grid item xl={2} lg={2} md={2} sm={4} xs={4}>
             <Paper className={`${disagreeIconStyle} ${paperStyle}`}>
               <DisagreeIcon color="secondary" className={iconStyle} />
             </Paper>

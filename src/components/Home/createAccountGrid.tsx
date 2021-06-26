@@ -19,13 +19,15 @@ const CreateAccountGrid = () => {
   return (
     <Box textAlign="center">
       <Box display="flex" justifyContent="space-between">
-        <DoImage
-          src="good-team.svg"
-          height="300px"
-          width="300px"
-          placeholderImg="good-team.svg"
-          errorImg="good-team.svg"
-        />
+        <Hidden only={["xs", "sm"]}>
+          <DoImage
+            src="good-team.svg"
+            height="300px"
+            width="300px"
+            placeholderImg="good-team.svg"
+            errorImg="good-team.svg"
+          />
+        </Hidden>
         <Box mt="3%">
           <Box>
             <Hidden only={["md", "sm", "xs"]}>
@@ -33,8 +35,8 @@ const CreateAccountGrid = () => {
                 Get started with Letsdoretro today
               </Typography>
             </Hidden>
-            <Hidden only={["xl", "lg"]}>
-              <Typography variant="h3">
+            <Hidden only={["xl", "lg", "sm", "xs"]}>
+              <Typography variant="h1">
                 Get started with Letsdoretro today
               </Typography>
             </Hidden>
@@ -58,13 +60,15 @@ const CreateAccountGrid = () => {
             />
           </Box>
         </Box>
-        <DoImage
-          src="team.svg"
-          height="300px"
-          width="300px"
-          placeholderImg="team.svg"
-          errorImg="team.svg"
-        />
+        <Hidden only={["xs", "sm"]}>
+          <DoImage
+            src="team.svg"
+            height="300px"
+            width="300px"
+            placeholderImg="team.svg"
+            errorImg="team.svg"
+          />
+        </Hidden>
       </Box>
     </Box>
   );

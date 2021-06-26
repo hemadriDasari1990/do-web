@@ -124,8 +124,8 @@ const Home = () => {
               unmountOnExit
             >
               <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                <Zoom in={true} timeout={2000}>
-                  <Box>
+                <Hidden only={["xs", "sm"]}>
+                  <Zoom in={true} timeout={2000}>
                     <BoardIcon
                       stickyNoteColor="#ffc800"
                       stickyNoteColor1="#fd7171"
@@ -143,8 +143,29 @@ const Home = () => {
                       width={381}
                       height={320}
                     />
-                  </Box>
-                </Zoom>
+                  </Zoom>
+                </Hidden>
+                {/* <Hidden only={["xl", "lg", "md"]}>
+                  <Zoom in={true} timeout={2000}>
+                    <BoardIcon
+                      stickyNoteColor="#ffc800"
+                      stickyNoteColor1="#fd7171"
+                      stickyNoteColor2="#7b68ee"
+                      stickyNoteColor3="#49ccf9"
+                      stickyNoteColor4="#00b884"
+                      hairColor="#2f2e41"
+                      borderColor="#cccccc"
+                      primarySkinColor="#ffb8b8"
+                      secondarySkinColor="#a0616a"
+                      shoeColor="#cccccc"
+                      pantColor="#2f2e41"
+                      shirtColor="#cccccc"
+                      cornerCircleColor="#cccccc"
+                      width={320}
+                      height={280}
+                    />
+                  </Zoom>
+                </Hidden> */}
               </Grid>
             </Slide>
           </Grid>
@@ -201,53 +222,45 @@ const Home = () => {
             <Typography variant="h1">Discover</Typography>
           </Box>
           <Grid container spacing={2}>
-            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
-              <Box pt={2}>
-                <Box mt={2}>
-                  <InfoCard
-                    title="How to get started? Take a look at our getting started guide"
-                    icon={CallMadeIcon}
-                    handleButton={() => handleGettingStarted()}
-                    index={0}
-                  />
-                </Box>
-              </Box>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <InfoCard
+                title="How to get started? Take a look at our getting started guide"
+                icon={CallMadeIcon}
+                handleButton={() => handleGettingStarted()}
+                index={0}
+              />
             </Grid>
-            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
-              <Box pt={2}>
-                <Box mt={2}>
-                  <InfoCard
-                    title="What is Sprint Retrospective and how to run?"
-                    icon={CallMadeIcon}
-                    handleButton={() => handleRetrospective()}
-                    index={5}
-                  />
-                </Box>
-              </Box>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <InfoCard
+                title="What is Sprint Retrospective and how to run?"
+                icon={CallMadeIcon}
+                handleButton={() => handleRetrospective()}
+                index={5}
+              />
             </Grid>
-            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
-              <Box pt={2}>
-                <Box mt={2}>
-                  <InfoCard
-                    title="What features are offered by letsdoretro.com?"
-                    icon={CallMadeIcon}
-                    handleButton={() => handleFeatures()}
-                    index={3}
-                  />
-                </Box>
-              </Box>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+              <InfoCard
+                title="What features are offered by letsdoretro.com?"
+                icon={CallMadeIcon}
+                handleButton={() => handleFeatures()}
+                index={3}
+              />
             </Grid>
           </Grid>
         </Box>
       </Container>
-      <Box>
-        <Container>
-          <FeedbackList />
-        </Container>
-      </Box>
-      <Box mb={-0.9}>
-        <DoImage src="wave.svg" placeholderImg="wave.svg" errorImg="wave.svg" />
-      </Box>
+      <Container>
+        <FeedbackList />
+      </Container>
+      <Hidden only={["xs", "sm"]}>
+        <Box mb={-0.9}>
+          <DoImage
+            src="wave.svg"
+            placeholderImg="wave.svg"
+            errorImg="wave.svg"
+          />
+        </Box>
+      </Hidden>
       <Box className={boxGridStyle}>
         <CreateAccountGrid />
       </Box>

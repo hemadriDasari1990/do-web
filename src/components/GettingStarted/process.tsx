@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container";
 import FlightTakeoffOutlinedIcon from "@material-ui/icons/FlightTakeoffOutlined";
 import Grid from "@material-ui/core/Grid";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
+import Hidden from "@material-ui/core/Hidden";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
@@ -26,14 +27,21 @@ const Process = () => {
   return (
     <Box>
       <Container>
-        <Box my={5}>
-          <Typography variant="h1">Our 5 step process.</Typography>
-        </Box>
+        <Hidden only={["xs", "sm"]}>
+          <Box my={5}>
+            <Typography variant="h1">Our 5 step process.</Typography>
+          </Box>
+        </Hidden>
+        <Hidden only={["xl", "lg", "md"]}>
+          <Box my={3} textAlign="center">
+            <Typography variant="h2">Our 5 step process.</Typography>
+          </Box>
+        </Hidden>
       </Container>
       <Box className={dotBannerStyle}>
         <Container>
-          <Grid container spacing={6}>
-            <Grid item xl={3} lg={3} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
               <Step
                 title="01."
                 subTitle="Create a Team"
@@ -44,7 +52,7 @@ const Process = () => {
                 }
               />
             </Grid>
-            <Grid item xl={3} lg={3} md={3}>
+            <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
               <Step
                 title="02."
                 subTitle="Create Members"
@@ -57,7 +65,7 @@ const Process = () => {
                 }
               />
             </Grid>
-            <Grid item xl={3} lg={3} md={3}>
+            <Grid item xl={3} lg={3} md={4} sm={6} xs={12}>
               <Step
                 title="03."
                 subTitle="Add members"
@@ -69,9 +77,9 @@ const Process = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={6}>
-            <Grid item xl={1} lg={1} md={1}></Grid>
-            <Grid item xl={3} lg={3} md={3}>
+          <Grid container spacing={2}>
+            <Grid item xl={1} lg={1} md={1} sm={6} xs={12}></Grid>
+            <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
               <Step
                 title="04."
                 subTitle="Create a Project"
@@ -82,7 +90,7 @@ const Process = () => {
                 }
               />
             </Grid>
-            <Grid item xl={3} lg={3} md={3}>
+            <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
               <Step
                 title="05."
                 subTitle="Launch Retro"

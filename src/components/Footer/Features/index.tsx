@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import DoImage from "../../common/Image";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -70,19 +71,21 @@ export default function Features() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-              <Box>
-                <Zoom in={true} timeout={2000}>
-                  <DoImage
-                    src="features-overview.svg"
-                    className={imageStyle}
-                    width="fit-content"
-                    placeholderImg="features-overview.svg"
-                    errorImg="features-overview.svg"
-                  />
-                </Zoom>
-              </Box>
-            </Grid>
+            <Hidden only={["xs", "sm"]}>
+              <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+                <Box>
+                  <Zoom in={true} timeout={2000}>
+                    <DoImage
+                      src="features-overview.svg"
+                      className={imageStyle}
+                      width="fit-content"
+                      placeholderImg="features-overview.svg"
+                      errorImg="features-overview.svg"
+                    />
+                  </Zoom>
+                </Box>
+              </Grid>
+            </Hidden>
           </Grid>
         </Container>
       </Box>

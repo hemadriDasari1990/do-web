@@ -23,7 +23,7 @@ const Pricing = () => {
   return (
     <React.Fragment>
       <Container>
-        <Box py={5} textAlign="center">
+        <Box pt={5} textAlign="center">
           <Typography variant="h1" className={titleStyle}>
             Flexible and transparent pricing.
           </Typography>

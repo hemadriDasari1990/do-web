@@ -36,13 +36,16 @@ function Templates() {
     <React.Fragment>
       <Container>
         <Box py={5}>
-          <Typography variant="h1">Templates</Typography>
-          <Box my={3}>
-            <Typography variant="body1" color="textPrimary">
-              Lets do retro templates are designed to help our customers create
-              retrospective boards quickly.
-            </Typography>
+          <Box textAlign="center">
+            <Typography variant="h1">Templates</Typography>
+            <Box my={3}>
+              <Typography variant="body1" color="textPrimary">
+                Lets do retro templates are designed to help our customers
+                create retrospective boards quickly.
+              </Typography>
+            </Box>
           </Box>
+
           <Grid container spacing={2}>
             {defaultSections?.length
               ? defaultSections.map(

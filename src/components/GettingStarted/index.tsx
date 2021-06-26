@@ -6,8 +6,8 @@ import Container from "@material-ui/core/Container";
 import DoImage from "../common/Image";
 import GettingStartedTabs from "./Tabs";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import Loader from "../Loader/components";
-import ReactionsList from "../common/Reactions";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -86,7 +86,7 @@ const GettingStarted = () => {
               unmountOnExit
             >
               <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-                <Box>
+                <Hidden only={["xs", "sm"]}>
                   <Zoom in={true} timeout={2000}>
                     <DoImage
                       src="education.svg"
@@ -96,7 +96,7 @@ const GettingStarted = () => {
                       errorImg="education.svg"
                     />
                   </Zoom>
-                </Box>
+                </Hidden>
               </Grid>
             </Slide>
           </Grid>
@@ -104,16 +104,6 @@ const GettingStarted = () => {
       </Box>
       <Box py={3}>
         <GettingStartedTabs />
-      </Box>
-      <Box py={3}>
-        <Container>
-          <Box>
-            <Typography variant="h1" color="primary">
-              Reactions that you can express
-            </Typography>
-          </Box>
-          <ReactionsList />
-        </Container>
       </Box>
     </Suspense>
   );

@@ -19,7 +19,7 @@ const useLocalStyles = makeStyles({
     backgroundColor: "#fff",
     backgroundClip: "border-box",
     padding: 10,
-    height: 570,
+    height: "100%",
   },
   greenStyle: {
     color: "#27ae60",

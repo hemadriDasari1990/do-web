@@ -11,7 +11,6 @@ import { useUser, useUserLoading } from "../../../redux/state/user";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
-import DoLogo from "../../common/DoLogo";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import HintMessage from "../../HintMessage";
 import Link from "@material-ui/core/Link";
@@ -139,10 +138,7 @@ const Create = () => {
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
-      <Box my={5}>
-        <DoLogo justifyContent="center" color="primary" />
-      </Box>
-      <Box maxWidth={400} m="auto" className={boxStyle}>
+      <Box maxWidth={400} mt={5} m="auto" className={boxStyle}>
         <Box textAlign="center">
           <Typography variant="h3">Signup for your account</Typography>
         </Box>

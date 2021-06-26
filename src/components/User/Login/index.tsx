@@ -9,7 +9,6 @@ import { useLoading, useLogin } from "../../../redux/state/login";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import DoLogo from "../../common/DoLogo";
 import { EMAIL_PATTERN } from "../../../util/regex";
 import Link from "@material-ui/core/Link";
 import Loader from "../../Loader/components";
@@ -116,10 +115,7 @@ const Login = () => {
   return (
     <React.Fragment>
       <Loader enable={loading} backdrop={true} />
-      <Box my={5}>
-        <DoLogo justifyContent="center" color="primary" />
-      </Box>
-      <Box maxWidth={400} m="auto" className={boxStyle}>
+      <Box mt={5} maxWidth={400} m="auto" className={boxStyle}>
         <Box textAlign="center">
           <Typography variant="h3">Log in to Letsdoretro</Typography>
         </Box>

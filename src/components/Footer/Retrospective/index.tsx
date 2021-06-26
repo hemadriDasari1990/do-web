@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import GridItem from "./gridItem";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import Hidden from "@material-ui/core/Hidden";
 import Link from "@material-ui/core/Link";
 import React from "react";
 import { SIGNUP } from "../../../routes/config";
@@ -65,29 +66,32 @@ export default function Retrospective() {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
-              <Box textAlign="center">
-                <Zoom in={true} timeout={2000}>
-                  <ScrumBoard
-                    stickyNoteColor="#57f"
-                    stickyNoteColor1="#fd7171"
-                    stickyNoteColor2="#ffc800"
-                    stickyNoteColor3="#49ccf9"
-                    stickyNoteColor4="#ffc800"
-                    hairColor="#2f2e41"
-                    borderColor="#cccccc"
-                    primarySkinColor="#ffb8b8"
-                    secondarySkinColor="#a0616a"
-                    shoeColor="#cccccc"
-                    pantColor="#2f2e41"
-                    shirtColor="#cccccc"
-                    cornerCircleColor="#cccccc"
-                    width={381}
-                    height={320}
-                  />
-                </Zoom>
-              </Box>
-            </Grid>
+            <Hidden only={["xs", "sm"]}>
+              {" "}
+              <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
+                <Box textAlign="center">
+                  <Zoom in={true} timeout={2000}>
+                    <ScrumBoard
+                      stickyNoteColor="#57f"
+                      stickyNoteColor1="#fd7171"
+                      stickyNoteColor2="#ffc800"
+                      stickyNoteColor3="#49ccf9"
+                      stickyNoteColor4="#ffc800"
+                      hairColor="#2f2e41"
+                      borderColor="#cccccc"
+                      primarySkinColor="#ffb8b8"
+                      secondarySkinColor="#a0616a"
+                      shoeColor="#cccccc"
+                      pantColor="#2f2e41"
+                      shirtColor="#cccccc"
+                      cornerCircleColor="#cccccc"
+                      width={381}
+                      height={320}
+                    />
+                  </Zoom>
+                </Box>
+              </Grid>
+            </Hidden>
           </Grid>
         </Container>
       </Box>
