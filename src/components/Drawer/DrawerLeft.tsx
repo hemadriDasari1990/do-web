@@ -214,11 +214,9 @@ export default function PersistentDrawerLeft() {
             </Tooltip>
           </Box>
           <Box mb={2}>
-            <Tooltip arrow title="Welcome tour" placement="right">
-              <Zoom in={true} timeout={2000}>
-                <WelcomeTour />
-              </Zoom>
-            </Tooltip>
+            <Zoom in={true} timeout={2000}>
+              <WelcomeTour />
+            </Zoom>
           </Box>
         </Box>
         <Box mt="auto" textAlign="center">

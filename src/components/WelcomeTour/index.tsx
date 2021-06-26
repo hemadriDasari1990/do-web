@@ -5,6 +5,7 @@ import AdminUser from "../common/User";
 import Box from "@material-ui/core/Box";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
 import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import Tour from "reactour";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "../styles";
@@ -244,13 +245,16 @@ const WelcomeTour = React.memo((props: any) => {
 
   return (
     <React.Fragment>
-      <IconButton
-        size="medium"
-        classes={{ root: iconButtonStyle }}
-        onClick={() => openTour()}
-      >
-        <CardTravelIcon id="drawer-welcome-tour" color="secondary" />
-      </IconButton>
+      <Tooltip arrow title="Welcome tour" placement="right">
+        <IconButton
+          size="medium"
+          classes={{ root: iconButtonStyle }}
+          onClick={() => openTour()}
+        >
+          <CardTravelIcon id="drawer-welcome-tour" color="secondary" />
+        </IconButton>
+      </Tooltip>
+
       <Tour
         onRequestClose={closeTour}
         steps={tourConfig}
