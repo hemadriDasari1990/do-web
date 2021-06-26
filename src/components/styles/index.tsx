@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "2rem 1rem",
     position: "relative",
     backgroundColor: "#F2F4f4",
-    borderRadius: 16,
+    // borderRadius: 16,
   },
   iconBoxStyle: {
     backgroundColor: "rgb(255, 255, 255)",

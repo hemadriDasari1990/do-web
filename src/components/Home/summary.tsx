@@ -42,12 +42,14 @@ const Summary = () => {
               </Box>
             </Hidden>
             <Hidden only={["xs", "sm"]}>
-              <Typography variant="h1" style={{ color: getRandomColor(0) }}>
-                {summary?.usersCount > 1000
-                  ? summary?.usersCount + "+"
-                  : summary?.usersCount}
-              </Typography>
-              <Typography variant="h2">Users Worldwide</Typography>
+              <Box textAlign="center">
+                <Typography variant="h1" style={{ color: getRandomColor(0) }}>
+                  {summary?.usersCount > 1000
+                    ? summary?.usersCount + "+"
+                    : summary?.usersCount}
+                </Typography>
+                <Typography variant="h2">Users Worldwide</Typography>
+              </Box>
             </Hidden>
           </Grid>
           <Grid item xl={4} lg={4} md={4} sm={4} xs={6}>
@@ -62,12 +64,14 @@ const Summary = () => {
               </Box>
             </Hidden>
             <Hidden only={["xs", "sm"]}>
-              <Typography variant="h1" style={{ color: getRandomColor(5) }}>
-                {summary?.projectsCount > 1000
-                  ? summary?.projectsCount + "+"
-                  : summary?.projectsCount}
-              </Typography>
-              <Typography variant="h2">Total projects</Typography>
+              <Box textAlign="center">
+                <Typography variant="h1" style={{ color: getRandomColor(5) }}>
+                  {summary?.projectsCount > 1000
+                    ? summary?.projectsCount + "+"
+                    : summary?.projectsCount}
+                </Typography>
+                <Typography variant="h2">Total projects</Typography>
+              </Box>
             </Hidden>
           </Grid>
           <Grid item xl={4} lg={4} md={4} sm={4} xs={6}>
@@ -82,12 +86,14 @@ const Summary = () => {
               </Box>
             </Hidden>
             <Hidden only={["xs", "sm"]}>
-              <Typography variant="h1" style={{ color: getRandomColor(3) }}>
-                {summary?.boardsCount > 1000
-                  ? summary?.boardsCount + "+"
-                  : summary?.boardsCount}
-              </Typography>
-              <Typography variant="h2">Total boards</Typography>
+              <Box textAlign="center">
+                <Typography variant="h1" style={{ color: getRandomColor(3) }}>
+                  {summary?.boardsCount > 1000
+                    ? summary?.boardsCount + "+"
+                    : summary?.boardsCount}
+                </Typography>
+                <Typography variant="h2">Total boards</Typography>
+              </Box>
             </Hidden>
           </Grid>
         </Grid>

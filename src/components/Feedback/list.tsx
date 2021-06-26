@@ -7,8 +7,8 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 // import useStyles from "../styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
+import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Rating from "@material-ui/lab/Rating";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -25,36 +25,13 @@ const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     fontSize: 80,
   },
-  imageBoxGridStyle: {
-    height: 90,
-    width: 75,
-    borderRadius: "20%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center" /* Centering y-axis */,
-    alignItems: "center",
-    clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
-  },
   avatarTextStyle: {
     // fontSize: 50,
   },
   avatarStyle: {
-    height: "auto",
-    width: "auto",
-    backgroundColor: "unset",
-  },
-  gridListStyle: {
-    flexWrap: "nowrap",
-    scrollBehavior: "smooth",
-    transform: "translateZ(0)",
-  },
-  gridListTileStyle: {
-    minHeight: "180px !important",
-    maxHeight: "180px !important",
-    overflowY: "scroll",
-    scrollBehavior: "smooth",
-    marginRight: 10,
-    borderRadius: 6,
+    height: 90,
+    width: 90,
+    borderRadius: "50%",
   },
   iconButtonStyle: {
     background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
@@ -67,10 +44,6 @@ const useLocalStyles = makeStyles(() => ({
   iconButtonGridStyle: {
     marginTop: "auto",
     top: "50%",
-  },
-  mainBoxStyle: {
-    position: "relative",
-    height: "100%",
   },
   leftButtonStyle: {
     zIndex: 1,
@@ -96,12 +69,8 @@ const useLocalStyles = makeStyles(() => ({
 
 function FeedbackList() {
   const {
-    gridListStyle,
-    gridListTileStyle,
     iconButtonStyle,
-    mainBoxStyle,
     iconButtonSecondaryStyle,
-    imageBoxGridStyle,
     avatarTextStyle,
     avatarStyle,
     stepperStyle,
@@ -123,106 +92,101 @@ function FeedbackList() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const renderInitials = () => {
+    return (
+      <Avatar
+        color="secondary"
+        style={{
+          background: getRandomBGColor(activeStep),
+        }}
+        classes={{ root: avatarStyle }}
+      >
+        <Typography variant="h1" className={avatarTextStyle} color="secondary">
+          {getInitials(feedback[activeStep]?.user?.name)}
+        </Typography>
+      </Avatar>
+    );
+  };
+
+  const renderRating = () => {
+    return (
+      <Box mx={3} mb={3} mt={1}>
+        <Rating
+          name="half-rating-read"
+          defaultValue={5}
+          precision={0.5}
+          readOnly
+        />
+        <Typography variant="body1" style={{ fontWeight: "normal" }}>
+          <b>{feedback[activeStep]?.title} - </b>
+          {feedback[activeStep]?.description}
+        </Typography>
+      </Box>
+    );
+  };
+
   return (
-    <Box p={5}>
+    <Box height={feedback?.length ? 580 : 0}>
       <Loader enable={loading} backdrop={true} />
       {!loading && feedback?.length ? (
-        <>
+        <Box>
           <Box textAlign="center" pb={3}>
             <Typography variant="h1">What people say about us</Typography>
           </Box>
-          <Box>
-            <Box className={mainBoxStyle}>
-              <GridList cols={12} className={gridListStyle}>
-                <GridListTile
-                  classes={{ root: gridListTileStyle }}
-                  key={feedback[activeStep]?._id}
-                  cols={12}
-                >
-                  <Box px={5}>
-                    <Box display="flex">
-                      <Box>
-                        <Box
-                          className={imageBoxGridStyle}
-                          style={{
-                            background: getRandomBGColor(activeStep),
-                          }}
-                        >
-                          <Avatar
-                            color="secondary"
-                            classes={{ root: avatarStyle }}
-                          >
-                            <Typography
-                              variant="h1"
-                              className={avatarTextStyle}
-                              color="secondary"
-                            >
-                              {getInitials(feedback[activeStep]?.user?.name)}
-                            </Typography>
-                          </Avatar>
-                        </Box>
-                      </Box>
-                      <Box mx={3} mb={3} mt={1}>
-                        <Rating
-                          name="half-rating-read"
-                          defaultValue={5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        <Typography
-                          variant="body1"
-                          style={{ fontWeight: "normal" }}
-                        >
-                          <b>{feedback[activeStep]?.title} - </b>
-                          {feedback[activeStep]?.description}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                </GridListTile>
-              </GridList>
-            </Box>
-            <Divider />
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              style={{ float: "right" }}
-              mt={1.5}
-            >
-              <MobileStepper
-                variant="dots"
-                steps={feedback?.length}
-                position="static"
-                activeStep={activeStep}
-                className={stepperStyle}
-                nextButton={
-                  <Tooltip arrow title="Scroll Right" placement="right">
-                    <IconButton
-                      size="small"
-                      className={iconButtonSecondaryStyle}
-                      onClick={() => handleNext()}
-                      disabled={activeStep === feedback?.length - 1}
-                    >
-                      <ArrowForwardIcon color="secondary" />
-                    </IconButton>
-                  </Tooltip>
-                }
-                backButton={
-                  <Tooltip arrow title="Scroll Left" placement="left">
-                    <IconButton
-                      size="small"
-                      className={iconButtonStyle}
-                      onClick={() => handleBack()}
-                      disabled={activeStep === 0}
-                    >
-                      <ArrowBackIcon color="secondary" />
-                    </IconButton>
-                  </Tooltip>
-                }
-              />
-            </Box>
+          <Grid container spacing={2}>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+              <Hidden only={["xl", "lg", "md"]}>
+                <Box ml={3}>{renderInitials()}</Box>
+                {renderRating()}
+              </Hidden>
+              <Hidden only={["xs", "sm"]}>
+                <Box display="flex" p={5}>
+                  {renderInitials()}
+                  {renderRating()}
+                </Box>
+              </Hidden>
+            </Grid>
+          </Grid>
+          <Divider />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            style={{ float: "right" }}
+            mt={1.5}
+          >
+            <MobileStepper
+              variant="dots"
+              steps={feedback?.length}
+              position="static"
+              activeStep={activeStep}
+              className={stepperStyle}
+              nextButton={
+                <Tooltip arrow title="Scroll Right" placement="right">
+                  <IconButton
+                    size="small"
+                    className={iconButtonSecondaryStyle}
+                    onClick={() => handleNext()}
+                    disabled={activeStep === feedback?.length - 1}
+                  >
+                    <ArrowForwardIcon color="secondary" />
+                  </IconButton>
+                </Tooltip>
+              }
+              backButton={
+                <Tooltip arrow title="Scroll Left" placement="left">
+                  <IconButton
+                    size="small"
+                    className={iconButtonStyle}
+                    onClick={() => handleBack()}
+                    disabled={activeStep === 0}
+                  >
+                    <ArrowBackIcon color="secondary" />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
           </Box>
-        </>
+        </Box>
       ) : null}
     </Box>
   );
