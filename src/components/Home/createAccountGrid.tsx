@@ -1,17 +1,10 @@
-import { Theme, makeStyles } from "@material-ui/core/styles";
-
 import Box from "@material-ui/core/Box";
 import CreateAccount from "./create";
 import DoImage from "../common/Image";
 import Hidden from "@material-ui/core/Hidden";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  titleStyle: {
-    fontSize: "3.5rem",
-  },
-}));
+import useStyles from "../styles";
 
 const CreateAccountGrid = () => {
   const { titleStyle } = useStyles();
@@ -29,7 +22,7 @@ const CreateAccountGrid = () => {
           />
         </Hidden>
         <Box mt="3%">
-          <Box>
+          <Box mb={2}>
             <Typography variant="h1" className={titleStyle}>
               Get started with Letsdoretro today
             </Typography>
@@ -41,7 +34,7 @@ const CreateAccountGrid = () => {
             </Typography>
           </Hidden>
           <Hidden only={["xl", "lg"]}>
-            <Typography variant="body2">
+            <Typography variant="body1" style={{ fontWeight: "normal" }}>
               Join thousands of agile teams and students who already enjoy our
               retrospective tool
             </Typography>
