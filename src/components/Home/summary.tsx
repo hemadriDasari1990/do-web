@@ -13,7 +13,7 @@ import useStyles from "../styles";
 const Loader = React.lazy(() => import("../Loader/components"));
 
 const Summary = () => {
-  const {} = useStyles();
+  const { titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
   const { summary } = useUserSummary();
   const { loading } = useUserLoading();
@@ -26,7 +26,9 @@ const Summary = () => {
     <Box minHeight={240}>
       <Loader enable={loading} backdrop={true} />
       <Box textAlign="center" pb={3}>
-        <Typography variant="h1">Built for global scale</Typography>
+        <Typography variant="h1" className={`${titleSecondaryStyle}`}>
+          Built for global scale
+        </Typography>
       </Box>
       {!loading && (
         <Grid container spacing={2}>

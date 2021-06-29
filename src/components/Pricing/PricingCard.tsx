@@ -103,7 +103,7 @@ const PricingCard = () => {
                   fullWidth
                 >
                   <Typography variant="h4" color="primary">
-                    Coming Soon
+                    Coming In Future
                   </Typography>
                 </Button>
               </Box>
@@ -135,7 +135,7 @@ const PricingCard = () => {
                   fullWidth
                 >
                   <Typography variant="h4" color="primary">
-                    Coming Soon
+                    Coming In Future
                   </Typography>
                 </Button>
               </Box>

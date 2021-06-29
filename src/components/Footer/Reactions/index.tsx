@@ -4,14 +4,19 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import UnderlineText from "../../common/UnderlineText";
 import ReactionsList from "../../common/Reactions";
+import useStyles from "../../styles";
 
 function Reactions() {
+  const { titleStyle } = useStyles();
+
   return (
     <React.Fragment>
       <Container>
         <Box py={5}>
           <Box>
-            <Typography variant="h1">Reactions</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Reactions
+            </Typography>
           </Box>
           <Box my={3}>
             <ReactionsList />

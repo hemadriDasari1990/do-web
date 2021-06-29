@@ -146,7 +146,9 @@ export default function WhyLetsdoretro() {
         </Grid>
         <Box my={3}>
           <Box ml={3}>
-            <Typography variant="h1">Questions</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Questions
+            </Typography>
           </Box>
           <Grid container spacing={2}>
             <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>

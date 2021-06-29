@@ -9,18 +9,11 @@ import React from "react";
 import Slide from "@material-ui/core/Slide";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
-
-const useStyles = makeStyles({
-  titleStyle: {
-    fontSize: "3.5rem",
-    lineHeight: 1.143,
-  },
-});
+import useStyles from "../../styles";
 
 export default function Security() {
-  const {} = useStyles();
+  const { titleStyle } = useStyles();
   const history = useHistory();
 
   const handleTerms = () => {
@@ -36,7 +29,7 @@ export default function Security() {
       <Container fixed>
         <Box pt={5}>
           <Box>
-            <Typography variant="h1">
+            <Typography variant="h1" className={titleStyle}>
               Let's Do Retro commitment to trust & security
             </Typography>
             <Box mt={3}>
@@ -88,7 +81,9 @@ export default function Security() {
                 >
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box mb={2}>
-                      <Typography variant="h1">Network Security</Typography>
+                      <Typography variant="h1" className={titleStyle}>
+                        Network Security
+                      </Typography>
                     </Box>
                     <Box mb={5}>
                       <Typography variant="body1">
@@ -120,7 +115,7 @@ export default function Security() {
                 >
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box mb={2}>
-                      <Typography variant="h1">
+                      <Typography variant="h1" className={titleStyle}>
                         Secure Browsing via HTTPS
                       </Typography>
                     </Box>
@@ -189,7 +184,9 @@ export default function Security() {
                 >
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box mb={2}>
-                      <Typography variant="h1">Data Privacy</Typography>
+                      <Typography variant="h1" className={titleStyle}>
+                        Data Privacy
+                      </Typography>
                     </Box>
                     <Box mb={5} display="flex">
                       <Typography variant="body1">
@@ -243,7 +240,7 @@ export default function Security() {
                 >
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box mb={2}>
-                      <Typography variant="h1">
+                      <Typography variant="h1" className={titleStyle}>
                         Data Segregation & Security
                       </Typography>
                     </Box>
@@ -319,7 +316,7 @@ export default function Security() {
                 >
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <Box mb={2}>
-                      <Typography variant="h1">
+                      <Typography variant="h1" className={titleStyle}>
                         Secure Development Practices
                       </Typography>
                     </Box>

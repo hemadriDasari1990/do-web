@@ -5,12 +5,15 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import SubStepItem from "./subStepItem";
 import { Typography } from "@material-ui/core";
+import useStyles from "../styles";
 
 const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
 const StepItem = React.memo((props: any) => {
   const {} = props;
   const {} = useLocalStyles();
+  const { titleStyle } = useStyles();
+
   useEffect(() => {}, []);
 
   return (
@@ -59,7 +62,9 @@ const StepItem = React.memo((props: any) => {
         </Grid>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">Steps to create a Team</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Steps to create a Team
+            </Typography>
           </Box>
           <Box mt={5}>
             <Typography variant="h5">
@@ -73,7 +78,9 @@ const StepItem = React.memo((props: any) => {
       <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">Steps to create members</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Steps to create members
+            </Typography>
           </Box>
           <Box mt={5}>
             <Typography variant="h5">
@@ -170,7 +177,7 @@ const StepItem = React.memo((props: any) => {
         </Grid>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">
+            <Typography variant="h1" className={titleStyle}>
               Steps to add members to the team
             </Typography>
           </Box>
@@ -186,7 +193,9 @@ const StepItem = React.memo((props: any) => {
       <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">Steps to create a Project</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Steps to create a Project
+            </Typography>
           </Box>
           <Box mt={5}>
             <Box mb={2}>
@@ -296,7 +305,7 @@ const StepItem = React.memo((props: any) => {
         </Grid>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">
+            <Typography variant="h1" className={titleStyle}>
               Steps to launch retro with team
             </Typography>
           </Box>
@@ -312,7 +321,9 @@ const StepItem = React.memo((props: any) => {
       <Grid container spacing={2}>
         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
           <Box my={7}>
-            <Typography variant="h1">Steps to quick anonymous retro</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Steps to quick anonymous retro
+            </Typography>
           </Box>
           <Box mt={5}>
             <Box mb={2}>

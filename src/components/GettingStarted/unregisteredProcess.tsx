@@ -11,7 +11,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
 const UnregisteredProcess = () => {
   const {} = useLocalStyles();
-  const {} = useStyles();
+  const { titleStyle } = useStyles();
 
   useEffect(() => {}, []);
 
@@ -19,7 +19,9 @@ const UnregisteredProcess = () => {
     <Box mt={5}>
       <Box>
         <Box mb={3}>
-          <Typography variant="h1">Fun, Easy & 100% Free!</Typography>
+          <Typography variant="h1" className={titleStyle}>
+            Fun, Easy & 100% Free!
+          </Typography>
         </Box>
         <Box mb={2}>
           <Typography variant="h4">

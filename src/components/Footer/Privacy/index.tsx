@@ -6,20 +6,13 @@ import Link from "@material-ui/core/Link";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import UnderlineText from "../../common/UnderlineText";
-import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
+import useStyles from "../../styles";
 
 const PrivacyList = React.lazy(() => import("./list"));
 
-const useStyles = makeStyles({
-  titleStyle: {
-    fontSize: "3.5rem",
-    lineHeight: 1.143,
-  },
-});
-
 export default function Privacy() {
-  const {} = useStyles();
+  const { titleStyle } = useStyles();
   const history = useHistory();
 
   const handleHome = () => {
@@ -35,7 +28,9 @@ export default function Privacy() {
       <Container fixed>
         <Box py={5}>
           <Box>
-            <Typography variant="h1">Privacy policy</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Privacy policy
+            </Typography>
             <Box mt={3}>
               <Typography component="p" variant="body1">
                 Thank you for visiting/using Let's Do Retro. In order to protect

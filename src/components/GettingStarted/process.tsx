@@ -20,7 +20,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({}));
 
 const Process = () => {
   const {} = useLocalStyles();
-  const { dotBannerStyle } = useStyles();
+  const { dotBannerStyle, titleStyle } = useStyles();
 
   useEffect(() => {}, []);
 
@@ -29,7 +29,9 @@ const Process = () => {
       <Container>
         <Hidden only={["xs", "sm"]}>
           <Box my={5}>
-            <Typography variant="h1">Our 5 step process.</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Our 5 step process.
+            </Typography>
           </Box>
         </Hidden>
         <Hidden only={["xl", "lg", "md"]}>

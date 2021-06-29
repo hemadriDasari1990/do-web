@@ -10,6 +10,7 @@ import { getDefaultSections } from "../../../redux/actions/common";
 import { makeStyles } from "@material-ui/core";
 import { useDefaultSections } from "../../../redux/state/common";
 import { useDispatch } from "react-redux";
+import useStyles from "../../styles";
 
 const useLocalStyles = makeStyles(() => ({
   paperStyle: {
@@ -25,6 +26,7 @@ function Templates() {
   const { defaultSections } = useDefaultSections();
   const { paperStyle } = useLocalStyles();
   const dispatch = useDispatch();
+  const { titleStyle } = useStyles();
 
   useEffect(() => {
     if (!defaultSections?.length) {
@@ -37,7 +39,9 @@ function Templates() {
       <Container>
         <Box py={5}>
           <Box textAlign="center">
-            <Typography variant="h1">Templates</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Templates
+            </Typography>
             <Box my={3}>
               <Typography variant="body1" color="textPrimary">
                 Lets do retro templates are designed to help our customers

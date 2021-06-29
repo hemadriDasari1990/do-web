@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 import Box from "@material-ui/core/Box";
+import Hidden from "@material-ui/core/Hidden";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { getRandomColor } from "../../../util/getRandomColor";
@@ -49,11 +50,14 @@ const GridItem = React.memo((props: any) => {
             </Typography>
           </Box>
         )}
-        <Box>
+        <Hidden only={["xs", "sm"]}>
           <Typography component="p" className={subTitleStyle}>
             {item?.title}
           </Typography>
-        </Box>
+        </Hidden>
+        <Hidden only={["xl", "lg", "md"]}>
+          <Typography variant="body1">{item?.title}</Typography>
+        </Hidden>
       </Paper>
     </Box>
   );

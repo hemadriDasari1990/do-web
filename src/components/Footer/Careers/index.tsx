@@ -4,17 +4,22 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import UnderlineText from "../../common/UnderlineText";
 import Zoom from "@material-ui/core/Zoom";
+import useStyles from "../../styles";
 
 const Features = React.lazy(() => import("./Features"));
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 
 function Careers() {
+  const { titleStyle } = useStyles();
+
   return (
     <React.Fragment>
       <Container>
         <Box py={5}>
           <Zoom in={true} timeout={2000}>
-            <Typography variant="h1">Careers</Typography>
+            <Typography variant="h1" className={titleStyle}>
+              Careers
+            </Typography>
           </Zoom>
           <Box my={3}>
             <Typography variant="h6" color="textPrimary">

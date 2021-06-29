@@ -92,7 +92,7 @@ export default function Features() {
       <Box py={5}>
         <Container>
           <Box mb={5} textAlign="center">
-            <Typography variant="h1">
+            <Typography variant="h1" className={titleStyle}>
               Features to help your team succeed
             </Typography>
           </Box>

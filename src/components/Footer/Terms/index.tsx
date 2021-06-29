@@ -3,13 +3,12 @@ import Container from "@material-ui/core/Container";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
-import { makeStyles } from "@material-ui/core/styles";
+import useStyles from "../../styles";
+
 const PrivacyList = React.lazy(() => import("../Privacy/list"));
 
-const useStyles = makeStyles({});
-
 function Terms() {
-  const {} = useStyles();
+  const { titleStyle } = useStyles();
 
   return (
     <React.Fragment>
@@ -17,7 +16,9 @@ function Terms() {
         <Box py={5}>
           <Zoom in={true} timeout={2000}>
             <Box>
-              <Typography variant="h1">Terms & Conditions</Typography>
+              <Typography variant="h1" className={titleStyle}>
+                Terms & Conditions
+              </Typography>
             </Box>
           </Zoom>
         </Box>

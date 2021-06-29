@@ -57,6 +57,9 @@ function Note(props: any) {
     if (startSession || board?.startedAt) {
       return true;
     }
+    if (!board?.isLocked) {
+      return true;
+    }
     return false;
   };
 

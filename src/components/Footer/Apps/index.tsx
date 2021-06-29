@@ -19,13 +19,10 @@ const useLocalStyles = makeStyles({
   redStyle: {
     color: "#fd7171",
   },
-  titleStyle: {
-    fontWeight: 700,
-  },
 });
 
 export default function Apps() {
-  const { greenStyle, redStyle, titleStyle } = useLocalStyles();
+  const { greenStyle, redStyle } = useLocalStyles();
   const {} = useStyles();
 
   const handleChrome = () => {
@@ -83,9 +80,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box display="flex" justifyContent="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Web
-                </Typography>
+                <Typography variant="h2">Web</Typography>
                 <Box mt={1.5} ml={1}>
                   <CheckCircleIcon className={greenStyle} />
                 </Box>
@@ -104,9 +99,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box display="flex" justifyContent="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Mobile
-                </Typography>
+                <Typography variant="h2">Mobile</Typography>
                 <Box mt={1.5} ml={1}>
                   <CancelIcon className={redStyle} />
                 </Box>
@@ -128,9 +121,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box display="flex" justifyContent="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Desktop
-                </Typography>
+                <Typography variant="h2">Desktop</Typography>
                 <Box mt={1.5} ml={1}>
                   <CancelIcon className={redStyle} />
                 </Box>
@@ -161,9 +152,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Chrome
-                </Typography>
+                <Typography variant="h2">Chrome</Typography>
 
                 <Typography variant="h3">Latest</Typography>
                 <Box mt={1}>
@@ -190,9 +179,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Firefox
-                </Typography>
+                <Typography variant="h2">Firefox</Typography>
 
                 <Typography variant="h3">Latest</Typography>
                 <Box mt={1}>
@@ -219,9 +206,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Edge
-                </Typography>
+                <Typography variant="h2">Edge</Typography>
 
                 <Typography variant="h3">Latest</Typography>
                 <Box mt={1}>
@@ -248,9 +233,7 @@ export default function Apps() {
                 </Zoom>
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" className={titleStyle}>
-                  Safari
-                </Typography>
+                <Typography variant="h2">Safari</Typography>
                 <Typography variant="h3">Latest</Typography>
                 <Box mt={1}>
                   <Button

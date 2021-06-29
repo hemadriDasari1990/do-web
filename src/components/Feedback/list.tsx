@@ -18,6 +18,7 @@ import { getInitials } from "../../util";
 import getRandomBGColor from "../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
+import useStyles from "../styles";
 
 const Loader = React.lazy(() => import("../Loader/components"));
 
@@ -75,6 +76,7 @@ function FeedbackList() {
     avatarStyle,
     stepperStyle,
   } = useLocalStyles();
+  const { titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
   const { feedback } = useFeedback();
   const { loading } = useLoading();
@@ -132,7 +134,9 @@ function FeedbackList() {
         {!loading && feedback?.length ? (
           <Box>
             <Box textAlign="center" pb={3}>
-              <Typography variant="h1">What people say about us</Typography>
+              <Typography variant="h1" className={titleSecondaryStyle}>
+                What people say about us
+              </Typography>
             </Box>
             <Grid container spacing={2}>
               <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
