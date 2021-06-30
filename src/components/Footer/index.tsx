@@ -547,7 +547,7 @@ export default function Footer() {
                           width: "fit-content",
                         }}
                       >
-                        info@letsdoretro.com
+                        team@letsdoretro.com
                       </Typography>
                     }
                   />

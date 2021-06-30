@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function AddGuest(props: any) {
-  const { openDialog } = props;
+  const { openDialog, board } = props;
   const { textfieldStyle } = useStyles();
   const { boardId, token } = useParams<{ boardId: string; token: string }>();
   const dispatch = useDispatch();
@@ -87,21 +87,23 @@ export default function AddGuest(props: any) {
     >
       <Loader enable={loading} backdrop={true} />
       <Box>
-        <HintMessage message="Please close this popup if you wish to join anonymously." />
+        <HintMessage message="Please choose only Avatar or close the popup if you wish to join anonymously." />
       </Box>
-      <Box mb={1}>
-        <TextField
-          fullWidth
-          label="Your full name"
-          placeholder="Enter your full name"
-          multiline
-          value={name}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleInput(event)
-          }
-          className={textfieldStyle}
-        />
-      </Box>
+      {!board?.isAnonymous ? (
+        <Box mb={1}>
+          <TextField
+            fullWidth
+            label="Your full name"
+            placeholder="Enter your full name"
+            multiline
+            value={name}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              handleInput(event)
+            }
+            className={textfieldStyle}
+          />
+        </Box>
+      ) : null}
 
       <Box mt={2}>
         <Box>

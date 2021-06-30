@@ -230,7 +230,7 @@ export default function WhyLetsdoretro() {
                     titleMinHeight={50}
                     height="100%"
                     title={`Q. How can I find out more about Letsdoretro?`}
-                    description={`If you have any questions or need more documentation, then do not hesitate to contact us. We will gladly send you more material about Letsdoretro.com. Just send an email to us at info@letsdoretro.com or chat with us directly.`}
+                    description={`If you have any questions or need more documentation, then do not hesitate to contact us. We will gladly send you more material about Letsdoretro.com. Just send an email to us at team@letsdoretro.com or chat with us directly.`}
                   />
                 </Box>
               </Box>

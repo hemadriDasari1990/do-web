@@ -259,7 +259,6 @@ function Section() {
       board &&
       !board?.isPrivate &&
       (board?.startedAt || board?.isInstant) &&
-      !board?.isAnonymous &&
       !board?.completedAt &&
       !joinedMemberId
     ) {
@@ -848,7 +847,11 @@ function Section() {
 
   const renderAddGuest = () => {
     return (
-      <AddGuest openDialog={openAddGuestDialog} handleClose={handleClose} />
+      <AddGuest
+        openDialog={openAddGuestDialog}
+        handleClose={handleClose}
+        board={board}
+      />
     );
   };
 
