@@ -36,7 +36,6 @@ import ListSkeleton from "../common/skeletons/list";
 import Loader from "../Loader/components";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import ProjectList from "../Project/List";
-import ProjectOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
 import Typography from "@material-ui/core/Typography";
 import UpdateBoard from "./Update";
 import { changeViewport } from "../../util";
@@ -187,20 +186,22 @@ const Dashboard = () => {
           <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
             <Box display="flex" justifyContent="flex-end">
               <Box mr={1}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleProjects()}
-                  startIcon={<ProjectOutlinedIcon />}
-                >
-                  <Typography variant="subtitle1" color="secondary">
-                    Create Project
-                  </Typography>
-                </Button>
-              </Box>
-              <Box>
                 <UpdateBoard />
               </Box>
+              {!totalProjects ? (
+                <Box>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleProjects()}
+                    endIcon={<ArrowForwardOutlinedIcon color="primary" />}
+                  >
+                    <Typography variant="subtitle1" color="primary">
+                      Goto Projects
+                    </Typography>
+                  </Button>
+                </Box>
+              ) : null}
             </Box>
           </Grid>
         </Grid>

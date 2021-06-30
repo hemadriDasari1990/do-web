@@ -14,10 +14,8 @@ import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import ColorlibStepIcon from "./StepLibIcon";
 import DoSnackbar from "../../Snackbar/components";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Loader from "../../Loader/components";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Popover from "@material-ui/core/Popover";
 import Step from "@material-ui/core/Step";
 import StepContent from "@material-ui/core/StepContent";
@@ -35,6 +33,7 @@ import { useHistory } from "react-router-dom";
 import { useLogin } from "../../../redux/state/login";
 import { useSocket } from "../../../redux/state/socket";
 import { useTeam } from "../../../redux/state/team";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
 const HintMessage = React.lazy(() => import("../../HintMessage"));
 const DoAutoComplete = React.lazy(() => import("../../common/DoAutoComplete"));
@@ -541,7 +540,7 @@ const QuickRetroButton = React.memo((props: any) => {
       id={id}
       variant="contained"
       color="primary"
-      startIcon={<FlightTakeoffIcon />}
+      startIcon={<PlayArrowIcon />}
       onClick={handlePopoverOpen}
       // onMouseLeave={handlePopoverClose}
       aria-owns={id}
