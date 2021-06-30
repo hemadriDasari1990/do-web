@@ -85,7 +85,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 
 const Dashboard = () => {
   const { summaryGridStyle } = useLocalStyles();
-  const { breakText, titleStyle } = useStyles();
+  const { breakText } = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const { defaultSections } = useDefaultSections();
@@ -179,9 +179,7 @@ const Dashboard = () => {
                   <Typography variant="h1" style={{ fontWeight: 300 }}>
                     Welcome, &nbsp;
                   </Typography>
-                  <Typography variant="h1" className={titleStyle}>
-                    {name || ""}
-                  </Typography>
+                  <Typography variant="h1">{name || ""}</Typography>
                 </Box>
               </Box>
             </Box>

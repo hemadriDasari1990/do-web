@@ -10,7 +10,7 @@ import LogoutIcon from "@material-ui/icons/PowerSettingsNew";
 import MailOutlineOutlinedIcon from "@material-ui/icons/MailOutlineOutlined";
 import { ROOT } from "../../../../routes/config";
 import React from "react";
-import SecurityIcon from "@material-ui/icons/Security";
+// import SecurityIcon from "@material-ui/icons/Security";
 import Slide from "@material-ui/core/Slide";
 import { Suspense } from "react";
 import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
@@ -112,7 +112,7 @@ const ManageActions = () => {
           />
         </ListItem>
         <Divider />
-        <ListItem
+        {/* <ListItem
           alignItems="flex-start"
           onClick={() => handleItem("security-questions")}
           className={cursor}
@@ -134,7 +134,7 @@ const ManageActions = () => {
             primary="Update Security questions"
             secondary="These are required to make your account more secure"
           />
-        </ListItem>
+        </ListItem> */}
       </List>
       <Box className={bottomStyle}>
         <List>
