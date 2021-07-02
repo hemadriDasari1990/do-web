@@ -6,10 +6,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import LockIcon from "@material-ui/icons/Lock";
 import PublicIcon from "@material-ui/icons/Public";
 import React from "react";
-import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
 import { useSocket } from "../../../redux/state/socket";
+import Radio from "@material-ui/core/Radio";
 
 const lockSound = require("../../../assets/sounds/ui_lock.wav");
 const unlockSound = require("../../../assets/sounds/ui_unlock.wav");
@@ -36,7 +36,7 @@ function Visibility(props: any) {
   const unlockAudio = new Audio(unlockSound.default);
 
   /* Local states */
-  const [checked, setChecked] = React.useState(
+  const [selectedValue, setSelectedValue] = React.useState(
     selectedBoard?.isPrivate ? "private" : "public"
   );
   const { socket } = useSocket();
@@ -45,27 +45,25 @@ function Visibility(props: any) {
     audioFile.play();
   };
 
-  const handleToggle = (value: string) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.checked) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value) {
       playSound(unlockAudio);
     } else {
       playSound(lockAudio);
     }
-    setChecked(value);
+    setSelectedValue(event.target.value);
     socket.emit("change-visibility", {
       id: selectedBoard?._id,
-      isPrivate: value === "private",
+      isPrivate: event.target.value === "private",
     });
     handleClose();
   };
 
   useEffect(() => {
     if (!selectedBoard?.isPrivate) {
-      setChecked("public");
+      setSelectedValue("public");
     } else {
-      setChecked("private");
+      setSelectedValue("private");
     }
   }, [selectedBoard]);
 
@@ -88,12 +86,13 @@ function Visibility(props: any) {
             secondary="Only board members can see and edit this board"
           />
           <ListItemSecondaryAction>
-            <Switch
-              // color="primary"
-              edge="end"
-              onChange={handleToggle("private")}
-              checked={checked == "private"}
-              inputProps={{ "aria-labelledby": "switch-list-label-wifi" }}
+            <Radio
+              checked={selectedValue === "private"}
+              onChange={handleChange}
+              value="private"
+              name="private"
+              inputProps={{ "aria-label": "PRIVATE" }}
+              color="primary"
             />
           </ListItemSecondaryAction>
         </ListItem>
@@ -107,12 +106,13 @@ function Visibility(props: any) {
             secondary="Anyone on the internet (including Google) can see this board. Only board members can edit."
           />
           <ListItemSecondaryAction>
-            <Switch
-              // color="primary"
-              edge="end"
-              onChange={handleToggle("public")}
-              checked={checked === "public"}
-              inputProps={{ "aria-labelledby": "switch-list-label-bluetooth" }}
+            <Radio
+              checked={selectedValue === "public"}
+              onChange={handleChange}
+              value="public"
+              name="public"
+              inputProps={{ "aria-label": "PUBLIC" }}
+              color="primary"
             />
           </ListItemSecondaryAction>
         </ListItem>

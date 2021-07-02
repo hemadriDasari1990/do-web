@@ -3,21 +3,33 @@ import { formatNumberWithCommas, getHumanReadableDate } from "../../../util";
 
 import Box from "@material-ui/core/Box";
 import CopyToClipboard from "../../common/Copy";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SummaryField from "../../common/SummaryField";
 import { Suspense } from "react";
-// import { getBoardDetails } from "../../../redux/actions";
-import { useBoard } from "../../../redux/state/board";
-
-// import { useDispatch } from "react-redux";
+import { useSocket } from "../../../redux/state/socket";
 
 const AboutBoardInfo = () => {
-  const { board } = useBoard();
-  // const dispatch = useDispatch();
+  const [board, setboard] = useState<any>(null);
+  const { socket } = useSocket();
 
-  // useEffect(() => {
-  //   dispatch(getBoardDetails(board?._id));
-  // }, []);
+  useEffect(() => {
+    /* board details response */
+    socket.on(
+      `board-details-response`,
+      (boardDetails: { [Key: string]: any }) => {
+        if (!boardDetails) {
+          return;
+        }
+        if (boardDetails?._id) {
+          setboard(boardDetails);
+        }
+      }
+    );
+
+    return () => {
+      socket.off("board-details-response");
+    };
+  }, [board]);
 
   const dateDiffInDays = () => {
     // Discard the time and time-zone information.
@@ -47,6 +59,7 @@ const AboutBoardInfo = () => {
       </>
     );
   };
+  console.log("boardDetails", board);
 
   return (
     <Suspense fallback={<div></div>}>
@@ -147,4 +160,4 @@ const AboutBoardInfo = () => {
   );
 };
 
-export default AboutBoardInfo;
+export default React.memo(AboutBoardInfo);

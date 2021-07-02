@@ -1,3 +1,5 @@
 export default {
-  root: {},
+  root: {
+    right: 5,
+  },
 };

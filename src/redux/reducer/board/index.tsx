@@ -65,19 +65,16 @@ const board = (state = initialState, action: ReduxAction) => {
     case GET_BOARD_REQUEST:
       return {
         ...state,
-        loading: true,
       };
     case GET_BOARD_FAILED:
       return {
         ...state,
         response: action.payload,
-        loading: false,
       };
     case GET_BOARD_SUCCESS:
       return {
         ...state,
         response: action.payload,
-        loading: false,
       };
     case UPDATE_BOARD_REQUEST:
       return {

@@ -86,9 +86,11 @@ export default function AddGuest(props: any) {
       disablePrimaryCTA={disableButton()}
     >
       <Loader enable={loading} backdrop={true} />
-      <Box>
-        <HintMessage message="Please choose only Avatar or close the popup if you wish to join anonymously." />
-      </Box>
+      {!board?.isAnonymous ? (
+        <Box>
+          <HintMessage message="Please select only avatar or close the popup if you wish to join anonymously." />
+        </Box>
+      ) : null}
       {!board?.isAnonymous ? (
         <Box mb={1}>
           <TextField

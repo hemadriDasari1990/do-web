@@ -38,7 +38,7 @@ const Summary = () => {
                 <Typography variant="h1" style={{ color: getRandomColor(0) }}>
                   {summary?.usersCount > 1000
                     ? summary?.usersCount + "+"
-                    : summary?.usersCount}
+                    : summary?.usersCount || 0}
                 </Typography>
                 <Typography variant="h4">Users Worldwide</Typography>
               </Box>
@@ -48,7 +48,7 @@ const Summary = () => {
                 <Typography variant="h1" style={{ color: getRandomColor(0) }}>
                   {summary?.usersCount > 1000
                     ? summary?.usersCount + "+"
-                    : summary?.usersCount}
+                    : summary?.usersCount || 0}
                 </Typography>
                 <Typography variant="h2">Users Worldwide</Typography>
               </Box>
@@ -60,7 +60,7 @@ const Summary = () => {
                 <Typography variant="h1" style={{ color: getRandomColor(5) }}>
                   {summary?.projectsCount > 1000
                     ? summary?.projectsCount + "+"
-                    : summary?.projectsCount}
+                    : summary?.projectsCount || 0}
                 </Typography>
                 <Typography variant="h4">Total projects</Typography>
               </Box>
@@ -70,7 +70,7 @@ const Summary = () => {
                 <Typography variant="h1" style={{ color: getRandomColor(5) }}>
                   {summary?.projectsCount > 1000
                     ? summary?.projectsCount + "+"
-                    : summary?.projectsCount}
+                    : summary?.projectsCount || 0}
                 </Typography>
                 <Typography variant="h2">Total projects</Typography>
               </Box>
@@ -82,7 +82,7 @@ const Summary = () => {
                 <Typography variant="h1" style={{ color: getRandomColor(3) }}>
                   {summary?.boardsCount > 1000
                     ? summary?.boardsCount + "+"
-                    : summary?.boardsCount}
+                    : summary?.boardsCount || 0}
                 </Typography>
                 <Typography variant="h4">Total boards</Typography>
               </Box>
@@ -92,7 +92,7 @@ const Summary = () => {
                 <Typography variant="h1" style={{ color: getRandomColor(3) }}>
                   {summary?.boardsCount > 1000
                     ? summary?.boardsCount + "+"
-                    : summary?.boardsCount}
+                    : summary?.boardsCount || 0}
                 </Typography>
                 <Typography variant="h2">Total boards</Typography>
               </Box>
