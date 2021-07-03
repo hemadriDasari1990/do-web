@@ -101,7 +101,6 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 }));
 
 const SectionList = React.memo((props: any) => {
-  const { startSession } = props;
   const {
     sectionHeader,
     titleStyle,
@@ -648,7 +647,6 @@ const SectionList = React.memo((props: any) => {
                               {renderMenu(item)}
                               <Note
                                 sectionIndex={index}
-                                startSession={startSession}
                                 key={item._id}
                                 sectionId={item._id}
                                 totalNotes={item.totalNotes}

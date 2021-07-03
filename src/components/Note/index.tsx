@@ -21,6 +21,7 @@ import { useBoard } from "../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useLoading } from "../../redux/state/note";
 import { useSocket } from "../../redux/state/socket";
+import { useParams } from "react-router-dom";
 
 const NotesList = React.lazy(() => import("./list"));
 
@@ -38,44 +39,94 @@ const useStyles = makeStyles(() => ({
 }));
 
 function Note(props: any) {
-  const { sectionId, startSession, sectionIndex, totalNotes } = props;
+  const { sectionId, sectionIndex, totalNotes } = props;
   const { buttonStyle } = useStyles();
   const authenticated = useAuthenticated();
   const { board } = useBoard();
   const { socket } = useSocket();
   const dispatch = useDispatch();
   const { loading } = useLoading(sectionId);
+  const { boardId } = useParams<{ boardId: string }>();
 
   const enableActions = () => {
-    if (authenticated && (startSession || board?.startedAt)) {
+    if (authenticated && boardDetails?.startedAt && !boardDetails?.isLocked) {
       return true;
     }
-    if (!authenticated && board?.status === "inprogress" && !board?.isPrivate) {
+    if (
+      !authenticated &&
+      boardDetails?.status === "inprogress" &&
+      !boardDetails?.isPrivate
+    ) {
       return true;
     }
 
-    if (startSession || board?.startedAt) {
-      return true;
-    }
-    if (board?.startedAt && !board?.isLocked) {
+    if (boardDetails?.startedAt && !boardDetails?.isLocked) {
       return true;
     }
     return false;
   };
 
   /* Local states */
-
   const [note, setNote] = useState<any>(null);
   const [showNote, setShowNote] = useState(false);
   const [selectedSectionId, setSelectedSectionId] = useState<any>(null);
+  const [boardDetails, setBoardDetails] = useState<any>(board);
 
   /* React Hooks */
-
   useEffect(() => {
     if ((!board?.isPrivate && !authenticated) || authenticated) {
       dispatch(getNotesBySectionId(sectionId, sectionId));
     }
   }, [sectionId]);
+
+  useEffect(() => {});
+
+  useEffect(() => {
+    /* Start session */
+    socket.on(
+      `start-session-response`,
+      (updatedBoard: { [Key: string]: any }) => {
+        if (!updatedBoard) {
+          return;
+        }
+        console.log("updatedBoard", updatedBoard);
+        /* This is applicable only if user is authenticated and starting the session */
+        if (boardId === updatedBoard?._id) {
+          setBoardDetails(updatedBoard);
+        }
+      }
+    );
+
+    /* Resume session */
+    socket.on(
+      `resume-session-response`,
+      (updatedBoard: { [Key: string]: any }) => {
+        if (!updatedBoard) {
+          return;
+        }
+        console.log("updatedBoard", updatedBoard);
+        if (boardId === updatedBoard?._id) {
+          setBoardDetails(updatedBoard);
+        }
+      }
+    );
+
+    /* End session */
+    socket.on(
+      `end-session-response`,
+      (updatedBoard: { [Key: string]: any }) => {
+        if (!updatedBoard) {
+          return;
+        }
+        console.log("me...", updatedBoard);
+        if (boardId === updatedBoard?._id) {
+          setBoardDetails(updatedBoard);
+        }
+      }
+    );
+
+    return () => {};
+  }, [boardDetails]);
 
   useEffect(() => {
     /* Update note */
@@ -230,6 +281,7 @@ function Note(props: any) {
               deleteNote={deleteNote}
               sectionIndex={sectionIndex}
               sectionId={sectionId}
+              board={boardDetails}
             />
           </div>
         )}
@@ -240,4 +292,4 @@ function Note(props: any) {
   );
 }
 
-export default Note;
+export default React.memo(Note);

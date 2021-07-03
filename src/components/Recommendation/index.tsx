@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { getMemberId, removeJoinedMemberFromLocalStorage } from "../../util";
+import { getMemberId } from "../../util";
 import {
   useLoading,
   useRecommendation,
@@ -65,7 +65,7 @@ export default function Recommendation(props: any) {
     ) {
       return;
     }
-    removeJoinedMemberFromLocalStorage(boardId);
+    // removeJoinedMemberFromLocalStorage(boardId);
     handleClose();
   };
 
@@ -74,7 +74,7 @@ export default function Recommendation(props: any) {
   };
 
   const handleSend = () => {
-    removeJoinedMemberFromLocalStorage(boardId);
+    // removeJoinedMemberFromLocalStorage(boardId);
     setApiTriggered(false);
     dispatch(
       createRecommendation({

@@ -96,7 +96,7 @@ export default function Invite(props: any) {
     if (!formData) {
       return true;
     }
-    if (!teams?.length && !EMAIL_PATTERN.test(email)) {
+    if (!teams?.length && !EMAIL_PATTERN.test(email?.trim())) {
       return true;
     }
     if (teams?.length && email?.length) {

@@ -121,6 +121,26 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
     color: "#ff0000",
     fontWeight: 600,
   },
+
+  resumeSessionTextStyle: {
+    color: "#0089ff",
+    fontWeight: 600,
+  },
+  resumeSessionIconStyle: {
+    borderRadius: "50%",
+    color: "#0089ff",
+    padding: 3,
+    height: 20,
+    width: 20,
+  },
+  buttonOutlinedResumeStyle: {
+    backgroundColor: "#0089ff26",
+    border: "unset",
+    "&.MuiButton-outlined:hover": {
+      backgroundColor: "#0089ff26",
+      border: "unset",
+    },
+  },
   toggleStyle: {
     border: "none",
     "&:hover": {
@@ -134,6 +154,9 @@ function Section() {
     startSessionIconStyle,
     buttonOutlinedStartStyle,
     startSessionTextStyle,
+    resumeSessionIconStyle,
+    buttonOutlinedResumeStyle,
+    resumeSessionTextStyle,
     stopSessionIconStyle,
     buttonOutlinedStopStyle,
     stopSessionTextStyle,
@@ -163,7 +186,7 @@ function Section() {
   const [viewType, setViewType] = useState("nowrap");
   const [totalSections, setTotalSections] = useState(totalSectionsCount);
   const [message, setMessage] = useState("");
-  const [startSession, setStartSession] = useState(false);
+  const [resumeSessionDialog, setResumeSessionDialog] = useState(false);
   const [openInviteDialog, setOpenInviteDialog] = useState(false);
   const [openChangeVisibilityDialog, setOpenChangeVisibilityDialog] = useState(
     false
@@ -300,7 +323,6 @@ function Section() {
         }
         if (boardId === updatedBoard?._id) {
           setBoardDetails(updatedBoard);
-          setStartSession(true);
         }
 
         /* Close other opened session not started yet popups for all connected clients */
@@ -313,10 +335,28 @@ function Section() {
         }
       }
     );
+
+    /* Resume session */
+    socket.on(
+      `resume-session-response`,
+      (updatedBoard: { [Key: string]: any }) => {
+        if (!updatedBoard) {
+          return;
+        }
+        if (boardId === updatedBoard?._id) {
+          setBoardDetails(updatedBoard);
+          if (boardCompleted) {
+            setBoardCompleted(false);
+          }
+        }
+      }
+    );
+
     /* End session */
     socket.on(
       `end-session-response`,
       (updatedBoard: { [Key: string]: any }) => {
+        console.log("me...", updatedBoard);
         if (!updatedBoard) {
           return;
         }
@@ -330,6 +370,7 @@ function Section() {
     return () => {
       socket.off("start-session-responsee");
       socket.off("end-session-response");
+      socket.off("resume-session-response");
     };
   }, [board, boardDetails]);
 
@@ -595,6 +636,30 @@ function Section() {
     );
   }, [boardLoading, authenticated, boardDetails]);
 
+  const renderResumeSession = useCallback(() => {
+    return (
+      <Box mr={1} className={buttonStyle}>
+        <Button
+          variant="outlined"
+          color="default"
+          className={buttonOutlinedResumeStyle}
+          startIcon={
+            <PlayArrowIcon color="primary" className={resumeSessionIconStyle} />
+          }
+          onClick={() => handleResumeSession()}
+        >
+          <Typography
+            color="primary"
+            variant="h6"
+            className={resumeSessionTextStyle}
+          >
+            Resume Session
+          </Typography>
+        </Button>
+      </Box>
+    );
+  }, [boardLoading, authenticated, boardDetails]);
+
   const renderTimer = useCallback(() => {
     return <Timer startDateTime={boardDetails?.startedAt} interval={1000} />;
   }, [boardLoading, boardDetails]);
@@ -720,6 +785,10 @@ function Section() {
     setEndSessionDialog(true);
   };
 
+  const handleResumeSession = () => {
+    setResumeSessionDialog(true);
+  };
+
   // const handleCreateAction = () => {
   //   setOpenActionDialog(true);
   // };
@@ -741,6 +810,10 @@ function Section() {
       setOpenStartSessionDialog(false);
     }
 
+    if (resumeSessionDialog) {
+      setResumeSessionDialog(false);
+    }
+
     if (openAddGuestDialog) {
       setOpenAddGuestDialog(false);
     }
@@ -750,7 +823,7 @@ function Section() {
     playSound(sessionAudio);
     socket.emit("end-session", {
       action: "end",
-      id: boardDetails?._id,
+      id: boardId,
       memberId,
       joinedMemberId,
     });
@@ -761,13 +834,24 @@ function Section() {
     playSound(sessionAudio);
     socket.emit("start-session", {
       action: "start",
-      id: boardDetails?._id,
+      id: boardId,
       memberId,
       joinedMemberId,
     });
     if (authenticated) {
       localStorage.removeItem(boardId);
     }
+    handleClose();
+  };
+
+  const handleResumeSessionDialog = () => {
+    playSound(sessionAudio);
+    socket.emit("resume-session", {
+      action: "resume",
+      id: boardId,
+      memberId,
+      joinedMemberId,
+    });
     handleClose();
   };
 
@@ -785,6 +869,25 @@ function Section() {
       >
         <Typography variant="h4">
           Are you sure you want to end the session?
+        </Typography>
+      </ResponsiveDialog>
+    );
+  };
+
+  const renderResumeSessionDialog = () => {
+    return (
+      <ResponsiveDialog
+        open={resumeSessionDialog}
+        title="Resume Session"
+        pcta="Resume Session"
+        scta="Cancel"
+        handleSave={handleResumeSessionDialog}
+        handleClose={handleClose}
+        maxWidth={440}
+        handleSecondarySubmit={handleClose}
+      >
+        <Typography variant="h4">
+          Are you sure you want to resume the session?
         </Typography>
       </ResponsiveDialog>
     );
@@ -873,12 +976,13 @@ function Section() {
       />
     );
   };
-
+  console.log("boardDetails", boardDetails);
   return (
     <Suspense fallback={<Loader enable={true} backdrop={true} />}>
       {renderDialog()}
       {renderCreateSection()}
       {/* {renderCreateAction()} */}
+      {renderResumeSessionDialog()}
       {renderEndSessionDialog()}
       {renderInviteMemberDialog()}
       {renderChangeVisibilityDialog()}
@@ -1037,6 +1141,11 @@ function Section() {
                   boardDetails?.status === "inprogress" ? (
                     <>{renderEndSession()}</>
                   ) : null}
+                  {!boardLoading &&
+                  (authenticated || boardDetails?.isInstant) &&
+                  boardDetails?.status === "completed" ? (
+                    <>{renderResumeSession()}</>
+                  ) : null}
                 </Box>
                 {!boardLoading && authenticated ? (
                   <>{renderGoBackToBoards()}</>
@@ -1111,7 +1220,7 @@ function Section() {
           </Slide>
         </Grid>
       )}
-      <SectionList startSession={startSession} viewType={viewType} />
+      <SectionList viewType={viewType} />
       {/* <Box className={boxStyle}>
         <Action />
       </Box> */}

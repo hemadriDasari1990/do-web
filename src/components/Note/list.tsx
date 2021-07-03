@@ -30,7 +30,6 @@ import { getAvatar } from "../../util/getAvatar";
 import getPastTime from "../../util/getPastTime";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthenticated } from "../../redux/state/common";
-import { useBoard } from "../../redux/state/board";
 import { useNote } from "../../redux/state/note";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../redux/state/socket";
@@ -118,7 +117,14 @@ const useLocalStyles = makeStyles(() => ({
 }));
 
 const NoteList = React.memo((props: any) => {
-  const { sectionId, editNote, dropProvided, deleteNote, sectionIndex } = props;
+  const {
+    sectionId,
+    editNote,
+    dropProvided,
+    deleteNote,
+    sectionIndex,
+    board,
+  } = props;
   const {
     paperStyle,
     iconButtonStyle,
@@ -132,8 +138,6 @@ const NoteList = React.memo((props: any) => {
 
   /* Redux hooks */
   const authenticated = useAuthenticated();
-  const { board } = useBoard();
-  const enableActions = !board?.isLocked || authenticated;
   const { socket } = useSocket();
   const { noteList } = useNote(sectionId);
   const { boardId } = useParams<{ boardId: string }>();
@@ -142,6 +146,7 @@ const NoteList = React.memo((props: any) => {
 
   /* Local state */
   const [selectedNote, setSelectedNote] = useState<any>(null);
+  const [boardDetails, setBoardDetails] = useState<any>(board);
   const [deleteDialog, setOpenDeleteDialog] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [
@@ -151,11 +156,16 @@ const NoteList = React.memo((props: any) => {
   const [open, setOpen] = React.useState(false);
   const [showDialog, setShowDialog] = React.useState(false);
   const [notes, setNotes] = useState(noteList || []);
+  const enableActions = !boardDetails?.isLocked || authenticated;
 
   /* React Hooks */
   useEffect(() => {
     setNotes(noteList);
   }, [noteList]);
+
+  useEffect(() => {
+    setBoardDetails(board);
+  }, [board]);
 
   useEffect(() => {
     socket.on(
@@ -519,7 +529,7 @@ const NoteList = React.memo((props: any) => {
       type,
       sectionId: note.sectionId,
       boardId,
-      isAnonymous: board?.isAnonymous,
+      isAnonymous: boardDetails?.isAnonymous,
       joinedMemberId: joinedMemberId,
     });
     setAnchorEl(null);
@@ -620,22 +630,49 @@ const NoteList = React.memo((props: any) => {
   };
 
   const canIAccess = () => {
+    /* Can't access if board is locked */
+    if (boardDetails?.isLocked) {
+      return false;
+    }
+    /* Can access if user is authenticated */
     if (authenticated) {
       return true;
     }
+
+    /* Can access if user is not authenticated and the owner who created the note */
     if (!authenticated && joinedMemberId === selectedNote?.createdById) {
       return true;
     }
 
-    if (!authenticated && selectedNote?.isAnonymous && board?.isInstant) {
+    /* Can access if user is not authenticated and selected note is annonymous and it's instant board */
+    if (
+      !authenticated &&
+      selectedNote?.isAnonymous &&
+      boardDetails?.isInstant
+    ) {
       return true;
     }
-    if (!authenticated && board?.isAnonymous && board?.isInstant) {
+
+    /* Can access if user is not authenticated and board is annonymous and instant */
+    if (
+      !authenticated &&
+      boardDetails?.isAnonymous &&
+      boardDetails?.isInstant
+    ) {
+      return true;
+    }
+
+    /* Can access if user is not authenticated and board is not annonymous and instant */
+    if (
+      !authenticated &&
+      !boardDetails?.isAnonymous &&
+      boardDetails?.isInstant
+    ) {
       return true;
     }
     return false;
   };
-
+  console.log("xyz", boardDetails);
   const renderMenu = (note: { [Key: string]: any }) => {
     const canAccess = canIAccess();
     return (
@@ -815,7 +852,7 @@ const NoteList = React.memo((props: any) => {
           <Tooltip arrow title={note.read ? "Discussed" : "Not Discussed"}>
             <DoneAllOutlinedIcon
               style={{
-                color: note.read ? "#57f" : "inherit",
+                color: note.read ? "#57f" : "#0000008a",
               }}
               className={svgIconStyle}
             />
@@ -886,7 +923,7 @@ const NoteList = React.memo((props: any) => {
                 key={note._id}
                 draggableId={note._id}
                 index={index}
-                isDragDisabled={!authenticated && !board?.isInstant}
+                isDragDisabled={!authenticated && !boardDetails?.isInstant}
                 disableInteractiveElementBlocking={true}
               >
                 {(
@@ -937,7 +974,7 @@ const NoteList = React.memo((props: any) => {
                             </Box>
                           </Box>
                           <Box display="flex">
-                            {enableActions && <>{renderEmoji(note)}</>}
+                            {canIAccess() && <>{renderEmoji(note)}</>}
                             {/* {enableActions && (
                                       <Tooltip arrow title="Add Comment">
                                         <IconButton
@@ -952,11 +989,13 @@ const NoteList = React.memo((props: any) => {
                                         </IconButton>
                                       </Tooltip>
                                     )} */}
-                            {(authenticated ||
-                              (!authenticated && board?.isInstant)) && (
-                              <>{renderMarkRead(note)}</>
-                            )}
-                            {!authenticated && !board?.isInstant && (
+                            {canIAccess() &&
+                              (authenticated ||
+                                (!authenticated &&
+                                  boardDetails?.isInstant)) && (
+                                <>{renderMarkRead(note)}</>
+                              )}
+                            {!authenticated && boardDetails?.isLocked && (
                               <>{renderRead(note)}</>
                             )}
                             {renderMenuIcon(note)}
