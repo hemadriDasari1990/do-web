@@ -203,8 +203,8 @@ const Home = () => {
                   <DoImage
                     src="scrum-real-board.jpg"
                     className={skeletonImageStyle}
-                    height="1334"
-                    width="1902"
+                    height={1334}
+                    width={1902}
                     placeholderImg="scrum-real-board.jpg"
                     errorImg="scrum-real-board.jpg"
                   />
@@ -265,6 +265,8 @@ const Home = () => {
             src="wave.svg"
             placeholderImg="wave.svg"
             errorImg="wave.svg"
+            width="100%"
+            height="100%"
           />
         </Box>
       </Hidden>

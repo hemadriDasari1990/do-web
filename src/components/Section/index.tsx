@@ -976,7 +976,7 @@ function Section() {
       />
     );
   };
-  console.log("boardDetails", boardDetails);
+
   return (
     <Suspense fallback={<Loader enable={true} backdrop={true} />}>
       {renderDialog()}

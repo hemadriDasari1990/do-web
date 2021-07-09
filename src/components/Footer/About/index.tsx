@@ -224,7 +224,13 @@ export default function About() {
         <Process />
       </Box>
       <Box mb={-0.9}>
-        <DoImage src="wave.svg" placeholderImg="wave.svg" errorImg="wave.svg" />
+        <DoImage
+          src="wave.svg"
+          placeholderImg="wave.svg"
+          errorImg="wave.svg"
+          width="100%"
+          height="100%"
+        />
       </Box>
       <Box className={createAccountStyle}>
         <CreateAccountGrid />
