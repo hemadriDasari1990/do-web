@@ -1,38 +1,58 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState, useRef } from "react";
+import { useIntersection } from "./intersectionObserver";
+import useStyles from "./styles";
 
-interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  placeholderImg?: string;
-  errorImg?: string;
-}
-
-const DoImage = (props: ImageProps) => {
+const LazyImage = (props: any) => {
+  const { src, width, height, placeholderImg } = props;
   const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
-  const src = assetUrl + props.src;
-  const placeholderImg = assetUrl + props.placeholderImg;
-  const errorImg = assetUrl + props.errorImg;
+  const srcURL = assetUrl + src;
+  const placeholder = assetUrl + placeholderImg;
 
-  const [imgSrc, setSrc] = useState(placeholderImg || src);
+  const {
+    loader,
+    placeholderStyle,
+    placeholderLoader,
+    imageContainer,
+    imageStyle,
+  } = useStyles();
 
-  const onLoad = useCallback(() => {
-    setSrc(src);
-  }, [src]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef: any = useRef();
+  useIntersection(imgRef, () => {
+    setIsInView(true);
+  });
 
-  const onError = useCallback(() => {
-    setSrc(errorImg || placeholderImg);
-  }, [errorImg, placeholderImg]);
+  const handleOnLoad = () => {
+    setIsLoaded(true);
+  };
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = src as string;
-    img.addEventListener("load", onLoad);
-    img.addEventListener("error", onError);
-    return () => {
-      img.removeEventListener("load", onLoad);
-      img.removeEventListener("error", onError);
-    };
-  }, [src, onLoad, onError]);
-
-  return <img {...props} alt={imgSrc} src={imgSrc} />;
+  return (
+    <div ref={imgRef} className={imageContainer}>
+      {isInView && (
+        <>
+          <img
+            className={`${imageStyle} ${placeholderStyle} ${
+              !!isLoaded ? placeholderLoader : ""
+            }`}
+            src={placeholder}
+            width={width}
+            height={height}
+          />
+          <img
+            className={`${imageStyle} ${!!isLoaded ? loader : ""} ${
+              props?.className
+            }`}
+            src={srcURL}
+            onLoad={handleOnLoad}
+            width={width}
+            height={height}
+            style={props?.style}
+          />
+        </>
+      )}
+    </div>
+  );
 };
 
-export default DoImage;
+export default LazyImage;

@@ -76,7 +76,7 @@ export default function ActionUpdate(props: any) {
           <Zoom in={true} timeout={2000}>
             <DoImage
               src="section.svg"
-              height="200px"
+              height={200}
               width="fit-content"
               placeholderImg="section.svg"
               errorImg="section.svg"
