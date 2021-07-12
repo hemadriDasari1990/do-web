@@ -10,7 +10,7 @@ const CreateAccountGrid = () => {
   const { titleStyle } = useStyles();
 
   return (
-    <Box textAlign="center">
+    <Box textAlign="center" mb={3}>
       <Box display="flex" justifyContent="space-between">
         <Hidden only={["xs", "sm"]}>
           <DoImage

@@ -20,8 +20,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
 
-const Loader = React.lazy(() => import("../Loader/components"));
-
 const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     fontSize: 80,
@@ -130,7 +128,6 @@ function FeedbackList() {
   const renderFeebackList = () => {
     return (
       <>
-        <Loader enable={loading} backdrop={true} />
         {!loading && feedback?.length ? (
           <Box>
             <Box textAlign="center" pb={3}>

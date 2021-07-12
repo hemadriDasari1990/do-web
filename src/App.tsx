@@ -1,9 +1,8 @@
 import "./socket";
 
-import { MuiThemeProvider, makeStyles } from "@material-ui/core/styles";
-import React, { Suspense, useEffect, useState } from "react";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
 
-import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Routes from "./routes";
 import Typography from "@material-ui/core/Typography";
@@ -12,17 +11,10 @@ import { storeSocketInstance } from "./redux/actions/socket";
 import theme from "./theme";
 import { useDispatch } from "react-redux";
 
-const ScrollTop = React.lazy(() => import("./components/ScrollTop"));
-const DoSnackbar = React.lazy(() => import("./components/Snackbar/components"));
-
-const useStyles = makeStyles(() => ({
-  boxStyle: {
-    // minHeight: "90vh"
-  },
-}));
+import ScrollTop from "./components/ScrollTop";
+import DoSnackbar from "./components/Snackbar/components";
 
 const App = () => {
-  const { boxStyle } = useStyles();
   const dispatch = useDispatch();
 
   /* States */
@@ -55,28 +47,22 @@ const App = () => {
   };
 
   return (
-    <Suspense fallback={<div></div>}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box className={boxStyle}>
-          <Box>
-            <Routes />
-            <ScrollTop />
-          </Box>
-        </Box>
-        {isDisconnected && (
-          <DoSnackbar
-            open={isDisconnected}
-            status="warning"
-            handleClose={handleClose}
-          >
-            <Typography variant="h6" color="secondary">
-              You are not connected to the internet
-            </Typography>
-          </DoSnackbar>
-        )}
-      </MuiThemeProvider>
-    </Suspense>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <Routes />
+      <ScrollTop />
+      {isDisconnected && (
+        <DoSnackbar
+          open={isDisconnected}
+          status="warning"
+          handleClose={handleClose}
+        >
+          <Typography variant="h6" color="secondary">
+            You are not connected to the internet
+          </Typography>
+        </DoSnackbar>
+      )}
+    </MuiThemeProvider>
   );
 };
 

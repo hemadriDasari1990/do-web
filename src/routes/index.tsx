@@ -1,26 +1,27 @@
 import * as routePath from "./config";
 
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router";
 
 import Apps from "../components/Footer/Apps";
-import Box from "@material-ui/core/Box";
 import { DASHBOARD } from "./config";
 import { DRAWER_WIDTH } from "../util/constants";
 import { Hidden } from "@material-ui/core";
 import MemberDetails from "../components/Members/Details";
 import PersistentDrawerLeft from "../components/Drawer/DrawerLeft";
-import PrivateRoute from "./PrivateRoute";
 import Profile from "../components/Drawer/Profile";
 import TeamDetails from "../components/Team/Details";
 import WhyLetsdoretro from "../components/Footer/why";
 import { useAuthenticated } from "../redux/state/common";
 import { useParams } from "react-router";
+import Box from "@material-ui/core/Box";
 
-const Header = React.lazy(() => import("../components/Header"));
-const Footer = React.lazy(() => import("../components/Footer"));
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
+const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const Home = React.lazy(() => import("../components/Home"));
 const Developers = React.lazy(() => import("../components/Footer/About"));
 const Careers = React.lazy(() => import("../components/Footer/Careers"));
@@ -59,16 +60,16 @@ const Templates = React.lazy(
 const Pricing = React.lazy(() => import("../components/Pricing"));
 
 const useStyles = makeStyles((theme: Theme) => ({
-  boxStyle: (props: any) => ({
-    [theme.breakpoints.down("xs")]: {},
-  }),
   content: (props: any) => ({
     flexGrow: 1,
     paddingTop: 0,
-    paddingRight: theme.spacing(2),
+    // paddingRight: theme.spacing(2),
     paddingLeft: props.authenticated ? DRAWER_WIDTH : 0,
     [theme.breakpoints.down("xs")]: {},
   }),
+  boxStyle: {
+    minHeight: "90vh",
+  },
 }));
 
 const protectedRoutes = () => {
@@ -191,9 +192,10 @@ const Routes = () => {
     pathname?.toLowerCase() !== "/getting-started" &&
     pathname?.toLowerCase() !== "/retrospective" &&
     pathname?.toLowerCase() !== "/features" &&
-    pathname?.toLowerCase() !== "/reactions";
+    pathname?.toLowerCase() !== "/reactions" &&
+    !pathname?.includes("/board/");
   const history = useHistory();
-  const { boxStyle, content } = useStyles({ authenticated });
+  const { content, boxStyle } = useStyles({ authenticated });
 
   useEffect(() => {
     if (authenticated && isRedirect) {
@@ -201,67 +203,74 @@ const Routes = () => {
     }
   }, [authenticated]);
 
-  const renderRoutes = () => {
-    return (
+  return (
+    <Suspense fallback={<div />}>
+      <Header />
+      {authenticated && isRedirect && (
+        <Hidden only={["xs"]}>
+          <PersistentDrawerLeft />
+        </Hidden>
+      )}
       <Box className={boxStyle}>
         <Switch>
           <Route
             exact
-            key={"private-board"}
-            component={SectionDashboard}
+            key={"private-board1"}
             path={routePath.BOARD_DASHBOARD}
+            render={() => (
+              <Suspense fallback={<div />}>
+                <SectionDashboard />
+              </Suspense>
+            )}
           />{" "}
           <Route
             exact
-            key={"private-board"}
-            component={SectionDashboard}
+            key={"private-board2"}
             path={routePath.BOARD_DASHBOARD_WITH_TOKEN}
-          />
-          {/* Route without header and footer */}
-          <React.Fragment>
-            <Header />
-            {authenticated && isRedirect && (
-              <Hidden only={["xs"]}>
-                <PersistentDrawerLeft />
-              </Hidden>
+            render={() => (
+              <Suspense fallback={<div />}>
+                <SectionDashboard />
+              </Suspense>
             )}
-            <main className={content}>
-              {protectedRoutes().map(
-                (route: { [Key: string]: any }, index: number) => (
+          />
+          <main className={content}>
+            {protectedRoutes().map(
+              (route: { [Key: string]: any }, index: number) => (
+                <Suspense fallback={<div />}>
                   <PrivateRoute
                     exact
                     key={"private-" + index}
                     component={route.component}
                     path={route.path}
                   />
-                )
-              )}
-            </main>
+                </Suspense>
+              )
+            )}
             {routes().map((route: { [Key: string]: any }, index: number) => (
-              <Route
-                exact
-                key={"Key-" + index}
-                component={route.component}
-                path={route.path}
-              />
+              <Suspense fallback={<div />}>
+                <Route
+                  exact
+                  key={"Key-" + index}
+                  component={route.component}
+                  path={route.path}
+                />
+              </Suspense>
             ))}
-            {!authenticated && !boardId && <Footer />}
-          </React.Fragment>
+          </main>
         </Switch>
-
-        {/* <Redirect
-          from="*"
-          to={
-            accountType == COMMERCIAL
-              ? DASHBOARD
-              : INDIVIDUAL_DASHBOARD
-          }
-        /> */}
       </Box>
-    );
-  };
+      {!authenticated && !boardId && <Footer />}
 
-  return <Suspense fallback={<></>}>{renderRoutes()}</Suspense>;
+      {/* <Redirect
+    from="*"
+    to={
+      accountType == COMMERCIAL
+        ? DASHBOARD
+        : INDIVIDUAL_DASHBOARD
+    }
+  /> */}
+    </Suspense>
+  );
 };
 
 export default Routes;

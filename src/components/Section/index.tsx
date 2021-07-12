@@ -65,6 +65,7 @@ import { useDispatch } from "react-redux";
 import { useLogin } from "../../redux/state/login";
 import { useSocket } from "../../redux/state/socket";
 import useStyles from "../styles";
+import DoLogoIcon from "../common/DoLogoIcon";
 
 const sessionSound = require("../../assets/sounds/navigation_transition-right.wav");
 const joinSound = require("../../assets/sounds/join.wav");
@@ -1004,13 +1005,7 @@ function Section() {
             <Grid item xl={5} lg={5} md={4} sm={12} xs={12}>
               <Box display="flex">
                 <Box mr={1}>
-                  <DoImage
-                    src="do-logo.svg"
-                    width={35}
-                    height={35}
-                    placeholderImg="do-logo.svg"
-                    errorImg="do-logo.svg"
-                  />
+                  <DoLogoIcon />
                 </Box>
                 <Box mt={0.3} mr={1} className={titleBoxStyle} minWidth={100}>
                   <Tooltip title="Board Name" arrow>

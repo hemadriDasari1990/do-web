@@ -10,8 +10,6 @@ import { getRandomColor } from "../../util/getRandomColor";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
 
-const Loader = React.lazy(() => import("../Loader/components"));
-
 const Summary = () => {
   const { titleSecondaryStyle } = useStyles();
   const dispatch = useDispatch();
@@ -24,7 +22,6 @@ const Summary = () => {
 
   return (
     <Box minHeight={240}>
-      <Loader enable={loading} backdrop={true} />
       <Box textAlign="center" pb={3}>
         <Typography variant="h1" className={`${titleSecondaryStyle}`}>
           Built for global scale

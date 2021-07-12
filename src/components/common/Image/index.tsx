@@ -3,22 +3,17 @@ import { useIntersection } from "./intersectionObserver";
 import useStyles from "./styles";
 
 const LazyImage = (props: any) => {
-  const { src, width, height, placeholderImg } = props;
+  const { src, width, height } = props;
   const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
   const srcURL = assetUrl + src;
-  const placeholder = assetUrl + placeholderImg;
+  // const placeholder = assetUrl + placeholderImg;
 
-  const {
-    loader,
-    placeholderStyle,
-    placeholderLoader,
-    imageContainer,
-    imageStyle,
-  } = useStyles();
+  const { loader } = useStyles();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef: any = useRef();
+
   useIntersection(imgRef, () => {
     setIsInView(true);
   });
@@ -28,21 +23,11 @@ const LazyImage = (props: any) => {
   };
 
   return (
-    <div ref={imgRef} className={imageContainer}>
+    <div ref={imgRef}>
       {isInView && (
         <>
           <img
-            className={`${imageStyle} ${placeholderStyle} ${
-              !!isLoaded ? placeholderLoader : ""
-            }`}
-            src={placeholder}
-            width={width}
-            height={height}
-          />
-          <img
-            className={`${imageStyle} ${!!isLoaded ? loader : ""} ${
-              props?.className
-            }`}
+            className={`${!!isLoaded ? loader : ""} ${props?.className}`}
             src={srcURL}
             onLoad={handleOnLoad}
             width={width}

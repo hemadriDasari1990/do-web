@@ -17,8 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import { login } from "../../../redux/actions/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-
-const DoSnackbar = React.lazy(() => import("../../Snackbar/components"));
+import DoSnackbar from "../../Snackbar/components";
 
 const useStyles = makeStyles((theme: Theme) => ({
   textFieldStyle: {

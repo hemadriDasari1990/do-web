@@ -29,6 +29,7 @@ import { storeMenuItem } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useUser } from "../../redux/state/user";
+import DoLogoIcon from "../common/DoLogoIcon";
 
 const PersistentDrawerRight = React.lazy(() => import("../Drawer/DrawerRight"));
 const UserAccount = React.lazy(() => import("./Account"));
@@ -170,13 +171,7 @@ export default function PersistentDrawerLeft() {
       >
         {/* <Box className={toolbar} flexDirection="column"/> */}
         <Box display="flex" justifyContent="center" my={2}>
-          <DoImage
-            src="do-logo.svg"
-            width={35}
-            height={35}
-            placeholderImg="do-logo.svg"
-            errorImg="do-logo.svg"
-          />
+          <DoLogoIcon />
         </Box>
         <Box textAlign="center">
           <Box mb={2}>
