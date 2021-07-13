@@ -15,7 +15,6 @@ import Profile from "../components/Drawer/Profile";
 import TeamDetails from "../components/Team/Details";
 import WhyLetsdoretro from "../components/Footer/why";
 import { useAuthenticated } from "../redux/state/common";
-import { useParams } from "react-router";
 import Box from "@material-ui/core/Box";
 
 import Header from "../components/Header";
@@ -185,7 +184,6 @@ const routes = () => {
 
 const Routes = () => {
   const authenticated: boolean = useAuthenticated();
-  const { boardId } = useParams<{ boardId: string }>();
   const location = useLocation();
   const pathname = location.pathname as string;
   const isRedirect =
@@ -205,7 +203,7 @@ const Routes = () => {
 
   return (
     <Suspense fallback={<div />}>
-      <Header />
+      {!pathname?.includes("/board/") && <Header />}
       {authenticated && isRedirect && (
         <Hidden only={["xs"]}>
           <PersistentDrawerLeft />
@@ -259,7 +257,7 @@ const Routes = () => {
           </main>
         </Switch>
       </Box>
-      {!authenticated && !boardId && <Footer />}
+      {!authenticated && !pathname?.includes("/board/") && <Footer />}
 
       {/* <Redirect
     from="*"
