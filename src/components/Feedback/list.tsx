@@ -90,13 +90,18 @@ function FeedbackList() {
 
   const renderRating = () => {
     return (
-      <Box mt={1}>
+      <Box mt={1} display="flex">
         <Rating
           name="half-rating-read"
           defaultValue={5}
           precision={0.5}
           readOnly
         />
+        <Box ml={1} mt={-0.4}>
+          <Typography variant="h5" style={{ fontWeight: "normal" }}>
+            5/5
+          </Typography>
+        </Box>
       </Box>
     );
   };
