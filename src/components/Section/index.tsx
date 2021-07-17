@@ -595,19 +595,29 @@ function Section() {
           }
           arrow
         > */}
-        <Button
-          variant="outlined"
-          color="default"
-          className={buttonOutlinedStartStyle}
-          startIcon={
-            <PlayArrowIcon color="primary" className={startSessionIconStyle} />
-          }
-          onClick={() => handleStartSessionDialog()}
+        <Tooltip
+          title="Click here to Start the session"
+          open={true}
+          placement="left"
+          arrow
         >
-          <Typography className={startSessionTextStyle} variant="h6">
-            Start Session
-          </Typography>
-        </Button>
+          <Button
+            variant="outlined"
+            color="default"
+            className={buttonOutlinedStartStyle}
+            startIcon={
+              <PlayArrowIcon
+                color="primary"
+                className={startSessionIconStyle}
+              />
+            }
+            onClick={() => handleStartSessionDialog()}
+          >
+            <Typography className={startSessionTextStyle} variant="h6">
+              Start Session
+            </Typography>
+          </Button>
+        </Tooltip>
         {/* </HtmlTooltip> */}
       </Box>
     );
