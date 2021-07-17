@@ -119,9 +119,9 @@ function FeedbackList() {
 
   const renderFeebackList = () => {
     return (
-      <>
+      <Box>
         {!loading && feedback?.length ? (
-          <Box>
+          <>
             <Box textAlign="center" pb={3}>
               <Typography variant="h1">What people say about us</Typography>
             </Box>
@@ -183,20 +183,16 @@ function FeedbackList() {
                 }
               />
             </Box>
-          </Box>
+          </>
         ) : null}
-      </>
+      </Box>
     );
   };
 
   return (
     <>
-      <Hidden only={["xl", "lg", "md"]}>
-        <Box height={feedback?.length ? 620 : 0}>{renderFeebackList()}</Box>
-      </Hidden>
-      <Hidden only={["xs", "sm"]}>
-        <Box height={feedback?.length ? 560 : 0}>{renderFeebackList()}</Box>
-      </Hidden>
+      <Hidden only={["xl", "lg", "md"]}>{renderFeebackList()}</Hidden>
+      <Hidden only={["xs", "sm"]}>{renderFeebackList()}</Hidden>
     </>
   );
 }

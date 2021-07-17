@@ -208,8 +208,6 @@ const Home = () => {
             </Box>
           </Grid>
         </Grid>
-      </Container>
-      <Container>
         <Box p={3} className={containerStyle}>
           <Summary />
         </Box>
@@ -244,11 +242,9 @@ const Home = () => {
             </Grid>
           </Grid>
         </Box>
-      </Container>
-      <Container>
-        <FeedbackList />
-      </Container>
-      <Container>
+        <Box mb={10}>
+          <FeedbackList />
+        </Box>
         <CreateAccountGrid />
       </Container>
     </React.Fragment>
