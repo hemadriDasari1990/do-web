@@ -46,8 +46,8 @@ const UserAccount = React.memo((props: any) => {
       {!itemName || itemName === "account" ? (
         <Box>
           <BoardInfo openBoardInfo={openAccount} />
-          {authenticated && (
-            <Box className={bottomStyle}>
+          <Box className={bottomStyle}>
+            {authenticated && (
               <List>
                 <ListItem
                   alignItems="flex-start"
@@ -67,8 +67,8 @@ const UserAccount = React.memo((props: any) => {
                   />
                 </ListItem>
               </List>
-            </Box>
-          )}
+            )}
+          </Box>
         </Box>
       ) : null}
     </Suspense>

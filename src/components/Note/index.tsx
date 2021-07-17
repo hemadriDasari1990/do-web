@@ -286,7 +286,13 @@ function Note(props: any) {
           </div>
         )}
       </Droppable>
-      {!showNote && enableActions() && <>{renderCreateNoteButton()}</>}
+      {!showNote && enableActions() ? (
+        <>{renderCreateNoteButton()}</>
+      ) : (
+        <Box textAlign="center" py={1}>
+          <Typography variant="subtitle1">No notes found</Typography>
+        </Box>
+      )}
       {showNote ? <>{renderUpdateNote()}</> : null}
     </React.Fragment>
   );

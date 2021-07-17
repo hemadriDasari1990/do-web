@@ -13,6 +13,8 @@ import { useAuthenticated } from "../../../redux/state/common";
 import { useBoard } from "../../../redux/state/board";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Typography } from "@material-ui/core";
+import CopyToClipboard from "../../common/Copy";
 
 const BoardInfo = React.memo((props: any) => {
   const { openBoardInfo } = props;
@@ -29,37 +31,50 @@ const BoardInfo = React.memo((props: any) => {
 
   return (
     <Suspense fallback={<div></div>}>
-      <Box>
-        {boardId && (
-          <>
-            <Activity />
-            <Divider />
-          </>
-        )}
-        {authenticated && boardId && !board?.isAnonymous && (
-          <>
-            <InvitedMembers />
-            <Divider />
-          </>
-        )}
-        {boardId && !board?.isAnonymous && (
-          <>
-            <JoinedMembers />
-            <Divider />
-          </>
-        )}
-        {boardId && (
-          <>
-            <AboutBoard />
-            <Divider />
-          </>
-        )}
+      <Box display="flex" flexDirection="column">
+        <Box>
+          {boardId && (
+            <>
+              <Activity />
+              <Divider />
+            </>
+          )}
+          {authenticated && boardId && !board?.isAnonymous && (
+            <>
+              <InvitedMembers />
+              <Divider />
+            </>
+          )}
+          {boardId && !board?.isAnonymous && (
+            <>
+              <JoinedMembers />
+              <Divider />
+            </>
+          )}
+          {boardId && (
+            <>
+              <AboutBoard />
+              <Divider />
+            </>
+          )}
 
-        {boardId && (
-          <Box mt={2}>
-            <Summary hideNoSummary={true} hideLoader={true} />
+          <Box mt={1}>
+            <Box mb={1}>
+              <Typography variant="subtitle1">Link to this board</Typography>
+            </Box>
+            <CopyToClipboard
+              url={"/board/" + board?._id}
+              hintMessage="Anyone on the internet (including Google) can see this board. Only board members can edit."
+            />
           </Box>
-        )}
+          <Divider />
+
+          {boardId && (
+            <Box mt={2}>
+              <Summary hideNoSummary={true} hideLoader={true} />
+            </Box>
+          )}
+        </Box>
       </Box>
     </Suspense>
   );
