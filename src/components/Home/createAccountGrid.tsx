@@ -8,7 +8,7 @@ import useStyles from "../styles";
 import Grid from "@material-ui/core/Grid";
 
 const CreateAccountGrid = () => {
-  const { boxGridStyle } = useStyles();
+  const { boxGridStyle, createAccountStyle } = useStyles();
 
   return (
     <Box className={boxGridStyle}>
@@ -20,7 +20,7 @@ const CreateAccountGrid = () => {
           md={6}
           sm={12}
           xs={12}
-          style={{ padding: "5rem 0px 5rem 5rem" }}
+          className={createAccountStyle}
         >
           <Box mb={2}>
             <Typography variant="h1" color="secondary">

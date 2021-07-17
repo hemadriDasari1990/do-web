@@ -189,7 +189,7 @@ function FeedbackList() {
   return (
     <>
       <Hidden only={["xl", "lg", "md"]}>
-        <Box height={feedback?.length ? 560 : 0}>{renderFeebackList()}</Box>
+        <Box height={feedback?.length ? 620 : 0}>{renderFeebackList()}</Box>
       </Hidden>
       <Hidden only={["xs", "sm"]}>
         <Box height={feedback?.length ? 560 : 0}>{renderFeebackList()}</Box>

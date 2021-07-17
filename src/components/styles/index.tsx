@@ -50,11 +50,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   boxTopGridStyle: {
     height: 100,
-    background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
   },
   boxGridStyle: {
     position: "relative",
-    background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
     marginBottom: 10,
     borderRadius: 16,
   },
@@ -219,6 +219,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     left: "50%",
     top: "50%",
     transform: "translate(-50%, -50%)",
+  },
+  createAccountStyle: {
+    padding: "5rem 0px 5rem 5rem !important",
+    [theme.breakpoints.down("xs")]: {
+      padding: "3rem 3rem 3rem 3rem !important",
+    },
   },
 }));
 

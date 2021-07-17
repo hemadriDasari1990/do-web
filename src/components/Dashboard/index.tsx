@@ -160,7 +160,7 @@ const Dashboard = () => {
 
   return (
     <Suspense fallback={<Loader loading={true} backdrop={true} />}>
-      <Box pt={2} pb={2} pl={2}>
+      <Box p={2}>
         <DoSnackbar
           open={showSuccess}
           handleClose={handleSuccessClose}
