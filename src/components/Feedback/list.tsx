@@ -62,7 +62,7 @@ function FeedbackList() {
     iconButtonSecondaryStyle,
     stepperStyle,
   } = useLocalStyles();
-  const { titleSecondaryStyle, containerStyle } = useStyles();
+  const { containerStyle } = useStyles();
   const dispatch = useDispatch();
   const { feedback } = useFeedback();
   const { loading } = useLoading();
@@ -118,9 +118,7 @@ function FeedbackList() {
         {!loading && feedback?.length ? (
           <Box>
             <Box textAlign="center" pb={3}>
-              <Typography variant="h1" className={titleSecondaryStyle}>
-                What people say about us
-              </Typography>
+              <Typography variant="h1">What people say about us</Typography>
             </Box>
             <Grid container spacing={2}>
               <Grid

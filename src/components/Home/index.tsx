@@ -33,12 +33,7 @@ const useLocalStyles = makeStyles((theme: Theme) => ({
 
 const Home = () => {
   const { skeletonImageStyle } = useLocalStyles();
-  const {
-    titleStyle,
-    bannerStyle,
-    containerStyle,
-    titleSecondaryStyle,
-  } = useStyles();
+  const { titleStyle, bannerStyle, containerStyle } = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -220,9 +215,7 @@ const Home = () => {
         </Box>
         <Box my={3}>
           <Box textAlign="center">
-            <Typography variant="h1" className={`${titleSecondaryStyle}`}>
-              Discover
-            </Typography>
+            <Typography variant="h1">Discover</Typography>
           </Box>
           <Grid container spacing={2}>
             <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>

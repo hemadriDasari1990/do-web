@@ -132,18 +132,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: "linear-gradient(50deg, #57f 0%, #0089ffeb 100%)",
   },
   titleStyle: {
-    fontSize: "3.5rem",
     lineHeight: 1.143,
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 30,
-    },
-  },
-  titleSecondaryStyle: {
-    fontSize: "2.5rem",
-    lineHeight: 1.843,
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 30,
-    },
   },
   iconStyle: {
     fontSize: 50,

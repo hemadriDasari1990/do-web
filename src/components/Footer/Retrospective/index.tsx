@@ -24,7 +24,7 @@ const useLocalStyles = makeStyles({
 
 export default function Retrospective() {
   const {} = useLocalStyles();
-  const { titleStyle, bannerStyle, cursor, titleSecondaryStyle } = useStyles();
+  const { titleStyle, bannerStyle, cursor } = useStyles();
   const history = useHistory();
 
   const handleSignup = () => {
@@ -193,7 +193,7 @@ export default function Retrospective() {
               </Typography>
             </Box>
             <Box mb={2}>
-              <Typography variant="h2" className={titleSecondaryStyle}>
+              <Typography variant="h2">
                 1. Teams can speak their minds
               </Typography>
             </Box>
@@ -246,9 +246,7 @@ export default function Retrospective() {
           </Grid>
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h2" className={titleSecondaryStyle}>
-                2. Challenges are addressed
-              </Typography>
+              <Typography variant="h2">2. Challenges are addressed</Typography>
             </Box>
           </Grid>
 
@@ -291,9 +289,7 @@ export default function Retrospective() {
 
           <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
             <Box my={3}>
-              <Typography variant="h2" className={titleSecondaryStyle}>
-                3. Collaborations improve
-              </Typography>
+              <Typography variant="h2">3. Collaborations improve</Typography>
             </Box>
           </Grid>
 

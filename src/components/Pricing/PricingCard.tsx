@@ -82,7 +82,7 @@ const PricingCard = () => {
           <Paper className={paperStyle}>
             <Box display="flex" justifyContent="space-between" px={2} pb={2}>
               <Typography variant="h1">Unlimited</Typography>
-              <Typography variant="h1">$7</Typography>
+              <Typography variant="h1">--</Typography>
             </Box>
             <Box>
               <Divider />
@@ -114,7 +114,7 @@ const PricingCard = () => {
           <Paper className={paperStyle}>
             <Box display="flex" justifyContent="space-between" px={2} pb={2}>
               <Typography variant="h1">Enterprise</Typography>
-              <Typography variant="h1">$$</Typography>
+              <Typography variant="h1">--</Typography>
             </Box>
             <Box>
               <Divider />

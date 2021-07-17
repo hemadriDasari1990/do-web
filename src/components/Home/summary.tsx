@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import useStyles from "../styles";
 
 const Summary = () => {
-  const { titleSecondaryStyle } = useStyles();
+  const {} = useStyles();
   const dispatch = useDispatch();
   const { summary } = useUserSummary();
   const { loading } = useUserLoading();
@@ -23,9 +23,7 @@ const Summary = () => {
   return (
     <Box minHeight={240}>
       <Box textAlign="center" pb={3}>
-        <Typography variant="h1" className={`${titleSecondaryStyle}`}>
-          Built for global scale
-        </Typography>
+        <Typography variant="h1">Built for global scale</Typography>
       </Box>
       {!loading && (
         <Grid container spacing={2}>
