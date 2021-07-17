@@ -53,10 +53,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
   },
   boxGridStyle: {
-    padding: "2rem 1rem",
     position: "relative",
-    backgroundColor: "#F2F4f4",
-    // borderRadius: 16,
+    background: "linear-gradient(180deg,#7997ff 0,#57f 100%) ",
+    marginBottom: 10,
+    borderRadius: 16,
+  },
+  containerStyle: {
+    backgroundColor: "#f0f8ff",
+    borderRadius: 16,
   },
   iconBoxStyle: {
     backgroundColor: "rgb(255, 255, 255)",

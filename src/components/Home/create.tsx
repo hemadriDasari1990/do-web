@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const CreateAccount = React.memo((props: any) => {
   const { buttonStyle } = useStyles();
   const history = useHistory();
-  const { title, subTitle, handleButton } = props;
+  const { title, subTitle, handleButton, titleColor, subTitleColor } = props;
 
   const handleCreateUser = () => {
     if (typeof handleButton === "function") {
@@ -41,16 +41,20 @@ const CreateAccount = React.memo((props: any) => {
         <Button
           className={buttonStyle}
           variant="contained"
-          color="primary"
+          color="secondary"
           size="small"
           onClick={() => handleCreateUser()}
-          startIcon={<FlashOnIcon color="secondary" />}
+          startIcon={<FlashOnIcon color="primary" />}
         >
-          {title}
+          <Typography color={titleColor} variant="h5">
+            {title}
+          </Typography>
         </Button>
       </Tooltip>
       <Box mt={1}>
-        <Typography variant="h6">{subTitle}</Typography>
+        <Typography variant="h6" color={subTitleColor}>
+          {subTitle}
+        </Typography>
       </Box>
     </React.Fragment>
   );

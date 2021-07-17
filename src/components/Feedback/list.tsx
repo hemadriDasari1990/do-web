@@ -1,4 +1,4 @@
-import { Avatar, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useFeedback, useLoading } from "../../redux/state/feedback";
 
@@ -14,8 +14,6 @@ import Rating from "@material-ui/lab/Rating";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { getFeedbacks } from "../../redux/actions/feedback";
-import { getInitials } from "../../util";
-import getRandomBGColor from "../../util/getRandomColor";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
@@ -23,14 +21,6 @@ import useStyles from "../styles";
 const useLocalStyles = makeStyles(() => ({
   iconStyle: {
     fontSize: 80,
-  },
-  avatarTextStyle: {
-    // fontSize: 50,
-  },
-  avatarStyle: {
-    height: 90,
-    width: 90,
-    borderRadius: "50%",
   },
   iconButtonStyle: {
     background: "linear-gradient(180deg,#7997ff 0,#57f 100%)",
@@ -70,11 +60,9 @@ function FeedbackList() {
   const {
     iconButtonStyle,
     iconButtonSecondaryStyle,
-    avatarTextStyle,
-    avatarStyle,
     stepperStyle,
   } = useLocalStyles();
-  const { titleSecondaryStyle } = useStyles();
+  const { titleSecondaryStyle, containerStyle } = useStyles();
   const dispatch = useDispatch();
   const { feedback } = useFeedback();
   const { loading } = useLoading();
@@ -92,32 +80,31 @@ function FeedbackList() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const renderInitials = () => {
+  const renderName = () => {
     return (
-      <Avatar
-        color="secondary"
-        style={{
-          background: getRandomBGColor(activeStep),
-        }}
-        classes={{ root: avatarStyle }}
-      >
-        <Typography variant="h1" className={avatarTextStyle} color="secondary">
-          {getInitials(feedback[activeStep]?.user?.name)}
-        </Typography>
-      </Avatar>
+      <Typography variant="h2" color="primary">
+        {feedback[activeStep]?.user?.name}
+      </Typography>
     );
   };
 
   const renderRating = () => {
     return (
-      <Box mx={3} mb={3} mt={1}>
+      <Box mt={1}>
         <Rating
           name="half-rating-read"
           defaultValue={5}
           precision={0.5}
           readOnly
         />
-        <Typography variant="body1" style={{ fontWeight: "normal" }}>
+      </Box>
+    );
+  };
+
+  const renderFeedback = () => {
+    return (
+      <Box mt={1}>
+        <Typography variant="h4" style={{ fontWeight: "normal" }}>
           <b>{feedback[activeStep]?.title} - </b>
           {feedback[activeStep]?.description}
         </Typography>
@@ -136,20 +123,25 @@ function FeedbackList() {
               </Typography>
             </Box>
             <Grid container spacing={2}>
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                <Hidden only={["xl", "lg", "md"]}>
-                  <Box ml={3}>{renderInitials()}</Box>
+              <Grid
+                item
+                xl={4}
+                lg={4}
+                md={4}
+                sm={6}
+                xs={12}
+                className={containerStyle}
+              >
+                <Box mx={3} mb={3} mt={1}>
+                  {renderName()}
+                  {renderFeedback()}
                   {renderRating()}
-                </Hidden>
-                <Hidden only={["xs", "sm"]}>
-                  <Box display="flex" p={5}>
-                    {renderInitials()}
-                    {renderRating()}
-                  </Box>
-                </Hidden>
+                </Box>
               </Grid>
             </Grid>
-            <Divider />
+            <Box mt={2}>
+              <Divider />
+            </Box>
             <Box
               display="flex"
               justifyContent="space-between"
@@ -197,10 +189,10 @@ function FeedbackList() {
   return (
     <>
       <Hidden only={["xl", "lg", "md"]}>
-        <Box height={feedback?.length ? 580 : 0}>{renderFeebackList()}</Box>
+        <Box height={feedback?.length ? 560 : 0}>{renderFeebackList()}</Box>
       </Hidden>
       <Hidden only={["xs", "sm"]}>
-        <Box>{renderFeebackList()}</Box>
+        <Box height={feedback?.length ? 560 : 0}>{renderFeebackList()}</Box>
       </Hidden>
     </>
   );

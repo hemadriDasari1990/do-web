@@ -36,7 +36,7 @@ const Home = () => {
   const {
     titleStyle,
     bannerStyle,
-    boxGridStyle,
+    containerStyle,
     titleSecondaryStyle,
   } = useStyles();
   const dispatch = useDispatch();
@@ -215,11 +215,7 @@ const Home = () => {
         </Grid>
       </Container>
       <Container>
-        <Box
-          p={3}
-          style={{ backgroundColor: "#f0f8ff" }}
-          className={boxGridStyle}
-        >
+        <Box p={3} className={containerStyle}>
           <Summary />
         </Box>
         <Box my={3}>
@@ -259,20 +255,9 @@ const Home = () => {
       <Container>
         <FeedbackList />
       </Container>
-      <Hidden only={["xs", "sm"]}>
-        <Box mb={-0.9}>
-          <DoImage
-            src="wave.svg"
-            placeholderImg="wave.svg"
-            errorImg="wave.svg"
-            width="100%"
-            height="100%"
-          />
-        </Box>
-      </Hidden>
-      <Box className={boxGridStyle}>
+      <Container>
         <CreateAccountGrid />
-      </Box>
+      </Container>
     </React.Fragment>
   );
 };

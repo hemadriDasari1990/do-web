@@ -23,16 +23,10 @@ const useLocalStyles = makeStyles({
     fontWeight: 400,
     marginTop: 20,
   },
-  locationStyle: {
-    // background: "#091E42",
-  },
-  createAccountStyle: {
-    background: "#f4f5f7",
-  },
 });
 
 export default function About() {
-  const { parahStyle, createAccountStyle } = useLocalStyles();
+  const { parahStyle } = useLocalStyles();
   const { bannerStyle, titleStyle } = useStyles();
   const assetUrl = process.env.REACT_APP_STATIC_ASSETS_URL as string;
 
@@ -223,18 +217,9 @@ export default function About() {
       <Box py={3}>
         <Process />
       </Box>
-      <Box mb={-0.9}>
-        <DoImage
-          src="wave.svg"
-          placeholderImg="wave.svg"
-          errorImg="wave.svg"
-          width="100%"
-          height="100%"
-        />
-      </Box>
-      <Box className={createAccountStyle}>
+      <Container>
         <CreateAccountGrid />
-      </Box>
+      </Container>
     </React.Fragment>
   );
 }
