@@ -9,6 +9,7 @@ import { getAllSummary } from "../../redux/actions/user";
 import { getRandomColor } from "../../util/getRandomColor";
 import { useDispatch } from "react-redux";
 import useStyles from "../styles";
+import CountUp from "react-countup";
 
 const Summary = () => {
   const {} = useStyles();
@@ -29,9 +30,7 @@ const Summary = () => {
           <Hidden only={["xl", "lg", "md"]}>
             <Box textAlign="center">
               <Typography variant="h1" style={{ color: getRandomColor(0) }}>
-                {summary?.usersCount > 1000
-                  ? summary?.usersCount + "+"
-                  : summary?.usersCount || 0}
+                <CountUp end={summary?.usersCount || 0} duration={1} />
               </Typography>
               <Typography variant="h4">Users Worldwide</Typography>
             </Box>
@@ -39,9 +38,7 @@ const Summary = () => {
           <Hidden only={["xs", "sm"]}>
             <Box textAlign="center">
               <Typography variant="h1" style={{ color: getRandomColor(0) }}>
-                {summary?.usersCount > 1000
-                  ? summary?.usersCount + "+"
-                  : summary?.usersCount || 0}
+                <CountUp end={summary?.usersCount || 0} duration={1} />
               </Typography>
               <Typography variant="h2">Users Worldwide</Typography>
             </Box>
@@ -51,9 +48,7 @@ const Summary = () => {
           <Hidden only={["xl", "lg", "md"]}>
             <Box textAlign="center">
               <Typography variant="h1" style={{ color: getRandomColor(5) }}>
-                {summary?.projectsCount > 1000
-                  ? summary?.projectsCount + "+"
-                  : summary?.projectsCount || 0}
+                <CountUp end={summary?.projectsCount || 0} duration={1} />
               </Typography>
               <Typography variant="h4">Total projects</Typography>
             </Box>
@@ -61,9 +56,7 @@ const Summary = () => {
           <Hidden only={["xs", "sm"]}>
             <Box textAlign="center">
               <Typography variant="h1" style={{ color: getRandomColor(5) }}>
-                {summary?.projectsCount > 1000
-                  ? summary?.projectsCount + "+"
-                  : summary?.projectsCount || 0}
+                <CountUp end={summary?.projectsCount || 0} duration={1} />
               </Typography>
               <Typography variant="h2">Total projects</Typography>
             </Box>
@@ -73,9 +66,7 @@ const Summary = () => {
           <Hidden only={["xl", "lg", "md"]}>
             <Box textAlign="center">
               <Typography variant="h1" style={{ color: getRandomColor(3) }}>
-                {summary?.boardsCount > 1000
-                  ? summary?.boardsCount + "+"
-                  : summary?.boardsCount || 0}
+                <CountUp end={summary?.boardsCount || 0} duration={1} />
               </Typography>
               <Typography variant="h4">Total boards</Typography>
             </Box>
@@ -83,9 +74,7 @@ const Summary = () => {
           <Hidden only={["xs", "sm"]}>
             <Box textAlign="center">
               <Typography variant="h1" style={{ color: getRandomColor(3) }}>
-                {summary?.boardsCount > 1000
-                  ? summary?.boardsCount + "+"
-                  : summary?.boardsCount || 0}
+                <CountUp end={summary?.boardsCount || 0} duration={1} />
               </Typography>
               <Typography variant="h2">Total boards</Typography>
             </Box>
