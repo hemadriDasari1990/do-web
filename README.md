@@ -1,4 +1,4 @@
-# do-web
+# Let's Do Retro React application
 ## Getting Started with Create React App
 This project was bootstrapped with Create React App.
 
